@@ -51,6 +51,7 @@ RESOURCES += \
     qml.qrc \
     data.qrc
 
+OTHER_FILES += settings.json
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -60,7 +61,7 @@ target.path = /usr/bin
 # Default rules for deployment.
 include(deployment.pri)
 
-LIBS += -lvein-event -lvein-component -lvein-net -lvein-hash -lvein-framework-protobuf -lxiqnet -lqml-veinentity -lvein-logger
+LIBS += -lvein-event -lvein-component -lvein-net -lvein-framework-protobuf -lxiqnet -lqml-veinentity -lvein-logger
 LIBS += -lqwt
 
 DISTFILES +=
