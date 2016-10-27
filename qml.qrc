@@ -1,0 +1,45 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>pages/ErrorCalculatorModulePage.qml</file>
+        <file>pages/DFTModulePageOLD.qml</file>
+        <file>pages/PowerModulePage.qml</file>
+        <file>pages/ActualValuesPage.qml</file>
+        <file>pages/OsciModulePage.qml</file>
+        <file>pages/FftModulePage.qml</file>
+        <file>pages/HarmonicPowerModulePage.qml</file>
+        <file>pages/RefModulePage.qml</file>
+        <file>pages/CEDModulePage.qml</file>
+        <file>pages/DFTModulePage.qml</file>
+    </qresource>
+    <qresource prefix="/ccmp">
+        <file>common/SettingsView.qml</file>
+        <file>common/SwipeArea.qml</file>
+        <file>common/PagePathView.qml</file>
+        <file>common/StyledChart.qml</file>
+        <file>common/DebugRectangle.qml</file>
+        <file>common/ZComboBox.qml</file>
+        <file>common/CanvasTriangle.qml</file>
+        <file>common/CanvasVector.qml</file>
+        <file>common/RangeMenu.qml</file>
+        <file>common/GridRect.qml</file>
+        <file>common/ModuleIntrospection.qml</file>
+        <file>common/ModulePage.qml</file>
+        <file>common/RangePeak.qml</file>
+        <file>common/FftCharts.qml</file>
+        <file>common/FftTable.qml</file>
+        <file>common/Settings.qml</file>
+        <file>common/GlobalConfig.qml</file>
+        <file>common/SettingsInterval.qml</file>
+        <file>common/Notifications.qml</file>
+        <file>common/StatusView.qml</file>
+        <file>common/IntervalIntrospection.qml</file>
+        <file>common/RangeIndicator.qml</file>
+    </qresource>
+    <qresource prefix="/vf-controls">
+        <file>common/VFComboBox.qml</file>
+        <file>common/VFLineEdit.qml</file>
+        <file>common/VFSwitch.qml</file>
+        <file>common/VFSpinBox.qml</file>
+    </qresource>
+</RCC>

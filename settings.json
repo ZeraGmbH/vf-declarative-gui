@@ -1,0 +1,16 @@
+{
+    "digits": "3",
+    "fft_as_table": "0",
+    "groupColor1": "lightskyblue",
+    "groupColor2": "lawngreen",
+    "groupColor3": "darkorange",
+    "locale": "en_US",
+    "range_peak_logarithmic": "0",
+    "serverIP": "vein://192.168.7.222:12000/",
+    "system1Color": "#EEff7755",
+    "system1ColorDark": "#EEff0000",
+    "system2Color": "#EEffffbb",
+    "system2ColorDark": "#EEffff00",
+    "system3Color": "#EE58acfa",
+    "system3ColorDark": "#EE0092ff"
+}

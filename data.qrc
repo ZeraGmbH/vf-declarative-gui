@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file>staticdata/MeasurementPageModel.qml</file>
+        <file>3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf</file>
+        <file>staticdata/FontAwesome.js</file>
+        <file>staticdata/resources/Ready.svg</file>
+        <file>staticdata/resources/Armed.svg</file>
+        <file>staticdata/resources/power.png</file>
+        <file>staticdata/resources/harmonics.png</file>
+        <file>staticdata/resources/hpower.png</file>
+        <file>staticdata/resources/act_values.png</file>
+        <file>staticdata/resources/error_calc.png</file>
+        <file>staticdata/ReferencePageModel.qml</file>
+        <file>staticdata/resources/ref_values.png</file>
+        <file>staticdata/resources/osci.png</file>
+        <file>staticdata/resources/dft_values.png</file>
+        <file>staticdata/CEDPageModel.qml</file>
+        <file>staticdata/resources/ced_power_values.png</file>
+        <file>staticdata/resources/appicon.png</file>
+    </qresource>
+</RCC>
