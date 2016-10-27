@@ -83,3 +83,9 @@ SOURCES += *.qml \
           common/*.qml
 }
 
+ZGUI_CONFIG_FILES = settings.json
+
+config_files.files = $$ZGUI_CONFIG_FILES
+config_files.path = /etc/skel/.config/vf-gui-com5003/
+INSTALLS += config_files
+
