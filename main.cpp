@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
   //register QML type
   VeinApiQml::QmlWrapper::registerTypes();
 
-  VeinLogger::PostgresDatabase pgDatabase(&app);
+  VeinLogger::PostgresDatabase pgDatabase;
 
   //VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
   std::unique_ptr<VeinEvent::EventHandler> evHandler(new VeinEvent::EventHandler(&app));
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
   subSystems.append(netSystem);
   subSystems.append(tcpSystem);
   subSystems.append(qmlApi);
-  //subSystems.append(dataLogger);
+  subSystems.append(dataLogger);
 
   evHandler->setSubsystems(subSystems);
 

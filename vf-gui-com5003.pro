@@ -77,6 +77,7 @@ HEADERS += \
     com5003translation.h \
     phasordiagram.h
 
+#Qt 5.6.3 / 5.7.2 / 5.8 should not need this, see: https://bugreports.qt.io/browse/QTBUG-53206
 lupdate_only {
 SOURCES += *.qml \
           pages/*.qml \
