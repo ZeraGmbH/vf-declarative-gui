@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
   //register QML type
   VeinApiQml::QmlWrapper::registerTypes();
 
-  VeinLogger::PostgresDatabase pgDatabase;
+  //VeinLogger::PostgresDatabase pgDatabase;
 
   //VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
   std::unique_ptr<VeinEvent::EventHandler> evHandler(new VeinEvent::EventHandler(&app));
@@ -87,10 +87,10 @@ int main(int argc, char *argv[])
   VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
   VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
   VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
-  VeinLogger::DataLogger *dataLogger = new VeinLogger::DataLogger(&app);
+  //VeinLogger::DataLogger *dataLogger = new VeinLogger::DataLogger(&app);
 
   VeinApiQml::VeinQml::setStaticInstance(qmlApi);
-  dataLogger->setDatabase(&pgDatabase);
+  //dataLogger->setDatabase(&pgDatabase);
   QList<VeinEvent::EventSystem*> subSystems;
 
   QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
   subSystems.append(netSystem);
   subSystems.append(tcpSystem);
   subSystems.append(qmlApi);
-  subSystems.append(dataLogger);
+  //subSystems.append(dataLogger);
 
   evHandler->setSubsystems(subSystems);
 
