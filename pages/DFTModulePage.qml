@@ -83,7 +83,7 @@ CCMP.ModulePage {
     property bool din410: targetIndex===0
   }
 
-  Item {
+  Item  {
     id: vData
 
     function getVectorName(vecIndex) {

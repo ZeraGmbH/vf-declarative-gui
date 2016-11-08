@@ -12,7 +12,7 @@ import "qrc:/pages" as Pages
 import "qrc:/ccmp/common" as CCMP
 import "qrc:/data/staticdata" as StaticData
 import "qrc:/data/staticdata/FontAwesome.js" as FA
-import JsonSettings 1.0
+import ZeraSettings 1.0
 
 ApplicationWindow {
   id: displayWindow
@@ -130,15 +130,8 @@ ApplicationWindow {
     VeinEntity.setRequiredIds(requiredIds);
   }
 
-  JsonGlobalSettings {
+  ZeraGlobalSettings {
     id: settings
-    Component.onCompleted: {
-      if(globalSettings.loadFromStandardLocation("settings.json") === false)
-      {
-        console.log("Loading settings file: qrc://data/staticdata/settings.json");
-        globalSettings.loadFromFile("://data/staticdata/settings.json");
-      }
-    }
   }
 
   FontLoader {
@@ -156,6 +149,7 @@ ApplicationWindow {
 
   /// @todo remove debugging code
   Shortcut {
+    enabled: BUILD_TYPE === "debug"
     sequence: "F2"
     autoRepeat: false
     property bool cLang: false

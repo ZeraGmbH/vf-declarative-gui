@@ -1,7 +1,7 @@
 pragma Singleton
 import QtQuick 2.0
 import ModuleIntrospection 1.0
-import JsonSettings 1.0
+import ZeraSettings 1.0
 
 Item {
 
@@ -9,7 +9,7 @@ Item {
     * @b default configuration values and utility functions
     */
 
-  JsonGlobalSettings {
+ ZeraGlobalSettings {
     id: settings
   }
 

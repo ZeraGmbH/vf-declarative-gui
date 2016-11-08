@@ -8,9 +8,11 @@ CONFIG += c++11
 contains(DEFINES, OE_BUILD) {
   message(Openembedded build)
   include($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri)
+  include($$PWD/3rdparty/json-settings/include.pri)
 }
 else {
   include(/work/downloads/git-clones/qnanopainter/libqnanopainter/libqnanopainter.pri)
+  include(/work/qt_projects/JsonSettingsQML/json-settings.pri)
 
   INCLUDEPATH += /work/qt_projects/distrib/usr/include/
   INCLUDEPATH += /work/downloads/qwt-6.1.2/src/
@@ -51,8 +53,6 @@ RESOURCES += \
     qml.qrc \
     data.qrc
 
-OTHER_FILES += settings.json
-
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
@@ -89,4 +89,6 @@ ZGUI_CONFIG_FILES = settings.json
 config_files.files = $$ZGUI_CONFIG_FILES
 config_files.path = /etc/skel/.config/vf-gui-com5003/
 INSTALLS += config_files
+
+OTHER_FILES += $$ZGUI_CONFIG_FILES
 

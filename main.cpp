@@ -23,6 +23,9 @@
 #include "com5003translation.h"
 #include "phasordiagram.h"
 
+#include "jsonglobalsettings.h"
+#include "jsonsettingsfile.h"
+
 int main(int argc, char *argv[])
 {
   QStringList loggingFilters = QStringList() << QString("%1.debug=false").arg(VEIN_EVENT().categoryName()) <<
@@ -53,6 +56,9 @@ int main(int argc, char *argv[])
 
   qmlRegisterSingletonType(QUrl("qrc:/ccmp/common/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
   qmlRegisterSingletonType(QUrl("qrc:/ccmp/common/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
+
+  qmlRegisterType<JsonSettingsFile>("ZeraSettings", 1, 0, "ZeraSettings");
+  qmlRegisterType<JsonGlobalSettings>("ZeraSettings", 1, 0, "ZeraGlobalSettings");
 
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication app(argc, argv);
@@ -130,12 +136,23 @@ int main(int argc, char *argv[])
   comTranslation->changeLanguage(QLocale::system().bcp47Name());
   Com5003Translation::setStaticInstance(comTranslation);
 
-  QString netHost = "192.168.7.222";
+
+  JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
+
+  if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
+  {
+    qDebug("Loading settings file: qrc://data/staticdata/settings.json");
+    globalSettingsFile->loadFromFile("://data/staticdata/settings.json");
+  }
+
+  QString netHost = "127.0.0.1";
   int netPort = 12000;
 
-#ifdef OE_BUILD
-  netHost = "127.0.0.1";
-#endif //OE_BUILD
+  if(globalSettingsFile->hasOption("modulemanagerIp") && globalSettingsFile->hasOption("modulemanagerPort"))
+  {
+    netHost = globalSettingsFile->getOption("modulemanagerIp");
+    netPort = globalSettingsFile->getOption("modulemanagerPort").toInt();
+  }
 
   tcpSystem->connectToServer(netHost, netPort);
 
