@@ -321,11 +321,9 @@ class Com5003GlueLogicPrivate {
     dftMap->insert("ACT_DFTPN5", QPoint(2, 7));
     dftMap->insert("ACT_DFTPN6", QPoint(3, 7));
 
-    dftMap->insert("ACT_DFTPP1", QPoint(1, 8));
-    dftMap->insert("ACT_DFTPP2", QPoint(2, 8));
-    dftMap->insert("ACT_DFTPP3", QPoint(3, 8));
+    //(8) ∠UI is a calculated value
 
-    //nothing here for lambda
+    //(9) lambda is a calculated value
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
     p1m1Map->insert("PAR_MeasuringMode", QPoint(0, 10));
@@ -441,13 +439,14 @@ class Com5003GlueLogicPrivate {
     }
   }
 
-  void setLambda(int m_systemNumber) {
-    Q_ASSERT(m_systemNumber>1 || m_systemNumber<3);
+  void setLambda(int t_systemNumber)
+  {
+    Q_ASSERT(t_systemNumber>0 && t_systemNumber<4);
 
     double tmpLambda = 0;
     QModelIndex tmpIndex = m_actValueData->index(9, 0);
 
-    switch(m_systemNumber)
+    switch(t_systemNumber)
     {
       case 1:
       {
@@ -466,8 +465,36 @@ class Com5003GlueLogicPrivate {
       }
     }
 
-    m_actValueData->setData(tmpIndex, tmpLambda, Qt::UserRole+m_systemNumber); // QML doesn't understand columns, so use roles
+    m_actValueData->setData(tmpIndex, tmpLambda, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
 
+  }
+
+  void setAngleUI(int t_systemNumber)
+  {
+    Q_ASSERT(t_systemNumber>0 && t_systemNumber<4);
+    double tmpAngle = 0;
+    QModelIndex tmpIndex = m_actValueData->index(8, 0);
+
+    switch(t_systemNumber)
+    {
+      case 1:
+      {
+        tmpAngle = m_angleI1-m_angleU1;
+        break;
+      }
+      case 2:
+      {
+        tmpAngle = m_angleI2-m_angleU2;
+        break;
+      }
+      case 3:
+      {
+        tmpAngle = m_angleI3-m_angleU3;
+        break;
+      }
+    }
+
+    m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
   }
 
   bool handleFetchEvents(VeinEvent::EventData *t_evData, VeinEvent::CommandEvent *t_cEvent)
@@ -576,13 +603,49 @@ class Com5003GlueLogicPrivate {
         QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
         if(tmpVector.isEmpty() == false)
         {
-          double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)); //re, im
+          double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) * 180 / M_PI; //y=im, x=re converted to degree
           if(t_cmpData->componentName() == "ACT_DFTPN1") /// @todo use a user selected reference channel or PLL reference channel
           {
             m_dftReferenceValue = vectorAngle;
           }
           vectorAngle -= m_dftReferenceValue;
+          if(vectorAngle < 0)
+          {
+            vectorAngle = 360 + vectorAngle;
+          }
+
           m_actValueData->setData(mIndex, vectorAngle, Qt::UserRole+valueCoordiantes.x());
+
+          if(t_cmpData->componentName() == "ACT_DFTPN1")
+          {
+            m_angleU1 = vectorAngle;
+            setAngleUI(1);
+          }
+          else if(t_cmpData->componentName() == "ACT_DFTPN2")
+          {
+            m_angleU2 = vectorAngle;
+            setAngleUI(2);
+          }
+          else if(t_cmpData->componentName() == "ACT_DFTPN3")
+          {
+            m_angleU3 = vectorAngle;
+            setAngleUI(3);
+          }
+          else if(t_cmpData->componentName() == "ACT_DFTPN4")
+          {
+            m_angleI1 = vectorAngle;
+            setAngleUI(1);
+          }
+          else if(t_cmpData->componentName() == "ACT_DFTPN5")
+          {
+            m_angleI2 = vectorAngle;
+            setAngleUI(2);
+          }
+          else if(t_cmpData->componentName() == "ACT_DFTPN6")
+          {
+            m_angleI3 = vectorAngle;
+            setAngleUI(3);
+          }
         }
       }
       retVal = true;
@@ -686,6 +749,15 @@ class Com5003GlueLogicPrivate {
   double m_lambdaS1=0;
   double m_lambdaS2=0;
   double m_lambdaS3=0;
+
+  double m_angleU1=0;
+  double m_angleU2=0;
+  double m_angleU3=0;
+
+  double m_angleI1=0;
+  double m_angleI2=0;
+  double m_angleI3=0;
+
 
   enum class Modules : int {
     GlueLogic = 50,
