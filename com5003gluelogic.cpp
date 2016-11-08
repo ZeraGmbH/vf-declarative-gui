@@ -493,6 +493,14 @@ class Com5003GlueLogicPrivate {
         break;
       }
     }
+    if(tmpAngle > 180) //display as negative
+    {
+      tmpAngle -= 360;
+    }
+    else if(tmpAngle < -180) //display as positive
+    {
+      tmpAngle += 360;
+    }
 
     m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
   }
