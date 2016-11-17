@@ -32,7 +32,10 @@ ApplicationWindow {
   property var resolvedIds: new Array()
   property var errorMessages: [];
   onErrorMessagesChanged: {
-    messageNotificationIndicator.newErrors = true;
+    if(errorMessages.length > 0)
+    {
+      messageNotificationIndicator.newErrors = true;
+    }
   }
 
   onClosing: {
@@ -372,7 +375,8 @@ ApplicationWindow {
             anchors.left: parent.left
             anchors.leftMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
-            color: newErrors ? Material.color(Material.Yellow) : Material.primaryTextColor
+            opacity: newErrors ? 1.0 : 0.2
+            color: newErrors ? Material.color(Material.Yellow) : Material.secondaryTextColor
           }
           Label {
             text: displayWindow.errorMessages.length > 0 ? String("(%1)").arg(displayWindow.errorMessages.length) : ""
