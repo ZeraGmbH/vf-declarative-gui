@@ -21,14 +21,16 @@
 
 // DISCLAIMER: this is glue logic code, in this sense use the unix philosophy "worse is better"
 
-class ActualValueModel : public QStandardItemModel {
+class ActualValueModel : public QStandardItemModel
+{
 public:
   explicit ActualValueModel(QObject *t_parent) : QStandardItemModel(t_parent){}
   ActualValueModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent) {}
 
   // QAbstractItemModel interface
 public:
-  QHash<int, QByteArray> roleNames() const override {
+  QHash<int, QByteArray> roleNames() const override
+  {
     int rowIndex = Qt::UserRole;
     QHash<int, QByteArray> roles;
     roles.insert(rowIndex, "Name");
@@ -46,7 +48,8 @@ public:
   }
 };
 
-class FftTableModel : public QStandardItemModel {
+class FftTableModel : public QStandardItemModel
+{
 public:
   explicit FftTableModel(QObject *t_parent) : QStandardItemModel(t_parent)
   {
@@ -59,7 +62,8 @@ public:
 
   // QAbstractItemModel interface
 public:
-  QHash<int, QByteArray> roleNames() const override {
+  QHash<int, QByteArray> roleNames() const override
+  {
     int rowIndex = Qt::UserRole;
     QHash<int, QByteArray> roles;
     //    roles.insert(rowIndex, "RowIndex");
@@ -119,7 +123,8 @@ private:
   }
 };
 
-class ModelRowPair {
+class ModelRowPair
+{
 public:
   ModelRowPair(QStandardItemModel * t_model, int t_row) :
     m_model(t_model),
@@ -138,7 +143,8 @@ public:
   QTimer *m_updateInterval=0; //use the qt parent system to cleanup the instance
 };
 
-class Com5003GlueLogicPrivate {
+class Com5003GlueLogicPrivate
+{
   Com5003GlueLogicPrivate(Com5003GlueLogic *t_public) :
     q_ptr(t_public),
     m_actValueData(new ActualValueModel(14, 6, q_ptr)),
@@ -170,7 +176,8 @@ class Com5003GlueLogicPrivate {
     delete m_fftTableData;
   }
 
-  void setupIntrospection() {
+  void setupIntrospection()
+  {
     // only these component names are known in the QML context
     QStringList componentNames;
     componentNames.append(m_actualValueComponentName);
@@ -425,8 +432,10 @@ class Com5003GlueLogicPrivate {
    * @param t_moduleId
    * @return
    */
-  QString getAvmNameById(int t_moduleId) {
-    switch(t_moduleId) {
+  QString getAvmNameById(int t_moduleId)
+  {
+    switch(t_moduleId)
+    {
       case static_cast<int>(Modules::Power1Module1):
         return "P";
       case static_cast<int>(Modules::Power1Module2):

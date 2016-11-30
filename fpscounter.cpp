@@ -13,7 +13,8 @@ FPSCounter::FPSCounter(QQuickItem *t_parent): QQuickPaintedItem(t_parent)
   qDebug() << "FPS_ENABLED:" << m_fpsEnabled;
 }
 
-FPSCounter::~FPSCounter() {
+FPSCounter::~FPSCounter()
+{
   delete m_time;
 }
 
@@ -59,7 +60,8 @@ void FPSCounter::recalculateFPS()
     m_fpsAverageList.dequeue();
   }
   m_currentFPS = m_fpsAverageList.head();
-  foreach (float fpsLowest, m_fpsAverageList) {
+  foreach (float fpsLowest, m_fpsAverageList)
+  {
     if(fpsLowest<m_currentFPS) //pessimistic calculation with high sensitivity for noncontiguous frame drops
     {
       m_currentFPS += fpsLowest;

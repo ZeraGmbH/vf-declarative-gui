@@ -188,7 +188,7 @@ CCMP.ModulePage {
     phiOrigin: root.phiOrigin
     labelPhiOffset: -10 * Math.PI/180
     maxVoltage: vData.getMaxOVRRejectionU()*Math.sqrt(2)
-    maxCurrent:vData.getMaxOVRRejectionI()*Math.sqrt(2)
+    maxCurrent: vData.getMaxOVRRejectionI()*Math.sqrt(2)
 
     circleColor: Material.frameColor;
     circleValue: vData.getMaxRejectionU()*Math.sqrt(2);

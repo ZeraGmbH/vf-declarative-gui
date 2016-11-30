@@ -26,7 +26,8 @@ double cBar::value() const
 
 void cBar::setColor(QColor t_color)
 {
-  if (m_color != t_color) {
+  if (m_color != t_color)
+  {
     m_color = t_color;
     emit colorChanged(t_color);
   }
@@ -34,7 +35,8 @@ void cBar::setColor(QColor t_color)
 
 void cBar::setTitle(QString t_title)
 {
-  if (m_title != t_title) {
+  if (m_title != t_title)
+  {
     m_title = t_title;
     emit titleChanged(t_title);
   }
@@ -42,7 +44,8 @@ void cBar::setTitle(QString t_title)
 
 void cBar::setValue(double t_value)
 {
-  if (m_value != t_value) {
+  if (m_value != t_value)
+  {
     m_value = t_value;
     emit valueChanged(t_value);
   }
