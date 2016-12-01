@@ -215,7 +215,7 @@ ApplicationWindow {
     onHorizontalSwipe: {
       if(pageView.visible !== true)
       {
-        layoutStack.currentIndex=0;
+        layoutStack.currentIndex=layoutStackEnum.layoutPageIndex;
         pageView.visible = true
 
         if(isLeftDirection)
@@ -238,25 +238,35 @@ ApplicationWindow {
       anchors.margins: 8
       currentIndex: displayWindow.currentSession !== "" ? 0 : 3
 
+      QtObject {
+        id: layoutStackEnum
+
+        readonly property int layoutPageIndex: 0
+        readonly property int layoutRangeIndex: 1
+        readonly property int layoutSettingsIndex: 2
+        readonly property int layoutNotificationsIndex: 3
+        readonly property int layoutStatusIndex: 4
+      }
+
       Loader {
         id: pageLoader
         source: pageView.currentValue
       }
       Loader {
         sourceComponent: rangePeak
-        active: layoutStack.currentIndex===1
+        active: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
       }
       Loader {
         sourceComponent: settingsCmp
-        active: layoutStack.currentIndex===2
+        active: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex
       }
       Loader {
         sourceComponent: notificationsCmp
-        active: layoutStack.currentIndex===3
+        active: layoutStack.currentIndex===layoutStackEnum.layoutNotificationsIndex
       }
       Loader {
         sourceComponent: statusCmp
-        active: layoutStack.currentIndex===4
+        active: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
       }
 
       //Pages.RemoteSelection {}
@@ -316,16 +326,16 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pixelSize: 18
           text: FA.icon(FA.fa_columns) + ZTR["Pages"]
-          highlighted: layoutStack.currentIndex===0
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutPageIndex
           enabled: displayWindow.currentSession !== ""
           onClicked: {
-            if(layoutStack.currentIndex===0)
+            if(layoutStack.currentIndex===layoutStackEnum.layoutPageIndex)
             {
               pageView.visible=true;
             }
             else
             {
-              layoutStack.currentIndex=0;
+              layoutStack.currentIndex=layoutStackEnum.layoutPageIndex;
             }
           }
         }
@@ -334,20 +344,28 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pixelSize: 18
           text: FA.icon(FA.fa_align_justify) + ZTR["Range"]
-          highlighted: layoutStack.currentIndex===1
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
           enabled: displayWindow.currentSession !== ""
           onClicked: {
-            layoutStack.currentIndex=1;
+            layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
           }
         }
         ToolButton {
           implicitHeight: parent.height
           width: controlsBar.width/3
+
           CCMP.RangeIndicator {
+            id: rangeIndicator
             width: controlsBar.width/3
             height: controlsBar.height
-            id: rangeIndicator
             active: false
+            Connections {
+              target: rangeIndicator.item
+              ignoreUnknownSignals: true
+              onSigOverloadHintClicked: {
+                layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
+              }
+            }
           }
         }
 
@@ -356,11 +374,11 @@ ApplicationWindow {
           implicitHeight: parent.height
           implicitWidth: 64
           height: parent.height
-          highlighted: layoutStack.currentIndex===3
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutNotificationsIndex
           enabled: displayWindow.errorMessages !== undefined && displayWindow.errorMessages.length > 0
 
           onClicked: {
-            layoutStack.currentIndex=3;
+            layoutStack.currentIndex=layoutStackEnum.layoutNotificationsIndex;
             messageNotificationIndicator.newErrors = false
           }
 
@@ -393,10 +411,10 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pixelSize: 24
           text: FA.fa_cogs
-          highlighted: layoutStack.currentIndex===2
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex;
           enabled: displayWindow.currentSession !== ""
           onClicked: {
-            layoutStack.currentIndex=2;
+            layoutStack.currentIndex=layoutStackEnum.layoutSettingsIndex;
           }
         }
         ToolButton {
@@ -405,7 +423,7 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pixelSize: 24
           text: FA.fa_info_circle
-          highlighted: layoutStack.currentIndex===4
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
           enabled: displayWindow.currentSession !== ""
           onClicked: {
             layoutStack.currentIndex=4;
@@ -416,7 +434,7 @@ ApplicationWindow {
         //          font.family: "FontAwesome"
         //          font.pixelSize: 18
         //          text: FA.icon(FA.fa_server) + ZTR["Remotes"]
-        //          highlighted: layoutStack.currentIndex===5
+        //          highlighted: layoutStack.currentIndex===layoutStackEnum.layout...Index
         //          visible: OS_TYPE==="android" || debugBypass
         //          CCMP.DebugRectangle {
         //            anchors.fill: parent

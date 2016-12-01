@@ -22,24 +22,39 @@ Loader {
 
       property int rangeGrouping: rangeModule.PAR_ChannelGrouping
 
+      signal sigOverloadHintClicked();
+
       Rectangle {
         anchors.fill: parent
         color: Material.background
         opacity: 0.2
       }
 
-      Label {
+      MouseArea {
         anchors.right: parent.right
-        anchors.rightMargin: root.contentWidth*0.1
-        anchors.verticalCenter: parent.verticalCenter
-        font.family: "FontAwesome"
-        font.pixelSize: 18
-        text: FA.fa_exclamation_triangle
+        anchors.rightMargin: -root.contentWidth/100
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        //enabled: rangeModule.PAR_Overload === 1
+        width: height*1.3
+        onClicked: {
+          if(rangeModule.PAR_Overload === 1)
+          {
+            sigOverloadHintClicked()
+          }
+        }
 
-        property bool overload: rangeModule.PAR_Overload === 1
+        Label {
+          anchors.centerIn: parent
+          font.family: "FontAwesome"
+          font.pixelSize: 18
+          text: FA.fa_exclamation_triangle
 
-        opacity: overload ? 1.0 : 0.2
-        color:  overload ? Material.color(Material.Yellow) : Material.color(Material.Grey)
+          property bool overload: rangeModule.PAR_Overload === 1
+
+          opacity: overload ? 1.0 : 0.2
+          color:  overload ? Material.color(Material.Yellow) : Material.color(Material.Grey)
+        }
       }
 
       ListView {
@@ -48,6 +63,7 @@ Loader {
         anchors.left: parent.left
         anchors.leftMargin: root.contentWidth*0.1
         anchors.right: parent.right
+        interactive: false
 
         height: root.height/2
 
@@ -80,6 +96,7 @@ Loader {
         anchors.right: parent.right
         height: root.height/2
         anchors.top: voltageList.bottom
+        interactive: false
 
         boundsBehavior: ListView.StopAtBounds
         orientation: Qt.Horizontal
