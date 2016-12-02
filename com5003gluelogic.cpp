@@ -459,22 +459,29 @@ class Com5003GlueLogicPrivate
     {
       case 1:
       {
-        tmpLambda = m_lambdaS1 > 0 ? m_lambdaP1/m_lambdaS1 : 0;
+        tmpLambda = m_lambdaS1 > 0 ? m_lambdaP1/m_lambdaS1 : NAN;
         break;
       }
       case 2:
       {
-        tmpLambda = m_lambdaS2 > 0 ? m_lambdaP2/m_lambdaS2 : 0;
+        tmpLambda = m_lambdaS2 > 0 ? m_lambdaP2/m_lambdaS2 : NAN;
         break;
       }
       case 3:
       {
-        tmpLambda = m_lambdaS3 > 0 ? m_lambdaP3/m_lambdaS3 : 0;
+        tmpLambda = m_lambdaS3 > 0 ? m_lambdaP3/m_lambdaS3 : NAN;
         break;
       }
     }
 
-    m_actValueData->setData(tmpIndex, tmpLambda, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
+    if(std::isnan(tmpLambda) == false && tmpLambda > -1.000001 && tmpLambda < 1.000001)
+    {
+      m_actValueData->setData(tmpIndex, tmpLambda, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
+    }
+    else //invalid value
+    {
+      m_actValueData->setData(tmpIndex, "---", Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
+    }
 
   }
 
