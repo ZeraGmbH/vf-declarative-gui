@@ -5,6 +5,9 @@
 #include <QElapsedTimer>
 #include <QQueue>
 
+/**
+ * @brief Does NOT calculate average FPS
+ */
 class FPSCounter : public QQuickPaintedItem
 {
   Q_OBJECT
@@ -32,7 +35,7 @@ private:
   float m_currentFPS = 0.0;
   int m_fpsEnabled = 0;
   int m_frameCount = 0;
-  QQueue<float> m_fpsAverageList;
+  QQueue<float> m_fpsQueue;
 };
 
 #endif // FPSTEXT_H

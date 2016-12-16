@@ -53,16 +53,16 @@ void FPSCounter::setFpsEnabled(int t_fpsEnabled)
 void FPSCounter::recalculateFPS()
 {
   ++m_frameCount;
-  m_fpsAverageList.enqueue(1000 / ((m_time->nsecsElapsed()+0.0000001) / 1000000));
+  m_fpsQueue.enqueue(1000 / ((m_time->nsecsElapsed()+0.0000001) / 1000000));
   m_time->restart();
-  if(m_fpsAverageList.count()>30)
+  if(m_fpsQueue.count()>30)
   {
-    m_fpsAverageList.dequeue();
+    m_fpsQueue.dequeue();
   }
-  m_currentFPS = m_fpsAverageList.head();
-  foreach (float fpsLowest, m_fpsAverageList)
+  m_currentFPS = m_fpsQueue.head();
+  foreach (float fpsLowest, m_fpsQueue)
   {
-    if(fpsLowest<m_currentFPS) //pessimistic calculation with high sensitivity for noncontiguous frame drops
+    if(fpsLowest<m_currentFPS) //pessimistic calculation with high sensitivity for noncontiguous delayed frames
     {
       m_currentFPS += fpsLowest;
       m_currentFPS /= 2;

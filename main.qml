@@ -25,11 +25,11 @@ ApplicationWindow {
   Material.theme: Material.Dark
   Material.accent: "#339966"
 
-  property bool debugBypass: false
+  property bool debugBypass: false;
 
-  property string currentSession
-  property var requiredIds
-  property var resolvedIds: new Array()
+  property string currentSession;
+  property var requiredIds;
+  property var resolvedIds: new Array(); //may only contain ids that are also in requiredIds
   property var errorMessages: [];
   onErrorMessagesChanged: {
     if(errorMessages.length > 0)
@@ -65,9 +65,9 @@ ApplicationWindow {
         currentSession = Qt.binding(function() {
           return VeinEntity.getEntity("_System").Session;
         });
-        errorMessages = Qt.binding(function(){
+        errorMessages = Qt.binding(function() {
           return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
-        })
+        });
         pageView.sessionComponent = Qt.binding(function() {
           return currentSession
         });
@@ -379,7 +379,7 @@ ApplicationWindow {
 
           onClicked: {
             layoutStack.currentIndex=layoutStackEnum.layoutNotificationsIndex;
-            messageNotificationIndicator.newErrors = false
+            messageNotificationIndicator.newErrors = false;
           }
 
           Label {
@@ -434,7 +434,7 @@ ApplicationWindow {
         //          font.family: "FontAwesome"
         //          font.pixelSize: 18
         //          text: FA.icon(FA.fa_server) + ZTR["Remotes"]
-        //          highlighted: layoutStack.currentIndex===layoutStackEnum.layout...Index
+        //          highlighted: layoutStack.currentIndex===layoutStackEnum.layout<...>Index
         //          visible: OS_TYPE==="android" || debugBypass
         //          CCMP.DebugRectangle {
         //            anchors.fill: parent

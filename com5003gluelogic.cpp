@@ -16,7 +16,7 @@
 //required for vector2d data type
 #include <QVector2D>
 
-//required for atan2 function
+//required for atan2 function and NaN checks
 #include <math.h>
 
 // DISCLAIMER: this is glue logic code, in this sense use the unix philosophy "worse is better"
@@ -452,7 +452,7 @@ class Com5003GlueLogicPrivate
   {
     Q_ASSERT(t_systemNumber>0 && t_systemNumber<4);
 
-    double tmpLambda = 0;
+    double tmpLambda = NAN;
     QModelIndex tmpIndex = m_actValueData->index(9, 0);
 
     switch(t_systemNumber)
@@ -470,6 +470,12 @@ class Com5003GlueLogicPrivate
       case 3:
       {
         tmpLambda = m_lambdaS3 > 0 ? m_lambdaP3/m_lambdaS3 : NAN;
+        break;
+      }
+      default:
+      {
+        //unhandled case
+        Q_ASSERT(false);
         break;
       }
     }
