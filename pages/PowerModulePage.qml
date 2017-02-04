@@ -74,7 +74,7 @@ CCMP.ModulePage {
         horizontalAlignment: Label.AlignRight
         verticalAlignment: Label.AlignVCenter
         color: GC.system1ColorDark
-        font.pixelSize: height*0.3
+        font.pixelSize: height*0.4
       }
     }
     CCMP.GridRect {
@@ -90,7 +90,7 @@ CCMP.ModulePage {
         horizontalAlignment: Label.AlignRight
         verticalAlignment: Label.AlignVCenter
         color: GC.system2ColorDark
-        font.pixelSize: height*0.3
+        font.pixelSize: height*0.4
       }
     }
     CCMP.GridRect {
@@ -106,7 +106,7 @@ CCMP.ModulePage {
         horizontalAlignment: Label.AlignRight
         verticalAlignment: Label.AlignVCenter
         color: GC.system3ColorDark
-        font.pixelSize: height*0.3
+        font.pixelSize: height*0.4
       }
     }
     CCMP.GridRect {
@@ -122,7 +122,7 @@ CCMP.ModulePage {
         anchors.rightMargin: 8
         horizontalAlignment: Label.AlignRight
         verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
+        font.pixelSize: height*0.4
       }
     }
     CCMP.GridRect {
@@ -171,7 +171,7 @@ CCMP.ModulePage {
             anchors.rightMargin: 8
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
-            font.pixelSize: height*0.3
+            font.pixelSize: height*0.4
           }
         }
         CCMP.GridRect {
@@ -186,7 +186,7 @@ CCMP.ModulePage {
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
             color: GC.system1ColorDark
-            font.pixelSize: height*0.3
+            font.pixelSize: height*0.4
           }
         }
         CCMP.GridRect {
@@ -201,7 +201,7 @@ CCMP.ModulePage {
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
             color: GC.system2ColorDark
-            font.pixelSize: height*0.3
+            font.pixelSize: height*0.4
           }
         }
         CCMP.GridRect {
@@ -216,7 +216,7 @@ CCMP.ModulePage {
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
             color: GC.system3ColorBright
-            font.pixelSize: height*0.3
+            font.pixelSize: height*0.4
           }
         }
         CCMP.GridRect {
@@ -230,7 +230,7 @@ CCMP.ModulePage {
             anchors.rightMargin: 8
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
-            font.pixelSize: height*0.3
+            font.pixelSize: height*0.4
           }
         }
         CCMP.GridRect {

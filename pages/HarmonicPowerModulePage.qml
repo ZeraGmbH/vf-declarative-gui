@@ -323,7 +323,7 @@ CCMP.ModulePage {
               text: GC.formatNumber(power3Module1.ACT_HPW3[index*2])
               anchors.fill: parent
               anchors.rightMargin: 8
-              color: GC.system3ColorDark
+              color: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
               font.bold: index === 0
               font.family: "Droid Sans Mono"
@@ -340,7 +340,7 @@ CCMP.ModulePage {
               text: GC.formatNumber(power3Module1.ACT_HPW3[index*2+1])
               anchors.fill: parent
               anchors.rightMargin: 8
-              color: GC.system3ColorDark
+              color: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
               font.bold: index === 0
               font.family: "Droid Sans Mono"
