@@ -73,9 +73,9 @@ ApplicationWindow {
         });
       }
 
-      if(requiredIds.indexOf(entId) > -1)
+      if(requiredIds.indexOf(entId) > -1) //required
       {
-        if(resolvedIds.indexOf(entId) < 0)
+        if(resolvedIds.indexOf(entId) < 0) //resolved
         {
           resolvedIds.push(entId);
           checkRequired = true;
@@ -247,7 +247,6 @@ ApplicationWindow {
         readonly property int layoutNotificationsIndex: 3
         readonly property int layoutStatusIndex: 4
       }
-
       Loader {
         id: pageLoader
         source: pageView.currentValue
@@ -305,8 +304,6 @@ ApplicationWindow {
       id: statusCmp
       CCMP.StatusView {}
     }
-
-
 
     ToolBar {
       id: controlsBar
@@ -426,7 +423,7 @@ ApplicationWindow {
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
           enabled: displayWindow.currentSession !== ""
           onClicked: {
-            layoutStack.currentIndex=4;
+            layoutStack.currentIndex=layoutStackEnum.layoutStatusIndex;
           }
         }
         //        ToolButton {

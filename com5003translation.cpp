@@ -34,7 +34,7 @@ void Com5003Translation::changeLanguage(const QString &t_language)
     QLocale locale = QLocale(m_currentLanguage);
     QLocale::setDefault(locale);
     QString languageName = QLocale::languageToString(locale.language());
-    QString filename = ":/translations/com5003-gui_%1.qm"; ///@todo change to /opt/zera/com5003-gui/lang_%1.qm
+    const QString filename = ":/translations/com5003-gui_%1.qm"; ///@todo change to /opt/zera/com5003-gui/lang_%1.qm
 
 
     qApp->removeTranslator(&m_translator);

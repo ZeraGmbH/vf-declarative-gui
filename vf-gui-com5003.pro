@@ -64,8 +64,6 @@ include(deployment.pri)
 LIBS += -lvein-event -lvein-component -lvein-net -lvein-framework-protobuf -lxiqnet -lqml-veinentity -lvein-logger
 LIBS += -lqwt
 
-DISTFILES +=
-
 HEADERS += \
     fpscounter.h \
     com5003gluelogic.h \
