@@ -29,7 +29,7 @@ ApplicationWindow {
 
   property string currentSession;
   property var requiredIds;
-  property var resolvedIds: new Array(); //may only contain ids that are also in requiredIds
+  property var resolvedIds: []; //may only contain ids that are also in requiredIds
   property var errorMessages: [];
   onErrorMessagesChanged: {
     if(errorMessages.length > 0)
