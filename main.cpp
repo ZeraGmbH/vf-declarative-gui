@@ -40,12 +40,6 @@ int main(int argc, char *argv[])
 
   bool loadedOnce = false;
 
-  qRegisterMetaTypeStreamOperators<QList<double> >("QList<double>");
-  qRegisterMetaTypeStreamOperators<QList<int> >("QList<int>");
-  qRegisterMetaTypeStreamOperators<QList<QString> >("QList<QString>");
-  qRegisterMetaTypeStreamOperators<QVariantMap>("QVariantMap");
-  qRegisterMetaTypeStreamOperators<QVariantList>("QVariantList");
-
   qmlRegisterType<FPSCounter>("FPSCounter", 1, 0, "FPSCounter");
 
   qmlRegisterType<FftBarChart>("QwtChart", 1, 0, "FftBarChart");
@@ -80,10 +74,6 @@ int main(int argc, char *argv[])
 #else
   engine.rootContext()->setContextProperty("OS_TYPE", "linux");
 #endif //Q_OS_ANDROID
-
-
-  //register QML type
-  VeinApiQml::QmlWrapper::registerTypes();
 
   //VeinLogger::PostgresDatabase pgDatabase;
 
