@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import "qrc:/ccmp/common/" as CCMP
+import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
 import Com5003Translation  1.0
 

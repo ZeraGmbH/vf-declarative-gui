@@ -9,7 +9,7 @@ import VeinEntity 1.0
 import Com5003Translation  1.0
 
 import "qrc:/pages" as Pages
-import "qrc:/ccmp/common" as CCMP
+import "qrc:/components/common" as CCMP
 import "qrc:/data/staticdata" as StaticData
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 import ZeraSettings 1.0

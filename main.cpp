@@ -54,8 +54,8 @@ int main(int argc, char *argv[])
   qmlRegisterType<PhasorDiagram>("PhasorDiagram", 1, 0, "PhasorDiagram");
   qmlRegisterSingletonType<Com5003Translation>("Com5003Translation", 1, 0, "ZTR", Com5003Translation::getSingletonInstance);
 
-  qmlRegisterSingletonType(QUrl("qrc:/ccmp/common/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
-  qmlRegisterSingletonType(QUrl("qrc:/ccmp/common/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
+  qmlRegisterSingletonType(QUrl("qrc:/components/common/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
+  qmlRegisterSingletonType(QUrl("qrc:/components/common/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
 
   qmlRegisterType<JsonSettingsFile>("ZeraSettings", 1, 0, "ZeraSettings");
   qmlRegisterType<JsonGlobalSettings>("ZeraSettings", 1, 0, "ZeraGlobalSettings");

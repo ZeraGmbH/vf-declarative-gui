@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import "qrc:/ccmp/common" as CCMP
+import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VF
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0 //as GC

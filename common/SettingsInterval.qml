@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "qrc:/ccmp/common" as CCMP
+import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VF
 import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0

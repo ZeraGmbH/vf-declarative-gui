@@ -3,7 +3,7 @@ import QtCharts 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import "qrc:/ccmp/common" as CCMP
+import "qrc:/components/common" as CCMP
 import GlobalConfig 1.0
 
 CCMP.ModulePage {

@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import "qrc:/ccmp/common" as CCMP
+import "qrc:/components/common" as CCMP
 
 CCMP.ZComboBox {
   id: root
