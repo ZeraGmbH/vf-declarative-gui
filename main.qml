@@ -25,17 +25,25 @@ ApplicationWindow {
   Material.theme: Material.Dark
   Material.accent: "#339966"
 
+
   property bool debugBypass: false;
 
   property string currentSession;
-  property var requiredIds;
+  property var requiredIds: [];
   property var resolvedIds: []; //may only contain ids that are also in requiredIds
+
   property var errorMessages: [];
   onErrorMessagesChanged: {
     if(errorMessages.length > 0)
     {
       messageNotificationIndicator.newErrors = true;
     }
+  }
+
+  Label {
+    id: startupStatusLabel
+    text: qsTr("Loading...");
+    anchors.centerIn: parent
   }
 
   onClosing: {
@@ -47,7 +55,7 @@ ApplicationWindow {
       return VeinEntity.getEntity("_System").Session;
     })
 
-    if(VeinEntity.getEntity("_System"))
+    if(VeinEntity.hasEntity("_System"))
     {
       errorMessages = Qt.binding(function(){
         return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
@@ -69,7 +77,7 @@ ApplicationWindow {
           return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
         });
         pageView.sessionComponent = Qt.binding(function() {
-          return currentSession
+          return currentSession;
         });
       }
 
@@ -78,6 +86,7 @@ ApplicationWindow {
         if(resolvedIds.indexOf(entId) < 0) //resolved
         {
           resolvedIds.push(entId);
+          startupStatusLabel.text = qsTr("Loading: %1/%2").arg(resolvedIds.length).arg(requiredIds.length);
           checkRequired = true;
         }
       }
@@ -88,6 +97,7 @@ ApplicationWindow {
         resolvedIds.sort(); //requiredIds is sorted once in onCurrentSessionChanged()
         if(JSON.stringify(requiredIds) == JSON.stringify(resolvedIds))
         {
+          startupStatusLabel.visible=false
           if(currentSession === "0_default-session.json")
           {
             console.log("loading default session")
@@ -131,6 +141,8 @@ ApplicationWindow {
 
     requiredIds.sort();
     VeinEntity.setRequiredIds(requiredIds);
+    startupStatusLabel.text = qsTr("Loading: %1/%2").arg(resolvedIds.length).arg(requiredIds.length);
+    startupStatusLabel.visible = true;
   }
 
   ZeraGlobalSettings {

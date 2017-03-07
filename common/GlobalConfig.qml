@@ -112,5 +112,4 @@ Item {
     }
     return retVal;
   }
-
 }

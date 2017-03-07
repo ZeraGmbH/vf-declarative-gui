@@ -850,13 +850,18 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         }
         else if(evData->type() == VeinComponent::EntityData::dataType())
         {
-          VeinComponent::EntityData * eData = static_cast<VeinComponent::EntityData *>(evData);
+          VeinComponent::EntityData *eData = static_cast<VeinComponent::EntityData *>(evData);
           Q_ASSERT(eData != nullptr);
           if(eData->eventCommand() == VeinComponent::EntityData::ECMD_SUBSCRIBE)
           {
             retVal = true;
             t_event->accept();
             d_ptr->setupIntrospection();
+          }
+          else if(eData->eventCommand() == VeinComponent::EntityData::ECMD_UNSUBSCRIBE)
+          {
+            retVal = true;
+            t_event->accept();
           }
         }
         break;
