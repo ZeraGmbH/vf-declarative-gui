@@ -82,7 +82,7 @@ CCMP.SettingsView {
               SpinBox {
                 id: actDecimalPlaces
                 from: 3;
-                to: 6;
+                to: 7;
                 stepSize: 1
                 value: GC.decimalPlaces
                 onValueChanged: {
