@@ -20,5 +20,6 @@
         <file>staticdata/CEDPageModel.qml</file>
         <file>staticdata/resources/ced_power_values.png</file>
         <file>staticdata/resources/appicon.png</file>
+        <file>settings.json</file>
     </qresource>
 </RCC>

@@ -131,8 +131,14 @@ int main(int argc, char *argv[])
 
   if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
   {
-    qDebug("Loading settings file: qrc://data/staticdata/settings.json");
-    globalSettingsFile->loadFromFile("://data/staticdata/settings.json");
+    const QString targetPath = QString("%1/settings.json").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    //copy from qrc to standard dir
+    if(QFile::copy("://data/settings.json", targetPath))
+    {
+      qDebug("Deployed default settings file from: qrc://data/settings.json");
+      QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
+      globalSettingsFile->loadFromStandardLocation("settings.json");
+    }
   }
 
   QString netHost = "127.0.0.1";
