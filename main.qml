@@ -57,7 +57,7 @@ ApplicationWindow {
 
     if(VeinEntity.hasEntity("_System"))
     {
-      errorMessages = Qt.binding(function(){
+      errorMessages = Qt.binding(function() {
         return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
       })
     }
@@ -98,21 +98,19 @@ ApplicationWindow {
         if(JSON.stringify(requiredIds) == JSON.stringify(resolvedIds))
         {
           startupStatusLabel.visible=false
-          if(currentSession === "0_default-session.json")
+          if(currentSession === "0_default-session.json") //rename to com5003-meas-session
           {
-            console.log("loading default session")
-            pageView.model = measModel
+            pageView.model = com5003MeasModel
           }
-          else if(currentSession === "1_ref-session.json")
+          else if(currentSession === "1_ref-session.json") //rename to com5003-ref-session
           {
-            console.log("loading ref session")
-            pageView.model = refModel
+            pageView.model = com5003RefModel
           }
-          else if(currentSession === "2_ced-session.json")
+          else if(currentSession === "2_ced-session.json") //rename to com5003-ced-session
           {
-            console.log("loading ref session")
-            pageView.model = cedModel
+            pageView.model = com5003CedModel
           }
+          console.log("Loaded session: ", currentSession);
           ModuleIntrospection.reloadIntrospection();
           pageLoader.active = true;
           rangeIndicator.active = true;
@@ -124,16 +122,16 @@ ApplicationWindow {
   }
 
   onCurrentSessionChanged: {
-    if(currentSession === "0_default-session.json")
+    if(currentSession === "0_default-session.json") //rename to com5003-meas-session
     {
       requiredIds = [0, 50, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015];
     }
-    else if(currentSession === "1_ref-session.json")
+    else if(currentSession === "1_ref-session.json") //rename to com5003-ref-session
     {
       //no GlueLogic (50) required here
       requiredIds = [0, 2000, 2001, 2002, 2003, 2004, 2005];
     }
-    else if(currentSession === "2_ced-session.json")
+    else if(currentSession === "2_ced-session.json") //rename to com5003-ced-session
     {
       requiredIds = [0, 50, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014];
     }
@@ -458,13 +456,13 @@ ApplicationWindow {
 
 
     StaticData.MeasurementPageModel {
-      id: measModel
+      id: com5003MeasModel
     }
     StaticData.ReferencePageModel {
-      id: refModel
+      id: com5003RefModel
     }
     StaticData.CEDPageModel {
-      id: cedModel
+      id: com5003CedModel
     }
 
 
