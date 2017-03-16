@@ -240,6 +240,7 @@ CCMP.ModulePage {
               anchors.fill: parent
               anchors.rightMargin: 8
               font.pixelSize: rowHeight*0.5
+              fontSizeMode: Label.HorizontalFit
               font.family: "Droid Sans Mono"
               font.bold: true
               horizontalAlignment: Label.AlignRight
@@ -257,6 +258,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               color: GC.system1ColorDark
               font.pixelSize: rowHeight*0.5
+              fontSizeMode: Label.HorizontalFit
               font.bold: index === 0
               font.family: "Droid Sans Mono"
               horizontalAlignment: Text.AlignRight
@@ -274,6 +276,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               color: GC.system1ColorDark
               font.pixelSize: rowHeight*0.5
+              fontSizeMode: Label.HorizontalFit
               font.bold: index === 0
               font.family: "Droid Sans Mono"
               horizontalAlignment: Text.AlignRight
@@ -291,6 +294,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               color: GC.system2ColorDark
               font.pixelSize: rowHeight*0.5
+              fontSizeMode: Label.HorizontalFit
               font.bold: index === 0
               font.family: "Droid Sans Mono"
               horizontalAlignment: Text.AlignRight
@@ -308,6 +312,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               color: GC.system2ColorDark
               font.pixelSize: rowHeight*0.5
+              fontSizeMode: Label.HorizontalFit
               font.bold: index === 0
               font.family: "Droid Sans Mono"
               horizontalAlignment: Text.AlignRight
@@ -325,6 +330,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               color: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
+              fontSizeMode: Label.HorizontalFit
               font.bold: index === 0
               font.family: "Droid Sans Mono"
               horizontalAlignment: Text.AlignRight
@@ -342,6 +348,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               color: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
+              fontSizeMode: Label.HorizontalFit
               font.bold: index === 0
               font.family: "Droid Sans Mono"
               horizontalAlignment: Text.AlignRight

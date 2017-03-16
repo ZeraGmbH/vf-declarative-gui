@@ -75,15 +75,20 @@ Loader {
           width: root.contentWidth*0.8
           height: root.height/2
           Label {
+            width: parent.width*0.5
             font.pixelSize: parent.height/1.3
+            fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName + ": "
             color: GC.getColorByIndex(index+1, rangeGrouping)
             font.bold: true
           }
           Label {
+            width: parent.width*0.5
             anchors.right: parent.right
+            horizontalAlignment: Label.AlignRight
             font.pixelSize: parent.height/1.3
+            fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: root.rangeModule["PAR_Channel"+parseInt(index+1)+"Range"]
           }
@@ -106,15 +111,20 @@ Loader {
           width: root.contentWidth*0.8
           height: root.height/2
           Label {
+            width: parent.width*0.5
             font.pixelSize: parent.height/1.3
+            fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+4)+"Range"].ChannelName + ": "
             color: GC.getColorByIndex(index+4, rangeGrouping)
             font.bold: true
           }
           Label {
+            width: parent.width*0.5
             anchors.right: parent.right
+            horizontalAlignment: Label.AlignRight
             font.pixelSize: parent.height/1.3
+            fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: root.rangeModule["PAR_Channel"+parseInt(index+4)+"Range"]
           }

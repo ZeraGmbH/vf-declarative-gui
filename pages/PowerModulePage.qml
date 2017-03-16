@@ -75,6 +75,7 @@ CCMP.ModulePage {
         verticalAlignment: Label.AlignVCenter
         color: GC.system1ColorDark
         font.pixelSize: height*0.4
+        fontSizeMode: Label.HorizontalFit
       }
     }
     CCMP.GridRect {
@@ -91,6 +92,7 @@ CCMP.ModulePage {
         verticalAlignment: Label.AlignVCenter
         color: GC.system2ColorDark
         font.pixelSize: height*0.4
+        fontSizeMode: Label.HorizontalFit
       }
     }
     CCMP.GridRect {
@@ -107,6 +109,7 @@ CCMP.ModulePage {
         verticalAlignment: Label.AlignVCenter
         color: GC.system3ColorDark
         font.pixelSize: height*0.4
+        fontSizeMode: Label.HorizontalFit
       }
     }
     CCMP.GridRect {
@@ -123,6 +126,7 @@ CCMP.ModulePage {
         horizontalAlignment: Label.AlignRight
         verticalAlignment: Label.AlignVCenter
         font.pixelSize: height*0.4
+        fontSizeMode: Label.HorizontalFit
       }
     }
     CCMP.GridRect {
@@ -138,6 +142,7 @@ CCMP.ModulePage {
         horizontalAlignment: Label.AlignRight
         verticalAlignment: Label.AlignVCenter
         font.pixelSize: height*0.3
+        fontSizeMode: Label.HorizontalFit
       }
     }
     CCMP.GridRect {
@@ -172,6 +177,7 @@ CCMP.ModulePage {
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
             font.pixelSize: height*0.4
+            fontSizeMode: Label.HorizontalFit
           }
         }
         CCMP.GridRect {
@@ -187,6 +193,7 @@ CCMP.ModulePage {
             verticalAlignment: Label.AlignVCenter
             color: GC.system1ColorDark
             font.pixelSize: height*0.4
+            fontSizeMode: Label.HorizontalFit
           }
         }
         CCMP.GridRect {
@@ -202,6 +209,7 @@ CCMP.ModulePage {
             verticalAlignment: Label.AlignVCenter
             color: GC.system2ColorDark
             font.pixelSize: height*0.4
+            fontSizeMode: Label.HorizontalFit
           }
         }
         CCMP.GridRect {
@@ -217,6 +225,7 @@ CCMP.ModulePage {
             verticalAlignment: Label.AlignVCenter
             color: GC.system3ColorBright
             font.pixelSize: height*0.4
+            fontSizeMode: Label.HorizontalFit
           }
         }
         CCMP.GridRect {
@@ -231,6 +240,7 @@ CCMP.ModulePage {
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
             font.pixelSize: height*0.4
+            fontSizeMode: Label.HorizontalFit
           }
         }
         CCMP.GridRect {
@@ -245,6 +255,7 @@ CCMP.ModulePage {
             horizontalAlignment: Label.AlignRight
             verticalAlignment: Label.AlignVCenter
             font.pixelSize: height*0.3
+            fontSizeMode: Label.HorizontalFit
           }
         }
         CCMP.GridRect {
