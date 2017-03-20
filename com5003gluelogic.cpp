@@ -805,7 +805,8 @@ class Com5003GlueLogicPrivate
     OsciModule = 1011,
     Sec1Module = 1012,
     Power3Module = 1013,
-    //ScpiModule = 1014,
+    //StatusModule = 1014,
+    //ScpiModule = 1015,
   };
 
   friend class Com5003GlueLogic;
@@ -887,7 +888,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
           if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
           {
             VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-            Q_ASSERT(cmpData);
+            Q_ASSERT(cmpData != nullptr);
 
             retVal = d_ptr->handleFftValues(cmpData);
           }
@@ -904,7 +905,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
             if(Q_UNLIKELY(componentMapping != nullptr))
             {
               VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-              Q_ASSERT(cmpData);
+              Q_ASSERT(cmpData != nullptr);
 
               retVal = d_ptr->handleActualValues(componentMapping, cmpData);
             }
