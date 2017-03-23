@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include <QTimer>
 #include <QIcon>
+#include <QStandardPaths>
 
 #include <ve_eventhandler.h>
 #include <vn_networksystem.h>
@@ -10,8 +11,8 @@
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
-#include <vl_datalogger.h>
-#include <vl_postgresdatabase.h>
+//#include <vl_databaselogger.h>
+//#include <vl_postgresdatabase.h>
 
 #include <memory>
 
