@@ -453,7 +453,7 @@ class Com5003GlueLogicPrivate
     Q_ASSERT(t_systemNumber>0 && t_systemNumber<4);
 
     double tmpLambda = NAN;
-    QModelIndex tmpIndex = m_actValueData->index(9, 0);
+    const QModelIndex tmpIndex = m_actValueData->index(9, 0);
 
     switch(t_systemNumber)
     {
@@ -495,7 +495,7 @@ class Com5003GlueLogicPrivate
   {
     Q_ASSERT(t_systemNumber>0 && t_systemNumber<4);
     double tmpAngle = 0;
-    QModelIndex tmpIndex = m_actValueData->index(8, 0);
+    const QModelIndex tmpIndex = m_actValueData->index(8, 0);
 
     switch(t_systemNumber)
     {
@@ -571,7 +571,7 @@ class Com5003GlueLogicPrivate
   bool handleActualValues(QHash<QString, QPoint>* t_componentMapping, VeinComponent::ComponentData *t_cmpData)
   {
     bool retVal = false;
-    QPoint valueCoordiantes = t_componentMapping->value(t_cmpData->componentName());
+    const QPoint valueCoordiantes = t_componentMapping->value(t_cmpData->componentName());
     if(valueCoordiantes.isNull() == false) //nothing is at 0, 0
     {
       QModelIndex mIndex = m_actValueData->index(valueCoordiantes.y(), 0); // QML doesn't understand columns!
@@ -581,7 +581,7 @@ class Com5003GlueLogicPrivate
         if(t_cmpData->componentName() == "PAR_MeasuringMode") // these values need some string formatting
         {
           // (%Mode) %Name
-          QString tmpValue = QString("(%1) %2").arg(t_cmpData->newValue().toString()).arg(getAvmNameById(t_cmpData->entityId()));
+          const QString tmpValue = QString("(%1) %2").arg(t_cmpData->newValue().toString()).arg(getAvmNameById(t_cmpData->entityId()));
           m_actValueData->setData(mIndex, tmpValue, Qt::UserRole+valueCoordiantes.x()); // QML doesn't understand column, so use roles
         }
         else
@@ -691,7 +691,7 @@ class Com5003GlueLogicPrivate
     {
       QStandardItemModel *tmpModel = tmpPair.m_model;
       QModelIndex tmpIndex;
-      QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
+      const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
 
       QSignalBlocker blocker(tmpModel); //no need to send dataChanged for every iteration
       for(int i=0; i<tmpData.length(); ++i)
@@ -716,7 +716,7 @@ class Com5003GlueLogicPrivate
     int fftTableRole=m_fftTableRoleMapping.value(t_cmpData->componentName(), 0);
     if(fftTableRole != 0)
     {
-      QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
+      const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
       QModelIndex fftTableIndex;
       QVector2D tmpVec2d;
       double re, im, angle, length;
@@ -841,9 +841,9 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
     EventData *evData = cEvent->eventData();
     Q_ASSERT(evData != nullptr);
 
-    switch(evData->entityId())
+    switch(static_cast<Com5003GlueLogicPrivate::Modules>(evData->entityId()))
     {
-      case static_cast<int>(d_ptr->Modules::GlueLogic):
+      case Com5003GlueLogicPrivate::Modules::GlueLogic:
       {
         if(evData->type() == VeinComponent::ComponentData::dataType())
         {
@@ -867,7 +867,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         }
         break;
       }
-      case static_cast<int>(d_ptr->Modules::OsciModule):
+      case Com5003GlueLogicPrivate::Modules::OsciModule:
       {
         if (evData->type() == VeinComponent::ComponentData::dataType())
         {
@@ -881,7 +881,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         }
         break;
       }
-      case static_cast<int>(d_ptr->Modules::FftModule):
+      case Com5003GlueLogicPrivate::Modules::FftModule:
       {
         if (evData->type() == VeinComponent::ComponentData::dataType())
         {
