@@ -42,4 +42,9 @@ ListModel {
     icon: "qrc:/data/staticdata/resources/dft_values.png"
     elementValue: "qrc:/pages/DFTModulePage.qml"
   }
+  ListElement {
+    name: "Burden values"
+    icon: "qrc:/data/staticdata/resources/dft_values.png"
+    elementValue: "qrc:/pages/BurdenModulePage.qml"
+  }
 }

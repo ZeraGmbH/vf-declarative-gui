@@ -14,6 +14,7 @@ Item {
   property var thdnIntrospection: VeinEntity.hasEntity("THDNModule1") ? JSON.parse(VeinEntity.getEntity("THDNModule1").INF_ModuleInterface) : 0
   property var rmsIntrospection: VeinEntity.hasEntity("RMSModule1") ? JSON.parse(VeinEntity.getEntity("RMSModule1").INF_ModuleInterface) : 0
   property var sampleIntrospection: VeinEntity.hasEntity("SampleModule1") ? JSON.parse(VeinEntity.getEntity("SampleModule1").INF_ModuleInterface) : 0
+  property var burden1Introspection: VeinEntity.hasEntity("Burden1Module1") ? JSON.parse(VeinEntity.getEntity("Burden1Module1").INF_ModuleInterface) : 0
 
   function reloadIntrospection() {
     rangeIntrospection = VeinEntity.hasEntity("RangeModule1") ? JSON.parse(VeinEntity.getEntity("RangeModule1").INF_ModuleInterface) : 0
@@ -27,6 +28,7 @@ Item {
     thdnIntrospection = VeinEntity.hasEntity("THDNModule1") ? JSON.parse(VeinEntity.getEntity("THDNModule1").INF_ModuleInterface) : 0
     rmsIntrospection = VeinEntity.hasEntity("RMSModule1") ? JSON.parse(VeinEntity.getEntity("RMSModule1").INF_ModuleInterface) : 0
     sampleIntrospection = VeinEntity.hasEntity("SampleModule1") ? JSON.parse(VeinEntity.getEntity("SampleModule1").INF_ModuleInterface) : 0
+    burden1Introspection = VeinEntity.hasEntity("Burden1Module1") ? JSON.parse(VeinEntity.getEntity("Burden1Module1").INF_ModuleInterface) : 0
     setMapping();
   }
 
@@ -39,7 +41,7 @@ Item {
     for(var i=0; i<allEntities.length; ++i)
     {
       var tmpEntity = VeinEntity.getEntityById(allEntities[i])
-      if(tmpEntity.hasComponent("INF_ModuleInterface"))
+      if(tmpEntity && tmpEntity.hasComponent("INF_ModuleInterface"))
       {
         tmpMap[tmpEntity.EntityName] = JSON.parse(tmpEntity.INF_ModuleInterface);
       }

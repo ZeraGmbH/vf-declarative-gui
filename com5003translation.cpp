@@ -159,6 +159,13 @@ void Com5003Translation::reloadStringTable()
   //: shows the deviation of measured energy between the reference device and the device under test
   insert("Error calculator", tr("Error calculator"));
 
+  insert("Burden values", tr("Burden values"));
+  insert("Burden settings", tr("Burden settings"));
+  insert("Nominal burden:", tr("Nominal burden:"));
+  insert("Nominal range:", tr("Nominal range:"));
+  insert("Wire crosssection:", tr("Wire crosssection:"));
+  insert("Wire length:", tr("Wire length:"));
+
   //ReferencePageModel.qml
   insert("Reference values", tr("Reference values"));
 

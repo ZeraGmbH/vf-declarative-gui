@@ -10,6 +10,7 @@
         <file>pages/RefModulePage.qml</file>
         <file>pages/CEDModulePage.qml</file>
         <file>pages/DFTModulePage.qml</file>
+        <file>pages/BurdenModulePage.qml</file>
     </qresource>
     <qresource prefix="/components">
         <file>common/SettingsView.qml</file>
@@ -32,7 +33,7 @@
         <file>common/SettingsInterval.qml</file>
         <file>common/Notifications.qml</file>
         <file>common/StatusView.qml</file>
-        <file>common/IntervalIntrospection.qml</file>
+        <file>common/ComboBoxIntrospection.qml</file>
         <file>common/RangeIndicator.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">

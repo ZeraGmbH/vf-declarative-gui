@@ -8,7 +8,7 @@ import ModuleIntrospection 1.0
 
 Item {
   id: root
-  property IntervalIntrospection introspection;
+  property ComboBoxIntrospection introspection;
 
   property alias text: descriptionLabel.text
   property real intermediateValue;
@@ -92,14 +92,21 @@ Item {
         }
       }
 
+
+
       Item {
-        width: 8
+        width: 40+Math.max(20, unitLabel.contentWidth)
+        Layout.fillHeight: true
+        Label {
+          id: unitLabel
+          text: introspection.unit
+          width: parent.width
+          font.pixelSize: Math.max(height/3, 20)
+          anchors.verticalCenter: parent.verticalCenter
+          horizontalAlignment: Text.AlignRight
+        }
       }
 
-      Label {
-        text: introspection.unit
-        font.pixelSize: Math.max(height/2, 20)
-      }
       Item {
         width: 24
       }
