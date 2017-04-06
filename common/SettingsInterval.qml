@@ -26,7 +26,7 @@ Column {
     for(var i=0; i<allEntities.length; ++i)
     {
       var tmpEntity = VeinEntity.getEntityById(allEntities[i])
-      if(tmpEntity.hasComponent("PAR_Interval"))
+      if(tmpEntity && tmpEntity.hasComponent("PAR_Interval"))
       {
         if(ModuleIntrospection.introMap[tmpEntity.EntityName].ComponentInfo.PAR_Interval.Unit === "sec")
         {
