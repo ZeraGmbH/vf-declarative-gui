@@ -17,7 +17,6 @@ Item {
     id: sView
     clip: true
     anchors.fill: parent
-    anchors.leftMargin: 8
 
     model: root.model
     boundsBehavior: Flickable.StopAtBounds

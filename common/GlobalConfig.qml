@@ -44,6 +44,9 @@ Item {
   readonly property color system3ColorBright: settings.globalSettings.getOption("system3Color") //"#EE58acfa"
   readonly property color system3ColorDark: settings.globalSettings.getOption("system3ColorDark") //"#EE0092ff"
 
+  readonly property color system4ColorBright: settings.globalSettings.getOption("system4Color") //"#EEB08EF5"
+  readonly property color system4ColorDark: settings.globalSettings.getOption("system4ColorDark") //"#EE6A25F6"
+
   readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1") //"lightskyblue"
   readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2") //"lawngreen"
   readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3") //"darkorange"
