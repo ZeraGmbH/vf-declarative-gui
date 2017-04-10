@@ -13,8 +13,8 @@ CCMP.ModulePage {
   id: root
 
   readonly property QtObject glueLogic: VeinEntity.getEntity("Local.GlueLogic");
-  readonly property QtObject burdenModule: bar.currentItem.isVoltageBurden ? VeinEntity.getEntity("Burden1Module2") : VeinEntity.getEntity("Burden1Module1")
-  readonly property var burdenIntrospection: bar.currentItem.isVoltageBurden ? ModuleIntrospection.burden2Introspection : ModuleIntrospection.burden1Introspection
+  readonly property QtObject burdenModule: modeTabBar.currentItem.isVoltageBurden ? VeinEntity.getEntity("Burden1Module2") : VeinEntity.getEntity("Burden1Module1")
+  readonly property var burdenIntrospection: modeTabBar.currentItem.isVoltageBurden ? ModuleIntrospection.burden2Introspection : ModuleIntrospection.burden1Introspection
   property int rowHeight: Math.floor(height/14) * 0.95
   property int columnWidth: width/5.2
 
@@ -26,7 +26,7 @@ CCMP.ModulePage {
 
     model: VisualItemModel {
       TabBar {
-        id: bar
+        id: modeTabBar
         width: parent.width
         currentIndex: 0
         TabButton {
@@ -124,7 +124,7 @@ CCMP.ModulePage {
     ListView {
       height: parent.height
       width: root.columnWidth*4.2 //0.7 + 3 + 0.5
-      model: bar.currentItem.isVoltageBurden ? glueLogic.BurdenModelU : glueLogic.BurdenModelI
+      model: modeTabBar.currentItem.isVoltageBurden ? glueLogic.BurdenModelU : glueLogic.BurdenModelI
       boundsBehavior: Flickable.StopAtBounds
 
       delegate: Component {
