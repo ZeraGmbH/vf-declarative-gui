@@ -147,6 +147,7 @@ Item {
     interactive: false
     enabled: visible
     anchors.fill: parent
+    highlightMoveDuration: 200
 
     delegate: pageDelegate
     path: Path {
