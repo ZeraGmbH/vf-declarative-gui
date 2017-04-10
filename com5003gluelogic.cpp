@@ -168,7 +168,8 @@ class Com5003GlueLogicPrivate
   Com5003GlueLogicPrivate(Com5003GlueLogic *t_public) :
     q_ptr(t_public),
     m_actValueData(new ActualValueModel(14, 1, q_ptr)),
-    m_burdenData(new BurdenValueModel(7, 1, q_ptr)),
+    m_burden1Data(new BurdenValueModel(7, 1, q_ptr)),
+    m_burden2Data(new BurdenValueModel(7, 1, q_ptr)),
     m_osciP1Data(new QStandardItemModel(3, 128, q_ptr)),
     m_osciP2Data(new QStandardItemModel(3, 128, q_ptr)),
     m_osciP3Data(new QStandardItemModel(3, 128, q_ptr)),
@@ -198,7 +199,8 @@ class Com5003GlueLogicPrivate
       delete tmpToDelete;
     }
     delete m_burdenMapping;
-    delete m_burdenData;
+    delete m_burden1Data;
+    delete m_burden2Data;
 
     delete m_osciP1Data;
     delete m_osciP2Data;
@@ -212,7 +214,8 @@ class Com5003GlueLogicPrivate
     // only these component names are known in the QML context
     QStringList componentNames;
     componentNames.append(m_actualValueComponentName);
-    componentNames.append(m_burdenComponentName);
+    componentNames.append(m_burden1ComponentName);
+    componentNames.append(m_burden2ComponentName);
     componentNames.append(m_osciP1ComponentName);
     componentNames.append(m_osciP2ComponentName);
     componentNames.append(m_osciP3ComponentName);
@@ -388,39 +391,74 @@ class Com5003GlueLogicPrivate
   void setupBurdenTable()
   {
     using namespace CommonTable;
-    QModelIndex mIndex = m_burdenData->index(0, 0);
-    m_burdenData->setData(mIndex, "BRD1", RoleIndexes::L1);
-    m_burdenData->setData(mIndex, "BRD2", RoleIndexes::L2);
-    m_burdenData->setData(mIndex, "BRD3", RoleIndexes::L3);
-    m_burdenData->setData(mIndex, "BRD4", RoleIndexes::L4);
-    m_burdenData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
+    QModelIndex mIndex = m_burden1Data->index(0, 0);
+    m_burden1Data->setData(mIndex, "BRD1", RoleIndexes::L1);
+    m_burden1Data->setData(mIndex, "BRD2", RoleIndexes::L2);
+    m_burden1Data->setData(mIndex, "BRD3", RoleIndexes::L3);
+    m_burden1Data->setData(mIndex, "BRD4", RoleIndexes::L4);
+    m_burden1Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
-    mIndex = m_burdenData->index(1, 0);
-    m_burdenData->setData(mIndex, QObject::tr("UPN", "phase to neutral"), RoleIndexes::NAME);
-    mIndex = m_burdenData->index(2, 0);
-    m_burdenData->setData(mIndex, QObject::tr("I", "current"), RoleIndexes::NAME);
-    mIndex = m_burdenData->index(3, 0);
-    m_burdenData->setData(mIndex, QObject::tr("∠UI", "phase difference"), RoleIndexes::NAME);
-    mIndex = m_burdenData->index(4, 0);
-    m_burdenData->setData(mIndex, QObject::tr("Sb", "operating burden"), RoleIndexes::NAME);
-    mIndex = m_burdenData->index(5, 0);
-    m_burdenData->setData(mIndex, QObject::tr("cos(β)", "cosinus beta"), RoleIndexes::NAME);
-    mIndex = m_burdenData->index(6, 0);
-    m_burdenData->setData(mIndex, QObject::tr("Sn", "operating burden in %, relative to the nominal burden"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(1, 0);
+    m_burden1Data->setData(mIndex, QObject::tr("UPN", "phase to neutral"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(2, 0);
+    m_burden1Data->setData(mIndex, QObject::tr("I", "current"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(3, 0);
+    m_burden1Data->setData(mIndex, QObject::tr("∠UI", "phase difference"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(4, 0);
+    m_burden1Data->setData(mIndex, QObject::tr("Sb", "operating burden"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(5, 0);
+    m_burden1Data->setData(mIndex, QObject::tr("cos(β)", "cosinus beta"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(6, 0);
+    m_burden1Data->setData(mIndex, QObject::tr("Sn", "operating burden in %, relative to the nominal burden"), RoleIndexes::NAME);
 
     //unit names
-    mIndex = m_burdenData->index(1, 0);
-    m_burdenData->setData(mIndex, "V", RoleIndexes::UNIT);
-    mIndex = m_burdenData->index(2, 0);
-    m_burdenData->setData(mIndex, "A", RoleIndexes::UNIT);
-    mIndex = m_burdenData->index(3, 0);
-    m_burdenData->setData(mIndex, "°", RoleIndexes::UNIT);
-//    mIndex = m_burdenData->index(4, 0);
-//    m_burdenData->setData(mIndex, "", RoleIndexes::UNIT);
-    mIndex = m_burdenData->index(4, 0);
-    m_burdenData->setData(mIndex, "VA", RoleIndexes::UNIT);
-    mIndex = m_burdenData->index(6, 0);
-    m_burdenData->setData(mIndex, "%", RoleIndexes::UNIT);
+    mIndex = m_burden1Data->index(1, 0);
+    m_burden1Data->setData(mIndex, "V", RoleIndexes::UNIT);
+    mIndex = m_burden1Data->index(2, 0);
+    m_burden1Data->setData(mIndex, "A", RoleIndexes::UNIT);
+    mIndex = m_burden1Data->index(3, 0);
+    m_burden1Data->setData(mIndex, "°", RoleIndexes::UNIT);
+    //mIndex = m_burdenData->index(4, 0);
+    //m_burdenData->setData(mIndex, "", RoleIndexes::UNIT);
+    mIndex = m_burden1Data->index(4, 0);
+    m_burden1Data->setData(mIndex, "VA", RoleIndexes::UNIT);
+    mIndex = m_burden1Data->index(6, 0);
+    m_burden1Data->setData(mIndex, "%", RoleIndexes::UNIT);
+
+
+    mIndex = m_burden2Data->index(0, 0);
+    m_burden2Data->setData(mIndex, "BRD1", RoleIndexes::L1);
+    m_burden2Data->setData(mIndex, "BRD2", RoleIndexes::L2);
+    m_burden2Data->setData(mIndex, "BRD3", RoleIndexes::L3);
+    m_burden2Data->setData(mIndex, "BRD4", RoleIndexes::L4);
+    m_burden2Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
+
+    mIndex = m_burden2Data->index(1, 0);
+    m_burden2Data->setData(mIndex, QObject::tr("UPN", "phase to neutral"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(2, 0);
+    m_burden2Data->setData(mIndex, QObject::tr("I", "current"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(3, 0);
+    m_burden2Data->setData(mIndex, QObject::tr("∠UI", "phase difference"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(4, 0);
+    m_burden2Data->setData(mIndex, QObject::tr("Sb", "operating burden"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(5, 0);
+    m_burden2Data->setData(mIndex, QObject::tr("cos(β)", "cosinus beta"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(6, 0);
+    m_burden2Data->setData(mIndex, QObject::tr("Sn", "operating burden in %, relative to the nominal burden"), RoleIndexes::NAME);
+
+    //unit names
+    mIndex = m_burden2Data->index(1, 0);
+    m_burden2Data->setData(mIndex, "V", RoleIndexes::UNIT);
+    mIndex = m_burden2Data->index(2, 0);
+    m_burden2Data->setData(mIndex, "A", RoleIndexes::UNIT);
+    mIndex = m_burden2Data->index(3, 0);
+    m_burden2Data->setData(mIndex, "°", RoleIndexes::UNIT);
+    //mIndex = m_burdenData->index(4, 0);
+    //m_burdenData->setData(mIndex, "", RoleIndexes::UNIT);
+    mIndex = m_burden2Data->index(4, 0);
+    m_burden2Data->setData(mIndex, "VA", RoleIndexes::UNIT);
+    mIndex = m_burden2Data->index(6, 0);
+    m_burden2Data->setData(mIndex, "%", RoleIndexes::UNIT);
   }
 
   void setupBurdenMapping()
@@ -438,24 +476,41 @@ class Com5003GlueLogicPrivate
 
     //(3) ∠UI is a calculated value
 
-    QHash<QString, QPoint> *burdenMap = new QHash<QString, QPoint>();
-    burdenMap->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
-    burdenMap->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
-    burdenMap->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
-    burdenMap->insert("ACT_Burden4", QPoint(RoleIndexes::L4, 4));
+    QHash<QString, QPoint> *burdenMap1 = new QHash<QString, QPoint>();
+    burdenMap1->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
+    burdenMap1->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
+    burdenMap1->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
+    burdenMap1->insert("ACT_Burden4", QPoint(RoleIndexes::L4, 4));
 
-    burdenMap->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
-    burdenMap->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
-    burdenMap->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
-    burdenMap->insert("ACT_PFactor4", QPoint(RoleIndexes::L4, 5));
+    burdenMap1->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
+    burdenMap1->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
+    burdenMap1->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
+    burdenMap1->insert("ACT_PFactor4", QPoint(RoleIndexes::L4, 5));
 
-    burdenMap->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
-    burdenMap->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
-    burdenMap->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
-    burdenMap->insert("ACT_Ratio4", QPoint(RoleIndexes::L4, 6));
+    burdenMap1->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
+    burdenMap1->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
+    burdenMap1->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
+    burdenMap1->insert("ACT_Ratio4", QPoint(RoleIndexes::L4, 6));
+
+    QHash<QString, QPoint> *burdenMap2 = new QHash<QString, QPoint>();
+    burdenMap2->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
+    burdenMap2->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
+    burdenMap2->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
+    burdenMap2->insert("ACT_Burden4", QPoint(RoleIndexes::L4, 4));
+
+    burdenMap2->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
+    burdenMap2->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
+    burdenMap2->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
+    burdenMap2->insert("ACT_PFactor4", QPoint(RoleIndexes::L4, 5));
+
+    burdenMap2->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
+    burdenMap2->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
+    burdenMap2->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
+    burdenMap2->insert("ACT_Ratio4", QPoint(RoleIndexes::L4, 6));
 
     m_burdenMapping->insert(static_cast<int>(Modules::RmsModule), rmsMap);
-    m_burdenMapping->insert(static_cast<int>(Modules::Burden1Module), burdenMap);
+    m_burdenMapping->insert(static_cast<int>(Modules::Burden1Module), burdenMap1);
+    m_burdenMapping->insert(static_cast<int>(Modules::Burden2Module), burdenMap2);
   }
 
   void setupOsciData()
@@ -565,8 +620,10 @@ class Com5003GlueLogicPrivate
       }
     }
 
-    tmpIndex = m_burdenData->index(3,0);
-    m_burdenData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
+    tmpIndex = m_burden1Data->index(3,0);
+    m_burden1Data->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
+    tmpIndex = m_burden2Data->index(3,0);
+    m_burden2Data->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
 
 
     if(tmpAngle > 180) //display as negative
@@ -594,9 +651,13 @@ class Com5003GlueLogicPrivate
       {
         fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_actValueData));
       }
-      else if(fetcherData->componentName() == m_burdenComponentName)
+      else if(fetcherData->componentName() == m_burden1ComponentName)
       {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_burdenData));
+        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_burden1Data));
+      }
+      else if(fetcherData->componentName() == m_burden2ComponentName)
+      {
+        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_burden2Data));
       }
       else if(fetcherData->componentName() == m_osciP1ComponentName)
       {
@@ -627,7 +688,7 @@ class Com5003GlueLogicPrivate
     return retVal;
   }
 
-  bool handleActualValues(QHash<QString, QPoint>* t_componentMapping, VeinComponent::ComponentData *t_cmpData)
+  bool handleActualValues(QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
   {
     bool retVal = false;
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
@@ -704,21 +765,35 @@ class Com5003GlueLogicPrivate
     return retVal;
   }
 
-  bool handleBurdenValues(QHash<QString, QPoint>* t_componentMapping, VeinComponent::ComponentData *t_cmpData)
+  bool handleBurden1Values(QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
   {
     bool retVal = false;
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
     if(valueCoordiates.isNull() == false) //nothing is at 0, 0
     {
-      QModelIndex mIndex = m_burdenData->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
+      QModelIndex mIndex = m_burden1Data->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
       //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
-      m_burdenData->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
+      m_burden1Data->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
     }
 
     return retVal;
   }
 
-  bool handleOsciValues(VeinComponent::ComponentData *t_cmpData)
+  bool handleBurden2Values(QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+  {
+    bool retVal = false;
+    const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
+    if(valueCoordiates.isNull() == false) //nothing is at 0, 0
+    {
+      QModelIndex mIndex = m_burden2Data->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
+      //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
+      m_burden2Data->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
+    }
+
+    return retVal;
+  }
+
+  bool handleOsciValues(const VeinComponent::ComponentData *t_cmpData)
   {
     bool retVal=false;
     ModelRowPair tmpPair = m_osciMapping.value(t_cmpData->componentName(), ModelRowPair(0, 0));
@@ -745,7 +820,7 @@ class Com5003GlueLogicPrivate
     return retVal;
   }
 
-  bool handleFftValues(VeinComponent::ComponentData *t_cmpData)
+  bool handleFftValues(const VeinComponent::ComponentData *t_cmpData)
   {
     bool retVal = false;
     int fftTableRole=m_fftTableRoleMapping.value(t_cmpData->componentName(), 0);
@@ -779,7 +854,8 @@ class Com5003GlueLogicPrivate
 
   Com5003GlueLogic *q_ptr;
   QStandardItemModel *m_actValueData;
-  QStandardItemModel *m_burdenData;
+  QStandardItemModel *m_burden1Data;
+  QStandardItemModel *m_burden2Data;
 
   QStandardItemModel *m_osciP1Data;
   QStandardItemModel *m_osciP2Data;
@@ -801,7 +877,8 @@ class Com5003GlueLogicPrivate
   const int m_entityId = 50;
 
   const QString m_actualValueComponentName = "ActualValueModel";
-  const QString m_burdenComponentName = "BurdenModel";
+  const QString m_burden1ComponentName = "BurdenModelI";
+  const QString m_burden2ComponentName = "BurdenModelU";
   const QString m_osciP1ComponentName = "OSCIP1Model";
   const QString m_osciP2ComponentName = "OSCIP2Model";
   const QString m_osciP3ComponentName = "OSCIP3Model";
@@ -838,6 +915,7 @@ class Com5003GlueLogicPrivate
     //StatusModule = 1014,
     LambdaModule = 1015,
     Burden1Module = 1016,
+    Burden2Module = 1017,
     //ScpiModule = 9999,
   };
 
@@ -883,7 +961,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         }
         else if(evData->type() == VeinComponent::EntityData::dataType())
         {
-          VeinComponent::EntityData *eData = static_cast<VeinComponent::EntityData *>(evData);
+          const VeinComponent::EntityData *eData = static_cast<VeinComponent::EntityData *>(evData);
           Q_ASSERT(eData != nullptr);
           if(eData->eventCommand() == VeinComponent::EntityData::ECMD_SUBSCRIBE)
           {
@@ -905,7 +983,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         {
           if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
           {
-            VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+            const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
 
             retVal = d_ptr->handleOsciValues(cmpData);
@@ -919,10 +997,44 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         {
           if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
           {
-            VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+            const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
 
             retVal = d_ptr->handleFftValues(cmpData);
+          }
+        }
+        break;
+      }
+      case Com5003GlueLogicPrivate::Modules::Burden1Module:
+      {
+        if (evData->type() == VeinComponent::ComponentData::dataType())
+        {
+          if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
+          {
+            const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+            if(Q_UNLIKELY(burdenMapping != nullptr))
+            {
+              const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+              Q_ASSERT(cmpData != nullptr);
+              retVal = d_ptr->handleBurden1Values(burdenMapping, cmpData);
+            }
+          }
+        }
+        break;
+      }
+      case Com5003GlueLogicPrivate::Modules::Burden2Module:
+      {
+        if (evData->type() == VeinComponent::ComponentData::dataType())
+        {
+          if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
+          {
+            const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+            if(Q_UNLIKELY(burdenMapping != nullptr))
+            {
+              const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+              Q_ASSERT(cmpData != nullptr);
+              retVal = d_ptr->handleBurden2Values(burdenMapping, cmpData);
+            }
           }
         }
         break;
@@ -933,17 +1045,21 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         {
           if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
           {
-            auto avMapping = d_ptr->m_actualValueMapping->value(evData->entityId(), nullptr);
-            auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
-            VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+            const auto avMapping = d_ptr->m_actualValueMapping->value(evData->entityId(), nullptr);
+            const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+            const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+
             Q_ASSERT(cmpData != nullptr);
             if(Q_UNLIKELY(avMapping != nullptr))
             {
               retVal = d_ptr->handleActualValues(avMapping, cmpData);
             }
-            if(Q_UNLIKELY(burdenMapping != nullptr)) //some values are in both maps so don't do else if here
+            if(Q_UNLIKELY(burdenMapping != nullptr)) //rms values
             {
-              retVal = d_ptr->handleBurdenValues(burdenMapping, cmpData);
+
+              retVal = true;
+              d_ptr->handleBurden1Values(burdenMapping, cmpData);
+              d_ptr->handleBurden2Values(burdenMapping, cmpData);
             }
           }
         }
