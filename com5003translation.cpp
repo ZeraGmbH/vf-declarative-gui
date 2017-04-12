@@ -159,8 +159,8 @@ void Com5003Translation::reloadStringTable()
   //: shows the deviation of measured energy between the reference device and the device under test
   insert("Error calculator", tr("Error calculator"));
 
-  insert("U-Burden", tr("U-Burden"));
-  insert("I-Burden", tr("I-Burden"));
+  insert("Voltage-Burden", tr("Voltage-Burden"));
+  insert("Current-Burden", tr("Current-Burden"));
   insert("Burden values", tr("Burden values"));
   insert("Nominal burden:", tr("Nominal burden:"));
   insert("Nominal range:", tr("Nominal range:"));

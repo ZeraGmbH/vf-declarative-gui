@@ -30,11 +30,11 @@ CCMP.ModulePage {
         width: parent.width
         currentIndex: 0
         TabButton {
-          text: ZTR["U-Burden"]
+          text: ZTR["Voltage-Burden"]
           property bool isVoltageBurden: true
         }
         TabButton {
-          text: ZTR["I-Burden"]
+          text: ZTR["Current-Burden"]
           property bool isVoltageBurden: false
         }
       }
@@ -123,7 +123,7 @@ CCMP.ModulePage {
     anchors.bottom: parent.bottom
     ListView {
       height: parent.height
-      width: root.columnWidth*4.2 //0.7 + 3 + 0.5
+      width: root.columnWidth*5.2 //0.7 + 4 + 0.5
       model: modeTabBar.currentItem.isVoltageBurden ? glueLogic.BurdenModelU : glueLogic.BurdenModelI
       boundsBehavior: Flickable.StopAtBounds
 
