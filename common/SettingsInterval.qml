@@ -72,7 +72,7 @@ Column {
           }
         }
       }
-      CCMP.ComboBoxIntrospection {
+      CCMP.SpinBoxIntrospection {
         property var timeIntrospection: ModuleIntrospection.introMap[timeList[0].EntityName];
         unit: "seconds";
         upperBound: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
@@ -99,7 +99,7 @@ Column {
           }
         }
       }
-      CCMP.ComboBoxIntrospection {
+      CCMP.SpinBoxIntrospection {
         property var periodIntrospection: ModuleIntrospection.introMap[periodList[0].EntityName];
         unit: "periods";
         upperBound: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];

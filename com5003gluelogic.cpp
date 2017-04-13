@@ -20,6 +20,7 @@
 #include <math.h>
 
 // DISCLAIMER: this is glue logic code, in this sense use the unix philosophy "worse is better"
+// If you don't know what that means then don't assume, just google it!
 
 namespace CommonTable
 {

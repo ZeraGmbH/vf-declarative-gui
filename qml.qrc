@@ -33,7 +33,7 @@
         <file>common/SettingsInterval.qml</file>
         <file>common/Notifications.qml</file>
         <file>common/StatusView.qml</file>
-        <file>common/ComboBoxIntrospection.qml</file>
+        <file>common/SpinBoxIntrospection.qml</file>
         <file>common/RangeIndicator.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">

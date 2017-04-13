@@ -204,7 +204,8 @@ CCMP.SettingsView {
           SettingsInterval {
             id: sInterval
             rowHeight: root.rowHeight
-            rowWidth: root.rowWidth
+            rowWidth: root.rowWidth-36
+            x: 20
           }
         }
       }

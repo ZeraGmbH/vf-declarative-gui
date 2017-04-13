@@ -8,8 +8,7 @@ import ModuleIntrospection 1.0
 
 Item {
   id: root
-  property ComboBoxIntrospection introspection;
-
+  property SpinBoxIntrospection introspection;
   property alias text: descriptionLabel.text
   property real intermediateValue;
   onIntermediateValueChanged: {
@@ -22,17 +21,10 @@ Item {
   Rectangle {
     anchors.fill: parent
     color: valueSpinBox.realValue !== intermediateValue ? "#33000044" : "transparent"
-    anchors.leftMargin: 8
-    anchors.rightMargin: 16
     radius: 4
 
     RowLayout {
       anchors.fill: parent
-
-      Item {
-        width: 8
-      }
-
       Label {
         id: descriptionLabel
         font.pixelSize: Math.max(height/2, 20)
@@ -93,22 +85,19 @@ Item {
       }
 
 
-
-      Item {
-        width: 40+Math.max(20, unitLabel.contentWidth)
-        Layout.fillHeight: true
-        Label {
-          id: unitLabel
-          text: introspection.unit
-          width: parent.width
-          font.pixelSize: Math.max(height/3, 20)
-          anchors.verticalCenter: parent.verticalCenter
-          horizontalAlignment: Text.AlignRight
-        }
+      Label {
+        id: unitLabel
+        Layout.preferredWidth: 40
+        Layout.minimumWidth: contentWidth
+        height: parent.height
+        text: introspection.unit
+        font.pixelSize: Math.max(height/3, 20)
+        anchors.verticalCenter: parent.verticalCenter
+        horizontalAlignment: Text.AlignRight
       }
 
       Item {
-        width: 24
+        width: 2
       }
 
       Button {
@@ -126,9 +115,6 @@ Item {
           outValue = valueSpinBox.realValue
         }
       }
-      Item {
-        width: 8
-      }
       Button {
         id: resetButton
         text: "\u00D7" //unicode x mark
@@ -143,9 +129,6 @@ Item {
           focus = true
           valueSpinBox.value = intermediateValue * 100
         }
-      }
-      Item {
-        width: 8
       }
     }
   }
