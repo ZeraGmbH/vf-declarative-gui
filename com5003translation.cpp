@@ -159,6 +159,7 @@ void Com5003Translation::reloadStringTable()
   //: shows the deviation of measured energy between the reference device and the device under test
   insert("Error calculator", tr("Error calculator"));
 
+  //BurdenModulePage.qml
   insert("Voltage-Burden", tr("Voltage-Burden"));
   insert("Current-Burden", tr("Current-Burden"));
   insert("Burden values", tr("Burden values"));
@@ -177,6 +178,15 @@ void Com5003Translation::reloadStringTable()
   insert("Real", tr("Real", "complex number part"));
   insert("Imaginary", tr("Imaginary", "complex number part"));
 
+  //TransformerModulePage.qml
+  insert("X-Prim:", tr("X-Prim:"));
+  insert("X-Sec:", tr("X-Sec:"));
+  insert("Ms-Prim:", tr("Ms-Prim:"));
+  insert("Ms-Sec:", tr("Ms-Sec:"));
+  insert("Mp-Prim:", tr("Mp-Prim:"));
+  insert("Mp-Sec:", tr("Mp-Sec:"));
+  insert("crad", tr("crad", "centiradian"));
+  insert("arcmin", tr("arcmin", "arcminute"));
 
   //Zera Classes -> zera-basemodule -> errormessages.h
   //: RESMAN = resource manager

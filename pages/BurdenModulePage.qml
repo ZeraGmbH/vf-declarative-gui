@@ -50,7 +50,7 @@ CCMP.ModulePage {
             burdenModule.PAR_NominalBurden = Number(outValue)
           }
 
-          CCMP.ComboBoxIntrospection {
+          CCMP.SpinBoxIntrospection {
             unit: burdenIntrospection.ComponentInfo.PAR_NominalBurden.Unit;
             upperBound: burdenIntrospection.ComponentInfo.PAR_NominalBurden.Validation.Data[1];
             lowerBound: burdenIntrospection.ComponentInfo.PAR_NominalBurden.Validation.Data[0];
@@ -68,7 +68,7 @@ CCMP.ModulePage {
             burdenModule.PAR_NominalRange = Number(outValue)
           }
 
-          CCMP.ComboBoxIntrospection {
+          CCMP.SpinBoxIntrospection {
             unit: burdenIntrospection.ComponentInfo.PAR_NominalRange.Unit;
             upperBound: burdenIntrospection.ComponentInfo.PAR_NominalRange.Validation.Data[1];
             lowerBound: burdenIntrospection.ComponentInfo.PAR_NominalRange.Validation.Data[0];
@@ -86,7 +86,7 @@ CCMP.ModulePage {
             burdenModule.PAR_WCrosssection = Number(outValue)
           }
 
-          CCMP.ComboBoxIntrospection {
+          CCMP.SpinBoxIntrospection {
             unit: burdenIntrospection.ComponentInfo.PAR_WCrosssection.Unit;
             upperBound: burdenIntrospection.ComponentInfo.PAR_WCrosssection.Validation.Data[1];
             lowerBound: burdenIntrospection.ComponentInfo.PAR_WCrosssection.Validation.Data[0];
@@ -104,7 +104,7 @@ CCMP.ModulePage {
             burdenModule.PAR_WireLength = Number(outValue)
           }
 
-          CCMP.ComboBoxIntrospection {
+          CCMP.SpinBoxIntrospection {
             unit: burdenIntrospection.ComponentInfo.PAR_WireLength.Unit;
             upperBound: burdenIntrospection.ComponentInfo.PAR_WireLength.Validation.Data[1];
             lowerBound: burdenIntrospection.ComponentInfo.PAR_WireLength.Validation.Data[0];

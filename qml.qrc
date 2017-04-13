@@ -11,6 +11,7 @@
         <file>pages/CEDModulePage.qml</file>
         <file>pages/DFTModulePage.qml</file>
         <file>pages/BurdenModulePage.qml</file>
+        <file>pages/TransformerModulePage.qml</file>
     </qresource>
     <qresource prefix="/components">
         <file>common/SettingsView.qml</file>
