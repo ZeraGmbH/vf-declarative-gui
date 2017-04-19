@@ -145,226 +145,109 @@ Item {
       anchors.right: parent.right
       height: root.rowHeight
 
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "n"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: Material.primaryTextColor
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "n"
+        textColor: Material.primaryTextColor
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Amp"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system1ColorDark
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Amp"
+        textColor: GC.system1ColorDark
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Phase"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system1ColorDark
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Phase"
+        textColor: GC.system1ColorDark
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Amp"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system2ColorDark
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Amp"
+        textColor: GC.system2ColorDark
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Phase"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system2ColorDark
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Phase"
+        textColor: GC.system2ColorDark
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Amp"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system3ColorDark
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Amp"
+        textColor: GC.system3ColorDark
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Phase"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system3ColorDark
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Phase"
+        textColor: GC.system3ColorDark
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Amp"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system1ColorBright
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Amp"
+        textColor: GC.system1ColorBright
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Phase"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system1ColorBright
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Phase"
+        textColor: GC.system1ColorBright
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Amp"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system2ColorBright
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Amp"
+        textColor: GC.system2ColorBright
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Phase"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system2ColorBright
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Phase"
+        textColor: GC.system2ColorBright
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Amp"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system3ColorBright
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Amp"
+        textColor: GC.system3ColorBright
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Phase"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: rowHeight*0.7
-          font.family: "Droid Sans Mono"
-          font.bold: true
-          color: GC.system3ColorBright
-          horizontalAlignment: Label.AlignHCenter
-          verticalAlignment: Label.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Phase"
+        textColor: GC.system3ColorBright
+        font.bold: true
       }
     }
 
@@ -385,225 +268,108 @@ Item {
         Row {
           width: root.columnWidth
           height: root.rowHeight
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
-            Label {
-              text: index
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              font.pixelSize: rowHeight*0.5
-              font.family: "Droid Sans Mono"
-              font.bold: true
-              horizontalAlignment: Label.AlignRight
-              verticalAlignment: Label.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: index
+            font.bold: true
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: AmplitudeL1 ? GC.formatNumber(AmplitudeL1, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system1ColorDark
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: AmplitudeL1 ? GC.formatNumber(AmplitudeL1, 3) : ""
+            textColor: GC.system1ColorDark
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: VectorL1 ? GC.formatNumber(VectorL1, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system1ColorDark
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: VectorL1 ? GC.formatNumber(VectorL1, 3) : ""
+            textColor: GC.system1ColorDark
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: AmplitudeL2 ? GC.formatNumber(AmplitudeL2, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system2ColorDark
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: AmplitudeL2 ? GC.formatNumber(AmplitudeL2, 3) : ""
+            textColor: GC.system2ColorDark
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: VectorL2 ? GC.formatNumber(VectorL2, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system2ColorDark
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: VectorL2 ? GC.formatNumber(VectorL2, 3) : ""
+            textColor: GC.system2ColorDark
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: AmplitudeL3 ? GC.formatNumber(AmplitudeL3, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system3ColorDark
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: AmplitudeL3 ? GC.formatNumber(AmplitudeL3, 3) : ""
+            textColor: GC.system3ColorDark
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: VectorL3 ? GC.formatNumber(VectorL3, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system3ColorDark
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: VectorL3 ? GC.formatNumber(VectorL3, 3) : ""
+            textColor: GC.system3ColorDark
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: AmplitudeL4 ? GC.formatNumber(AmplitudeL4, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system1ColorBright
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: AmplitudeL4 ? GC.formatNumber(AmplitudeL4, 3) : ""
+            textColor: GC.system1ColorBright
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: VectorL4 ? GC.formatNumber(VectorL4, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system1ColorBright
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: VectorL4 ? GC.formatNumber(VectorL4, 3) : ""
+            textColor: GC.system1ColorBright
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: AmplitudeL5 ? GC.formatNumber(AmplitudeL5, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system2ColorBright
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: AmplitudeL5 ? GC.formatNumber(AmplitudeL5, 3) : ""
+            textColor: GC.system2ColorBright
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: VectorL5 ? GC.formatNumber(VectorL5, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system2ColorBright
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: VectorL5 ? GC.formatNumber(VectorL5, 3) : ""
+            textColor: GC.system2ColorBright
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: AmplitudeL6 ? GC.formatNumber(AmplitudeL6, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system3ColorBright
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: AmplitudeL6 ? GC.formatNumber(AmplitudeL6, 3) : ""
+            textColor: GC.system3ColorBright
+            font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridRect {
+          CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: Material.backgroundColor
-            Text {
-              text: VectorL6 ? GC.formatNumber(VectorL6, 3) : ""
-              anchors.fill: parent
-              anchors.rightMargin: 8
-              color: GC.system3ColorBright
-              font.pixelSize: rowHeight*0.5
-              font.bold: index === 0
-              font.family: "Droid Sans Mono"
-              horizontalAlignment: Text.AlignRight
-              verticalAlignment: Text.AlignVCenter
-              textFormat: Text.PlainText
-            }
+            text: VectorL6 ? GC.formatNumber(VectorL6, 3) : ""
+            textColor: GC.system3ColorBright
+            font.pixelSize: rowHeight*0.5
           }
         }
       }

@@ -22,110 +22,61 @@ CCMP.ModulePage {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: root.top
     anchors.topMargin: root.height/2-rowHeight
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "REF1"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-      }
+      text: "REF1"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "REF2"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-      }
+      text: "REF2"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "REF3"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-      }
+      text: "REF3"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "REF4"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-      }
+      text: "REF4"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "REF5"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-      }
+      text: "REF5"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "REF6"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-      }
+      text: "REF6"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: basicRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "[ ]"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-      }
+      text: "[ ]"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
   }
 
@@ -141,109 +92,60 @@ CCMP.ModulePage {
 
     delegate: Component {
       Row {
-        CCMP.GridRect {
-          //ref1
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(dftModule.ACT_DFTPN1[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.groupColorReference
-            font.pixelSize: height*0.3
-          }
+          text: GC.formatNumber(dftModule.ACT_DFTPN1[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+          textColor: GC.groupColorReference
+          font.pixelSize: height*0.3
         }
-        CCMP.GridRect {
-          //ref2
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(dftModule.ACT_DFTPN2[0], 6);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.groupColorReference
-            font.pixelSize: height*0.3
-          }
+          text: GC.formatNumber(dftModule.ACT_DFTPN2[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+          textColor: GC.groupColorReference
+          font.pixelSize: height*0.3
         }
-        CCMP.GridRect {
-          //ref3
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(dftModule.ACT_DFTPN3[0], 6);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.groupColorReference
-            font.pixelSize: height*0.3
-          }
+          text: GC.formatNumber(dftModule.ACT_DFTPN3[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+          textColor: GC.groupColorReference
+          font.pixelSize: height*0.3
         }
-        CCMP.GridRect {
-          //ref4
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(dftModule.ACT_DFTPN4[0], 6);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.groupColorReference
-            font.pixelSize: height*0.3
-          }
+          text: GC.formatNumber(dftModule.ACT_DFTPN4[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+          textColor: GC.groupColorReference
+          font.pixelSize: height*0.3
         }
-        CCMP.GridRect {
-          //ref5
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(dftModule.ACT_DFTPN5[0], 6);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.groupColorReference
-            font.pixelSize: height*0.3
-          }
+          text: GC.formatNumber(dftModule.ACT_DFTPN5[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+          textColor: GC.groupColorReference
+          font.pixelSize: height*0.3
         }
-        CCMP.GridRect {
-          //ref6
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(dftModule.ACT_DFTPN6[0], 6);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.groupColorReference
-            font.pixelSize: height*0.3
-          }
+          text: GC.formatNumber(dftModule.ACT_DFTPN6[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+          textColor: GC.groupColorReference
+          font.pixelSize: height*0.3
         }
-        CCMP.GridRect {
-          //unit
+        CCMP.GridItem {
           width: basicRowWidth
           height: root.rowHeight
-          Label {
-            text: "V"
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            font.bold: true
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            font.pixelSize: height*0.3
-          }
+          text: "V"
+          font.bold: true
+          font.pixelSize: height*0.3
         }
       }
     }

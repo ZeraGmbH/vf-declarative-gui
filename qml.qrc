@@ -36,6 +36,7 @@
         <file>common/StatusView.qml</file>
         <file>common/SpinBoxIntrospection.qml</file>
         <file>common/RangeIndicator.qml</file>
+        <file>common/GridItem.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>

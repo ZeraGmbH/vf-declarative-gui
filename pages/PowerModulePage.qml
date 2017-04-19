@@ -61,91 +61,51 @@ CCMP.ModulePage {
       color: GC.tableShadeColor
       //spacer
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "L1"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        color: GC.system1ColorDark
-        font.pixelSize: height*0.4
-        fontSizeMode: Label.HorizontalFit
-      }
+      text: "L1"
+      textColor: GC.system1ColorDark
+      font.bold: true
+      font.pixelSize: height*0.4
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "L2"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        color: GC.system2ColorDark
-        font.pixelSize: height*0.4
-        fontSizeMode: Label.HorizontalFit
-      }
+      text: "L2"
+      textColor: GC.system2ColorDark
+      font.bold: true
+      font.pixelSize: height*0.4
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "L3"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        color: GC.system3ColorDark
-        font.pixelSize: height*0.4
-        fontSizeMode: Label.HorizontalFit
-      }
+      text: "L3"
+      textColor: GC.system3ColorDark
+      font.bold: true
+      font.pixelSize: height*0.4
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        //: Sigma sign as summary
-        text: "Σ"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.4
-        fontSizeMode: Label.HorizontalFit
-      }
+      text: "Σ"
+      font.bold: true
+      font.pixelSize: height*0.4
     }
-    CCMP.GridRect {
+    CCMP.GridItem {
       width: basicRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-
-      Label {
-        text: "[ ]"
-        font.bold: true
-        anchors.fill: parent
-        anchors.rightMargin: 8
-        horizontalAlignment: Label.AlignRight
-        verticalAlignment: Label.AlignVCenter
-        font.pixelSize: height*0.3
-        fontSizeMode: Label.HorizontalFit
-      }
+      text: "[ ]"
+      font.bold: true
+      font.pixelSize: height*0.3
     }
     CCMP.GridRect {
+      //mode switch has no header
       width: basicRowWidth*2
       height: root.rowHeight
       color: GC.tableShadeColor
@@ -163,100 +123,52 @@ CCMP.ModulePage {
 
     delegate: Component {
       Row {
-        CCMP.GridRect {
-          //title
+        CCMP.GridItem {
           width: basicRowWidth
           height: root.rowHeight
           color: GC.tableShadeColor
-
-          Label {
-            text: root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName
-            font.bold: true
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            font.pixelSize: height*0.4
-            fontSizeMode: Label.HorizontalFit
-          }
+          text: root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName
+          font.bold: true
+          font.pixelSize: height*0.4
         }
-        CCMP.GridRect {
-          //l1
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(root.getModule(index).ACT_PQS1);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.system1ColorDark
-            font.pixelSize: height*0.4
-            fontSizeMode: Label.HorizontalFit
-          }
+          text: GC.formatNumber(root.getModule(index).ACT_PQS1);
+          textColor: GC.system1ColorDark
+          font.pixelSize: height*0.4
         }
-        CCMP.GridRect {
-          //l2
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(root.getModule(index).ACT_PQS2);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.system2ColorDark
-            font.pixelSize: height*0.4
-            fontSizeMode: Label.HorizontalFit
-          }
+          text: GC.formatNumber(root.getModule(index).ACT_PQS2);
+          textColor: GC.system2ColorDark
+          font.pixelSize: height*0.4
         }
-        CCMP.GridRect {
-          //l3
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(root.getModule(index).ACT_PQS3);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            color: GC.system3ColorBright
-            font.pixelSize: height*0.4
-            fontSizeMode: Label.HorizontalFit
-          }
+          text: GC.formatNumber(root.getModule(index).ACT_PQS3);
+          textColor: GC.system3ColorDark
+          font.pixelSize: height*0.4
         }
-        CCMP.GridRect {
-          //pSum
+        CCMP.GridItem {
           width: wideRowWidth
           height: root.rowHeight
           clip: true
-          Label {
-            text: GC.formatNumber(root.getModule(index).ACT_PQS4);
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            font.pixelSize: height*0.4
-            fontSizeMode: Label.HorizontalFit
-          }
+          text: GC.formatNumber(root.getModule(index).ACT_PQS4);
+          font.pixelSize: height*0.4
         }
-        CCMP.GridRect {
-          //unit
+        CCMP.GridItem {
           width: basicRowWidth
           height: root.rowHeight
-          Label {
-            text: root.getMetadata(index).ComponentInfo.ACT_PQS1.Unit
-            anchors.fill: parent
-            anchors.rightMargin: 8
-            font.bold: true
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
-            font.pixelSize: height*0.3
-            fontSizeMode: Label.HorizontalFit
-          }
+          clip: true
+          text: root.getMetadata(index).ComponentInfo.ACT_PQS1.Unit
+          font.bold: true
+          font.pixelSize: height*0.3
         }
         CCMP.GridRect {
           //mode switch

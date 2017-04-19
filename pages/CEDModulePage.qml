@@ -58,84 +58,49 @@ CCMP.ModulePage {
         color: GC.tableShadeColor
         //spacer
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: wideRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-
-        Label {
-          text: "L1"
-          font.bold: true
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          horizontalAlignment: Label.AlignRight
-          verticalAlignment: Label.AlignVCenter
-          color: GC.system1ColorDark
-          font.pixelSize: height*0.3
-        }
+        text: "L1"
+        textColor: GC.system1ColorDark
+        font.pixelSize: height*0.3
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: wideRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-
-        Label {
-          text: "L2"
-          font.bold: true
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          horizontalAlignment: Label.AlignRight
-          verticalAlignment: Label.AlignVCenter
-          color: GC.system2ColorDark
-          font.pixelSize: height*0.3
-        }
+        text: "L2"
+        textColor: GC.system2ColorDark
+        font.pixelSize: height*0.3
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: wideRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-
-        Label {
-          text: "L3"
-          font.bold: true
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          horizontalAlignment: Label.AlignRight
-          verticalAlignment: Label.AlignVCenter
-          color: GC.system3ColorDark
-          font.pixelSize: height*0.3
-        }
+        text: "L3"
+        textColor: GC.system3ColorDark
+        font.pixelSize: height*0.3
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: wideRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-
-        Label {
-          //: Sigma sign as summary
-          text: "Σ"
-          font.bold: true
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          horizontalAlignment: Label.AlignRight
-          verticalAlignment: Label.AlignVCenter
-          font.pixelSize: height*0.3
-        }
+        text: "Σ"
+        textColor: GC.system3ColorDark
+        font.pixelSize: height*0.3
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: basicRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-
-        Label {
-          text: "[ ]"
-          font.bold: true
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          horizontalAlignment: Label.AlignRight
-          verticalAlignment: Label.AlignVCenter
-          font.pixelSize: height*0.3
-        }
+        text: "[ ]"
+        font.pixelSize: height*0.3
+        font.bold: true
       }
     }
 
