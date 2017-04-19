@@ -145,6 +145,12 @@ void Com5003Translation::reloadStringTable()
   insert("energy", tr("energy"));
   insert("mrate", tr("mrate"));
 
+  //FftModulePage.qml
+  //: text must be short enough to fit
+  insert("Amp", tr("Amp", "Amplitude of the phasor"));
+  //: text must be short enough to fit
+  insert("Phase", tr("Phase","Phase of the phasor"));
+
   //MeasurementPageModel.qml
   //: polar (amplitude and phase) phasor diagram
   insert("Vector diagram", tr("Vector diagram"));

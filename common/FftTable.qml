@@ -6,8 +6,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import GlobalConfig 1.0
-
-
+import Com5003Translation  1.0
 import ModuleIntrospection 1.0
 
 Item {
@@ -157,7 +156,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Amp"
+        text: ZTR["Amp"]
         textColor: GC.system1ColorDark
         font.bold: true
       }
@@ -165,7 +164,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Phase"
+        text: ZTR["Phase"]
         textColor: GC.system1ColorDark
         font.bold: true
       }
@@ -173,7 +172,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Amp"
+        text: ZTR["Amp"]
         textColor: GC.system2ColorDark
         font.bold: true
       }
@@ -181,7 +180,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Phase"
+        text: ZTR["Phase"]
         textColor: GC.system2ColorDark
         font.bold: true
       }
@@ -189,7 +188,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Amp"
+        text: ZTR["Amp"]
         textColor: GC.system3ColorDark
         font.bold: true
       }
@@ -197,7 +196,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Phase"
+        text: ZTR["Phase"]
         textColor: GC.system3ColorDark
         font.bold: true
       }
@@ -205,7 +204,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Amp"
+        text: ZTR["Amp"]
         textColor: GC.system1ColorBright
         font.bold: true
       }
@@ -213,7 +212,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Phase"
+        text: ZTR["Phase"]
         textColor: GC.system1ColorBright
         font.bold: true
       }
@@ -221,7 +220,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Amp"
+        text: ZTR["Amp"]
         textColor: GC.system2ColorBright
         font.bold: true
       }
@@ -229,7 +228,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Phase"
+        text: ZTR["Phase"]
         textColor: GC.system2ColorBright
         font.bold: true
       }
@@ -237,7 +236,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Amp"
+        text: ZTR["Amp"]
         textColor: GC.system3ColorBright
         font.bold: true
       }
@@ -245,7 +244,7 @@ Item {
         width: root.columnWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Phase"
+        text: ZTR["Phase"]
         textColor: GC.system3ColorBright
         font.bold: true
       }
