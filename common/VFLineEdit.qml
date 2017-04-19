@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Controls 2.0
+import GlobalConfig 1.0
 
 Item {
   id: root
@@ -16,34 +17,35 @@ Item {
 
   property bool m_alteredValue: (Math.abs(tInput.text - entity[controlPropertyName]) >=  Math.pow(10, -root.validator.decimals))
 
+  function confirmInput() {
+    if(tInput.text !== root.text && tInput.acceptableInput && root.validator)
+    {
+      if(root.validator.decimals > 0)
+      {
+        tInput.text = GC.formatNumber(tInput.text, root.validator.decimals)
+        tInput.text = tInput.text.replace(/(\.)?0*$/,"") //replace empty fractions and trailing zeroes
+      }
+
+      root.entity[root.controlPropertyName] = parseFloat(tInput.text)
+    }
+    else
+    {
+      root.entity[root.controlPropertyName] = tInput.text
+    }
+  }
+
   Item {
     property var intermediateValue: root.entity[root.controlPropertyName]
     onIntermediateValueChanged: {
       var tmpValue = intermediateValue
       if(root.validator.decimals > 0)
       {
-        tmpValue = fixedNumber(tmpValue, root.validator.decimals)
+        tmpValue = GC.formatNumber(tmpValue, root.validator.decimals)
         tmpValue = tmpValue.replace(/(\.)?0*$/,"") //replace empty fractions and trailing zeroes
       }
       tInput.text = tmpValue
       root.text = tmpValue
     }
-  }
-
-  function fixedNumber(num, decimalPlaces) {
-    var retVal;
-    var sign = "";
-    if(num>=0)
-    {
-      retVal = Math.abs(Math.floor(num*Math.pow(10, parseInt(decimalPlaces)))/Math.pow(10, parseInt(decimalPlaces)))
-    }
-    else
-    {
-      sign = "-"
-      retVal = Math.abs(Math.ceil(num*Math.pow(10, parseInt(decimalPlaces)))/Math.pow(10, parseInt(decimalPlaces)))
-    }
-
-    return sign+retVal.toFixed(decimalPlaces);
   }
 
   Rectangle {
@@ -53,7 +55,7 @@ Item {
     anchors.right: acceptButton.left
     anchors.rightMargin: 8
 
-    radius: height
+    radius: height/4
     border.color: Material.frameColor
     border.width: 1.5
     color: root.m_alteredValue ? (tInput.acceptableInput ? Material.primaryColor : Material.backgroundDimColor) : "transparent"
@@ -69,6 +71,10 @@ Item {
 
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
+      onAccepted: {
+        focus = false
+        confirmInput()
+      }
 
       color: Material.primaryTextColor
     }
@@ -92,20 +98,7 @@ Item {
 
     onClicked: {
       focus = true
-      if(tInput.text !== root.text && tInput.acceptableInput)
-      {
-        if(root.validator && root.validator.decimals===0)
-        {
-          tInput.text = parseInt(tInput.text)
-        }
-        else if(root.validator.decimals > 0)
-        {
-          tInput.text = fixedNumber(tInput.text, root.validator.decimals)
-          tInput.text = tInput.text.replace(/(\.)?0*$/,"") //replace empty fractions and trailing zeroes
-        }
-
-        root.entity[root.controlPropertyName] = tInput.text
-      }
+      confirmInput()
     }
     enabled: tInput.acceptableInput
   }
