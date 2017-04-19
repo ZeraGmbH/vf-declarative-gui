@@ -39,6 +39,7 @@ CCMP.ModulePage {
         color: GC.tableShadeColor
         text: "P1"
         textColor: GC.system1ColorDark
+        textHorizontalAlignment: Label.AlignHCenter
         font.pixelSize: rowHeight
         font.bold: true
       }
@@ -47,6 +48,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         text: "P2"
+        textHorizontalAlignment: Label.AlignHCenter
         textColor: GC.system2ColorDark
         font.pixelSize: rowHeight
         font.bold: true
@@ -56,6 +58,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         text: "P3"
+        textHorizontalAlignment: Label.AlignHCenter
         textColor: GC.system3ColorDark
         font.pixelSize: rowHeight
         font.bold: true
