@@ -48,7 +48,7 @@ ListModel {
     elementValue: "qrc:/pages/BurdenModulePage.qml"
   }
   ListElement {
-    name: "Burden values"
+    name: "Transformer values"
     icon: "qrc:/data/staticdata/resources/appicon.png"
     elementValue: "qrc:/pages/TransformerModulePage.qml"
   }
