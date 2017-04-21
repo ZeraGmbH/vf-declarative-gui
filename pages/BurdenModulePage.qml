@@ -152,10 +152,7 @@ CCMP.ModulePage {
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L2 ? GC.formatNumber(L2) : ""
             textColor: GC.system2ColorDark
-            font.pixelSize: height*0.65
-            fontSizeMode: Text.HorizontalFit
             font.bold: index === 0
-            font.family: "Droid Sans Mono"
           }
           CCMP.GridItem {
             width: root.columnWidth

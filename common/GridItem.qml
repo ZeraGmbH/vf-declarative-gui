@@ -4,8 +4,6 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 
 GridRect {
-  color: Material.backgroundColor
-
   property alias text: itemLabel.text
   property alias textColor: itemLabel.color
   property alias textFormat: itemLabel.textFormat
