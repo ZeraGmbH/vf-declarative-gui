@@ -165,322 +165,130 @@ CCMP.ModulePage {
 
     //Header
     Row {
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "Name"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "Name"
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.35
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "TR1"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "TR1"
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.15
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "[ ]"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "[ ]"
+        font.bold: true
       }
     }
 
     //Transformer Ratio
     Row {
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "X-Ratio"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "X-Ratio"
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.35
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: GC.formatNumber(transformerModule.ACT_Ratio1)
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: GC.formatNumber(transformerModule.ACT_Ratio1)
       }
       CCMP.GridRect {
         width: root.width*0.15
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: ""
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
       }
     }
 
     //Transformer Error
     Row {
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "X-ε"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "X-ε"
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.35
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: GC.formatNumber(transformerModule.ACT_Error1)
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: GC.formatNumber(transformerModule.ACT_Error1)
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.15
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: "%"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "%"
       }
     }
 
     //Transformer angle in degree
     Row {
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "X-δ"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "X-δ"
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.35
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: GC.formatNumber(transformerModule.ACT_Angle1)
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: GC.formatNumber(transformerModule.ACT_Angle1)
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.15
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: transformerIntrospection.ComponentInfo.ACT_Angle1.Unit;
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: transformerIntrospection.ComponentInfo.ACT_Angle1.Unit;
       }
     }
 
     //Transformer angle in centirad
     Row {
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "X-δ"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "X-δ"
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.35
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: GC.formatNumber(100 * transformerModule.ACT_Angle1 * Math.PI/180)
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: GC.formatNumber(100 * transformerModule.ACT_Angle1 * Math.PI/180)
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.15
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: ZTR["crad"];
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: ZTR["crad"];
       }
     }
 
     //Transformer angle in arcminutes
     Row {
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        Label {
-          text: "X-δ"
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.bold: true
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: "X-δ"
+        font.bold: true
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.35
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: GC.formatNumber(transformerModule.ACT_Angle1*60)
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: GC.formatNumber(transformerModule.ACT_Angle1*60)
       }
-      CCMP.GridRect {
+      CCMP.GridItem {
         width: root.width*0.15
         height: root.rowHeight
-        color: Material.backgroundColor
-        Label {
-          text: ZTR["arcmin"];
-          anchors.fill: parent
-          anchors.rightMargin: 8
-          font.pixelSize: height*0.65
-          fontSizeMode: Text.HorizontalFit
-          font.family: "Droid Sans Mono"
-          horizontalAlignment: Text.AlignRight
-          verticalAlignment: Text.AlignVCenter
-          textFormat: Text.PlainText
-        }
+        text: ZTR["arcmin"];
       }
     }
   }
