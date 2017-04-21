@@ -277,7 +277,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: AmplitudeL1 ? GC.formatNumber(AmplitudeL1, 3) : ""
             textColor: GC.system1ColorDark
             font.pixelSize: rowHeight*0.5
@@ -285,7 +284,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: VectorL1 ? GC.formatNumber(VectorL1, 3) : ""
             textColor: GC.system1ColorDark
             font.pixelSize: rowHeight*0.5
@@ -293,7 +291,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: AmplitudeL2 ? GC.formatNumber(AmplitudeL2, 3) : ""
             textColor: GC.system2ColorDark
             font.pixelSize: rowHeight*0.5
@@ -301,7 +298,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: VectorL2 ? GC.formatNumber(VectorL2, 3) : ""
             textColor: GC.system2ColorDark
             font.pixelSize: rowHeight*0.5
@@ -309,7 +305,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: AmplitudeL3 ? GC.formatNumber(AmplitudeL3, 3) : ""
             textColor: GC.system3ColorDark
             font.pixelSize: rowHeight*0.5
@@ -317,7 +312,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: VectorL3 ? GC.formatNumber(VectorL3, 3) : ""
             textColor: GC.system3ColorDark
             font.pixelSize: rowHeight*0.5
@@ -325,7 +319,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: AmplitudeL4 ? GC.formatNumber(AmplitudeL4, 3) : ""
             textColor: GC.system1ColorBright
             font.pixelSize: rowHeight*0.5
@@ -333,7 +326,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: VectorL4 ? GC.formatNumber(VectorL4, 3) : ""
             textColor: GC.system1ColorBright
             font.pixelSize: rowHeight*0.5
@@ -341,7 +333,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: AmplitudeL5 ? GC.formatNumber(AmplitudeL5, 3) : ""
             textColor: GC.system2ColorBright
             font.pixelSize: rowHeight*0.5
@@ -349,7 +340,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: VectorL5 ? GC.formatNumber(VectorL5, 3) : ""
             textColor: GC.system2ColorBright
             font.pixelSize: rowHeight*0.5
@@ -357,7 +347,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: AmplitudeL6 ? GC.formatNumber(AmplitudeL6, 3) : ""
             textColor: GC.system3ColorBright
             font.pixelSize: rowHeight*0.5
@@ -365,7 +354,6 @@ Item {
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
-            color: Material.backgroundColor
             text: VectorL6 ? GC.formatNumber(VectorL6, 3) : ""
             textColor: GC.system3ColorBright
             font.pixelSize: rowHeight*0.5
