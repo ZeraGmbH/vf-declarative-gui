@@ -15,12 +15,12 @@ Loader {
       id: root
       width: invisibleRoot.width
       height: invisibleRoot.height
-      property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+      property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount //@todo readonly?
       readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
       property int contentWidth: root.width/(root.channelCount/2)*0.9
 
-      property int rangeGrouping: rangeModule.PAR_ChannelGrouping
+      property int rangeGrouping: rangeModule.PAR_ChannelGrouping //@todo readonly?
 
       signal sigOverloadHintClicked();
 

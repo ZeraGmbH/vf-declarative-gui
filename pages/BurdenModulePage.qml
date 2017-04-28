@@ -135,14 +135,14 @@ CCMP.ModulePage {
             width: root.columnWidth*0.7
             height: root.rowHeight
             color: GC.tableShadeColor
-            text: Name ? Name : ""
+            text: Name!==undefined ? Name : ""
             font.bold: true
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L1 ? GC.formatNumber(L1) : ""
+            text: L1!==undefined ? GC.formatNumber(L1) : ""
             textColor: GC.system1ColorDark
             font.bold: index === 0
           }
@@ -150,7 +150,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L2 ? GC.formatNumber(L2) : ""
+            text: L2!==undefined ? GC.formatNumber(L2) : ""
             textColor: GC.system2ColorDark
             font.bold: index === 0
           }
@@ -158,7 +158,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L3 ? GC.formatNumber(L3) : ""
+            text: L3!==undefined ? GC.formatNumber(L3) : ""
             textColor: GC.system3ColorDark
             font.bold: index === 0
           }
@@ -166,7 +166,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L4 ? GC.formatNumber(L4) : ""
+            text: L4!==undefined ? GC.formatNumber(L4) : ""
             textColor: GC.system4ColorDark
             font.bold: index === 0
           }
