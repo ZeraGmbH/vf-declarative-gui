@@ -106,7 +106,7 @@ Item {
         font.pixelSize: Math.max(height/2, 16)
         implicitHeight: root.height*0.8
         implicitWidth: implicitHeight
-
+        highlighted: true
         //only enable the button if the value is different from the remote
         enabled: intermediateValue !== valueSpinBox.realValue
 
