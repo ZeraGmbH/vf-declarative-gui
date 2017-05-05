@@ -917,6 +917,7 @@ class Com5003GlueLogicPrivate
     LambdaModule = 1015,
     Burden1Module = 1016,
     Burden2Module = 1017,
+    //Transformer1Module = 1018,
     //ScpiModule = 9999,
   };
 
