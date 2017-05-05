@@ -22,133 +22,189 @@ CCMP.ModulePage {
     anchors.right: parent.right
     height: root.height/3
 
+    RegExpValidator {
+      id: inputValidator
+      //match floating point numbers with 7 decimal places between 1e-6 to 1e+6
+      regExp: /\-?[0-9]+(\.[0-9]+)?([eE][\+\-]?[0-6])?/;
+      readonly property int decimals: 15
+      readonly property real top: 1.0e+6;
+      readonly property real bottom: 1.0e-6;
+    }
+
 
     model: VisualItemModel {
       Column {
         Item {
           width: root.width
           height: root.rowHeight*1.5
-          VFControls.VFSpinBox {
-            height: root.rowHeight*1.5;
+
+
+          RowLayout {
+            height: root.rowHeight;
             width: root.width/2 - 8;
-            anchors.left: parent.left
-
-            intermediateValue: transformerModule.PAR_PrimClampPrim
-            text: ZTR["Mp-Prim:"]
-            onOutValueChanged: {
-              transformerModule.PAR_PrimClampPrim = Number(outValue)
+            spacing: 16
+            Label {
+              text: ZTR["Mp-Prim:"]
+              height: root.rowHeight
+              anchors.verticalCenter: parent.verticalCenter
+              font.pixelSize: Math.max(height/2, 20)
+              Layout.preferredWidth: 100
             }
+            VFControls.VFLineEdit {
+              height: root.rowHeight;
+              Layout.fillWidth: true
 
-            CCMP.SpinBoxIntrospection {
-              unit: transformerIntrospection.ComponentInfo.PAR_PrimClampPrim.Unit;
-              upperBound: transformerIntrospection.ComponentInfo.PAR_PrimClampPrim.Validation.Data[1];
-              lowerBound: transformerIntrospection.ComponentInfo.PAR_PrimClampPrim.Validation.Data[0];
-              stepSize: transformerIntrospection.ComponentInfo.PAR_PrimClampPrim.Validation.Data[2];
-              Component.onCompleted: parent.introspection = this
+              inputMethodHints: Qt.ImhPreferNumbers
+
+              entity: root.transformerModule
+              controlPropertyName: "PAR_PrimClampPrim"
+              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+              validator: inputValidator
             }
           }
-          VFControls.VFSpinBox {
-            height: root.rowHeight*1.5;
-            width: root.width/2;
+
+          RowLayout {
+            height: root.rowHeight;
+            width: root.width/2 - 8;
             anchors.right: parent.right
+            spacing: 16
 
-            intermediateValue: transformerModule.PAR_PrimClampSec
-            text: ZTR["Mp-Sec:"]
-            onOutValueChanged: {
-              transformerModule.PAR_PrimClampSec = Number(outValue)
+            Label {
+              text: ZTR["Mp-Sec:"]
+              height: root.rowHeight
+              anchors.verticalCenter: parent.verticalCenter
+              font.pixelSize: Math.max(height/2, 20)
+              Layout.preferredWidth: 100
             }
+            VFControls.VFLineEdit {
+              height: root.rowHeight;
+              Layout.fillWidth: true
 
-            CCMP.SpinBoxIntrospection {
-              unit: transformerIntrospection.ComponentInfo.PAR_PrimClampSec.Unit;
-              upperBound: transformerIntrospection.ComponentInfo.PAR_PrimClampSec.Validation.Data[1];
-              lowerBound: transformerIntrospection.ComponentInfo.PAR_PrimClampSec.Validation.Data[0];
-              stepSize: transformerIntrospection.ComponentInfo.PAR_PrimClampSec.Validation.Data[2];
-              Component.onCompleted: parent.introspection = this
+              inputMethodHints: Qt.ImhPreferNumbers
+
+              entity: root.transformerModule
+              controlPropertyName: "PAR_PrimClampSec"
+              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+              validator: inputValidator
             }
           }
         }
         Item {
           width: root.width
           height: root.rowHeight*1.5
-          VFControls.VFSpinBox {
-            height: root.rowHeight*1.5;
-            width: root.width/2 - 8;
-            anchors.left: parent.left
 
-            intermediateValue: transformerModule.PAR_DutPrimary
-            text: ZTR["X-Prim:"]
-            onOutValueChanged: {
-              transformerModule.PAR_DutPrimary = Number(outValue)
+
+          RowLayout {
+            height: root.rowHeight;
+            width: root.width/2 - 8;
+            spacing: 16
+            Label {
+              text: ZTR["X-Prim:"]
+              height: root.rowHeight
+              anchors.verticalCenter: parent.verticalCenter
+              font.pixelSize: Math.max(height/2, 20)
+              Layout.preferredWidth: 100
             }
 
-            CCMP.SpinBoxIntrospection {
-              unit: transformerIntrospection.ComponentInfo.PAR_DutPrimary.Unit;
-              upperBound: transformerIntrospection.ComponentInfo.PAR_DutPrimary.Validation.Data[1];
-              lowerBound: transformerIntrospection.ComponentInfo.PAR_DutPrimary.Validation.Data[0];
-              stepSize: transformerIntrospection.ComponentInfo.PAR_DutPrimary.Validation.Data[2];
-              Component.onCompleted: parent.introspection = this
+            VFControls.VFLineEdit {
+              height: root.rowHeight;
+              Layout.fillWidth: true
+
+              inputMethodHints: Qt.ImhPreferNumbers
+
+              entity: root.transformerModule
+              controlPropertyName: "PAR_DutPrimary"
+              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+              validator: inputValidator
+
             }
           }
 
-          VFControls.VFSpinBox {
-            height: root.rowHeight*1.5;
+          RowLayout {
+            height: root.rowHeight;
             width: root.width/2 - 8;
             anchors.right: parent.right
+            spacing: 16
 
-            intermediateValue: transformerModule.PAR_DutSecondary
-            text: ZTR["X-Sec:"]
-            onOutValueChanged: {
-              transformerModule.PAR_DutSecondary = Number(outValue)
+            Label {
+              text: ZTR["X-Sec:"]
+              height: root.rowHeight
+              anchors.verticalCenter: parent.verticalCenter
+              font.pixelSize: Math.max(height/2, 20)
+              Layout.preferredWidth: 100
             }
+            VFControls.VFLineEdit {
+              height: root.rowHeight;
+              Layout.fillWidth: true
 
-            CCMP.SpinBoxIntrospection {
-              unit: transformerIntrospection.ComponentInfo.PAR_DutSecondary.Unit;
-              upperBound: transformerIntrospection.ComponentInfo.PAR_DutSecondary.Validation.Data[1];
-              lowerBound: transformerIntrospection.ComponentInfo.PAR_DutSecondary.Validation.Data[0];
-              stepSize: transformerIntrospection.ComponentInfo.PAR_DutSecondary.Validation.Data[2];
-              Component.onCompleted: parent.introspection = this
+              inputMethodHints: Qt.ImhPreferNumbers
+
+              entity: root.transformerModule
+              controlPropertyName: "PAR_DutSecondary"
+              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+              validator: inputValidator
             }
           }
         }
         Item {
           width: root.width
           height: root.rowHeight*1.5
-          VFControls.VFSpinBox {
-            height: root.rowHeight*1.5;
-            width: root.width/2 - 8;
-            anchors.left: parent.left
 
-            intermediateValue: transformerModule.PAR_SecClampPrim
-            text: ZTR["Ms-Prim:"]
-            onOutValueChanged: {
-              transformerModule.PAR_SecClampPrim = Number(outValue)
+
+          RowLayout {
+            height: root.rowHeight;
+            width: root.width/2 - 8;
+            spacing: 16
+            Label {
+              text: ZTR["Ms-Prim:"]
+              height: root.rowHeight
+              anchors.verticalCenter: parent.verticalCenter
+              font.pixelSize: Math.max(height/2, 20)
+              Layout.preferredWidth: 100
             }
 
-            CCMP.SpinBoxIntrospection {
-              unit: transformerIntrospection.ComponentInfo.PAR_SecClampPrim.Unit;
-              upperBound: transformerIntrospection.ComponentInfo.PAR_SecClampPrim.Validation.Data[1];
-              lowerBound: transformerIntrospection.ComponentInfo.PAR_SecClampPrim.Validation.Data[0];
-              stepSize: transformerIntrospection.ComponentInfo.PAR_SecClampPrim.Validation.Data[2];
-              Component.onCompleted: parent.introspection = this
+            VFControls.VFLineEdit {
+              height: root.rowHeight;
+              Layout.fillWidth: true
+
+              inputMethodHints: Qt.ImhPreferNumbers
+
+              entity: root.transformerModule
+              controlPropertyName: "PAR_SecClampPrim"
+              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+              validator: inputValidator
             }
           }
-          VFControls.VFSpinBox {
-            height: root.rowHeight*1.5;
+
+          RowLayout {
+            height: root.rowHeight;
             width: root.width/2 - 8;
             anchors.right: parent.right
+            spacing: 16
 
-            intermediateValue: transformerModule.PAR_SecClampSec
-            text: ZTR["Ms-Sec:"]
-            onOutValueChanged: {
-              transformerModule.PAR_SecClampSec = Number(outValue)
+            Label {
+              text: ZTR["Ms-Sec:"]
+              height: root.rowHeight
+              anchors.verticalCenter: parent.verticalCenter
+              font.pixelSize: Math.max(height/2, 20)
+              Layout.preferredWidth: 100
             }
+            VFControls.VFLineEdit {
+              height: root.rowHeight;
+              Layout.fillWidth: true
 
-            CCMP.SpinBoxIntrospection {
-              unit: transformerIntrospection.ComponentInfo.PAR_SecClampSec.Unit;
-              upperBound: transformerIntrospection.ComponentInfo.PAR_SecClampSec.Validation.Data[1];
-              lowerBound: transformerIntrospection.ComponentInfo.PAR_SecClampSec.Validation.Data[0];
-              stepSize: transformerIntrospection.ComponentInfo.PAR_SecClampSec.Validation.Data[2];
-              Component.onCompleted: parent.introspection = this
+              inputMethodHints: Qt.ImhPreferNumbers
+
+              entity: root.transformerModule
+              controlPropertyName: "PAR_SecClampSec"
+              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+              validator: inputValidator
             }
           }
         }
