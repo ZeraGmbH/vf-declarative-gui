@@ -36,6 +36,7 @@ ApplicationWindow {
   onErrorMessagesChanged: {
     if(errorMessages.length > 0)
     {
+      startupStatusLabel.visible = false;
       messageNotificationIndicator.newErrors = true;
     }
   }
@@ -246,7 +247,7 @@ ApplicationWindow {
       anchors.top: parent.top
       anchors.bottom: controlsBar.top
       anchors.margins: 8
-      currentIndex: displayWindow.currentSession !== "" ? 0 : 3
+      currentIndex: displayWindow.currentSession !== "" ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutNotificationsIndex
 
       QtObject {
         id: layoutStackEnum
