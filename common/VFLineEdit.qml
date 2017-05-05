@@ -11,63 +11,61 @@ Item {
   onValidatorChanged: tInput.validator = validator
 
   property string text: ""
+  property string unit: ""
   onTextChanged: tInput.text = text
   property QtObject entity
   property string controlPropertyName
 
-  property bool m_alteredValue: (Math.abs(tInput.text - entity[controlPropertyName]) >=  Math.pow(10, -root.validator.decimals))
+  readonly property bool m_alteredValue: (Math.abs(parseFloat(tInput.text) - entity[controlPropertyName]) >=  Math.pow(10, -root.validator.decimals))
+
+  readonly property bool acceptableInput: tInput.acceptableInput && (!validator || (validator.top>=parseFloat(tInput.text) && validator.bottom<=parseFloat(tInput.text)))
 
   function confirmInput() {
-    if(tInput.text !== root.text && tInput.acceptableInput && root.validator)
+    if(tInput.text !== root.text && root.acceptableInput)
     {
-      if(root.validator.decimals > 0)
+      if(root.validator)
       {
-        tInput.text = GC.formatNumber(tInput.text, root.validator.decimals)
-        tInput.text = tInput.text.replace(/(\.)?0*$/,"") //replace empty fractions and trailing zeroes
+        root.entity[root.controlPropertyName] = parseFloat(tInput.text)
       }
-
-      root.entity[root.controlPropertyName] = parseFloat(tInput.text)
-    }
-    else
-    {
-      root.entity[root.controlPropertyName] = tInput.text
+      else
+      {
+        root.entity[root.controlPropertyName] = tInput.text
+      }
     }
   }
 
   Item {
     property var intermediateValue: root.entity[root.controlPropertyName]
     onIntermediateValueChanged: {
-      var tmpValue = intermediateValue
-      if(root.validator.decimals > 0)
-      {
-        tmpValue = GC.formatNumber(tmpValue, root.validator.decimals)
-        tmpValue = tmpValue.replace(/(\.)?0*$/,"") //replace empty fractions and trailing zeroes
-      }
-      tInput.text = tmpValue
-      root.text = tmpValue
+      tInput.text = intermediateValue
+      root.text = intermediateValue
     }
   }
 
-  Rectangle {
+  Item {
     anchors.left: parent.left
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    anchors.right: acceptButton.left
+    anchors.right: unitLabel.left
     anchors.rightMargin: 8
 
-    radius: height/4
-    border.color: Material.frameColor
-    border.width: 1.5
-    color: root.m_alteredValue ? (tInput.acceptableInput ? Material.primaryColor : Material.backgroundDimColor) : "transparent"
+    //radius: height/4
+    //border.color: Material.frameColor
+    //border.width: 1.5
+    //color: root.m_alteredValue ? (root.acceptableInput ? Material.primaryColor : Material.backgroundDimColor) : "transparent"
 
-    TextInput {
+    TextField {
       id: tInput
       anchors.fill: parent
+      anchors.bottomMargin: -8
       anchors.leftMargin: height/4
       anchors.rightMargin: height/4
       horizontalAlignment: Text.AlignRight
-      verticalAlignment: Text.AlignVCenter
-      font.pixelSize: Math.max(height/2, 20)
+      implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
+                               background ? background.implicitHeight : 0)
+
+
+      font.pixelSize: Math.max(height/2, 16)
 
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
@@ -79,10 +77,19 @@ Item {
       color: Material.primaryTextColor
     }
   }
+  Label {
+    id: unitLabel
+    text: unit
+    height: parent.height
+    font.pixelSize: Math.max(height/2, 20)
+    anchors.right: acceptButton.left
+    anchors.rightMargin: 8
+    verticalAlignment: Text.AlignVCenter
+  }
+
   Button {
     id: acceptButton
     text: "\u2713" //unicode checkmark
-    onTextChanged: console.log(text)
     font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
@@ -100,7 +107,7 @@ Item {
       focus = true
       confirmInput()
     }
-    enabled: tInput.acceptableInput
+    enabled: root.acceptableInput
   }
   Button {
     id: resetButton
