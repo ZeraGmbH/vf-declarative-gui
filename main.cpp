@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
   //VeinLogger::PostgresDatabase pgDatabase;
 
   //VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-  std::unique_ptr<VeinEvent::EventHandler> evHandler(new VeinEvent::EventHandler(&app));
+  VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
   Com5003GlueLogic *glueLogicSystem = new Com5003GlueLogic(&app);
   VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
   VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
@@ -162,5 +162,16 @@ int main(int argc, char *argv[])
     glueLogicSystem->startIntrospection();
   });
 
+  QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
+    engine.quit();
+    evHandler->clearSubsystems();
+    evHandler->deleteLater();
+    //the qmlengine will delete the qmlApi
+    subSystems.removeAll(qmlApi);
+    for(VeinEvent::EventSystem *toDelete : subSystems) {
+      toDelete->deleteLater();
+    }
+    subSystems.clear();
+  });
   return app.exec();
 }
