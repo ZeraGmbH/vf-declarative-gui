@@ -44,12 +44,12 @@ ListModel {
   }
   ListElement {
     name: "Burden values"
-    icon: "qrc:/data/staticdata/resources/appicon.png"
+    icon: "qrc:/data/staticdata/resources/burden.png"
     elementValue: "qrc:/pages/BurdenModulePage.qml"
   }
   ListElement {
     name: "Transformer values"
-    icon: "qrc:/data/staticdata/resources/appicon.png"
+    icon: "qrc:/data/staticdata/resources/transformer.png"
     elementValue: "qrc:/pages/TransformerModulePage.qml"
   }
 }

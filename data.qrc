@@ -21,5 +21,7 @@
         <file>staticdata/resources/ced_power_values.png</file>
         <file>staticdata/resources/appicon.png</file>
         <file>settings.json</file>
+        <file>staticdata/resources/transformer.png</file>
+        <file>staticdata/resources/burden.png</file>
     </qresource>
 </RCC>
