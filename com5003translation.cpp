@@ -4,8 +4,6 @@
 #include <QApplication>
 #include <QDebug>
 
-#define trInsert(TRX) insert(TRX, tr(TRX))
-
 Com5003Translation::Com5003Translation(QObject *parent) : QQmlPropertyMap(this, parent)
 {
 
@@ -275,23 +273,23 @@ void Com5003Translation::reloadStringTable()
   insert("Device notifications", tr("Device notifications"));
 
   //LoggerSettings.qml
-  trInsert("Database Logging");
-  trInsert("Logging enabled:");
-  trInsert("Database file:");
-  trInsert("Filesystem info:");
-  trInsert("Device name: <b>%1</b>");
-  trInsert("Filesystem type: <b>%1</b>");
-  trInsert("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)");
-  trInsert("Scheduled logging enabled:");
-  trInsert("Logging Duration:");
-  trInsert("Logger status:");
-  trInsert("Logging data");
-  trInsert("Logging disabled");
-  trInsert("Database loaded");
-  trInsert("Database error");
-  trInsert("Database file info:");
-  trInsert("Database mimetype: <b>%1</b>");
-  trInsert("Database size: <b>%1MB</b>");
+  insert("Database Logging", tr("Database Logging"));
+  insert("Logging enabled:", tr("Logging enabled:"));
+  insert("Database file:", tr("Database file:"));
+  insert("Filesystem info:", tr("Filesystem info:"));
+  insert("Device name: <b>%1</b>", tr("Device name: <b>%1</b>"));
+  insert("Filesystem type: <b>%1</b>", tr("Filesystem type: <b>%1</b>"));
+  insert("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)", tr("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)"));
+  insert("Scheduled logging enabled:", tr("Scheduled logging enabled:"));
+  insert("Logging Duration:", tr("Logging Duration:"));
+  insert("Logger status:", tr("Logger status:"));
+  insert("Logging data", tr("Logging data"));
+  insert("Logging disabled", tr("Logging disabled"));
+  insert("Database loaded", tr("Database loaded"));
+  insert("Database error", tr("Database error"));
+  insert("Database file info:", tr("Database file info:"));
+  insert("Database mimetype: <b>%1</b>", tr("Database mimetype: <b>%1</b>"));
+  insert("Database size: <b>%1MB</b>", tr("Database size: <b>%1MB</b>"));
 }
 
 QVariant Com5003Translation::updateValue(const QString &key, const QVariant &input)
