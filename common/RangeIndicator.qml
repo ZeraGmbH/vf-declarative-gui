@@ -30,19 +30,12 @@ Loader {
         opacity: 0.2
       }
 
-      MouseArea {
+      Item {
         anchors.right: parent.right
-        anchors.rightMargin: -root.contentWidth/100
+        anchors.rightMargin: -4
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        //enabled: rangeModule.PAR_Overload === 1
         width: height*1.3
-        onClicked: {
-          if(rangeModule.PAR_Overload === 1)
-          {
-            sigOverloadHintClicked()
-          }
-        }
 
         Label {
           anchors.centerIn: parent

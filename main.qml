@@ -360,20 +360,21 @@ ApplicationWindow {
         }
         ToolButton {
           implicitHeight: parent.height
-          width: controlsBar.width/3
+          implicitWidth: rangeIndicator.width
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
+          enabled: displayWindow.currentSession !== ""
+          onClicked: {
+            if(rangeIndicator.active === true)
+            {
+              layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
+            }
+          }
 
           CCMP.RangeIndicator {
             id: rangeIndicator
-            width: controlsBar.width/3
+            width: Math.ceil(displayWindow.width/3)
             height: controlsBar.height
             active: false
-            Connections {
-              target: rangeIndicator.item
-              ignoreUnknownSignals: true
-              onSigOverloadHintClicked: {
-                layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
-              }
-            }
           }
         }
 
