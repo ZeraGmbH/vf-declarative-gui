@@ -12,12 +12,12 @@ Item {
   property VisualItemModel model;
   property int rowHeight: height/10
   property int rowWidth: sView.width-sView.anchors.leftMargin
+  property alias viewAnchors: sView.anchors
 
   ListView {
     id: sView
     clip: true
     anchors.fill: parent
-
     model: root.model
     boundsBehavior: Flickable.StopAtBounds
     ScrollIndicator.vertical: ScrollIndicator {

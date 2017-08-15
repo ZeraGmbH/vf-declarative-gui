@@ -161,8 +161,8 @@ CCMP.ModulePage {
   PhasorDiagram {
     anchors.fill: parent
 
-    fromX: width/2
-    fromY: height/2
+    fromX: Math.floor(width/2)
+    fromY: Math.floor(height/2)
 
     vector1Color: GC.system1ColorDark
     vector2Color: GC.system2ColorDark

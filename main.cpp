@@ -11,9 +11,6 @@
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
-//#include <vl_databaselogger.h>
-//#include <vl_postgresdatabase.h>
-
 #include <memory>
 
 #include "fpscounter.h"
@@ -76,18 +73,13 @@ int main(int argc, char *argv[])
   engine.rootContext()->setContextProperty("OS_TYPE", "linux");
 #endif //Q_OS_ANDROID
 
-  //VeinLogger::PostgresDatabase pgDatabase;
-
-  //VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
   VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
   Com5003GlueLogic *glueLogicSystem = new Com5003GlueLogic(&app);
   VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
   VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
   VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
-  //VeinLogger::DataLogger *dataLogger = new VeinLogger::DataLogger(&app);
 
   VeinApiQml::VeinQml::setStaticInstance(qmlApi);
-  //dataLogger->setDatabase(&pgDatabase);
   QList<VeinEvent::EventSystem*> subSystems;
 
   QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
@@ -118,7 +110,6 @@ int main(int argc, char *argv[])
   subSystems.append(netSystem);
   subSystems.append(tcpSystem);
   subSystems.append(qmlApi);
-  //subSystems.append(dataLogger);
 
   evHandler->setSubsystems(subSystems);
 

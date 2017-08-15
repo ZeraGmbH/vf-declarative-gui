@@ -918,6 +918,7 @@ class Com5003GlueLogicPrivate
     Burden1Module = 1016,
     Burden2Module = 1017,
     //Transformer1Module = 1018,
+    //AdjustmentModule = 9998,
     //ScpiModule = 9999,
   };
 
@@ -1058,7 +1059,6 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
             }
             if(Q_UNLIKELY(burdenMapping != nullptr)) //rms values
             {
-
               retVal = true;
               d_ptr->handleBurden1Values(burdenMapping, cmpData);
               d_ptr->handleBurden2Values(burdenMapping, cmpData);

@@ -37,11 +37,14 @@
         <file>common/SpinBoxIntrospection.qml</file>
         <file>common/RangeIndicator.qml</file>
         <file>common/GridItem.qml</file>
+        <file>common/LoggerSettings.qml</file>
+        <file>common/LoggerStorageSelector.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>
         <file>common/VFLineEdit.qml</file>
         <file>common/VFSwitch.qml</file>
         <file>common/VFSpinBox.qml</file>
+        <file>common/VFTextInput.qml</file>
     </qresource>
 </RCC>

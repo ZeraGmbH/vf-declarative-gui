@@ -14,7 +14,7 @@ CheckBox {
   }
 
   QtObject {
-    property bool intermediate: entity[controlPropertyName]
+    readonly property bool intermediate: entity[controlPropertyName]
     onIntermediateChanged: {
       if(root.checked !== intermediate)
       {

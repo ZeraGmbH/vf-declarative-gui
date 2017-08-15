@@ -4,6 +4,8 @@
 #include <QApplication>
 #include <QDebug>
 
+#define trInsert(TRX) insert(TRX, tr(TRX))
+
 Com5003Translation::Com5003Translation(QObject *parent) : QQmlPropertyMap(this, parent)
 {
 
@@ -272,6 +274,24 @@ void Com5003Translation::reloadStringTable()
   //Notifications.qml
   insert("Device notifications", tr("Device notifications"));
 
+  //LoggerSettings.qml
+  trInsert("Database Logging");
+  trInsert("Logging enabled:");
+  trInsert("Database file:");
+  trInsert("Filesystem info:");
+  trInsert("Device name: <b>%1</b>");
+  trInsert("Filesystem type: <b>%1</b>");
+  trInsert("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)");
+  trInsert("Scheduled logging enabled:");
+  trInsert("Logging Duration:");
+  trInsert("Logger status:");
+  trInsert("Logging data");
+  trInsert("Logging disabled");
+  trInsert("Database loaded");
+  trInsert("Database error");
+  trInsert("Database file info:");
+  trInsert("Database mimetype: <b>%1</b>");
+  trInsert("Database size: <b>%1MB</b>");
 }
 
 QVariant Com5003Translation::updateValue(const QString &key, const QVariant &input)

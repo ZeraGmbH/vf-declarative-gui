@@ -125,7 +125,7 @@ ApplicationWindow {
   onCurrentSessionChanged: {
     if(currentSession === "0_default-session.json") //rename to com5003-meas-session
     {
-      requiredIds = [0, 50, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018];
+      requiredIds = [0, 2, 50, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018];
     }
     else if(currentSession === "1_ref-session.json") //rename to com5003-ref-session
     {
@@ -257,6 +257,7 @@ ApplicationWindow {
         readonly property int layoutSettingsIndex: 2
         readonly property int layoutNotificationsIndex: 3
         readonly property int layoutStatusIndex: 4
+        readonly property int layoutLoggerIndex: 5
       }
       Loader {
         id: pageLoader
@@ -277,6 +278,10 @@ ApplicationWindow {
       Loader {
         sourceComponent: statusCmp
         active: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
+      }
+      Loader {
+        sourceComponent: loggerCmp
+        active: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex
       }
 
       //Pages.RemoteSelection {}
@@ -314,6 +319,10 @@ ApplicationWindow {
     Component {
       id: statusCmp
       CCMP.StatusView {}
+    }
+    Component {
+      id: loggerCmp
+      CCMP.LoggerSettings {}
     }
 
     ToolBar {
@@ -412,6 +421,18 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.rightMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
+          }
+        }
+        ToolButton {
+          implicitHeight: parent.height
+          implicitWidth: 64
+          font.family: "FontAwesome"
+          font.pixelSize: 24
+          text: FA.fa_download
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex;
+          enabled: displayWindow.currentSession !== ""
+          onClicked: {
+            layoutStack.currentIndex=layoutStackEnum.layoutLoggerIndex;
           }
         }
         ToolButton {
