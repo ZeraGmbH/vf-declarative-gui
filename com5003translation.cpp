@@ -11,18 +11,18 @@ Com5003Translation::Com5003Translation(QObject *parent) : QQmlPropertyMap(this, 
 
 void Com5003Translation::setStaticInstance(Com5003Translation *t_instance)
 {
-  if(g_instance == nullptr)
+  if(s_instance == nullptr)
   {
-    g_instance = t_instance;
+    s_instance = t_instance;
   }
 }
 
-QObject *Com5003Translation::getSingletonInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
+QObject *Com5003Translation::getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
 {
   Q_UNUSED(t_engine);
   Q_UNUSED(t_scriptEngine);
 
-  return g_instance;
+  return s_instance;
 }
 
 
@@ -255,8 +255,6 @@ void Com5003Translation::reloadStringTable()
   insert("Ethernet interface listen failed", tr("Ethernet interface listen failed"));
   insert("Serial interface not connected", tr("Serial interface not connected"));
 
-  insert("System started", tr("System started"));
-
   //StatusView.qml
   insert("Device info", tr("Device info"));
   insert("Serial number:", tr("Serial number:"));
@@ -299,4 +297,4 @@ QVariant Com5003Translation::updateValue(const QString &key, const QVariant &inp
   return value(key);
 }
 
-Com5003Translation *Com5003Translation::g_instance=nullptr;
+Com5003Translation *Com5003Translation::s_instance=nullptr;

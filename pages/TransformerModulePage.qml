@@ -6,13 +6,14 @@ import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
 import GlobalConfig 1.0
+import Com5003GlueLogic 1.0
 import Com5003Translation  1.0
 import ModuleIntrospection 1.0
 
 CCMP.ModulePage {
   id: root
 
-  readonly property QtObject glueLogic: VeinEntity.getEntity("Local.GlueLogic");
+  readonly property QtObject glueLogic: ZGL;
   readonly property QtObject transformerModule: VeinEntity.getEntity("Transformer1Module1")
   readonly property var transformerIntrospection: ModuleIntrospection.transformer1Introspection
   readonly property int rowHeight: Math.floor(height/14)

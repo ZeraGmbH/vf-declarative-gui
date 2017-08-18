@@ -1,4 +1,5 @@
 #include "com5003gluelogic.h"
+#include "gluelogicpropertymap.h"
 #include <QStandardItemModel>
 #include <QHash>
 #include <QPoint>
@@ -6,12 +7,6 @@
 
 #include <ve_commandevent.h>
 #include <vcmp_componentdata.h>
-#include <vcmp_entitydata.h>
-#include <vcmp_introspectiondata.h>
-
-//required for fake introspection of the glue logic entity
-#include <QJsonObject>
-#include <QJsonArray>
 
 //required for vector2d data type
 #include <QVector2D>
@@ -166,8 +161,9 @@ public:
 
 class Com5003GlueLogicPrivate
 {
-  Com5003GlueLogicPrivate(Com5003GlueLogic *t_public) :
+  Com5003GlueLogicPrivate(Com5003GlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap) :
     q_ptr(t_public),
+    m_propertyMap(t_propertyMap),
     m_actValueData(new ActualValueModel(14, 1, q_ptr)),
     m_burden1Data(new BurdenValueModel(7, 1, q_ptr)),
     m_burden2Data(new BurdenValueModel(7, 1, q_ptr)),
@@ -182,6 +178,7 @@ class Com5003GlueLogicPrivate
     setupBurdenMapping();
     setupOsciData();
     setupFftData();
+    setupPropertyMap();
   }
 
   ~Com5003GlueLogicPrivate()
@@ -208,32 +205,6 @@ class Com5003GlueLogicPrivate
     delete m_osciP3Data;
 
     delete m_fftTableData;
-  }
-
-  void setupIntrospection()
-  {
-    // only these component names are known in the QML context
-    QStringList componentNames;
-    componentNames.append(m_actualValueComponentName);
-    componentNames.append(m_burden1ComponentName);
-    componentNames.append(m_burden2ComponentName);
-    componentNames.append(m_osciP1ComponentName);
-    componentNames.append(m_osciP2ComponentName);
-    componentNames.append(m_osciP3ComponentName);
-    componentNames.append(m_fftTableModelComponentName);
-    componentNames.append("EntityName");
-
-    VeinComponent::IntrospectionData *newData=0;
-    QJsonObject tmpObject;
-    tmpObject.insert(QString("components"), QJsonArray::fromStringList(componentNames));
-    newData = new VeinComponent::IntrospectionData();
-    newData->setEntityId(m_entityId);
-    newData->setJsonData(tmpObject);
-    newData->setEventOrigin(VeinComponent::IntrospectionData::EventOrigin::EO_LOCAL);
-    newData->setEventTarget(VeinComponent::IntrospectionData::EventTarget::ET_LOCAL);
-
-    VeinEvent::CommandEvent *newEvent = new VeinEvent::CommandEvent(VeinEvent::CommandEvent::EventSubtype::NOTIFICATION, newData);
-    emit q_ptr->sigSendEvent(newEvent);
   }
 
   void setupActualTable()
@@ -582,13 +553,13 @@ class Com5003GlueLogicPrivate
    */
   QString getAvmNameById(int t_moduleId)
   {
-    switch(t_moduleId)
+    switch(static_cast<Modules>(t_moduleId))
     {
-      case static_cast<int>(Modules::Power1Module1):
+      case Modules::Power1Module1:
         return "P";
-      case static_cast<int>(Modules::Power1Module2):
+      case Modules::Power1Module2:
         return "Q";
-      case static_cast<int>(Modules::Power1Module3):
+      case Modules::Power1Module3:
         return "S";
       default:
         Q_ASSERT(false);
@@ -638,55 +609,6 @@ class Com5003GlueLogicPrivate
 
     tmpIndex = m_actValueData->index(8, 0);
     m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
-  }
-
-  bool handleFetchEvents(VeinEvent::EventData *t_evData, VeinEvent::CommandEvent *t_cEvent)
-  {
-    bool retVal=false;
-    VeinComponent::ComponentData *fetcherData = static_cast<VeinComponent::ComponentData *>(t_evData);
-    Q_ASSERT(fetcherData);
-
-    if(fetcherData->eventCommand() == VeinComponent::ComponentData::Command::CCMD_FETCH)
-    {
-      if(fetcherData->componentName() == m_actualValueComponentName)
-      {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_actValueData));
-      }
-      else if(fetcherData->componentName() == m_burden1ComponentName)
-      {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_burden1Data));
-      }
-      else if(fetcherData->componentName() == m_burden2ComponentName)
-      {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_burden2Data));
-      }
-      else if(fetcherData->componentName() == m_osciP1ComponentName)
-      {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_osciP1Data));
-      }
-      else if(fetcherData->componentName() == m_osciP2ComponentName)
-      {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_osciP2Data));
-      }
-      else if(fetcherData->componentName() == m_osciP3ComponentName)
-      {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_osciP3Data));
-      }
-      else if(fetcherData->componentName() == m_fftTableModelComponentName)
-      {
-        fetcherData->setNewValue(QVariant::fromValue<QObject *>(m_fftTableData));
-      }
-      else if(fetcherData->componentName() == "EntityName")
-      {
-        fetcherData->setNewValue(m_entityName);
-      }
-      fetcherData->setEventOrigin(VeinComponent::ComponentData::EventOrigin::EO_LOCAL);
-      fetcherData->setEventTarget(VeinComponent::ComponentData::EventTarget::ET_IRRELEVANT);
-      t_cEvent->setEventSubtype(VeinEvent::CommandEvent::EventSubtype::NOTIFICATION);
-
-      retVal = true;
-    }
-    return retVal;
   }
 
   bool handleActualValues(QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
@@ -853,7 +775,20 @@ class Com5003GlueLogicPrivate
     return retVal;
   }
 
+  void setupPropertyMap()
+  {
+    m_propertyMap->insert(Com5003GlueLogicPrivate::s_actualValueComponentName, QVariant::fromValue<QObject*>(m_actValueData));
+    m_propertyMap->insert(Com5003GlueLogicPrivate::s_burden1ComponentName, QVariant::fromValue<QObject*>(m_burden1Data));
+    m_propertyMap->insert(Com5003GlueLogicPrivate::s_burden2ComponentName, QVariant::fromValue<QObject*>(m_burden2Data));
+    m_propertyMap->insert(Com5003GlueLogicPrivate::s_osciP1ComponentName, QVariant::fromValue<QObject*>(m_osciP1Data));
+    m_propertyMap->insert(Com5003GlueLogicPrivate::s_osciP2ComponentName, QVariant::fromValue<QObject*>(m_osciP2Data));
+    m_propertyMap->insert(Com5003GlueLogicPrivate::s_osciP3ComponentName, QVariant::fromValue<QObject*>(m_osciP3Data));
+    m_propertyMap->insert(Com5003GlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
+  }
+
   Com5003GlueLogic *q_ptr;
+  GlueLogicPropertyMap *m_propertyMap;
+
   QStandardItemModel *m_actValueData;
   QStandardItemModel *m_burden1Data;
   QStandardItemModel *m_burden2Data;
@@ -875,18 +810,14 @@ class Com5003GlueLogicPrivate
   QHash<QString, int> m_fftTableRoleMapping;
 
   double m_dftReferenceValue; //vector diagram reference angle
-  const int m_entityId = 50;
 
-  const QString m_actualValueComponentName = "ActualValueModel";
-  const QString m_burden1ComponentName = "BurdenModelI";
-  const QString m_burden2ComponentName = "BurdenModelU";
-  const QString m_osciP1ComponentName = "OSCIP1Model";
-  const QString m_osciP2ComponentName = "OSCIP2Model";
-  const QString m_osciP3ComponentName = "OSCIP3Model";
-
-  const QString m_fftTableModelComponentName = "FFTTableModel";
-
-  const QString m_entityName = "Local.GlueLogic";
+  static constexpr char const * s_actualValueComponentName = "ActualValueModel";
+  static constexpr char const * s_burden1ComponentName = "BurdenModelI";
+  static constexpr char const * s_burden2ComponentName = "BurdenModelU";
+  static constexpr char const * s_osciP1ComponentName = "OSCIP1Model";
+  static constexpr char const * s_osciP2ComponentName = "OSCIP2Model";
+  static constexpr char const * s_osciP3ComponentName = "OSCIP3Model";
+  static constexpr char const * s_fftTableModelComponentName = "FFTTableModel";
 
   double m_angleU1=0;
   double m_angleU2=0;
@@ -925,9 +856,9 @@ class Com5003GlueLogicPrivate
   friend class Com5003GlueLogic;
 };
 
-Com5003GlueLogic::Com5003GlueLogic(QObject *t_parent) :
+Com5003GlueLogic::Com5003GlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
   VeinEvent::EventSystem(t_parent),
-  d_ptr(new Com5003GlueLogicPrivate(this))
+  d_ptr(new Com5003GlueLogicPrivate(this, t_propertyMap))
 {
 }
 
@@ -935,11 +866,6 @@ Com5003GlueLogic::~Com5003GlueLogic()
 {
   delete d_ptr;
   d_ptr=0;
-}
-
-void Com5003GlueLogic::startIntrospection()
-{
-  d_ptr->setupIntrospection();
 }
 
 bool Com5003GlueLogic::processEvent(QEvent *t_event)
@@ -956,29 +882,10 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
 
     switch(static_cast<Com5003GlueLogicPrivate::Modules>(evData->entityId()))
     {
-      case Com5003GlueLogicPrivate::Modules::GlueLogic:
+      case Com5003GlueLogicPrivate::Modules::GlueLogic: ///@todo remove
       {
-        if(evData->type() == VeinComponent::ComponentData::dataType())
-        {
-          retVal = d_ptr->handleFetchEvents(evData, cEvent);
-        }
-        else if(evData->type() == VeinComponent::EntityData::dataType())
-        {
-          const VeinComponent::EntityData *eData = static_cast<VeinComponent::EntityData *>(evData);
-          Q_ASSERT(eData != nullptr);
-          if(eData->eventCommand() == VeinComponent::EntityData::ECMD_SUBSCRIBE)
-          {
-            retVal = true;
-            t_event->accept();
-            d_ptr->setupIntrospection();
-          }
-          else if(eData->eventCommand() == VeinComponent::EntityData::ECMD_UNSUBSCRIBE)
-          {
-            retVal = true;
-            t_event->accept();
-          }
-        }
-        break;
+        retVal = true;
+        t_event->accept();
       }
       case Com5003GlueLogicPrivate::Modules::OsciModule:
       {

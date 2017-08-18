@@ -5,14 +5,14 @@
 
 class QStandardItemModel;
 class Com5003GlueLogicPrivate;
+class GlueLogicPropertyMap;
 
 class Com5003GlueLogic : public VeinEvent::EventSystem
 {
   Q_OBJECT
 public:
-  explicit Com5003GlueLogic(QObject *t_parent=0);
+  explicit Com5003GlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=0);
   ~Com5003GlueLogic();
-  void startIntrospection();
 
   // EventSystem interface
 public:

@@ -4,12 +4,13 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import GlobalConfig 1.0
+import Com5003GlueLogic 1.0
 
 CCMP.ModulePage {
   id: root
 
   property bool sUnit : true;
-  readonly property QtObject glueLogic: VeinEntity.getEntity("Local.GlueLogic");
+  readonly property QtObject glueLogic: ZGL;
 
   property int rowHeight: Math.floor(height/14) * 0.95
   property int columnWidth: width/5.25

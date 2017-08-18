@@ -47,7 +47,8 @@ SOURCES += main.cpp \
     barchart.cpp \
     cbar.cpp \
     com5003translation.cpp \
-    phasordiagram.cpp
+    phasordiagram.cpp \
+    gluelogicpropertymap.cpp
 
 RESOURCES += \
     qml.qrc \
@@ -73,7 +74,8 @@ HEADERS += \
     barchart.h \
     cbar.h \
     com5003translation.h \
-    phasordiagram.h
+    phasordiagram.h \
+    gluelogicpropertymap.h
 
 #Qt 5.6.3 / 5.7.2 / 5.8 should not need this, see: https://bugreports.qt.io/browse/QTBUG-53206
 lupdate_only {

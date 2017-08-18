@@ -18,6 +18,7 @@
 #include "barchart.h"
 #include "cbar.h"
 #include "com5003gluelogic.h"
+#include "gluelogicpropertymap.h"
 #include "com5003translation.h"
 #include "phasordiagram.h"
 
@@ -44,7 +45,8 @@ int main(int argc, char *argv[])
   qmlRegisterType<BarChart>("QwtChart", 1, 0, "BarChart");
   qmlRegisterType<cBar>("QwtChart", 1, 0, "Bar");
   qmlRegisterType<PhasorDiagram>("PhasorDiagram", 1, 0, "PhasorDiagram");
-  qmlRegisterSingletonType<Com5003Translation>("Com5003Translation", 1, 0, "ZTR", Com5003Translation::getSingletonInstance);
+  qmlRegisterSingletonType<Com5003Translation>("Com5003Translation", 1, 0, "ZTR", Com5003Translation::getStaticInstance);
+  qmlRegisterSingletonType<GlueLogicPropertyMap>("Com5003GlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
 
   qmlRegisterSingletonType(QUrl("qrc:/components/common/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
   qmlRegisterSingletonType(QUrl("qrc:/components/common/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
@@ -55,6 +57,13 @@ int main(int argc, char *argv[])
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication app(argc, argv);
   app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
+
+  Com5003Translation *comTranslation = new Com5003Translation(&app);
+  comTranslation->changeLanguage(QLocale::system().bcp47Name());
+  Com5003Translation::setStaticInstance(comTranslation);
+
+  GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
+  GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
 
   QQmlApplicationEngine engine;
   QTimer networkWatchdog;
@@ -74,7 +83,7 @@ int main(int argc, char *argv[])
 #endif //Q_OS_ANDROID
 
   VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-  Com5003GlueLogic *glueLogicSystem = new Com5003GlueLogic(&app);
+  Com5003GlueLogic *glueLogicSystem = new Com5003GlueLogic(glueLogicMap, &app);
   VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
   VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
   VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
@@ -113,12 +122,6 @@ int main(int argc, char *argv[])
 
   evHandler->setSubsystems(subSystems);
 
-
-  Com5003Translation *comTranslation = new Com5003Translation(&app);
-  comTranslation->changeLanguage(QLocale::system().bcp47Name());
-  Com5003Translation::setStaticInstance(comTranslation);
-
-
   JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
 
   if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
@@ -135,6 +138,10 @@ int main(int argc, char *argv[])
 
   QString netHost = "127.0.0.1";
   int netPort = 12000;
+#ifdef Q_OS_ANDROID
+  ///@todo for android: code is needed to fetch a list of possible hosts via QtZeroConf service discovery
+#endif //Q_OS_ANDROID
+
 
   if(globalSettingsFile->hasOption("modulemanagerIp") && globalSettingsFile->hasOption("modulemanagerPort"))
   {
@@ -144,13 +151,12 @@ int main(int argc, char *argv[])
 
   tcpSystem->connectToServer(netHost, netPort);
 
-  QObject::connect(&networkWatchdog, &QTimer::timeout, [&](){
+  QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
     tcpSystem->connectToServer(netHost, netPort);
   });
 
   QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, [&]() {
-    qmlApi->setRequiredIds(QList<int>()<<0<<50);//1012<<1011<<1009<<1007<<1008<<1006<<1005<<1004<<1003<<1002<<1001<<1000<<1010<<1014<<1013<<0<<50);
-    glueLogicSystem->startIntrospection();
+    qmlApi->setRequiredIds(QList<int>()<<0);//1012<<1011<<1009<<1007<<1008<<1006<<1005<<1004<<1003<<1002<<1001<<1000<<1010<<1014<<1013<<0<<50);
   });
 
   QObject::connect(&app, &QApplication::aboutToQuit, [&]() {

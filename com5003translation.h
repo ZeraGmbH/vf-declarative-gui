@@ -20,7 +20,7 @@ public:
 
   static void setStaticInstance(Com5003Translation *t_instance);
 
-  static QObject *getSingletonInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine);
+  static QObject *getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine);
 
   Q_INVOKABLE void changeLanguage(const QString &t_language);
 
@@ -32,7 +32,7 @@ private:
   void reloadStringTable();
 
 
-  static Com5003Translation *g_instance;
+  static Com5003Translation *s_instance;
 
   QString m_currentLanguage;
   QTranslator m_translator;
