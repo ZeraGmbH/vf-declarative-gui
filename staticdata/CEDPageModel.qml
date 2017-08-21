@@ -3,7 +3,6 @@ import QtQuick 2.0
 ListModel {
   readonly property string firstElement: "qrc:/pages/ActualValuesPage.qml"
 
-
   ListElement {
     name: "Actual values"
     icon: "qrc:/data/staticdata/resources/act_values.png"
