@@ -9,10 +9,12 @@ contains(DEFINES, OE_BUILD) {
   message(Openembedded build)
   include($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri)
   include($$PWD/3rdparty/json-settings/include.pri)
+  include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
 }
 else {
   include(/work/downloads/git-clones/qnanopainter/libqnanopainter/libqnanopainter.pri)
   include(/work/qt_projects/JsonSettingsQML/json-settings.pri)
+  include(/work/downloads/git-clones/SortFilterProxyModel/SortFilterProxyModel.pri)
 
   INCLUDEPATH += /work/qt_projects/distrib/usr/include/
   INCLUDEPATH += /work/downloads/qwt-6.1.2/src/

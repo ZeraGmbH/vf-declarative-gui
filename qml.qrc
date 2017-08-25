@@ -38,7 +38,7 @@
         <file>common/RangeIndicator.qml</file>
         <file>common/GridItem.qml</file>
         <file>common/LoggerSettings.qml</file>
-        <file>common/LoggerStorageSelector.qml</file>
+        <file>common/LoggerDatasetSelector.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>
