@@ -288,6 +288,7 @@ void Com5003Translation::reloadStringTable()
   insert("Database file info:", tr("Database file info:"));
   insert("Database mimetype: <b>%1</b>", tr("Database mimetype: <b>%1</b>"));
   insert("Database size: <b>%1MB</b>", tr("Database size: <b>%1MB</b>"));
+  insert("Select recorded values:", tr("Select recorded values:"));
 }
 
 QVariant Com5003Translation::updateValue(const QString &key, const QVariant &input)

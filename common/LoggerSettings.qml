@@ -16,6 +16,13 @@ CCMP.SettingsView {
   viewAnchors.bottomMargin: buttonContainer.height
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
 
+  LoggerDatasetSelector {
+    id: loggerDataSelection
+    width: root.width
+    height: root.height
+    closePolicy: Popup.NoAutoClose
+  }
+
   model: VisualItemModel {
     Item {
       height: root.rowHeight;
@@ -159,6 +166,26 @@ CCMP.SettingsView {
         Label {
           text: ZTR["Device name: <b>%1</b>"].arg(loggerEntity.FilesystemDevice);
         }
+      }
+    }
+    RowLayout {
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.leftMargin: 16
+      anchors.rightMargin: 16
+      Label {
+        textFormat: Text.PlainText
+        text: ZTR["Select recorded values:"]
+        font.pixelSize: 20
+
+        Layout.fillWidth: true
+      }
+      Button {
+        text: FA.fa_cogs
+        font.family: "FontAwesome"
+        font.pixelSize: 20
+        enabled: loggerEntity.LoggingEnabled === false
+        onClicked: loggerDataSelection.visible=1;
       }
     }
     Item {

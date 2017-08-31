@@ -7,21 +7,41 @@ import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
-Item {
+Popup {
   id: root
-  Component.onCompleted: {
+
+  readonly property QtObject dataLogger: VeinEntity.getEntity("_LoggingSystem")
+  readonly property var loggedComponents: VeinEntity.getEntity("_System").LoggedComponents
+
+  function initModels() {
+    availModel.clear();
+    selectedModel.clear();
+
     var entityIntrospection = ModuleIntrospection.introMap;
     for(var entityName in entityIntrospection)
     {
       var tmpEntity = VeinEntity.getEntity(entityName);
-      var tmpEntityId = tmpEntity.entityId()
-      var disallowedComponents = ["EntityName", "INF_ModuleInterface"]
+      var tmpEntityId = tmpEntity.entityId();
+      var disallowedComponents = ["EntityName", "INF_ModuleInterface"];
+      var alreadySelected = loggedComponents[tmpEntityId];
+
       for(var i = 0; i< tmpEntity.keys().length; ++i)
       {
         var tmpComponentName = tmpEntity.keys()[i];
-        if(disallowedComponents.indexOf(tmpComponentName) < 0)
+        var componentIntrospection = entityIntrospection[entityName];
+
+        if(alreadySelected !== undefined && alreadySelected.indexOf(tmpComponentName) > -1)
         {
-          var componentIntrospection = entityIntrospection[entityName];
+          selectedModel.append({
+                                 "entId": tmpEntityId,
+                                 "entName": entityName,
+                                 "compName": tmpComponentName,
+                                 "compDescription": componentIntrospection.ComponentInfo[tmpComponentName].Description,
+                                 "compUnit": componentIntrospection.ComponentInfo[tmpComponentName].Unit,
+                               });
+        }
+        else if(disallowedComponents.indexOf(tmpComponentName) < 0)
+        {
           availModel.append({
                               "entId": tmpEntityId,
                               "entName": entityName,
@@ -34,11 +54,15 @@ Item {
     }
   }
 
+  Component.onCompleted: {
+    initModels();
+  }
+
   readonly property var currentItem: (availView.currentItem !== undefined && availView.currentItem !== null
-                                       ? availModel.get(filteredAvailModel.mapToSource(availView.currentIndex))
-                                       : (selectedView.currentItem !== undefined && selectedView.currentItem !== null
-                                          ? selectedModel.get(filteredSelectedModel.mapToSource(selectedView.currentIndex))
-                                          : undefined));
+                                      ? availModel.get(filteredAvailModel.mapToSource(availView.currentIndex))
+                                      : (selectedView.currentItem !== undefined && selectedView.currentItem !== null
+                                         ? selectedModel.get(filteredSelectedModel.mapToSource(selectedView.currentIndex))
+                                         : undefined));
 
   ListModel {
     id: availModel
@@ -125,12 +149,13 @@ Item {
     anchors.leftMargin: 8
     anchors.rightMargin: 8
     Component.onCompleted: forceActiveFocus()
-    Label {
-      anchors.bottom: parent.top
-      anchors.horizontalCenter: parent.horizontalCenter
-      font.pointSize: 10
-      text: "Available for logging"
-    }
+    enabled: availView.moving===false
+  }
+  Label {
+    anchors.bottom: availSearchField.top
+    anchors.horizontalCenter: availSearchField.horizontalCenter
+    font.pointSize: 10
+    text: "Available for recording"
   }
 
   ListView {
@@ -176,12 +201,13 @@ Item {
     anchors.left: middleFrame.right
     anchors.leftMargin: 8
     anchors.rightMargin: 8
-    Label {
-      anchors.bottom: parent.top
-      anchors.horizontalCenter: parent.horizontalCenter
-      font.pointSize: 10
-      text: "Selected for logging"
-    }
+    enabled: selectedView.moving===false
+  }
+  Label {
+    anchors.bottom: selectedSearchField.top
+    anchors.horizontalCenter: selectedSearchField.horizontalCenter
+    font.pointSize: 10
+    text: "Selected for recording"
   }
   ListView {
     id: selectedView
@@ -221,7 +247,7 @@ Item {
     id: middleFrame
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
-    height: root.height-buttonContainer.height
+    anchors.bottom: buttonContainer.top
     implicitWidth: Math.floor(root.width/4)
 
 
@@ -327,7 +353,8 @@ Item {
   Item {
     id: buttonContainer
     anchors.bottom: parent.bottom
-    width: root.width
+    anchors.left: parent.left
+    anchors.right: parent.right
     height: root.height/10
 
     Button {
@@ -338,16 +365,41 @@ Item {
       anchors.bottom: buttonContainer.bottom
       width: root.width/4
       highlighted: true
+      onClicked: {
+        var componentsToLog = {};
+        for(var i=0; i<selectedModel.count; ++i)
+        {
+          var tmpObj = selectedModel.get(i);
+          var tmpArray = [];
+          if(componentsToLog[tmpObj.entId] !== undefined)
+          {
+            tmpArray = componentsToLog[tmpObj.entId];
+          }
+          tmpArray.push(tmpObj.compName);
+          componentsToLog[tmpObj.entId] = tmpArray;
+        }
+        VeinEntity.getEntity("_System").LoggedComponents = componentsToLog;
+        root.close();
+      }
     }
 
     Button {
       id: resetButton
-      text: "Reset"
+      text: "Close"
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
       anchors.right: parent.right
       width: root.width/4
+      onClicked: {
+        if(availView.moving === false && selectedView.moving === false)
+        {
+          availView.currentIndex=-1;
+          selectedView.currentIndex=-1;
+          initModels();
+          root.close();
+        }
+      }
     }
   }
 }
