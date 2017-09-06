@@ -17,7 +17,7 @@
 #include "fftbarchart.h"
 #include "barchart.h"
 #include "cbar.h"
-#include "com5003gluelogic.h"
+#include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
 #include "com5003translation.h"
 #include "phasordiagram.h"
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<cBar>("QwtChart", 1, 0, "Bar");
   qmlRegisterType<PhasorDiagram>("PhasorDiagram", 1, 0, "PhasorDiagram");
   qmlRegisterSingletonType<Com5003Translation>("Com5003Translation", 1, 0, "ZTR", Com5003Translation::getStaticInstance);
-  qmlRegisterSingletonType<GlueLogicPropertyMap>("Com5003GlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
+  qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
 
   qmlRegisterSingletonType(QUrl("qrc:/components/common/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
   qmlRegisterSingletonType(QUrl("qrc:/components/common/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 #endif //Q_OS_ANDROID
 
   VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-  Com5003GlueLogic *glueLogicSystem = new Com5003GlueLogic(glueLogicMap, &app);
+  ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, &app);
   VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
   VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
   VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);

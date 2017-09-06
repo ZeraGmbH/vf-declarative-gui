@@ -125,16 +125,15 @@ ApplicationWindow {
   onCurrentSessionChanged: {
     if(currentSession === "0_default-session.json") //rename to com5003-meas-session
     {
-      requiredIds = [0, 2, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015];
+      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
     }
     else if(currentSession === "1_ref-session.json") //rename to com5003-ref-session
     {
-      //no GlueLogic (50) required here
-      requiredIds = [0, 2000, 2001, 2002, 2003, 2004, 2005];
+      requiredIds = [0, 2, 1001, 1020, 1050, 1150];
     }
     else if(currentSession === "2_ced-session.json") //rename to com5003-ced-session
     {
-      requiredIds = [0, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015];
+      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1090, 1110, 1120, 1130, 1150];
     }
     resolvedIds = [];
 

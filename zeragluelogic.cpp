@@ -1,4 +1,4 @@
-#include "com5003gluelogic.h"
+#include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
 #include <QStandardItemModel>
 #include <QHash>
@@ -159,9 +159,9 @@ public:
   QTimer *m_updateInterval=0; //use the qt parent system to cleanup the instance
 };
 
-class Com5003GlueLogicPrivate
+class ZeraGlueLogicPrivate
 {
-  Com5003GlueLogicPrivate(Com5003GlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap) :
+  ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap) :
     q_ptr(t_public),
     m_propertyMap(t_propertyMap),
     m_actValueData(new ActualValueModel(14, 1, q_ptr)),
@@ -181,7 +181,7 @@ class Com5003GlueLogicPrivate
     setupPropertyMap();
   }
 
-  ~Com5003GlueLogicPrivate()
+  ~ZeraGlueLogicPrivate()
   {
     for(int i=0; i<m_actualValueMapping->count(); ++i)
     {
@@ -777,16 +777,16 @@ class Com5003GlueLogicPrivate
 
   void setupPropertyMap()
   {
-    m_propertyMap->insert(Com5003GlueLogicPrivate::s_actualValueComponentName, QVariant::fromValue<QObject*>(m_actValueData));
-    m_propertyMap->insert(Com5003GlueLogicPrivate::s_burden1ComponentName, QVariant::fromValue<QObject*>(m_burden1Data));
-    m_propertyMap->insert(Com5003GlueLogicPrivate::s_burden2ComponentName, QVariant::fromValue<QObject*>(m_burden2Data));
-    m_propertyMap->insert(Com5003GlueLogicPrivate::s_osciP1ComponentName, QVariant::fromValue<QObject*>(m_osciP1Data));
-    m_propertyMap->insert(Com5003GlueLogicPrivate::s_osciP2ComponentName, QVariant::fromValue<QObject*>(m_osciP2Data));
-    m_propertyMap->insert(Com5003GlueLogicPrivate::s_osciP3ComponentName, QVariant::fromValue<QObject*>(m_osciP3Data));
-    m_propertyMap->insert(Com5003GlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_actualValueComponentName, QVariant::fromValue<QObject*>(m_actValueData));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_burden1ComponentName, QVariant::fromValue<QObject*>(m_burden1Data));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_burden2ComponentName, QVariant::fromValue<QObject*>(m_burden2Data));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP1ComponentName, QVariant::fromValue<QObject*>(m_osciP1Data));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP2ComponentName, QVariant::fromValue<QObject*>(m_osciP2Data));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP3ComponentName, QVariant::fromValue<QObject*>(m_osciP3Data));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
   }
 
-  Com5003GlueLogic *q_ptr;
+  ZeraGlueLogic *q_ptr;
   GlueLogicPropertyMap *m_propertyMap;
 
   QStandardItemModel *m_actValueData;
@@ -827,48 +827,48 @@ class Com5003GlueLogicPrivate
   double m_angleI2=0;
   double m_angleI3=0;
 
-
   enum class Modules : int {
-    GlueLogic = 50,
     ModeModule = 1000,
-    RangeModule = 1001,
-    SampleModule = 1002,
-    RmsModule = 1003,
-    DftModule = 1004,
-    FftModule = 1005,
-    Power1Module1 = 1006, // P
-    Power1Module2 = 1007, // Q
-    Power1Module3 = 1008, // S
-    //Power1Module4 = 1009, // P+Q+S for SCPI clients
-    ThdnModule = 1010,
-    OsciModule = 1011,
-    Sec1Module = 1012,
-    Power3Module = 1013,
-    //StatusModule = 1014,
-    LambdaModule = 1015,
-    Burden1Module = 1016,
-    Burden2Module = 1017,
-    //Transformer1Module = 1018,
-    //AdjustmentModule = 9998,
+    ReferenceModule = 1001,
+    RangeModule = 1020,
+    SampleModule = 1030,
+    RmsModule = 1040,
+    DftModule = 1050,
+    FftModule = 1060,
+    Power1Module1 = 1070, // P
+    Power1Module2 = 1071, // Q
+    Power1Module3 = 1072, // S
+    //Power1Module4 = 1073, // P+Q+S for SCPI clients
+    //Power2Module1 = 1090, // CED session
+    Power3Module = 1100,
+    ThdnModule = 1110,
+    OsciModule = 1120,
+    Sec1Module = 1130,
+    LambdaModule = 1140,
+    //StatusModule = 1150,
+    Burden1Module = 1160,
+    Burden2Module = 1161,
+    //TranformerModule = 1170,
+    //AdjustmentModule = 1190,
     //ScpiModule = 9999,
   };
 
-  friend class Com5003GlueLogic;
+  friend class ZeraGlueLogic;
 };
 
-Com5003GlueLogic::Com5003GlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
+ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
   VeinEvent::EventSystem(t_parent),
-  d_ptr(new Com5003GlueLogicPrivate(this, t_propertyMap))
+  d_ptr(new ZeraGlueLogicPrivate(this, t_propertyMap))
 {
 }
 
-Com5003GlueLogic::~Com5003GlueLogic()
+ZeraGlueLogic::~ZeraGlueLogic()
 {
   delete d_ptr;
   d_ptr=0;
 }
 
-bool Com5003GlueLogic::processEvent(QEvent *t_event)
+bool ZeraGlueLogic::processEvent(QEvent *t_event)
 {
   using namespace VeinEvent;
   bool retVal = false;
@@ -880,14 +880,9 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
     EventData *evData = cEvent->eventData();
     Q_ASSERT(evData != nullptr);
 
-    switch(static_cast<Com5003GlueLogicPrivate::Modules>(evData->entityId()))
+    switch(static_cast<ZeraGlueLogicPrivate::Modules>(evData->entityId()))
     {
-      case Com5003GlueLogicPrivate::Modules::GlueLogic: ///@todo remove
-      {
-        retVal = true;
-        t_event->accept();
-      }
-      case Com5003GlueLogicPrivate::Modules::OsciModule:
+      case ZeraGlueLogicPrivate::Modules::OsciModule:
       {
         if (evData->type() == VeinComponent::ComponentData::dataType())
         {
@@ -901,7 +896,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         }
         break;
       }
-      case Com5003GlueLogicPrivate::Modules::FftModule:
+      case ZeraGlueLogicPrivate::Modules::FftModule:
       {
         if (evData->type() == VeinComponent::ComponentData::dataType())
         {
@@ -915,7 +910,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         }
         break;
       }
-      case Com5003GlueLogicPrivate::Modules::Burden1Module:
+      case ZeraGlueLogicPrivate::Modules::Burden1Module:
       {
         if (evData->type() == VeinComponent::ComponentData::dataType())
         {
@@ -932,7 +927,7 @@ bool Com5003GlueLogic::processEvent(QEvent *t_event)
         }
         break;
       }
-      case Com5003GlueLogicPrivate::Modules::Burden2Module:
+      case ZeraGlueLogicPrivate::Modules::Burden2Module:
       {
         if (evData->type() == VeinComponent::ComponentData::dataType())
         {

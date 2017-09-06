@@ -82,11 +82,11 @@ CCMP.SettingsView {
           width: 16
         }
         Label {
-          visible: loggerEntity.DatabaseReady === false
           font.family: "FontAwesome"
           font.pixelSize: 20
           text: FA.fa_exclamation_triangle
           color: Material.color(Material.Yellow)
+          visible: loggerEntity.DatabaseReady === false
         }
         VF.VFTextInput {
           entity: root.loggerEntity

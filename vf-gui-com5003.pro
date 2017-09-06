@@ -42,7 +42,6 @@ else {
 
 SOURCES += main.cpp \
     fpscounter.cpp \
-    com5003gluelogic.cpp \
     fftbarchart.cpp \
     barscaledraw.cpp \
     bardata.cpp \
@@ -50,7 +49,8 @@ SOURCES += main.cpp \
     cbar.cpp \
     com5003translation.cpp \
     phasordiagram.cpp \
-    gluelogicpropertymap.cpp
+    gluelogicpropertymap.cpp \
+    zeragluelogic.cpp
 
 RESOURCES += \
     qml.qrc \
@@ -69,7 +69,6 @@ LIBS += -lqwt
 
 HEADERS += \
     fpscounter.h \
-    com5003gluelogic.h \
     fftbarchart.h \
     barscaledraw.h \
     bardata.h \
@@ -77,7 +76,8 @@ HEADERS += \
     cbar.h \
     com5003translation.h \
     phasordiagram.h \
-    gluelogicpropertymap.h
+    gluelogicpropertymap.h \
+    zeragluelogic.h
 
 #Qt 5.6.3 / 5.7.2 / 5.8 should not need this, see: https://bugreports.qt.io/browse/QTBUG-53206
 lupdate_only {

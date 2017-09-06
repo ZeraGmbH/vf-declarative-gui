@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
 import GlobalConfig 1.0
-import Com5003GlueLogic 1.0
+import ZeraGlueLogic 1.0
 import Com5003Translation  1.0
 import ModuleIntrospection 1.0
 
