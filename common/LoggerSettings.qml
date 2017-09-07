@@ -119,7 +119,7 @@ CCMP.SettingsView {
           Layout.fillWidth: true
         }
         Label {
-          text: ZTR["Database size: <b>%1MB</b>"].arg((loggerEntity.DatabaseFileSize/1.0e6).toFixed(2));
+          text: ZTR["Database size: <b>%1MB</b>"].arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2));
         }
         Item {
           //spacer
