@@ -7,6 +7,17 @@ CONFIG += c++11
 
 contains(DEFINES, OE_BUILD) {
   message(Openembedded build)
+
+  !exists($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri) {
+    error("Dependency 3rdparty/libnanopainter not found")
+  }
+  !exists($$PWD/3rdparty/json-settings/include.pri) {
+    error("Dependency 3rdparty/json-settings not found")
+  }
+  !exists($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri) {
+    error("Dependency 3rdparty/SortFilterProxyModel not found")
+  }
+
   include($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri)
   include($$PWD/3rdparty/json-settings/include.pri)
   include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
