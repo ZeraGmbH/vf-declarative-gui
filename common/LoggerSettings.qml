@@ -76,6 +76,7 @@ CCMP.SettingsView {
           textFormat: Text.PlainText
           text: ZTR["Database file:"]
           font.pixelSize: 20
+          visible: loggerEntity.DatabaseReady === true
         }
         Item {
           //spacer
@@ -113,20 +114,14 @@ CCMP.SettingsView {
 
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Database file info:"]
+          text: ZTR["Database size:"]
           font.pixelSize: 20
 
           Layout.fillWidth: true
         }
         Label {
-          text: ZTR["Database size: <b>%1MB</b>"].arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2));
-        }
-        Item {
-          //spacer
-          width: 8
-        }
-        Label {
-          text: ZTR["Database mimetype: <b>%1</b>"].arg(loggerEntity.DatabaseFileMimeType);
+          text:  String("<b>%1MB</b>").arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2));
+          font.pixelSize: 16
         }
       }
     }
@@ -235,6 +230,24 @@ CCMP.SettingsView {
           validator: RegExpValidator { regExp: /(?!^00:00:00$)(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
           width: root.width/2.9
+          visible: loggerEntity.LoggingEnabled === false
+        }
+        Label {
+          visible: loggerEntity.LoggingEnabled === true
+          font.pixelSize: 20
+          property var countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
+
+          function msToTime(s) {
+            var ms = s % 1000;
+            s = (s - ms) / 1000;
+            var secs = s % 60;
+            s = (s - secs) / 60;
+            var mins = s % 60;
+            var hrs = (s - mins) / 60;
+
+            return ("0"+hrs).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
+          }
+          text: countDown;
         }
       }
     }

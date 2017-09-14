@@ -285,9 +285,7 @@ void Com5003Translation::reloadStringTable()
   insert("Logging disabled", tr("Logging disabled"));
   insert("Database loaded", tr("Database loaded"));
   insert("Database error", tr("Database error"));
-  insert("Database file info:", tr("Database file info:"));
-  insert("Database mimetype: <b>%1</b>", tr("Database mimetype: <b>%1</b>"));
-  insert("Database size: <b>%1MB</b>", tr("Database size: <b>%1MB</b>"));
+  insert("Database size:", tr("Database size:"));
   insert("Select recorded values:", tr("Select recorded values:"));
 }
 
