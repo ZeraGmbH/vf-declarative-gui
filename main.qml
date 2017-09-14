@@ -33,6 +33,8 @@ ApplicationWindow {
   property var resolvedIds: []; //may only contain ids that are also in requiredIds
 
   property var errorMessages: [];
+  property bool measuringPaused: false;
+
   onErrorMessagesChanged: {
     if(errorMessages.length > 0)
     {
@@ -79,6 +81,9 @@ ApplicationWindow {
         });
         pageView.sessionComponent = Qt.binding(function() {
           return currentSession;
+        });
+        measuringPaused = Qt.binding(function() {
+          return VeinEntity.getEntity("_System").ModulesPaused;
         });
       }
 
@@ -387,6 +392,16 @@ ApplicationWindow {
         }
 
         Item { Layout.fillWidth: true }
+        ToolButton {
+          implicitHeight: parent.height
+          font.family: "FontAwesome"
+          font.pixelSize: 18
+          text: displayWindow.measuringPaused ? FA.fa_play : FA.fa_pause
+          enabled: displayWindow.currentSession !== ""
+          onClicked: {
+            VeinEntity.getEntity("_System").ModulesPaused = !displayWindow.measuringPaused;
+          }
+        }
         ToolButton {
           implicitHeight: parent.height
           implicitWidth: 64
