@@ -80,9 +80,8 @@ Item {
     font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
-    width: height*1.5
+    width: height*1.2
     //only show the button if the value is different from the remote
-    visible: root.m_alteredValue
     highlighted: true
 
     anchors.right: resetButton.left
@@ -102,10 +101,9 @@ Item {
     font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
-    width: height*1.5
+    width: height*1.2
     //only show the button if the value is different from the remote
-    visible: root.m_alteredValue
-
+    enabled: root.m_alteredValue
     anchors.right: parent.right
     anchors.rightMargin: 8
     anchors.bottom: parent.bottom
