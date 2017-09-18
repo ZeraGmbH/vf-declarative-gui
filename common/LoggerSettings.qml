@@ -16,6 +16,35 @@ CCMP.SettingsView {
   viewAnchors.bottomMargin: buttonContainer.height
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
 
+  function msToTime(s) {
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var secs = s % 60;
+    s = (s - secs) / 60;
+    var mins = s % 60;
+    var hrs = (s - mins) / 60;
+
+    return ("0"+hrs).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
+  }
+
+  function timeToMs(t_time) {
+    var mSeconds = 0;
+    var timeData = [];
+
+    if((String(t_time).match(/:/g) || []).length === 2)
+    {
+      timeData = t_time.split(':');
+      var hours = Number(timeData[0]);
+      mSeconds += hours * 3600000;
+      var minutes = Number(timeData[1]);
+      mSeconds += minutes * 60000;
+      var seconds = Number(timeData[2]);
+      mSeconds += seconds * 1000;
+    }
+
+    return Number(mSeconds);
+  }
+
   LoggerDatasetSelector {
     id: loggerDataSelection
     width: root.width
@@ -224,29 +253,36 @@ CCMP.SettingsView {
           Layout.fillWidth: true
         }
         VF.VFTextInput {
+          id: durationField
           entity: root.loggerEntity
           controlPropertyName: "ScheduledLoggingDuration"
           placeholderText: "00:00:00"
-          validator: RegExpValidator { regExp: /(?!^00:00:00$)(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]/ }
+          validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
           width: root.width/2.9
           visible: loggerEntity.LoggingEnabled === false
+
+          function transformOutgoing (t_output) {
+            return timeToMs(t_output);
+          }
+
+          function transformIncoming(t_incoming) {
+            if(t_incoming !== undefined)
+            {
+              return msToTime(t_incoming);
+            }
+            else
+            {
+              return "";
+            }
+          }
+
         }
         Label {
           visible: loggerEntity.LoggingEnabled === true
           font.pixelSize: 20
           property var countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
 
-          function msToTime(s) {
-            var ms = s % 1000;
-            s = (s - ms) / 1000;
-            var secs = s % 60;
-            s = (s - secs) / 60;
-            var mins = s % 60;
-            var hrs = (s - mins) / 60;
-
-            return ("0"+hrs).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
-          }
           text: countDown;
         }
       }
@@ -265,7 +301,7 @@ CCMP.SettingsView {
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
       width: root.rowWidth/4
-      enabled: loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true && !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration.length === 0 )
+      enabled: loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true && !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
       highlighted: true
 
       onClicked: {

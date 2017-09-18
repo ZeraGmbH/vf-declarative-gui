@@ -20,19 +20,29 @@ Item {
   readonly property alias contentWidth: tInput.contentWidth
   property alias horizontalAlignment: tInput.horizontalAlignment
   property alias mouseSelectionMode: tInput.mouseSelectionMode
-  readonly property bool m_alteredValue: tInput.text !== entity[controlPropertyName]
+  readonly property bool m_alteredValue: tInput.text !== transformIncoming(entity[controlPropertyName])
 
   readonly property alias acceptableInput: tInput.acceptableInput
+
+  //allows to convert the output in other formats before setting the component value
+  function transformOutgoing (t_output) {
+    return t_output;
+  }
+
+  //allows to convert the incoming data to other formats that fit the validator
+  function transformIncoming(t_incoming) {
+    return t_incoming;
+  }
 
   function confirmInput() {
     if(tInput.text !== root.text && root.acceptableInput)
     {
-      root.entity[root.controlPropertyName] = tInput.text
+      root.entity[root.controlPropertyName] = transformOutgoing(tInput.text);
     }
   }
 
   Item {
-    property var intermediateValue: root.entity[root.controlPropertyName]
+    property var intermediateValue: transformIncoming(root.entity[root.controlPropertyName])
     onIntermediateValueChanged: {
       tInput.text = intermediateValue
       root.text = intermediateValue
@@ -110,7 +120,7 @@ Item {
     anchors.top: parent.top
     onClicked: {
       focus = true
-      tInput.text = root.entity[root.controlPropertyName]
+      tInput.text = transformIncoming(root.entity[root.controlPropertyName]);
     }
   }
 }
