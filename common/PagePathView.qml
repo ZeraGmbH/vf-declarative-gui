@@ -20,7 +20,7 @@ Item {
 
   Timer {
     id: delayedOperation
-    property var command
+    property var command;
     interval: 50
     repeat: false
     onTriggered: {
@@ -28,11 +28,13 @@ Item {
     }
   }
 
-  //negative for no element
-  signal elementSelected(var elementValue)
-  signal cancelSelected()
+  property bool resetSnapshots: false;
 
-  property int lastSelecedIndex
+  //negative for no element
+  signal elementSelected(var elementValue);
+  signal cancelSelected();
+
+  property int lastSelecedIndex;
 
   property double m_w: width
   property double m_h: height
@@ -40,14 +42,12 @@ Item {
   property alias model: pathView.model
   property alias sessionComponent: sessionSelector.intermediate
 
-  onModelChanged: {
-    pathView.currentIndex = 0;
-  }
-
   onVisibleChanged: {
     if(visible)
     {
       lastSelecedIndex = pathView.currentIndex
+      resetSnapshots = true;
+      resetSnapshots = false;
     }
     else
     {
@@ -83,24 +83,69 @@ Item {
         border.color: Qt.darker(Material.frameColor, 1.3)
         border.width: 3
 
-        color: "transparent" //Material.backgroundColor
+        color: Material.backgroundColor
         radius: 4
-
-        Image {
-          anchors.centerIn: parent
-          source: icon
-          scale: 0.8
-          mipmap: false
-        }
 
         width: 410+4
         height: 220+6
 
+        Loader {
+          id: previewLoader
+          anchors.centerIn: parent
+          width: 1024
+          height: 600
+          layer.enabled: true
+          layer.smooth: true
+          layer.mipmap: true
+          visible: false
+          source: elementValue
+          property bool snapshotCreated: false;
+          Binding on snapshotCreated {
+            when: root.resetSnapshots
+            value: false
+          }
+
+          active: snapshotCreated === false || wrapper.PathView.isCurrentItem;
+
+          Timer {
+            running: previewLoader.snapshotCreated === false
+            interval: 4000
+            repeat: false
+            onTriggered: {
+              previewLoader.snapshotCreated = true;
+            }
+          }
+        }
+        ShaderEffectSource {
+          id: previewRenderer
+          anchors.fill: parent
+          anchors.margins: 8
+          hideSource: true
+          sourceItem: previewLoader
+          mipmap: true
+          live: previewLoader.active
+        }
+
+        Label {
+          text: FA.icon(FA.fa_video_camera)+"Live"
+          font.family: "FontAwesome"
+          opacity: wrapper.PathView.isCurrentItem
+          anchors.top: parent.top
+          anchors.left: parent.left
+          anchors.topMargin: 2
+          anchors.leftMargin: 4
+          font.pixelSize: 12
+          Behavior on opacity {
+            OpacityAnimator {
+              duration: 250
+            }
+          }
+        }
+
         MouseArea {
           anchors.fill: parent
           onPressed: {
-            if(wrapper.PathView.isCurrentItem &&
-                (pathView.offset - Math.floor(pathView.offset)) == 0) //prevents unexpected user activation of items while they move around
+            if(wrapper.PathView.isCurrentItem && (pathView.offset - Math.floor(pathView.offset)) == 0) //prevents unexpected user activation of items while they move around
             {
               root.lastSelecedIndex = index
               root.elementSelected({"elementIndex": index, "value": elementValue})
@@ -148,6 +193,9 @@ Item {
     enabled: visible
     anchors.fill: parent
     highlightMoveDuration: 200
+    onModelChanged: {
+      currentIndex = 0;
+    }
 
     delegate: pageDelegate
     path: Path {
