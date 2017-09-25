@@ -103,7 +103,7 @@ Item {
       focus = true
       confirmInput()
     }
-    enabled: root.acceptableInput
+    enabled: root.acceptableInput && root.m_alteredValue
   }
   Button {
     id: resetButton

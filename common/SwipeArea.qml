@@ -12,6 +12,7 @@ MouseArea {
   //override this where needed
   drag.axis: Drag.XAndYAxis
   drag.filterChildren: true
+  drag.threshold: 25
 
   property int triggerDistance: 100
   property bool dragging: drag.active
@@ -20,7 +21,6 @@ MouseArea {
   signal horizontalSwipe(var isLeftDirection)
   signal verticalSwipe(var isUpDirection)
 
-  drag.threshold: 25
 
   onDraggingChanged: {
     if(dragging)
