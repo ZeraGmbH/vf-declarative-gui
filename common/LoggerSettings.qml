@@ -105,7 +105,6 @@ CCMP.SettingsView {
           textFormat: Text.PlainText
           text: ZTR["Database file:"]
           font.pixelSize: 20
-          visible: loggerEntity.DatabaseReady === true
         }
         Item {
           //spacer
