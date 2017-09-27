@@ -118,6 +118,7 @@ CCMP.SettingsView {
           visible: loggerEntity.DatabaseReady === false
         }
         VF.VFTextInput {
+          id: dbPathInput
           entity: root.loggerEntity
           controlPropertyName: "DatabaseFile"
 
@@ -128,6 +129,14 @@ CCMP.SettingsView {
             regExp: /(?!.*(\\|\s|:|\?|\*|"|<|>|\||\/\.\.|\0|\/\/))^(\/)([^/\0]+(\/)?)+/
           }
           fontSize: 18
+        }
+        Button {
+          text: FA.fa_eject
+          font.family: "FontAwesome"
+          font.pixelSize: 20
+          implicitHeight: root.rowHeight
+          enabled: root.loggerEntity.DatabaseFile.length > 0 && dbPathInput.m_alteredValue === false
+          onClicked: root.loggerEntity.DatabaseFile = "";
         }
       }
     }
