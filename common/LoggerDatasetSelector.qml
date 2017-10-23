@@ -22,7 +22,7 @@ Popup {
     {
       var tmpEntity = VeinEntity.getEntity(entityName);
       var tmpEntityId = tmpEntity.entityId();
-      var disallowedComponents = ["EntityName", "INF_ModuleInterface"];
+      var componentWhitelistFilter = new RegExp(/(ACT|INF|PAR|SIG)_(?!ModuleInterface)/); //all regular values without ModuleInterface
       var alreadySelected = loggedComponents[tmpEntityId];
 
       for(var i = 0; i< tmpEntity.keys().length; ++i)
@@ -40,7 +40,7 @@ Popup {
                                  "compUnit": componentIntrospection.ComponentInfo[tmpComponentName].Unit,
                                });
         }
-        else if(disallowedComponents.indexOf(tmpComponentName) < 0)
+        else if(tmpComponentName.match(componentWhitelistFilter) !== null)
         {
           availModel.append({
                               "entId": tmpEntityId,
