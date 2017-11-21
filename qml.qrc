@@ -39,6 +39,9 @@
         <file>common/GridItem.qml</file>
         <file>common/LoggerSettings.qml</file>
         <file>common/LoggerDatasetSelector.qml</file>
+        <file>common/CustomerDataEntry.qml</file>
+        <file>common/CustomerDataEditor.qml</file>
+        <file>common/CustomerDataBrowser.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>

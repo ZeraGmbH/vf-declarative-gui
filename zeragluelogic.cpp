@@ -621,7 +621,7 @@ class ZeraGlueLogicPrivate
 
       if(t_cmpData->entityId() != static_cast<int>(Modules::DftModule))
       {
-        if(t_cmpData->componentName() == "PAR_MeasuringMode") // these values need some string formatting
+        if(t_cmpData->componentName() == QLatin1String("PAR_MeasuringMode")) // these values need some string formatting
         {
           // (%Mode) %Name
           const QString tmpValue = QString("(%1) %2").arg(t_cmpData->newValue().toString()).arg(getAvmNameById(t_cmpData->entityId()));
@@ -639,7 +639,7 @@ class ZeraGlueLogicPrivate
         if(tmpVector.isEmpty() == false)
         {
           double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) * 180 / M_PI; //y=im, x=re converted to degree
-          if(t_cmpData->componentName() == "ACT_DFTPN1") /// @todo use a user selected reference channel or PLL reference channel
+          if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN1")) /// @todo use a user selected reference channel or PLL reference channel
           {
             m_dftReferenceValue = vectorAngle;
           }
@@ -651,32 +651,32 @@ class ZeraGlueLogicPrivate
 
           m_actValueData->setData(mIndex, vectorAngle, valueCoordiates.x());
 
-          if(t_cmpData->componentName() == "ACT_DFTPN1")
+          if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN1"))
           {
             m_angleU1 = vectorAngle;
             setAngleUI(1);
           }
-          else if(t_cmpData->componentName() == "ACT_DFTPN2")
+          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN2"))
           {
             m_angleU2 = vectorAngle;
             setAngleUI(2);
           }
-          else if(t_cmpData->componentName() == "ACT_DFTPN3")
+          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN3"))
           {
             m_angleU3 = vectorAngle;
             setAngleUI(3);
           }
-          else if(t_cmpData->componentName() == "ACT_DFTPN4")
+          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN4"))
           {
             m_angleI1 = vectorAngle;
             setAngleUI(1);
           }
-          else if(t_cmpData->componentName() == "ACT_DFTPN5")
+          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN5"))
           {
             m_angleI2 = vectorAngle;
             setAngleUI(2);
           }
-          else if(t_cmpData->componentName() == "ACT_DFTPN6")
+          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN6"))
           {
             m_angleI3 = vectorAngle;
             setAngleUI(3);

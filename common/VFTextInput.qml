@@ -80,7 +80,7 @@ Item {
         confirmInput()
       }
 
-      color: Material.primaryTextColor
+      //color: Material.primaryTextColor
     }
   }
 

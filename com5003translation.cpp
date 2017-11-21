@@ -64,6 +64,8 @@ void Com5003Translation::reloadStringTable()
   //: as in "close this view"
   insert("Close", tr("Close", "not open"));
 
+  insert("Accept", tr("Accept"));
+  insert("Save", tr("Save"));
   insert("Default session", tr("Default session"));
   insert("Reference session", tr("Reference session"));
   //: changing energy direction session
@@ -198,10 +200,15 @@ void Com5003Translation::reloadStringTable()
   //Zera Classes -> zera-basemodule -> errormessages.h
   //: RESMAN = resource manager
   insert("RESMAN ident error", tr("RESMAN ident error"));
+  //: RESMAN = resource manager
   insert("RESMAN resourcetype not avail", tr("RESMAN resourcetype not avail"));
+  //: RESMAN = resource manager
   insert("RESMAN resource not avail", tr("RESMAN resource not avail"));
+  //: RESMAN = resource manager
   insert("RESMAN resource Info error", tr("RESMAN resource Info error"));
+  //: RESMAN = resource manager
   insert("RESMAN set resource failed", tr("RESMAN set resource failed"));
+  //: RESMAN = resource manager
   insert("RESMAN free resource failed", tr("RESMAN free resource failed"));
   insert("PCB dsp channel read failed", tr("PCB dsp channel read failed"));
   insert("PCB alias read failed", tr("PCB alias read failed"));
@@ -244,12 +251,19 @@ void Com5003Translation::reloadStringTable()
   insert("DSP subdc write failed", tr("DSP subdc write failed"));
   //: SEC = standard error calculator
   insert("SEC fetch ecalculator failed", tr("SEC fetch ecalculator failed"));
+  //: SEC = standard error calculator
   insert("SEC free ecalculator failed", tr("SEC free ecalculator failed"));
+  //: SEC = standard error calculator
   insert("SEC read register failed", tr("SEC read register failed"));
+  //: SEC = standard error calculator
   insert("SEC write register failed", tr("SEC write register failed"));
+  //: SEC = standard error calculator
   insert("SEC set sync failed", tr("SEC set sync failed"));
+  //: SEC = standard error calculator
   insert("SEC set mux failed", tr("SEC set mux failed"));
+  //: SEC = standard error calculator, cmdid = command id
   insert("SEC set cmdid failed", tr("SEC set cmdid failed"));
+  //: SEC = standard error calculator
   insert("SEC stop measure failed", tr("SEC stop measure failed"));
   insert("Interface JSON Document strange", tr("Interface JSON Document strange"));
   insert("Ethernet interface listen failed", tr("Ethernet interface listen failed"));
@@ -277,16 +291,64 @@ void Com5003Translation::reloadStringTable()
   insert("Filesystem info:", tr("Filesystem info:"));
   insert("Device name: <b>%1</b>", tr("Device name: <b>%1</b>"));
   insert("Filesystem type: <b>%1</b>", tr("Filesystem type: <b>%1</b>"));
+  //: %1 = available, %2 = total, %3 = percentage available
   insert("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)", tr("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)"));
   insert("Scheduled logging enabled:", tr("Scheduled logging enabled:"));
+  //: describes the duration of the recording
   insert("Logging Duration:", tr("Logging Duration:"));
   insert("Logger status:", tr("Logger status:"));
+  //: describes the ongoing task of data recording
   insert("Logging data", tr("Logging data"));
   insert("Logging disabled", tr("Logging disabled"));
   insert("Database loaded", tr("Database loaded"));
   insert("Database error", tr("Database error"));
   insert("Database size:", tr("Database size:"));
+  //: the user can make a selection of values he wants to log into a database
   insert("Select recorded values:", tr("Select recorded values:"));
+  insert("Manage customer data:", tr("Manage customer data:"));
+
+  //CustomerDataEntry.qml
+  insert("Customer data", tr("Customer data"));
+  insert("Customer", tr("Customer"));
+  //: power meter, not distance
+  insert("Meter information", tr("Meter information"));
+  insert("Location", tr("Location"));
+  insert("Power grid", tr("Power grid"));
+  insert("PAR_DatasetIdentifier", tr("Data Identifier:"));
+  insert("PAR_DatasetComment", tr("Data Comment:"));
+  insert("PAR_CustomerNumber", tr("Customer number:"));
+  insert("PAR_CustomerFirstName", tr("Customer First name:"));
+  insert("PAR_CustomerLastName", tr("Customer Last name:"));
+  insert("PAR_CustomerCountry", tr("Customer Country:"));
+  insert("PAR_CustomerCity", tr("Customer City:"));
+  insert("PAR_CustomerPostalCode", tr("Customer ZIP code:", "Postal code"));
+  insert("PAR_CustomerStreet", tr("Customer Street:"));
+  insert("PAR_CustomerComment", tr("Customer Comment:"));
+  insert("PAR_LocationNumber", tr("Location Identifier:"));
+  insert("PAR_LocationFirstName", tr("Location First name:"));
+  insert("PAR_LocationLastName", tr("Location Last name:"));
+  insert("PAR_LocationCountry", tr("LocationCountry:"));
+  insert("PAR_LocationCity", tr("Location City:"));
+  insert("PAR_LocationPostalCode", tr("Location ZIP code:", "Postal code"));
+  insert("PAR_LocationStreet", tr("Location Street:"));
+  insert("PAR_LocationComment", tr("Location Comment:"));
+  insert("PAR_MeterFactoryNumber", tr("Meter Factory number:"));
+  insert("PAR_MeterManufacturer", tr("Meter Manufacturer:"));
+  insert("PAR_MeterOwner", tr("Meter Owner:"));
+  insert("PAR_MeterComment", tr("Meter Comment:"));
+  insert("PAR_PowerGridOperator", tr("Power grid Operator:"));
+  insert("PAR_PowerGridSupplier", tr("Power grid Supplier:"));
+  insert("PAR_PowerGridComment", tr("Power grid Comment:"));
+
+  //CustomerDataBrowser.qml
+  insert("New file", tr("New file"));
+  insert("File name:", tr("File name:"));
+  insert("Search", tr("Search"));
+  insert("Clear", tr("Clear"));
+  insert("Delete file", tr("Delete file"));
+  insert("Really delete file <b>'%1'</b>?", tr("Really delete file <b>'%1'</b>?"));
+
+
 }
 
 QVariant Com5003Translation::updateValue(const QString &key, const QVariant &input)

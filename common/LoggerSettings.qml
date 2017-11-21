@@ -15,6 +15,7 @@ CCMP.SettingsView {
   id: root
   viewAnchors.bottomMargin: buttonContainer.height
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+  rowHeight: height/12
 
   function msToTime(s) {
     var ms = s % 1000;
@@ -45,12 +46,31 @@ CCMP.SettingsView {
     return Number(mSeconds);
   }
 
-  LoggerDatasetSelector {
+  Loader {
     id: loggerDataSelection
-    width: root.width
-    height: root.height
-    closePolicy: Popup.NoAutoClose
+    active: false
+    sourceComponent: LoggerDatasetSelector {
+      width: root.width
+      height: root.height
+      closePolicy: Popup.NoAutoClose
+      visible: true
+      onClosed: loggerDataSelection.active = false
+    }
   }
+
+  Loader {
+    id: cDataPopup
+    active: false
+    sourceComponent: CustomerDataEntry {
+      width: root.width
+      height: root.height
+      closePolicy: Popup.NoAutoClose
+      visible: true
+      onClosed: cDataPopup.active = false
+    }
+  }
+
+
 
   model: VisualItemModel {
     Item {
@@ -200,6 +220,10 @@ CCMP.SettingsView {
         }
       }
     }
+
+
+
+
     RowLayout {
       anchors.left: parent.left
       anchors.right: parent.right
@@ -216,12 +240,13 @@ CCMP.SettingsView {
         text: FA.fa_cogs
         font.family: "FontAwesome"
         font.pixelSize: 20
+        implicitHeight: root.rowHeight
         enabled: loggerEntity.LoggingEnabled === false
-        onClicked: loggerDataSelection.visible=1;
+        onClicked: loggerDataSelection.active=true;
       }
     }
     Item {
-      height: loggerEntity.ScheduledLoggingEnabled === true ? root.rowHeight*2 : root.rowHeight;
+      height: root.rowHeight*2
       width: root.rowWidth;
 
       RowLayout {
@@ -246,17 +271,19 @@ CCMP.SettingsView {
         }
       }
       RowLayout {
-        visible: loggerEntity.ScheduledLoggingEnabled === true
+        enabled: loggerEntity.ScheduledLoggingEnabled === true
+        opacity: enabled ? 1.0 : 0.5
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: 16
         anchors.rightMargin: 16
-
+        height: root.rowHeight
         Label {
           textFormat: Text.PlainText
           text: ZTR["Logging Duration:"]
           font.pixelSize: 20
+          height: root.rowHeight
 
           Layout.fillWidth: true
         }
@@ -290,9 +317,32 @@ CCMP.SettingsView {
           visible: loggerEntity.LoggingEnabled === true
           font.pixelSize: 20
           property var countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
+          height: root.rowHeight
 
           text: countDown;
         }
+      }
+    }
+    RowLayout {
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.leftMargin: 16
+      anchors.rightMargin: 16
+      visible: VeinEntity.hasEntity("CustomerData")
+      Label {
+        textFormat: Text.PlainText
+        text: ZTR["Manage customer data:"]
+        font.pixelSize: 20
+
+        Layout.fillWidth: true
+      }
+      Button {
+        text: FA.fa_cogs
+        font.family: "FontAwesome"
+        font.pixelSize: 20
+        implicitHeight: root.rowHeight
+        enabled: loggerEntity.LoggingEnabled === false
+        onClicked: cDataPopup.active=true;
       }
     }
   }

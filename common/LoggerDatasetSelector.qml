@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
 import "qrc:/data/staticdata/FontAwesome.js" as FA
+import Com5003Translation  1.0
 
 Popup {
   id: root
@@ -37,7 +38,7 @@ Popup {
                                  "entName": entityName,
                                  "compName": tmpComponentName,
                                  "compDescription": componentIntrospection.ComponentInfo[tmpComponentName].Description,
-                                 "compUnit": componentIntrospection.ComponentInfo[tmpComponentName].Unit,
+                                 "compUnit": componentIntrospection.ComponentInfo[tmpComponentName].Unit ? componentIntrospection.ComponentInfo[tmpComponentName].Unit : "",
                                });
         }
         else if(tmpComponentName.match(componentWhitelistFilter) !== null)
@@ -47,7 +48,7 @@ Popup {
                               "entName": entityName,
                               "compName": tmpComponentName,
                               "compDescription": componentIntrospection.ComponentInfo[tmpComponentName].Description,
-                              "compUnit": componentIntrospection.ComponentInfo[tmpComponentName].Unit,
+                              "compUnit": componentIntrospection.ComponentInfo[tmpComponentName].Unit ? componentIntrospection.ComponentInfo[tmpComponentName].Unit : "",
                             });
         }
       }
@@ -359,7 +360,7 @@ Popup {
 
     Button {
       id: acceptButton
-      text: "Accept"
+      text: ZTR["Accept"]
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
@@ -371,10 +372,12 @@ Popup {
         {
           var tmpObj = selectedModel.get(i);
           var tmpArray = [];
+          //get the previous components for tmpObj
           if(componentsToLog[tmpObj.entId] !== undefined)
           {
             tmpArray = componentsToLog[tmpObj.entId];
           }
+          //add the new component
           tmpArray.push(tmpObj.compName);
           componentsToLog[tmpObj.entId] = tmpArray;
         }
@@ -385,7 +388,7 @@ Popup {
 
     Button {
       id: resetButton
-      text: "Close"
+      text: ZTR["Close"]
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom

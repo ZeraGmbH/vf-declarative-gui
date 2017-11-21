@@ -18,6 +18,7 @@ Item {
     id: sView
     clip: true
     anchors.fill: parent
+    spacing: 0
     model: root.model
     boundsBehavior: Flickable.StopAtBounds
     ScrollIndicator.vertical: ScrollIndicator {

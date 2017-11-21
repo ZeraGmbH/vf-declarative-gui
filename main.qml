@@ -266,6 +266,7 @@ ApplicationWindow {
       Loader {
         id: pageLoader
         source: pageView.currentValue
+        asynchronous: true
       }
       Loader {
         sourceComponent: rangePeak

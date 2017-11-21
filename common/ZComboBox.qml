@@ -22,7 +22,7 @@ Rectangle {
   opacity: enabled ? 1.0 : 0.5
   radius: 4
 
-  property int count : (model !==undefined) ? arrayMode===true ? fakeModel.count : model.count : 0;
+  property int count : (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
   onCountChanged: {
     updateCurrentText()
   }
@@ -53,7 +53,7 @@ Rectangle {
   property bool centerVertical: false
   property real centerVerticalOffset: 0;
 
-  //used when the dispayed text should only change from external value changes
+  //used when the displayed text should only change from external value changes
   property bool automaticIndexChange: false
 
   function getMaxRows() {
