@@ -23,5 +23,6 @@
         <file>settings.json</file>
         <file>staticdata/resources/transformer.png</file>
         <file>staticdata/resources/burden.png</file>
+        <file>staticdata/resources/checkers_pattern.png</file>
     </qresource>
 </RCC>

@@ -2,17 +2,28 @@ import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VF
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0 //as GC
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import Com5003Translation  1.0
+import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 
-CCMP.SettingsView {
+SettingsView {
   id: root
+
+  readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+
+  ColorPicker {
+    id: colorPicker
+    dim: true
+    property int systemIndex;
+    onColorAccepted: {
+      GC.setSystemColorByIndex(systemIndex, t_color)
+    }
+  }
 
   model: VisualItemModel {
 
@@ -98,6 +109,88 @@ CCMP.SettingsView {
 
                   horizontalAlignment: Qt.AlignHCenter
                   verticalAlignment: Qt.AlignVCenter
+                }
+              }
+            }
+          }
+          Item {
+            id: systemColors
+            height: root.rowHeight;
+            width: root.rowWidth;
+
+            RowLayout {
+              anchors.fill: parent
+              anchors.leftMargin: 16
+              anchors.rightMargin: 16
+
+              Label {
+                textFormat: Text.PlainText
+                text: "System colors:" //ZTR["Display Harmonics as table:"]
+                font.pixelSize: 20
+
+                Layout.fillWidth: true
+              }
+
+              Item {
+                height: root.rowHeight
+                Layout.preferredWidth: root.rowWidth*0.6
+                ListView {
+                  anchors.fill: parent
+                  //Layout.fillWidth: true
+                  model: root.channelCount
+                  orientation: ListView.Horizontal
+                  spacing: 4
+                  boundsBehavior: Flickable.StopAtBounds
+
+                  delegate: Item {
+                    width: root.rowWidth*0.08
+                    height: root.rowHeight
+                    Label {
+                      text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName + ": "
+                      font.pixelSize: 18
+                      anchors.verticalCenter: parent.verticalCenter
+                    }
+                    Rectangle {
+                      height: root.rowHeight*0.7;
+                      width: height
+                      radius: height
+                      color: GC.systemColorByIndex(index+1)
+                      anchors.verticalCenter: parent.verticalCenter
+                      anchors.right: parent.right
+
+                      Label {
+                        font.family: "FontAwesome"
+                        font.pixelSize: 18
+                        text: FA.fa_pencil
+                        style: Text.Outline;
+                        styleColor: "black"
+                        anchors.centerIn: parent
+                      }
+                      MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                          colorPicker.systemIndex = index+1
+                          colorPicker.oldColor = GC.systemColorByIndex(index+1)
+                          colorPicker.x = root.width/2 - colorPicker.width/2
+                          colorPicker.y = mapToItem(root,x,y).y - colorPicker.height/2
+                          colorPicker.open()
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              Button {
+                text: ZTR["Reset colors"]
+                onClicked: {
+                  GC.setSystemColorByIndex(1, "#EEff0000")
+                  GC.setSystemColorByIndex(2, "#EEffff00")
+                  GC.setSystemColorByIndex(3, "#EE0092ff")
+                  //GC.setSystemColorByIndex(???, "#EE6A25F6")
+                  GC.setSystemColorByIndex(4, "#EEff7755")
+                  GC.setSystemColorByIndex(5, "#EEffffbb")
+                  GC.setSystemColorByIndex(6, "#EE58acfa")
+                  //GC.setSystemColorByIndex(???, "#EEB08EF5")
                 }
               }
             }

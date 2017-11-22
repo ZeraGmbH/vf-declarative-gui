@@ -35,6 +35,16 @@ Item {
     settings.globalSettings.setOption("range_peak_logarithmic", setValue)
   }
 
+  function setSystemColorByIndex(index, color) {
+    //index starts with 1 not 0
+    var realIndex = index-1;
+    var availableSystems = ["system1ColorDark", "system2ColorDark", "system3ColorDark", "system1Color", "system2Color", "system3Color"]
+    if(realIndex<availableSystems.length && color !== undefined)
+    {
+      settings.globalSettings.setOption(availableSystems[realIndex], color);
+    }
+  }
+
   readonly property color system1ColorBright: settings.globalSettings.getOption("system1Color") //"#EEff7755"
   readonly property color system1ColorDark: settings.globalSettings.getOption("system1ColorDark") // "#EEff0000"
 

@@ -98,6 +98,7 @@ void Com5003Translation::reloadStringTable()
   insert("PLL channel:", tr("PLL channel:"));
   //: automatic phase locked loop channel selection
   insert("PLL channel automatic:", tr("PLL channel automatic:"));
+  insert("Reset colors", tr("Reset colors"));
 
   //SettingsInterval.qml
   /*: time based integration interval */
