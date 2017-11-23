@@ -103,9 +103,9 @@ void ZeraTranslation::reloadStringTable()
   insert("Reset colors", tr("Reset colors"));
 
   //SettingsInterval.qml
-  /*: time based integration interval */
+  //: time based integration interval
   insert("Integration time interval:", tr("Integration time interval:"));
-  /*: measurement period based integration interval */
+  //: measurement period based integration interval
   insert("Integration period interval:", tr("Integration period interval:"));
 
   //main.qml
@@ -300,7 +300,7 @@ void ZeraTranslation::reloadStringTable()
   //: describes the duration of the recording
   insert("Logging Duration:", tr("Logging Duration:"));
   insert("Logger status:", tr("Logger status:"));
-  //: describes the ongoing task of data recording
+  //: describes the ongoing task of recording data into a database
   insert("Logging data", tr("Logging data"));
   insert("Logging disabled", tr("Logging disabled"));
   insert("Database loaded", tr("Database loaded"));
@@ -344,11 +344,15 @@ void ZeraTranslation::reloadStringTable()
   insert("PAR_PowerGridComment", tr("Power grid Comment:"));
 
   //CustomerDataBrowser.qml
+  //: Button text, action to create a file
   insert("New file", tr("New file"));
   insert("File name:", tr("File name:"));
   insert("Search", tr("Search"));
+  //: clears input field
   insert("Clear", tr("Clear"));
+  //: Button text, action to delete a file
   insert("Delete file", tr("Delete file"));
+  //: %1 the file that is about to be deleted
   insert("Really delete file <b>'%1'</b>?", tr("Really delete file <b>'%1'</b>?"));
 
 
