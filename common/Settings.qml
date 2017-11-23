@@ -116,7 +116,7 @@ SettingsView {
           }
           Item {
             id: systemColors
-            visible: currentSession.indexOf("ref") === -1 ///@todo replace with proper check later
+            visible: currentSession !== "com5003-ref-session.json" ///@todo replace hardcoded
             height: root.rowHeight;
             width: root.rowWidth;
 

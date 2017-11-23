@@ -14,7 +14,7 @@ Item {
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
   property bool bottomLabels: true
-  property real maxValue: VeinEntity.getEntity("_System").Session !== "1_ref-session.json" ? 1000 : 20
+  property real maxValue: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? 1000 : 20
   property real minValue: Math.pow(10,-3)
 
   property bool rangeGrouping: false

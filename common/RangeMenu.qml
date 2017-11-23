@@ -62,7 +62,7 @@ Item {
       height: grid.cellHeight*2
       width: grid.cellWidth*4
       font.pixelSize: Math.min(18, root.height/20, width/6)
-      color: VeinEntity.getEntity("_System").Session !== "1_ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
+      color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
     }
     VFControls.VFSwitch {
       id: autoMode
@@ -71,7 +71,7 @@ Item {
       width: grid.cellWidth*4
       entity: root.rangeModule
       controlPropertyName: "PAR_RangeAutomatic"
-      enabled: VeinEntity.getEntity("_System").Session !== "1_ref-session.json"
+      enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
     }
     Button {
       id: overloadButton
@@ -113,7 +113,7 @@ Item {
       height: grid.cellHeight*2
       width: grid.cellWidth*4
       font.pixelSize: Math.min(18, root.height/20, width/6)
-      color: VeinEntity.getEntity("_System").Session !== "1_ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
+      color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
     }
     VFControls.VFSwitch {
       id: groupingMode
@@ -122,7 +122,7 @@ Item {
       height: grid.cellHeight*2
       width: grid.cellWidth*4
       entity: root.rangeModule
-      enabled: VeinEntity.getEntity("_System").Session !== "1_ref-session.json"
+      enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
       controlPropertyName: "PAR_ChannelGrouping"
     }
     Label {
