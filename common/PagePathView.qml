@@ -4,7 +4,7 @@ import QtQuick.Controls 2.0
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 import "qrc:/components/common" as CCMP
 import VeinEntity 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 
 Item {
   id: root

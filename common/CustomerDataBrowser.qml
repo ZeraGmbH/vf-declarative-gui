@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
@@ -105,6 +105,9 @@ Item {
 
   Popup {
     id: removeFilePopup
+    x: parent.width/2 - width/2
+    modal: true
+    dim: true
     property string fileName;
     onClosed: fileName="";
     Column {
@@ -168,8 +171,8 @@ Item {
       anchors.bottom: parent.bottom
       anchors.margins: 4
       displayText: ZTR[currentText]
-      ///@note qt 5.9 supports non flat ComboBox
       //flat: false
+
 
       ///@note qt 5.9 has a policy for scrollbars to be visible if required instead of the current "hiding if not scrolling" bullshit
       //...policy: ScrollBar.AsNeeded //or ScrollBar.AlwaysOn
@@ -275,9 +278,6 @@ Item {
           //padding: 0
           implicitHeight: rowHeight*1.5
           onClicked: {
-            removeFilePopup.x = x
-            removeFilePopup.y = mapToItem(root, x, y).y-height/2
-
             removeFilePopup.fileName = modelData
             removeFilePopup.open()
           }

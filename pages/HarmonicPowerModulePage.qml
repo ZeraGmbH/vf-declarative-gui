@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import GlobalConfig 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 
 import ModuleIntrospection 1.0
 

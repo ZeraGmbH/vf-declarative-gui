@@ -7,7 +7,7 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0 //as GC
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 
@@ -20,6 +20,7 @@ SettingsView {
     id: colorPicker
     dim: true
     property int systemIndex;
+    x: parent.width/2 - width/2
     onColorAccepted: {
       GC.setSystemColorByIndex(systemIndex, t_color)
     }
@@ -115,6 +116,7 @@ SettingsView {
           }
           Item {
             id: systemColors
+            visible: currentSession.indexOf("ref") === -1 ///@todo replace with proper check later
             height: root.rowHeight;
             width: root.rowWidth;
 
@@ -125,7 +127,7 @@ SettingsView {
 
               Label {
                 textFormat: Text.PlainText
-                text: "System colors:" //ZTR["Display Harmonics as table:"]
+                text: ZTR["System colors:"]
                 font.pixelSize: 20
 
                 Layout.fillWidth: true
@@ -171,8 +173,6 @@ SettingsView {
                         onClicked: {
                           colorPicker.systemIndex = index+1
                           colorPicker.oldColor = GC.systemColorByIndex(index+1)
-                          colorPicker.x = root.width/2 - colorPicker.width/2
-                          colorPicker.y = mapToItem(root,x,y).y - colorPicker.height/2
                           colorPicker.open()
                         }
                       }

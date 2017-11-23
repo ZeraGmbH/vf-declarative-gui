@@ -373,6 +373,8 @@ void FftBarChart::setColorLeftAxis(QColor t_color)
 
   m_plot->axisWidget(QwtPlot::yLeft)->setPalette(tmpPa);
   m_colorLeftAxis = t_color;
+  //refresh bars
+  onLeftBarCountChanged(m_leftBarCount);
 }
 
 void FftBarChart::setTitleLeftAxis(QString t_title)
@@ -450,6 +452,8 @@ void FftBarChart::setColorRightAxis(QColor t_color)
 
   m_plot->axisWidget(QwtPlot::yRight)->setPalette(tmpPa);
   m_colorRightAxis = t_color;
+  //refresh bars
+  onLeftBarCountChanged(m_leftBarCount);
 }
 
 

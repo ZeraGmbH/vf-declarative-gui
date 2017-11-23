@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
 import FPSCounter 1.0
 import VeinEntity 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 
 import "qrc:/pages" as Pages
 import "qrc:/components/common" as CCMP
@@ -337,6 +337,8 @@ ApplicationWindow {
       anchors.left: parent.left
       anchors.right: parent.right
       background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
+      //provide more contrast
+      Material.accent: Material.Amber
 
       RowLayout {
         anchors.fill: parent
@@ -427,7 +429,7 @@ ApplicationWindow {
             anchors.leftMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
             opacity: newErrors ? 1.0 : 0.2
-            color: newErrors ? Material.color(Material.Yellow) : Material.secondaryTextColor
+            color: newErrors ? Material.color(Material.Yellow) : (parent.highlighted ? parent.contentItem.color : Material.secondaryTextColor)
           }
           Label {
             text: displayWindow.errorMessages.length > 0 ? String("(%1)").arg(displayWindow.errorMessages.length) : ""
@@ -436,6 +438,7 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.rightMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
+            color: parent.contentItem.color
           }
         }
         ToolButton {

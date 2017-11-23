@@ -1,15 +1,15 @@
-#include "com5003translation.h"
+#include "zeratranslation.h"
 #include <QLocale>
 #include <QFile>
 #include <QApplication>
 #include <QDebug>
 
-Com5003Translation::Com5003Translation(QObject *parent) : QQmlPropertyMap(this, parent)
+ZeraTranslation::ZeraTranslation(QObject *parent) : QQmlPropertyMap(this, parent)
 {
 
 }
 
-void Com5003Translation::setStaticInstance(Com5003Translation *t_instance)
+void ZeraTranslation::setStaticInstance(ZeraTranslation *t_instance)
 {
   if(s_instance == nullptr)
   {
@@ -17,7 +17,7 @@ void Com5003Translation::setStaticInstance(Com5003Translation *t_instance)
   }
 }
 
-QObject *Com5003Translation::getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
+QObject *ZeraTranslation::getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
 {
   Q_UNUSED(t_engine);
   Q_UNUSED(t_scriptEngine);
@@ -26,7 +26,7 @@ QObject *Com5003Translation::getStaticInstance(QQmlEngine *t_engine, QJSEngine *
 }
 
 
-void Com5003Translation::changeLanguage(const QString &t_language)
+void ZeraTranslation::changeLanguage(const QString &t_language)
 {
   if(m_currentLanguage != t_language)
   {
@@ -34,7 +34,7 @@ void Com5003Translation::changeLanguage(const QString &t_language)
     QLocale locale = QLocale(m_currentLanguage);
     QLocale::setDefault(locale);
     QString languageName = QLocale::languageToString(locale.language());
-    const QString filename = ":/translations/com5003-gui_%1.qm"; ///@todo change to /opt/zera/com5003-gui/lang_%1.qm
+    const QString filename = ":/translations/com5003-gui_%1.qm"; ///@todo change to /opt/zera/translation/lang_%1.qm or /usr/share/zera/translation
 
 
     qApp->removeTranslator(&m_translator);
@@ -56,7 +56,7 @@ void Com5003Translation::changeLanguage(const QString &t_language)
   }
 }
 
-void Com5003Translation::reloadStringTable()
+void ZeraTranslation::reloadStringTable()
 {
   //insert("something %1", tr("something %1"))...
 
@@ -98,6 +98,8 @@ void Com5003Translation::reloadStringTable()
   insert("PLL channel:", tr("PLL channel:"));
   //: automatic phase locked loop channel selection
   insert("PLL channel automatic:", tr("PLL channel automatic:"));
+  //: System = measuring system
+  insert("System colors:", tr("System colors:"));
   insert("Reset colors", tr("Reset colors"));
 
   //SettingsInterval.qml
@@ -352,11 +354,11 @@ void Com5003Translation::reloadStringTable()
 
 }
 
-QVariant Com5003Translation::updateValue(const QString &key, const QVariant &input)
+QVariant ZeraTranslation::updateValue(const QString &key, const QVariant &input)
 {
   Q_ASSERT(false); //do not change the values from QML
   Q_UNUSED(input);
   return value(key);
 }
 
-Com5003Translation *Com5003Translation::s_instance=nullptr;
+ZeraTranslation *ZeraTranslation::s_instance=nullptr;

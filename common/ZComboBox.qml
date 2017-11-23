@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 
 Rectangle {
   id: root
@@ -17,7 +17,7 @@ Rectangle {
     expanded ? selectionDialog.open() : selectionDialog.close()
   }
 
-  color: Material.buttonHoverColor
+  color: Qt.darker(Material.frameColor) //buttonPressColor
   //border.color: Material.dropShadowColor
   opacity: enabled ? 1.0 : 0.5
   radius: 4
@@ -184,7 +184,7 @@ Rectangle {
         model: (root.arrayMode===true) ? fakeModel : root.model;
         delegate: Rectangle {
 
-          color: (root.targetIndex === index) ? Material.accent : Material.buttonPressColor
+          color: (root.targetIndex === index) ? Material.accent : Qt.darker(Material.frameColor) //buttonPressColor
           border.color: Material.dropShadowColor
 
           height: root.contentRowHeight

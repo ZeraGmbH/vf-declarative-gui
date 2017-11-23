@@ -3,51 +3,23 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtGraphicalEffects 1.0
-import Com5003Translation 1.0
+import ZeraTranslation 1.0
 
 Popup {
   id: root
   property color oldColor;
   readonly property color newColor: Qt.hsla(hueSlider.value, saturationSlider.value, lightnessSlider.value, alphaSlider.value);
-
+  modal: true
   signal colorAccepted(color t_color)
-
-  ///@todo Qt 5.9 replace this function with the qt color properties hslHue, hslSaturation and hslLightness
-  //code license: MIT from: https://github.com/bgrins/TinyColor/blob/master/tinycolor.js
-  function rgbToHsl(r, g, b) {
-    var max = Math.max(r, g, b)
-    var min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
-
-    if(max === min) {
-      h = s = 0; // achromatic
-    }
-    else {
-      var d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch(max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
-      }
-
-      h /= 6;
-    }
-
-    return { h: h, s: s, l: l };
-  }
-
-
-  width: 400
   RowLayout {
     spacing: 16
     ColumnLayout {
       id: inputLayout
-      width: 200
+      width: root.width/2
       Item {
         //hue bar
         width: inputLayout.width
-        height: root.height/8
+        height: root.height/12
         LinearGradient {
           anchors.fill: parent
           start: Qt.point(0, 0)
@@ -70,19 +42,18 @@ Popup {
       Slider {
         id: hueSlider
         width: inputLayout.width
-        height: root.height/8
+        height: root.height/12
         from: 0
         to: 1
         stepSize: 0.01
         leftPadding: 0
-        //value: oldColor.hslHue ///@todo: qt 5.9
-        value: rgbToHsl(oldColor.r, oldColor.g, oldColor.b).h
-        //live: true ///@todo: qt 5.9
+        value: oldColor.hslHue
+        //value: rgbToHsl(oldColor.r, oldColor.g, oldColor.b).h
       }
       Item {
         //saturation bar
         width: inputLayout.width
-        height: root.height/8
+        height: root.height/12
         LinearGradient {
           anchors.fill: parent
           start: Qt.point(0, 0)
@@ -96,18 +67,16 @@ Popup {
       Slider {
         id: saturationSlider
         width: inputLayout.width
-        height: root.height/8
+        height: root.height/12
         from: 0
         to: 1
         stepSize: 0.01
         leftPadding: 0
-        //value: oldColor.hslSaturation ///@todo: qt 5.9
-        value: rgbToHsl(oldColor.r, oldColor.g, oldColor.b).s
-        //live: true ///@todo: qt 5.9
+        value: oldColor.hslSaturation
       }
       Item {
         width: inputLayout.width
-        height: root.height/8
+        height: root.height/12
         LinearGradient {
           anchors.fill: parent
           start: Qt.point(0, 0)
@@ -124,22 +93,20 @@ Popup {
       Slider {
         id: lightnessSlider
         width: inputLayout.width
-        height: root.height/8
+        height: root.height/12
         from: 0
         to: 1
         stepSize: 0.01
         leftPadding: 0
-        //value: oldColor.hslLightness ///@todo: qt 5.9
-        value: rgbToHsl(oldColor.r, oldColor.g, oldColor.b).l
-        //live: true ///@todo: qt 5.9
+        value: oldColor.hslLightness
       }
       Item {
-        height: root.height/8
+        height: root.height/12
         width: inputLayout.width
         clip: true
         Image {
           //alpha bar
-          height: root.height/8
+          height: root.height/12
           width: inputLayout.width
           source: "qrc:/data/staticdata/resources/checkers_pattern.png"
 
@@ -162,23 +129,22 @@ Popup {
       Slider {
         id: alphaSlider
         width: inputLayout.width
-        height: root.height/8
+        height: root.height/12
         from: 0
         to: 1
         stepSize: 0.01
         leftPadding: 0
         value: oldColor.a
-        //live: true ///@todo: qt 5.9
       }
     }
     Item {
-      width: root.width/2
+      width: root.width/1.5
       height: root.height
       Button {
         text: ZTR["Accept"]
         anchors.left: parent.left
         anchors.bottom: parent.bottom
-        padding: 0
+        highlighted: true
         onClicked: {
           colorAccepted(newColor);
           close();
@@ -188,7 +154,6 @@ Popup {
         text: ZTR["Close"]
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        padding: 0
         onClicked: close()
       }
       Rectangle {

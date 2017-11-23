@@ -1,5 +1,5 @@
-#ifndef COM5003TRANSLATION_H
-#define COM5003TRANSLATION_H
+#ifndef ZeraTranslation_H
+#define ZeraTranslation_H
 
 #include <QQmlPropertyMap>
 #include <QTranslator>
@@ -9,16 +9,16 @@ class QJSEngine;
 QT_END_NAMESPACE
 
 /**
- * @brief The Com5003Translation class
+ * @brief
  * @todo add search path variable for .ts files: /usr/share/vf-gui-com5003/translations as default ?
  */
-class Com5003Translation : public QQmlPropertyMap
+class ZeraTranslation : public QQmlPropertyMap
 {
   Q_OBJECT
 public:
-  explicit Com5003Translation(QObject *parent = 0);
+  explicit ZeraTranslation(QObject *parent = 0);
 
-  static void setStaticInstance(Com5003Translation *t_instance);
+  static void setStaticInstance(ZeraTranslation *t_instance);
 
   static QObject *getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine);
 
@@ -32,7 +32,7 @@ private:
   void reloadStringTable();
 
 
-  static Com5003Translation *s_instance;
+  static ZeraTranslation *s_instance;
 
   QString m_currentLanguage;
   QTranslator m_translator;
@@ -42,4 +42,4 @@ protected:
   QVariant updateValue(const QString &key, const QVariant &input) override;
 };
 
-#endif // COM5003TRANSLATION_H
+#endif // ZeraTranslation_H

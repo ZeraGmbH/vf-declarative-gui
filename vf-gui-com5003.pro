@@ -33,7 +33,7 @@ else {
   #LIBS += -L/work/qt_projects/distrib/usr/lib/
 
   unix:!android:LIBS += -L/work/qt_projects/vein-framework/libs
-  unix:!android:LIBS += -L/work/downloads/build-qwt-Desktop_Qt_5_7_0_GCC_64bit-Debug/lib/
+  unix:!android:LIBS += -L/work/downloads/build-qwt-Desktop_Qt_5_9_3_GCC_64bit-Debug/lib/
   android:LIBS += -L/work/qt_projects/vein-framework/libs-android
   android:LIBS += -L/work/downloads/build-qwt-Android_f_r_armeabi_v7a_GCC_4_8_Qt_5_6_0-Debug/lib
 
@@ -58,10 +58,10 @@ SOURCES += main.cpp \
     bardata.cpp \
     barchart.cpp \
     cbar.cpp \
-    com5003translation.cpp \
     phasordiagram.cpp \
     gluelogicpropertymap.cpp \
-    zeragluelogic.cpp
+    zeragluelogic.cpp \
+    zeratranslation.cpp
 
 RESOURCES += \
     qml.qrc \
@@ -85,17 +85,17 @@ HEADERS += \
     bardata.h \
     barchart.h \
     cbar.h \
-    com5003translation.h \
     phasordiagram.h \
     gluelogicpropertymap.h \
-    zeragluelogic.h
+    zeragluelogic.h \
+    zeratranslation.h
 
 #Qt 5.6.3 / 5.7.2 / 5.8 should not need this, see: https://bugreports.qt.io/browse/QTBUG-53206
-lupdate_only {
-SOURCES += *.qml \
-          pages/*.qml \
-          common/*.qml
-}
+#lupdate_only {
+#SOURCES += *.qml \
+#          pages/*.qml \
+#          common/*.qml
+#}
 
 ZGUI_CONFIG_FILES = settings.json
 

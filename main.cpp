@@ -19,7 +19,7 @@
 #include "cbar.h"
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
-#include "com5003translation.h"
+#include "zeratranslation.h"
 #include "phasordiagram.h"
 
 #include "jsonglobalsettings.h"
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<BarChart>("QwtChart", 1, 0, "BarChart");
   qmlRegisterType<cBar>("QwtChart", 1, 0, "Bar");
   qmlRegisterType<PhasorDiagram>("PhasorDiagram", 1, 0, "PhasorDiagram");
-  qmlRegisterSingletonType<Com5003Translation>("Com5003Translation", 1, 0, "ZTR", Com5003Translation::getStaticInstance);
+  qmlRegisterSingletonType<ZeraTranslation>("ZeraTranslation", 1, 0, "ZTR", ZeraTranslation::getStaticInstance);
   qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
 
   qmlRegisterSingletonType(QUrl("qrc:/components/common/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
@@ -58,9 +58,9 @@ int main(int argc, char *argv[])
   QApplication app(argc, argv);
   app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
-  Com5003Translation *comTranslation = new Com5003Translation(&app);
-  comTranslation->changeLanguage(QLocale::system().bcp47Name());
-  Com5003Translation::setStaticInstance(comTranslation);
+  ZeraTranslation *zeraTranslation = new ZeraTranslation(&app);
+  zeraTranslation->changeLanguage(QLocale::system().bcp47Name());
+  ZeraTranslation::setStaticInstance(zeraTranslation);
 
   GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
   GlueLogicPropertyMap::setStaticInstance(glueLogicMap);

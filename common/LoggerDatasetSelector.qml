@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
 import "qrc:/data/staticdata/FontAwesome.js" as FA
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 
 Popup {
   id: root

@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 import ModuleIntrospection 1.0
 import "qrc:/vf-controls/common" as VFControls
 import GlobalConfig 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 
 Item {
   id: root
@@ -104,22 +104,6 @@ Item {
           ColorAnimation {
             duration: 400
           }
-        }
-
-        Rectangle {
-          width: parent.width
-          height: parent.height
-          radius: parent.radius
-          visible: overloadButton.activeFocus
-          color: overloadButton.Material.checkBoxUncheckedRippleColor
-        }
-
-        layer.enabled: overloadButton.enabled
-        layer.effect: DropShadow {
-          verticalOffset: 1
-          color: overloadButton.Material.dropShadowColor
-          samples: overloadButton.pressed ? 15 : 9
-          spread: 0.5
         }
       }
     }

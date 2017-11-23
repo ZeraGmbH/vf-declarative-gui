@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import QwtChart 1.0
-import Com5003Translation  1.0
+import ZeraTranslation  1.0
 
 Item {
   id: root
