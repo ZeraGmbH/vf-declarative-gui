@@ -45,7 +45,7 @@ ApplicationWindow {
 
   Label {
     id: startupStatusLabel
-    text: qsTr("Loading...");
+    text: ZTR["Loading..."];
     anchors.centerIn: parent
   }
 
@@ -92,7 +92,7 @@ ApplicationWindow {
         if(resolvedIds.indexOf(entId) < 0) //resolved
         {
           resolvedIds.push(entId);
-          startupStatusLabel.text = qsTr("Loading: %1/%2").arg(resolvedIds.length).arg(requiredIds.length);
+          startupStatusLabel.text = ZTR["Loading: %1/%2"].arg(resolvedIds.length).arg(requiredIds.length);
           checkRequired = true;
         }
       }
@@ -104,15 +104,15 @@ ApplicationWindow {
         if(JSON.stringify(requiredIds) == JSON.stringify(resolvedIds))
         {
           startupStatusLabel.visible=false
-          if(currentSession === "com5003-meas-session.json") //rename to com5003-meas-session
+          if(currentSession === "com5003-meas-session.json")
           {
             pageView.model = com5003MeasModel
           }
-          else if(currentSession === "com5003-ref-session.json") //rename to com5003-ref-session
+          else if(currentSession === "com5003-ref-session.json")
           {
             pageView.model = com5003RefModel
           }
-          else if(currentSession === "com5003-ced-session.json") //rename to com5003-ced-session
+          else if(currentSession === "com5003-ced-session.json")
           {
             pageView.model = com5003CedModel
           }
@@ -128,15 +128,15 @@ ApplicationWindow {
   }
 
   onCurrentSessionChanged: {
-    if(currentSession === "com5003-meas-session.json") //rename to com5003-meas-session
+    if(currentSession === "com5003-meas-session.json")
     {
       requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
     }
-    else if(currentSession === "com5003-ref-session.json") //rename to com5003-ref-session
+    else if(currentSession === "com5003-ref-session.json")
     {
       requiredIds = [0, 2, 1001, 1020, 1050, 1150];
     }
-    else if(currentSession === "com5003-ced-session.json") //rename to com5003-ced-session
+    else if(currentSession === "com5003-ced-session.json")
     {
       requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1090, 1110, 1120, 1130, 1150];
     }
@@ -144,7 +144,7 @@ ApplicationWindow {
 
     requiredIds.sort();
     VeinEntity.setRequiredIds(requiredIds);
-    startupStatusLabel.text = qsTr("Loading: %1/%2").arg(resolvedIds.length).arg(requiredIds.length);
+    startupStatusLabel.text = ZTR["Loading: %1/%2"].arg(resolvedIds.length).arg(requiredIds.length);
     startupStatusLabel.visible = true;
   }
 

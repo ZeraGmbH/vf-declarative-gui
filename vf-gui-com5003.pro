@@ -4,6 +4,16 @@ QT += qml quick widgets opengl svg concurrent printsupport sql
 
 CONFIG += c++11
 
+#enable usefull warnings (some disabled due to qnanopainter)
+  QMAKE_CXXFLAGS += -Wall -Wextra -Wparentheses -Wsuggest-attribute=const #-Wold-style-cast
+  QMAKE_CXXFLAGS += -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual #-Wshadow
+
+#give errors on nasty mistakes
+  QMAKE_CXXFLAGS += -Werror=ignored-qualifiers -Werror=return-type -Werror=return-local-addr -Werror=empty-body #-Werror=non-virtual-dtor -Werror=cast-qual
+
+#gcc refuses to optimize BBOM code, so warn about any such cases
+  QMAKE_CXXFLAGS += -Wdisabled-optimization
+
 
 contains(DEFINES, OE_BUILD) {
   message(Openembedded build)
@@ -61,7 +71,8 @@ SOURCES += main.cpp \
     phasordiagram.cpp \
     gluelogicpropertymap.cpp \
     zeragluelogic.cpp \
-    zeratranslation.cpp
+    zeratranslation.cpp \
+    qmlfileio.cpp
 
 RESOURCES += \
     qml.qrc \
@@ -88,7 +99,8 @@ HEADERS += \
     phasordiagram.h \
     gluelogicpropertymap.h \
     zeragluelogic.h \
-    zeratranslation.h
+    zeratranslation.h \
+    qmlfileio.h
 
 #Qt 5.6.3 / 5.7.2 / 5.8 should not need this, see: https://bugreports.qt.io/browse/QTBUG-53206
 #lupdate_only {

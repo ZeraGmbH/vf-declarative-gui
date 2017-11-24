@@ -109,6 +109,9 @@ void ZeraTranslation::reloadStringTable()
   insert("Integration period interval:", tr("Integration period interval:"));
 
   //main.qml
+  insert("Loading...", tr("Loading..."));
+  //: progress of loading %1 of %2 objects
+  insert("Loading: %1/%2", tr("Loading: %1/%2"));
   //: the measurement view pages e.g. "Vector Diagram", "Oscilloscope view", etc.
   insert("Pages", tr("Pages", "view pages"));
   //: settings for range automatic etc.

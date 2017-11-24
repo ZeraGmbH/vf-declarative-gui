@@ -24,6 +24,7 @@
 
 #include "jsonglobalsettings.h"
 #include "jsonsettingsfile.h"
+#include "qmlfileio.h"
 
 int main(int argc, char *argv[])
 {
@@ -61,6 +62,7 @@ int main(int argc, char *argv[])
   ZeraTranslation *zeraTranslation = new ZeraTranslation(&app);
   zeraTranslation->changeLanguage(QLocale::system().bcp47Name());
   ZeraTranslation::setStaticInstance(zeraTranslation);
+  QmlFileIO::setStaticInstance(new QmlFileIO(&app));
 
   GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
   GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
