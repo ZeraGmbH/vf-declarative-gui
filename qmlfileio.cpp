@@ -112,6 +112,7 @@ bool QmlFileIO::writeJsonFile(const QString &t_fileName, const QVariant &t_conte
 {
   bool retVal = false;
   QFile jsonFile(t_fileName);
+  QJsonDocument jsonDoc;
   if(jsonFile.exists() == false || t_overwrite == true)
   {
     bool dataIsValid = false;
@@ -135,7 +136,6 @@ bool QmlFileIO::writeJsonFile(const QString &t_fileName, const QVariant &t_conte
 
     if(jsonFile.open(QFile::WriteOnly) && dataIsValid == true)
     {
-      QJsonDocument jsonDoc;
       jsonFile.write(jsonDoc.toJson(QJsonDocument::Indented));
       jsonFile.close();
       retVal = true;
