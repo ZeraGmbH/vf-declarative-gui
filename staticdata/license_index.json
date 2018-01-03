@@ -1,0 +1,7 @@
+[
+    { "title": "Qt Framework", "license": ":/data/staticdata/licenses/aboutqt.gplv3" },
+    { "title": "Qwt", "license": ":/data/staticdata/licenses/qwt.lgpl" },
+    { "title": "QNanoPainter", "license": ":/data/staticdata/licenses/qnanopainter.zlib" },
+    { "title": "QML SortFilterProxyModel", "license": ":/data/staticdata/licenses/sortfilterproxyqml.mit" },
+    { "title": "Fontawesome", "license": ":/data/staticdata/licenses/fontawesome.ofl-1.1" }
+]

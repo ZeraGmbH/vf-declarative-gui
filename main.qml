@@ -7,6 +7,7 @@ import ModuleIntrospection 1.0
 import FPSCounter 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import GlobalConfig 1.0
 
 import "qrc:/pages" as Pages
 import "qrc:/components/common" as CCMP
@@ -22,8 +23,38 @@ ApplicationWindow {
 
   title: "COM5003"
 
+  onClosing: {
+    settings.globalSettings.saveToFile(settings.globalSettings.getCurrentFilePath(), true);
+  }
+
+  Component.onCompleted: {
+    currentSession = Qt.binding(function() {
+      return VeinEntity.getEntity("_System").Session;
+    })
+
+    if(VeinEntity.hasEntity("_System"))
+    {
+      errorMessages = Qt.binding(function() {
+        return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
+      })
+    }
+  }
+
   Material.theme: Material.Dark
   Material.accent: "#339966"
+
+//  CCMP.LicenseDialog {
+//    id: lDialog
+//    x: displayWindow.width/2 - width/2
+//    width: displayWindow.width
+//    height: displayWindow.height
+//    Component.onCompleted: {
+//      if(GC.userAcceptedLicenseAgreement === false)
+//      {
+//        open();
+//      }
+//    }
+//  }
 
 
   property bool debugBypass: false;
@@ -47,23 +78,6 @@ ApplicationWindow {
     id: startupStatusLabel
     text: ZTR["Loading..."];
     anchors.centerIn: parent
-  }
-
-  onClosing: {
-    settings.globalSettings.saveToFile(settings.globalSettings.getCurrentFilePath(), true);
-  }
-
-  Component.onCompleted: {
-    currentSession = Qt.binding(function() {
-      return VeinEntity.getEntity("_System").Session;
-    })
-
-    if(VeinEntity.hasEntity("_System"))
-    {
-      errorMessages = Qt.binding(function() {
-        return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
-      })
-    }
   }
 
   Connections {
@@ -130,7 +144,7 @@ ApplicationWindow {
   onCurrentSessionChanged: {
     if(currentSession === "com5003-meas-session.json")
     {
-      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
+      requiredIds = [0, 2, 200, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
     }
     else if(currentSession === "com5003-ref-session.json")
     {

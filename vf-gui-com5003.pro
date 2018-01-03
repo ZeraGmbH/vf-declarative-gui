@@ -86,7 +86,7 @@ target.path = /usr/bin
 # Default rules for deployment.
 include(deployment.pri)
 
-LIBS += -lvein-event -lvein-component -lvein-net -lvein-framework-protobuf -lxiqnet -lqml-veinentity -lvein-logger
+LIBS += -lvein-event -lvein-component -lvein-net2 -lvein-framework-protobuf -lvein-tcp -lqml-veinentity -lvein-logger
 LIBS += -lqwt
 
 HEADERS += \

@@ -13,6 +13,11 @@ Item {
     id: settings
   }
 
+  readonly property bool userAcceptedLicenseAgreement: settings.globalSettings.getOption("licenseAgreementAccepted") === "yes"
+  function acceptLicenseAgreement() {
+    settings.globalSettings.setOption("licenseAgreementAccepted", "yes", true);
+  }
+
   readonly property var locale: Qt.locale(settings.globalSettings.getOption("locale"))
   function setLocale(newLocale) {
     settings.globalSettings.setOption("locale", newLocale);
@@ -32,14 +37,14 @@ Item {
   readonly property bool showRangePeakAsLogAxis : parseInt(settings.globalSettings.getOption("range_peak_logarithmic"))
   function setShowRangePeakAsLogAxis(isLogarithmic) {
     var setValue = isLogarithmic ? 1 : 0;
-    settings.globalSettings.setOption("range_peak_logarithmic", setValue)
+    settings.globalSettings.setOption("range_peak_logarithmic", setValue);
   }
 
   function setSystemColorByIndex(index, color) {
     //index starts with 1 not 0
     var realIndex = index-1;
-    var availableSystems = ["system1ColorDark", "system2ColorDark", "system3ColorDark", "system1Color", "system2Color", "system3Color"]
-    if(realIndex<availableSystems.length && color !== undefined)
+    var availableSystems = ["system1ColorDark", "system2ColorDark", "system3ColorDark", "system1Color", "system2Color", "system3Color"];
+    if(realIndex < availableSystems.length && color !== undefined)
     {
       settings.globalSettings.setOption(availableSystems[realIndex], color);
     }

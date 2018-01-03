@@ -15,7 +15,7 @@
 #include <math.h>
 
 // DISCLAIMER: this is glue logic code, in this sense use the unix philosophy "worse is better"
-// If you don't know what that means then don't assume, just google it!
+// If you don't know what that means then don't make assumptions, just google it!
 
 namespace CommonTable
 {
@@ -156,7 +156,7 @@ public:
   QStandardItemModel * m_model=0;
   int m_row=0;
   //optional timer used for values that change too frequently
-  QTimer *m_updateInterval=0; //use the qt parent system to cleanup the instance
+  QTimer *m_updateInterval=0; //uses the qt parent system to cleanup the instance
 };
 
 class ZeraGlueLogicPrivate

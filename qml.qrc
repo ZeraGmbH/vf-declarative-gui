@@ -43,6 +43,7 @@
         <file>common/CustomerDataEditor.qml</file>
         <file>common/CustomerDataBrowser.qml</file>
         <file>common/ColorPicker.qml</file>
+        <file>common/LicenseDialog.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>
