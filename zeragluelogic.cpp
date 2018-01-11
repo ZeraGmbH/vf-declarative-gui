@@ -265,8 +265,7 @@ class ZeraGlueLogicPrivate
     m_actValueData->setData(mIndex, "°", RoleIndexes::UNIT);
     mIndex = m_actValueData->index(8, 0);
     m_actValueData->setData(mIndex, "°", RoleIndexes::UNIT);
-    //mIndex = m_actValueData->index(9, 0);
-    //m_actValueData->setData(mIndex, "", RoleIndexes::UNIT);
+    //mIndex = m_actValueData->index(9, 0); //none
     mIndex = m_actValueData->index(10, 0);
     m_actValueData->setData(mIndex, "W", RoleIndexes::UNIT);
     mIndex = m_actValueData->index(11, 0);
@@ -880,94 +879,68 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
     EventData *evData = cEvent->eventData();
     Q_ASSERT(evData != nullptr);
 
-    switch(static_cast<ZeraGlueLogicPrivate::Modules>(evData->entityId()))
+    if (cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION
+        && evData->type() == VeinComponent::ComponentData::dataType())
     {
-      case ZeraGlueLogicPrivate::Modules::OsciModule:
+      switch(static_cast<ZeraGlueLogicPrivate::Modules>(evData->entityId()))
       {
-        if (evData->type() == VeinComponent::ComponentData::dataType())
+        case ZeraGlueLogicPrivate::Modules::OsciModule:
         {
-          if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
+          const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+          Q_ASSERT(cmpData != nullptr);
+
+          retVal = d_ptr->handleOsciValues(cmpData);
+          break;
+        }
+        case ZeraGlueLogicPrivate::Modules::FftModule:
+        {
+          const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+          Q_ASSERT(cmpData != nullptr);
+
+          retVal = d_ptr->handleFftValues(cmpData);
+          break;
+        }
+        case ZeraGlueLogicPrivate::Modules::Burden1Module:
+        {
+          const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+          if(Q_UNLIKELY(burdenMapping != nullptr))
           {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
-
-            retVal = d_ptr->handleOsciValues(cmpData);
+            retVal = d_ptr->handleBurden1Values(burdenMapping, cmpData);
           }
+          break;
         }
-        break;
-      }
-      case ZeraGlueLogicPrivate::Modules::FftModule:
-      {
-        if (evData->type() == VeinComponent::ComponentData::dataType())
+        case ZeraGlueLogicPrivate::Modules::Burden2Module:
         {
-          if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
+          const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+          if(Q_UNLIKELY(burdenMapping != nullptr))
           {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
+            retVal = d_ptr->handleBurden2Values(burdenMapping, cmpData);
+          }
+          break;
+        }
+        default: /// @note values handled earlier in the switch case will not show up in the actual values table!
+        {
+          const auto avMapping = d_ptr->m_actualValueMapping->value(evData->entityId(), nullptr);
+          const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+          const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
 
-            retVal = d_ptr->handleFftValues(cmpData);
-          }
-        }
-        break;
-      }
-      case ZeraGlueLogicPrivate::Modules::Burden1Module:
-      {
-        if (evData->type() == VeinComponent::ComponentData::dataType())
-        {
-          if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
+          Q_ASSERT(cmpData != nullptr);
+          if(Q_UNLIKELY(avMapping != nullptr))
           {
-            const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
-            if(Q_UNLIKELY(burdenMapping != nullptr))
-            {
-              const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-              Q_ASSERT(cmpData != nullptr);
-              retVal = d_ptr->handleBurden1Values(burdenMapping, cmpData);
-            }
+            retVal = d_ptr->handleActualValues(avMapping, cmpData);
           }
-        }
-        break;
-      }
-      case ZeraGlueLogicPrivate::Modules::Burden2Module:
-      {
-        if (evData->type() == VeinComponent::ComponentData::dataType())
-        {
-          if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
+          if(Q_UNLIKELY(burdenMapping != nullptr)) //rms values
           {
-            const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
-            if(Q_UNLIKELY(burdenMapping != nullptr))
-            {
-              const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-              Q_ASSERT(cmpData != nullptr);
-              retVal = d_ptr->handleBurden2Values(burdenMapping, cmpData);
-            }
+            retVal = true;
+            d_ptr->handleBurden1Values(burdenMapping, cmpData);
+            d_ptr->handleBurden2Values(burdenMapping, cmpData);
           }
+          break;
         }
-        break;
-      }
-      default: /// @note values handled earlier in the switch case will not show up in the actual values table!
-      {
-        if (evData->type() == VeinComponent::ComponentData::dataType())
-        {
-          if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION)
-          {
-            const auto avMapping = d_ptr->m_actualValueMapping->value(evData->entityId(), nullptr);
-            const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
-            const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-
-            Q_ASSERT(cmpData != nullptr);
-            if(Q_UNLIKELY(avMapping != nullptr))
-            {
-              retVal = d_ptr->handleActualValues(avMapping, cmpData);
-            }
-            if(Q_UNLIKELY(burdenMapping != nullptr)) //rms values
-            {
-              retVal = true;
-              d_ptr->handleBurden1Values(burdenMapping, cmpData);
-              d_ptr->handleBurden2Values(burdenMapping, cmpData);
-            }
-          }
-        }
-        break;
       }
     }
   }
