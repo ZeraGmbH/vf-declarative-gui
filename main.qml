@@ -362,7 +362,7 @@ ApplicationWindow {
         ToolButton {
           implicitHeight: parent.height
           font.family: "FontAwesome"
-          font.pixelSize: 18
+          font.pointSize: 14
           text: FA.icon(FA.fa_columns) + ZTR["Pages"]
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutPageIndex
           enabled: displayWindow.currentSession !== ""
@@ -380,7 +380,7 @@ ApplicationWindow {
         ToolButton {
           implicitHeight: parent.height
           font.family: "FontAwesome"
-          font.pixelSize: 18
+          font.pointSize: 14
           text: FA.icon(FA.fa_align_justify) + ZTR["Range"]
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
           enabled: displayWindow.currentSession !== ""
@@ -412,7 +412,7 @@ ApplicationWindow {
         ToolButton {
           implicitHeight: parent.height
           font.family: "FontAwesome"
-          font.pixelSize: 18
+          font.pointSize: 14
           text: displayWindow.measuringPaused ? FA.fa_play : FA.fa_pause
           enabled: displayWindow.currentSession !== ""
           onClicked: {
@@ -421,7 +421,7 @@ ApplicationWindow {
         }
         ToolButton {
           implicitHeight: parent.height
-          implicitWidth: 64
+          implicitWidth: displayWindow.width/16
           height: parent.height
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutNotificationsIndex
           enabled: displayWindow.errorMessages !== undefined && displayWindow.errorMessages.length > 0
@@ -438,7 +438,7 @@ ApplicationWindow {
 
             text: FA.fa_exclamation_triangle
             font.family: "FontAwesome"
-            font.pixelSize: 18
+            font.pointSize: 12
             anchors.left: parent.left
             anchors.leftMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
@@ -448,7 +448,7 @@ ApplicationWindow {
           Label {
             text: displayWindow.errorMessages.length > 0 ? String("(%1)").arg(displayWindow.errorMessages.length) : ""
             font.family: "FontAwesome"
-            font.pixelSize: 18
+            font.pointSize: 12
             anchors.right: parent.right
             anchors.rightMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
@@ -457,9 +457,9 @@ ApplicationWindow {
         }
         ToolButton {
           implicitHeight: parent.height
-          implicitWidth: 64
+          implicitWidth: displayWindow.width/16
           font.family: "FontAwesome"
-          font.pixelSize: 24
+          font.pointSize:  18
           text: FA.fa_download
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex;
           enabled: displayWindow.currentSession !== ""
@@ -469,9 +469,9 @@ ApplicationWindow {
         }
         ToolButton {
           implicitHeight: parent.height
-          implicitWidth: 64
+          implicitWidth: displayWindow.width/16
           font.family: "FontAwesome"
-          font.pixelSize: 24
+          font.pointSize:  18
           text: FA.fa_cogs
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex;
           enabled: displayWindow.currentSession !== ""
@@ -481,9 +481,9 @@ ApplicationWindow {
         }
         ToolButton {
           implicitHeight: parent.height
-          implicitWidth: 64
+          implicitWidth: displayWindow.width/16
           font.family: "FontAwesome"
-          font.pixelSize: 24
+          font.pointSize:  18
           text: FA.fa_info_circle
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
           enabled: displayWindow.currentSession !== ""
@@ -494,7 +494,7 @@ ApplicationWindow {
         //        ToolButton {
         //          implicitHeight: parent.height
         //          font.family: "FontAwesome"
-        //          font.pixelSize: 18
+        //          font.pointSize: 14
         //          text: FA.icon(FA.fa_server) + ZTR["Remotes"]
         //          highlighted: layoutStack.currentIndex===layoutStackEnum.layout<...>Index
         //          visible: OS_TYPE==="android" || debugBypass

@@ -65,7 +65,7 @@ Item {
                                background ? background.implicitHeight : 0)
 
 
-      font.pixelSize: Math.max(height/2, 16)
+      font.pointSize: 12
 
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true

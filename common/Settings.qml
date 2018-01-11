@@ -149,7 +149,7 @@ SettingsView {
                     height: root.rowHeight
                     Label {
                       text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName + ": "
-                      font.pixelSize: 18
+                      font.pointSize: 12
                       anchors.verticalCenter: parent.verticalCenter
                     }
                     Rectangle {
@@ -162,7 +162,7 @@ SettingsView {
 
                       Label {
                         font.family: "FontAwesome"
-                        font.pixelSize: 18
+                        font.pointSize: 12
                         text: FA.fa_pencil
                         style: Text.Outline;
                         styleColor: "black"
