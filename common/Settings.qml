@@ -210,7 +210,7 @@ SettingsView {
       }
 
       Item {
-        height: root.rowHeight*(3+sInterval.hasPeriodEntries) + 8
+        height: root.rowHeight*(4+sInterval.hasPeriodEntries) + 8
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -267,8 +267,41 @@ SettingsView {
           }
         }
 
+        Component {
+          id: cbDftChannel
+          RowLayout {
+
+            Label {
+              textFormat: Text.PlainText
+              text: ZTR["DFT reference channel:"]
+              font.pixelSize: 20
+
+              Layout.fillWidth: true
+              opacity: enabled ? 1.0 : 0.4
+            }
+
+            Item {
+              Layout.fillWidth: true
+            }
+
+
+            VF.VFComboBox {
+              arrayMode: true
+              entity: VeinEntity.getEntity("DFTModule1")
+              controlPropertyName: "PAR_RefChannel"
+              model: ModuleIntrospection.dftIntrospection.ComponentInfo.PAR_RefChannel.Validation.Data
+              centerVertical: true
+              implicitWidth: root.rowWidth/4
+              height: root.rowHeight
+
+              opacity: enabled ? 1.0 : 0.4
+            }
+          }
+        }
+
         Column {
           anchors.fill: parent
+          spacing: 4
 
           Loader {
             sourceComponent: swPllAutomatic
@@ -285,6 +318,18 @@ SettingsView {
           Loader {
             sourceComponent: cbPllChannel
             active: VeinEntity.hasEntity("SampleModule1")
+            asynchronous: true
+
+            height: active ? root.rowHeight : 0
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: 20
+            anchors.rightMargin: 16
+          }
+
+          Loader {
+            sourceComponent: cbDftChannel
+            active: VeinEntity.hasEntity("DFTModule1")
             asynchronous: true
 
             height: active ? root.rowHeight : 0
