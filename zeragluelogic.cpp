@@ -638,11 +638,6 @@ class ZeraGlueLogicPrivate
         if(tmpVector.isEmpty() == false)
         {
           double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) * 180 / M_PI; //y=im, x=re converted to degree
-          if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN1")) /// @todo use a user selected reference channel or PLL reference channel
-          {
-            m_dftReferenceValue = vectorAngle;
-          }
-          vectorAngle -= m_dftReferenceValue;
           if(vectorAngle < 0)
           {
             vectorAngle = 360 + vectorAngle;
