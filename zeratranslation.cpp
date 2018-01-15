@@ -98,6 +98,8 @@ void ZeraTranslation::reloadStringTable()
   insert("PLL channel:", tr("PLL channel:"));
   //: automatic phase locked loop channel selection
   insert("PLL channel automatic:", tr("PLL channel automatic:"));
+  //: dft phase reference channel
+  insert("DFT reference channel:", tr("DFT reference channel:"));
   //: System = measuring system
   insert("System colors:", tr("System colors:"));
   insert("Reset colors", tr("Reset colors"));
