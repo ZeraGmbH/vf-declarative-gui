@@ -11,6 +11,31 @@ Popup {
   readonly property color newColor: Qt.hsla(hueSlider.value, saturationSlider.value, lightnessSlider.value, alphaSlider.value);
   modal: true
   signal colorAccepted(color t_color)
+
+  function rgbToHsl(r, g, b) {
+    var max = Math.max(r, g, b)
+    var min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if(max === min)
+    {
+      h = s = 0; // achromatic
+    }
+    else
+    {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+      switch(max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+      }
+
+      h /= 6;
+    }
+    return { h: h, s: s, l: l };
+  }
+
   RowLayout {
     spacing: 16
     ColumnLayout {
@@ -47,8 +72,7 @@ Popup {
         to: 1
         stepSize: 0.01
         leftPadding: 0
-        value: oldColor.hslHue
-        //value: rgbToHsl(oldColor.r, oldColor.g, oldColor.b).h
+        value: QT_VERSION >= 0x050900 ? oldColor.hslHue : rgbToHsl(oldColor.r, oldColor.g, oldColor.b).h
       }
       Item {
         //saturation bar
@@ -72,7 +96,7 @@ Popup {
         to: 1
         stepSize: 0.01
         leftPadding: 0
-        value: oldColor.hslSaturation
+        value: QT_VERSION >= 0x050900 ? oldColor.hslSaturation : rgbToHsl(oldColor.r, oldColor.g, oldColor.b).s
       }
       Item {
         width: inputLayout.width
@@ -98,7 +122,7 @@ Popup {
         to: 1
         stepSize: 0.01
         leftPadding: 0
-        value: oldColor.hslLightness
+        value: QT_VERSION >= 0x050900 ? oldColor.hslLightness : rgbToHsl(oldColor.r, oldColor.g, oldColor.b).l
       }
       Item {
         height: root.height/12
