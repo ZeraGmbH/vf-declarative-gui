@@ -746,7 +746,7 @@ class ZeraGlueLogicPrivate
       const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
       QModelIndex fftTableIndex;
       QVector2D tmpVec2d;
-      double re, im, angle, length;
+      double re, im, vectorAngle, length;
 
       QSignalBlocker blocker(m_fftTableData);
       for(int i=0; i<tmpData.length(); i+=2)
@@ -759,8 +759,12 @@ class ZeraGlueLogicPrivate
 
         fftTableIndex = m_fftTableData->index(i/2, 0);
         m_fftTableData->setData(fftTableIndex, length, fftTableRole);
-        angle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
-        m_fftTableData->setData(fftTableIndex, angle, fftTableRole+100);
+        vectorAngle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
+        if(vectorAngle < 0)
+        {
+          vectorAngle = 360 + vectorAngle;
+        }
+        m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole+100);
       }
       blocker.unblock();
 
