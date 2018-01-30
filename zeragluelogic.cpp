@@ -637,7 +637,7 @@ class ZeraGlueLogicPrivate
         QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
         if(tmpVector.isEmpty() == false)
         {
-          double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) * 180 / M_PI; //y=im, x=re converted to degree
+          double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
           if(vectorAngle < 0)
           {
             vectorAngle = 360 + vectorAngle;
@@ -759,7 +759,7 @@ class ZeraGlueLogicPrivate
 
         fftTableIndex = m_fftTableData->index(i/2, 0);
         m_fftTableData->setData(fftTableIndex, length, fftTableRole);
-        angle = (i!=0) * atan2(im, re); //first harmonic (0) is a DC value, so it has no phase position
+        angle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
         m_fftTableData->setData(fftTableIndex, angle, fftTableRole+100);
       }
       blocker.unblock();
