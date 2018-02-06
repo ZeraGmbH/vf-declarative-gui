@@ -135,17 +135,17 @@ SettingsView {
 
               Item {
                 height: root.rowHeight
-                Layout.preferredWidth: root.rowWidth*0.6
+                Layout.preferredWidth: root.rowWidth/1.75
                 ListView {
                   anchors.fill: parent
                   //Layout.fillWidth: true
                   model: root.channelCount
                   orientation: ListView.Horizontal
-                  spacing: 4
+                  spacing: 12
                   boundsBehavior: Flickable.StopAtBounds
 
                   delegate: Item {
-                    width: root.rowWidth*0.08
+                    width: root.rowWidth/12
                     height: root.rowHeight
                     Label {
                       text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName + ": "
@@ -200,7 +200,7 @@ SettingsView {
     }
 
     Item {
-      height: root.rowHeight*(4+sInterval.hasPeriodEntries);
+      height: root.rowHeight*(5+sInterval.hasPeriodEntries);
       width: root.rowWidth;
       Label {
         text: ZTR["Device settings"]
