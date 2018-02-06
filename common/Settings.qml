@@ -139,9 +139,13 @@ SettingsView {
                 anchors.bottom: parent.bottom
                 model: root.channelCount
                 orientation: ListView.Horizontal
-                spacing: 8
+                spacing: 4
                 boundsBehavior: Flickable.StopAtBounds
-                Frame {anchors.fill: parent.contentItem;}
+                Rectangle {
+                  color: "transparent"
+                  border.color: Material.frameColor
+                  anchors.fill: parent.width>parent.contentWidth ? parent.contentItem : parent;
+                }
                 ScrollIndicator.horizontal: ScrollIndicator {
                   onActiveChanged: active = true;
                   active: true
