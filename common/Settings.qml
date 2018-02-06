@@ -129,52 +129,56 @@ SettingsView {
                 textFormat: Text.PlainText
                 text: ZTR["System colors:"]
                 font.pixelSize: 20
-
-                Layout.fillWidth: true
               }
 
-              Item {
-                height: root.rowHeight
-                Layout.preferredWidth: root.rowWidth/1.75
-                ListView {
-                  anchors.fill: parent
-                  //Layout.fillWidth: true
-                  model: root.channelCount
-                  orientation: ListView.Horizontal
-                  spacing: 12
-                  boundsBehavior: Flickable.StopAtBounds
+              ListView {
+                clip: true
+                Component.onCompleted: console.log("foo", systemColors.width, width, height)
+                Layout.fillWidth: true
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                model: root.channelCount
+                orientation: ListView.Horizontal
+                spacing: 8
+                boundsBehavior: Flickable.StopAtBounds
+                Frame {anchors.fill: parent.contentItem;}
+                ScrollIndicator.horizontal: ScrollIndicator {
+                  onActiveChanged: active = true;
+                  active: true
+                }
 
-                  delegate: Item {
-                    width: root.rowWidth/12
-                    height: root.rowHeight
+                delegate: Item {
+                  width: lChannel.contentWidth + rButton.width
+                  height: root.rowHeight
+                  Label {
+                    id: lChannel
+                    text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName + ": "
+                    font.pointSize: 12
+                    anchors.verticalCenter: parent.verticalCenter
+                  }
+                  Rectangle {
+                    id: rButton
+                    height: root.rowHeight*0.7;
+                    width: height
+                    radius: height
+                    color: GC.systemColorByIndex(index+1)
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+
                     Label {
-                      text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName + ": "
+                      font.family: "FontAwesome"
                       font.pointSize: 12
-                      anchors.verticalCenter: parent.verticalCenter
+                      text: FA.fa_pencil
+                      style: Text.Outline;
+                      styleColor: "black"
+                      anchors.centerIn: parent
                     }
-                    Rectangle {
-                      height: root.rowHeight*0.7;
-                      width: height
-                      radius: height
-                      color: GC.systemColorByIndex(index+1)
-                      anchors.verticalCenter: parent.verticalCenter
-                      anchors.right: parent.right
-
-                      Label {
-                        font.family: "FontAwesome"
-                        font.pointSize: 12
-                        text: FA.fa_pencil
-                        style: Text.Outline;
-                        styleColor: "black"
-                        anchors.centerIn: parent
-                      }
-                      MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                          colorPicker.systemIndex = index+1
-                          colorPicker.oldColor = GC.systemColorByIndex(index+1)
-                          colorPicker.open()
-                        }
+                    MouseArea {
+                      anchors.fill: parent
+                      onClicked: {
+                        colorPicker.systemIndex = index+1
+                        colorPicker.oldColor = GC.systemColorByIndex(index+1)
+                        colorPicker.open()
                       }
                     }
                   }
