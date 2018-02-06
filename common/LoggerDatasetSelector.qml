@@ -43,6 +43,8 @@ Popup {
         }
         else if(tmpComponentName.match(componentWhitelistFilter) !== null)
         {
+          if(componentIntrospection.ComponentInfo[tmpComponentName] !== undefined)
+          {
           availModel.append({
                               "entId": tmpEntityId,
                               "entName": entityName,
@@ -50,6 +52,11 @@ Popup {
                               "compDescription": componentIntrospection.ComponentInfo[tmpComponentName].Description,
                               "compUnit": componentIntrospection.ComponentInfo[tmpComponentName].Unit ? componentIntrospection.ComponentInfo[tmpComponentName].Unit : "",
                             });
+          }
+          else
+          {
+            console.warn("No introspection for component:", tmpComponentName, "Ignore when running database value replay");
+          }
         }
       }
     }
