@@ -133,7 +133,6 @@ SettingsView {
 
               ListView {
                 clip: true
-                Component.onCompleted: console.log("foo", systemColors.width, width, height)
                 Layout.fillWidth: true
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -189,7 +188,9 @@ SettingsView {
                 }
               }
               Button {
-                text: ZTR["Reset colors"]
+                font.family: "FontAwesome"
+                font.pointSize: 12
+                text: FA.fa_undo
                 onClicked: {
                   GC.setSystemColorByIndex(1, "#EEff0000")
                   GC.setSystemColorByIndex(2, "#EEffff00")
