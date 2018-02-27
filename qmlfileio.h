@@ -13,7 +13,7 @@ public:
   QmlFileIO(QObject *t_parent=0);
 
   Q_INVOKABLE QString readTextFile(const QString& t_fileName);
-  Q_INVOKABLE bool writeTextFile(const QString& t_fileName, const QString &t_content, bool t_overwrite = false, bool t_tuncate = true);
+  Q_INVOKABLE bool writeTextFile(const QString& t_fileName, const QString &t_content, bool t_overwrite = false, bool t_truncate = true);
   Q_INVOKABLE QVariant readJsonFile(const QString& t_fileName);
   Q_INVOKABLE bool writeJsonFile(const QString& t_fileName, const QVariant &t_content, bool t_overwrite = false);
 
