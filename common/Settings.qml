@@ -138,7 +138,7 @@ SettingsView {
                 anchors.bottom: parent.bottom
                 model: root.channelCount
                 orientation: ListView.Horizontal
-                spacing: 4
+                spacing: 6
                 boundsBehavior: Flickable.StopAtBounds
                 Rectangle {
                   color: "transparent"
