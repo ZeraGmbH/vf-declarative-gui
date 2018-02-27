@@ -382,7 +382,7 @@ CCMP.ModulePage {
         id: startButton
         text: ZTR["Start"]
         font.pixelSize: 20
-        width: parent.width/5
+        width: root.width/5
 
         enabled: root.canStartMeasurement
         highlighted: true
@@ -401,14 +401,13 @@ CCMP.ModulePage {
         id: stopButton
         text: ZTR["Stop"]
         font.pixelSize: 20
-        width: parent.width/5
+        width: root.width/5
 
         enabled: root.canStartMeasurement === false
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        anchors.leftMargin: width/2
 
         onClicked: {
           if(errorCalculator.PAR_STARTSTOP !== 0)
