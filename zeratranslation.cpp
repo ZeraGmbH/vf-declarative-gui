@@ -60,6 +60,21 @@ void ZeraTranslation::reloadStringTable()
 {
   //insert("something %1", tr("something %1"))...
 
+  //zeragluelogic.cpp
+  insert("4LW", tr("4LW", "4 Leiter Wirkleistung = 4 wire active power"));
+  insert("3LW", tr("3LW", "3 Leiter Wirkleistung = 3 wire active power"));
+  insert("2LW", tr("2LW", "2 Leiter Wirkleistung = 2 wire active power"));
+
+  insert("4LB", tr("4LB", "4 Leiter Blindleistung = 4 wire reactive power"));
+  insert("4LBK", tr("4LBK", "4 Leiter Blindleistung künstlicher Nulleiter = 4 wire reactive power artificial zero conductor"));
+  insert("3LB", tr("3LB", "3 Leiter Blindleistung = 3 wire reactive power"));
+  insert("2LB", tr("2LB", "2 Leiter Blindleistung = 2 wire reactive power"));
+
+  insert("4LS", tr("4LS", "4 Leiter Scheinleistung = 4 wire apparent power"));
+  insert("4LSg", tr("4LSg", "4 Leiter Scheinleistung geometrisch = 4 wire apparent power geometric"));
+  insert("2LS", tr("2LS", "2 Leiter Scheinleistung = 2 wire apparent power"));
+  insert("2LSg", tr("2LSg", "2 Leiter Scheinleistung geometrisch = 2 wire apparent power geometric"));
+
   //PagePathView.qml
   //: as in "close this view"
   insert("Close", tr("Close", "not open"));

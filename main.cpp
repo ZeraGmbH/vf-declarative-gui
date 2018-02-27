@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
                                                 QString("%1.debug=false").arg(VEIN_API_QML_INTROSPECTION().categoryName()) <<
                                                 QString("%1.debug=false").arg(VEIN_API_QML_VERBOSE().categoryName());
 
-
   QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
 
   bool loadedOnce = false;
@@ -87,7 +86,7 @@ int main(int argc, char *argv[])
   engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
   VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-  ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, &app);
+  ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, zeraTranslation, &app);
   VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
   VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
   VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);

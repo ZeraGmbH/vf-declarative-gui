@@ -1,5 +1,6 @@
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
+#include "zeratranslation.h"
 #include <QStandardItemModel>
 #include <QHash>
 #include <QPoint>
@@ -161,9 +162,10 @@ public:
 
 class ZeraGlueLogicPrivate
 {
-  ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap) :
+  ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation) :
     q_ptr(t_public),
     m_propertyMap(t_propertyMap),
+    m_translation(t_translation),
     m_actValueData(new ActualValueModel(14, 1, q_ptr)),
     m_burden1Data(new BurdenValueModel(7, 1, q_ptr)),
     m_burden2Data(new BurdenValueModel(7, 1, q_ptr)),
@@ -622,8 +624,11 @@ class ZeraGlueLogicPrivate
       {
         if(t_cmpData->componentName() == QLatin1String("PAR_MeasuringMode")) // these values need some string formatting
         {
+          //dynamic translation
+          const QString translatedMode = m_translation->value(t_cmpData->newValue().toString()).toString();
+          Q_ASSERT(translatedMode.isEmpty() == false); //only triggers when the translation is missing in zeratranslation.cpp!
           // (%Mode) %Name
-          const QString tmpValue = QString("(%1) %2").arg(t_cmpData->newValue().toString()).arg(getAvmNameById(t_cmpData->entityId()));
+          const QString tmpValue = QString("(%1) %2").arg(translatedMode).arg(getAvmNameById(t_cmpData->entityId()));
           m_actValueData->setData(mIndex, tmpValue, valueCoordiates.x()); // QML doesn't understand column, so use roles
         }
         else
@@ -786,6 +791,7 @@ class ZeraGlueLogicPrivate
 
   ZeraGlueLogic *q_ptr;
   GlueLogicPropertyMap *m_propertyMap;
+  ZeraTranslation *m_translation = 0;
 
   QStandardItemModel *m_actValueData;
   QStandardItemModel *m_burden1Data;
@@ -854,9 +860,9 @@ class ZeraGlueLogicPrivate
   friend class ZeraGlueLogic;
 };
 
-ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
+ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation, QObject *t_parent) :
   VeinEvent::EventSystem(t_parent),
-  d_ptr(new ZeraGlueLogicPrivate(this, t_propertyMap))
+  d_ptr(new ZeraGlueLogicPrivate(this, t_propertyMap, t_translation))
 {
 }
 

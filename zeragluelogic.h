@@ -6,12 +6,13 @@
 class QStandardItemModel;
 class ZeraGlueLogicPrivate;
 class GlueLogicPropertyMap;
+class ZeraTranslation;
 
 class ZeraGlueLogic : public VeinEvent::EventSystem
 {
   Q_OBJECT
 public:
-  explicit ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=0);
+  explicit ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation, QObject *t_parent=0);
   ~ZeraGlueLogic();
 
   // EventSystem interface
