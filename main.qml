@@ -240,6 +240,7 @@ ApplicationWindow {
     drag.axis: Drag.XAxis
     focus: true
     enabled: displayWindow.currentSession !== ""
+    triggerDistance: displayWindow.width/15
 
     onHorizontalSwipe: {
       if(pageView.visible !== true)
