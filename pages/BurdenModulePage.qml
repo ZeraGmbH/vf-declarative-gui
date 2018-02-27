@@ -17,7 +17,7 @@ CCMP.ModulePage {
   readonly property QtObject burdenModule: modeTabBar.currentItem.isVoltageBurden ? VeinEntity.getEntity("Burden1Module2") : VeinEntity.getEntity("Burden1Module1")
   readonly property var burdenIntrospection: modeTabBar.currentItem.isVoltageBurden ? ModuleIntrospection.burden2Introspection : ModuleIntrospection.burden1Introspection
   property int rowHeight: Math.floor(height/14) * 0.95
-  property int columnWidth: width/5.2
+  property int columnWidth: width/4.2 //0.7 + 3 + 0.5
 
   CCMP.SettingsView {
     anchors.left: parent.left
@@ -124,7 +124,7 @@ CCMP.ModulePage {
     anchors.bottom: parent.bottom
     ListView {
       height: parent.height
-      width: root.columnWidth*5.2 //0.7 + 4 + 0.5
+      width: root.columnWidth*4.2 //0.7 + 3 + 0.5
       model: modeTabBar.currentItem.isVoltageBurden ? glueLogic.BurdenModelU : glueLogic.BurdenModelI
       boundsBehavior: Flickable.StopAtBounds
 
@@ -161,14 +161,6 @@ CCMP.ModulePage {
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L3!==undefined ? GC.formatNumber(L3) : ""
             textColor: GC.system3ColorDark
-            font.bold: index === 0
-          }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L4!==undefined ? GC.formatNumber(L4) : ""
-            textColor: GC.system4ColorDark
             font.bold: index === 0
           }
           CCMP.GridItem {

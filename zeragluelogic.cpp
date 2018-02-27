@@ -71,7 +71,6 @@ public:
     roles.insert(RoleIndexes::L1, "L1");
     roles.insert(RoleIndexes::L2, "L2");
     roles.insert(RoleIndexes::L3, "L3");
-    roles.insert(RoleIndexes::L4, "L4");
     roles.insert(RoleIndexes::UNIT, "Unit");
     return roles;
   }
@@ -217,7 +216,6 @@ class ZeraGlueLogicPrivate
     m_actValueData->setData(mIndex, "L1", RoleIndexes::L1);
     m_actValueData->setData(mIndex, "L2", RoleIndexes::L2);
     m_actValueData->setData(mIndex, "L3", RoleIndexes::L3);
-    m_actValueData->setData(mIndex, "L4", RoleIndexes::L4);
     m_actValueData->setData(mIndex, "Σ", RoleIndexes::SUM);
     m_actValueData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
@@ -368,7 +366,6 @@ class ZeraGlueLogicPrivate
     m_burden1Data->setData(mIndex, "BRD1", RoleIndexes::L1);
     m_burden1Data->setData(mIndex, "BRD2", RoleIndexes::L2);
     m_burden1Data->setData(mIndex, "BRD3", RoleIndexes::L3);
-    m_burden1Data->setData(mIndex, "BRD4", RoleIndexes::L4);
     m_burden1Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden1Data->index(1, 0);
@@ -403,7 +400,6 @@ class ZeraGlueLogicPrivate
     m_burden2Data->setData(mIndex, "BRD1", RoleIndexes::L1);
     m_burden2Data->setData(mIndex, "BRD2", RoleIndexes::L2);
     m_burden2Data->setData(mIndex, "BRD3", RoleIndexes::L3);
-    m_burden2Data->setData(mIndex, "BRD4", RoleIndexes::L4);
     m_burden2Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden2Data->index(1, 0);
@@ -453,33 +449,27 @@ class ZeraGlueLogicPrivate
     burdenMap1->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
     burdenMap1->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
     burdenMap1->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
-    burdenMap1->insert("ACT_Burden4", QPoint(RoleIndexes::L4, 4));
 
     burdenMap1->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
     burdenMap1->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
     burdenMap1->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
-    burdenMap1->insert("ACT_PFactor4", QPoint(RoleIndexes::L4, 5));
 
     burdenMap1->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
     burdenMap1->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
     burdenMap1->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
-    burdenMap1->insert("ACT_Ratio4", QPoint(RoleIndexes::L4, 6));
 
     QHash<QString, QPoint> *burdenMap2 = new QHash<QString, QPoint>();
     burdenMap2->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
     burdenMap2->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
     burdenMap2->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
-    burdenMap2->insert("ACT_Burden4", QPoint(RoleIndexes::L4, 4));
 
     burdenMap2->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
     burdenMap2->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
     burdenMap2->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
-    burdenMap2->insert("ACT_PFactor4", QPoint(RoleIndexes::L4, 5));
 
     burdenMap2->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
     burdenMap2->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
     burdenMap2->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
-    burdenMap2->insert("ACT_Ratio4", QPoint(RoleIndexes::L4, 6));
 
     m_burdenMapping->insert(static_cast<int>(Modules::RmsModule), rmsMap);
     m_burdenMapping->insert(static_cast<int>(Modules::Burden1Module), burdenMap1);
