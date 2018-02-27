@@ -64,9 +64,6 @@ Item {
       implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
                                background ? background.implicitHeight : 0)
 
-
-      font.pointSize: 12
-
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
       onAccepted: {
