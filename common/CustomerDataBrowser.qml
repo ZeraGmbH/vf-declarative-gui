@@ -234,7 +234,7 @@ Item {
     model: searchResultData.count > 0 ? searchResultData : customerData.FileList
     boundsBehavior: Flickable.StopAtBounds
     highlightFollowsCurrentItem: true
-    currentIndex: customerData.FileList.indexOf(customerData.FileSelected)
+    currentIndex: customerData.FileList ? customerData.FileList.indexOf(customerData.FileSelected) : 0
     ScrollIndicator.vertical: ScrollIndicator {
       width: 8
       active: true
