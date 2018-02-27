@@ -325,21 +325,21 @@ class ZeraGlueLogicPrivate
     lambdaMap->insert("ACT_Lambda3", QPoint(RoleIndexes::L3, 9));
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
-    p1m1Map->insert("PAR_MeasuringMode", QPoint(0, 10));
+    p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 10));
     p1m1Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 10));
     p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 10));
     p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 10));
     p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 10));
 
     QHash<QString, QPoint> *p1m2Map = new QHash<QString, QPoint>();
-    p1m2Map->insert("PAR_MeasuringMode", QPoint(0, 11));
+    p1m2Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 11));
     p1m2Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 11));
     p1m2Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 11));
     p1m2Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 11));
     p1m2Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 11));
 
     QHash<QString, QPoint> *p1m3Map = new QHash<QString, QPoint>();
-    p1m3Map->insert("PAR_MeasuringMode", QPoint(0, 12));
+    p1m3Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 12));
     p1m3Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 12));
     p1m3Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 12));
     p1m3Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 12));
@@ -802,7 +802,7 @@ class ZeraGlueLogicPrivate
   using CoordinateMapping = QHash<T, QHash<QString, QPoint>*>;
 
   CoordinateMapping<int> *m_actualValueMapping = new CoordinateMapping<int>();
-  CoordinateMapping<int> *m_burdenMapping= new CoordinateMapping<int>();
+  CoordinateMapping<int> *m_burdenMapping = new CoordinateMapping<int>();
 
   QHash<QString, ModelRowPair> m_osciMapping;
   QHash<QString, int> m_fftTableRoleMapping;
