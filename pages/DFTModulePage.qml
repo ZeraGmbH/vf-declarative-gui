@@ -25,8 +25,6 @@ CCMP.ModulePage {
 
   property int referencePhaseMode: e_DIN;
 
-  property int selectedVector: 0
-  property int animDuration: 0 //600
   property real phiOrigin: dinIECSelector.din410 ? Math.atan2(vData.getVector(0)[1],vData.getVector(0)[0])+Math.PI/2 : Math.atan2(vData.getVector(3)[1],vData.getVector(3)[0]);
 
   CCMP.ZComboBox {
@@ -83,7 +81,7 @@ CCMP.ModulePage {
     property bool din410: targetIndex===0
   }
 
-  Item  {
+  Item {
     id: vData
 
     function getVectorName(vecIndex) {
@@ -96,7 +94,7 @@ CCMP.ModulePage {
       {
         if(vecIndex<3)
         {
-          retVal= ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP"+parseInt(vecIndex+1)].ChannelName;
+          retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP"+parseInt(vecIndex+1)].ChannelName;
         }
         else
         {
@@ -110,7 +108,7 @@ CCMP.ModulePage {
       var retVal=[0,0];
       if(root.viewMode===root.e_starView || root.viewMode===root.e_triangleView)
       {
-        retVal = root.dft["ACT_DFTPN"+parseInt(vecIndex+1)]
+        retVal = root.dft["ACT_DFTPN"+parseInt(vecIndex+1)];
       }
       else if(root.viewMode===root.e_threePhaseView)
       {
