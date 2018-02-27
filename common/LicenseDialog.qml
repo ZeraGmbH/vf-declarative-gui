@@ -12,8 +12,8 @@ Popup {
   modal: true
   dim: true
   closePolicy: Popup.NoAutoClose
-  property var licenseList: QmlFileIO.readJsonFile(":/data/staticdata/license_index.json")
-  property string selectedFileName: licenseList[licenseLV.currentIndex].license
+  readonly property var licenseList: QmlFileIO.readJsonFile(":/data/staticdata/license_index.json")
+  readonly property string selectedFileName: licenseList[licenseLV.currentIndex].license
   padding: 0
   Item {
     anchors.fill: parent
@@ -73,7 +73,7 @@ Popup {
           text: QmlFileIO.readTextFile(selectedFileName)
           textFormat: Text.AutoText
           font.pointSize: 10
-          wrapMode: TextArea.Wrap
+          wrapMode: Label.Wrap
 
         }
       }
