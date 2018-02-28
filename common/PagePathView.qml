@@ -36,6 +36,7 @@ Item {
 
   property double m_w: width
   property double m_h: height
+  readonly property double scaleFactor: Math.min(m_w/1024, m_h/600);
 
   property alias model: pathView.model
   property alias sessionComponent: sessionSelector.intermediate
@@ -89,12 +90,12 @@ Item {
         Image {
           anchors.centerIn: parent
           source: icon
-          scale: 0.8
+          scale: 0.8*scaleFactor
           mipmap: false
         }
 
-        width: 410+4
-        height: 220+6
+        width: 410*scaleFactor+4
+        height: 220*scaleFactor+6
 
         MouseArea {
           anchors.fill: parent
