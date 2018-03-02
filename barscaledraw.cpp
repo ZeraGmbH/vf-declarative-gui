@@ -44,7 +44,7 @@ QwtText BarScaleDraw::label(double t_value) const
   }
   else
   {
-    lbl = QwtText (QString::number (t_value));
+    lbl = QwtText (QString::number(t_value));
   }
   lbl.setColor(m_textColor);
   return lbl;

@@ -17,6 +17,7 @@
 #include "bardata.h"
 #include "cbar.h"
 #include "barscaledraw.h"
+#include "sidescaledraw.h"
 
 BarChart::BarChart(QQuickItem *parent):
   QQuickPaintedItem(parent),
@@ -43,8 +44,8 @@ BarChart::BarChart(QQuickItem *parent):
   canvas->setFrameStyle(QFrame::Box | QFrame::Plain);
   canvas->setBorderRadius(0);
 
-  plot->setAxisScaleDraw(QwtPlot::yLeft, new BarScaleDraw());
-  plot->setAxisScaleDraw(QwtPlot::yRight, new BarScaleDraw());
+  plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw());
+  plot->setAxisScaleDraw(QwtPlot::yRight, new SideScaleDraw());
   plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
 
   plot->setCanvas(canvas);

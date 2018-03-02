@@ -16,6 +16,7 @@
 
 #include "bardata.h"
 #include "barscaledraw.h"
+#include "sidescaledraw.h"
 
 FftBarChart::FftBarChart(QQuickItem *t_parent):
   QQuickPaintedItem(t_parent),
@@ -42,7 +43,7 @@ FftBarChart::FftBarChart(QQuickItem *t_parent):
   m_canvas->setLineWidth(1);
   m_canvas->setFrameStyle(QFrame::NoFrame);
 
-  m_plot->setAxisScaleDraw(QwtPlot::yLeft, new BarScaleDraw());
+  m_plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw());
   m_plot->setAxisScaleDraw(QwtPlot::yRight, new BarScaleDraw());
   m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
 
