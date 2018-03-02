@@ -15,6 +15,7 @@
 
 #include "fpscounter.h"
 #include "fftbarchart.h"
+#include "hpwbarchart.h"
 #include "barchart.h"
 #include "cbar.h"
 #include "zeragluelogic.h"
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<FPSCounter>("FPSCounter", 1, 0, "FPSCounter");
 
   qmlRegisterType<FftBarChart>("QwtChart", 1, 0, "FftBarChart");
+  qmlRegisterType<HpwBarChart>("QwtChart", 1, 0, "HpwBarChart");
   qmlRegisterType<BarChart>("QwtChart", 1, 0, "BarChart");
   qmlRegisterType<cBar>("QwtChart", 1, 0, "Bar");
   qmlRegisterType<PhasorDiagram>("PhasorDiagram", 1, 0, "PhasorDiagram");

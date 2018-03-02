@@ -44,6 +44,8 @@
         <file>common/CustomerDataBrowser.qml</file>
         <file>common/ColorPicker.qml</file>
         <file>common/LicenseDialog.qml</file>
+        <file>common/HarmonicPowerChart.qml</file>
+        <file>common/HarmonicPowerTable.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>
