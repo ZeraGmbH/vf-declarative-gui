@@ -34,13 +34,10 @@ void BarScaleDraw::setColor(QColor t_arg)
 QwtText BarScaleDraw::label(double t_value) const
 {
   QwtText lbl;
-  if(m_labels.count()>t_value)
+  const int index = qRound(t_value);
+  if(index >= 0 && m_labels.count()>index)
   {
-    const int index = qRound(t_value);
-    if (index >= 0 && index < m_labels.size())
-    {
-      lbl = m_labels.at(index);
-    }
+    lbl = m_labels.at(index);
   }
   else
   {

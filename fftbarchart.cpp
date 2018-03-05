@@ -24,10 +24,10 @@ FftBarChart::FftBarChart(QQuickItem *t_parent):
   m_valuesTimer(new QTimer(this)),
   m_canvas(new QwtPlotCanvas()),
   m_plot(new QwtPlot()),
-  m_barDataLeft(new BarData()),
+  m_barDataLeft(new BarData()), //cleaned up by the plot
   m_minValueLeftAxis(1.0),
   m_leftBarCount(0),
-  m_barDataRight(new BarData()),
+  m_barDataRight(new BarData()), //cleaned up by the plot
   m_minValueRightAxis(1.0)
 {
   connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
@@ -43,9 +43,9 @@ FftBarChart::FftBarChart(QQuickItem *t_parent):
   m_canvas->setLineWidth(1);
   m_canvas->setFrameStyle(QFrame::NoFrame);
 
-  m_plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw());
-  m_plot->setAxisScaleDraw(QwtPlot::yRight, new BarScaleDraw());
-  m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
+  m_plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw()); //cleaned up by the plot
+  m_plot->setAxisScaleDraw(QwtPlot::yRight, new BarScaleDraw()); //cleaned up by the plot
+  m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw()); //cleaned up by the plot
 
   m_plot->setCanvas(m_canvas);
 
@@ -62,6 +62,8 @@ FftBarChart::~FftBarChart()
 {
   delete m_canvas;
   delete m_plot;
+  //delete m_barDataLeft; //cleaned up by the plot
+  //delete m_barDataRight; //cleaned up by the plot
 }
 
 bool FftBarChart::bottomLabels() const
@@ -220,14 +222,14 @@ void FftBarChart::useBottomLabels(bool t_labelsEnabled)
   m_bottomLabelsEnabled=t_labelsEnabled;
   if(t_labelsEnabled)
   {
-    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw(Qt::Vertical, m_bottomLabels));
+    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw(Qt::Vertical, m_bottomLabels)); //cleaned up by the plot
     m_plot->setAxisMaxMajor(QwtPlot::xBottom, m_bottomLabels.count());
     refreshPlot();
   }
   else
   {
     m_bottomLabels.clear();
-    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
+    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw()); //cleaned up by the plot
     refreshPlot();
   }
 }
@@ -246,7 +248,7 @@ void FftBarChart::setLegendEnabled(bool t_legendEnabled)
   {
     if(t_legendEnabled)
     {
-      QwtLegend *tmpLegend = new QwtLegend();
+      QwtLegend *tmpLegend = new QwtLegend(); //cleaned up by the plot
       QPalette tmpPa;
       tmpPa.setColor(QPalette::Text, t_legendEnabled);
       tmpPa.setColor(QPalette::WindowText, t_legendEnabled);
@@ -287,7 +289,7 @@ void FftBarChart::setTextColor(QColor t_textColor)
     //plot->axisWidget(QwtPlot::yLeft)->setPalette(tmpPa);
     m_plot->axisWidget(QwtPlot::xBottom)->setPalette(tmpPa);
 
-    tmpScaleX=new BarScaleDraw();
+    tmpScaleX=new BarScaleDraw(); //cleaned up by the plot
     tmpScaleX->setColor(t_textColor);
 
     //tmpScaleY=new BarScaleDraw();
@@ -311,11 +313,11 @@ void FftBarChart::setLogScaleLeftAxis(bool t_useLogScale)
     m_logScaleLeftAxis = t_useLogScale;
     if(t_useLogScale)
     {
-      m_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLogScaleEngine);
+      m_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLogScaleEngine); //cleaned up by the plot
     }
     else
     {
-      m_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
+      m_plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine); //cleaned up by the plot
     }
     m_plot->setAxisScale(QwtPlot::yLeft, m_minValueLeftAxis, m_maxValueLeftAxis);
     m_barDataLeft->setBaseline(m_minValueLeftAxis/10);
@@ -390,11 +392,11 @@ void FftBarChart::setLogScaleRightAxis(bool t_useLogScale)
     m_logScaleRightAxis = t_useLogScale;
     if(t_useLogScale)
     {
-      m_plot->setAxisScaleEngine(QwtPlot::yRight, new QwtLogScaleEngine);
+      m_plot->setAxisScaleEngine(QwtPlot::yRight, new QwtLogScaleEngine); //cleaned up by the plot
     }
     else
     {
-      m_plot->setAxisScaleEngine(QwtPlot::yRight, new QwtLinearScaleEngine);
+      m_plot->setAxisScaleEngine(QwtPlot::yRight, new QwtLinearScaleEngine); //cleaned up by the plot
     }
     m_plot->setAxisScale(QwtPlot::yRight, m_minValueRightAxis, m_maxValueRightAxis);
     m_barDataRight->setBaseline(m_minValueRightAxis/10);
@@ -507,7 +509,7 @@ void FftBarChart::onExternValuesChangedTimeout()
       tmpSamples.append(tmpVectorB.length()*tmpScaleFactor);
     }
     if(m_legendEnabled)
-      m_plot->insertLegend(new QwtLegend());
+      m_plot->insertLegend(new QwtLegend()); //cleaned up by the plot
     labelsChanged(m_barDataLeft->getTitles());
   }
 
@@ -554,22 +556,11 @@ void FftBarChart::onRightValueChanged(QVariant t_rightValue)
 
 void FftBarChart::onLeftBarCountChanged(int t_barCount)
 {
-  QString tmpBarTitle;
-
   m_barDataLeft->clearData();
 
-  for(int i=0; i<t_barCount-1;)
+  for(int i=0; i<t_barCount-1; i+=2)
   {
-    if(i%2 == 0)
-    {
-      tmpBarTitle=QString::number(qAbs(i/2));
-    }
-    else
-    {
-      tmpBarTitle=QString();
-    }
-    m_barDataLeft->addData(m_colorLeftAxis, tmpBarTitle);
-    m_barDataLeft->addData(m_colorRightAxis, QString(""));
-    i+=2;
+    m_barDataLeft->addData(m_colorLeftAxis, QString::number(i/2));
+    m_barDataLeft->addData(m_colorLeftAxis, QString(" "));
   }
 }

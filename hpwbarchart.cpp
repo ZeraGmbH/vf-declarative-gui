@@ -24,7 +24,7 @@ HpwBarChart::HpwBarChart(QQuickItem *t_parent):
   m_valuesTimer(new QTimer(this)),
   m_canvas(new QwtPlotCanvas()),
   m_plot(new QwtPlot()),
-  m_barDataLeft(new BarData()),
+  m_barDataLeft(new BarData()), //cleaned up by the plot
   m_minValueLeftAxis(1.0),
   m_leftBarCount(0)
 {
@@ -41,8 +41,8 @@ HpwBarChart::HpwBarChart(QQuickItem *t_parent):
   m_canvas->setLineWidth(1);
   m_canvas->setFrameStyle(QFrame::NoFrame);
 
-  m_plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw());
-  m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
+  m_plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw()); //cleaned up by the plot
+  m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw()); //cleaned up by the plot
 
   m_plot->setCanvas(m_canvas);
 
@@ -57,6 +57,7 @@ HpwBarChart::~HpwBarChart()
 {
   delete m_canvas;
   delete m_plot;
+  //delete m_barDataLeft; //cleaned up by the plot
 }
 
 bool HpwBarChart::bottomLabels() const
@@ -178,14 +179,14 @@ void HpwBarChart::useBottomLabels(bool t_labelsEnabled)
   m_bottomLabelsEnabled=t_labelsEnabled;
   if(t_labelsEnabled)
   {
-    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw(Qt::Vertical, m_bottomLabels));
+    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw(Qt::Vertical, m_bottomLabels)); //cleaned up by the plot
     m_plot->setAxisMaxMajor(QwtPlot::xBottom, m_bottomLabels.count());
     refreshPlot();
   }
   else
   {
     m_bottomLabels.clear();
-    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
+    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw()); //cleaned up by the plot
     refreshPlot();
   }
 }
@@ -204,7 +205,7 @@ void HpwBarChart::setLegendEnabled(bool t_legendEnabled)
   {
     if(t_legendEnabled)
     {
-      QwtLegend *tmpLegend = new QwtLegend();
+      QwtLegend *tmpLegend = new QwtLegend(); //cleaned up by the plot
       QPalette tmpPa;
       tmpPa.setColor(QPalette::Text, t_legendEnabled);
       tmpPa.setColor(QPalette::WindowText, t_legendEnabled);
@@ -245,7 +246,7 @@ void HpwBarChart::setTextColor(QColor t_textColor)
     //plot->axisWidget(QwtPlot::yLeft)->setPalette(tmpPa);
     m_plot->axisWidget(QwtPlot::xBottom)->setPalette(tmpPa);
 
-    tmpScaleX=new BarScaleDraw();
+    tmpScaleX=new BarScaleDraw(); //cleaned up by the plot
     tmpScaleX->setColor(t_textColor);
 
     //tmpScaleY=new BarScaleDraw();
@@ -317,7 +318,9 @@ void HpwBarChart::onExternValuesChangedTimeout()
     tmpSamples = m_valuesLeftAxis.toVector();
 
     if(m_legendEnabled)
-      m_plot->insertLegend(new QwtLegend());
+    {
+      m_plot->insertLegend(new QwtLegend()); //cleaned up by the plot
+    }
     labelsChanged(m_barDataLeft->getTitles());
   }
 
@@ -363,7 +366,7 @@ void HpwBarChart::onLeftBarCountChanged(int t_barCount)
   //m_valuesLeftAxis is a list of real and imaginary numbers
   for(int i=0; i<t_barCount-1; i+=2)
   {
-    m_barDataLeft->addData(m_colorLeftAxis, QString::number(qAbs(i/2)));
-    m_barDataLeft->addData(m_colorLeftAxis, QString(""));
+    m_barDataLeft->addData(m_colorLeftAxis, QString::number(i/2));
+    m_barDataLeft->addData(m_colorLeftAxis, QString(" "));
   }
 }
