@@ -285,25 +285,19 @@ CCMP.ModulePage {
           border.color: Material.dividerColor
           height: parent.height/5
           width: parent.width
-          Text {
-            color: Material.primaryTextColor
-            textFormat: Text.PlainText
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
-            text: ZTR["DUT constant:"]
-            font.pixelSize: Math.max(height/2, 20)
-          }
+
           VFControls.VFLineEdit {
             id: deviceConstantField
-            width: parent.width/2
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            width: parent.width
+            anchors.fill: parent
+            anchors.leftMargin: 4
             inputMethodHints: Qt.ImhPreferNumbers
+            description.text: ZTR["DUT constant:"]
+            description.width: width*0.5
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_DutConstant"
+            textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
             validator: DoubleValidator { bottom: 1.0; top: 1e+20; decimals: 5;}
@@ -315,24 +309,18 @@ CCMP.ModulePage {
           border.color: Material.dividerColor
           height: parent.height/5
           width: parent.width
-          Text {
-            color: Material.primaryTextColor
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
-            text: ZTR["Energy:"]
-            font.pixelSize: Math.max(height/2, 20)
-          }
+
           VFControls.VFLineEdit {
             id: energyValueField
-            width: parent.width/2
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            anchors.fill: parent
+            anchors.leftMargin: 4
             inputMethodHints: Qt.ImhPreferNumbers
+            description.text: ZTR["Energy:"]
+            description.width: width*0.5
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_Energy"
+            textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
             validator: DoubleValidator { bottom: 0; top: 10e+7; decimals: 5; }
@@ -344,25 +332,18 @@ CCMP.ModulePage {
           border.color: Material.dividerColor
           height: parent.height/5
           width: parent.width
-          Text {
-            color: Material.primaryTextColor
-            textFormat: Text.PlainText
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
-            text: ZTR["MRate:"]
-            font.pixelSize: Math.max(height/2, 20)
-          }
+
           VFControls.VFLineEdit {
             id: mrateValueField
-            width: parent.width/2
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            anchors.fill: parent
+            anchors.leftMargin: 4
             inputMethodHints: Qt.ImhPreferNumbers
+            description.text: ZTR["MRate:"]
+            description.width: width*0.5
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_MRate"
+            textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
             validator: DoubleValidator {bottom: 0; top: Math.floor(Math.pow(2,32)-1); decimals: 0;} //IntValidator is only for signed integers

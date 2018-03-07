@@ -16,12 +16,12 @@ CCMP.ModulePage {
   readonly property QtObject glueLogic: ZGL;
   readonly property QtObject transformerModule: VeinEntity.getEntity("Transformer1Module1")
   readonly property var transformerIntrospection: ModuleIntrospection.transformer1Introspection
-  readonly property int rowHeight: Math.floor(height/14)
+  readonly property int rowHeight: Math.floor(height/9)
 
   CCMP.SettingsView {
     anchors.left: parent.left
     anchors.right: parent.right
-    height: root.height/3
+    height: root.height*3/9
 
     RegExpValidator {
       id: inputValidator
@@ -35,178 +35,107 @@ CCMP.ModulePage {
 
     model: VisualItemModel {
       Column {
+        width: root.width
         Item {
           width: root.width
-          height: root.rowHeight*1.5
+          height: root.rowHeight
 
-
-          RowLayout {
+          VFControls.VFLineEdit {
+            description.text: ZTR["Mp-Prim:"]
+            description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
             width: root.width/2 - 8;
-            spacing: 16
-            Label {
-              text: ZTR["Mp-Prim:"]
-              height: root.rowHeight
-              anchors.verticalCenter: parent.verticalCenter
-              font.pixelSize: Math.max(height/2, 20)
-              Layout.preferredWidth: 100
-            }
-            VFControls.VFLineEdit {
-              height: root.rowHeight;
-              Layout.fillWidth: true
 
-              inputMethodHints: Qt.ImhPreferNumbers
+            inputMethodHints: Qt.ImhPreferNumbers
 
-              entity: root.transformerModule
-              controlPropertyName: "PAR_PrimClampPrim"
-              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+            entity: root.transformerModule
+            controlPropertyName: "PAR_PrimClampPrim"
+            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-              validator: inputValidator
-            }
+            validator: inputValidator
           }
-
-          RowLayout {
+          VFControls.VFLineEdit {
+            anchors.right: parent.right
+            description.text: ZTR["Mp-Sec:"]
+            description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
             width: root.width/2 - 8;
-            anchors.right: parent.right
-            spacing: 16
 
-            Label {
-              text: ZTR["Mp-Sec:"]
-              height: root.rowHeight
-              anchors.verticalCenter: parent.verticalCenter
-              font.pixelSize: Math.max(height/2, 20)
-              Layout.preferredWidth: 100
-            }
-            VFControls.VFLineEdit {
-              height: root.rowHeight;
-              Layout.fillWidth: true
+            inputMethodHints: Qt.ImhPreferNumbers
 
-              inputMethodHints: Qt.ImhPreferNumbers
+            entity: root.transformerModule
+            controlPropertyName: "PAR_PrimClampSec"
+            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-              entity: root.transformerModule
-              controlPropertyName: "PAR_PrimClampSec"
-              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-              validator: inputValidator
-            }
+            validator: inputValidator
           }
         }
         Item {
           width: root.width
-          height: root.rowHeight*1.5
+          height: root.rowHeight
 
-
-          RowLayout {
+          VFControls.VFLineEdit {
+            description.text: ZTR["X-Prim:"]
+            description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
             width: root.width/2 - 8;
-            spacing: 16
-            Label {
-              text: ZTR["X-Prim:"]
-              height: root.rowHeight
-              anchors.verticalCenter: parent.verticalCenter
-              font.pixelSize: Math.max(height/2, 20)
-              Layout.preferredWidth: 100
-            }
 
-            VFControls.VFLineEdit {
-              height: root.rowHeight;
-              Layout.fillWidth: true
+            inputMethodHints: Qt.ImhPreferNumbers
 
-              inputMethodHints: Qt.ImhPreferNumbers
+            entity: root.transformerModule
+            controlPropertyName: "PAR_DutPrimary"
+            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-              entity: root.transformerModule
-              controlPropertyName: "PAR_DutPrimary"
-              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-              validator: inputValidator
-
-            }
+            validator: inputValidator
           }
-
-          RowLayout {
+          VFControls.VFLineEdit {
+            anchors.right: parent.right
+            description.text: ZTR["X-Sec:"]
+            description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
             width: root.width/2 - 8;
-            anchors.right: parent.right
-            spacing: 16
 
-            Label {
-              text: ZTR["X-Sec:"]
-              height: root.rowHeight
-              anchors.verticalCenter: parent.verticalCenter
-              font.pixelSize: Math.max(height/2, 20)
-              Layout.preferredWidth: 100
-            }
-            VFControls.VFLineEdit {
-              height: root.rowHeight;
-              Layout.fillWidth: true
+            inputMethodHints: Qt.ImhPreferNumbers
 
-              inputMethodHints: Qt.ImhPreferNumbers
+            entity: root.transformerModule
+            controlPropertyName: "PAR_DutSecondary"
+            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-              entity: root.transformerModule
-              controlPropertyName: "PAR_DutSecondary"
-              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-              validator: inputValidator
-            }
+            validator: inputValidator
           }
         }
         Item {
           width: root.width
-          height: root.rowHeight*1.5
+          height: root.rowHeight
 
-
-          RowLayout {
+          VFControls.VFLineEdit {
+            description.text: ZTR["Ms-Prim:"]
+            description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
             width: root.width/2 - 8;
-            spacing: 16
-            Label {
-              text: ZTR["Ms-Prim:"]
-              height: root.rowHeight
-              anchors.verticalCenter: parent.verticalCenter
-              font.pixelSize: Math.max(height/2, 20)
-              Layout.preferredWidth: 100
-            }
 
-            VFControls.VFLineEdit {
-              height: root.rowHeight;
-              Layout.fillWidth: true
+            inputMethodHints: Qt.ImhPreferNumbers
 
-              inputMethodHints: Qt.ImhPreferNumbers
+            entity: root.transformerModule
+            controlPropertyName: "PAR_SecClampPrim"
+            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-              entity: root.transformerModule
-              controlPropertyName: "PAR_SecClampPrim"
-              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-              validator: inputValidator
-            }
+            validator: inputValidator
           }
-
-          RowLayout {
+          VFControls.VFLineEdit {
+            description.text: ZTR["Ms-Sec:"]
+            description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
             width: root.width/2 - 8;
             anchors.right: parent.right
-            spacing: 16
 
-            Label {
-              text: ZTR["Ms-Sec:"]
-              height: root.rowHeight
-              anchors.verticalCenter: parent.verticalCenter
-              font.pixelSize: Math.max(height/2, 20)
-              Layout.preferredWidth: 100
-            }
-            VFControls.VFLineEdit {
-              height: root.rowHeight;
-              Layout.fillWidth: true
+            inputMethodHints: Qt.ImhPreferNumbers
 
-              inputMethodHints: Qt.ImhPreferNumbers
+            entity: root.transformerModule
+            controlPropertyName: "PAR_SecClampSec"
+            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-              entity: root.transformerModule
-              controlPropertyName: "PAR_SecClampSec"
-              unit: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-              validator: inputValidator
-            }
+            validator: inputValidator
           }
         }
       }
@@ -216,8 +145,8 @@ CCMP.ModulePage {
   Column {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
-    height: root.height*2/3
-    width: root.width*0.7
+    height: root.height*6/9
+    width: root.width
 
 
     //Header
@@ -230,14 +159,14 @@ CCMP.ModulePage {
         font.bold: true
       }
       CCMP.GridItem {
-        width: root.width*0.35
+        width: root.width*0.6
         height: root.rowHeight
         color: GC.tableShadeColor
         text: "TR1"
         font.bold: true
       }
       CCMP.GridItem {
-        width: root.width*0.15
+        width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
         text: "[ ]"
@@ -255,12 +184,12 @@ CCMP.ModulePage {
         font.bold: true
       }
       CCMP.GridItem {
-        width: root.width*0.35
+        width: root.width*0.6
         height: root.rowHeight
         text: GC.formatNumber(transformerModule.ACT_Ratio1)
       }
       CCMP.GridRect {
-        width: root.width*0.15
+        width: root.width*0.2
         height: root.rowHeight
       }
     }
@@ -275,12 +204,12 @@ CCMP.ModulePage {
         font.bold: true
       }
       CCMP.GridItem {
-        width: root.width*0.35
+        width: root.width*0.6
         height: root.rowHeight
         text: GC.formatNumber(transformerModule.ACT_Error1)
       }
       CCMP.GridItem {
-        width: root.width*0.15
+        width: root.width*0.2
         height: root.rowHeight
         text: "%"
       }
@@ -296,12 +225,12 @@ CCMP.ModulePage {
         font.bold: true
       }
       CCMP.GridItem {
-        width: root.width*0.35
+        width: root.width*0.6
         height: root.rowHeight
         text: GC.formatNumber(transformerModule.ACT_Angle1)
       }
       CCMP.GridItem {
-        width: root.width*0.15
+        width: root.width*0.2
         height: root.rowHeight
         text: transformerIntrospection.ComponentInfo.ACT_Angle1.Unit;
       }
@@ -317,12 +246,12 @@ CCMP.ModulePage {
         font.bold: true
       }
       CCMP.GridItem {
-        width: root.width*0.35
+        width: root.width*0.6
         height: root.rowHeight
         text: GC.formatNumber(100 * transformerModule.ACT_Angle1 * Math.PI/180)
       }
       CCMP.GridItem {
-        width: root.width*0.15
+        width: root.width*0.2
         height: root.rowHeight
         text: ZTR["crad"];
       }
@@ -338,12 +267,12 @@ CCMP.ModulePage {
         font.bold: true
       }
       CCMP.GridItem {
-        width: root.width*0.35
+        width: root.width*0.6
         height: root.rowHeight
         text: GC.formatNumber(transformerModule.ACT_Angle1*60)
       }
       CCMP.GridItem {
-        width: root.width*0.15
+        width: root.width*0.2
         height: root.rowHeight
         text: ZTR["arcmin"];
       }

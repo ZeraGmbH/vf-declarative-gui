@@ -16,101 +16,120 @@ CCMP.ModulePage {
   readonly property QtObject glueLogic: ZGL;
   readonly property QtObject burdenModule: modeTabBar.currentItem.isVoltageBurden ? VeinEntity.getEntity("Burden1Module2") : VeinEntity.getEntity("Burden1Module1")
   readonly property var burdenIntrospection: modeTabBar.currentItem.isVoltageBurden ? ModuleIntrospection.burden2Introspection : ModuleIntrospection.burden1Introspection
-  property int rowHeight: Math.floor(height/14) * 0.95
+  property int rowHeight: Math.floor(height/12)
   property int columnWidth: width/4.2 //0.7 + 3 + 0.5
 
   CCMP.SettingsView {
     anchors.left: parent.left
     anchors.right: parent.right
-    height: root.height*0.5
+    height: root.height*5/12
 
 
     model: VisualItemModel {
       TabBar {
         id: modeTabBar
         width: parent.width
+        height: rowHeight
         currentIndex: 0
         TabButton {
           text: ZTR["Voltage-Burden"]
           property bool isVoltageBurden: true
+          height: rowHeight
         }
         TabButton {
           text: ZTR["Current-Burden"]
           property bool isVoltageBurden: false
+          height: rowHeight
         }
       }
 
       Column {
-        VFControls.VFSpinBox {
-          height: root.rowHeight*1.5;
-          width: root.width;
+        VFControls.VFLineEdit {
+          id: parNominalBurden
+          height: root.rowHeight;
+          width: root.width*0.9;
 
-          intermediateValue: burdenModule.PAR_NominalBurden
-          text: ZTR["Nominal burden:"]
-          onOutValueChanged: {
-            burdenModule.PAR_NominalBurden = Number(outValue)
-          }
+          description.text: ZTR["Nominal burden:"]
+          description.width: root.width/4.5
+          entity: root.burdenModule
+          controlPropertyName: "PAR_NominalBurden"
+          inputMethodHints: Qt.ImhPreferNumbers
+          unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
+          unit.width: root.rowHeight*1.5
 
-          CCMP.SpinBoxIntrospection {
-            unit: burdenIntrospection.ComponentInfo.PAR_NominalBurden.Unit;
-            upperBound: burdenIntrospection.ComponentInfo.PAR_NominalBurden.Validation.Data[1];
-            lowerBound: burdenIntrospection.ComponentInfo.PAR_NominalBurden.Validation.Data[0];
-            stepSize: burdenIntrospection.ComponentInfo.PAR_NominalBurden.Validation.Data[2];
-            Component.onCompleted: parent.introspection = this
-          }
-        }
-        VFControls.VFSpinBox {
-          height: root.rowHeight*1.5;
-          width: root.width;
-
-          intermediateValue: burdenModule.PAR_NominalRange
-          text: ZTR["Nominal range:"]
-          onOutValueChanged: {
-            burdenModule.PAR_NominalRange = Number(outValue)
-          }
-
-          CCMP.SpinBoxIntrospection {
-            unit: burdenIntrospection.ComponentInfo.PAR_NominalRange.Unit;
-            upperBound: burdenIntrospection.ComponentInfo.PAR_NominalRange.Validation.Data[1];
-            lowerBound: burdenIntrospection.ComponentInfo.PAR_NominalRange.Validation.Data[0];
-            stepSize: burdenIntrospection.ComponentInfo.PAR_NominalRange.Validation.Data[2];
-            Component.onCompleted: parent.introspection = this
+          validator: DoubleValidator {
+            bottom: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[0];
+            top: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[1];
+            decimals: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2];
           }
         }
-        VFControls.VFSpinBox {
-          height: root.rowHeight*1.5;
-          width: root.width;
+        VFControls.VFLineEdit {
+          id: parNominalRange
+          height: root.rowHeight;
+          width: root.width*0.9;
 
-          intermediateValue: burdenModule.PAR_WCrosssection
-          text: ZTR["Wire crosssection:"]
-          onOutValueChanged: {
-            burdenModule.PAR_WCrosssection = Number(outValue)
+          description.text: ZTR["Nominal range:"]
+          description.width: root.width/4.5
+          entity: root.burdenModule
+          controlPropertyName: "PAR_NominalRange"
+          inputMethodHints: Qt.ImhPreferNumbers
+          unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
+          unit.width: root.rowHeight*1.5
+
+          validator: DoubleValidator {
+            bottom: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[0];
+            top: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[1];
+            decimals: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2];
           }
-
-          CCMP.SpinBoxIntrospection {
-            unit: burdenIntrospection.ComponentInfo.PAR_WCrosssection.Unit;
-            upperBound: burdenIntrospection.ComponentInfo.PAR_WCrosssection.Validation.Data[1];
-            lowerBound: burdenIntrospection.ComponentInfo.PAR_WCrosssection.Validation.Data[0];
-            stepSize: burdenIntrospection.ComponentInfo.PAR_WCrosssection.Validation.Data[2];
-            Component.onCompleted: parent.introspection = this
+          CCMP.ZVisualComboBox {
+            arrayMode: true
+            model: ["x_1", "x_sqrt_3", "x_1_over_sqrt_3"];
+            imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
+            anchors.left: parent.right
+            anchors.leftMargin: 8
+            anchors.top: parent.top
+            //anchors.topMargin: root.rowHeight*0.1
+            anchors.bottom: parent.bottom
+            //anchors.bottomMargin: root.rowHeight*0.1
+            width: root.width*0.09;
           }
         }
-        VFControls.VFSpinBox {
-          height: root.rowHeight*1.5;
-          width: root.width;
+        VFControls.VFLineEdit {
+          id: parWCrosssection
+          height: root.rowHeight;
+          width: root.width*0.9;
 
-          intermediateValue: burdenModule.PAR_WireLength
-          text: ZTR["Wire length:"]
-          onOutValueChanged: {
-            burdenModule.PAR_WireLength = Number(outValue)
+          description.text: ZTR["Wire crosssection:"]
+          description.width: root.width/4.5
+          entity: root.burdenModule
+          controlPropertyName: "PAR_WCrosssection"
+          inputMethodHints: Qt.ImhPreferNumbers
+          unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
+          unit.width: root.rowHeight*1.5
+
+          validator: DoubleValidator {
+            bottom: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[0];
+            top: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[1];
+            decimals: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2];
           }
+        }
+        VFControls.VFLineEdit {
+          id: parWireLength
+          height: root.rowHeight;
+          width: root.width*0.9;
 
-          CCMP.SpinBoxIntrospection {
-            unit: burdenIntrospection.ComponentInfo.PAR_WireLength.Unit;
-            upperBound: burdenIntrospection.ComponentInfo.PAR_WireLength.Validation.Data[1];
-            lowerBound: burdenIntrospection.ComponentInfo.PAR_WireLength.Validation.Data[0];
-            stepSize: burdenIntrospection.ComponentInfo.PAR_WireLength.Validation.Data[2];
-            Component.onCompleted: parent.introspection = this
+          description.text: ZTR["Wire length:"]
+          description.width: root.width/4.5
+          entity: root.burdenModule
+          controlPropertyName: "PAR_WireLength"
+          inputMethodHints: Qt.ImhPreferNumbers
+          unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
+          unit.width: root.rowHeight*1.5
+
+          validator: DoubleValidator {
+            bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
+            top: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[1];
+            decimals: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2];
           }
         }
       }
@@ -119,10 +138,11 @@ CCMP.ModulePage {
 
   Item {
     width: root.width
+    height: root.height*7/12
     anchors.left: parent.left
-    height: root.height*0.5
     anchors.bottom: parent.bottom
     ListView {
+      anchors.bottom: parent.bottom
       height: parent.height
       width: root.columnWidth*4.2 //0.7 + 3 + 0.5
       model: modeTabBar.currentItem.isVoltageBurden ? glueLogic.BurdenModelU : glueLogic.BurdenModelI
