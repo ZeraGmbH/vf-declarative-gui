@@ -51,6 +51,7 @@ Item {
           onAccepted: {
             valueSpinBox.textAcceptWorkaround = true
           }
+          Component.onCompleted: valueSpinBox.contentItem.selectByMouse=true
         }
 
         property int decimals: introspection.stepSize<1 ? 1 : 0
