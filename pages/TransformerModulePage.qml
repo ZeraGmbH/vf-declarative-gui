@@ -23,16 +23,6 @@ CCMP.ModulePage {
     anchors.right: parent.right
     height: root.height*3/9
 
-    RegExpValidator {
-      id: inputValidator
-      //match floating point numbers with 7 decimal places between 1e-6 to 1e+6
-      regExp: /\-?[0-9]+(\.[0-9]+)?([eE][\+\-]?[0-6])?/;
-      readonly property int decimals: 15
-      readonly property real top: 1.0e+6;
-      readonly property real bottom: 1.0e-6;
-    }
-
-
     model: VisualItemModel {
       Column {
         width: root.width
@@ -41,6 +31,7 @@ CCMP.ModulePage {
           height: root.rowHeight
 
           VFControls.VFLineEdit {
+            id: parPrimClampPrim
             description.text: ZTR["Mp-Prim:"]
             description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
@@ -52,9 +43,14 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_PrimClampPrim"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: inputValidator
+            validator: DoubleValidator {
+              bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
+              top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
+              decimals: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2];
+            }
           }
           VFControls.VFLineEdit {
+            id: parPrimClampSec
             anchors.right: parent.right
             description.text: ZTR["Mp-Sec:"]
             description.width: Math.max(description.contentWidth, root.width/10)
@@ -67,7 +63,11 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_PrimClampSec"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: inputValidator
+            validator: DoubleValidator {
+              bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
+              top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
+              decimals: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2];
+            }
           }
         }
         Item {
@@ -75,6 +75,7 @@ CCMP.ModulePage {
           height: root.rowHeight
 
           VFControls.VFLineEdit {
+            id: parDutPrimary
             description.text: ZTR["X-Prim:"]
             description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
@@ -86,9 +87,14 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_DutPrimary"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: inputValidator
+            validator: DoubleValidator {
+              bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
+              top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
+              decimals: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2];
+            }
           }
           VFControls.VFLineEdit {
+            id: parDutSecondary
             anchors.right: parent.right
             description.text: ZTR["X-Sec:"]
             description.width: Math.max(description.contentWidth, root.width/10)
@@ -101,7 +107,11 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_DutSecondary"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: inputValidator
+            validator: DoubleValidator {
+              bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
+              top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
+              decimals: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2];
+            }
           }
         }
         Item {
@@ -109,6 +119,7 @@ CCMP.ModulePage {
           height: root.rowHeight
 
           VFControls.VFLineEdit {
+            id: parSecClampPrim
             description.text: ZTR["Ms-Prim:"]
             description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
@@ -120,9 +131,14 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_SecClampPrim"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: inputValidator
+            validator: DoubleValidator {
+              bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
+              top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
+              decimals: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2];
+            }
           }
           VFControls.VFLineEdit {
+            id: parSecClampSec
             description.text: ZTR["Ms-Sec:"]
             description.width: Math.max(description.contentWidth, root.width/10)
             height: root.rowHeight;
@@ -135,7 +151,11 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_SecClampSec"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: inputValidator
+            validator: DoubleValidator {
+              bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
+              top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
+              decimals: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2];
+            }
           }
         }
       }
