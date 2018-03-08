@@ -43,27 +43,14 @@ Item {
     anchors.topMargin: titleText.height*2
     model: dummyModel
     boundsBehavior: ListView.StopAtBounds
-    delegate: Item {
+    delegate: Label {
       id: currentElement
       width: root.width
-      height: dataColumn.height+16
-
-      Column {
-        id: dataColumn
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.margins: 0
-
-        RowLayout {
-          width: parent.width
-          Label { text: model.ModuleName; font.pixelSize: 20; }
-          Item { Layout.fillWidth: true; } //spacer
-          Label { text: model.Time; font.pixelSize: 20; }
-        }
-        Label { text: ZTR[model.Error] !== undefined ? ZTR[model.Error] : model.Error; font.pixelSize: 20; }
-        Item { height: 8; width: parent.width } //spacer
-        Frame { height: 1; width: parent.width }
-      }
+      textFormat: Label.RichText
+      font.pointSize: 12
+      font.family: "Monospace"
+      wrapMode: Label.WordWrap
+      text: String("<small>%1</small> <b>%2:</b> %3").arg(model.Time).arg(model.ModuleName).arg(ZTR[model.Error] !== undefined ? ZTR[model.Error] : model.Error);
     }
   }
 }
