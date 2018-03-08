@@ -328,6 +328,7 @@ void ZeraTranslation::reloadStringTable()
   //: the user can make a selection of values he wants to log into a database
   insert("Select recorded values:", tr("Select recorded values:"));
   insert("Manage customer data:", tr("Manage customer data:"));
+  insert("Snapshot", tr("Snapshot"));
 
   //CustomerDataEntry.qml
   insert("Customer data", tr("Customer data"));

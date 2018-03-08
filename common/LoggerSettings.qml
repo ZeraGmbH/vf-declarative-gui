@@ -15,17 +15,32 @@ CCMP.SettingsView {
   id: root
   viewAnchors.bottomMargin: buttonContainer.height
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+  property bool snapshotTrigger: false;
+  readonly property bool logEnabled: loggerEntity.LoggingEnabled
+  onLogEnabledChanged: {
+    if(snapshotTrigger === true && logEnabled === true)
+    {
+      snapshotTrigger = false;
+      loggerEntity.LoggingEnabled  = false;
+    }
+  }
+
   rowHeight: height/12
 
-  function msToTime(s) {
-    var ms = s % 1000;
-    s = (s - ms) / 1000;
-    var secs = s % 60;
-    s = (s - secs) / 60;
-    var mins = s % 60;
-    var hrs = (s - mins) / 60;
+  function msToTime(t_mSeconds) {
+    var retVal = "";
+    if(t_mSeconds !== undefined)
+    {
+      var ms = t_mSeconds % 1000;
+      t_mSeconds = (t_mSeconds - ms) / 1000;
+      var secs = t_mSeconds % 60;
+      t_mSeconds = (t_mSeconds - secs) / 60;
+      var mins = t_mSeconds % 60;
+      var hours = (t_mSeconds - mins) / 60;
 
-    return ("0"+hrs).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
+      retVal = ("0"+hours).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
+    }
+    return retVal;
   }
 
   function timeToMs(t_time) {
@@ -365,6 +380,25 @@ CCMP.SettingsView {
       onClicked: {
         if(loggerEntity.LoggingEnabled !== true)
         {
+          loggerEntity.LoggingEnabled=true;
+        }
+      }
+    }
+
+    Button {
+      id: snapshotButton
+      text: ZTR["Snapshot"]
+      font.pixelSize: 20
+      anchors.top: buttonContainer.top
+      anchors.bottom: buttonContainer.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      width: root.rowWidth/4
+      enabled: loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true && !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
+
+      onClicked: {
+        if(loggerEntity.LoggingEnabled !== true)
+        {
+          snapshotTrigger = true;
           loggerEntity.LoggingEnabled=true;
         }
       }
