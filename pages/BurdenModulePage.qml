@@ -60,7 +60,7 @@ CCMP.ModulePage {
           validator: DoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[1];
-            decimals: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2];
+            decimals: 15//burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2];
           }
         }
         VFControls.VFLineEdit {
@@ -79,7 +79,7 @@ CCMP.ModulePage {
           validator: DoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[1];
-            decimals: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2];
+            decimals: 15//burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2];
           }
           CCMP.ZVisualComboBox {
             arrayMode: true
@@ -110,7 +110,7 @@ CCMP.ModulePage {
           validator: DoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[1];
-            decimals: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2];
+            decimals: 15//burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2];
           }
         }
         VFControls.VFLineEdit {
@@ -129,7 +129,7 @@ CCMP.ModulePage {
           validator: DoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[1];
-            decimals: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2];
+            decimals: 15//burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2];
           }
         }
       }
