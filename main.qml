@@ -130,6 +130,11 @@ ApplicationWindow {
           {
             pageView.model = com5003CedModel
           }
+          else if(currentSession === "mt310s2-meas-session.json")
+          {
+            pageView.model = mt310s2MeasModel
+          }
+
           console.log("Loaded session: ", currentSession);
           ModuleIntrospection.reloadIntrospection();
           pageLoader.active = true;
@@ -142,18 +147,30 @@ ApplicationWindow {
   }
 
   onCurrentSessionChanged: {
-    if(currentSession === "com5003-meas-session.json")
+    switch(currentSession)
     {
-      requiredIds = [0, 2, 200, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
+    case "com5003-meas-session.json":
+    {
+      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
+      break;
     }
-    else if(currentSession === "com5003-ref-session.json")
+    case "com5003-ref-session.json":
     {
       requiredIds = [0, 2, 1001, 1020, 1050, 1150];
+      break;
     }
-    else if(currentSession === "com5003-ced-session.json")
+    case "com5003-ced-session.json":
     {
       requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1090, 1110, 1120, 1130, 1150];
+      break;
     }
+    case "mt310s2-meas-session.json":
+    {
+      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150, 1160, 1161, 1170]; //200 1180
+      break;
+    }
+    }
+
     resolvedIds = [];
 
     requiredIds.sort();
@@ -378,17 +395,17 @@ ApplicationWindow {
             }
           }
         }
-        ToolButton {
-          implicitHeight: parent.height
-          font.family: "FontAwesome"
-          font.pointSize: 14
-          text: FA.icon(FA.fa_align_justify) + ZTR["Range"]
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
-          enabled: displayWindow.currentSession !== ""
-          onClicked: {
-            layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
-          }
-        }
+//        ToolButton {
+//          implicitHeight: parent.height
+//          font.family: "FontAwesome"
+//          font.pointSize: 14
+//          text: FA.icon(FA.fa_align_justify) + ZTR["Range"]
+//          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
+//          enabled: displayWindow.currentSession !== ""
+//          onClicked: {
+//            layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
+//          }
+//        }
         ToolButton {
           implicitHeight: parent.height
           implicitWidth: rangeIndicator.width
@@ -403,7 +420,7 @@ ApplicationWindow {
 
           CCMP.RangeIndicator {
             id: rangeIndicator
-            width: Math.ceil(displayWindow.width/3)
+            width: Math.ceil(displayWindow.width/2.2)
             height: controlsBar.height
             active: false
           }
@@ -444,7 +461,9 @@ ApplicationWindow {
             anchors.leftMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
             opacity: newErrors ? 1.0 : 0.2
-            color: newErrors ? Material.color(Material.Yellow) : (parent.highlighted ? parent.contentItem.color : Material.secondaryTextColor)
+            property color defaultColor;
+            color: newErrors ? Material.color(Material.Yellow) : (parent.highlighted ? defaultColor : Material.secondaryTextColor)
+            Component.onCompleted: defaultColor = parent.contentItem.color;
           }
           Label {
             text: displayWindow.errorMessages.length > 0 ? String("(%1)").arg(displayWindow.errorMessages.length) : ""
@@ -453,7 +472,7 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.rightMargin: parent.width/10
             anchors.verticalCenter: parent.verticalCenter
-            color: parent.contentItem.color
+            Component.onCompleted: color = parent.contentItem.color;
           }
         }
         ToolButton {
@@ -520,6 +539,9 @@ ApplicationWindow {
     StaticData.CEDPageModel {
       id: com5003CedModel
     }
+    StaticData.MT310S2MeasurementPageModel {
+      id: mt310s2MeasModel
+    }
 
 
 
@@ -529,7 +551,6 @@ ApplicationWindow {
       onModelChanged: {
         if(model)
         {
-          console.log("MODEL CHANGED", model.firstElement);
           currentValue = model.firstElement;
           pageLoader.source = currentValue
         }
