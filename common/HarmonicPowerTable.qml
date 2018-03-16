@@ -15,7 +15,7 @@ CCMP.ModulePage {
   readonly property QtObject power3Module1: VeinEntity.getEntity("Power3Module1")
 
   property int rowHeight: Math.floor(height/20)
-  property int columnWidth: width/7
+  property int columnWidth: width/7.1
 
   Item {
     width: root.width
@@ -147,6 +147,10 @@ CCMP.ModulePage {
       boundsBehavior: Flickable.StopAtBounds
       cacheBuffer: root.rowHeight*4
       clip: true
+
+      ScrollBar.vertical: ScrollBar {
+        policy: ScrollBar.AlwaysOn
+      }
 
       delegate: Component {
         Row {
