@@ -43,7 +43,7 @@ Item {
   function setSystemColorByIndex(index, color) {
     //index starts with 1 not 0
     var realIndex = index-1;
-    var availableSystems = ["system1ColorDark", "system2ColorDark", "system3ColorDark", "system1Color", "system2Color", "system3Color"];
+    var availableSystems = ["system1ColorDark", "system2ColorDark", "system3ColorDark", "system1Color", "system2Color", "system3Color", "system4ColorDark", "system4Color"];
     if(realIndex < availableSystems.length && color !== undefined)
     {
       settings.globalSettings.setOption(availableSystems[realIndex], color);
@@ -59,8 +59,8 @@ Item {
   readonly property color system3ColorBright: settings.globalSettings.getOption("system3Color") //"#EE58acfa"
   readonly property color system3ColorDark: settings.globalSettings.getOption("system3ColorDark") //"#EE0092ff"
 
-  readonly property color system4ColorBright: settings.globalSettings.getOption("system4Color") //"#EEB08EF5"
-  readonly property color system4ColorDark: settings.globalSettings.getOption("system4ColorDark") //"#EE6A25F6"
+  readonly property color system4ColorBright: settings.globalSettings.getOption("system4Color") //"#EEffffff"
+  readonly property color system4ColorDark: settings.globalSettings.getOption("system4ColorDark") //"#EEcccccc"
 
   readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1") //"lightskyblue"
   readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2") //"lawngreen"
@@ -102,6 +102,13 @@ Item {
     case 6:
       retVal = system3ColorBright;
       break;
+    case 7:
+      retVal = system4ColorDark;
+      break;
+    case 8:
+      retVal = system4ColorBright;
+      break;
+
     }
     return retVal;
   }
@@ -111,17 +118,25 @@ Item {
     if(grouping)
     {
       var channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
-      if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1.indexOf(channelName)>-1)
+      var group1 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1;
+      var group2 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2;
+      var group3 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3;
+
+      if(group1 !== undefined && group1.indexOf(channelName)>-1)
       {
         retVal = groupColorVoltage
       }
-      else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2.indexOf(channelName)>-1)
+      else if(group2 !== undefined && group2.indexOf(channelName)>-1)
       {
         retVal = groupColorCurrent
       }
-      else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3.indexOf(channelName)>-1)
+      else if(group3 !== undefined && group3.indexOf(channelName)>-1)
       {
         retVal = groupColorReference
+      }
+      else //index is not in group
+      {
+        retVal = systemColorByIndex(rangIndex)
       }
     }
     else
