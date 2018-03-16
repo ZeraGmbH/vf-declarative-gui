@@ -195,11 +195,11 @@ SettingsView {
                   GC.setSystemColorByIndex(1, "#EEff0000")
                   GC.setSystemColorByIndex(2, "#EEffff00")
                   GC.setSystemColorByIndex(3, "#EE0092ff")
-                  //GC.setSystemColorByIndex(???, "#EE6A25F6")
                   GC.setSystemColorByIndex(4, "#EEff7755")
                   GC.setSystemColorByIndex(5, "#EEffffbb")
                   GC.setSystemColorByIndex(6, "#EE58acfa")
-                  //GC.setSystemColorByIndex(???, "#EEB08EF5")
+                  GC.setSystemColorByIndex(7, "#EEcccccc")
+                  GC.setSystemColorByIndex(8, "#EEffffff")
                 }
               }
             }
