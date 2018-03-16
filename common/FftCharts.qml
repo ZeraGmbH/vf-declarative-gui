@@ -8,22 +8,56 @@ import QwtChart 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
 import GlobalConfig 1.0
-
+import ZeraGlueLogic 1.0
 import ModuleIntrospection 1.0
 
-Item {
+Flickable {
   id: root
-
+  clip: true
+  boundsBehavior: Flickable.StopAtBounds
+  contentHeight: height/3 * Math.ceil(fftCount/2)
+  ScrollBar.vertical: ScrollBar {
+    policy: root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+  }
   readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
+  readonly property int fftCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount
+
+  //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
+  readonly property var leftChannels: {
+    var retVal = [];
+    for(var channelNum=0; channelNum<fftCount; ++channelNum)
+    {
+      var unit = ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(channelNum+1)].Unit;
+      if(unit === "V")//UL1..UL3 +UN
+      {
+        retVal.push(channelNum)
+      }
+    }
+    return retVal;
+  }
+
+  readonly property var rightChannels: {
+    var retVal = [];
+    for(var channelNum=0; channelNum<fftCount; ++channelNum)
+    {
+      var unit = ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(channelNum+1)].Unit;
+      if(unit === "A")//IL1..IL3 +IN
+      {
+        retVal.push(channelNum);
+      }
+    }
+    return retVal;
+  }
+
 
   Repeater {
-    model: 3
+    model: Math.ceil(fftCount/2)
     FftBarChart {
       id: harmonicChart
       height: root.height/3
-      width: root.width
+      width: root.width-16
 
       y: index*height
 
@@ -35,21 +69,21 @@ Item {
       bottomLabelsEnabled: true
       logScaleLeftAxis: false
       logScaleRightAxis: false
-      colorLeftAxis: GC.systemColorByIndex(index+1)
-      colorRightAxis: GC.systemColorByIndex(index+4)
+      colorLeftAxis: GC.systemColorByIndex(leftChannels[index]+1)
+      colorRightAxis: GC.systemColorByIndex(rightChannels[index]+1)
 
-      leftValue: fftModule[String("ACT_FFT%1").arg(index+1)]
-      rightValue: fftModule[String("ACT_FFT%1").arg(index+4)]
+      leftValue: fftModule[String("ACT_FFT%1").arg(leftChannels[index]+1)]
+      rightValue: fftModule[String("ACT_FFT%1").arg(rightChannels[index]+1)]
 
 
-      maxValueLeftAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(index+1)] * 1.5
+      maxValueLeftAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(leftChannels[index]+1)] * 1.5
       minValueLeftAxis: 0
-      maxValueRightAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(index+4)] * 1.5
+      maxValueRightAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(rightChannels[index]+1)] * 1.5
       minValueRightAxis: 0
       textColor: Material.primaryTextColor
 
-      titleLeftAxis: ModuleIntrospection.rangeIntrospection.ComponentInfo[String("INF_Channel%1ActOVLREJ").arg(index+1)].ChannelName
-      titleRightAxis: ModuleIntrospection.rangeIntrospection.ComponentInfo[String("INF_Channel%1ActOVLREJ").arg(index+4)].ChannelName
+      titleLeftAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(leftChannels[index]+1)].ChannelName
+      titleRightAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(rightChannels[index]+1)].ChannelName
     }
   }
 }
