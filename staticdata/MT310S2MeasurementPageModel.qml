@@ -51,6 +51,6 @@ ListModel {
   ListElement {
     name: "4PV"
     icon: "qrc:/data/staticdata/resources/appicon.png"
-    elementValue: "qrc:/pages/RMS4Phase.qml"
+    elementValue: "qrc:/pages/RMS4PhasePage.qml"
   }
 }
