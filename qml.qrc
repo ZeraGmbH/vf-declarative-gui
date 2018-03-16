@@ -12,6 +12,7 @@
         <file>pages/DFTModulePage.qml</file>
         <file>pages/BurdenModulePage.qml</file>
         <file>pages/TransformerModulePage.qml</file>
+        <file>pages/RMS4PhasePage.qml</file>
     </qresource>
     <qresource prefix="/components">
         <file>common/SettingsView.qml</file>
