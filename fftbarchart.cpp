@@ -561,6 +561,6 @@ void FftBarChart::onLeftBarCountChanged(int t_barCount)
   for(int i=0; i<t_barCount-1; i+=2)
   {
     m_barDataLeft->addData(m_colorLeftAxis, QString::number(i/2));
-    m_barDataLeft->addData(m_colorLeftAxis, QString(" "));
+    m_barDataLeft->addData(m_colorRightAxis, QString(" "));
   }
 }
