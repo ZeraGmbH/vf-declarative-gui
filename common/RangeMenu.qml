@@ -15,7 +15,52 @@ Item {
   anchors.leftMargin: 300
   anchors.rightMargin: 300
 
-  property bool groupingActive: groupingMode.checked
+  readonly property bool groupingActive: groupingMode.checked
+
+  readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+
+  //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
+  readonly property var upperChannels: {
+    var retVal = [];
+    for(var channelNum=0; channelNum<channelCount; ++channelNum)
+    {
+      var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
+      var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
+      if(name.startsWith("REF"))
+      {
+        if(channelNum<3)//REF1..REF3
+        {
+          retVal.push(channelNum);
+        }
+      }
+      else if(unit === "V")//UL1..UL3 +UN
+      {
+        retVal.push(channelNum)
+      }
+    }
+    return retVal;
+  }
+
+  readonly property var lowerChannels: {
+    var retVal = [];
+    for(var channelNum=0; channelNum<channelCount; ++channelNum)
+    {
+      var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
+      var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
+      if(name.startsWith("REF"))
+      {
+        if(channelNum>=3)//REF3..REF6
+        {
+          retVal.push(channelNum);
+        }
+      }
+      else if(unit === "A")//IL1..IL3 +IN
+      {
+        retVal.push(channelNum)
+      }
+    }
+    return retVal;
+  }
 
   Item {
     id: grid
@@ -134,6 +179,93 @@ Item {
       height: grid.cellHeight*1
       width: grid.cellWidth*16
     }
+
+    ListView {
+      model: root.upperChannels
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      anchors.bottomMargin: height*2
+      height: grid.cellHeight*3
+
+      orientation: ListView.Horizontal
+
+      delegate: Item {
+        height: grid.cellHeight*3
+        width: grid.cellWidth*4
+        enabled: !autoMode.checked
+        Label {
+          text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
+          color: GC.getColorByIndex(modelData+1, root.groupingActive)
+          anchors.bottom: parent.top
+          anchors.bottomMargin: -(parent.height/3)
+          anchors.horizontalCenter: parent.horizontalCenter
+        }
+        VFControls.VFComboBox {
+          //UL1-UL3
+          arrayMode: true
+          entity: root.rangeModule
+          controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
+          model: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
+          centerVertical: true
+          centerVerticalOffset:  model.length>2 ? 0 : height
+          anchors.bottom: parent.bottom
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.top: parent.top
+          anchors.topMargin: parent.height/3
+          width: parent.width*0.95
+          enabled: parent.enabled
+          opacity: enabled ? 1.0 : 0.4
+          fontSize: Math.min(18, root.height/20, width/6)
+        }
+      }
+    }
+    ListView {
+      model: root.lowerChannels
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      anchors.bottomMargin: height
+      height: grid.cellHeight*3
+
+      orientation: ListView.Horizontal
+
+      delegate: Item {
+        height: grid.cellHeight*3
+        width: grid.cellWidth*4
+        enabled: !autoMode.checked
+        Label {
+          text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
+          color: GC.getColorByIndex(modelData+1, root.groupingActive)
+          anchors.bottom: parent.top
+          anchors.bottomMargin: -(parent.height/3)
+          anchors.horizontalCenter: parent.horizontalCenter
+        }
+        VFControls.VFComboBox {
+          //IL1-IL3
+          arrayMode: true
+          entity: root.rangeModule
+          controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
+          model: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
+
+          contentMaxRows: model.length>4 ? (model.length>9 ? Math.min(model.length, 8) : Math.ceil(model.length/2)) : 0
+          contentFlow: GridView.FlowTopToBottom
+          contentRowHeight: height
+
+          centerVertical: true
+          centerVerticalOffset: model.length>2 ? (model.length>9 ? -height*1.25 : 0 ) : height
+          anchors.bottom: parent.bottom
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.top: parent.top
+          anchors.topMargin: parent.height/3
+          width: parent.width*0.95
+          enabled: parent.enabled
+          opacity: enabled ? 1.0 : 0.4
+          fontSize: Math.min(18, root.height/20, width/6)
+        }
+      }
+    }
+/*
     Repeater {
       id: _repeater1
       model: 3
@@ -211,5 +343,6 @@ Item {
         }
       }
     }
+  */
   }
 }

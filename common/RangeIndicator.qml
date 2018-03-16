@@ -16,6 +16,50 @@ Loader {
       width: invisibleRoot.width
       height: invisibleRoot.height
       readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+
+      //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
+      readonly property var upperChannels: {
+        var retVal = [];
+        for(var channelNum=0; channelNum<channelCount; ++channelNum)
+        {
+          var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
+          var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
+          if(name.startsWith("REF"))
+          {
+            if(channelNum<3)//REF1..REF3
+            {
+              retVal.push(channelNum);
+            }
+          }
+          else if(unit === "V")//UL1..UL3 +UN
+          {
+            retVal.push(channelNum)
+          }
+        }
+        return retVal;
+      }
+
+      readonly property var lowerChannels: {
+        var retVal = [];
+        for(var channelNum=0; channelNum<channelCount; ++channelNum)
+        {
+          var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
+          var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
+          if(name.startsWith("REF"))
+          {
+            if(channelNum>=3)//REF3..REF6
+            {
+              retVal.push(channelNum);
+            }
+          }
+          else if(unit === "A")//IL1..IL3 +IN
+          {
+            retVal.push(channelNum)
+          }
+        }
+        return retVal;
+      }
+
       readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
       property int contentWidth: root.width/(root.channelCount/2)*0.9
@@ -52,7 +96,7 @@ Loader {
 
       ListView {
         id: voltageList
-        model: root.channelCount/2
+        model: root.upperChannels //root.channelCount/2
         anchors.left: parent.left
         anchors.leftMargin: root.contentWidth*0.1
         anchors.right: parent.right
@@ -72,8 +116,8 @@ Loader {
             font.pixelSize: parent.height/1.3
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
-            text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName + ": "
-            color: GC.getColorByIndex(index+1, rangeGrouping)
+            text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
+            color: GC.getColorByIndex(modelData+1, rangeGrouping)
             font.bold: true
           }
           Label {
@@ -83,12 +127,12 @@ Loader {
             font.pixelSize: parent.height/1.3
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
-            text: root.rangeModule["PAR_Channel"+parseInt(index+1)+"Range"]
+            text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
           }
         }
       }
       ListView {
-        model: root.channelCount/2
+        model: root.lowerChannels //root.channelCount/2
         anchors.left: parent.left
         anchors.leftMargin: root.contentWidth*0.1
         anchors.right: parent.right
@@ -108,8 +152,8 @@ Loader {
             font.pixelSize: parent.height/1.3
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
-            text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+4)+"Range"].ChannelName + ": "
-            color: GC.getColorByIndex(index+4, rangeGrouping)
+            text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
+            color: GC.getColorByIndex(modelData+1, rangeGrouping)
             font.bold: true
           }
           Label {
@@ -119,7 +163,7 @@ Loader {
             font.pixelSize: parent.height/1.3
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
-            text: root.rangeModule["PAR_Channel"+parseInt(index+4)+"Range"]
+            text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
           }
         }
       }
