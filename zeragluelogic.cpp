@@ -26,7 +26,7 @@ namespace CommonTable
     L1,
     L2,
     L3,
-    L4,
+    N,
     SUM=Qt::UserRole+1000,
     UNIT=Qt::UserRole+1001,
   };
@@ -48,7 +48,7 @@ public:
     roles.insert(RoleIndexes::L1, "L1");
     roles.insert(RoleIndexes::L2, "L2");
     roles.insert(RoleIndexes::L3, "L3");
-    roles.insert(RoleIndexes::L4, "L4");
+    roles.insert(RoleIndexes::N, "N");
     roles.insert(RoleIndexes::SUM, "Sum");
     roles.insert(RoleIndexes::UNIT, "Unit");
     return roles;
@@ -100,12 +100,16 @@ public:
     roles.insert(AMP_L4, "AmplitudeL4");
     roles.insert(AMP_L5, "AmplitudeL5");
     roles.insert(AMP_L6, "AmplitudeL6");
+    roles.insert(AMP_L7, "AmplitudeL7");
+    roles.insert(AMP_L8, "AmplitudeL8");
     roles.insert(VECTOR_L1, "VectorL1");
     roles.insert(VECTOR_L2, "VectorL2");
     roles.insert(VECTOR_L3, "VectorL3");
     roles.insert(VECTOR_L4, "VectorL4");
     roles.insert(VECTOR_L5, "VectorL5");
     roles.insert(VECTOR_L6, "VectorL6");
+    roles.insert(VECTOR_L7, "VectorL7");
+    roles.insert(VECTOR_L8, "VectorL8");
     return roles;
   }
 
@@ -117,12 +121,16 @@ public:
     AMP_L4,
     AMP_L5,
     AMP_L6,
+    AMP_L7,
+    AMP_L8,
     VECTOR_L1=AMP_L1+100,
     VECTOR_L2,
     VECTOR_L3,
     VECTOR_L4,
     VECTOR_L5,
     VECTOR_L6,
+    VECTOR_L7,
+    VECTOR_L8,
   };
 
 
@@ -171,6 +179,7 @@ class ZeraGlueLogicPrivate
     m_osciP1Data(new QStandardItemModel(3, 128, q_ptr)),
     m_osciP2Data(new QStandardItemModel(3, 128, q_ptr)),
     m_osciP3Data(new QStandardItemModel(3, 128, q_ptr)),
+    m_osciNData(new QStandardItemModel(3, 128, q_ptr)),
     m_fftTableData(new FftTableModel(40, 1, q_ptr))
   {
     setupActualTable();
@@ -204,6 +213,7 @@ class ZeraGlueLogicPrivate
     delete m_osciP1Data;
     delete m_osciP2Data;
     delete m_osciP3Data;
+    delete m_osciNData;
 
     delete m_fftTableData;
   }
@@ -216,6 +226,7 @@ class ZeraGlueLogicPrivate
     m_actValueData->setData(mIndex, "L1", RoleIndexes::L1);
     m_actValueData->setData(mIndex, "L2", RoleIndexes::L2);
     m_actValueData->setData(mIndex, "L3", RoleIndexes::L3);
+    m_actValueData->setData(mIndex, "N", RoleIndexes::N);
     m_actValueData->setData(mIndex, "Σ", RoleIndexes::SUM);
     m_actValueData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
@@ -289,10 +300,12 @@ class ZeraGlueLogicPrivate
     rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, 1));
     rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
+    rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::N, 1));
 
     rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 4));
     rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 4));
     rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 4));
+    rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::N, 4));
 
     rmsMap->insert("ACT_RMSPP1", QPoint(RoleIndexes::L1, 2));
     rmsMap->insert("ACT_RMSPP2", QPoint(RoleIndexes::L2, 2));
@@ -312,10 +325,12 @@ class ZeraGlueLogicPrivate
     dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 6));
     dftMap->insert("ACT_DFTPN2", QPoint(RoleIndexes::L2, 6));
     dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, 6));
+    dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::N, 6));
 
     dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, 7));
     dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, 7));
     dftMap->insert("ACT_DFTPN6", QPoint(RoleIndexes::L3, 7));
+    dftMap->insert("ACT_DFTPN8", QPoint(RoleIndexes::N, 7));
 
     //(8) ∠UI is a calculated value
 
@@ -490,6 +505,8 @@ class ZeraGlueLogicPrivate
       m_osciP2Data->setData(tmpIndex, i, Qt::DisplayRole);
       tmpIndex = m_osciP3Data->index(0, i);
       m_osciP3Data->setData(tmpIndex, i, Qt::DisplayRole);
+      tmpIndex = m_osciNData->index(0, i);
+      m_osciNData->setData(tmpIndex, i, Qt::DisplayRole);
     }
 
     //P1
@@ -525,6 +542,17 @@ class ZeraGlueLogicPrivate
     osci6Pair.m_updateInterval->setInterval(valueInterval);
     osci6Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI6", osci6Pair); //IL3
+    //PN
+    ModelRowPair osci7Pair(m_osciNData, 1);
+    osci7Pair.m_updateInterval=new QTimer(q_ptr);
+    osci7Pair.m_updateInterval->setInterval(valueInterval);
+    osci7Pair.m_updateInterval->setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI7", osci7Pair); //UN
+    ModelRowPair osci8Pair(m_osciNData, 2);
+    osci8Pair.m_updateInterval=new QTimer(q_ptr);
+    osci8Pair.m_updateInterval->setInterval(valueInterval);
+    osci8Pair.m_updateInterval->setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI8", osci8Pair); //IN
   }
 
   void setupFftData()
@@ -535,6 +563,8 @@ class ZeraGlueLogicPrivate
     m_fftTableRoleMapping.insert("ACT_FFT4", FftTableModel::AMP_L4);
     m_fftTableRoleMapping.insert("ACT_FFT5", FftTableModel::AMP_L5);
     m_fftTableRoleMapping.insert("ACT_FFT6", FftTableModel::AMP_L6);
+    m_fftTableRoleMapping.insert("ACT_FFT7", FftTableModel::AMP_L7);
+    m_fftTableRoleMapping.insert("ACT_FFT8", FftTableModel::AMP_L8);
   }
 
   /**
@@ -776,6 +806,7 @@ class ZeraGlueLogicPrivate
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP1ComponentName, QVariant::fromValue<QObject*>(m_osciP1Data));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP2ComponentName, QVariant::fromValue<QObject*>(m_osciP2Data));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP3ComponentName, QVariant::fromValue<QObject*>(m_osciP3Data));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciPNComponentName, QVariant::fromValue<QObject*>(m_osciNData));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
   }
 
@@ -790,6 +821,7 @@ class ZeraGlueLogicPrivate
   QStandardItemModel *m_osciP1Data;
   QStandardItemModel *m_osciP2Data;
   QStandardItemModel *m_osciP3Data;
+  QStandardItemModel *m_osciNData;
 
   FftTableModel *m_fftTableData;
 
@@ -811,6 +843,7 @@ class ZeraGlueLogicPrivate
   static constexpr char const * s_osciP1ComponentName = "OSCIP1Model";
   static constexpr char const * s_osciP2ComponentName = "OSCIP2Model";
   static constexpr char const * s_osciP3ComponentName = "OSCIP3Model";
+  static constexpr char const * s_osciPNComponentName = "OSCIPNModel";
   static constexpr char const * s_fftTableModelComponentName = "FFTTableModel";
 
   double m_angleU1=0;
