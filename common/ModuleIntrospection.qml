@@ -12,6 +12,7 @@ Item {
   property var p3m1Introspection: VeinEntity.hasEntity("Power3Module1") ? JSON.parse(VeinEntity.getEntity("Power3Module1").INF_ModuleInterface) : 0
   property var secIntrospection: VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0
   property var fftIntrospection: VeinEntity.hasEntity("FFTModule1") ? JSON.parse(VeinEntity.getEntity("FFTModule1").INF_ModuleInterface) : 0
+  property var osciIntrospection: VeinEntity.hasEntity("OSCIModule1") ? JSON.parse(VeinEntity.getEntity("OSCIModule1").INF_ModuleInterface) : 0
   property var thdnIntrospection: VeinEntity.hasEntity("THDNModule1") ? JSON.parse(VeinEntity.getEntity("THDNModule1").INF_ModuleInterface) : 0
   property var rmsIntrospection: VeinEntity.hasEntity("RMSModule1") ? JSON.parse(VeinEntity.getEntity("RMSModule1").INF_ModuleInterface) : 0
   property var sampleIntrospection: VeinEntity.hasEntity("SampleModule1") ? JSON.parse(VeinEntity.getEntity("SampleModule1").INF_ModuleInterface) : 0
@@ -30,6 +31,7 @@ Item {
     p3m1Introspection = VeinEntity.hasEntity("Power3Module1") ? JSON.parse(VeinEntity.getEntity("Power3Module1").INF_ModuleInterface) : 0
     secIntrospection = VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0
     fftIntrospection = VeinEntity.hasEntity("FFTModule1") ? JSON.parse(VeinEntity.getEntity("FFTModule1").INF_ModuleInterface) : 0
+    osciIntrospection = VeinEntity.hasEntity("OSCIModule1") ? JSON.parse(VeinEntity.getEntity("OSCIModule1").INF_ModuleInterface) : 0
     thdnIntrospection = VeinEntity.hasEntity("THDNModule1") ? JSON.parse(VeinEntity.getEntity("THDNModule1").INF_ModuleInterface) : 0
     rmsIntrospection = VeinEntity.hasEntity("RMSModule1") ? JSON.parse(VeinEntity.getEntity("RMSModule1").INF_ModuleInterface) : 0
     sampleIntrospection = VeinEntity.hasEntity("SampleModule1") ? JSON.parse(VeinEntity.getEntity("SampleModule1").INF_ModuleInterface) : 0
