@@ -43,7 +43,24 @@ Rectangle {
   property string selectedText;
 
   property var model;
+  onModelChanged: {
+    fakeModel.clear();
+    if(model && imageModel)
+    {
+      populateFakeModel()
+      root.expanded=false
+    }
+  }
+
   property var imageModel;
+  onImageModelChanged: {
+    fakeModel.clear();
+    if(model && imageModel)
+    {
+      populateFakeModel()
+      root.expanded=false
+    }
+  }
 
   property int contentRowWidth : width;
   property int contentRowHeight : height;
@@ -68,20 +85,6 @@ Rectangle {
     }
   }
 
-  onModelChanged: {
-    if(model && imageModel)
-    {
-      populateFakeModel()
-      root.expanded=false
-    }
-  }
-  onImageModelChanged: {
-    if(model && imageModel)
-    {
-      populateFakeModel()
-      root.expanded=false
-    }
-  }
 
   function populateFakeModel() {
     fakeModel.clear();
@@ -90,7 +93,6 @@ Rectangle {
       for(var i=0; i<model.length; i++)
       {
         fakeModel.append({"text":model[i], "source":imageModel[i]})
-
       }
     }
   }
@@ -125,7 +127,7 @@ Rectangle {
     anchors.topMargin: 2
     anchors.bottomMargin: 2
     anchors.rightMargin: parent.width/5
-    source: fakeModel.count > 0 ? fakeModel.get(targetIndex).source : undefined
+    source:  model && imageModel ? fakeModel.get(targetIndex).source : undefined
     fillMode: Image.PreserveAspectFit
     mipmap: true
   }

@@ -83,8 +83,23 @@ CCMP.ModulePage {
           }
           CCMP.ZVisualComboBox {
             arrayMode: true
-            model: ["x_1", "x_sqrt_3", "x_1_over_sqrt_3"];
+            model: burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data
             imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
+            property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);
+            onIntermediateChanged: {
+              if(currentIndex !== intermediate)
+              {
+                currentIndex = intermediate
+              }
+            }
+
+            onSelectedTextChanged: {
+              if(burdenModule.PAR_NominalRangeFactor !== selectedText)
+              {
+                burdenModule.PAR_NominalRangeFactor = selectedText
+              }
+            }
+
             anchors.left: parent.right
             anchors.leftMargin: 8
             anchors.top: parent.top
