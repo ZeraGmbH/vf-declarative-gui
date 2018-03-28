@@ -13,6 +13,7 @@
 #include <qwt_plot.h>
 #include <qwt_scale_widget.h>
 #include <qwt_text.h>
+#include <qwt_plot_marker.h>
 
 #include "bardata.h"
 #include "cbar.h"
@@ -52,14 +53,35 @@ BarChart::BarChart(QQuickItem *parent):
 
   barDataLeft->attach(plot);
   barDataLeft->setYAxis(QwtPlot::yLeft);
+  barDataLeft->setMargin(0);
+  barDataLeft->setLayoutPolicy(BarData::AutoAdjustSamples);
 
   barDataRight->attach(plot);
   barDataRight->setYAxis(QwtPlot::yRight);
+  barDataRight->setMargin(0);
+  barDataRight->setLayoutPolicy(BarData::AutoAdjustSamples);
 
   plot->setAutoReplot(true);
 
   //plot->setAxisScaleEngine(QwtPlot::yLeft, new QwtLogScaleEngine);
   //plot->setAxisScale(QwtPlot::yLeft, 1, 10000);
+
+  // marker
+  m_upperLimitMarker = new QwtPlotMarker();
+  m_upperLimitMarker->setValue( 0.0, 0.0 );
+  m_upperLimitMarker->setLineStyle( QwtPlotMarker::HLine );
+  m_upperLimitMarker->setLabelAlignment( Qt::AlignRight | Qt::AlignBottom );
+  m_upperLimitMarker->setLinePen( Qt::red, 0, Qt::DashLine );
+  m_upperLimitMarker->setVisible(false);
+  m_upperLimitMarker->attach(plot);
+
+  m_lowerLimitMarker = new QwtPlotMarker();
+  m_lowerLimitMarker->setValue( 0.0, 0.0 );
+  m_lowerLimitMarker->setLineStyle( QwtPlotMarker::HLine );
+  m_lowerLimitMarker->setLabelAlignment( Qt::AlignRight | Qt::AlignBottom );
+  m_lowerLimitMarker->setLinePen( Qt::red, 0, Qt::DashLine );
+  m_lowerLimitMarker->setVisible(false);
+  m_lowerLimitMarker->attach(plot);
 }
 
 BarChart::~BarChart()
@@ -74,6 +96,11 @@ bool BarChart::bottomLabelsEnabled() const
 bool BarChart::legendEnabled() const
 {
   return m_legendEnabled;
+}
+
+bool BarChart::markersEnabled() const
+{
+  return m_markersEnabled;
 }
 
 QColor BarChart::bgColor() const
@@ -94,6 +121,12 @@ QColor BarChart::textColor() const
 QString BarChart::chartTitle() const
 {
   return m_chartTitle;
+}
+
+void BarChart::setMarkers(double t_lowerLimit, double t_upperLimit)
+{
+  m_lowerLimitMarker->setValue(0.0, t_lowerLimit);
+  m_upperLimitMarker->setValue(0.0, t_upperLimit);
 }
 
 void BarChart::componentComplete()
@@ -244,6 +277,7 @@ void BarChart::setBottomLabelsEnabled(bool t_bottomLabelsEnabled)
     plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
     refreshPlot();
   }
+  plot->enableAxis(QwtPlot::xBottom, t_bottomLabelsEnabled);
 }
 
 void BarChart::setChartTitle(QString t_chartTitle)
@@ -280,12 +314,18 @@ void BarChart::setLegendEnabled(bool t_legendEnabled)
   m_legendEnabled=t_legendEnabled;
 }
 
+void BarChart::setMarkersEnabled(bool t_markersEnabled)
+{
+  m_markersEnabled = t_markersEnabled;
+  m_lowerLimitMarker->setVisible(t_markersEnabled);
+  m_upperLimitMarker->setVisible(t_markersEnabled);
+}
+
 void BarChart::setTextColor(QColor t_textColor)
 {
 
   if(t_textColor != m_textColor)
   {
-    BarScaleDraw *tmpScaleX;
     QPalette tmpPa;
     tmpPa.setColor(QPalette::Text, t_textColor);
     tmpPa.setColor(QPalette::WindowText, t_textColor);
@@ -302,14 +342,8 @@ void BarChart::setTextColor(QColor t_textColor)
     //plot->axisWidget(QwtPlot::yLeft)->setPalette(tmpPa);
     plot->axisWidget(QwtPlot::xBottom)->setPalette(tmpPa);
 
-    tmpScaleX=new BarScaleDraw();
-    tmpScaleX->setColor(t_textColor);
-
     //tmpScaleY=new BarScaleDraw();
     //tmpScaleY->setColor(arg);
-
-    ///todo check if this is necessary since the palette was set previously
-    plot->setAxisScaleDraw(QwtPlot::xBottom, tmpScaleX);
 
     bottomLabelsEnabledChanged(m_bottomLabels);
 
@@ -364,6 +398,7 @@ void BarChart::setLeftAxisMaxValue(double t_leftAxisMaxValue)
 void BarChart::setLeftAxisMinValue(double t_leftAxisMinValue)
 {
   Q_ASSERT(isnan(t_leftAxisMinValue) == false);
+  m_minValueLeftAxis = t_leftAxisMinValue;
   double tmpScale=1;
   if(m_logScaleLeftAxis)
   {
@@ -372,14 +407,14 @@ void BarChart::setLeftAxisMinValue(double t_leftAxisMinValue)
     {
       tmpScale=tmpScale/10;
     }
+    barDataLeft->setBaseline(m_minValueLeftAxis/10);
   }
   else
   {
     tmpScale=t_leftAxisMinValue;
   }
   plot->setAxisScale(QwtPlot::yLeft, tmpScale, m_maxValueLeftAxis);
-  m_minValueLeftAxis = t_leftAxisMinValue;
-  barDataLeft->setBaseline(m_minValueLeftAxis/10);
+
   refreshPlot();
 }
 
@@ -419,7 +454,6 @@ void BarChart::setLeftAxisBars(QList<QVariant> t_leftAxisValues)
       }
     }
   }
-
   barDataLeft->setSamples(samples);
   if(m_legendEnabled)
     plot->insertLegend(new QwtLegend());
@@ -460,7 +494,7 @@ void BarChart::setRightAxisLogScaleEnabled(bool t_rightAxisLogScaleEnabled)
       plot->setAxisScaleEngine(QwtPlot::yRight, new QwtLinearScaleEngine);
     }
     plot->setAxisScale(QwtPlot::yRight, m_minValueRightAxis, m_maxValueRightAxis);
-    barDataRight->setBaseline(m_minValueRightAxis/10);
+
     //calculate optimised scale min/max
     setRightAxisMaxValue(m_maxValueRightAxis);
     setRightAxisMinValue(m_minValueRightAxis);
@@ -493,6 +527,7 @@ void BarChart::setRightAxisMinValue(double t_rightAxisMinValue)
 {
   Q_ASSERT(isnan(t_rightAxisMinValue) == false);
   double tmpScale=1;
+  m_minValueRightAxis = t_rightAxisMinValue;
   if(m_logScaleRightAxis)
   {
     Q_ASSERT(t_rightAxisMinValue>0);
@@ -500,13 +535,13 @@ void BarChart::setRightAxisMinValue(double t_rightAxisMinValue)
     {
       tmpScale=tmpScale/10;
     }
+    barDataRight->setBaseline(m_minValueRightAxis/10);
   }
   else
   {
     tmpScale=t_rightAxisMinValue;
   }
   plot->setAxisScale(QwtPlot::yRight, tmpScale, m_maxValueRightAxis);
-  m_minValueRightAxis = t_rightAxisMinValue;
   refreshPlot();
 }
 

@@ -6,7 +6,8 @@ BarScaleDraw::BarScaleDraw() : QwtScaleDraw()
 {
 }
 
-BarScaleDraw::BarScaleDraw(Qt::Orientation t_orientation, const QStringList &t_labels) : m_labels(t_labels)
+BarScaleDraw::BarScaleDraw(Qt::Orientation t_orientation, const QStringList &t_labels) : QwtScaleDraw(),
+  m_labels(t_labels)
 {
   setTickLength(QwtScaleDiv::MinorTick, 0);
   setTickLength(QwtScaleDiv::MediumTick, 0);

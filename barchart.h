@@ -9,6 +9,7 @@
 class QwtPlot;
 class BarData;
 class QwtPlotCanvas;
+class QwtPlotMarker;
 
 QT_BEGIN_NAMESPACE
 class QTimer;
@@ -24,6 +25,8 @@ class BarChart : public QQuickPaintedItem
 
   Q_PROPERTY(bool bottomLabelsEnabled READ bottomLabelsEnabled WRITE setBottomLabelsEnabled NOTIFY bottomLabelsEnabledChanged)
   Q_PROPERTY(bool legendEnabled READ legendEnabled WRITE setLegendEnabled)
+  Q_PROPERTY(bool markersEnabled READ markersEnabled WRITE setMarkersEnabled)
+
   Q_PROPERTY(QColor borderColor READ borderColor WRITE setborderColor NOTIFY borderColorChanged)
   Q_PROPERTY(QColor color READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
   Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
@@ -54,11 +57,14 @@ public:
 
   bool bottomLabelsEnabled() const;
   bool legendEnabled() const;
+  bool markersEnabled() const;
 
   QColor bgColor() const;
   QColor borderColor() const;
   QColor textColor() const;
   QString chartTitle() const;
+
+  Q_INVOKABLE void setMarkers(double t_lowerLimit, double t_upperLimit);
 
   // QQmlParserStatus interface
   void componentComplete() Q_DECL_OVERRIDE;
@@ -95,6 +101,7 @@ public slots:
   void setBottomLabelsEnabled(bool t_bottomLabelsEnabled);
   void setChartTitle(QString t_chartTitle);
   void setLegendEnabled(bool t_legendEnabled);
+  void setMarkersEnabled(bool t_markersEnabled);
   void setTextColor(QColor t_textColor);
 
   //left axis
@@ -134,6 +141,7 @@ protected:
 private:
   bool m_bottomLabelsEnabled;
   bool m_legendEnabled;
+  bool m_markersEnabled;
 
   QColor m_bgColor;
   QColor m_borderColor;
@@ -144,9 +152,11 @@ private:
   QTimer *valuesTimer;
   QwtPlotCanvas *canvas;
   QwtPlot *plot;
+  QwtPlotMarker *m_upperLimitMarker;
+  QwtPlotMarker *m_lowerLimitMarker;
 
   //left axis
-  bool m_logScaleLeftAxis;
+  bool m_logScaleLeftAxis=false;
   BarData *barDataLeft;
   double m_maxValueLeftAxis=1000;
   double m_minValueLeftAxis=0.001;
