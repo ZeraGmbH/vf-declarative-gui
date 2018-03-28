@@ -116,8 +116,8 @@ Item {
     anchors.top: parent.top
 
     onClicked: {
-      focus = true
-      confirmInput()
+      focus = true;
+      confirmInput();
     }
     enabled: root.m_alteredValue && root.acceptableInput
   }

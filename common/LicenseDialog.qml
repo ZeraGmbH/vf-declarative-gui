@@ -74,7 +74,6 @@ Popup {
           textFormat: Text.AutoText
           font.pointSize: 10
           wrapMode: Label.Wrap
-
         }
       }
       Button {

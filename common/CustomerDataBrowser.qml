@@ -55,7 +55,7 @@ Item {
     id: addFilePopup
     onOpened: filenameField.forceActiveFocus()
     onClosed: filenameField.clear()
-    readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") > 0
+    readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList !== undefined && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") > 0
     RowLayout {
       anchors.fill: parent
       Label {
@@ -172,7 +172,6 @@ Item {
       anchors.margins: 4
       displayText: ZTR[currentText]
       //flat: false
-
 
       ///@note qt 5.9 has a policy for scrollbars to be visible if required instead of the current "hiding if not scrolling" bullshit
       //...policy: ScrollBar.AsNeeded //or ScrollBar.AlwaysOn

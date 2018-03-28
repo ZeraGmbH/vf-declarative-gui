@@ -10,145 +10,174 @@ Item {
   id: root
 
   readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
+  readonly property int rowHeight: Math.floor(height/20)
 
-  Column {
-    width: parent.width*0.8
-    anchors.centerIn: parent
-    spacing: 20
+  Label {
+    id: title
+    width: parent.width
+    height: root.rowHeight*1.5
+    horizontalAlignment: Text.AlignHCenter
+    text: ZTR["Device info"]
+    font.pointSize: 20
+  }
 
-    Label {
-      width: parent.width
-      horizontalAlignment: Text.AlignHCenter
-      text: ZTR["Device info"]
-      font.pixelSize: 24
-    }
+  VisualItemModel {
+    id: statusModel
 
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["Serial number:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_SerialNr
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["Operating system version:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_ReleaseNr
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["PCB server version:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_PCBServerVersion
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["DSP server version:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_DSPServerVersion
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["DSP firmware version:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_DSPVersion
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["FPGA firmware version:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_FPGAVersion
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["Microcontroller firmware version:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_CTRLVersion
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["Adjustment status:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_Adjusted
       }
     }
     RowLayout {
       width: parent.width
+      height: root.rowHeight
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: ZTR["Adjustment checksum:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
-        font.pixelSize: 20
+        font.pointSize: 14
         text: statusEnt.INF_AdjChksum
       }
     }
+  }
 
+  ListView {
+    id: statusListView
+    anchors.fill: parent
+    anchors.topMargin: title.height
+    anchors.leftMargin: 16
+    anchors.rightMargin: 16
+    spacing: rowHeight/4
+    model: statusModel
+    boundsBehavior: Flickable.StopAtBounds
+    ScrollBar.vertical: rightScrollbar
+  }
+  ScrollBar {
+    id: rightScrollbar
+    anchors.left: statusListView.right
+    anchors.top: statusListView.top
+    anchors.bottom: statusListView.bottom
+    visible: statusListView.contentHeight>statusListView.height
+    policy: ScrollBar.AlwaysOn
   }
 }

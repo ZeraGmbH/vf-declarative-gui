@@ -326,7 +326,6 @@ CCMP.SettingsView {
               return "";
             }
           }
-
         }
         Label {
           visible: loggerEntity.LoggingEnabled === true

@@ -29,7 +29,7 @@ CCMP.ModulePage {
 
   CCMP.ZComboBox {
     id: viewModeSelector
-    z: 1 + iOnOffSelector.z + dinIECSelector.z
+    z: 1 + currentOnOffSelector.z + dinIECSelector.z
     arrayMode: true
     model: ["VEC  UL  PN", "VEC  UL  △", "VEC  UL  ∠"]
 
@@ -47,8 +47,7 @@ CCMP.ModulePage {
   }
 
   CCMP.ZComboBox {
-    /// @fixme rename to currentOnOffSelector
-    id: iOnOffSelector
+    id: currentOnOffSelector
     z: 1 + dinIECSelector.z
     arrayMode: true
     model: ["VEC  IL  ON", "VEC  IL  OFF"]
@@ -71,7 +70,7 @@ CCMP.ModulePage {
     model: ["DIN410", "IEC387"]
 
     anchors.topMargin: 24
-    anchors.top: iOnOffSelector.bottom;
+    anchors.top: currentOnOffSelector.bottom;
     anchors.right: root.right
     anchors.rightMargin: 20
     height: root.height/14
@@ -199,6 +198,6 @@ CCMP.ModulePage {
 
     vectorView: root.viewMode
     vectorMode: root.referencePhaseMode
-    currentVisible: iOnOffSelector.iOn
+    currentVisible: currentOnOffSelector.iOn
   }
 }

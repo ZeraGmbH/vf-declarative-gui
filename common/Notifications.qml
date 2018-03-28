@@ -21,21 +21,19 @@ Item {
     }
   }
 
-  ListModel{
+  ListModel {
     id: dummyModel
   }
 
   Label {
     id: titleText
     text: ZTR["Device notifications"]
-    font.pixelSize: 24
+    font.pixelSize: 20
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.top: parent.top
     horizontalAlignment: Text.AlignHCenter
   }
-
-
 
   ListView {
     id: lvErrorView
@@ -47,7 +45,7 @@ Item {
       id: currentElement
       width: root.width
       textFormat: Label.RichText
-      font.pointSize: 12
+      font.pointSize: 11
       font.family: "Monospace"
       wrapMode: Label.WordWrap
       text: String("<small>%1</small> <b>%2:</b> %3").arg(model.Time).arg(model.ModuleName).arg(ZTR[model.Error] !== undefined ? ZTR[model.Error] : model.Error);

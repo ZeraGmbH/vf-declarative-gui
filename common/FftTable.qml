@@ -145,7 +145,7 @@ Item {
 
         model: glueLogic.FFTTableModel
         boundsBehavior: Flickable.StopAtBounds
-        cacheBuffer: root.fftOrder*root.rowHeight
+        cacheBuffer: root.fftOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
         clip: true
 
         ScrollBar.vertical: vBar
@@ -263,7 +263,6 @@ Item {
               textColor: GC.system4ColorDark
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
-
             }
             CCMP.GridItem {
               width: root.columnWidth

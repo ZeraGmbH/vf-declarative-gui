@@ -23,7 +23,9 @@ SettingsView {
     x: parent.width/2 - width/2
     onColorAccepted: {
       GC.setSystemColorByIndex(systemIndex, t_color)
+      //systemIndex = -1;
     }
+    //onClosed: systemIndex = -1;
   }
 
   model: VisualItemModel {
@@ -261,7 +263,6 @@ SettingsView {
               Layout.fillWidth: true
             }
 
-
             VF.VFComboBox {
               arrayMode: true
               entity: VeinEntity.getEntity("SampleModule1")
@@ -292,7 +293,6 @@ SettingsView {
             Item {
               Layout.fillWidth: true
             }
-
 
             VF.VFComboBox {
               arrayMode: true
