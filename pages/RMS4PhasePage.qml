@@ -23,7 +23,7 @@ CCMP.ModulePage {
     filters: [
       RegExpFilter {
         //match all that have data for UN and IN
-        roleName: "N"
+        roleName: "AUX"
         pattern: "[^()]"
         caseSensitivity: Qt.CaseInsensitive
       }
@@ -79,7 +79,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: N ? GC.formatNumber(N) : ""
+            text: AUX ? GC.formatNumber(AUX) : ""
             textColor: GC.system4ColorDark
             font.pixelSize: Math.min(height*0.65, width*0.125)
           }
