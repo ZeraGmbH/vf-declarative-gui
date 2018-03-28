@@ -145,4 +145,8 @@ Item {
     }
     return retVal;
   }
+
+  function ceilLog10Of1DividedByX(realNumberX) {
+    return Math.ceil(Math.log(1/realNumberX)/Math.LN10)
+  }
 }

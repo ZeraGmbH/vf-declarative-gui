@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.2
 import QtQuick.Controls.Material 2.0
+import GlobalConfig 1.0
 import "qrc:/components/common"
 
 import ModuleIntrospection 1.0
@@ -70,10 +71,10 @@ Item {
           value = root.intermediateValue * 100
         }
 
-        validator: DoubleValidator {
+        validator: ZDoubleValidator {
           bottom: introspection.lowerBound
           top: introspection.upperBound
-          decimals: (String(introspection.stepSize).split('.')[1] || []).length;
+          decimals: GC.ceilLog10Of1DividedByX(introspection.stepSize);
         }
 
         textFromValue: function(value, locale) {

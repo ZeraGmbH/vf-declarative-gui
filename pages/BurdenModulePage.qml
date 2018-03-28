@@ -57,10 +57,10 @@ CCMP.ModulePage {
           unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
           unit.width: root.rowHeight*1.5
 
-          validator: DoubleValidator {
+          validator: CCMP.ZDoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[1];
-            decimals: 15//burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2];
+            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2]);
           }
         }
         VFControls.VFLineEdit {
@@ -76,10 +76,10 @@ CCMP.ModulePage {
           unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
           unit.width: root.rowHeight*1.5
 
-          validator: DoubleValidator {
+          validator: CCMP.ZDoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[1];
-            decimals: 15//burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2];
+            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
           }
           CCMP.ZVisualComboBox {
             arrayMode: true
@@ -122,10 +122,10 @@ CCMP.ModulePage {
           unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
           unit.width: root.rowHeight*1.5
 
-          validator: DoubleValidator {
+          validator: CCMP.ZDoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[1];
-            decimals: 15//burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2];
+            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2]);
           }
         }
         VFControls.VFLineEdit {
@@ -141,10 +141,10 @@ CCMP.ModulePage {
           unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
           unit.width: root.rowHeight*1.5
 
-          validator: DoubleValidator {
+          validator: CCMP.ZDoubleValidator {
             bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
             top: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[1];
-            decimals: 15//burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2];
+            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2]);
           }
         }
       }

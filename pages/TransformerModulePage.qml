@@ -43,10 +43,10 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_PrimClampPrim"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: DoubleValidator {
+            validator: CCMP.ZDoubleValidator {
               bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
               top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
-              decimals: 15//transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2];
+              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
             }
           }
           VFControls.VFLineEdit {
@@ -63,10 +63,10 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_PrimClampSec"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: DoubleValidator {
+            validator: CCMP.ZDoubleValidator {
               bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
               top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
-              decimals: 15//transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2];
+              decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
             }
           }
         }
@@ -87,10 +87,10 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_DutPrimary"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: DoubleValidator {
+            validator: CCMP.ZDoubleValidator {
               bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
               top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
-              decimals: 15//transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2];
+              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
             }
           }
           VFControls.VFLineEdit {
@@ -107,10 +107,10 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_DutSecondary"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: DoubleValidator {
+            validator: CCMP.ZDoubleValidator {
               bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
               top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
-              decimals: 15//transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2];
+              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
             }
           }
         }
@@ -131,10 +131,10 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_SecClampPrim"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: DoubleValidator {
+            validator: CCMP.ZDoubleValidator {
               bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
               top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
-              decimals: 15//transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2];
+              decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
             }
           }
           VFControls.VFLineEdit {
@@ -151,10 +151,10 @@ CCMP.ModulePage {
             controlPropertyName: "PAR_SecClampSec"
             unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: DoubleValidator {
+            validator: CCMP.ZDoubleValidator {
               bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
               top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
-              decimals: 15//transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2];
+              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);
             }
           }
         }
