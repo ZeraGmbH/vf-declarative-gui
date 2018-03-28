@@ -49,56 +49,6 @@ Item {
         }
       }
     }
-/*
-    Bar {
-      id: barUL1
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel1Peak.ChannelName
-      value: rangeModule.ACT_Channel1Peak
-      color: GC.getColorByIndex(1, root.rangeGrouping)
-    }
-    Bar {
-      id: barUL2
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel2Peak.ChannelName
-      value: rangeModule.ACT_Channel2Peak
-      color: GC.getColorByIndex(2, root.rangeGrouping)
-    }
-    Bar {
-      id: barUL3
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel3Peak.ChannelName
-      value: rangeModule.ACT_Channel3Peak
-      color: GC.getColorByIndex(3, root.rangeGrouping)
-    }
-    Bar {
-      id: barUN
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel7Peak.ChannelName
-      value: rangeModule.ACT_Channel7Peak
-      color: GC.getColorByIndex(7, root.rangeGrouping)
-    }
-    Bar {
-      id: barIL1
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel4Peak.ChannelName
-      value: rangeModule.ACT_Channel4Peak
-      color: GC.getColorByIndex(4, root.rangeGrouping)
-    }
-    Bar {
-      id: barIL2
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel5Peak.ChannelName
-      value: rangeModule.ACT_Channel5Peak
-      color: GC.getColorByIndex(5, root.rangeGrouping)
-    }
-    Bar {
-      id: barIL3
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel6Peak.ChannelName
-      value: rangeModule.ACT_Channel6Peak
-      color: GC.getColorByIndex(6, root.rangeGrouping)
-    }
-    Bar {
-      id: barIN
-      title: ModuleIntrospection.rangeIntrospection.ComponentInfo.ACT_Channel8Peak.ChannelName
-      value: rangeModule.ACT_Channel8Peak
-      color: GC.getColorByIndex(8, root.rangeGrouping)
-    }
-    */
   }
 
   CheckBox {
