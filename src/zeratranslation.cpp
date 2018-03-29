@@ -81,6 +81,7 @@ void ZeraTranslation::reloadStringTable()
 
   insert("Accept", tr("Accept"));
   insert("Save", tr("Save"));
+  insert("Proceed", tr("Proceed"));
   insert("Default session", tr("Default session"));
   insert("Reference session", tr("Reference session"));
   //: changing energy direction session

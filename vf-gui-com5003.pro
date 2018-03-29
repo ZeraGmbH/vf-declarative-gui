@@ -61,20 +61,20 @@ else {
   }
 }
 
-SOURCES += main.cpp \
-    fpscounter.cpp \
-    fftbarchart.cpp \
-    barscaledraw.cpp \
-    bardata.cpp \
-    barchart.cpp \
-    cbar.cpp \
-    phasordiagram.cpp \
-    gluelogicpropertymap.cpp \
-    zeragluelogic.cpp \
-    zeratranslation.cpp \
-    qmlfileio.cpp \
-    hpwbarchart.cpp \
-    sidescaledraw.cpp
+SOURCES += src/main.cpp \
+    src/fpscounter.cpp \
+    src/fftbarchart.cpp \
+    src/barscaledraw.cpp \
+    src/bardata.cpp \
+    src/barchart.cpp \
+    src/cbar.cpp \
+    src/phasordiagram.cpp \
+    src/gluelogicpropertymap.cpp \
+    src/zeragluelogic.cpp \
+    src/zeratranslation.cpp \
+    src/qmlfileio.cpp \
+    src/hpwbarchart.cpp \
+    src/sidescaledraw.cpp
 
 RESOURCES += \
     qml.qrc \
@@ -83,35 +83,33 @@ RESOURCES += \
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
-target.path = /usr/bin
 
 # Default rules for deployment.
-include(deployment.pri)
+target.path = /usr/bin
+export(target.path)
+INSTALLS += target
+export(INSTALLS)
+
 
 LIBS += -lvein-event -lvein-component -lvein-net2 -lvein-framework-protobuf -lvein-tcp -lqml-veinentity -lvein-logger
 LIBS += -lqwt
 
 HEADERS += \
-    fpscounter.h \
-    fftbarchart.h \
-    barscaledraw.h \
-    bardata.h \
-    barchart.h \
-    cbar.h \
-    phasordiagram.h \
-    gluelogicpropertymap.h \
-    zeragluelogic.h \
-    zeratranslation.h \
-    qmlfileio.h \
-    hpwbarchart.h \
-    sidescaledraw.h
+    src/fpscounter.h \
+    src/fftbarchart.h \
+    src/barscaledraw.h \
+    src/bardata.h \
+    src/barchart.h \
+    src/cbar.h \
+    src/phasordiagram.h \
+    src/gluelogicpropertymap.h \
+    src/zeragluelogic.h \
+    src/zeratranslation.h \
+    src/qmlfileio.h \
+    src/hpwbarchart.h \
+    src/sidescaledraw.h
 
-#Qt 5.6.3 / 5.7.2 / 5.8 should not need this, see: https://bugreports.qt.io/browse/QTBUG-53206
-#lupdate_only {
-#SOURCES += *.qml \
-#          pages/*.qml \
-#          common/*.qml
-#}
+INCLUDEPATH += src
 
 ZGUI_CONFIG_FILES = settings.json
 
