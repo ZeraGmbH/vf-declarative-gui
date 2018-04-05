@@ -179,7 +179,7 @@ class ZeraGlueLogicPrivate
     m_osciP1Data(new QStandardItemModel(3, 128, q_ptr)),
     m_osciP2Data(new QStandardItemModel(3, 128, q_ptr)),
     m_osciP3Data(new QStandardItemModel(3, 128, q_ptr)),
-    m_osciNData(new QStandardItemModel(3, 128, q_ptr)),
+    m_osciAUXData(new QStandardItemModel(3, 128, q_ptr)),
     m_fftTableData(new FftTableModel(40, 1, q_ptr))
   {
     setupActualTable();
@@ -213,7 +213,7 @@ class ZeraGlueLogicPrivate
     delete m_osciP1Data;
     delete m_osciP2Data;
     delete m_osciP3Data;
-    delete m_osciNData;
+    delete m_osciAUXData;
 
     delete m_fftTableData;
   }
@@ -505,8 +505,8 @@ class ZeraGlueLogicPrivate
       m_osciP2Data->setData(tmpIndex, i, Qt::DisplayRole);
       tmpIndex = m_osciP3Data->index(0, i);
       m_osciP3Data->setData(tmpIndex, i, Qt::DisplayRole);
-      tmpIndex = m_osciNData->index(0, i);
-      m_osciNData->setData(tmpIndex, i, Qt::DisplayRole);
+      tmpIndex = m_osciAUXData->index(0, i);
+      m_osciAUXData->setData(tmpIndex, i, Qt::DisplayRole);
     }
 
     //P1
@@ -543,12 +543,12 @@ class ZeraGlueLogicPrivate
     osci6Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI6", osci6Pair); //IL3
     //PN
-    ModelRowPair osci7Pair(m_osciNData, 1);
+    ModelRowPair osci7Pair(m_osciAUXData, 1);
     osci7Pair.m_updateInterval=new QTimer(q_ptr);
     osci7Pair.m_updateInterval->setInterval(valueInterval);
     osci7Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI7", osci7Pair); //UN
-    ModelRowPair osci8Pair(m_osciNData, 2);
+    ModelRowPair osci8Pair(m_osciAUXData, 2);
     osci8Pair.m_updateInterval=new QTimer(q_ptr);
     osci8Pair.m_updateInterval->setInterval(valueInterval);
     osci8Pair.m_updateInterval->setSingleShot(true);
@@ -806,7 +806,7 @@ class ZeraGlueLogicPrivate
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP1ComponentName, QVariant::fromValue<QObject*>(m_osciP1Data));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP2ComponentName, QVariant::fromValue<QObject*>(m_osciP2Data));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP3ComponentName, QVariant::fromValue<QObject*>(m_osciP3Data));
-    m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciPNComponentName, QVariant::fromValue<QObject*>(m_osciNData));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciPNComponentName, QVariant::fromValue<QObject*>(m_osciAUXData));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
   }
 
@@ -821,7 +821,7 @@ class ZeraGlueLogicPrivate
   QStandardItemModel *m_osciP1Data;
   QStandardItemModel *m_osciP2Data;
   QStandardItemModel *m_osciP3Data;
-  QStandardItemModel *m_osciNData;
+  QStandardItemModel *m_osciAUXData;
 
   FftTableModel *m_fftTableData;
 
