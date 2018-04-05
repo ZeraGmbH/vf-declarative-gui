@@ -187,6 +187,7 @@ Item {
       anchors.bottom: parent.bottom
       anchors.bottomMargin: height*2
       height: grid.cellHeight*3
+      boundsBehavior: Flickable.StopAtBounds
 
       orientation: ListView.Horizontal
 
@@ -202,7 +203,7 @@ Item {
           anchors.horizontalCenter: parent.horizontalCenter
         }
         VFControls.VFComboBox {
-          //UL1-UL3
+          //UL1-UL3 +UAUX
           arrayMode: true
           entity: root.rangeModule
           controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
@@ -227,6 +228,7 @@ Item {
       anchors.bottom: parent.bottom
       anchors.bottomMargin: height
       height: grid.cellHeight*3
+      boundsBehavior: Flickable.StopAtBounds
 
       orientation: ListView.Horizontal
 
@@ -242,7 +244,7 @@ Item {
           anchors.horizontalCenter: parent.horizontalCenter
         }
         VFControls.VFComboBox {
-          //IL1-IL3
+          //IL1-IL3 +IAUX
           arrayMode: true
           entity: root.rangeModule
           controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
