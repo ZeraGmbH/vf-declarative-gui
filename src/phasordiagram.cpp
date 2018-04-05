@@ -308,9 +308,9 @@ protected:
     }
   }
 
-  void synchronize(QNanoQuickItem *item) override
+  void synchronize(QNanoQuickItem *t_item) override
   {
-    PhasorDiagram *realItem  = static_cast<PhasorDiagram *>(item);
+    PhasorDiagram *realItem  = static_cast<PhasorDiagram *>(t_item);
     Q_ASSERT(realItem != 0);
 
     m_fromX = realItem->fromX();
@@ -374,10 +374,9 @@ protected:
       m_vector6 = QVector2D(tmpData.at(0), tmpData.at(1));
     }
   }
-
 };
 
-PhasorDiagram::PhasorDiagram(QQuickItem *parent) : QNanoQuickItem(parent)
+PhasorDiagram::PhasorDiagram(QQuickItem *t_parent) : QNanoQuickItem(t_parent)
 {
 }
 
