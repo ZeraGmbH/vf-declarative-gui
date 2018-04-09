@@ -35,7 +35,12 @@ Item {
       anchors.topMargin: root.rowHeight*2
       anchors.bottom: fftFlickable.bottom
       orientation: Qt.Vertical
-      policy: ScrollBar.AlwaysOn
+      Component.onCompleted: {
+        if(QT_VERSION >= 0x050900) //policy was added after 5.7
+        {
+          policy = ScrollBar.AlwaysOn
+        }
+      }
     }
     ScrollBar {
       id: hBar
@@ -43,7 +48,12 @@ Item {
       anchors.left: fftFlickable.left
       anchors.right: fftFlickable.right
       orientation: Qt.Horizontal
-      policy: fftFlickable.contentWidth > fftFlickable.width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+      Component.onCompleted: {
+        if(QT_VERSION >= 0x050900) //policy was added after 5.7
+        {
+          policy = Qt.binding(function (){ return fftFlickable.contentWidth > fftFlickable.width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; });
+        }
+      }
     }
 
     Flickable {

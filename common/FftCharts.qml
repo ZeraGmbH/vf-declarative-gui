@@ -17,7 +17,12 @@ Flickable {
   boundsBehavior: Flickable.StopAtBounds
   contentHeight: height/3 * Math.ceil(fftCount/2)
   ScrollBar.vertical: ScrollBar {
-    policy: root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+    Component.onCompleted: {
+      if(QT_VERSION >= 0x050900) //policy was added after 5.7
+      {
+        policy = Qt.binding(function (){return root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; });
+      }
+    }
   }
   readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")

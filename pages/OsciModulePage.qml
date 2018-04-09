@@ -54,7 +54,12 @@ CCMP.ModulePage {
     boundsBehavior: Flickable.StopAtBounds
     model: Math.ceil(channelCount/2)
     ScrollBar.vertical: ScrollBar {
-      policy: lvOsci.contentHeight > lvOsci.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+      Component.onCompleted: {
+        if(QT_VERSION >= 0x050900) //policy was added after 5.7
+        {
+          policy = Qt.binding(function (){ return lvOsci.contentHeight > lvOsci.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; });
+        }
+      }
     }
 
     delegate: Item {

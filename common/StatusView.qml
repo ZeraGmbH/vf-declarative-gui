@@ -178,6 +178,11 @@ Item {
     anchors.top: statusListView.top
     anchors.bottom: statusListView.bottom
     visible: statusListView.contentHeight>statusListView.height
-    policy: ScrollBar.AlwaysOn
+    Component.onCompleted: {
+      if(QT_VERSION >= 0x050900) //policy was added after 5.7
+      {
+        policy = ScrollBar.AlwaysOn;
+      }
+    }
   }
 }

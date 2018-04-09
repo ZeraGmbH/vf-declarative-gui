@@ -149,7 +149,12 @@ CCMP.ModulePage {
       clip: true
 
       ScrollBar.vertical: ScrollBar {
-        policy: ScrollBar.AlwaysOn
+        Component.onCompleted: {
+          if(QT_VERSION >= 0x050900) //policy was added after 5.7
+          {
+            policy = ScrollBar.AlwaysOn;
+          }
+        }
       }
 
       delegate: Component {

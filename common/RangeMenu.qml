@@ -26,7 +26,7 @@ Item {
     {
       var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
       var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-      if(name.startsWith("REF"))
+      if(name.indexOf("REF") === 0) //equivalent of startsWith that is only available in Qt 5.9
       {
         if(channelNum<3)//REF1..REF3
         {
@@ -47,7 +47,7 @@ Item {
     {
       var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
       var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-      if(name.startsWith("REF"))
+      if(name.indexOf("REF") === 0) //equivalent of startsWith that is only available in Qt 5.9
       {
         if(channelNum>=3)//REF3..REF6
         {

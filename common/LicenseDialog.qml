@@ -58,8 +58,13 @@ Popup {
         clip: true
         boundsBehavior: licenseFlickable.height>=licenseText.contentHeight ?  Flickable.StopAtBounds  : Flickable.DragAndOvershootBounds
         ScrollBar.vertical: ScrollBar {
-          width: 8
-          policy: licenseFlickable.height>=licenseText.contentHeight ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
+          width: 16
+          Component.onCompleted: {
+            if(QT_VERSION >= 0x050900) //policy was added after 5.7
+            {
+              policy = Qt.binding(function (){ return licenseFlickable.height>=licenseText.contentHeight ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn; });
+            }
+          }
         }
 
         Label {
