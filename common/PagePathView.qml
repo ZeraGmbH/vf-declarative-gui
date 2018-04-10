@@ -155,7 +155,7 @@ Item {
       startX: width/2;
       startY: height/1.8
 
-      //describes an ellipse, the elements get scaled down and become more transparent the farther away they are from the current index on that circle
+      //describes an ellipse, the elements get scaled down and become more transparent the farther away they are from the current index on that ring
       PathAttribute { name: "iconScale"; value: 1.0 }
       PathAttribute { name: "iconOpacity"; value: 1.0 }
       PathQuad { x: m_w/2; y: 200; controlX: -m_w*0.3; controlY: m_h/4+100 }
@@ -189,6 +189,19 @@ Item {
     CCMP.ZComboBox {
       id: sessionSelector
 
+      property QtObject systemEntity;
+
+      Connections {
+        target: VeinEntity
+        onSigEntityAvailable: {
+          if(t_entityName === "_System")
+          {
+            sessionSelector.systemEntity = VeinEntity.getEntity("_System");
+          }
+        }
+      }
+
+
       property string intermediate
       onIntermediateChanged: {
         var tmpIndex;
@@ -208,29 +221,53 @@ Item {
 
       onSelectedTextChanged: {
         var tmpIndex = model.indexOf(selectedText)
-        switch(tmpIndex)
+        //console.assert(tmpIndex >= 0 && tmpIndex < model.length)
+        if(systemEntity && systemEntity.SessionsAvailable)
         {
-        case 0:
-          VeinEntity.getEntity("_System").Session="com5003-meas-session.json";
-          break;
-        case 1:
-          VeinEntity.getEntity("_System").Session="com5003-ref-session.json";
-          break;
-        case 2:
-          VeinEntity.getEntity("_System").Session="com5003-ced-session.json";
-          break;
-        default:
-          console.assert(tmpIndex < 3 && tmpIndex > 0, "Faulty code in PagePathView::sessionSelector::onTargetIndexChanged");
-          break;
+          systemEntity.Session = systemEntity.SessionsAvailable[tmpIndex];
         }
+        else
+        {
+          switch(tmpIndex)
+          {
+          case 0:
+            VeinEntity.getEntity("_System").Session="com5003-meas-session.json";
+            break;
+          case 1:
+            VeinEntity.getEntity("_System").Session="com5003-ref-session.json";
+            break;
+          case 2:
+            VeinEntity.getEntity("_System").Session="com5003-ced-session.json";
+            break;
+          default:
+            console.assert(tmpIndex < 3 && tmpIndex > 0, "Faulty code in PagePathView::sessionSelector::onTargetIndexChanged");
+            break;
+          }
+        }
+
         layoutStack.currentIndex=0;
         rangeIndicator.active = false;
         pageLoader.active = false;
+        entitiesInitialized = false;
         loadingScreen.open();
       }
 
       arrayMode: true
-      model: [ZTR["Default session"], ZTR["Reference session"], ZTR["CED session"]]
+
+      model: {
+        var retVal = [];
+        if(systemEntity && systemEntity.SessionsAvailable) {
+          for(var sessionIndex in systemEntity.SessionsAvailable)
+          {
+            retVal.push(ZTR[ systemEntity.SessionsAvailable[sessionIndex] ]);
+          }
+        }
+        else {
+          retVal = [ZTR["Default session"], ZTR["Reference session"], ZTR["CED session"]]; //fallback
+        }
+
+        return retVal;
+      }
 
 
       anchors.fill: parent

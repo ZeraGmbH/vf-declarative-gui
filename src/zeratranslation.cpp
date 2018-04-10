@@ -78,7 +78,6 @@ void ZeraTranslation::reloadStringTable()
   //PagePathView.qml
   //: as in "close this view"
   insert("Close", tr("Close", "not open"));
-
   insert("Accept", tr("Accept"));
   insert("Save", tr("Save"));
   insert("Proceed", tr("Proceed"));
@@ -86,6 +85,11 @@ void ZeraTranslation::reloadStringTable()
   insert("Reference session", tr("Reference session"));
   //: changing energy direction session
   insert("CED session", tr("CED session"));
+  insert("mt310s2-meas-session.json", tr("Default session"));
+  insert("com5003-meas-session.json", tr("Default session"));
+  insert("com5003-ref-session.json", tr("Reference session"));
+  //: changing energy direction session
+  insert("com5003-ced-session.json", tr("CED session"));
 
   //RangeMenu.qml
   //: used for a yes / no configuration element
