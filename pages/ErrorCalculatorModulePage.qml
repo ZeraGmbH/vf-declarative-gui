@@ -3,10 +3,11 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
+import QwtChart 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
 import ZeraTranslation  1.0
-
+import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 
 CCMP.ModulePage {
@@ -159,14 +160,16 @@ CCMP.ModulePage {
     }
 
     Item {
+      id: configPanel
       anchors.left: parent.left
       anchors.right: parent.right
-      height: root.height*0.4
+
+      height: root.height*0.5
 
       Column {
         anchors.fill: parent
         anchors.topMargin: 16
-
+        anchors.rightMargin: root.width/3
 
         Rectangle {
           color: "transparent"
@@ -198,9 +201,10 @@ CCMP.ModulePage {
 
             currentIndex: 0
             contentRowWidth: width
-            contentRowHeight: height
+            contentRowHeight: height*1.2
             contentFlow: GridView.FlowTopToBottom
-            //centerVertical: true
+            centerVertical: true
+            centerVerticalOffset: height/2
 
             opacity: enabled ? 1.0 : 0.7
           }
@@ -236,9 +240,10 @@ CCMP.ModulePage {
 
             currentIndex: 0
             contentRowWidth: width
-            contentRowHeight: height
+            contentRowHeight: height*1.2
             contentFlow: GridView.FlowTopToBottom
-            //centerVertical: false
+            centerVertical: true
+            centerVerticalOffset: height/2
 
             opacity: enabled ? 1.0 : 0.7
           }
@@ -273,9 +278,10 @@ CCMP.ModulePage {
 
             currentIndex: 0
             contentRowWidth: width
-            contentRowHeight: height
+            contentRowHeight: height*1.2
             contentFlow: GridView.FlowTopToBottom
-            //centerVertical: true
+            centerVertical: true
+            centerVerticalOffset: height/2
 
             opacity: enabled ? 1.0 : 0.7
           }
@@ -300,7 +306,7 @@ CCMP.ModulePage {
             textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
-            validator: DoubleValidator { bottom: 1.0; top: 1e+20; decimals: 5;}
+            validator: CCMP.ZDoubleValidator { bottom: 1.0; top: 1e+20; decimals: 5;}
           }
         }
         Rectangle {
@@ -323,7 +329,7 @@ CCMP.ModulePage {
             textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
-            validator: DoubleValidator { bottom: 0; top: 10e+7; decimals: 5; }
+            validator: CCMP.ZDoubleValidator { bottom: 0; top: 10e+7; decimals: 5; }
           }
         }
         Rectangle {
@@ -346,55 +352,162 @@ CCMP.ModulePage {
             textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
-            validator: DoubleValidator {bottom: 0; top: Math.floor(Math.pow(2,32)-1); decimals: 0;} //IntValidator is only for signed integers
+            validator: CCMP.ZDoubleValidator {bottom: 0; top: Math.floor(Math.pow(2,32)-1); decimals: 0;} //IntValidator is only for signed integers
+          }
+        }
+      }
+      Rectangle {
+        anchors.fill: parent
+        anchors.topMargin: 16
+        anchors.leftMargin: 2*root.width/3
+        border.color: Material.dividerColor
+        color: "transparent"
+
+        BarChart {
+          id: errorMarginChart
+
+          anchors.fill: parent
+          anchors.rightMargin: parent.width*0.75
+
+          color: errorBar.isInMargins ? Material.backgroundColor :  Qt.darker("darkred", 2.5)
+          property var barModel: []
+          leftAxisBars: barModel
+          legendEnabled: false
+          bottomLabelsEnabled: false
+
+          property real maxValue: 10
+          onMaxValueChanged: setMarkers(minValue, maxValue)
+          property real minValue: -10
+          onMinValueChanged: setMarkers(minValue, maxValue)
+
+          markersEnabled: true
+          leftAxisMaxValue: maxValue!==0 ? maxValue+minMaxOffset : (minMaxOffset!==0 ? minMaxOffset : 0.25)
+          leftAxisMinValue: minValue!==0 ? minValue-minMaxOffset : (minMaxOffset!==0 ? -minMaxOffset : -0.25)
+
+          readonly property real minMaxOffset: Math.max(Math.abs(maxValue), Math.abs(minValue)) *0.25
+          textColor: Material.primaryTextColor
+          Component.onCompleted: setMarkers(minValue, maxValue);
+          Bar {
+            id: errorBar
+            value: errorCalculator.ACT_Result
+            readonly property bool isInMargins: GC.formatNumber(value, GC.decimalPlaces) >= errorMarginChart.minValue && GC.formatNumber(value, GC.decimalPlaces) <= errorMarginChart.maxValue
+            color: isInMargins ? "green" : "red"
+
+            Component.onCompleted: {
+              errorMarginChart.barModel.push(this);
+              errorMarginChart.barModelChanged();
+            }
+          }
+        }
+        Item {
+          anchors.fill: parent
+          anchors.leftMargin: parent.width/4 + 8
+          TextField {
+            id: upperLimitInput
+            anchors.fill: parent
+            anchors.bottomMargin: parent.width*4/5
+            anchors.rightMargin: 8
+            implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
+            font.pixelSize: height/2
+            text: "10"
+
+            mouseSelectionMode: TextInput.SelectWords
+            selectByMouse: true
+            onEditingFinished: {
+              errorMarginChart.maxValue = upperLimitInput.acceptableInput ? parseFloat(upperLimitInput.text) : 0;
+            }
+
+            onAccepted: {
+              focus = false
+            }
+
+            color: Material.primaryTextColor
+            horizontalAlignment: Text.AlignRight
+            validator: CCMP.ZDoubleValidator {bottom: errorMarginChart.minValue; top: 100; decimals: 3;}
+
+            Rectangle {
+              color: "red"
+              opacity: 0.2
+              visible: parent.acceptableInput === false
+              anchors.fill: parent
+            }
+          }
+
+          TextField {
+            id: lowerLimitInput
+            anchors.fill: parent
+            anchors.topMargin: parent.width*4/5
+            anchors.rightMargin: 8
+            implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
+            font.pixelSize: height/2
+            text: "-10"
+
+            mouseSelectionMode: TextInput.SelectWords
+            selectByMouse: true
+            onEditingFinished: {
+              errorMarginChart.minValue = lowerLimitInput.acceptableInput ? parseFloat(lowerLimitInput.text) : 0;
+            }
+
+            onAccepted: {
+              focus = false
+            }
+
+            color: Material.primaryTextColor
+            horizontalAlignment: Text.AlignRight
+            validator: CCMP.ZDoubleValidator {bottom: -100; top: errorMarginChart.maxValue; decimals: 3;}
+
+            Rectangle {
+              color: "red"
+              opacity: 0.2
+              visible: parent.acceptableInput === false
+              anchors.fill: parent
+            }
           }
         }
       }
     }
-    Item { //spacer
-      height: parent.height*0.1
-      width: parent.width
-    }
-    Item {
-      height: parent.height/10
+  }
+
+  Item {
+    height: parent.height/10
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    Button {
+      id: startButton
+      text: ZTR["Start"]
+      font.pixelSize: 20
+      width: root.width/5
+
+      enabled: root.canStartMeasurement
+      highlighted: true
+
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
       anchors.left: parent.left
-      anchors.right: parent.right
-      Button {
-        id: startButton
-        text: ZTR["Start"]
-        font.pixelSize: 20
-        width: root.width/5
-
-        enabled: root.canStartMeasurement
-        highlighted: true
-
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        onClicked: {
-          if(errorCalculator.PAR_STARTSTOP !== 1)
-          {
-            errorCalculator.PAR_STARTSTOP=1
-          }
+      onClicked: {
+        if(errorCalculator.PAR_STARTSTOP !== 1)
+        {
+          errorCalculator.PAR_STARTSTOP=1
         }
       }
-      Button {
-        id: stopButton
-        text: ZTR["Stop"]
-        font.pixelSize: 20
-        width: root.width/5
+    }
+    Button {
+      id: stopButton
+      text: ZTR["Stop"]
+      font.pixelSize: 20
+      width: root.width/5
 
-        enabled: root.canStartMeasurement === false
+      enabled: root.canStartMeasurement === false
 
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
 
-        onClicked: {
-          if(errorCalculator.PAR_STARTSTOP !== 0)
-          {
-            errorCalculator.PAR_STARTSTOP=0
-          }
+      onClicked: {
+        if(errorCalculator.PAR_STARTSTOP !== 0)
+        {
+          errorCalculator.PAR_STARTSTOP=0
         }
       }
     }
