@@ -33,7 +33,7 @@ Item {
           retVal.push(channelNum);
         }
       }
-      else if(unit === "V")//UL1..UL3 +UN
+      else if(unit === "V")//UL1..UL3 +UAUX
       {
         retVal.push(channelNum)
       }
@@ -54,7 +54,7 @@ Item {
           retVal.push(channelNum);
         }
       }
-      else if(unit === "A")//IL1..IL3 +IN
+      else if(unit === "A")//IL1..IL3 +IAUX
       {
         retVal.push(channelNum)
       }

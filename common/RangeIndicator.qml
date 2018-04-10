@@ -24,14 +24,14 @@ Loader {
         {
           var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
           var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-          if(name.startsWith("REF"))
+          if(name.indexOf("REF") === 0) //equivalent of startsWith that is only available in Qt 5.9
           {
             if(channelNum<3)//REF1..REF3
             {
               retVal.push(channelNum);
             }
           }
-          else if(unit === "V")//UL1..UL3 +UN
+          else if(unit === "V")//UL1..UL3 +UAUX
           {
             retVal.push(channelNum)
           }
@@ -45,14 +45,14 @@ Loader {
         {
           var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
           var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-          if(name.startsWith("REF"))
+          if(name.indexOf("REF") === 0) //equivalent of startsWith that is only available in Qt 5.9
           {
-            if(channelNum>=3)//REF3..REF6
+            if(channelNum>=3)//REF4..REF6
             {
               retVal.push(channelNum);
             }
           }
-          else if(unit === "A")//IL1..IL3 +IN
+          else if(unit === "A")//IL1..IL3 +IAUX
           {
             retVal.push(channelNum)
           }
@@ -96,7 +96,7 @@ Loader {
 
       ListView {
         id: voltageList
-        model: root.upperChannels //root.channelCount/2
+        model: root.upperChannels
         anchors.left: parent.left
         anchors.leftMargin: root.contentWidth*0.1
         anchors.right: parent.right
@@ -132,7 +132,7 @@ Loader {
         }
       }
       ListView {
-        model: root.lowerChannels //root.channelCount/2
+        model: root.lowerChannels
         anchors.left: parent.left
         anchors.leftMargin: root.contentWidth*0.1
         anchors.right: parent.right
