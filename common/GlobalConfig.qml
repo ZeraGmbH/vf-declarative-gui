@@ -13,11 +13,6 @@ Item {
     id: settings
   }
 
-  readonly property bool userAcceptedLicenseAgreement: settings.globalSettings.getOption("licenseAgreementAccepted") === "yes"
-  function acceptLicenseAgreement() {
-    settings.globalSettings.setOption("licenseAgreementAccepted", "yes", true);
-  }
-
   readonly property var locale: Qt.locale(settings.globalSettings.getOption("locale"))
   function setLocale(newLocale) {
     settings.globalSettings.setOption("locale", newLocale);
