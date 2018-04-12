@@ -307,6 +307,32 @@ CCMP.ModulePage {
 
             enabled: root.canStartMeasurement
             validator: CCMP.ZDoubleValidator { bottom: 1.0; top: 1e+20; decimals: 5;}
+
+            VFControls.VFComboBox {
+              id: cbDutConstantUnit
+              anchors.right: parent.right
+              anchors.rightMargin: parent.width/2
+              enabled: root.canStartMeasurement
+              arrayMode: true
+
+              entity: root.errorCalculator
+              controlPropertyName: "PAR_DUTConstUnit"
+              model: ModuleIntrospection.secIntrospection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
+
+              height: parent.height
+              width: parent.width/5
+
+
+              currentIndex: 0
+              contentRowWidth: width
+              contentRowHeight: height*1.2
+              contentFlow: GridView.FlowTopToBottom
+              centerVertical: true
+              centerVerticalOffset: height/2
+
+              opacity: enabled ? 1.0 : 0.7
+            }
+
           }
         }
         Rectangle {
