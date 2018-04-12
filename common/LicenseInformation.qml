@@ -7,20 +7,16 @@ import ZeraTranslation 1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
 
-Popup {
+Item {
   id: root
-  modal: true
-  dim: true
-  closePolicy: Popup.NoAutoClose
   readonly property var licenseList: QmlFileIO.readJsonFile(":/data/staticdata/license_index.json")
   readonly property string selectedFileName: licenseList[licenseLV.currentIndex].license
-  padding: 0
   Item {
     anchors.fill: parent
     Label {
       id: titleLabel
       anchors.horizontalCenter: parent.horizontalCenter
-      text: "License agreement"
+      text: "License information"
       font.pointSize: 24
     }
     ListView {
@@ -69,7 +65,6 @@ Popup {
 
         Label {
           id: licenseText
-
           //readOnly: true
           anchors.left: parent.left
           anchors.right: parent.right
@@ -79,16 +74,6 @@ Popup {
           textFormat: Text.AutoText
           font.pointSize: 10
           wrapMode: Label.Wrap
-        }
-      }
-      Button {
-        anchors.right: parent.right
-        anchors.rightMargin: height/5
-        text: ZTR["Accept"]
-        highlighted: true
-        onClicked: {
-          GC.acceptLicenseAgreement();
-          root.close();
         }
       }
     }

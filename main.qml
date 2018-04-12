@@ -43,20 +43,7 @@ ApplicationWindow {
   Material.theme: Material.Dark
   Material.accent: "#339966"
 
-//  CCMP.LicenseDialog {
-//    id: lDialog
-//    x: displayWindow.width/2 - width/2
-//    width: displayWindow.width
-//    height: displayWindow.height
-//    Component.onCompleted: {
-//      if(GC.userAcceptedLicenseAgreement === false)
-//      {
-//        open();
-//      }
-//    }
-//  }
-
-
+  property bool entitiesInitialized: false;
   property bool debugBypass: false;
 
   property string currentSession;
@@ -69,7 +56,7 @@ ApplicationWindow {
   onErrorMessagesChanged: {
     if(errorMessages.length > 0)
     {
-      startupStatusLabel.visible = false;
+      //startupStatusLabel.visible = false;
       messageNotificationIndicator.newErrors = true;
     }
   }
@@ -141,6 +128,7 @@ ApplicationWindow {
           rangeIndicator.active = true;
           pageView.currentValue = pageView.model.firstElement;
           loadingScreen.close();
+          displayWindow.entitiesInitialized = true;
         }
       }
     }
@@ -256,7 +244,7 @@ ApplicationWindow {
     anchors.fill: parent
     drag.axis: Drag.XAxis
     focus: true
-    enabled: displayWindow.currentSession !== ""
+    enabled: displayWindow.entitiesInitialized === true
     triggerDistance: displayWindow.width/15
 
     onHorizontalSwipe: {
@@ -290,11 +278,15 @@ ApplicationWindow {
 
         readonly property int layoutPageIndex: 0
         readonly property int layoutRangeIndex: 1
-        readonly property int layoutSettingsIndex: 2
-        readonly property int layoutNotificationsIndex: 3
-        readonly property int layoutStatusIndex: 4
-        readonly property int layoutLoggerIndex: 5
+        readonly property int layoutNotificationsIndex: 2
+        readonly property int layoutLoggerIndex: 3
+        readonly property int layoutSettingsIndex: 4
+        readonly property int layoutLicenseIndex: 5
+        readonly property int layoutStatusIndex: 6
       }
+
+      ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
+      //DefaultProperty: [
       Loader {
         id: pageLoader
         source: pageView.currentValue
@@ -305,23 +297,29 @@ ApplicationWindow {
         active: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
       }
       Loader {
-        sourceComponent: settingsCmp
-        active: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex
-      }
-      Loader {
         sourceComponent: notificationsCmp
         active: layoutStack.currentIndex===layoutStackEnum.layoutNotificationsIndex
-      }
-      Loader {
-        sourceComponent: statusCmp
-        active: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
       }
       Loader {
         sourceComponent: loggerCmp
         active: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex
       }
-
+      Loader {
+        sourceComponent: settingsCmp
+        active: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex
+      }
+      Loader {
+        sourceComponent: licenseCmp
+        active: layoutStack.currentIndex===layoutStackEnum.layoutLicenseIndex
+      }
+      Loader {
+        sourceComponent: statusCmp
+        active: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
+      }
       //Pages.RemoteSelection {}
+      // ]
+      ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
+
     }
 
     Component {
@@ -346,21 +344,26 @@ ApplicationWindow {
       }
     }
     Component {
-      id: settingsCmp
-      CCMP.Settings {}
+      id: statusCmp
+      CCMP.StatusView {}
     }
     Component {
       id: notificationsCmp
       CCMP.Notifications { errorDataModel: displayWindow.errorMessages }
     }
     Component {
-      id: statusCmp
-      CCMP.StatusView {}
-    }
-    Component {
       id: loggerCmp
       CCMP.LoggerSettings {}
     }
+    Component {
+      id: settingsCmp
+      CCMP.Settings {}
+    }
+    Component {
+      id: licenseCmp
+      CCMP.LicenseInformation {}
+    }
+
 
     ToolBar {
       id: controlsBar
@@ -383,7 +386,7 @@ ApplicationWindow {
           font.pointSize: 14
           text: FA.icon(FA.fa_columns) + ZTR["Pages"]
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutPageIndex
-          enabled: displayWindow.currentSession !== ""
+          enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             if(layoutStack.currentIndex===layoutStackEnum.layoutPageIndex)
             {
@@ -395,22 +398,22 @@ ApplicationWindow {
             }
           }
         }
-//        ToolButton {
-//          implicitHeight: parent.height
-//          font.family: "FontAwesome"
-//          font.pointSize: 14
-//          text: FA.icon(FA.fa_align_justify) + ZTR["Range"]
-//          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
-//          enabled: displayWindow.currentSession !== ""
-//          onClicked: {
-//            layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
-//          }
-//        }
+        //        ToolButton {
+        //          implicitHeight: parent.height
+        //          font.family: "FontAwesome"
+        //          font.pointSize: 14
+        //          text: FA.icon(FA.fa_align_justify) + ZTR["Range"]
+        //          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
+        //          enabled: displayWindow.entitiesInitialized === true
+        //          onClicked: {
+        //            layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
+        //          }
+        //        }
         ToolButton {
           implicitHeight: parent.height
           implicitWidth: rangeIndicator.width
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
-          enabled: displayWindow.currentSession !== ""
+          enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             if(rangeIndicator.active === true)
             {
@@ -432,7 +435,7 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pointSize: 14
           text: displayWindow.measuringPaused ? FA.fa_play : FA.fa_pause
-          enabled: displayWindow.currentSession !== ""
+          enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             VeinEntity.getEntity("_System").ModulesPaused = !displayWindow.measuringPaused;
           }
@@ -482,7 +485,7 @@ ApplicationWindow {
           font.pointSize:  18
           text: FA.fa_download
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex;
-          enabled: displayWindow.currentSession !== ""
+          enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             layoutStack.currentIndex=layoutStackEnum.layoutLoggerIndex;
           }
@@ -494,7 +497,7 @@ ApplicationWindow {
           font.pointSize:  18
           text: FA.fa_cogs
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex;
-          enabled: displayWindow.currentSession !== ""
+          enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             layoutStack.currentIndex=layoutStackEnum.layoutSettingsIndex;
           }
@@ -504,9 +507,21 @@ ApplicationWindow {
           implicitWidth: displayWindow.width/16
           font.family: "FontAwesome"
           font.pointSize:  18
+          text: "§"
+          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutLicenseIndex
+          enabled: displayWindow.entitiesInitialized === true
+          onClicked: {
+            layoutStack.currentIndex=layoutStackEnum.layoutLicenseIndex;
+          }
+        }
+        ToolButton {
+          implicitHeight: parent.height
+          implicitWidth: displayWindow.width/16
+          font.family: "FontAwesome"
+          font.pointSize:  18
           text: FA.fa_info_circle
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
-          enabled: displayWindow.currentSession !== ""
+          enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             layoutStack.currentIndex=layoutStackEnum.layoutStatusIndex;
           }

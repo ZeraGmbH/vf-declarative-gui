@@ -44,7 +44,7 @@
         <file>common/CustomerDataEditor.qml</file>
         <file>common/CustomerDataBrowser.qml</file>
         <file>common/ColorPicker.qml</file>
-        <file>common/LicenseDialog.qml</file>
+        <file>common/LicenseInformation.qml</file>
         <file>common/HarmonicPowerChart.qml</file>
         <file>common/HarmonicPowerTable.qml</file>
         <file>common/ZVisualComboBox.qml</file>
