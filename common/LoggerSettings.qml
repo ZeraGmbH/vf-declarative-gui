@@ -342,7 +342,7 @@ CCMP.SettingsView {
       anchors.right: parent.right
       anchors.leftMargin: 16
       anchors.rightMargin: 16
-      visible: false; //VeinEntity.hasEntity("CustomerData")
+      visible: VeinEntity.hasEntity("CustomerData")
       Label {
         textFormat: Text.PlainText
         text: ZTR["Manage customer data:"]
