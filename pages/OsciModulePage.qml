@@ -82,7 +82,7 @@ CCMP.ModulePage {
           anchors.verticalCenter: parent.verticalCenter
           anchors.right: parent.right
           rotation: 90
-          text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName;
+          text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName;
           color: GC.getColorByIndex(rightChannels[index]+1);
         }
 
