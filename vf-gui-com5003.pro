@@ -37,13 +37,13 @@ else {
   include(/work/qt_projects/JsonSettingsQML/json-settings.pri)
   include(/work/downloads/git-clones/SortFilterProxyModel/SortFilterProxyModel.pri)
 
-  INCLUDEPATH += /work/qt_projects/distrib/usr/include/
+  INCLUDEPATH += /work/qt_projects/vein-framework/include/
   INCLUDEPATH += /work/downloads/qwt-6.1.2/src/
 
   #LIBS += -L/work/qt_projects/distrib/usr/lib/
 
-  unix:!android:LIBS += -L/work/qt_projects/vein-framework/libs
-  unix:!android:LIBS += -L/work/downloads/build-qwt-Desktop_Qt_5_10_0_GCC_64bit-Debug/lib/
+  unix:!android:LIBS += -L/work/qt_projects/vein-framework/libs_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}
+  unix:!android:LIBS += -L/work/downloads/build-qwt-Desktop_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}_GCC_64bit-Debug/lib/
   #android:LIBS += -L/work/qt_projects/vein-framework/libs-android
   #android:LIBS += -L/work/downloads/build-qwt-Android_f_r_armeabi_v7a_GCC_4_8_Qt_5_6_0-Debug/lib
 
