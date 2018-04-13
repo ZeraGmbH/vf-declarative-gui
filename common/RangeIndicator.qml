@@ -113,7 +113,7 @@ Loader {
           height: root.height/2
           Label {
             width: parent.width*0.5
-            font.pixelSize: parent.height/1.3
+            font.pixelSize: parent.height/1.4
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
@@ -124,7 +124,7 @@ Loader {
             width: parent.width*0.5
             anchors.right: parent.right
             horizontalAlignment: Label.AlignRight
-            font.pixelSize: parent.height/1.3
+            font.pixelSize: parent.height/1.4
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
@@ -149,7 +149,7 @@ Loader {
           height: root.height/2
           Label {
             width: parent.width*0.5
-            font.pixelSize: parent.height/1.3
+            font.pixelSize: parent.height/1.4
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
@@ -160,7 +160,7 @@ Loader {
             width: parent.width*0.5
             anchors.right: parent.right
             horizontalAlignment: Label.AlignRight
-            font.pixelSize: parent.height/1.3
+            font.pixelSize: parent.height/1.4
             fontSizeMode: Label.HorizontalFit
             anchors.verticalCenter: parent.verticalCenter
             text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
