@@ -12,22 +12,19 @@ Item {
   id: root
 
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-
   property bool bottomLabels: true
   property real maxValue: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? 1000 : 20
   property real minValue: Math.pow(10,-6)
-
   property bool rangeGrouping: false
 
   BarChart {
     id: peakChart
 
+    property var peakBars: []
+
     anchors.fill: parent
     anchors.bottomMargin: 16
-
-
     color: Material.backgroundColor
-    property var peakBars: []
     leftAxisBars: peakBars
     leftAxisLogScale: GC.showRangePeakAsLogAxis
     legendEnabled: false//root.legendEnabled

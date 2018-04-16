@@ -11,12 +11,12 @@ Item {
   id: root
   property SpinBoxIntrospection introspection;
   property alias text: descriptionLabel.text
+  property real outValue;
   property real intermediateValue;
   onIntermediateValueChanged: {
     valueSpinBox.value = intermediateValue * 100
   }
 
-  property real outValue;
 
 
   Rectangle {
@@ -37,26 +37,18 @@ Item {
 
       SpinBox {
         id: valueSpinBox
+
+        //if text is entered via keyboard and the user presses enter with valid input -> accept the input instead of requiring one more click to the accept button
+        property bool textAcceptWorkaround: false
+        property int decimals: introspection.stepSize<1 ? 1 : 0
+        property real realValue: value / 100
+
         from: validator.bottom * 100
         //value: root.intermediateValue * 100
         to: validator.top * 100
         stepSize: introspection.stepSize * 100
         width: 200
         editable: true
-
-        //if text is entered via keyboard and the user presses enter with valid input -> accept the input instead of requiring one more click to the accept button
-        property bool textAcceptWorkaround: false
-
-        Connections {
-          target: valueSpinBox.contentItem //this is the TextInput
-          onAccepted: {
-            valueSpinBox.textAcceptWorkaround = true
-          }
-          Component.onCompleted: valueSpinBox.contentItem.selectByMouse=true
-        }
-
-        property int decimals: introspection.stepSize<1 ? 1 : 0
-        property real realValue: value / 100
 
         onRealValueChanged: {
           if(textAcceptWorkaround === true)
@@ -83,6 +75,14 @@ Item {
 
         valueFromText: function(text, locale) {
           return Number.fromLocaleString(locale, text) * 100
+        }
+
+        Connections {
+          target: valueSpinBox.contentItem //this is the TextInput
+          onAccepted: {
+            valueSpinBox.textAcceptWorkaround = true
+          }
+          Component.onCompleted: valueSpinBox.contentItem.selectByMouse=true
         }
       }
 

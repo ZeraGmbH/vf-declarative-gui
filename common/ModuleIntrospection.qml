@@ -20,6 +20,7 @@ Item {
   property var burden2Introspection: VeinEntity.hasEntity("Burden1Module2") ? JSON.parse(VeinEntity.getEntity("Burden1Module2").INF_ModuleInterface) : 0
   property var transformer1Introspection: VeinEntity.hasEntity("Transformer1Module1") ? JSON.parse(VeinEntity.getEntity("Transformer1Module1").INF_ModuleInterface) : 0
   property var customerdataIntrospection: VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0
+  property var introMap: ({});
 
   function reloadIntrospection() {
     rangeIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("RangeModule1") ? JSON.parse(VeinEntity.getEntity("RangeModule1").INF_ModuleInterface) : 0; })
@@ -41,8 +42,6 @@ Item {
     customerdataIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0; })
     setMapping();
   }
-
-  property var introMap: ({});
 
   function setMapping() {
     var tmpMap = ({})

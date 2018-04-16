@@ -9,8 +9,12 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: root
-  signal switchToViewMode();
-  signal switchToEditMode();
+
+  property bool noSearchResults: false;
+  property var searchableProperties: [];
+  property QtObject customerData: VeinEntity.getEntity("CustomerData")
+  property var searchProgressId;
+
   function searchFile() {
     if(selectedSearchField.text.length>0)
     {
@@ -22,9 +26,9 @@ Item {
     }
   }
 
-  property bool noSearchResults: false;
-  property var searchableProperties: [];
-  property QtObject customerData: VeinEntity.getEntity("CustomerData")
+  signal switchToViewMode();
+  signal switchToEditMode();
+
   Connections {
     target: customerData
     onSigRPCFinished: {
@@ -53,9 +57,11 @@ Item {
 
   Popup {
     id: addFilePopup
+
+    readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList !== undefined && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") > 0
+
     onOpened: filenameField.forceActiveFocus()
     onClosed: filenameField.clear()
-    readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList !== undefined && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") > 0
     RowLayout {
       anchors.fill: parent
       Label {
@@ -105,10 +111,12 @@ Item {
 
   Popup {
     id: removeFilePopup
+
+    property string fileName;
+
     x: parent.width/2 - width/2
     modal: true
     dim: true
-    property string fileName;
     onClosed: fileName="";
     Column {
       Label {
@@ -140,7 +148,6 @@ Item {
     }
   }
 
-  property var searchProgressId;
   ListModel {
     id: searchResultData
   }

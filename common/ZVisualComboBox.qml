@@ -12,65 +12,23 @@ Rectangle {
     id: fakeModel
   }
 
+  //support for QML ListModel and JS array
+  property bool arrayMode: false
   property bool expanded: false
-  onExpandedChanged: {
-    expanded ? selectionDialog.open() : selectionDialog.close()
-  }
-
-  color: Qt.darker(Material.frameColor) //buttonPressColor
-  //border.color: Material.dropShadowColor
-  opacity: enabled ? 1.0 : 0.5
-  radius: 4
-
   property int count : (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
-  onCountChanged: {
-    updateCurrentText()
-  }
-
   property int currentIndex;
-
-  onCurrentIndexChanged: {
-    targetIndex = currentIndex;
-  }
-
   property int targetIndex;
-
-  onTargetIndexChanged: {
-    updateCurrentText()
-    root.expanded = false
-  }
   property string currentText;
   property string selectedText;
-
   property var model;
-  onModelChanged: {
-    fakeModel.clear();
-    if(model && imageModel)
-    {
-      populateFakeModel()
-      root.expanded=false
-    }
-  }
-
   property var imageModel;
-  onImageModelChanged: {
-    fakeModel.clear();
-    if(model && imageModel)
-    {
-      populateFakeModel()
-      root.expanded=false
-    }
-  }
-
   property int contentRowWidth : width;
   property int contentRowHeight : height;
   property int contentMaxRows: 0
   property alias contentFlow: comboView.flow
   property real fontSize: 18;
-
   property bool centerVertical: false
   property real centerVerticalOffset: 0;
-
   //used when the displayed text should only change from external value changes
   property bool automaticIndexChange: false
 
@@ -84,7 +42,6 @@ Rectangle {
       return contentMaxRows
     }
   }
-
 
   function populateFakeModel() {
     fakeModel.clear();
@@ -114,13 +71,43 @@ Rectangle {
     }
   }
 
-
-  //support for QML ListModel and JS array
-  property bool arrayMode: false
-
   onArrayModeChanged: {
     populateFakeModel()
   }
+  onCurrentIndexChanged: {
+    targetIndex = currentIndex;
+  }
+  onCountChanged: {
+    updateCurrentText()
+  }
+  onExpandedChanged: {
+    expanded ? selectionDialog.open() : selectionDialog.close()
+  }
+  onImageModelChanged: {
+    fakeModel.clear();
+    if(model && imageModel)
+    {
+      populateFakeModel()
+      root.expanded=false
+    }
+  }
+  onModelChanged: {
+    fakeModel.clear();
+    if(model && imageModel)
+    {
+      populateFakeModel()
+      root.expanded=false
+    }
+  }
+  onTargetIndexChanged: {
+    updateCurrentText()
+    root.expanded = false
+  }
+
+  color: Qt.darker(Material.frameColor) //buttonPressColor
+  //border.color: Material.dropShadowColor
+  opacity: enabled ? 1.0 : 0.5
+  radius: 4
 
   Image {
     anchors.fill: parent
@@ -154,16 +141,14 @@ Rectangle {
   Popup {
     id: selectionDialog
 
-    closePolicy: Popup.CloseOnPressOutside
+    property int heightOffset: (root.centerVertical ? -popupElement.height/2 : 0) + root.centerVerticalOffset
+    property int widthOffset: (root.contentMaxRows > 0) ? -(root.contentRowWidth / (1+Math.floor(root.model.length / root.contentMaxRows))) : 0
 
+    closePolicy: Popup.CloseOnPressOutside
     onVisibleChanged: {
       root.expanded = visible
     }
-
-
-    property int heightOffset: (root.centerVertical ? -popupElement.height/2 : 0) + root.centerVerticalOffset
     y:  -15 + heightOffset
-    property int widthOffset: (root.contentMaxRows > 0) ? -(root.contentRowWidth / (1+Math.floor(root.model.length / root.contentMaxRows))) : 0
     x: -15 + widthOffset
 
     Rectangle {

@@ -18,8 +18,10 @@ SettingsView {
 
   ColorPicker {
     id: colorPicker
-    dim: true
+
     property int systemIndex;
+
+    dim: true
     x: parent.width/2 - width/2
     onColorAccepted: {
       GC.setSystemColorByIndex(systemIndex, t_color)

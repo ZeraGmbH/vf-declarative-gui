@@ -6,21 +6,20 @@ import GlobalConfig 1.0
 Item {
   id: root
   property int inputMethodHints
-  onInputMethodHintsChanged: tInput.inputMethodHints = inputMethodHints
   property var validator
-  onValidatorChanged: tInput.validator = validator
-
   property string text: ""
-  onTextChanged: tInput.text = text
   property alias textField: tInput
   property alias description: descriptionText
   property alias unit: unitLabel
   property QtObject entity
   property string controlPropertyName
-
+  readonly property bool acceptableInput: tInput.acceptableInput && (!validator || (validator.top>=parseFloat(tInput.text) && validator.bottom<=parseFloat(tInput.text)))
   readonly property bool m_alteredValue: (Math.abs(parseFloat(tInput.text) - entity[controlPropertyName]) >=  Math.pow(10, -root.validator.decimals))
 
-  readonly property bool acceptableInput: tInput.acceptableInput && (!validator || (validator.top>=parseFloat(tInput.text) && validator.bottom<=parseFloat(tInput.text)))
+  onInputMethodHintsChanged: tInput.inputMethodHints = inputMethodHints
+  onTextChanged: tInput.text = text
+  onValidatorChanged: tInput.validator = validator
+
 
   function confirmInput() {
     if(tInput.text !== root.text && root.acceptableInput)

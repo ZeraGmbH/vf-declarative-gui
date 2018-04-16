@@ -8,29 +8,6 @@ import ZeraTranslation  1.0
 
 Item {
   id: root
-  function incrementElement() {
-    delayedOperation.command = pathView.incrementCurrentIndex
-    delayedOperation.start();
-  }
-
-  function decrementElement() {
-    delayedOperation.command = pathView.decrementCurrentIndex
-    delayedOperation.start();
-  }
-
-  Timer {
-    id: delayedOperation
-    property var command
-    interval: 50
-    repeat: false
-    onTriggered: {
-      command();
-    }
-  }
-
-  //negative for no element
-  signal elementSelected(var elementValue)
-  signal cancelSelected()
 
   property int lastSelecedIndex
 
@@ -40,6 +17,20 @@ Item {
 
   property alias model: pathView.model
   property alias sessionComponent: sessionSelector.intermediate
+
+  //negative for no element
+  signal elementSelected(var elementValue)
+  signal cancelSelected()
+
+  function incrementElement() {
+    delayedOperation.command = pathView.incrementCurrentIndex
+    delayedOperation.start();
+  }
+
+  function decrementElement() {
+    delayedOperation.command = pathView.decrementCurrentIndex
+    delayedOperation.start();
+  }
 
   onModelChanged: {
     pathView.currentIndex = 0;
@@ -53,6 +44,16 @@ Item {
     else
     {
       pathView.currentIndex = lastSelecedIndex
+    }
+  }
+
+  Timer {
+    id: delayedOperation
+    property var command
+    interval: 50
+    repeat: false
+    onTriggered: {
+      command();
     }
   }
 
@@ -83,7 +84,8 @@ Item {
         anchors.centerIn: parent
         border.color: Qt.darker(Material.frameColor, 1.3)
         border.width: 3
-
+        width: 410*scaleFactor+4
+        height: 220*scaleFactor+6
         color: "transparent" //Material.backgroundColor
         radius: 4
 
@@ -93,9 +95,6 @@ Item {
           scale: 0.8*scaleFactor
           mipmap: false
         }
-
-        width: 410*scaleFactor+4
-        height: 220*scaleFactor+6
 
         MouseArea {
           anchors.fill: parent
@@ -190,19 +189,11 @@ Item {
       id: sessionSelector
 
       property QtObject systemEntity;
-
-      Connections {
-        target: VeinEntity
-        onSigEntityAvailable: {
-          if(t_entityName === "_System")
-          {
-            sessionSelector.systemEntity = VeinEntity.getEntity("_System");
-          }
-        }
-      }
-
-
       property string intermediate
+
+
+      anchors.fill: parent
+      arrayMode: true
       onIntermediateChanged: {
         var tmpIndex;
 
@@ -252,8 +243,6 @@ Item {
         loadingScreen.open();
       }
 
-      arrayMode: true
-
       model: {
         var retVal = [];
         if(systemEntity && systemEntity.SessionsAvailable) {
@@ -269,8 +258,15 @@ Item {
         return retVal;
       }
 
-
-      anchors.fill: parent
+      Connections {
+        target: VeinEntity
+        onSigEntityAvailable: {
+          if(t_entityName === "_System")
+          {
+            sessionSelector.systemEntity = VeinEntity.getEntity("_System");
+          }
+        }
+      }
     }
   }
 }

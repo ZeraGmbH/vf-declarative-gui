@@ -9,16 +9,6 @@ CCMP.ZComboBox {
 
   automaticIndexChange: true
 
-  QtObject {
-    property int intermediate: model.indexOf(root.entity[root.controlPropertyName]);
-    onIntermediateChanged: {
-      if(root.currentIndex !== intermediate)
-      {
-        root.currentIndex = intermediate
-      }
-    }
-  }
-
   onModelChanged: {
     currentIndex = model.indexOf(entity[controlPropertyName]);
   }
@@ -26,6 +16,16 @@ CCMP.ZComboBox {
     if(entity[controlPropertyName] !== selectedText)
     {
       entity[controlPropertyName] = selectedText
+    }
+  }
+
+  QtObject {
+    property int intermediate: model.indexOf(root.entity[root.controlPropertyName]);
+    onIntermediateChanged: {
+      if(root.currentIndex !== intermediate)
+      {
+        root.currentIndex = intermediate
+      }
     }
   }
 }

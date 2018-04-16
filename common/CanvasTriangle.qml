@@ -28,13 +28,11 @@ Item {
   //this is like anchors.fill: parent
   property real pixelScale: Math.min(height,width)/maxValue/2
 
-  onPhiChanged: canvas.markDirty(Qt.rect(0,0,width,height))
-
-
   function replot() {
     canvas.markDirty(Qt.rect(0,0,width,height));
   }
 
+  onPhiChanged: canvas.markDirty(Qt.rect(0,0,width,height))
 
   Canvas {
     id: canvas

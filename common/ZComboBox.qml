@@ -7,54 +7,24 @@ import ZeraTranslation  1.0
 Rectangle {
   id: root
 
-  //List view does not support JS arrays
-  ListModel {
-    id: fakeModel
-  }
-
   property bool expanded: false
-  onExpandedChanged: {
-    expanded ? selectionDialog.open() : selectionDialog.close()
-  }
-
-  color: Qt.darker(Material.frameColor) //buttonPressColor
-  //border.color: Material.dropShadowColor
-  opacity: enabled ? 1.0 : 0.5
-  radius: 4
-
   property int count : (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
-  onCountChanged: {
-    updateCurrentText()
-  }
-
   property int currentIndex;
-
-  onCurrentIndexChanged: {
-    targetIndex = currentIndex;
-  }
-
   property int targetIndex;
-
-  onTargetIndexChanged: {
-    updateCurrentText()
-    root.expanded = false
-  }
   property string currentText;
   property string selectedText;
-
-  property var model;
-
   property int contentRowWidth : width;
   property int contentRowHeight : height;
   property int contentMaxRows: 0
   property alias contentFlow: comboView.flow
   property real fontSize: 18;
-
   property bool centerVertical: false
   property real centerVerticalOffset: 0;
-
   //used when the displayed text should only change from external value changes
   property bool automaticIndexChange: false
+  //support for QML ListModel and JS array
+  property bool arrayMode: false
+  property var model;
 
   function getMaxRows() {
     if(contentMaxRows <= 0 || contentMaxRows > count)
@@ -66,12 +36,6 @@ Rectangle {
       return contentMaxRows
     }
   }
-
-  onModelChanged: {
-    populateFakeModel()
-    root.expanded=false
-  }
-
   function populateFakeModel() {
     fakeModel.clear();
     if(arrayMode && model!==undefined)
@@ -82,7 +46,6 @@ Rectangle {
       }
     }
   }
-
   function updateCurrentText() {
     if(root.arrayMode)
     {
@@ -100,14 +63,35 @@ Rectangle {
     }
   }
 
-
-  //support for QML ListModel and JS array
-  property bool arrayMode: false
-
+  onExpandedChanged: {
+    expanded ? selectionDialog.open() : selectionDialog.close()
+  }
+  color: Qt.darker(Material.frameColor) //buttonPressColor
+  //border.color: Material.dropShadowColor
+  opacity: enabled ? 1.0 : 0.5
+  radius: 4
+  onCountChanged: {
+    updateCurrentText()
+  }
+  onCurrentIndexChanged: {
+    targetIndex = currentIndex;
+  }
+  onTargetIndexChanged: {
+    updateCurrentText()
+    root.expanded = false
+  }
+  onModelChanged: {
+    populateFakeModel()
+    root.expanded=false
+  }
   onArrayModeChanged: {
     populateFakeModel()
   }
 
+  //List view does not support JS arrays
+  ListModel {
+    id: fakeModel
+  }
   Item {
     anchors.fill: parent
     anchors.rightMargin: parent.width/5
@@ -144,16 +128,16 @@ Rectangle {
   Popup {
     id: selectionDialog
 
+    property int heightOffset: (root.centerVertical ? -popupElement.height/2 : 0) + root.centerVerticalOffset
+    property int widthOffset: (root.contentMaxRows > 0) ? -(root.contentRowWidth / (1+Math.floor(root.model.length / root.contentMaxRows))) : 0
+
     closePolicy: Popup.CloseOnPressOutside
 
     onVisibleChanged: {
       root.expanded = visible
     }
 
-
-    property int heightOffset: (root.centerVertical ? -popupElement.height/2 : 0) + root.centerVerticalOffset
     y:  -15 + heightOffset
-    property int widthOffset: (root.contentMaxRows > 0) ? -(root.contentRowWidth / (1+Math.floor(root.model.length / root.contentMaxRows))) : 0
     x: -15 + widthOffset
 
     Rectangle {

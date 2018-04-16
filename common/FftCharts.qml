@@ -13,22 +13,10 @@ import ModuleIntrospection 1.0
 
 Flickable {
   id: root
-  clip: true
-  boundsBehavior: Flickable.StopAtBounds
-  contentHeight: height/3 * Math.ceil(fftCount/2)
-  ScrollBar.vertical: ScrollBar {
-    Component.onCompleted: {
-      if(QT_VERSION >= 0x050900) //policy was added after 5.7
-      {
-        policy = Qt.binding(function (){return root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; });
-      }
-    }
-  }
+
   readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-
   readonly property int fftCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount
-
   //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
   readonly property var leftChannels: {
     var retVal = [];
@@ -42,7 +30,6 @@ Flickable {
     }
     return retVal;
   }
-
   readonly property var rightChannels: {
     var retVal = [];
     for(var channelNum=0; channelNum<fftCount; ++channelNum)
@@ -56,6 +43,17 @@ Flickable {
     return retVal;
   }
 
+  clip: true
+  boundsBehavior: Flickable.StopAtBounds
+  contentHeight: height/3 * Math.ceil(fftCount/2)
+  ScrollBar.vertical: ScrollBar {
+    Component.onCompleted: {
+      if(QT_VERSION >= 0x050900) //policy was added after 5.7
+      {
+        policy = Qt.binding(function (){return root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; });
+      }
+    }
+  }
 
   Repeater {
     model: Math.ceil(fftCount/2)

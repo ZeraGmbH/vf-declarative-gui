@@ -12,13 +12,8 @@ Item {
   id: root
 
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-  anchors.leftMargin: 300
-  anchors.rightMargin: 300
-
   readonly property bool groupingActive: groupingMode.checked
-
   readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-
   //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
   readonly property var upperChannels: {
     var retVal = [];
@@ -40,7 +35,6 @@ Item {
     }
     return retVal;
   }
-
   readonly property var lowerChannels: {
     var retVal = [];
     for(var channelNum=0; channelNum<channelCount; ++channelNum)
@@ -62,8 +56,14 @@ Item {
     return retVal;
   }
 
+  anchors.leftMargin: 300
+  anchors.rightMargin: 300
+
   Item {
     id: grid
+
+    property real cellHeight: height/15
+    property real cellWidth: width/16
 
     function getColorByIndex(rangIndex) {
       var retVal;
@@ -95,11 +95,7 @@ Item {
     }
 
     anchors.fill: parent
-
     anchors.margins: parent.width*0.02
-
-    property real cellHeight: height/15
-    property real cellWidth: width/16
 
     Label {
       text: ZTR["Range automatic:"]
@@ -120,9 +116,9 @@ Item {
     }
     Button {
       id: overloadButton
-      text: ZTR["Overload"]
       property int overload: root.rangeModule.PAR_Overload
 
+      text: ZTR["Overload"]
       enabled: overload
       x: grid.cellWidth*16 - width
       height: grid.cellHeight * 2

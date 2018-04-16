@@ -17,7 +17,6 @@ Item {
   readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
   readonly property int channelCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount;
   readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
-
   property int rowHeight: Math.floor(height/20)
   property int columnWidth: width/13
 
@@ -25,7 +24,6 @@ Item {
     width: root.columnWidth*13
     height: root.height
     anchors.centerIn: parent
-
 
     ScrollBar {
       z: 1

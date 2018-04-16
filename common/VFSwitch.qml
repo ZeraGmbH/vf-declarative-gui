@@ -13,6 +13,13 @@ CheckBox {
     //checked=check
   }
 
+  onCheckedChanged: {
+    if(checked !== entity[controlPropertyName])
+    {
+      checked = entity[controlPropertyName];
+    }
+  }
+
   QtObject {
     readonly property bool intermediate: entity[controlPropertyName]
     onIntermediateChanged: {
@@ -20,13 +27,6 @@ CheckBox {
       {
         root.checked = intermediate
       }
-    }
-  }
-
-  onCheckedChanged: {
-    if(checked !== entity[controlPropertyName])
-    {
-      checked = entity[controlPropertyName];
     }
   }
 }

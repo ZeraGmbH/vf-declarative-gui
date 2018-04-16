@@ -5,15 +5,6 @@ import GlobalConfig 1.0
 
 Item {
   id: root
-  property int inputMethodHints
-  onInputMethodHintsChanged: tInput.inputMethodHints = inputMethodHints
-  property var validator
-  onValidatorChanged: tInput.validator = validator
-
-  property string text: ""
-  onTextChanged: tInput.text = text
-  property QtObject entity
-  property string controlPropertyName
 
   property alias fontSize: tInput.font.pixelSize
   property alias placeholderText: tInput.placeholderText
@@ -21,8 +12,12 @@ Item {
   property alias horizontalAlignment: tInput.horizontalAlignment
   property alias mouseSelectionMode: tInput.mouseSelectionMode
   readonly property bool m_alteredValue: tInput.text !== transformIncoming(entity[controlPropertyName])
-
   readonly property alias acceptableInput: tInput.acceptableInput
+  property QtObject entity
+  property string controlPropertyName
+  property string text: ""
+  property int inputMethodHints
+  property var validator
 
   //allows to convert the output in other formats before setting the component value
   function transformOutgoing (t_output) {
@@ -40,6 +35,10 @@ Item {
       root.entity[root.controlPropertyName] = transformOutgoing(tInput.text);
     }
   }
+
+  onTextChanged: tInput.text = text
+  onInputMethodHintsChanged: tInput.inputMethodHints = inputMethodHints
+  onValidatorChanged: tInput.validator = validator
 
   Item {
     property var intermediateValue: transformIncoming(root.entity[root.controlPropertyName])
@@ -70,9 +69,7 @@ Item {
       implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
                                background ? background.implicitHeight : 0)
 
-
       font.pixelSize: Math.max(height/2, 16)
-
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
       onAccepted: {

@@ -13,6 +13,11 @@ Popup {
 
   readonly property QtObject dataLogger: VeinEntity.getEntity("_LoggingSystem")
   readonly property var loggedComponents: VeinEntity.getEntity("_System").LoggedComponents
+  readonly property var currentItem: (availView.currentItem !== undefined && availView.currentItem !== null
+                                      ? availModel.get(filteredAvailModel.mapToSource(availView.currentIndex))
+                                      : (selectedView.currentItem !== undefined && selectedView.currentItem !== null
+                                         ? selectedModel.get(filteredSelectedModel.mapToSource(selectedView.currentIndex))
+                                         : undefined));
 
   function initModels() {
     availModel.clear();
@@ -65,12 +70,6 @@ Popup {
   Component.onCompleted: {
     initModels();
   }
-
-  readonly property var currentItem: (availView.currentItem !== undefined && availView.currentItem !== null
-                                      ? availModel.get(filteredAvailModel.mapToSource(availView.currentIndex))
-                                      : (selectedView.currentItem !== undefined && selectedView.currentItem !== null
-                                         ? selectedModel.get(filteredSelectedModel.mapToSource(selectedView.currentIndex))
-                                         : undefined));
 
   ListModel {
     id: availModel

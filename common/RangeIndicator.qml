@@ -13,8 +13,7 @@ Loader {
   sourceComponent: Component {
     Item {
       id: root
-      width: invisibleRoot.width
-      height: invisibleRoot.height
+
       readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
 
       //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
@@ -61,12 +60,13 @@ Loader {
       }
 
       readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-
       property int contentWidth: root.width/(root.channelCount/2)*0.9
-
       readonly property int rangeGrouping: rangeModule.PAR_ChannelGrouping
 
       signal sigOverloadHintClicked();
+
+      width: invisibleRoot.width
+      height: invisibleRoot.height
 
       Rectangle {
         anchors.fill: parent

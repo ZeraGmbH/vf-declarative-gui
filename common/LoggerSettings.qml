@@ -17,15 +17,6 @@ CCMP.SettingsView {
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
   property bool snapshotTrigger: false;
   readonly property bool logEnabled: loggerEntity.LoggingEnabled
-  onLogEnabledChanged: {
-    if(snapshotTrigger === true && logEnabled === true)
-    {
-      snapshotTrigger = false;
-      loggerEntity.LoggingEnabled  = false;
-    }
-  }
-
-  rowHeight: height/12
 
   function msToTime(t_mSeconds) {
     var retVal = "";
@@ -42,7 +33,6 @@ CCMP.SettingsView {
     }
     return retVal;
   }
-
   function timeToMs(t_time) {
     var mSeconds = 0;
     var timeData = [];
@@ -60,6 +50,16 @@ CCMP.SettingsView {
 
     return Number(mSeconds);
   }
+
+  onLogEnabledChanged: {
+    if(snapshotTrigger === true && logEnabled === true)
+    {
+      snapshotTrigger = false;
+      loggerEntity.LoggingEnabled  = false;
+    }
+  }
+
+  rowHeight: height/12
 
   Loader {
     id: loggerDataSelection
@@ -236,9 +236,6 @@ CCMP.SettingsView {
       }
     }
 
-
-
-
     RowLayout {
       anchors.left: parent.left
       anchors.right: parent.right
@@ -304,18 +301,10 @@ CCMP.SettingsView {
         }
         VF.VFTextInput {
           id: durationField
-          entity: root.loggerEntity
-          controlPropertyName: "ScheduledLoggingDuration"
-          placeholderText: "00:00:00"
-          validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
-          height: root.rowHeight
-          width: root.width/2.9
-          visible: loggerEntity.LoggingEnabled === false
 
           function transformOutgoing (t_output) {
             return timeToMs(t_output);
           }
-
           function transformIncoming(t_incoming) {
             if(t_incoming !== undefined)
             {
@@ -326,6 +315,14 @@ CCMP.SettingsView {
               return "";
             }
           }
+
+          entity: root.loggerEntity
+          controlPropertyName: "ScheduledLoggingDuration"
+          placeholderText: "00:00:00"
+          validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
+          height: root.rowHeight
+          width: root.width/2.9
+          visible: loggerEntity.LoggingEnabled === false
         }
         Label {
           visible: loggerEntity.LoggingEnabled === true

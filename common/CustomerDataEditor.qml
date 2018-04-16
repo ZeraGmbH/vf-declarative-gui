@@ -8,6 +8,7 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: dataEditor
+
   property bool interactive: true
 
   function updateDataObject(prop, text) {
