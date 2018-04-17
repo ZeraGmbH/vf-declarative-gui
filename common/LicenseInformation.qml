@@ -28,6 +28,10 @@ Item {
       width: root.width/4
       model: licenseList
       currentIndex: 0
+      onCurrentIndexChanged: {
+        licenseFlickable.cancelFlick();
+        licenseFlickable.contentY = 0; //scroll up to the beginning
+      }
 
       delegate: ToolButton {
         width: licenseLV.width
