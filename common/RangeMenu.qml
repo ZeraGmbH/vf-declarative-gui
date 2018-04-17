@@ -190,7 +190,6 @@ Item {
       delegate: Item {
         height: grid.cellHeight*3
         width: grid.cellWidth*4
-        enabled: !autoMode.checked
         Label {
           text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
           color: GC.getColorByIndex(modelData+1, root.groupingActive)
@@ -231,7 +230,6 @@ Item {
       delegate: Item {
         height: grid.cellHeight*3
         width: grid.cellWidth*4
-        enabled: !autoMode.checked
         Label {
           text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
           color: GC.getColorByIndex(modelData+1, root.groupingActive)
