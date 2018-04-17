@@ -196,14 +196,7 @@ SettingsView {
                 font.pointSize: 12
                 text: FA.fa_undo
                 onClicked: {
-                  GC.setSystemColorByIndex(1, "#EEff0000")
-                  GC.setSystemColorByIndex(2, "#EEffff00")
-                  GC.setSystemColorByIndex(3, "#EE0092ff")
-                  GC.setSystemColorByIndex(4, "#EEff7755")
-                  GC.setSystemColorByIndex(5, "#EEffffbb")
-                  GC.setSystemColorByIndex(6, "#EE58acfa")
-                  GC.setSystemColorByIndex(7, "#EEcccccc")
-                  GC.setSystemColorByIndex(8, "#EEffffff")
+                  GC.setDefaultColors()
                 }
               }
             }

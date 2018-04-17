@@ -144,4 +144,15 @@ Item {
   function ceilLog10Of1DividedByX(realNumberX) {
     return Math.ceil(Math.log(1/realNumberX)/Math.LN10)
   }
+
+  function setDefaultColors() {
+    setSystemColorByIndex(1, "#EEff0000")
+    setSystemColorByIndex(2, "#EEffff00")
+    setSystemColorByIndex(3, "#EE0092ff")
+    setSystemColorByIndex(4, "#EEff7755")
+    setSystemColorByIndex(5, "#EEffffbb")
+    setSystemColorByIndex(6, "#EE58acfa")
+    setSystemColorByIndex(7, "#EEcccccc")
+    setSystemColorByIndex(8, "#EEffffff")
+  }
 }
