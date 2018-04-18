@@ -309,7 +309,7 @@ CCMP.ModulePage {
             validator: CCMP.ZDoubleValidator {
               bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[0];
               top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[1];
-              decimals: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[2];
+              decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[2]);
             }
 
             VFControls.VFComboBox {
@@ -336,7 +336,6 @@ CCMP.ModulePage {
 
               opacity: enabled ? 1.0 : 0.7
             }
-
           }
         }
         Rectangle {
@@ -362,7 +361,7 @@ CCMP.ModulePage {
             validator: CCMP.ZDoubleValidator {
               bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[0];
               top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[1];
-              decimals: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[2];
+              decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[2]);
             }
           }
         }
@@ -390,7 +389,7 @@ CCMP.ModulePage {
             validator: CCMP.ZDoubleValidator {
               bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[0];
               top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[1];
-              decimals: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[2];
+              decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[2]);
             }
           }
         }
