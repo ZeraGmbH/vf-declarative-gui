@@ -193,7 +193,7 @@ CCMP.ModulePage {
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_Mode"
-            model: ModuleIntrospection.secIntrospection.ComponentInfo.PAR_Mode.Validation.Data
+            model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Mode.Validation.Data
 
             anchors.right: parent.right
             height: parent.height
@@ -231,7 +231,7 @@ CCMP.ModulePage {
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_RefInput"
-            model: ModuleIntrospection.secIntrospection.ComponentInfo.PAR_RefInput.Validation.Data
+            model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
 
             anchors.right: parent.right
             height: parent.height
@@ -270,7 +270,7 @@ CCMP.ModulePage {
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_DutInput"
-            model: ModuleIntrospection.secIntrospection.ComponentInfo.PAR_DutInput.Validation.Data
+            model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
 
             anchors.right: parent.right
             height: parent.height
@@ -306,7 +306,11 @@ CCMP.ModulePage {
             textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
-            validator: CCMP.ZDoubleValidator { bottom: 1.0; top: 1e+20; decimals: 5;}
+            validator: CCMP.ZDoubleValidator {
+              bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[0];
+              top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[1];
+              decimals: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[2];
+            }
 
             VFControls.VFComboBox {
               id: cbDutConstantUnit
@@ -317,7 +321,7 @@ CCMP.ModulePage {
 
               entity: root.errorCalculator
               controlPropertyName: "PAR_DUTConstUnit"
-              model: ModuleIntrospection.secIntrospection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
+              model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
 
               height: parent.height
               width: parent.width/5
@@ -355,7 +359,11 @@ CCMP.ModulePage {
             textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
-            validator: CCMP.ZDoubleValidator { bottom: 0; top: 10e+7; decimals: 5; }
+            validator: CCMP.ZDoubleValidator {
+              bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[0];
+              top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[1];
+              decimals: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[2];
+            }
           }
         }
         Rectangle {
@@ -378,7 +386,12 @@ CCMP.ModulePage {
             textField.font.pixelSize: height/2
 
             enabled: root.canStartMeasurement
-            validator: CCMP.ZDoubleValidator {bottom: 0; top: Math.floor(Math.pow(2,32)-1); decimals: 0;} //IntValidator is only for signed integers
+
+            validator: CCMP.ZDoubleValidator {
+              bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[0];
+              top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[1];
+              decimals: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[2];
+            }
           }
         }
       }
@@ -401,9 +414,9 @@ CCMP.ModulePage {
           legendEnabled: false
           bottomLabelsEnabled: false
 
-          property real maxValue: 10
+          property real maxValue: GC.errorMarginUpperValue
           onMaxValueChanged: setMarkers(minValue, maxValue)
-          property real minValue: -10
+          property real minValue: GC.errorMarginLowerValue
           onMinValueChanged: setMarkers(minValue, maxValue)
 
           markersEnabled: true
@@ -440,7 +453,8 @@ CCMP.ModulePage {
             mouseSelectionMode: TextInput.SelectWords
             selectByMouse: true
             onEditingFinished: {
-              errorMarginChart.maxValue = upperLimitInput.acceptableInput ? parseFloat(upperLimitInput.text) : 0;
+              var upperLimit = upperLimitInput.acceptableInput ? parseFloat(upperLimitInput.text) : 0;
+              GC.setErrorMargins(upperLimit, GC.errorMarginLowerValue);
             }
 
             onAccepted: {
@@ -471,7 +485,8 @@ CCMP.ModulePage {
             mouseSelectionMode: TextInput.SelectWords
             selectByMouse: true
             onEditingFinished: {
-              errorMarginChart.minValue = lowerLimitInput.acceptableInput ? parseFloat(lowerLimitInput.text) : 0;
+              var lowerLimit = lowerLimitInput.acceptableInput ? parseFloat(lowerLimitInput.text) : 0;
+              GC.setErrorMargins(GC.errorMarginUpperValue, lowerLimit);
             }
 
             onAccepted: {

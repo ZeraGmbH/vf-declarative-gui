@@ -15,5 +15,7 @@
     "system3Color": "#EE58acfa",
     "system3ColorDark": "#EE0099ff",
     "system4Color": "#EEffffff",
-    "system4ColorDark": "#EEcccccc"
+    "system4ColorDark": "#EEcccccc",
+    "errorMarginUpperValue": "10.0",
+    "errorMarginLowerValue": "-10.0"
 }

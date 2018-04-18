@@ -63,6 +63,8 @@ Item {
 
   readonly property color tableShadeColor : "#003040"
 
+  readonly property real errorMarginUpperValue: parseFloat(settings.globalSettings.getOption("errorMarginUpperValue"))
+  readonly property real errorMarginLowerValue: parseFloat(settings.globalSettings.getOption("errorMarginLowerValue"))
 
   function formatNumber(num, decimals) {
     if(typeof num === "string") //parsing strings as number is not desired
@@ -154,5 +156,10 @@ Item {
     setSystemColorByIndex(6, "#EE58acfa")
     setSystemColorByIndex(7, "#EEcccccc")
     setSystemColorByIndex(8, "#EEffffff")
+  }
+
+  function setErrorMargins(upperLimit, lowerLimit) {
+    settings.globalSettings.setOption("errorMarginUpperValue", upperLimit);
+    settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit);
   }
 }
