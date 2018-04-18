@@ -17,11 +17,22 @@ import ZeraSettings 1.0
 
 ApplicationWindow {
   id: displayWindow
+
+  property bool entitiesInitialized: false;
+  property bool debugBypass: false;
+  property string currentSession;
+  property var requiredIds: [];
+  property var resolvedIds: []; //may only contain ids that are also in requiredIds
+  property var errorMessages: [];
+  property bool measuringPaused: false;
+
   visible: true
   width: 1024
   height: 600
-
   title: "COM5003"
+  Material.theme: Material.Dark
+  Material.accent: "#339966"
+
 
   onClosing: {
     settings.globalSettings.saveToFile(settings.globalSettings.getCurrentFilePath(), true);
@@ -40,25 +51,49 @@ ApplicationWindow {
     }
   }
 
-  Material.theme: Material.Dark
-  Material.accent: "#339966"
-
-  property bool entitiesInitialized: false;
-  property bool debugBypass: false;
-
-  property string currentSession;
-  property var requiredIds: [];
-  property var resolvedIds: []; //may only contain ids that are also in requiredIds
-
-  property var errorMessages: [];
-  property bool measuringPaused: false;
-
   onErrorMessagesChanged: {
     if(errorMessages.length > 0)
     {
       //startupStatusLabel.visible = false;
       messageNotificationIndicator.newErrors = true;
     }
+  }
+
+  onCurrentSessionChanged: {
+    switch(currentSession)
+    {
+    case "com5003-meas-session.json":
+    {
+      displayWindow.title = "COM5003"
+      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
+      break;
+    }
+    case "com5003-ref-session.json":
+    {
+      displayWindow.title = "COM5003"
+      requiredIds = [0, 2, 1001, 1020, 1050, 1150];
+      break;
+    }
+    case "com5003-ced-session.json":
+    {
+      displayWindow.title = "COM5003"
+      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1090, 1110, 1120, 1130, 1140, 1150];
+      break;
+    }
+    case "mt310s2-meas-session.json":
+    {
+      displayWindow.title = "MT310S2"
+      requiredIds = [0, 2, 200, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150, 1160, 1161, 1170]; //1180
+      break;
+    }
+    }
+
+    resolvedIds = [];
+
+    requiredIds.sort();
+    VeinEntity.setRequiredIds(requiredIds);
+    startupStatusLabel.text = ZTR["Loading: %1/%2"].arg(resolvedIds.length).arg(requiredIds.length);
+    startupStatusLabel.visible = true;
   }
 
   Label {
@@ -134,39 +169,6 @@ ApplicationWindow {
     }
   }
 
-  onCurrentSessionChanged: {
-    switch(currentSession)
-    {
-    case "com5003-meas-session.json":
-    {
-      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
-      break;
-    }
-    case "com5003-ref-session.json":
-    {
-      requiredIds = [0, 2, 1001, 1020, 1050, 1150];
-      break;
-    }
-    case "com5003-ced-session.json":
-    {
-      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1090, 1110, 1120, 1130, 1150];
-      break;
-    }
-    case "mt310s2-meas-session.json":
-    {
-      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150, 1160, 1161, 1170]; //200 1180
-      break;
-    }
-    }
-
-    resolvedIds = [];
-
-    requiredIds.sort();
-    VeinEntity.setRequiredIds(requiredIds);
-    startupStatusLabel.text = ZTR["Loading: %1/%2"].arg(resolvedIds.length).arg(requiredIds.length);
-    startupStatusLabel.visible = true;
-  }
-
   ZeraGlobalSettings {
     id: settings
   }
@@ -186,10 +188,10 @@ ApplicationWindow {
 
   /// @todo remove debugging code
   Shortcut {
+    property bool cLang: false
     enabled: BUILD_TYPE === "debug"
     sequence: "F2"
     autoRepeat: false
-    property bool cLang: false
     onActivated: {
       cLang = !cLang;
       if(cLang)
@@ -203,7 +205,28 @@ ApplicationWindow {
     }
   }
 
+  Shortcut {
+    property bool smallResolution: false
+    enabled: BUILD_TYPE === "debug"
+    sequence: "F3"
+    autoRepeat: false
+    onActivated: {
+      smallResolution = !smallResolution;
+      if(smallResolution)
+      {
+        displayWindow.width=800;
+        displayWindow.height=480;
+      }
+      else
+      {
+        displayWindow.width=1024;
+        displayWindow.height=600;
+      }
+    }
+  }
+
   FPSCounter {
+    property bool originalState: false
     //needs to stay in the foreground
     z: 100
     anchors.right: parent.right
@@ -211,7 +234,6 @@ ApplicationWindow {
     width: 100
     height: 40
 
-    property bool originalState: false
 
     Component.onCompleted: {
       originalState = fpsEnabled===1 ///integer evaluation
@@ -229,12 +251,12 @@ ApplicationWindow {
     }
 
     Label {
+      property real fps: parent.currentFPS.toFixed(2)
       visible: parent.fpsEnabled
       anchors.right: parent.right
       anchors.rightMargin: 10
       anchors.verticalCenter: parent.verticalCenter
       textFormat: Text.PlainText
-      property real fps: parent.currentFPS.toFixed(2)
       text:  fps + " FPS";
       color: fps > 29 ? ( fps > 49 ? "lawngreen" : "yellow" ) : "red";
     }
@@ -319,7 +341,6 @@ ApplicationWindow {
       //Pages.RemoteSelection {}
       // ]
       ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
-
     }
 
     Component {
@@ -562,6 +583,9 @@ ApplicationWindow {
 
     CCMP.PagePathView {
       id: pageView
+
+      property string currentValue;
+
       visible: false
       onModelChanged: {
         if(model)
@@ -570,8 +594,6 @@ ApplicationWindow {
           pageLoader.source = currentValue
         }
       }
-
-      property string currentValue;
 
       anchors.fill: parent
       onElementSelected: {
