@@ -13,6 +13,8 @@ Item {
     id: settings
   }
 
+  property bool tmpStatusNewErrors: false; //replacement for static variable will not be saved in settings.json
+
   readonly property var locale: Qt.locale(settings.globalSettings.getOption("locale"))
   function setLocale(newLocale) {
     settings.globalSettings.setOption("locale", newLocale);

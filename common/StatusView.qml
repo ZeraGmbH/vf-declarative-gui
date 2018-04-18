@@ -5,183 +5,70 @@ import "qrc:/vf-controls/common" as VF
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import GlobalConfig 1.0
+import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: root
 
   readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
   readonly property int rowHeight: Math.floor(height/20)
+  property var errorDataModel: [];
 
-  Label {
-    id: title
+  TabBar {
+    id: informationSelector
     width: parent.width
     height: root.rowHeight*1.5
-    horizontalAlignment: Text.AlignHCenter
-    text: ZTR["Device info"]
-    font.pointSize: 20
-  }
-
-  VisualItemModel {
-    id: statusModel
-
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["Serial number:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_SerialNr
-      }
+    currentIndex: 0
+    TabButton {
+      id: errorLogButton
+      text: FA.icon(FA.fa_exclamation_triangle, GC.tmpStatusNewErrors ? Material.color(Material.Yellow) : "#44ffffff" )+ZTR["Device log"]
+      font.family: "FontAwesome"
+      height: parent.height
+      font.pixelSize: height/2
     }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["Operating system version:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_ReleaseNr
-      }
+    TabButton {
+      text: FA.icon(FA.fa_info_circle)+ZTR["Device info"]
+      font.family: "FontAwesome"
+      height: parent.height
+      font.pixelSize: height/2
+      enabled: VeinEntity.hasEntity("StatusModule1")
     }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["PCB server version:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_PCBServerVersion
-      }
-    }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["DSP server version:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_DSPServerVersion
-      }
-    }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["DSP firmware version:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_DSPVersion
-      }
-    }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["FPGA firmware version:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_FPGAVersion
-      }
-    }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["Microcontroller firmware version:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_CTRLVersion
-      }
-    }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["Adjustment status:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_Adjusted
-      }
-    }
-    RowLayout {
-      width: parent.width
-      height: root.rowHeight
-      Label {
-        font.pointSize: 14
-        text: ZTR["Adjustment checksum:"]
-      }
-      Item {
-        Layout.fillWidth: true
-      }
-      Label {
-        font.pointSize: 14
-        text: statusEnt.INF_AdjChksum
-      }
+    TabButton {
+      text: FA.icon("<b>§</b>")+ZTR["License information"]
+      font.family: "FontAwesome"
+      height: parent.height
+      font.pixelSize: height/2
     }
   }
 
-  ListView {
-    id: statusListView
+  StackLayout {
+    id: stackLayout
     anchors.fill: parent
-    anchors.topMargin: title.height
-    anchors.leftMargin: 16
-    anchors.rightMargin: 16
-    spacing: rowHeight/4
-    model: statusModel
-    boundsBehavior: Flickable.StopAtBounds
-    ScrollBar.vertical: rightScrollbar
-  }
-  ScrollBar {
-    id: rightScrollbar
-    anchors.left: statusListView.right
-    anchors.top: statusListView.top
-    anchors.bottom: statusListView.bottom
-    visible: statusListView.contentHeight>statusListView.height
-    Component.onCompleted: {
-      if(QT_VERSION >= 0x050900) //policy was added after 5.7
-      {
-        policy = ScrollBar.AlwaysOn;
+    anchors.topMargin: informationSelector.height + root.rowHeight/2
+    currentIndex: informationSelector.currentIndex
+
+    Loader {
+      active: stackLayout.currentIndex === 0
+      sourceComponent: Notifications {
+        errorDataModel: root.errorDataModel
+      }
+      onActiveChanged: {
+        if(active === false)
+        {
+          GC.tmpStatusNewErrors = false;
+        }
+      }
+      Component.onDestruction: GC.tmpStatusNewErrors = false;
+    }
+    Loader {
+      active: stackLayout.currentIndex === 1
+      sourceComponent: DeviceInformation {
+      }
+    }
+    Loader {
+      active: stackLayout.currentIndex === 2
+      sourceComponent: LicenseInformation {
       }
     }
   }

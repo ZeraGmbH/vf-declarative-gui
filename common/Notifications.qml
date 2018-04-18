@@ -25,20 +25,9 @@ Item {
     id: dummyModel
   }
 
-  Label {
-    id: titleText
-    text: ZTR["Device notifications"]
-    font.pixelSize: 20
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: parent.top
-    horizontalAlignment: Text.AlignHCenter
-  }
-
   ListView {
     id: lvErrorView
     anchors.fill: parent
-    anchors.topMargin: titleText.height*2
     model: dummyModel
     boundsBehavior: ListView.StopAtBounds
     delegate: Label {

@@ -298,6 +298,8 @@ void ZeraTranslation::reloadStringTable()
 
   //StatusView.qml
   insert("Device info", tr("Device info"));
+  insert("Device log", tr("Device log"));
+  insert("License information", tr("License information"));
   insert("Serial number:", tr("Serial number:"));
   insert("Operating system version:", tr("Operating system version:"));
   insert("PCB server version:", tr("PCB server version:"));

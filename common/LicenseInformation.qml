@@ -13,18 +13,12 @@ Item {
   readonly property string selectedFileName: licenseList[licenseLV.currentIndex].license
   Item {
     anchors.fill: parent
-    Label {
-      id: titleLabel
-      anchors.horizontalCenter: parent.horizontalCenter
-      text: "License information"
-      font.pointSize: 24
-    }
+
     ListView {
       id: licenseLV
       anchors.bottom: parent.bottom
       anchors.left: parent.left
-      anchors.top: titleLabel.bottom
-      anchors.topMargin: 16
+      anchors.top: parent.top
       width: root.width/4
       model: licenseList
       currentIndex: 0
@@ -45,8 +39,7 @@ Item {
       id: contentLayout
       anchors.bottom: parent.bottom
       anchors.right: parent.right
-      anchors.top: titleLabel.bottom
-      anchors.topMargin: 16
+      anchors.top: parent.top
       width: root.width * 3/4
 
       Flickable {

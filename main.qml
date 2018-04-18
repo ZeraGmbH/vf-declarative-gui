@@ -26,6 +26,12 @@ ApplicationWindow {
   property var errorMessages: [];
   property bool measuringPaused: false;
 
+  onErrorMessagesChanged: {
+    if(errorMessages && errorMessages.length > 0)
+    {
+      GC.tmpStatusNewErrors = true;
+    }
+  }
   visible: true
   width: 1024
   height: 600
@@ -48,14 +54,6 @@ ApplicationWindow {
       errorMessages = Qt.binding(function() {
         return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
       })
-    }
-  }
-
-  onErrorMessagesChanged: {
-    if(errorMessages.length > 0)
-    {
-      //startupStatusLabel.visible = false;
-      messageNotificationIndicator.newErrors = true;
     }
   }
 
@@ -293,18 +291,16 @@ ApplicationWindow {
       anchors.top: parent.top
       anchors.bottom: controlsBar.top
       anchors.margins: 8
-      currentIndex: displayWindow.currentSession !== "" ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutNotificationsIndex
+      currentIndex: displayWindow.currentSession !== "" ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutStatusIndex
 
       QtObject {
         id: layoutStackEnum
 
         readonly property int layoutPageIndex: 0
         readonly property int layoutRangeIndex: 1
-        readonly property int layoutNotificationsIndex: 2
-        readonly property int layoutLoggerIndex: 3
-        readonly property int layoutSettingsIndex: 4
-        readonly property int layoutLicenseIndex: 5
-        readonly property int layoutStatusIndex: 6
+        readonly property int layoutLoggerIndex: 2
+        readonly property int layoutSettingsIndex: 3
+        readonly property int layoutStatusIndex: 4
       }
 
       ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
@@ -319,20 +315,12 @@ ApplicationWindow {
         active: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
       }
       Loader {
-        sourceComponent: notificationsCmp
-        active: layoutStack.currentIndex===layoutStackEnum.layoutNotificationsIndex
-      }
-      Loader {
         sourceComponent: loggerCmp
         active: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex
       }
       Loader {
         sourceComponent: settingsCmp
         active: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex
-      }
-      Loader {
-        sourceComponent: licenseCmp
-        active: layoutStack.currentIndex===layoutStackEnum.layoutLicenseIndex
       }
       Loader {
         sourceComponent: statusCmp
@@ -366,11 +354,7 @@ ApplicationWindow {
     }
     Component {
       id: statusCmp
-      CCMP.StatusView {}
-    }
-    Component {
-      id: notificationsCmp
-      CCMP.Notifications { errorDataModel: displayWindow.errorMessages }
+      CCMP.StatusView { errorDataModel: displayWindow.errorMessages }
     }
     Component {
       id: loggerCmp
@@ -379,10 +363,6 @@ ApplicationWindow {
     Component {
       id: settingsCmp
       CCMP.Settings {}
-    }
-    Component {
-      id: licenseCmp
-      CCMP.LicenseInformation {}
     }
 
 
@@ -419,17 +399,6 @@ ApplicationWindow {
             }
           }
         }
-        //        ToolButton {
-        //          implicitHeight: parent.height
-        //          font.family: "FontAwesome"
-        //          font.pointSize: 14
-        //          text: FA.icon(FA.fa_align_justify) + ZTR["Range"]
-        //          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
-        //          enabled: displayWindow.entitiesInitialized === true
-        //          onClicked: {
-        //            layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
-        //          }
-        //        }
         ToolButton {
           implicitHeight: parent.height
           implicitWidth: rangeIndicator.width
@@ -444,7 +413,7 @@ ApplicationWindow {
 
           CCMP.RangeIndicator {
             id: rangeIndicator
-            width: Math.ceil(displayWindow.width/2.2)
+            width: Math.ceil(displayWindow.width/1.8)
             height: controlsBar.height
             active: false
           }
@@ -459,44 +428,6 @@ ApplicationWindow {
           enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             VeinEntity.getEntity("_System").ModulesPaused = !displayWindow.measuringPaused;
-          }
-        }
-        ToolButton {
-          implicitHeight: parent.height
-          implicitWidth: displayWindow.width/16
-          height: parent.height
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutNotificationsIndex
-          enabled: displayWindow.errorMessages !== undefined && displayWindow.errorMessages.length > 0
-
-          onClicked: {
-            layoutStack.currentIndex=layoutStackEnum.layoutNotificationsIndex;
-            messageNotificationIndicator.newErrors = false;
-          }
-
-          Label {
-            id: messageNotificationIndicator
-
-            property bool newErrors: false
-
-            text: FA.fa_exclamation_triangle
-            font.family: "FontAwesome"
-            font.pointSize: 12
-            anchors.left: parent.left
-            anchors.leftMargin: parent.width/10
-            anchors.verticalCenter: parent.verticalCenter
-            opacity: newErrors ? 1.0 : 0.2
-            property color defaultColor;
-            color: newErrors ? Material.color(Material.Yellow) : (parent.highlighted ? defaultColor : Material.secondaryTextColor)
-            Component.onCompleted: defaultColor = parent.contentItem.color;
-          }
-          Label {
-            text: displayWindow.errorMessages.length > 0 ? String("(%1)").arg(displayWindow.errorMessages.length) : ""
-            font.family: "FontAwesome"
-            font.pointSize: 12
-            anchors.right: parent.right
-            anchors.rightMargin: parent.width/10
-            anchors.verticalCenter: parent.verticalCenter
-            Component.onCompleted: color = parent.contentItem.color;
           }
         }
         ToolButton {
@@ -528,21 +459,8 @@ ApplicationWindow {
           implicitWidth: displayWindow.width/16
           font.family: "FontAwesome"
           font.pointSize:  18
-          text: "§"
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutLicenseIndex
-          enabled: displayWindow.entitiesInitialized === true
-          onClicked: {
-            layoutStack.currentIndex=layoutStackEnum.layoutLicenseIndex;
-          }
-        }
-        ToolButton {
-          implicitHeight: parent.height
-          implicitWidth: displayWindow.width/16
-          font.family: "FontAwesome"
-          font.pointSize:  18
           text: FA.fa_info_circle
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
-          enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             layoutStack.currentIndex=layoutStackEnum.layoutStatusIndex;
           }
