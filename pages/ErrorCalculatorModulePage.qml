@@ -448,7 +448,7 @@ CCMP.ModulePage {
             anchors.rightMargin: 8
             implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
             font.pixelSize: height/2
-            text: "10"
+            text: GC.errorMarginUpperValue
 
             mouseSelectionMode: TextInput.SelectWords
             selectByMouse: true
@@ -480,7 +480,7 @@ CCMP.ModulePage {
             anchors.rightMargin: 8
             implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
             font.pixelSize: height/2
-            text: "-10"
+            text: GC.errorMarginLowerValue
 
             mouseSelectionMode: TextInput.SelectWords
             selectByMouse: true
