@@ -184,10 +184,10 @@ Item {
     height: root.height/10
     width: root.width/3
     color: Material.dropShadowColor
+    visible: sessionSelector.model.length > 1
 
     CCMP.ZComboBox {
       id: sessionSelector
-      visible: model.length > 1
 
       property QtObject systemEntity;
       property string intermediate
