@@ -187,6 +187,7 @@ Item {
 
     CCMP.ZComboBox {
       id: sessionSelector
+      visible: model.length > 1
 
       property QtObject systemEntity;
       property string intermediate
