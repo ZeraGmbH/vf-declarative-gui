@@ -195,14 +195,7 @@ Item {
       anchors.fill: parent
       arrayMode: true
       onIntermediateChanged: {
-        var tmpIndex;
-
-        if(intermediate === "com5003-meas-session.json")
-          tmpIndex=0;
-        else if(intermediate === "com5003-ref-session.json")
-          tmpIndex=1;
-        else if(intermediate === "com5003-ced-session.json")
-          tmpIndex=2;
+        var tmpIndex = model.indexOf(intermediate)
 
         if(tmpIndex !== undefined && sessionSelector.currentIndex !== tmpIndex)
         {
@@ -216,24 +209,6 @@ Item {
         if(systemEntity && systemEntity.SessionsAvailable)
         {
           systemEntity.Session = systemEntity.SessionsAvailable[tmpIndex];
-        }
-        else
-        {
-          switch(tmpIndex)
-          {
-          case 0:
-            VeinEntity.getEntity("_System").Session="com5003-meas-session.json";
-            break;
-          case 1:
-            VeinEntity.getEntity("_System").Session="com5003-ref-session.json";
-            break;
-          case 2:
-            VeinEntity.getEntity("_System").Session="com5003-ced-session.json";
-            break;
-          default:
-            console.assert(tmpIndex < 3 && tmpIndex > 0, "Faulty code in PagePathView::sessionSelector::onTargetIndexChanged");
-            break;
-          }
         }
 
         layoutStack.currentIndex=0;
