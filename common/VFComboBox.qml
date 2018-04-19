@@ -6,12 +6,16 @@ CCMP.ZComboBox {
   id: root
   property QtObject entity
   property string controlPropertyName
+  function setInitialIndex() {
+    if(entity && model) {
+      currentIndex = model.indexOf(entity[controlPropertyName]);
+    }
+  }
 
   automaticIndexChange: true
 
-  onModelChanged: {
-    currentIndex = model.indexOf(entity[controlPropertyName]);
-  }
+  onEntityChanged: setInitialIndex();
+  onModelChanged: setInitialIndex();
   onSelectedTextChanged: {
     if(entity[controlPropertyName] !== selectedText)
     {

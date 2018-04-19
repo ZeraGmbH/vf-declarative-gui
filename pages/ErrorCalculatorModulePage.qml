@@ -15,6 +15,9 @@ CCMP.ModulePage {
   clip: true
 
   readonly property QtObject errorCalculator: VeinEntity.getEntity("SEC1Module1")
+  readonly property QtObject p1m1: VeinEntity.getEntity("POWER1Module1")
+  readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
+  readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
   property int status: errorCalculator.ACT_Status
   property bool canStartMeasurement: status === statuses.idle || status === statuses.ready || status === statuses.aborted
 
@@ -247,6 +250,48 @@ CCMP.ModulePage {
 
             opacity: enabled ? 1.0 : 0.7
           }
+          VFControls.VFComboBox {
+            arrayMode: true
+
+            controlPropertyName: "PAR_MeasuringMode"
+            model: {
+              switch(cbRefInput.currentText) {
+              case "P":
+                return ModuleIntrospection.p1m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
+              case "Q":
+                return ModuleIntrospection.p1m2Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
+              case "S":
+                return ModuleIntrospection.p1m3Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
+              default:
+                console.assert("Unhandled condition")
+                return undefined;
+              }
+            }
+
+            entity: {
+              switch(cbRefInput.currentText) {
+              case "P":
+                return root.p1m1
+              case "Q":
+                return root.p1m2
+              case "S":
+                return root.p1m3
+              default:
+                console.assert("Unhandled condition")
+                return undefined;
+              }
+            }
+
+            contentRowHeight: height*1.2
+            contentFlow: GridView.FlowTopToBottom
+            centerVertical: true
+            centerVerticalOffset: height/2
+            anchors.right: cbRefInput.left
+            anchors.rightMargin: 1
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: parent.width/6
+          }
         }
         Rectangle {
           color: "transparent"
@@ -315,7 +360,7 @@ CCMP.ModulePage {
             VFControls.VFComboBox {
               id: cbDutConstantUnit
               anchors.right: parent.right
-              anchors.rightMargin: parent.width/2
+              anchors.rightMargin: parent.width/2 + 1
               enabled: root.canStartMeasurement
               arrayMode: true
 
@@ -324,7 +369,7 @@ CCMP.ModulePage {
               model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
 
               height: parent.height
-              width: parent.width/5
+              width: parent.width/6
 
 
               currentIndex: 0
