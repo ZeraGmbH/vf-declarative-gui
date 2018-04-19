@@ -65,8 +65,35 @@ Item {
 
   readonly property color tableShadeColor : "#003040"
 
-  readonly property real errorMarginUpperValue: parseFloat(settings.globalSettings.getOption("errorMarginUpperValue"))
-  readonly property real errorMarginLowerValue: parseFloat(settings.globalSettings.getOption("errorMarginLowerValue"))
+  Timer {
+    id: errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer
+    interval: 0
+    repeat: false
+    running: false
+    onTriggered: {
+      settings.globalSettings.setOption("errorMarginUpperValue", 10, true); //sane default
+      settings.globalSettings.setOption("errorMarginLowerValue", -10, true); //sane default
+    }
+  }
+
+  readonly property real errorMarginUpperValue: {
+    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginUpperValue"));
+    if(isNaN(retVal) ||  isFinite(retVal) === false)
+    {
+      errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
+    }
+    return retVal;
+  }
+
+
+  readonly property real errorMarginLowerValue: {
+    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginLowerValue"));
+    if(isNaN(retVal) || isFinite(retVal) === false)
+    {
+      errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
+    }
+    return retVal;
+  }
 
   function formatNumber(num, decimals) {
     if(typeof num === "string") //parsing strings as number is not desired
