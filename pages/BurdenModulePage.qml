@@ -107,6 +107,8 @@ CCMP.ModulePage {
             anchors.bottom: parent.bottom
             //anchors.bottomMargin: root.rowHeight*0.1
             width: root.width*0.09;
+            contentRowHeight: height*1.2
+            contentFlow: GridView.FlowTopToBottom
           }
         }
         VFControls.VFLineEdit {
