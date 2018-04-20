@@ -252,7 +252,7 @@ CCMP.ModulePage {
           }
           VFControls.VFComboBox {
             arrayMode: true
-
+            enabled: root.canStartMeasurement
             controlPropertyName: "PAR_MeasuringMode"
             model: {
               switch(cbRefInput.currentText) {
