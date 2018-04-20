@@ -106,10 +106,10 @@ Loader {
 
         boundsBehavior: ListView.StopAtBounds
         orientation: Qt.Horizontal
-        spacing: root.contentWidth*0.2
+        spacing: root.contentWidth*0.1
 
         delegate: Item {
-          width: root.contentWidth*0.8
+          width: root.contentWidth*0.9
           height: root.height/2
           Label {
             width: parent.width*0.5
@@ -142,10 +142,10 @@ Loader {
 
         boundsBehavior: ListView.StopAtBounds
         orientation: Qt.Horizontal
-        spacing: root.contentWidth*0.2
+        spacing: root.contentWidth*0.1
 
         delegate: Item {
-          width: root.contentWidth*0.8
+          width: root.contentWidth*0.9
           height: root.height/2
           Label {
             width: parent.width*0.5
