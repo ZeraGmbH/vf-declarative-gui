@@ -39,5 +39,15 @@ Item {
       wrapMode: Label.WordWrap
       text: String("<small>%1</small> <b>%2:</b> %3").arg(model.Time).arg(model.ModuleName).arg(ZTR[model.Error] !== undefined ? ZTR[model.Error] : model.Error);
     }
+    ScrollBar.vertical: ScrollBar {
+      width: 16
+      visible: lvErrorView.contentHeight>lvErrorView.height
+      Component.onCompleted: {
+        if(QT_VERSION >= 0x050900) //policy was added after 5.7
+        {
+          policy = ScrollBar.AlwaysOn;
+        }
+      }
+    }
   }
 }
