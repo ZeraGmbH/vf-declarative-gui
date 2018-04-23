@@ -200,7 +200,7 @@ CCMP.ModulePage {
 
             anchors.right: parent.right
             height: parent.height
-            width:parent.width/2
+            width: parent.width*0.45
 
             currentIndex: 0
             contentRowWidth: width
@@ -238,7 +238,7 @@ CCMP.ModulePage {
 
             anchors.right: parent.right
             height: parent.height
-            width:parent.width/2
+            width: parent.width*0.45
 
 
             currentIndex: 0
@@ -319,7 +319,7 @@ CCMP.ModulePage {
 
             anchors.right: parent.right
             height: parent.height
-            width:parent.width/2
+            width: parent.width*0.45
 
             currentIndex: 0
             contentRowWidth: width
@@ -344,7 +344,7 @@ CCMP.ModulePage {
             anchors.leftMargin: 4
             inputMethodHints: Qt.ImhPreferNumbers
             description.text: ZTR["DUT constant:"]
-            description.width: width*0.5
+            description.width: width*0.55
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_DutConstant"
@@ -360,7 +360,7 @@ CCMP.ModulePage {
             VFControls.VFComboBox {
               id: cbDutConstantUnit
               anchors.right: parent.right
-              anchors.rightMargin: parent.width/2 + 1
+              anchors.rightMargin: parent.width*0.45 + 1
               enabled: root.canStartMeasurement
               arrayMode: true
 
@@ -396,7 +396,7 @@ CCMP.ModulePage {
             anchors.leftMargin: 4
             inputMethodHints: Qt.ImhPreferNumbers
             description.text: ZTR["Energy:"]
-            description.width: width*0.5
+            description.width: width*0.55
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_Energy"
@@ -423,7 +423,7 @@ CCMP.ModulePage {
             anchors.leftMargin: 4
             inputMethodHints: Qt.ImhPreferNumbers
             description.text: ZTR["MRate:"]
-            description.width: width*0.5
+            description.width: width*0.55
 
             entity: root.errorCalculator
             controlPropertyName: "PAR_MRate"
