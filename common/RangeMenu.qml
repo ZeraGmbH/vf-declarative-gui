@@ -172,7 +172,7 @@ Item {
       enabled: !autoMode.checked
       color: enabled ? Material.primaryTextColor : Material.hintTextColor
       y: grid.cellHeight*5
-      height: grid.cellHeight*1
+      height: grid.cellHeight
       width: grid.cellWidth*16
     }
 

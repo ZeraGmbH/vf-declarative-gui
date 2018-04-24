@@ -107,6 +107,8 @@ Item {
     }
   }
 
+  readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp");
+
   function systemColorByIndex(index) {
     var retVal
     switch(index) {

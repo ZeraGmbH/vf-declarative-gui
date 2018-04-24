@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import "qrc:/vf-controls/common" as VF
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
+import GlobalConfig 1.0
 import ZeraTranslation  1.0
 
 Item {
@@ -148,6 +149,21 @@ Item {
       Label {
         font.pointSize: 14
         text: statusEnt.INF_AdjChksum
+      }
+    }
+    RowLayout {
+      width: parent.width
+      height: root.rowHeight
+      Label {
+        font.pointSize: 14
+        text: ZTR["IP address:"]
+      }
+      Item {
+        Layout.fillWidth: true
+      }
+      Label {
+        font.pointSize: 14
+        text: GC.serverIpAddress
       }
     }
   }
