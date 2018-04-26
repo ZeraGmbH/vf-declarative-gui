@@ -1,0 +1,9 @@
+[submodule "qnanopainter"]
+  path = 3rdparty/qnanopainter
+  url = https://github.com/QUItCoding/qnanopainter.git
+[submodule "JsonSettingsQML"]
+  path = 3rdparty/JsonSettingsQML
+  url = https://github.com/ZeraGmbH/JsonSettingsQML.git
+[submodule "SortFilterProxyModel"]
+  path = 3rdparty/SortFilterProxyModel
+  url = https://github.com/oKcerG/SortFilterProxyModel.git
