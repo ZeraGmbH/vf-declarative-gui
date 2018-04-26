@@ -5,60 +5,56 @@ QT += qml quick widgets opengl svg concurrent printsupport sql
 CONFIG += c++11
 
 #enable usefull warnings (some disabled due to qnanopainter)
-  QMAKE_CXXFLAGS += -Wall -Wextra -Wparentheses -Wsuggest-attribute=const #-Wold-style-cast
-  QMAKE_CXXFLAGS += -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual #-Wshadow
+QMAKE_CXXFLAGS += -Wall -Wextra -Wparentheses -Wsuggest-attribute=const #-Wold-style-cast
+QMAKE_CXXFLAGS += -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual #-Wshadow
 
 #give errors on nasty mistakes
-  QMAKE_CXXFLAGS += -Werror=ignored-qualifiers -Werror=return-type -Werror=return-local-addr -Werror=empty-body #-Werror=non-virtual-dtor -Werror=cast-qual
+QMAKE_CXXFLAGS += -Werror=ignored-qualifiers -Werror=return-type -Werror=return-local-addr -Werror=empty-body #-Werror=non-virtual-dtor -Werror=cast-qual
 
 #gcc refuses to optimize BBOM code, so warn about any such cases
-  QMAKE_CXXFLAGS += -Wdisabled-optimization
+QMAKE_CXXFLAGS += -Wdisabled-optimization
 
-
-contains(DEFINES, OE_BUILD) {
-  message(Openembedded build)
-
-  !exists($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri) {
-    error("Dependency 3rdparty/libnanopainter not found")
-  }
-  !exists($$PWD/3rdparty/json-settings/include.pri) {
-    error("Dependency 3rdparty/json-settings not found")
-  }
-  !exists($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri) {
-    error("Dependency 3rdparty/SortFilterProxyModel not found")
-  }
-
-  include($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri)
-  include($$PWD/3rdparty/json-settings/include.pri)
-  include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
+!exists($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri) {
+  error("Dependency 3rdparty/libnanopainter not found")
 }
-else {
-  include(/work/downloads/git-clones/qnanopainter/libqnanopainter/libqnanopainter.pri)
-  include(/work/qt_projects/JsonSettingsQML/json-settings.pri)
-  include(/work/downloads/git-clones/SortFilterProxyModel/SortFilterProxyModel.pri)
+!exists($$PWD/3rdparty/JsonSettingsQML/json-settings.pri) {
+  error("Dependency 3rdparty/JsonSettingsQML not found")
+}
+!exists($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri) {
+  error("Dependency 3rdparty/SortFilterProxyModel not found")
+}
 
-  INCLUDEPATH += /work/qt_projects/vein-framework/include/
-  INCLUDEPATH += /work/downloads/qwt-6.1.2/src/
+include($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri)
+include($$PWD/3rdparty/JsonSettingsQML/json-settings.pri)
+include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
 
-  #LIBS += -L/work/qt_projects/distrib/usr/lib/
 
-  unix:!android:LIBS += -L/work/qt_projects/vein-framework/libs_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}
-  unix:!android:LIBS += -L/work/downloads/build-qwt-Desktop_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}_GCC_64bit-Debug/lib/
-  #android:LIBS += -L/work/qt_projects/vein-framework/libs-android
-  #android:LIBS += -L/work/downloads/build-qwt-Android_f_r_armeabi_v7a_GCC_4_8_Qt_5_6_0-Debug/lib
+!contains(DEFINES, OE_BUILD) {
+  message(Developer build)
 
-  contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    ANDROID_EXTRA_LIBS = \
-      /work/qt_projects/vein-framework/libs-android/libvein-event.so \
-      /work/downloads/protobuf-2.5.0/build/lib/libprotobuf.so \
-      /work/qt_projects/vein-framework/libs-android/libvein-framework-protobuf.so \
-      /work/qt_projects/vein-framework/libs-android/libxiqnet.so \
-      /work/qt_projects/vein-framework/libs-android/libvein-component.so \
-      /work/qt_projects/vein-framework/libs-android/libvein-hash.so \
-      /work/qt_projects/vein-framework/libs-android/libvein-net.so \
-      /work/qt_projects/vein-framework/libs-android/libqml-veinentity.so \
-      /work/downloads/build-qwt-Android_f_r_armeabi_v7a_GCC_4_8_Qt_5_6_0-Debug/lib/libqwt.so
+  isEmpty(VF_INCDIR) {
+    error("Set VF_INCDIR to the vein-framework includepath")
+    #(example) in QtCreator add qmake argument: VF_INCDIR=<some path>/vein-framework/include/
   }
+  isEmpty(VF_LIBDIR) {
+    error("Set VF_LIBDIR to the path containing the vein-framework libraries")
+    #(example) in QtCreator add qmake argument: VF_LIBDIR=<some path>/vein-framework/libs_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}
+  }
+
+  isEmpty(QWT_INCDIR) {
+    error("Set QWT_INCDIR to the qwt includepath")
+    #(example) in QtCreator add qmake argument: QWT_INCDIR=<some path>/qwt-6.1.2/src/
+  }
+  isEmpty(QWT_LIBDIR) {
+    error("Set QWT_LIBDIR to the path containing libqwt")
+    #(example) in QtCreator add qmake argument: QWT_LIBDIR=<some path>/build-qwt-Desktop_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}_GCC_64bit-Debug/lib
+  }
+
+
+  INCLUDEPATH += $${VF_INCDIR}
+  INCLUDEPATH += $${QWT_INCDIR}
+  LIBS += -L$${VF_LIBDIR}
+  LIBS += -L$${QWT_LIBDIR}
 }
 
 SOURCES += src/main.cpp \
