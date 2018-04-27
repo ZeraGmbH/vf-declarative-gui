@@ -21,8 +21,6 @@
         <file>common/StyledChart.qml</file>
         <file>common/DebugRectangle.qml</file>
         <file>common/ZComboBox.qml</file>
-        <file>common/CanvasTriangle.qml</file>
-        <file>common/CanvasVector.qml</file>
         <file>common/RangeMenu.qml</file>
         <file>common/GridRect.qml</file>
         <file>common/ModuleIntrospection.qml</file>
