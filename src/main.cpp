@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QIcon>
 #include <QStandardPaths>
+#include <QDir>
 
 #include <ve_eventhandler.h>
 #include <vn_networksystem.h>
@@ -132,6 +133,12 @@ int main(int argc, char *argv[])
   if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
   {
     const QString targetPath = QString("%1/settings.json").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    QDir standardConfigPath;
+
+    if(!standardConfigPath.exists(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)))
+    {
+      standardConfigPath.mkdir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    }
     //copy from qrc to standard dir
     if(QFile::copy("://data/settings.json", targetPath))
     {
