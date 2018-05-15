@@ -49,7 +49,7 @@ ListModel {
     elementValue: "qrc:/pages/DFTModulePage.qml"
   }
   ListElement {
-    name: "4PV"
+    name: "RMS values"
     icon: "qrc:/data/staticdata/resources/appicon.png"
     elementValue: "qrc:/pages/RMS4PhasePage.qml"
   }
