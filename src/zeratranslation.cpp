@@ -195,6 +195,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Error calculator", tr("Error calculator"));
   insert("Burden values", tr("Burden values"));
   insert("Transformer values", tr("Transformer values"));
+  //: effective values
+  insert("RMS values", tr("RMS values"));
 
   //BurdenModulePage.qml
   insert("Voltage-Burden", tr("Voltage-Burden"));
@@ -237,6 +239,7 @@ void ZeraTranslation::reloadStringTable()
   insert("RESMAN set resource failed", tr("RESMAN set resource failed"));
   //: RESMAN = resource manager
   insert("RESMAN free resource failed", tr("RESMAN free resource failed"));
+
   insert("PCB dsp channel read failed", tr("PCB dsp channel read failed"));
   insert("PCB alias read failed", tr("PCB alias read failed"));
   insert("PCB sample rate read failed", tr("PCB sample rate read failed"));
@@ -252,8 +255,11 @@ void ZeraTranslation::reloadStringTable()
   insert("PCB get range failed", tr("PCB get range failed"));
   insert("PCB set measuring mode failed", tr("PCB set measuring mode failed"));
   insert("PCB read gain correction failed", tr("PCB read gain correction failed"));
+  insert("PCB set gain node failed", tr("PCB set gain node failed"));
   insert("PCB read offset correction failed", tr("PCB read offset correction failed"));
+  insert("PCB set offset node failed", tr("PCB set offset node failed"));
   insert("PCB read phase correction failed", tr("PCB read phase correction failed"));
+  insert("PCB set phase node failed", tr("PCB set phase node failed"));
   insert("PCB read channel status failed", tr("PCB read channel status failed"));
   insert("PCB reset channel status failed", tr("PCB reset channel status failed"));
   insert("PCB formfactor read failed", tr("PCB formfactor read failed"));
@@ -263,6 +269,17 @@ void ZeraTranslation::reloadStringTable()
   insert("PCB muxchannel read failed", tr("PCB muxchannel read failed"));
   insert("PCB reference constant read failed", tr("PCB reference constant read failed"));
   insert("PCB adjustment status read failed", tr("PCB adjustment status read failed"));
+  insert("PCB adjustment chksum read failed", tr("PCB adjustment chksum read failed"));
+  insert("PCB server version read failed", tr("PCB server version read failed"));
+  insert("PCB Controler version read failed", tr("PCB Controler version read failed"));
+  insert("PCB FPGA version read failed", tr("PCB FPGA version read failed"));
+  insert("PCB FPGA version read failed", tr("PCB FPGA version read failed"));
+  insert("PCB error messages read failed", tr("PCB error messages read failed"));
+  insert("PCB adjustment computation failed", tr("PCB adjustment computation failed"));
+  insert("PCB adjustment storage failed", tr("PCB adjustment storage failed"));
+  insert("PCB adjustment status setting failed", tr("PCB adjustment status setting failed"));
+  insert("PCB adjustment init failed", tr("PCB adjustment init failed"));
+
   insert("DSP read gain correction failed", tr("DSP read gain correction failed"));
   insert("DSP read phase correction failed", tr("DSP read phase correction failed"));
   insert("DSP read offset correction failed", tr("DSP read offset correction failed"));
@@ -276,6 +293,10 @@ void ZeraTranslation::reloadStringTable()
   insert("DSP data acquisition failed", tr("DSP data acquisition failed"));
   insert("DSP memory write failed", tr("DSP memory write failed"));
   insert("DSP subdc write failed", tr("DSP subdc write failed"));
+  insert("DSP server version read failed", tr("DSP server version read failed"));
+  insert("DSP program version read failed", tr("DSP program version read failed"));
+  insert("DSP setting sampling system failed", tr("DSP setting sampling system failed"));
+
   //: SEC = standard error calculator
   insert("SEC fetch ecalculator failed", tr("SEC fetch ecalculator failed"));
   //: SEC = standard error calculator
@@ -291,10 +312,16 @@ void ZeraTranslation::reloadStringTable()
   //: SEC = standard error calculator, cmdid = command id
   insert("SEC set cmdid failed", tr("SEC set cmdid failed"));
   //: SEC = standard error calculator
+  insert("SEC start measure failed", tr("SEC start measure failed"));
+  //: SEC = standard error calculator
   insert("SEC stop measure failed", tr("SEC stop measure failed"));
+
   insert("Interface JSON Document strange", tr("Interface JSON Document strange"));
   insert("Ethernet interface listen failed", tr("Ethernet interface listen failed"));
   insert("Serial interface not connected", tr("Serial interface not connected"));
+
+  insert("Actual Values not found", tr("Actual Values not found"));
+  insert("Release number not found", tr("Release number not found"));
 
   //StatusView.qml
   insert("Device info", tr("Device info"));
