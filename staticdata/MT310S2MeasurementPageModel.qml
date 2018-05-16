@@ -30,12 +30,12 @@ ListModel {
   }
   ListElement {
     name: "Burden values"
-    icon: "qrc:/data/staticdata/resources/appicon.png"
+    icon: "qrc:/data/staticdata/resources/burden.png"
     elementValue: "qrc:/pages/BurdenModulePage.qml"
   }
   ListElement {
     name: "Transformer values"
-    icon: "qrc:/data/staticdata/resources/appicon.png"
+    icon: "qrc:/data/staticdata/resources/transformer.png"
     elementValue: "qrc:/pages/TransformerModulePage.qml"
   }
   ListElement {
@@ -50,7 +50,7 @@ ListModel {
   }
   ListElement {
     name: "RMS values"
-    icon: "qrc:/data/staticdata/resources/appicon.png"
+    icon: "qrc:/data/staticdata/resources/rms_values.png"
     elementValue: "qrc:/pages/RMS4PhasePage.qml"
   }
 }

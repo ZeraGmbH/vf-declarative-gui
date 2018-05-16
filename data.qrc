@@ -35,5 +35,6 @@
         <file>staticdata/resources/x_1.png</file>
         <file>staticdata/resources/x_sqrt_3.png</file>
         <file>staticdata/licenses/zera-opensource</file>
+        <file>staticdata/resources/rms_values.png</file>
     </qresource>
 </RCC>
