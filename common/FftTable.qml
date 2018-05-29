@@ -14,7 +14,6 @@ Item {
   id: root
 
   readonly property QtObject glueLogic: ZGL;
-  readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
   readonly property int channelCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount;
   readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
   property int rowHeight: Math.floor(height/20)
