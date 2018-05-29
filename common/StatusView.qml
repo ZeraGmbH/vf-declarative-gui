@@ -11,7 +11,6 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 Item {
   id: root
 
-  readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
   readonly property int rowHeight: Math.floor(height/20)
   property var errorDataModel: [];
 
