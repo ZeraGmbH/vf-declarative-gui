@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
   });
 
   QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, [&]() {
-    qmlApi->setRequiredIds(QList<int>()<<0);
+    qmlApi->entitySubscribeById(0);
   });
 
   QObject::connect(&app, &QApplication::aboutToQuit, [&]() {

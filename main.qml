@@ -22,7 +22,6 @@ ApplicationWindow {
   property bool debugBypass: false;
   property string currentSession;
   property var requiredIds: [];
-  property var resolvedIds: []; //may only contain ids that are also in requiredIds
   property var errorMessages: [];
   property bool measuringPaused: false;
 
@@ -86,22 +85,63 @@ ApplicationWindow {
     }
     }
 
-    resolvedIds = [];
+    for(var oldId in VeinEntity.getEntityList())
+    {
+      if(requiredIds.indexOf(oldId)<0) //not contained
+      {
+        VeinEntity.entityUnsubscribeById(oldId);
+      }
+    }
 
     requiredIds.sort();
-    VeinEntity.setRequiredIds(requiredIds);
-    startupStatusLabel.text = ZTR["Loading: %1/%2"].arg(resolvedIds.length).arg(requiredIds.length);
-    startupStatusLabel.visible = true;
+    for(var subscriptionId in requiredIds)
+    {
+      VeinEntity.entitySubscribeById(requiredIds[subscriptionId]);
+    }
   }
 
-  Label {
-    id: startupStatusLabel
-    text: ZTR["Loading..."];
-    anchors.centerIn: parent
+  Timer {
+    id: entityTimeout
+    interval: 5000
+    repeat: false
+    running: VeinEntity.state !== VeinEntity.VQ_LOADED;
+    onTriggered: {
+      console.error("Could not load all required modules, given up after", interval/1000, "seconds\nRequired:", requiredIds.sort(), "\nResolved:", VeinEntity.getEntityList().sort());
+    }
   }
 
   Connections {
     target: VeinEntity
+    onStateChanged: {
+      if(t_state === VeinEntity.VQ_LOADED)
+      {
+        if(currentSession === "com5003-meas-session.json")
+        {
+          pageView.model = com5003MeasModel
+        }
+        else if(currentSession === "com5003-ref-session.json")
+        {
+          pageView.model = com5003RefModel
+        }
+        else if(currentSession === "com5003-ced-session.json")
+        {
+          pageView.model = com5003CedModel
+        }
+        else if(currentSession === "mt310s2-meas-session.json")
+        {
+          pageView.model = mt310s2MeasModel
+        }
+
+        console.log("Loaded session: ", currentSession);
+        ModuleIntrospection.reloadIntrospection();
+        pageLoader.active = true;
+        rangeIndicator.active = true;
+        pageView.currentValue = pageView.model.firstElement;
+        loadingScreen.close();
+        displayWindow.entitiesInitialized = true;
+      }
+    }
+
     onSigEntityAvailable: {
       var checkRequired = false;
       var entId = VeinEntity.getEntity(t_entityName).entityId()
@@ -119,50 +159,6 @@ ApplicationWindow {
         measuringPaused = Qt.binding(function() {
           return VeinEntity.getEntity("_System").ModulesPaused;
         });
-      }
-
-      if(requiredIds.indexOf(entId) > -1) //required
-      {
-        if(resolvedIds.indexOf(entId) < 0) //resolved
-        {
-          resolvedIds.push(entId);
-          startupStatusLabel.text = ZTR["Loading: %1/%2"].arg(resolvedIds.length).arg(requiredIds.length);
-          checkRequired = true;
-        }
-      }
-
-
-      if(checkRequired) //in case of other entities being added when the session is already loaded
-      {
-        resolvedIds.sort(); //requiredIds is sorted once in onCurrentSessionChanged()
-        if(JSON.stringify(requiredIds) == JSON.stringify(resolvedIds))
-        {
-          startupStatusLabel.visible=false
-          if(currentSession === "com5003-meas-session.json")
-          {
-            pageView.model = com5003MeasModel
-          }
-          else if(currentSession === "com5003-ref-session.json")
-          {
-            pageView.model = com5003RefModel
-          }
-          else if(currentSession === "com5003-ced-session.json")
-          {
-            pageView.model = com5003CedModel
-          }
-          else if(currentSession === "mt310s2-meas-session.json")
-          {
-            pageView.model = mt310s2MeasModel
-          }
-
-          console.log("Loaded session: ", currentSession);
-          ModuleIntrospection.reloadIntrospection();
-          pageLoader.active = true;
-          rangeIndicator.active = true;
-          pageView.currentValue = pageView.model.firstElement;
-          loadingScreen.close();
-          displayWindow.entitiesInitialized = true;
-        }
       }
     }
   }
@@ -291,7 +287,7 @@ ApplicationWindow {
       anchors.top: parent.top
       anchors.bottom: controlsBar.top
       anchors.margins: 8
-      currentIndex: displayWindow.currentSession !== "" ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutStatusIndex
+      currentIndex: (displayWindow.entitiesInitialized || displayWindow.errorMessages.length === 0) ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutStatusIndex
 
       QtObject {
         id: layoutStackEnum
