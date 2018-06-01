@@ -336,7 +336,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Microcontroller firmware version:", tr("Microcontroller firmware version:"));
   insert("Adjustment status:", tr("Adjustment status:"));
   insert("Adjustment checksum:", tr("Adjustment checksum:"));
-  insert("IP address:", tr("IP address:"));
+  insert("IP addresses:", tr("IP addresses:"));
 
   //Notifications.qml
   insert("Device notifications", tr("Device notifications"));

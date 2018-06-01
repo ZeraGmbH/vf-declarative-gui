@@ -10,6 +10,7 @@ import ZeraTranslation  1.0
 Item {
   id: root
 
+  readonly property QtObject systemEnt: VeinEntity.getEntity("_System");
   readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
   readonly property int rowHeight: Math.floor(height/20)
 
@@ -156,14 +157,14 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["IP address:"]
+        text: ZTR["IP addresses:"]
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
         font.pointSize: 14
-        text: GC.serverIpAddress
+        text: "["+systemEnt.ServerAddressList.join(", ")+"]";
       }
     }
   }
