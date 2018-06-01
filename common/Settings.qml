@@ -138,8 +138,7 @@ SettingsView {
               ListView {
                 clip: true
                 Layout.fillWidth: true
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
+                height: parent.height
                 model: root.channelCount
                 orientation: ListView.Horizontal
                 spacing: 6

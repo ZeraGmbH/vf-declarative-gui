@@ -174,9 +174,8 @@ Item {
       id: searchFieldSelector
       model: searchableProperties
       implicitWidth: root.width/4
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.margins: 4
+      height: parent.height - 8 //margins
+      Layout.alignment: Qt.AlignVCenter
       displayText: ZTR[currentText]
       //flat: false
 
@@ -195,7 +194,6 @@ Item {
       id: selectedSearchField
       placeholderText: "Regex search"
       selectByMouse: true
-      anchors.top: parent.top
       implicitWidth: topBar.width/3
       onAccepted: root.searchFile();
       Rectangle {

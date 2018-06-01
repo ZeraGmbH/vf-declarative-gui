@@ -34,6 +34,7 @@ Item {
         onClicked: licenseLV.currentIndex = index
         highlighted: licenseLV.currentIndex === index
       }
+      boundsBehavior: height>=contentHeight ?  Flickable.StopAtBounds  : Flickable.DragAndOvershootBounds
     }
     ColumnLayout {
       id: contentLayout
@@ -45,8 +46,7 @@ Item {
       Flickable {
         id: licenseFlickable
         Layout.fillHeight: true
-        anchors.left: parent.left
-        anchors.right: parent.right
+        width: parent.width
         contentHeight: licenseText.contentHeight
         clip: true
         boundsBehavior: licenseFlickable.height>=licenseText.contentHeight ?  Flickable.StopAtBounds  : Flickable.DragAndOvershootBounds
