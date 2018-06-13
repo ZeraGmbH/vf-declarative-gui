@@ -376,7 +376,7 @@ void BarChart::setLeftAxisLogScaleEnabled(bool t_leftAxisLogScaleEnabled)
 
 void BarChart::setLeftAxisMaxValue(double t_leftAxisMaxValue)
 {
-  Q_ASSERT(isnan(t_leftAxisMaxValue) == false);
+  Q_ASSERT(std::isnan(t_leftAxisMaxValue) == false);
   double tmpScale=1;
   if(m_logScaleLeftAxis)
   {
@@ -397,7 +397,7 @@ void BarChart::setLeftAxisMaxValue(double t_leftAxisMaxValue)
 
 void BarChart::setLeftAxisMinValue(double t_leftAxisMinValue)
 {
-  Q_ASSERT(isnan(t_leftAxisMinValue) == false);
+  Q_ASSERT(std::isnan(t_leftAxisMinValue) == false);
   m_minValueLeftAxis = t_leftAxisMinValue;
   double tmpScale=1;
   if(m_logScaleLeftAxis)
@@ -504,7 +504,7 @@ void BarChart::setRightAxisLogScaleEnabled(bool t_rightAxisLogScaleEnabled)
 
 void BarChart::setRightAxisMaxValue(double t_rightAxisMaxValue)
 {
-  Q_ASSERT(isnan(t_rightAxisMaxValue) == false);
+  Q_ASSERT(std::isnan(t_rightAxisMaxValue) == false);
   double tmpScale=1;
   if(m_logScaleRightAxis)
   {
@@ -525,7 +525,7 @@ void BarChart::setRightAxisMaxValue(double t_rightAxisMaxValue)
 
 void BarChart::setRightAxisMinValue(double t_rightAxisMinValue)
 {
-  Q_ASSERT(isnan(t_rightAxisMinValue) == false);
+  Q_ASSERT(std::isnan(t_rightAxisMinValue) == false);
   double tmpScale=1;
   m_minValueRightAxis = t_rightAxisMinValue;
   if(m_logScaleRightAxis)
