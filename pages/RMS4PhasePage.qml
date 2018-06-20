@@ -79,7 +79,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: AUX ? GC.formatNumber(AUX) : ""
+            text: AUX!==undefined ? GC.formatNumber(AUX) : ""
             textColor: GC.system4ColorDark
             font.pixelSize: Math.min(height*0.65, width*0.125)
           }
