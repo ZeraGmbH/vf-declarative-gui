@@ -223,41 +223,41 @@ class ZeraGlueLogicPrivate
     using namespace CommonTable;
     //column names
     QModelIndex mIndex = m_actValueData->index(0, 0);
-    m_actValueData->setData(mIndex, "L1", RoleIndexes::L1);
-    m_actValueData->setData(mIndex, "L2", RoleIndexes::L2);
-    m_actValueData->setData(mIndex, "L3", RoleIndexes::L3);
-    m_actValueData->setData(mIndex, "AUX", RoleIndexes::AUX);
+    m_actValueData->setData(mIndex, m_translation->value("L1"), RoleIndexes::L1);
+    m_actValueData->setData(mIndex, m_translation->value("L2"), RoleIndexes::L2);
+    m_actValueData->setData(mIndex, m_translation->value("L3"), RoleIndexes::L3);
+    m_actValueData->setData(mIndex, m_translation->value("AUX"), RoleIndexes::AUX);
     m_actValueData->setData(mIndex, "Σ", RoleIndexes::SUM);
     m_actValueData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     //row names
     //mIndex = m_actValueData->index(0, 0); //none
     mIndex = m_actValueData->index(1, 0);
-    m_actValueData->setData(mIndex, QObject::tr("UPN", "phase to neutral"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(2, 0);
-    m_actValueData->setData(mIndex, QObject::tr("UPP", "phase to phase"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("UPP"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(3, 0);
-    m_actValueData->setData(mIndex, QObject::tr("kU", "harmonic distortion"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(4, 0);
-    m_actValueData->setData(mIndex, QObject::tr("I", "current"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(5, 0);
-    m_actValueData->setData(mIndex, QObject::tr("kI", "harmonic distortion"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(6, 0);
-    m_actValueData->setData(mIndex, QObject::tr("∠U", "phase"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("∠U"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(7, 0);
-    m_actValueData->setData(mIndex, QObject::tr("∠I", "phase"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("∠I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(8, 0);
-    m_actValueData->setData(mIndex, QObject::tr("∠UI", "phase difference"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(9, 0);
-    m_actValueData->setData(mIndex, QObject::tr("λ", "power factor"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("λ"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(10, 0);
-    m_actValueData->setData(mIndex, QObject::tr("P", "power"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("P"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(11, 0);
-    m_actValueData->setData(mIndex, QObject::tr("Q", "reactive power"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("Q"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(12, 0);
-    m_actValueData->setData(mIndex, QObject::tr("S", "apparent power"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("S"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(13, 0);
-    m_actValueData->setData(mIndex, QObject::tr("F", "frequency"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->value("F"), RoleIndexes::NAME);
 
     //unit names
     mIndex = m_actValueData->index(1, 0);
@@ -378,23 +378,23 @@ class ZeraGlueLogicPrivate
   {
     using namespace CommonTable;
     QModelIndex mIndex = m_burden1Data->index(0, 0);
-    m_burden1Data->setData(mIndex, "BRD1", RoleIndexes::L1);
-    m_burden1Data->setData(mIndex, "BRD2", RoleIndexes::L2);
-    m_burden1Data->setData(mIndex, "BRD3", RoleIndexes::L3);
+    m_burden1Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
+    m_burden1Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
+    m_burden1Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
     m_burden1Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden1Data->index(1, 0);
-    m_burden1Data->setData(mIndex, QObject::tr("UPN", "phase to neutral"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(2, 0);
-    m_burden1Data->setData(mIndex, QObject::tr("I", "current"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(3, 0);
-    m_burden1Data->setData(mIndex, QObject::tr("∠UI", "phase difference"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(4, 0);
-    m_burden1Data->setData(mIndex, QObject::tr("Sb", "operating burden"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(5, 0);
-    m_burden1Data->setData(mIndex, QObject::tr("cos(β)", "cosinus beta"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(6, 0);
-    m_burden1Data->setData(mIndex, QObject::tr("Sn", "operating burden in %, relative to the nominal burden"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
 
     //unit names
     mIndex = m_burden1Data->index(1, 0);
@@ -412,23 +412,23 @@ class ZeraGlueLogicPrivate
 
 
     mIndex = m_burden2Data->index(0, 0);
-    m_burden2Data->setData(mIndex, "BRD1", RoleIndexes::L1);
-    m_burden2Data->setData(mIndex, "BRD2", RoleIndexes::L2);
-    m_burden2Data->setData(mIndex, "BRD3", RoleIndexes::L3);
+    m_burden2Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
+    m_burden2Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
+    m_burden2Data->setData(mIndex, m_translation->value( "BRD3"), RoleIndexes::L3);
     m_burden2Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden2Data->index(1, 0);
-    m_burden2Data->setData(mIndex, QObject::tr("UPN", "phase to neutral"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(2, 0);
-    m_burden2Data->setData(mIndex, QObject::tr("I", "current"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(3, 0);
-    m_burden2Data->setData(mIndex, QObject::tr("∠UI", "phase difference"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(4, 0);
-    m_burden2Data->setData(mIndex, QObject::tr("Sb", "operating burden"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(5, 0);
-    m_burden2Data->setData(mIndex, QObject::tr("cos(β)", "cosinus beta"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(6, 0);
-    m_burden2Data->setData(mIndex, QObject::tr("Sn", "operating burden in %, relative to the nominal burden"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
 
     //unit names
     mIndex = m_burden2Data->index(1, 0);

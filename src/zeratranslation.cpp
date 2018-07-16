@@ -34,7 +34,7 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
     QLocale locale = QLocale(m_currentLanguage);
     QLocale::setDefault(locale);
     QString languageName = QLocale::languageToString(locale.language());
-    const QString filename = ":/translations/com5003-gui_%1.qm"; ///@todo change to /opt/zera/translation/lang_%1.qm or /usr/share/zera/translation
+    const QString filename = ":/translations/mt310s2_%1.qm"; ///@todo change to /home/operator/translations ? see class description todo
 
 
     qApp->removeTranslator(&m_translator);
@@ -42,7 +42,7 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
     if(m_translator.load(filename.arg(t_language)))
     {
       qApp->installTranslator(&m_translator);
-      qDebug() << "Current Language changed to" << languageName;
+      qDebug() << "Current Language changed to" << languageName << locale << t_language;
       reloadStringTable();
     }
     else
@@ -75,12 +75,36 @@ void ZeraTranslation::reloadStringTable()
   insert("2LS", tr("2LS", "2 Leiter Scheinleistung = 2 wire apparent power"));
   insert("2LSg", tr("2LSg", "2 Leiter Scheinleistung geometrisch = 2 wire apparent power geometric"));
 
+  insert("UPN", tr("UPN","voltage pase to neutral"));
+  insert("UPP", tr("UPP","voltage phase to phase"));
+  insert("kU", tr("kU","harmonic distortion on voltage"));
+  insert("I", tr("I","current"));
+  insert("kI", tr("kI","harmonic distortion on current"));
+  insert("∠U", tr("∠U","phase difference of voltage to reference channel"));
+  insert("∠I", tr("∠I","phase difference of current to reference channel"));
+  insert("∠UI", tr("∠UI","phase difference"));
+  insert("λ", tr("λ","power factor"));
+  //: needs to be short enough to fit
+  insert("P", tr("P","active power"));
+  //: needs to be short enough to fit
+  insert("Q", tr("Q","reactive power"));
+  //: needs to be short enough to fit
+  insert("S", tr("S","apparent power"));
+  insert("F", tr("F","frequency"));
+
+  insert("Sb", tr("Sb", "standard burden"));
+  insert("cos(β)", tr("cos(β)", "cosinus beta"));
+  insert("Sn", tr("Sn", "operating burden in %, relative to the nominal burden"));
+  insert("BRD1", tr("BRD1", "burden system name"));
+  insert("BRD2", tr("BRD2", "burden system name"));
+  insert("BRD3", tr("BRD3", "burden system name"));
+
+
   //PagePathView.qml
   //: as in "close this view"
   insert("Close", tr("Close", "not open"));
   insert("Accept", tr("Accept"));
   insert("Save", tr("Save"));
-  insert("Proceed", tr("Proceed"));
   insert("Default session", tr("Default session"));
   insert("Reference session", tr("Reference session"));
   //: changing energy direction session
@@ -104,6 +128,9 @@ void ZeraTranslation::reloadStringTable()
   //RangePeak.qml
   insert("Peak values", tr("Peak values"));
   insert("Logarithmic scale", tr("Logarithmic scale"));
+  insert("RPV_ABSOLUTE", tr("Absolute"));
+  insert("RPV_ABSOLUTE_LOGSCALE", tr("Logarithmic"));
+  insert("RPV_RELATIVE_TO_LIMIT", tr("Relative to channel limit"));
 
   //Settings.qml
   //: settings specific to the GUI application

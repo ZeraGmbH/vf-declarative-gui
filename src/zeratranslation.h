@@ -9,8 +9,8 @@ class QJSEngine;
 QT_END_NAMESPACE
 
 /**
- * @brief
- * @todo add search path variable for .ts files: /usr/share/vf-gui-com5003/translations as default ?
+ * @brief Translation mapper with builtin qml notifications
+ * @todo add search path variable for .ts files: /home/operator/translations as default ? Would allow user defined translations if lrelease would be available on the device
  */
 class ZeraTranslation : public QQmlPropertyMap
 {
