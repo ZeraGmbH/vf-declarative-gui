@@ -300,25 +300,6 @@ Popup {
         height: 8
         width: parent.width
       }
-      Label {
-        text: "Actual value:"
-        font.bold: true
-        anchors.left: parent.left
-        anchors.right: parent.right
-        visible: valueLabel.text !== ""
-      }
-      Label {
-        id: valueLabel
-        readonly property var compValue: root.currentItem ? VeinEntity.getEntity(root.currentItem.entName)[root.currentItem.compName] : ""
-        text: root.currentItem ? compValue.toString() : ""
-        anchors.left: parent.left
-        anchors.right: parent.right
-        wrapMode: Text.WrapAnywhere
-        elide: Text.ElideRight
-        maximumLineCount: 3
-        height: 200
-        visible: text !== ""
-      }
     }
 
     Button {
