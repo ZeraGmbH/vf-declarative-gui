@@ -11,6 +11,10 @@ Item {
 
   property bool interactive: true
 
+  Component.onCompleted: {
+    initModel();
+  }
+
   function updateDataObject(prop, text) {
     if(interactive === true && editableDataObject !== undefined)
     {
@@ -18,146 +22,88 @@ Item {
     }
   }
 
-  Component {
-    id: generalDelegate
-    RowLayout {
-      height: root.rowHeight
-      width: root.width/2 - root.padding*2
-      Label { text: ZTR[generalProperties[index]]; width: contentWidth; height: root.rowHeight }
-      Item { Layout.fillWidth: true; height: root.rowHeight } //spacer
-      TextField { text: customerData[generalProperties[index]]; implicitWidth: parent.width/1.5; height: root.rowHeight; selectByMouse: true; readOnly: !dataEditor.interactive; onTextChanged: updateDataObject(generalProperties[index], text);
-      }
+  function initModel() {
+    for(var gpIndex in generalProperties)
+    {
+      objModel.append({ propertyName: generalProperties[gpIndex], section: "" });
+    }
+    for(var cIndex in customerProperties)
+    {
+      objModel.append({ propertyName: customerProperties[cIndex], section: ZTR["Customer"] });
+    }
+    for(var pIndex in powergridProperties)
+    {
+      objModel.append({ propertyName: powergridProperties[pIndex], section: ZTR["Power grid"] });
+    }
+    for(var lIndex in locationProperties)
+    {
+      objModel.append({ propertyName: locationProperties[lIndex], section: ZTR["Location"] });
+    }
+    for(var mIndex in meterProperties)
+    {
+      objModel.append({ propertyName: meterProperties[mIndex], section: ZTR["Meter information"] });
     }
   }
-  Component {
-    id: customerDelegate
-    RowLayout {
-      height: root.rowHeight
-      width: root.width/2 - root.padding*2
-      Label { text: ZTR[customerProperties[index]]; width: contentWidth; height: root.rowHeight }
-      Item { Layout.fillWidth: true; height: root.rowHeight } //spacer
-      TextField { text: customerData[customerProperties[index]]; implicitWidth: parent.width/1.5; height: root.rowHeight; selectByMouse: true; readOnly: !dataEditor.interactive; onTextChanged: updateDataObject(customerProperties[index], text); }
-    }
-  }
-  Component {
-    id: powergridDelegate
-    RowLayout {
-      height: root.rowHeight
-      width: root.width/2 - root.padding*2
-      Label { text: ZTR[powergridProperties[index]]; width: contentWidth; height: root.rowHeight }
-      Item { Layout.fillWidth: true; height: root.rowHeight } //spacer
-      TextField { text: customerData[powergridProperties[index]]; implicitWidth: parent.width/1.5; height: root.rowHeight; selectByMouse: true; readOnly: !dataEditor.interactive; onTextChanged: updateDataObject(powergridProperties[index], text); }
-    }
+
+  ListModel {
+    id: objModel
   }
 
   ListView {
     id: generalView
     width: root.width
-    model: generalProperties.length
-    delegate: generalDelegate
-    anchors.top: parent.top
-    anchors.left: parent.left
-    height: count*rowHeight/2
-    boundsBehavior: Flickable.StopAtBounds
-    orientation: ListView.Horizontal
-    spacing: root.padding*2
-  }
+    model: objModel
+    anchors.fill: parent
+    anchors.margins: 2
+    clip: true
+    //keep everything in the buffer to not lose input data
+    cacheBuffer: model.count * root.rowHeight*1.2 //delegate height
+    delegate: RowLayout {
+      property string propName: propertyName;
+      height: root.rowHeight*1.2
+      width: root.width - root.padding*2 - gvScrollBar.width*1.5
+      Label {
+        text: ZTR[propName];
+        width: contentWidth;
+        height: root.rowHeight
+      }
+      //spacer
+      Item {
+        Layout.fillWidth: true;
+        height: root.rowHeight
+      }
+      TextField {
+        text: customerData[propName];
+        Layout.fillWidth: true;
+        Layout.maximumWidth: parent.width/1.3;
+        height: root.rowHeight;
+        selectByMouse: true;
+        readOnly: !dataEditor.interactive;
+        onTextChanged: updateDataObject(propName, text);
+      }
+    }
+    //boundsBehavior: Flickable.StopAtBounds
+    //orientation: ListView.Horizontal
+    //spacing: root.padding*2
 
-  ListView {
-    id: customerView
-    width: root.width/2 - root.padding*2
-    model: customerProperties.length
-    delegate: customerDelegate
-    anchors.top: generalView.bottom
-    anchors.topMargin: root.rowHeight-4
-    anchors.left: parent.left
-    height: count*rowHeight
-    boundsBehavior: Flickable.StopAtBounds
-    Label {
-      anchors.bottom: parent.top
-      anchors.bottomMargin: -8
-      text: ZTR["Customer"]
+    section.property: "section"
+    section.criteria: ViewSection.FullString
+    section.delegate: Label {
+      height: root.rowHeight*1.5
+      verticalAlignment: Text.AlignBottom
+      text: section
       font.pointSize: 16
       font.bold: true
     }
-  }
-  ListView {
-    id: powergridView
-    width: root.width/2 - root.padding*2
-    model: powergridProperties.length
-    delegate: powergridDelegate
-    anchors.top: customerView.bottom
-    anchors.topMargin: root.rowHeight-4
-    anchors.left: parent.left
-    height: count*rowHeight
-    boundsBehavior: Flickable.StopAtBounds
-    Label {
-      anchors.bottom: parent.top
-      anchors.bottomMargin: -8
-      text: ZTR["Power grid"]
-      font.pointSize: 16
-      font.bold: true
-    }
-  }
 
-
-  Component {
-    id: locationDelegate
-    RowLayout {
-      height: root.rowHeight
-      width: root.width/2 - root.padding*2
-      Label { text: ZTR[locationProperties[index]]; width: contentWidth; height: root.rowHeight }
-      Item { Layout.fillWidth: true; height: root.rowHeight } //spacer
-      TextField { text: customerData[locationProperties[index]]; implicitWidth: parent.width/1.5; height: root.rowHeight; selectByMouse: true; readOnly: !dataEditor.interactive; onTextChanged: updateDataObject(locationProperties[index], text); }
-    }
-  }
-  Component {
-    id: meterDelegate
-    RowLayout {
-      height: root.rowHeight
-      width: root.width/2 - root.padding*2
-      Label { text: ZTR[meterProperties[index]]; width: contentWidth; height: root.rowHeight }
-      Item { Layout.fillWidth: true; height: root.rowHeight } //spacer
-      TextField { text: customerData[meterProperties[index]]; implicitWidth: parent.width/1.5; height: root.rowHeight; selectByMouse: true; readOnly: !dataEditor.interactive; onTextChanged: updateDataObject(meterProperties[index], text); }
-    }
-  }
-
-  ListView {
-    id: locationView
-    width: root.width/2 - root.padding*2
-    model: locationProperties.length
-    delegate: locationDelegate
-    anchors.top: generalView.bottom
-    anchors.topMargin: root.rowHeight-4
-    anchors.left: customerView.right
-    anchors.leftMargin: root.padding*2
-    height: count*rowHeight
-    boundsBehavior: Flickable.StopAtBounds
-    Label {
-      anchors.bottom: parent.top
-      anchors.bottomMargin: -8
-      text: ZTR["Location"]
-      font.pointSize: 16
-      font.bold: true
-    }
-  }
-  ListView {
-    id: meterView
-    width: root.width/2 - root.padding*2
-    model: meterProperties.length
-    delegate: meterDelegate
-    anchors.top: customerView.bottom
-    anchors.topMargin: root.rowHeight-4
-    anchors.left: powergridView.right
-    anchors.leftMargin: root.padding*2
-    height: count*rowHeight
-    boundsBehavior: Flickable.StopAtBounds
-    Label {
-      anchors.bottom: parent.top
-      anchors.bottomMargin: -8
-      text: ZTR["Meter information"]
-      font.pointSize: 16
-      font.bold: true
+    ScrollBar.vertical: ScrollBar {
+      id: gvScrollBar
+      Component.onCompleted: {
+        if(QT_VERSION >= 0x050900) //policy was added after 5.7
+        {
+          policy = Qt.binding(function (){return generalView.contentHeight > generalView.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; });
+        }
+      }
     }
   }
 }

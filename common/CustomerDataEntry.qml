@@ -44,8 +44,6 @@ Popup {
       text: FA.fa_archive
       font.family: "FontAwesome"
       font.pixelSize: 20
-      onClicked: {
-      }
     }
     TabButton {
       id: viewButton
@@ -54,8 +52,7 @@ Popup {
       font.family: "FontAwesome"
       font.pixelSize: 20
       height: parent.height
-      onClicked: {
-      }
+      enabled: currentFile.length>0
     }
     TabButton {
       id: editButton
@@ -64,8 +61,7 @@ Popup {
       text: FA.fa_edit
       font.family: "FontAwesome"
       font.pixelSize: 20
-      onClicked: {
-      }
+      enabled: currentFile.length>0
     }
   }
 
@@ -106,7 +102,7 @@ Popup {
 
   Item {
     id: buttonContainer
-    height: root.rowHeight*1.8;
+    height: root.rowHeight*1.4;
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
