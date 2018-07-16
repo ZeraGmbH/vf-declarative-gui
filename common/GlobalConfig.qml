@@ -9,7 +9,7 @@ Item {
     * @b default configuration values and utility functions
     */
 
- ZeraGlobalSettings {
+  ZeraGlobalSettings {
     id: settings
   }
 
@@ -31,10 +31,25 @@ Item {
     settings.globalSettings.setOption("fft_as_table", setValue);
   }
 
-  readonly property bool showRangePeakAsLogAxis : parseInt(settings.globalSettings.getOption("range_peak_logarithmic"))
-  function setShowRangePeakAsLogAxis(isLogarithmic) {
-    var setValue = isLogarithmic ? 1 : 0;
-    settings.globalSettings.setOption("range_peak_logarithmic", setValue);
+  readonly property var rangePeakVisualisationEnum: {
+    "RPV_ABSOLUTE" : 0,
+    "RPV_ABSOLUTE_LOGSCALE" : 1,
+    "RPV_RELATIVE_TO_LIMIT" : 2
+  }
+
+
+  readonly property real rangePeakVisualisation : parseInt(settings.globalSettings.getOption("range_peak_logarithmic")) ///@todo rename config key?
+  function setRangePeakVisualisation(rangePeakVisualisation) {
+    if(typeof rangePeakVisualisation === "number"
+        && rangePeakVisualisation >=0
+        && rangePeakVisualisation < Object.keys(rangePeakVisualisationEnum).length)
+    {
+      settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisation);
+    }
+    else if(rangePeakVisualisationEnum[rangePeakVisualisation] !== undefined)
+    {
+      settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[rangePeakVisualisation]);
+    }
   }
 
   function setSystemColorByIndex(index, color) {
@@ -110,7 +125,7 @@ Item {
   readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp");
 
   function systemColorByIndex(index) {
-    var retVal
+    var retVal;
     switch(index) {
     case 1:
       retVal = system1ColorDark;
