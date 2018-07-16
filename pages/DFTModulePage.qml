@@ -29,7 +29,6 @@ CCMP.ModulePage {
 
   CCMP.ZComboBox {
     id: viewModeSelector
-    z: 1 + currentOnOffSelector.z + dinIECSelector.z
     arrayMode: true
     model: ["VEC  UL  PN", "VEC  UL  △", "VEC  UL  ∠"]
 
@@ -48,7 +47,6 @@ CCMP.ModulePage {
 
   CCMP.ZComboBox {
     id: currentOnOffSelector
-    z: 1 + dinIECSelector.z
     arrayMode: true
     model: ["VEC  IL  ON", "VEC  IL  OFF"]
 
@@ -65,7 +63,6 @@ CCMP.ModulePage {
 
   CCMP.ZComboBox {
     id: dinIECSelector
-    z: 1
     arrayMode: true
     model: ["DIN410", "IEC387"]
 
