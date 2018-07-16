@@ -45,9 +45,9 @@ BarChart::BarChart(QQuickItem *parent):
   canvas->setFrameStyle(QFrame::Box | QFrame::Plain);
   canvas->setBorderRadius(0);
 
-  plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw());
-  plot->setAxisScaleDraw(QwtPlot::yRight, new SideScaleDraw());
-  plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw());
+  plot->setAxisScaleDraw(QwtPlot::yLeft, new SideScaleDraw()); //cleaned up by the plot
+  plot->setAxisScaleDraw(QwtPlot::yRight, new SideScaleDraw()); //cleaned up by the plot
+  plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw()); //cleaned up by the plot
 
   plot->setCanvas(canvas);
 
@@ -140,8 +140,6 @@ void BarChart::paint(QPainter *t_painter)
   plot->render(t_painter);
 }
 
-
-
 bool BarChart::leftAxisLogScale() const
 {
   return m_logScaleLeftAxis;
@@ -170,6 +168,12 @@ QColor BarChart::leftAxisColor() const
 QString BarChart::leftAxisTitle() const
 {
   return plot->axisTitle(QwtPlot::yLeft).text();
+}
+
+QString BarChart::leftScaleTransform() const
+{
+  Q_ASSERT(plot->axisScaleDraw(QwtPlot::yLeft) != nullptr);
+  return static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yLeft))->getTextTransform();
 }
 
 bool BarChart::rightAxisLogScale() const
@@ -205,6 +209,12 @@ bool BarChart::rightAxisEnabled() const
 QString BarChart::rightAxisTitle() const
 {
   return plot->axisTitle(QwtPlot::yLeft).text();
+}
+
+QString BarChart::rightScaleTransform() const
+{
+  Q_ASSERT(plot->axisScaleDraw(QwtPlot::yRight) != nullptr);
+  return static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yRight))->getTextTransform();
 }
 
 void BarChart::onExternValuesChanged()
@@ -402,8 +412,7 @@ void BarChart::setLeftAxisMinValue(double t_leftAxisMinValue)
   double tmpScale=1;
   if(m_logScaleLeftAxis)
   {
-    Q_ASSERT(t_leftAxisMinValue>0);
-    while(tmpScale>t_leftAxisMinValue)
+    while(t_leftAxisMinValue != 0 && tmpScale>t_leftAxisMinValue)
     {
       tmpScale=tmpScale/10;
     }
@@ -478,6 +487,12 @@ void BarChart::setLeftAxisColor(QColor t_leftAxisColor)
 void BarChart::setLeftAxisTitle(QString t_leftAxisTitle)
 {
   plot->setAxisTitle(QwtPlot::yLeft, t_leftAxisTitle);
+}
+
+void BarChart::setLeftScaleTransform(const QString &t_leftAxisTransform)
+{
+  Q_ASSERT(plot->axisScaleDraw(QwtPlot::yLeft) != nullptr);
+  static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yLeft))->setTextTransform(t_leftAxisTransform);
 }
 
 void BarChart::setRightAxisLogScaleEnabled(bool t_rightAxisLogScaleEnabled)
@@ -611,6 +626,12 @@ void BarChart::setRightAxisEnabled(bool t_rightAxisEnabled)
 void BarChart::setRightAxisTitle(QString t_rightAxisTitle)
 {
   plot->setAxisTitle(QwtPlot::yRight, t_rightAxisTitle);
+}
+
+void BarChart::setRightScaleTransform(const QString &t_rightAxisTransform)
+{
+    Q_ASSERT(plot->axisScaleDraw(QwtPlot::yRight) != nullptr);
+    static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yRight))->setTextTransform(t_rightAxisTransform);
 }
 
 void BarChart::onExternValuesChangedTimeout()

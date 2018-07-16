@@ -33,6 +33,9 @@ class BarChart : public QQuickPaintedItem
 
   Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
 
+
+
+
   //left axis
   Q_PROPERTY(bool leftAxisLogScale READ leftAxisLogScale WRITE setLeftAxisLogScaleEnabled)
   Q_PROPERTY(QList<QVariant> leftAxisBars READ leftAxisBars WRITE setLeftAxisBars NOTIFY leftAxisBarsChanged)
@@ -40,6 +43,7 @@ class BarChart : public QQuickPaintedItem
   Q_PROPERTY(double leftAxisMinValue READ leftAxisMinValue WRITE setLeftAxisMinValue)
   Q_PROPERTY(QColor leftAxisColor READ leftAxisColor WRITE setLeftAxisColor)
   Q_PROPERTY(QString leftAxisTitle READ leftAxisTitle WRITE setLeftAxisTitle)
+  Q_PROPERTY(QString leftScaleTransform READ leftScaleTransform WRITE setLeftScaleTransform)
 
   //right axis
   Q_PROPERTY(bool rightAxisLogScale READ rightAxisLogScale WRITE setRightAxisLogScaleEnabled)
@@ -49,6 +53,7 @@ class BarChart : public QQuickPaintedItem
   Q_PROPERTY(QColor rightAxisColor READ rightAxisColor WRITE setRightAxisColor)
   Q_PROPERTY(bool rightAxisEnabled READ rightAxisEnabled WRITE setRightAxisEnabled)
   Q_PROPERTY(QString rightAxisTitle READ rightAxisTitle WRITE setRightAxisTitle)
+  Q_PROPERTY(QString rightScaleTransform READ rightScaleTransform WRITE setRightScaleTransform)
 
 public:
   BarChart(QQuickItem *parent = 0);
@@ -82,6 +87,7 @@ public:
   QList<QVariant> leftAxisBars() const;
   QColor leftAxisColor() const;
   QString leftAxisTitle() const;
+  QString leftScaleTransform() const;
 
   //right axis
   bool rightAxisLogScale() const;
@@ -91,6 +97,7 @@ public:
   QColor rightAxisColor() const;
   bool rightAxisEnabled() const;
   QString rightAxisTitle() const;
+  QString rightScaleTransform() const;
 
 public slots:
   void onExternValuesChanged();
@@ -111,6 +118,7 @@ public slots:
   void setLeftAxisBars(QList<QVariant> t_leftAxisValues);
   void setLeftAxisColor(QColor t_leftAxisColor);
   void setLeftAxisTitle(QString t_leftAxisTitle);
+  void setLeftScaleTransform(const QString &t_leftAxisTransform);
 
   //right axis
   void setRightAxisLogScaleEnabled(bool t_rightAxisLogScaleEnabled);
@@ -120,6 +128,7 @@ public slots:
   void setRightAxisColor(QColor t_rightAxisColor);
   void setRightAxisEnabled(bool t_rightAxisEnabled);
   void setRightAxisTitle(QString t_rightAxisTitle);
+  void setRightScaleTransform(const QString &t_rightAxisTransform);
 
 signals:
   void bgColorChanged(QColor t_bgColor);
