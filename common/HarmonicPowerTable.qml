@@ -37,7 +37,7 @@ CCMP.ModulePage {
         width: root.columnWidth*2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "P1"
+        text: ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPW1.ChannelName
         textColor: GC.system1ColorDark
         textHorizontalAlignment: Label.AlignHCenter
         font.pixelSize: rowHeight
@@ -47,7 +47,7 @@ CCMP.ModulePage {
         width: root.columnWidth*2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "P2"
+        text: ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPW2.ChannelName
         textHorizontalAlignment: Label.AlignHCenter
         textColor: GC.system2ColorDark
         font.pixelSize: rowHeight
@@ -57,7 +57,7 @@ CCMP.ModulePage {
         width: root.columnWidth*2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "P3"
+        text: ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPW3.ChannelName
         textHorizontalAlignment: Label.AlignHCenter
         textColor: GC.system3ColorDark
         font.pixelSize: rowHeight
