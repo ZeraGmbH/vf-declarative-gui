@@ -174,91 +174,91 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL1 ? GC.formatNumber(AmplitudeL1, 3) : ""
+              text: AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1, 3) : ""
               textColor: GC.system1ColorDark
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL1 ? GC.formatNumber(VectorL1, 3) : ""
+              text: VectorL1 !== undefined ? GC.formatNumber(VectorL1, 3) : ""
               textColor: GC.system1ColorDark
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL2 ? GC.formatNumber(AmplitudeL2, 3) : ""
+              text: AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2, 3) : ""
               textColor: GC.system2ColorDark
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL2 ? GC.formatNumber(VectorL2, 3) : ""
+              text: VectorL2 !== undefined ? GC.formatNumber(VectorL2, 3) : ""
               textColor: GC.system2ColorDark
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL3 ? GC.formatNumber(AmplitudeL3, 3) : ""
+              text: AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3, 3) : ""
               textColor: GC.system3ColorDark
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL3 ? GC.formatNumber(VectorL3, 3) : ""
+              text: VectorL3 !== undefined ? GC.formatNumber(VectorL3, 3) : ""
               textColor: GC.system3ColorDark
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL4 ? GC.formatNumber(AmplitudeL4, 3) : ""
+              text: AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4, 3) : ""
               textColor: GC.system1ColorBright
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL4 ? GC.formatNumber(VectorL4, 3) : ""
+              text: VectorL4 !== undefined ? GC.formatNumber(VectorL4, 3) : ""
               textColor: GC.system1ColorBright
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL5 ? GC.formatNumber(AmplitudeL5, 3) : ""
+              text: AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5, 3) : ""
               textColor: GC.system2ColorBright
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL5 ? GC.formatNumber(VectorL5, 3) : ""
+              text: VectorL5 !== undefined ? GC.formatNumber(VectorL5, 3) : ""
               textColor: GC.system2ColorBright
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL6 ? GC.formatNumber(AmplitudeL6, 3) : ""
+              text: AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6, 3) : ""
               textColor: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL6 ? GC.formatNumber(VectorL6, 3) : ""
+              text: VectorL6 !== undefined ? GC.formatNumber(VectorL6, 3) : ""
               textColor: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
             }
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL7 ? GC.formatNumber(AmplitudeL7, 3) : ""
+              text: AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : ""
               textColor: GC.system4ColorDark
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
@@ -266,7 +266,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL7 ? GC.formatNumber(VectorL7, 3) : ""
+              text: VectorL7 !== undefined ? GC.formatNumber(VectorL7, 3) : ""
               textColor: GC.system4ColorDark
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
@@ -274,7 +274,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL8 ? GC.formatNumber(AmplitudeL8, 3) : ""
+              text: AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : ""
               textColor: GC.system4ColorBright
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
@@ -282,7 +282,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: VectorL8 ? GC.formatNumber(VectorL8, 3) : ""
+              text: VectorL8 !== undefined ? GC.formatNumber(VectorL8, 3) : ""
               textColor: GC.system4ColorBright
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
