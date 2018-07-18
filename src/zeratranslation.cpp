@@ -75,6 +75,11 @@ void ZeraTranslation::reloadStringTable()
   insert("2LS", tr("2LS", "2 Leiter Scheinleistung = 2 wire apparent power"));
   insert("2LSg", tr("2LSg", "2 Leiter Scheinleistung geometrisch = 2 wire apparent power geometric"));
 
+  insert("L1", tr("L1", "measuring system 1"));
+  insert("L2", tr("L2", "measuring system 2"));
+  insert("L3", tr("L3", "measuring system 3"));
+  insert("AUX", tr("AUX", "auxiliary measuring system"));
+
   insert("UPN", tr("UPN","voltage pase to neutral"));
   insert("UPP", tr("UPP","voltage phase to phase"));
   insert("kU", tr("kU","harmonic distortion on voltage"));
@@ -98,7 +103,6 @@ void ZeraTranslation::reloadStringTable()
   insert("BRD1", tr("BRD1", "burden system name"));
   insert("BRD2", tr("BRD2", "burden system name"));
   insert("BRD3", tr("BRD3", "burden system name"));
-
 
   //PagePathView.qml
   //: as in "close this view"
