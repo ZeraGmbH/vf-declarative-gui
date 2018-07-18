@@ -148,7 +148,7 @@ Popup {
 
   TextField {
     id: availSearchField
-    placeholderText: "Regex search"
+    placeholderText: ZTR["Regex search"]
     selectByMouse: true
     anchors.top: parent.top
     anchors.left: parent.left
@@ -162,7 +162,7 @@ Popup {
     anchors.bottom: availSearchField.top
     anchors.horizontalCenter: availSearchField.horizontalCenter
     font.pointSize: 10
-    text: "Available for recording"
+    text: ZTR["Available for recording"]
   }
 
   ListView {
@@ -201,7 +201,7 @@ Popup {
   }
   TextField {
     id: selectedSearchField
-    placeholderText: "Regex search"
+    placeholderText: ZTR["Regex search"]
     selectByMouse: true
     anchors.top: parent.top
     anchors.right: parent.right
@@ -214,7 +214,7 @@ Popup {
     anchors.bottom: selectedSearchField.top
     anchors.horizontalCenter: selectedSearchField.horizontalCenter
     font.pointSize: 10
-    text: "Selected for recording"
+    text: ZTR["Selected for recording"]
   }
   ListView {
     id: selectedView
@@ -262,7 +262,7 @@ Popup {
       anchors.fill: parent
 
       Label {
-        text: "Description:"
+        text: ZTR["Description:"]
         font.bold: true
         anchors.left: parent.left
         anchors.right: parent.right
@@ -281,7 +281,7 @@ Popup {
         width: parent.width
       }
       Label {
-        text: "Unit:"
+        text: ZTR["Unit:"]
         font.bold: true
         anchors.left: parent.left
         anchors.right: parent.right

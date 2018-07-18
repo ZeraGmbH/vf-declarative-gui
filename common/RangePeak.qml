@@ -75,7 +75,7 @@ Item {
     }
 
     Label {
-      text: "Scale visualisation:"
+      text: ZTR["Scale visualisation:"]
       anchors.right: parent.left
       anchors.rightMargin: 8
       font.pointSize: 14

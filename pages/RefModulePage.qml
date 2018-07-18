@@ -5,7 +5,7 @@ import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
 import GlobalConfig 1.0
-
+import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 
 CCMP.ModulePage {
@@ -26,7 +26,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: "REF1"
+      text: ZTR["REF1"]
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -34,7 +34,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: "REF2"
+      text: ZTR["REF2"]
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -42,7 +42,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: "REF3"
+      text: ZTR["REF3"]
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -50,7 +50,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: "REF4"
+      text: ZTR["REF4"]
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -58,7 +58,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: "REF5"
+      text: ZTR["REF5"]
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -66,7 +66,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: "REF6"
+      text: ZTR["REF6"]
       font.bold: true
       font.pixelSize: height*0.3
     }

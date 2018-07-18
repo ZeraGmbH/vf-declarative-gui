@@ -29,19 +29,19 @@ Item {
     }
     for(var cIndex in customerProperties)
     {
-      objModel.append({ propertyName: customerProperties[cIndex], section: ZTR["Customer"] });
+      objModel.append({ propertyName: customerProperties[cIndex], section: "Customer" });
     }
     for(var pIndex in powergridProperties)
     {
-      objModel.append({ propertyName: powergridProperties[pIndex], section: ZTR["Power grid"] });
+      objModel.append({ propertyName: powergridProperties[pIndex], section: "Power grid" });
     }
     for(var lIndex in locationProperties)
     {
-      objModel.append({ propertyName: locationProperties[lIndex], section: ZTR["Location"] });
+      objModel.append({ propertyName: locationProperties[lIndex], section: "Location" });
     }
     for(var mIndex in meterProperties)
     {
-      objModel.append({ propertyName: meterProperties[mIndex], section: ZTR["Meter information"] });
+      objModel.append({ propertyName: meterProperties[mIndex], section: "Meter information" });
     }
   }
 
@@ -81,6 +81,10 @@ Item {
         readOnly: !dataEditor.interactive;
         onTextChanged: updateDataObject(propName, text);
       }
+      //spacer
+      Item {
+        width: 4
+      }
     }
     //boundsBehavior: Flickable.StopAtBounds
     //orientation: ListView.Horizontal
@@ -91,7 +95,7 @@ Item {
     section.delegate: Label {
       height: root.rowHeight*1.5
       verticalAlignment: Text.AlignBottom
-      text: section
+      text: ZTR[section]
       font.pointSize: 16
       font.bold: true
     }

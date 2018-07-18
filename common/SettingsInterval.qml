@@ -74,7 +74,7 @@ Column {
       }
       CCMP.SpinBoxIntrospection {
         property var timeIntrospection: ModuleIntrospection.introMap[timeList[0].EntityName];
-        unit: "seconds";
+        unit: ZTR["seconds"];
         upperBound: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
         lowerBound: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
         stepSize: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2];

@@ -5,7 +5,7 @@ import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
 import GlobalConfig 1.0
-
+import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 
 CCMP.ModulePage {
@@ -62,7 +62,7 @@ CCMP.ModulePage {
         width: wideRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "L1"
+        text: ZTR["L1"]
         textColor: GC.system1ColorDark
         font.pixelSize: height*0.3
         font.bold: true
@@ -71,7 +71,7 @@ CCMP.ModulePage {
         width: wideRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "L2"
+        text: ZTR["L2"]
         textColor: GC.system2ColorDark
         font.pixelSize: height*0.3
         font.bold: true
@@ -80,7 +80,7 @@ CCMP.ModulePage {
         width: wideRowWidth
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "L3"
+        text: ZTR["L3"]
         textColor: GC.system3ColorDark
         font.pixelSize: height*0.3
         font.bold: true

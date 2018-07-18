@@ -131,6 +131,7 @@ void ZeraTranslation::reloadStringTable()
 
   //RangePeak.qml
   insert("Peak values", tr("Peak values"));
+  insert("Scale visualisation:", tr("Scale visualisation:"));
   insert("Logarithmic scale", tr("Logarithmic scale"));
   insert("RPV_ABSOLUTE", tr("Absolute"));
   insert("RPV_ABSOLUTE_LOGSCALE", tr("Logarithmic"));
@@ -159,6 +160,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Integration time interval:", tr("Integration time interval:"));
   //: measurement period based integration interval
   insert("Integration period interval:", tr("Integration period interval:"));
+  insert("seconds", tr("seconds"));
 
   //main.qml
   insert("Loading...", tr("Loading..."));
@@ -248,6 +250,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Imaginary", tr("Imaginary", "complex number part"));
 
   //TransformerModulePage.qml
+  insert("TR1", tr("TR1", "transformer system 1"));
   insert("X-Prim:", tr("X-Prim:"));
   insert("X-Sec:", tr("X-Sec:"));
   insert("Ms-Prim:", tr("Ms-Prim:"));
@@ -395,6 +398,13 @@ void ZeraTranslation::reloadStringTable()
   insert("Select recorded values:", tr("Select recorded values:"));
   insert("Manage customer data:", tr("Manage customer data:"));
   insert("Snapshot", tr("Snapshot"));
+
+  //LoggerDatasetSelector.qml
+  insert("Regex search", tr("Regex search", "regular expression search"));
+  insert("Available for recording", tr("Available for recording", "list of selectable elements"));
+  insert("Selected for recording", tr("Selected for recording", "list of selected elements"));
+  insert("Description:", tr("Description:"));
+  insert("Unit:", tr("Unit:", "SI or SI derived unit"));
 
   //CustomerDataEntry.qml
   insert("Customer data", tr("Customer data"));

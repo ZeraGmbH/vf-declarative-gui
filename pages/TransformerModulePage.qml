@@ -175,14 +175,14 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "Name"
+        text: ""
         font.bold: true
       }
       CCMP.GridItem {
         width: root.width*0.6
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "TR1"
+        text: ZTR["TR1"]
         font.bold: true
       }
       CCMP.GridItem {

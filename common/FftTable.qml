@@ -85,7 +85,7 @@ Item {
             height: root.rowHeight
             color: GC.tableShadeColor
             Label {
-              text: ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName
+              text: ZTR[ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName]
               anchors.centerIn: parent
               anchors.rightMargin: 8
               font.pixelSize: rowHeight
