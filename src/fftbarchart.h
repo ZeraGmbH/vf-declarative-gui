@@ -143,19 +143,19 @@ private:
   QwtPlot *m_plot;
 
   //left axis
-  bool m_logScaleLeftAxis;
+  bool m_logScaleLeftAxis = false;
   BarData *m_barDataLeft;
-  double m_maxValueLeftAxis;
-  double m_minValueLeftAxis;
+  double m_maxValueLeftAxis = 0.0;
+  double m_minValueLeftAxis = 0.0;
   QList<qreal> m_valuesLeftAxis;
   QColor m_colorLeftAxis;
-  int m_leftBarCount;
+  int m_leftBarCount = 0;
 
   //right axis
-  bool m_logScaleRightAxis;
+  bool m_logScaleRightAxis = false;
   BarData *m_barDataRight;
-  double m_maxValueRightAxis;
-  double m_minValueRightAxis;
+  double m_maxValueRightAxis = 0.0;
+  double m_minValueRightAxis = 0.0;
   QList<qreal> m_valuesRightAxis;
   QColor m_colorRightAxis;
 
