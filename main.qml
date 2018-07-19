@@ -348,9 +348,51 @@ ApplicationWindow {
         }
       }
     }
+    ListModel {
+      id: syslogModel
+
+      Component.onCompleted: {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          var entryNum = 0;
+          switch(xhr.readyState)
+          {
+          case XMLHttpRequest.HEADERS_RECEIVED:
+            console.log("Headers -->", xhr.getAllResponseHeaders());
+            break;
+          case XMLHttpRequest.LOADING:
+            entryNum = syslogModel.count; //the response always contains the full data, but we need to parse only the new entries
+            //[fallthrough]
+          case XMLHttpRequest.DONE:
+            var a = xhr.responseText.split("\n");
+            if(entryNum>0)
+            {
+              console.log("processing partial data for", a.length-entryNum-1, "entries")
+            }
+            for(; entryNum<a.length; ++entryNum)
+            {
+              var jsonString = a[entryNum];
+              if(jsonString.indexOf("{") === 0 && jsonString.lastIndexOf("}") === jsonString.length-1) //do not process partial json data
+              {
+                var jsonItem = JSON.parse(jsonString);
+                //showProps(jsonItem);
+                syslogModel.append(jsonItem);
+              }
+            }
+            break;
+          default:
+            break;
+          }
+        }
+        xhr.open("GET", "http://"+GC.serverIpAddress+":19531/entries?follow&boot")//"&_SYSTEMD_UNIT=modulemanager.service&_SYSTEMD_UNIT=com5003d.service&_SYSTEMD_UNIT=sec1000d.service")
+        xhr.setRequestHeader("Accept", "application/json")
+        xhr.send();
+      }
+    }
+
     Component {
       id: statusCmp
-      CCMP.StatusView { errorDataModel: displayWindow.errorMessages }
+      CCMP.StatusView { errorDataModel: syslogModel }
     }
     Component {
       id: loggerCmp
