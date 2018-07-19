@@ -66,7 +66,8 @@ int main(int argc, char *argv[])
   app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
   ZeraTranslation *zeraTranslation = new ZeraTranslation(&app);
-  zeraTranslation->changeLanguage(QLocale::system().bcp47Name());
+  //load defaults as there could be no language available
+  zeraTranslation->changeLanguage("C");
   ZeraTranslation::setStaticInstance(zeraTranslation);
   QmlFileIO::setStaticInstance(new QmlFileIO(&app));
 

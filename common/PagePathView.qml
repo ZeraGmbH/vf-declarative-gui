@@ -224,11 +224,11 @@ Item {
         if(systemEntity && systemEntity.SessionsAvailable) {
           for(var sessionIndex in systemEntity.SessionsAvailable)
           {
-            retVal.push(ZTR[ systemEntity.SessionsAvailable[sessionIndex] ]);
+            retVal.push(systemEntity.SessionsAvailable[sessionIndex]);
           }
         }
         else {
-          retVal = [ZTR["Default session"], ZTR["Reference session"], ZTR["CED session"]]; //fallback
+          retVal = ["Default session", "Reference session", "CED session"]; //fallback
         }
 
         return retVal;
