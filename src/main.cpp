@@ -30,6 +30,10 @@
 
 int main(int argc, char *argv[])
 {
+  //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
+  //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
+  //qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
+
   QStringList loggingFilters = QStringList() << QString("%1.debug=false").arg(VEIN_EVENT().categoryName()) <<
                                                 QString("%1.debug=false").arg(VEIN_NET_VERBOSE().categoryName()) <<
                                                 QString("%1.debug=false").arg(VEIN_NET_INTRO_VERBOSE().categoryName()) << //< Introspection logging is still enabled
@@ -132,12 +136,13 @@ int main(int argc, char *argv[])
 
   if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
   {
-    const QString targetPath = QString("%1/settings.json").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
-    QDir standardConfigPath;
+    const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    const QString targetPath = QString("%1/settings.json").arg(standardPath);
+    QDir standardConfigDirectory;
 
-    if(!standardConfigPath.exists(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)))
+    if(!standardConfigDirectory.exists(standardPath))
     {
-      standardConfigPath.mkdir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+      standardConfigDirectory.mkdir(standardPath);
     }
     //copy from qrc to standard dir
     if(QFile::copy("://data/settings.json", targetPath))
