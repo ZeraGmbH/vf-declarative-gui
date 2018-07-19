@@ -69,13 +69,15 @@ Item {
           decimals: GC.ceilLog10Of1DividedByX(introspection.stepSize);
         }
 
-        textFromValue: function(value, locale) {
+        function localTextToValue(value, locale) {
           return Number(value / 100).toLocaleString(locale, 'f', valueSpinBox.decimals)
         }
+        textFromValue: localTextToValue;
 
-        valueFromText: function(text, locale) {
+        function localValueToText(text, locale) {
           return Number.fromLocaleString(locale, text) * 100
         }
+        valueFromText: localValueToText;
 
         Connections {
           target: valueSpinBox.contentItem //this is the TextInput
@@ -94,7 +96,7 @@ Item {
         height: parent.height
         text: introspection.unit
         font.pixelSize: Math.max(height/3, 20)
-        anchors.verticalCenter: parent.verticalCenter
+        verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
       }
 
