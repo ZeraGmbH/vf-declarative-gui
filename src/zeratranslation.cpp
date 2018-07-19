@@ -385,7 +385,8 @@ void ZeraTranslation::reloadStringTable()
   //LoggerSettings.qml
   insert("Database Logging", tr("Database Logging"));
   insert("Logging enabled:", tr("Logging enabled:"));
-  insert("Database file:", tr("Database file:"));
+  insert("Database location:", tr("Database location:"));
+  insert("Database filename:", tr("Database filename:"));
   insert("Filesystem info:", tr("Filesystem info:"));
   insert("Device name: <b>%1</b>", tr("Device name: <b>%1</b>"));
   insert("Filesystem type: <b>%1</b>", tr("Filesystem type: <b>%1</b>"));

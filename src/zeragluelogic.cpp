@@ -414,7 +414,7 @@ class ZeraGlueLogicPrivate
     mIndex = m_burden2Data->index(0, 0);
     m_burden2Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
     m_burden2Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
-    m_burden2Data->setData(mIndex, m_translation->value( "BRD3"), RoleIndexes::L3);
+    m_burden2Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
     m_burden2Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden2Data->index(1, 0);

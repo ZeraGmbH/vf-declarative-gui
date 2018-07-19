@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.0
+import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/components/common" as CCMP
@@ -17,6 +18,21 @@ CCMP.SettingsView {
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
   property bool snapshotTrigger: false;
   readonly property bool logEnabled: loggerEntity.LoggingEnabled
+  property var listStorageTracer;
+  property var storageList: [];
+  property string completeDBPath: (storageList.length > 0 && fileNameField.acceptableInput) ? storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
+
+  Component.onCompleted: updateStorageList();
+
+  onLogEnabledChanged: {
+    if(snapshotTrigger === true && logEnabled === true)
+    {
+      snapshotTrigger = false;
+      loggerEntity.LoggingEnabled  = false;
+    }
+  }
+
+  rowHeight: 48 //height/12
 
   function msToTime(t_mSeconds) {
     var retVal = "";
@@ -51,15 +67,46 @@ CCMP.SettingsView {
     return Number(mSeconds);
   }
 
-  onLogEnabledChanged: {
-    if(snapshotTrigger === true && logEnabled === true)
+  function updateStorageList() {
+    if(!listStorageTracer)
     {
-      snapshotTrigger = false;
-      loggerEntity.LoggingEnabled  = false;
+      console.log("Updating storage");
+      listStorageTracer = loggerEntity.invokeRPC("listStorages()", ({}))
+    }
+    else
+    {
+      console.warn("Storage list update already in progress");
     }
   }
 
-  rowHeight: height/12
+  Connections {
+    target: loggerEntity
+    onSigRPCFinished: {
+      if(t_resultData["RemoteProcedureData::resultCode"] !== 0)
+      {
+        console.warn("RPC error:", t_resultData["RemoteProcedureData::errorMessage"]);
+      }
+
+      if(t_identifier === listStorageTracer)
+      {
+        storageList = t_resultData["ZeraDBLogger::storageList"];
+        listStorageTracer = undefined;
+        if(storageList.length>0)
+        {
+          var fileName = loggerEntity.DatabaseFile;
+          for(var storageIdx in storageList)
+          {
+            if(fileName.indexOf(storageList[storageIdx]) === 0)
+            {
+              var fileNameNoExtension = fileName.replace(".db", "");
+              dbLocationSelector.currentIndex = storageIdx;
+              fileNameField.text = fileNameNoExtension.replace(storageList[storageIdx]+"/", "");
+            }
+          }
+        }
+      }
+    }
+  }
 
   Loader {
     id: loggerDataSelection
@@ -138,40 +185,158 @@ CCMP.SettingsView {
 
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Database file:"]
+          text: ZTR["Database location:"]
+          font.pixelSize: 20
+        }
+        Item {
+          //spacer
+          width: 8
+        }
+
+        Item {
+          height: root.rowHeight
+          width: storageListIndicator.width
+          visible: root.storageList.length === 0 && storageListIndicator.opacity === 0;
+          Label {
+            anchors.centerIn: parent
+            id: storageListWarning
+            font.family: "FontAwesome"
+            font.pixelSize: 20
+            text: FA.fa_exclamation_triangle
+            color: Material.color(Material.Yellow)
+
+
+            MouseArea {
+              anchors.fill: parent
+              anchors.margins: -8
+              onClicked: console.log("tooltip")
+            }
+          }
+        }
+        BusyIndicator {
+          id: storageListIndicator
+
+          implicitHeight: root.rowHeight
+          implicitWidth: height
+          opacity: root.listStorageTracer !== undefined
+          Behavior on opacity {
+            NumberAnimation { from: 1; duration: 1000; }
+          }
+          visible: storageListWarning.visible === false
+        }
+        ComboBox {
+          id: dbLocationSelector
+          model: root.storageList;
+          implicitWidth: root.width/2;
+          height: root.rowHeight
+          enabled: root.storageList.length > 0
+          Layout.fillWidth: true
+        }
+        Button {
+          font.family: "FontAwesome"
+          font.pixelSize: 20
+          text: FA.fa_refresh
+          onClicked: {
+            if(root.listStorageTracer === undefined)
+            {
+              root.updateStorageList();
+            }
+          }
+        }
+      }
+    }
+    Item {
+      enabled: root.storageList.length > 0
+      height: root.rowHeight;
+      width: root.rowWidth;
+
+      RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+
+        Label {
+          textFormat: Text.PlainText
+          text: ZTR["Database filename:"]
           font.pixelSize: 20
         }
         Item {
           //spacer
           width: 16
         }
+
         Label {
           font.family: "FontAwesome"
           font.pixelSize: 20
           text: FA.fa_exclamation_triangle
           color: Material.color(Material.Yellow)
           visible: loggerEntity.DatabaseReady === false
-        }
-        VF.VFTextInput {
-          id: dbPathInput
-          entity: root.loggerEntity
-          controlPropertyName: "DatabaseFile"
 
-          Layout.fillWidth: true
-          height: root.rowHeight
-          validator: RegExpValidator {
-            //disallow \ space : ? * " < > | /.. \0 //
-            regExp: /(?!.*(\\|\s|:|\?|\*|"|<|>|\||\/\.\.|\0|\/\/))^(\/)([^/\0]+(\/)?)+/
+          MouseArea {
+            anchors.fill: parent
+            anchors.margins: -8
+            onClicked: console.log("tooltip")
           }
-          fontSize: 18
+        }
+        //        VF.VFTextInput {
+        //          id: dbPathInput
+        //          entity: root.loggerEntity
+        //          controlPropertyName: "DatabaseFile"
+
+        //          Layout.fillWidth: true
+        //          height: root.rowHeight
+        //          validator: RegExpValidator {
+        //            //disallow \ space : ? * " < > | /.. \0 //
+        //            regExp: /(?!.*(\\|\s|:|\?|\*|"|<|>|\||\/\.\.|\0|\/\/))^(\/)([^/\0]+(\/)?)+/
+        //          }
+        //          fontSize: 18
+        //        }
+        Item {
+          //spacer
+          width: 8
+        }
+        TextField {
+          id: fileNameField
+          height: root.rowHeight
+          Layout.fillWidth: true
+          placeholderText: "<directory name>/<filename>"
+          validator: RegExpValidator {
+            regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
+          }
+
+          Rectangle {
+            anchors.fill: parent
+            visible: enabled && parent.acceptableInput === false && parent.text !== "";
+            color: "#44FF0000";
+          }
+        }
+
+        Label {
+          textFormat: Text.PlainText
+          text: ".db"
+          font.pixelSize: 20
+        }
+        Button {
+          text: FA.fa_check
+          font.family: "FontAwesome"
+          font.pixelSize: 20
+          implicitHeight: root.rowHeight
+          enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
+          onClicked: {
+            console.log(completeDBPath);
+            root.loggerEntity.DatabaseFile = root.completeDBPath
+          }
         }
         Button {
           text: FA.fa_eject
           font.family: "FontAwesome"
           font.pixelSize: 20
           implicitHeight: root.rowHeight
-          enabled: root.loggerEntity.DatabaseFile.length > 0 && dbPathInput.m_alteredValue === false
-          onClicked: root.loggerEntity.DatabaseFile = "";
+          enabled: root.loggerEntity.DatabaseFile.length > 0
+          onClicked: {
+            root.loggerEntity.DatabaseFile = "";
+            fileNameField.clear();
+          }
         }
       }
     }
@@ -200,7 +365,7 @@ CCMP.SettingsView {
     Item {
       height: root.rowHeight;
       width: root.rowWidth;
-      visible: loggerEntity.DatabaseFile.length > 0
+      visible: loggerEntity.DatabaseReady === true
       RowLayout {
         anchors.fill: parent
         anchors.leftMargin: 16
@@ -321,7 +486,7 @@ CCMP.SettingsView {
           placeholderText: "00:00:00"
           validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
-          width: root.width/2.9
+          width: 280
           visible: loggerEntity.LoggingEnabled === false
         }
         Label {
@@ -334,26 +499,30 @@ CCMP.SettingsView {
         }
       }
     }
-    RowLayout {
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.leftMargin: 16
-      anchors.rightMargin: 16
-      visible: VeinEntity.hasEntity("CustomerData")
-      Label {
-        textFormat: Text.PlainText
-        text: ZTR["Manage customer data:"]
-        font.pixelSize: 20
+    Item {
+      height: root.rowHeight
+      width: root.rowWidth;
+      RowLayout {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+        visible: VeinEntity.hasEntity("CustomerData")
+        Label {
+          textFormat: Text.PlainText
+          text: ZTR["Manage customer data:"]
+          font.pixelSize: 20
 
-        Layout.fillWidth: true
-      }
-      Button {
-        text: FA.fa_cogs
-        font.family: "FontAwesome"
-        font.pixelSize: 20
-        implicitHeight: root.rowHeight
-        enabled: loggerEntity.LoggingEnabled === false
-        onClicked: cDataPopup.active=true;
+          Layout.fillWidth: true
+        }
+        Button {
+          text: FA.fa_cogs
+          font.family: "FontAwesome"
+          font.pixelSize: 20
+          implicitHeight: root.rowHeight
+          enabled: loggerEntity.LoggingEnabled === false
+          onClicked: cDataPopup.active=true;
+        }
       }
     }
   }
