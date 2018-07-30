@@ -220,6 +220,23 @@ void ZeraTranslation::reloadStringTable()
   //: text must be short enough to fit
   insert("Phase", tr("Phase","Phase of the phasor"));
 
+  //: text must be short enough to fit
+  insert("UL1", tr("UL1", "channel name"));
+  //: text must be short enough to fit
+  insert("UL2", tr("UL2", "channel name"));
+  //: text must be short enough to fit
+  insert("UL3", tr("UL3", "channel name"));
+  //: text must be short enough to fit
+  insert("IL1", tr("IL1", "channel name"));
+  //: text must be short enough to fit
+  insert("IL2", tr("IL2", "channel name"));
+  //: text must be short enough to fit
+  insert("IL3", tr("IL3", "channel name"));
+  //: text must be short enough to fit
+  insert("UAUX", tr("UAUX", "channel name"));
+  //: text must be short enough to fit
+  insert("IAUX", tr("IAUX", "channel name"));
+
   //MeasurementPageModel.qml
   //: polar (amplitude and phase) phasor diagram
   insert("Vector diagram", tr("Vector diagram"));
@@ -459,7 +476,7 @@ void ZeraTranslation::reloadStringTable()
   //: %1 the file that is about to be deleted
   insert("Really delete file <b>'%1'</b>?", tr("Really delete file <b>'%1'</b>?"));
 
-
+  emit sigLanguageChanged();
 }
 
 QVariant ZeraTranslation::updateValue(const QString &key, const QVariant &input)

@@ -24,6 +24,7 @@ public:
   Q_INVOKABLE void changeLanguage(const QString &t_language);
 
 signals:
+  void sigLanguageChanged();
 
 public slots:
 
