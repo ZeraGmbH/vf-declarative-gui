@@ -473,7 +473,7 @@ CCMP.ModulePage {
           Bar {
             id: errorBar
             value: errorCalculator.ACT_Result
-            readonly property bool isInMargins: GC.formatNumber(value, GC.decimalPlaces) >= errorMarginChart.minValue && GC.formatNumber(value, GC.decimalPlaces) <= errorMarginChart.maxValue
+            readonly property bool isInMargins: value.toFixed(GC.decimalPlaces) >= errorMarginChart.minValue && value.toFixed(GC.decimalPlaces) <= errorMarginChart.maxValue
             color: isInMargins ? "green" : "red"
 
             Component.onCompleted: {
