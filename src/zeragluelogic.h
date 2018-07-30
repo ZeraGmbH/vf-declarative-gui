@@ -19,7 +19,7 @@ public:
 public:
   bool processEvent(QEvent *t_event) override;
 private:
-  ZeraGlueLogicPrivate *d_ptr;
+  ZeraGlueLogicPrivate *m_dPtr;
 };
 
 #endif // ZeraGlueLogic_H

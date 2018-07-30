@@ -170,18 +170,20 @@ public:
 class ZeraGlueLogicPrivate
 {
   ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation) :
-    q_ptr(t_public),
+    m_qPtr(t_public),
     m_propertyMap(t_propertyMap),
     m_translation(t_translation),
-    m_actValueData(new ActualValueModel(14, 1, q_ptr)),
-    m_burden1Data(new BurdenValueModel(7, 1, q_ptr)),
-    m_burden2Data(new BurdenValueModel(7, 1, q_ptr)),
-    m_osciP1Data(new QStandardItemModel(3, 128, q_ptr)),
-    m_osciP2Data(new QStandardItemModel(3, 128, q_ptr)),
-    m_osciP3Data(new QStandardItemModel(3, 128, q_ptr)),
-    m_osciAUXData(new QStandardItemModel(3, 128, q_ptr)),
-    m_fftTableData(new FftTableModel(40, 1, q_ptr))
+    m_actValueData(new ActualValueModel(14, 1, m_qPtr)),
+    m_burden1Data(new BurdenValueModel(7, 1, m_qPtr)),
+    m_burden2Data(new BurdenValueModel(7, 1, m_qPtr)),
+    m_osciP1Data(new QStandardItemModel(3, 128, m_qPtr)),
+    m_osciP2Data(new QStandardItemModel(3, 128, m_qPtr)),
+    m_osciP3Data(new QStandardItemModel(3, 128, m_qPtr)),
+    m_osciAUXData(new QStandardItemModel(3, 128, m_qPtr)),
+    m_fftTableData(new FftTableModel(40, 1, m_qPtr))
   {
+    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, [this](){updateTranslation();});
+
     setupActualTable();
     setupBurdenTable();
     setupActualValueMapping();
@@ -511,45 +513,45 @@ class ZeraGlueLogicPrivate
 
     //P1
     ModelRowPair osci1Pair(m_osciP1Data, 1);
-    osci1Pair.m_updateInterval=new QTimer(q_ptr);
+    osci1Pair.m_updateInterval=new QTimer(m_qPtr);
     osci1Pair.m_updateInterval->setInterval(valueInterval);
     osci1Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI1", osci1Pair); //UL1
     ModelRowPair osci2Pair(m_osciP1Data, 2);
-    osci2Pair.m_updateInterval=new QTimer(q_ptr);
+    osci2Pair.m_updateInterval=new QTimer(m_qPtr);
     osci2Pair.m_updateInterval->setInterval(valueInterval);
     osci2Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI4", osci2Pair); //IL1
     //P2
     ModelRowPair osci3Pair(m_osciP2Data, 1);
-    osci3Pair.m_updateInterval=new QTimer(q_ptr);
+    osci3Pair.m_updateInterval=new QTimer(m_qPtr);
     osci3Pair.m_updateInterval->setInterval(valueInterval);
     osci3Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI2", osci3Pair); //UL2
     ModelRowPair osci4Pair(m_osciP2Data, 2);
-    osci4Pair.m_updateInterval=new QTimer(q_ptr);
+    osci4Pair.m_updateInterval=new QTimer(m_qPtr);
     osci4Pair.m_updateInterval->setInterval(valueInterval);
     osci4Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI5", osci4Pair); //IL2
     //P3
     ModelRowPair osci5Pair(m_osciP3Data, 1);
-    osci5Pair.m_updateInterval=new QTimer(q_ptr);
+    osci5Pair.m_updateInterval=new QTimer(m_qPtr);
     osci5Pair.m_updateInterval->setInterval(valueInterval);
     osci5Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI3", osci5Pair); //UL3
     ModelRowPair osci6Pair(m_osciP3Data, 2);
-    osci6Pair.m_updateInterval=new QTimer(q_ptr);
+    osci6Pair.m_updateInterval=new QTimer(m_qPtr);
     osci6Pair.m_updateInterval->setInterval(valueInterval);
     osci6Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI6", osci6Pair); //IL3
     //PN
     ModelRowPair osci7Pair(m_osciAUXData, 1);
-    osci7Pair.m_updateInterval=new QTimer(q_ptr);
+    osci7Pair.m_updateInterval=new QTimer(m_qPtr);
     osci7Pair.m_updateInterval->setInterval(valueInterval);
     osci7Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI7", osci7Pair); //UN
     ModelRowPair osci8Pair(m_osciAUXData, 2);
-    osci8Pair.m_updateInterval=new QTimer(q_ptr);
+    osci8Pair.m_updateInterval=new QTimer(m_qPtr);
     osci8Pair.m_updateInterval->setInterval(valueInterval);
     osci8Pair.m_updateInterval->setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI8", osci8Pair); //IN
@@ -645,6 +647,7 @@ class ZeraGlueLogicPrivate
         if(t_cmpData->componentName() == QLatin1String("PAR_MeasuringMode")) // these values need some string formatting
         {
           //dynamic translation
+          m_dynamicMeasuringModeDescriptor.insert(valueCoordiates.y(), t_cmpData->newValue().toString()); //update dynamic reference table
           const QString translatedMode = m_translation->value(t_cmpData->newValue().toString()).toString();
           Q_ASSERT(translatedMode.isEmpty() == false); //only triggers when the translation is missing in zeratranslation.cpp!
           // (%Mode) %Name
@@ -810,7 +813,88 @@ class ZeraGlueLogicPrivate
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
   }
 
-  ZeraGlueLogic *q_ptr;
+  void updateTranslation()
+  {
+    using namespace CommonTable;
+    //actValue
+    QModelIndex mIndex = m_actValueData->index(0, 0);
+    m_actValueData->setData(mIndex, m_translation->value("L1"), RoleIndexes::L1);
+    m_actValueData->setData(mIndex, m_translation->value("L2"), RoleIndexes::L2);
+    m_actValueData->setData(mIndex, m_translation->value("L3"), RoleIndexes::L3);
+    m_actValueData->setData(mIndex, m_translation->value("AUX"), RoleIndexes::AUX);
+    m_actValueData->setData(mIndex, "Σ", RoleIndexes::SUM);
+    m_actValueData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
+
+    //mIndex = m_actValueData->index(0, 0); //none
+    mIndex = m_actValueData->index(1, 0);
+    m_actValueData->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(2, 0);
+    m_actValueData->setData(mIndex, m_translation->value("UPP"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(3, 0);
+    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(4, 0);
+    m_actValueData->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(5, 0);
+    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(6, 0);
+    m_actValueData->setData(mIndex, m_translation->value("∠U"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(7, 0);
+    m_actValueData->setData(mIndex, m_translation->value("∠I"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(8, 0);
+    m_actValueData->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(9, 0);
+    m_actValueData->setData(mIndex, m_translation->value("λ"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(10, 0);
+    m_actValueData->setData(mIndex, QString("(%1) P").arg(m_translation->value(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(11, 0);
+    m_actValueData->setData(mIndex, QString("(%1) Q").arg(m_translation->value(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(12, 0);
+    m_actValueData->setData(mIndex, QString("(%1) S").arg(m_translation->value(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(13, 0);
+    m_actValueData->setData(mIndex, m_translation->value("F"), RoleIndexes::NAME);
+
+    //burden1
+    mIndex = m_burden1Data->index(0, 0);
+    m_burden1Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
+    m_burden1Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
+    m_burden1Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
+    m_burden1Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
+
+    mIndex = m_burden1Data->index(1, 0);
+    m_burden1Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(2, 0);
+    m_burden1Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(3, 0);
+    m_burden1Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(4, 0);
+    m_burden1Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(5, 0);
+    m_burden1Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
+    mIndex = m_burden1Data->index(6, 0);
+    m_burden1Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
+
+    //burden2
+    mIndex = m_burden2Data->index(0, 0);
+    m_burden2Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
+    m_burden2Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
+    m_burden2Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
+    m_burden2Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
+
+    mIndex = m_burden2Data->index(1, 0);
+    m_burden2Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(2, 0);
+    m_burden2Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(3, 0);
+    m_burden2Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(4, 0);
+    m_burden2Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(5, 0);
+    m_burden2Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
+    mIndex = m_burden2Data->index(6, 0);
+    m_burden2Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
+  }
+
+  ZeraGlueLogic *m_qPtr;
   GlueLogicPropertyMap *m_propertyMap;
   ZeraTranslation *m_translation = 0;
 
@@ -834,6 +918,8 @@ class ZeraGlueLogicPrivate
 
   QHash<QString, ModelRowPair> m_osciMapping;
   QHash<QString, int> m_fftTableRoleMapping;
+
+  QHash<int, QString> m_dynamicMeasuringModeDescriptor = {{10, ""}, {11, ""}, {12, ""}};
 
   double m_dftReferenceValue; //vector diagram reference angle
 
@@ -885,14 +971,14 @@ class ZeraGlueLogicPrivate
 
 ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation, QObject *t_parent) :
   VeinEvent::EventSystem(t_parent),
-  d_ptr(new ZeraGlueLogicPrivate(this, t_propertyMap, t_translation))
+  m_dPtr(new ZeraGlueLogicPrivate(this, t_propertyMap, t_translation))
 {
 }
 
 ZeraGlueLogic::~ZeraGlueLogic()
 {
-  delete d_ptr;
-  d_ptr=0;
+  delete m_dPtr;
+  m_dPtr=0;
 }
 
 bool ZeraGlueLogic::processEvent(QEvent *t_event)
@@ -917,7 +1003,7 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
           const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
           Q_ASSERT(cmpData != nullptr);
 
-          retVal = d_ptr->handleOsciValues(cmpData);
+          retVal = m_dPtr->handleOsciValues(cmpData);
           break;
         }
         case ZeraGlueLogicPrivate::Modules::FftModule:
@@ -925,47 +1011,47 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
           const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
           Q_ASSERT(cmpData != nullptr);
 
-          retVal = d_ptr->handleFftValues(cmpData);
+          retVal = m_dPtr->handleFftValues(cmpData);
           break;
         }
         case ZeraGlueLogicPrivate::Modules::Burden1Module:
         {
-          const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+          const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
           if(Q_UNLIKELY(burdenMapping != nullptr))
           {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
-            retVal = d_ptr->handleBurden1Values(burdenMapping, cmpData);
+            retVal = m_dPtr->handleBurden1Values(burdenMapping, cmpData);
           }
           break;
         }
         case ZeraGlueLogicPrivate::Modules::Burden2Module:
         {
-          const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+          const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
           if(Q_UNLIKELY(burdenMapping != nullptr))
           {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
-            retVal = d_ptr->handleBurden2Values(burdenMapping, cmpData);
+            retVal = m_dPtr->handleBurden2Values(burdenMapping, cmpData);
           }
           break;
         }
         default: /// @note values handled earlier in the switch case will not show up in the actual values table!
         {
-          const auto avMapping = d_ptr->m_actualValueMapping->value(evData->entityId(), nullptr);
-          const auto burdenMapping = d_ptr->m_burdenMapping->value(evData->entityId(), nullptr);
+          const auto avMapping = m_dPtr->m_actualValueMapping->value(evData->entityId(), nullptr);
+          const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
           const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
 
           Q_ASSERT(cmpData != nullptr);
           if(Q_UNLIKELY(avMapping != nullptr))
           {
-            retVal = d_ptr->handleActualValues(avMapping, cmpData);
+            retVal = m_dPtr->handleActualValues(avMapping, cmpData);
           }
           if(Q_UNLIKELY(burdenMapping != nullptr)) //rms values
           {
             retVal = true;
-            d_ptr->handleBurden1Values(burdenMapping, cmpData);
-            d_ptr->handleBurden2Values(burdenMapping, cmpData);
+            m_dPtr->handleBurden1Values(burdenMapping, cmpData);
+            m_dPtr->handleBurden2Values(burdenMapping, cmpData);
           }
           break;
         }
