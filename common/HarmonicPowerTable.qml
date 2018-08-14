@@ -15,7 +15,122 @@ CCMP.ModulePage {
   readonly property QtObject power3Module1: VeinEntity.getEntity("Power3Module1")
 
   property int rowHeight: Math.floor(height/20)
-  property int columnWidth: width/7.1
+  property int columnWidth: width/6.5
+
+  readonly property bool relativeView: GC.showFftTableAsRelative > 0;
+
+  function getSafePercentageSI(denominator, base) {
+    if(base === 0.0) // avoid division by zero
+    {
+      base = Math.pow(10, -15)
+    }
+    return GC.formatNumber(100*denominator/base);
+  }
+
+  Component {
+    id: absoluteDelegate
+    Row {
+      width: root.columnWidth
+      height: root.rowHeight
+      CCMP.GridItem {
+        width: root.width/16
+        height: root.rowHeight
+        color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
+        text: index
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: GC.formatNumber(power3Module1.ACT_HPW1[index*2])
+        textColor: GC.system1ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: GC.formatNumber(power3Module1.ACT_HPW1[index*2+1])
+        textColor: GC.system1ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: GC.formatNumber(power3Module1.ACT_HPW2[index*2])
+        textColor: GC.system2ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: GC.formatNumber(power3Module1.ACT_HPW2[index*2+1])
+        textColor: GC.system2ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: GC.formatNumber(power3Module1.ACT_HPW3[index*2])
+        textColor: GC.system3ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: GC.formatNumber(power3Module1.ACT_HPW3[index*2+1])
+        textColor: GC.system3ColorDark
+      }
+    }
+  }
+
+  Component {
+    id: relativeDelegate
+    Row {
+      width: root.columnWidth
+      height: root.rowHeight
+      CCMP.GridItem {
+        width: root.width/16
+        height: root.rowHeight
+        color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
+        text: index
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        //power3Module1.ACT_HPW1[0] is the real part of DC, ...[2] is the real part of the base oscillation
+        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW1[index*2])+" W" : getSafePercentageSI(power3Module1.ACT_HPW1[index*2], power3Module1.ACT_HPW1[2])
+        textColor: GC.system1ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        //power3Module1.ACT_HPW1[1] is empty imaginary part of DC, ...[2] is the real imaginary of the base oscillation
+        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW1[index*2+1])+" Var" : getSafePercentageSI(power3Module1.ACT_HPW1[index*2+1], power3Module1.ACT_HPW1[3])
+        textColor: GC.system1ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW2[index*2])+" W" : getSafePercentageSI(power3Module1.ACT_HPW2[index*2], power3Module1.ACT_HPW2[2])
+        textColor: GC.system2ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW2[index*2+1])+" Var" : getSafePercentageSI(power3Module1.ACT_HPW2[index*2+1], power3Module1.ACT_HPW2[3])
+        textColor: GC.system2ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW3[index*2])+" W" : getSafePercentageSI(power3Module1.ACT_HPW3[index*2], power3Module1.ACT_HPW3[2])
+        textColor: GC.system3ColorDark
+      }
+      CCMP.GridItem {
+        width: root.columnWidth
+        height: root.rowHeight
+        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW3[index*2+1])+" Var" : getSafePercentageSI(power3Module1.ACT_HPW3[index*2+1], power3Module1.ACT_HPW3[3])
+        textColor: GC.system3ColorDark
+      }
+    }
+  }
+
 
   Item {
     width: root.width
@@ -29,7 +144,7 @@ CCMP.ModulePage {
       height: root.rowHeight
       Item {
         //spacer
-        width: root.columnWidth
+        width: root.width/16
         height: root.rowHeight
       }
 
@@ -73,7 +188,7 @@ CCMP.ModulePage {
       height: root.rowHeight
 
       CCMP.GridItem {
-        width: root.columnWidth
+        width: root.width/16
         height: root.rowHeight
         color: GC.tableShadeColor
         text: "n"
@@ -84,7 +199,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         font.bold: true
-        text: ZTR["Real"]
+        text: ZTR["Real"] + (relativeView ? "%" : "")
         textColor: GC.system1ColorDark
         textHorizontalAlignment: Label.AlignHCenter
       }
@@ -93,7 +208,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         font.bold: true
-        text: ZTR["Imaginary"]
+        text: ZTR["Imaginary"] + (relativeView ? "%" : "")
         textColor: GC.system1ColorDark
         textHorizontalAlignment: Label.AlignHCenter
       }
@@ -102,7 +217,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         font.bold: true
-        text: ZTR["Real"]
+        text: ZTR["Real"] + (relativeView ? "%" : "")
         textColor: GC.system2ColorDark
         textHorizontalAlignment: Label.AlignHCenter
       }
@@ -111,7 +226,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         font.bold: true
-        text: ZTR["Imaginary"]
+        text: ZTR["Imaginary"] + (relativeView ? "%" : "")
         textColor: GC.system2ColorDark
         textHorizontalAlignment: Label.AlignHCenter
       }
@@ -120,7 +235,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         font.bold: true
-        text: ZTR["Real"]
+        text: ZTR["Real"] + (relativeView ? "%" : "")
         textColor: GC.system3ColorDark
         textHorizontalAlignment: Label.AlignHCenter
       }
@@ -129,7 +244,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         font.bold: true
-        text: ZTR["Imaginary"]
+        text: ZTR["Imaginary"] + (relativeView ? "%" : "")
         textColor: GC.system3ColorDark
         textHorizontalAlignment: Label.AlignHCenter
       }
@@ -157,55 +272,7 @@ CCMP.ModulePage {
         }
       }
 
-      delegate: Component {
-        Row {
-          width: root.columnWidth
-          height: root.rowHeight
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
-            text: index
-            font.bold: true
-          }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: GC.formatNumber(power3Module1.ACT_HPW1[index*2])
-            textColor: GC.system1ColorDark
-          }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: GC.formatNumber(power3Module1.ACT_HPW1[index*2+1])
-            textColor: GC.system1ColorDark
-          }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: GC.formatNumber(power3Module1.ACT_HPW2[index*2])
-            textColor: GC.system2ColorDark
-          }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: GC.formatNumber(power3Module1.ACT_HPW2[index*2+1])
-            textColor: GC.system2ColorDark
-          }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: GC.formatNumber(power3Module1.ACT_HPW3[index*2])
-            textColor: GC.system3ColorDark
-          }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: GC.formatNumber(power3Module1.ACT_HPW3[index*2+1])
-            textColor: GC.system3ColorDark
-          }
-        }
-      }
+      delegate: root.relativeView ? relativeDelegate : absoluteDelegate
     }
   }
 }

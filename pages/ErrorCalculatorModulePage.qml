@@ -130,7 +130,7 @@ CCMP.ModulePage {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: parent.height/10
         horizontalAlignment: Text.AlignHCenter
-        text: errorCalculator.ACT_Result+"%"
+        text: GC.formatNumber(errorCalculator.ACT_Result)+"%"
       }
     }
     Item { //spacer
@@ -152,7 +152,10 @@ CCMP.ModulePage {
         color: Material.primaryTextColor
         textFormat: Text.PlainText
         anchors.bottom: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: root.height/20
         text: parseInt(actProgressBar.value)+"%"
       }
     }

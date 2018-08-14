@@ -23,7 +23,7 @@ Item {
   }
 
   function setLocale(newLocale) {
-    settings.globalSettings.setOption("locale", newLocale);
+    settings.globalSettings.setOption("locale", newLocale, true);
   }
 
   readonly property int decimalPlaces: parseInt(settings.globalSettings.getOption("digits"))
@@ -31,10 +31,16 @@ Item {
     settings.globalSettings.setOption("digits", digits);
   }
 
-  readonly property int showFftAsTable : parseInt(settings.globalSettings.getOption("fft_as_table"))
+  readonly property int showFftAsTable: parseInt(settings.globalSettings.getOption("fft_as_table"))
   function setShowFftAsTable(isTableView) {
     var setValue = isTableView ? 1 : 0;
     settings.globalSettings.setOption("fft_as_table", setValue);
+  }
+
+  readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative"))
+  function setShowFftTableAsRelative(isRelative) {
+    var setValue = isRelative ? 1 : 0
+    settings.globalSettings.setOption("fft_table_as_relative", setValue, true);
   }
 
   readonly property var rangePeakVisualisationEnum: {
@@ -64,7 +70,7 @@ Item {
     var availableSystems = ["system1ColorDark", "system2ColorDark", "system3ColorDark", "system1Color", "system2Color", "system3Color", "system4ColorDark", "system4Color"];
     if(realIndex < availableSystems.length && color !== undefined)
     {
-      settings.globalSettings.setOption(availableSystems[realIndex], color);
+      settings.globalSettings.setOption(availableSystems[realIndex], color, true);
     }
   }
 
@@ -84,7 +90,7 @@ Item {
   readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2") //"lawngreen"
   readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3") //"darkorange"
 
-  readonly property color tableShadeColor : "#003040"
+  readonly property color tableShadeColor: "#003040"
 
   Timer {
     id: errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer
@@ -211,7 +217,7 @@ Item {
   }
 
   function setErrorMargins(upperLimit, lowerLimit) {
-    settings.globalSettings.setOption("errorMarginUpperValue", upperLimit);
-    settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit);
+    settings.globalSettings.setOption("errorMarginUpperValue", upperLimit, true);
+    settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit, true);
   }
 }

@@ -147,6 +147,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Application Settings", tr("Application Settings"));
   //: used for a yes / no configuration element
   insert("Display Harmonics as table:", tr("Display Harmonics as table:"));
+  insert("Display harmonic tables relative to the fundamental oscillation:", tr("Display harmonic tables relative to the fundamental oscillation:"));
   //: number of decimals after the decimal separator
   insert("Decimal places:", tr("Decimal places:"));
   //: used for the selection of language via country flag

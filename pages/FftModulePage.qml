@@ -11,9 +11,6 @@ import ZeraGlueLogic 1.0
 import ModuleIntrospection 1.0
 
 CCMP.ModulePage {
-  readonly property QtObject glueLogic: ZGL;
-  readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
-
   Loader {
     anchors.fill: parent
     source: GC.showFftAsTable ? "qrc:/components/common/FftTable.qml" : "qrc:/components/common/FftCharts.qml"

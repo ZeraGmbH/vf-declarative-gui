@@ -180,7 +180,8 @@ class ZeraGlueLogicPrivate
     m_osciP2Data(new QStandardItemModel(3, 128, m_qPtr)),
     m_osciP3Data(new QStandardItemModel(3, 128, m_qPtr)),
     m_osciAUXData(new QStandardItemModel(3, 128, m_qPtr)),
-    m_fftTableData(new FftTableModel(40, 1, m_qPtr))
+    m_fftTableData(new FftTableModel(40, 1, m_qPtr)),
+    m_fftRelativeTableData(new FftTableModel(40, 1, m_qPtr))
   {
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, [this](){updateTranslation();});
 
@@ -218,6 +219,7 @@ class ZeraGlueLogicPrivate
     delete m_osciAUXData;
 
     delete m_fftTableData;
+    delete m_fftRelativeTableData;
   }
 
   void setupActualTable()
@@ -772,11 +774,27 @@ class ZeraGlueLogicPrivate
     if(fftTableRole != 0)
     {
       const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
-      QModelIndex fftTableIndex;
+      QModelIndex fftTableIndex, fftRelativeTableIndex;
       QVector2D tmpVec2d;
-      double re, im, vectorAngle, length;
+      double re, im, vectorAngle, length, ampBaseOscillation;
 
       QSignalBlocker blocker(m_fftTableData);
+      QSignalBlocker relativeBlocker(m_fftRelativeTableData);
+
+      //set ampBaseOscillation
+      re = tmpData.at(2);
+      im = tmpData.at(3);
+      tmpVec2d.setX(re);
+      tmpVec2d.setY(im);
+      length = tmpVec2d.length();
+
+      ampBaseOscillation = length;
+      if(ampBaseOscillation == 0.0) //avoid division by zero
+      {
+        ampBaseOscillation = pow(10, -15);
+      }
+
+
       for(int i=0; i<tmpData.length(); i+=2)
       {
         re = tmpData.at(i);
@@ -787,14 +805,27 @@ class ZeraGlueLogicPrivate
 
         fftTableIndex = m_fftTableData->index(i/2, 0);
         m_fftTableData->setData(fftTableIndex, length, fftTableRole);
+
+        fftRelativeTableIndex = m_fftRelativeTableData->index(i/2, 0);
+        if(Q_UNLIKELY(i/2==1)) //base oscillation is shown as absolute value (i=0 is DC)
+        {
+          m_fftRelativeTableData->setData(fftRelativeTableIndex, length, fftTableRole); //absolute value
+        }
+        else
+        {
+          m_fftRelativeTableData->setData(fftRelativeTableIndex, 100.0*length/ampBaseOscillation, fftTableRole); //value relative to the amplitude of the base oscillation
+        }
+
         vectorAngle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
         if(vectorAngle < 0)
         {
           vectorAngle = 360 + vectorAngle;
         }
         m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole+100);
+        m_fftRelativeTableData->setData(fftRelativeTableIndex, vectorAngle, fftTableRole+100);
       }
       blocker.unblock();
+      relativeBlocker.unblock();
 
       retVal = true;
     }
@@ -811,6 +842,7 @@ class ZeraGlueLogicPrivate
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP3ComponentName, QVariant::fromValue<QObject*>(m_osciP3Data));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciPNComponentName, QVariant::fromValue<QObject*>(m_osciAUXData));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftRelativeTableModelComponentName, QVariant::fromValue<QObject*>(m_fftRelativeTableData));
   }
 
   void updateTranslation()
@@ -908,6 +940,7 @@ class ZeraGlueLogicPrivate
   QStandardItemModel *m_osciAUXData;
 
   FftTableModel *m_fftTableData;
+  FftTableModel *m_fftRelativeTableData;
 
   //stands for QHash<"entity descriptor", QHash<"component name", 2D coordinates>*>
   template <typename T>
@@ -923,14 +956,15 @@ class ZeraGlueLogicPrivate
 
   double m_dftReferenceValue; //vector diagram reference angle
 
-  static constexpr char const * s_actualValueComponentName = "ActualValueModel";
-  static constexpr char const * s_burden1ComponentName = "BurdenModelI";
-  static constexpr char const * s_burden2ComponentName = "BurdenModelU";
-  static constexpr char const * s_osciP1ComponentName = "OSCIP1Model";
-  static constexpr char const * s_osciP2ComponentName = "OSCIP2Model";
-  static constexpr char const * s_osciP3ComponentName = "OSCIP3Model";
-  static constexpr char const * s_osciPNComponentName = "OSCIPNModel";
-  static constexpr char const * s_fftTableModelComponentName = "FFTTableModel";
+  static constexpr char const *s_actualValueComponentName = "ActualValueModel";
+  static constexpr char const *s_burden1ComponentName = "BurdenModelI";
+  static constexpr char const *s_burden2ComponentName = "BurdenModelU";
+  static constexpr char const *s_osciP1ComponentName = "OSCIP1Model";
+  static constexpr char const *s_osciP2ComponentName = "OSCIP2Model";
+  static constexpr char const *s_osciP3ComponentName = "OSCIP3Model";
+  static constexpr char const *s_osciPNComponentName = "OSCIPNModel";
+  static constexpr char const *s_fftTableModelComponentName = "FFTTableModel";
+  static constexpr char const *s_fftRelativeTableModelComponentName = "FFTRelativeTableModel";
 
   double m_angleU1=0;
   double m_angleU2=0;

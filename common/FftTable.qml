@@ -19,6 +19,8 @@ Item {
   property int rowHeight: Math.floor(height/20)
   property int columnWidth: width/13
 
+  readonly property bool relativeView: GC.showFftTableAsRelative > 0;
+
   Item {
     width: root.columnWidth*13
     height: root.height
@@ -128,7 +130,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               color: GC.tableShadeColor
-              text: ZTR["Amp"]
+              text: ZTR["Amp"] + (relativeView ? "%" : "");
               textColor: GC.getColorByIndex(index+1)
               font.bold: true
             }
@@ -150,7 +152,7 @@ Item {
         width: root.columnWidth*17
         height: root.rowHeight*18//root.rowHeight*fftOrder
 
-        model: glueLogic.FFTTableModel
+        model: relativeView ? glueLogic.FFTRelativeTableModel : glueLogic.FFTTableModel
         boundsBehavior: Flickable.StopAtBounds
         cacheBuffer: root.fftOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
         clip: true
@@ -174,7 +176,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1, 3) : ""
+              text: (AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : "")
               textColor: GC.system1ColorDark
               font.pixelSize: rowHeight*0.5
             }
@@ -188,7 +190,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2, 3) : ""
+              text: (AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : "")
               textColor: GC.system2ColorDark
               font.pixelSize: rowHeight*0.5
             }
@@ -202,7 +204,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3, 3) : ""
+              text: (AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : "")
               textColor: GC.system3ColorDark
               font.pixelSize: rowHeight*0.5
             }
@@ -216,7 +218,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4, 3) : ""
+              text: (AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : "")
               textColor: GC.system1ColorBright
               font.pixelSize: rowHeight*0.5
             }
@@ -230,7 +232,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5, 3) : ""
+              text: (AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : "")
               textColor: GC.system2ColorBright
               font.pixelSize: rowHeight*0.5
             }
@@ -244,7 +246,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6, 3) : ""
+              text: (AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : "")
               textColor: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
             }
@@ -258,7 +260,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : ""
+              text: (AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : "")
               textColor: GC.system4ColorDark
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
@@ -274,7 +276,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : ""
+              text: (AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : "")
               textColor: GC.system4ColorBright
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6

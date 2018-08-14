@@ -200,6 +200,31 @@ SettingsView {
         }
       }
     }
+    Item {
+      height: root.rowHeight;
+      width: root.rowWidth;
+      RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+
+        Label {
+          textFormat: Text.PlainText
+          text: ZTR["Display harmonic tables relative to the fundamental oscillation:"]
+          font.pixelSize: 20
+
+          Layout.fillWidth: true
+        }
+        CheckBox {
+          id: actHarmonicsTableAsRelative
+          height: parent.height
+          Component.onCompleted: checked = GC.showFftTableAsRelative
+          onCheckedChanged: {
+            GC.setShowFftTableAsRelative(checked);
+          }
+        }
+      }
+    }
 
     Item {
       height: root.rowHeight;
