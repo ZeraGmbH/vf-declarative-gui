@@ -124,7 +124,7 @@ Item {
     else
     {
       var dec = decimals ? decimals : decimalPlaces
-      return Number(num).toLocaleString(locale, 'f', dec)
+      return Number(num).toLocaleString(Qt.locale("en_US"), 'f', dec) //always use '.' as decimal separator
     }
   }
 
