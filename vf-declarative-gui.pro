@@ -58,7 +58,6 @@ include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
 }
 
 SOURCES += src/main.cpp \
-    src/fpscounter.cpp \
     src/fftbarchart.cpp \
     src/barscaledraw.cpp \
     src/bardata.cpp \
@@ -91,7 +90,6 @@ LIBS += -lvein-event -lvein-component -lvein-net2 -lvein-framework-protobuf -lve
 LIBS += -lqwt
 
 HEADERS += \
-    src/fpscounter.h \
     src/fftbarchart.h \
     src/barscaledraw.h \
     src/bardata.h \

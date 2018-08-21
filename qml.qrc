@@ -48,6 +48,7 @@
         <file>common/ZVisualComboBox.qml</file>
         <file>common/ZDoubleValidator.qml</file>
         <file>common/DeviceInformation.qml</file>
+        <file>common/FpsItem.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>

@@ -38,5 +38,6 @@
         <file>staticdata/resources/rms_values.png</file>
         <file>staticdata/resources/flags/DE.svg</file>
         <file>staticdata/resources/flags/US.svg</file>
+        <file>staticdata/resources/spinner.png</file>
     </qresource>
 </RCC>

@@ -14,7 +14,6 @@
 #include <veinqmlwrapper.h>
 #include <memory>
 
-#include "fpscounter.h"
 #include "fftbarchart.h"
 #include "hpwbarchart.h"
 #include "barchart.h"
@@ -44,8 +43,6 @@ int main(int argc, char *argv[])
   QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
 
   bool loadedOnce = false;
-
-  qmlRegisterType<FPSCounter>("FPSCounter", 1, 0, "FPSCounter");
 
   qmlRegisterType<FftBarChart>("QwtChart", 1, 0, "FftBarChart");
   qmlRegisterType<HpwBarChart>("QwtChart", 1, 0, "HpwBarChart");

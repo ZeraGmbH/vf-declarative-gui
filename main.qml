@@ -4,7 +4,6 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
-import FPSCounter 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
@@ -180,24 +179,34 @@ ApplicationWindow {
     }
   }
 
-  /// @todo remove debugging code
-  Shortcut {
-    property bool cLang: false
-    enabled: BUILD_TYPE === "debug"
-    sequence: "F2"
-    autoRepeat: false
-    onActivated: {
-      cLang = !cLang;
-      if(cLang)
-      {
-        ZTR.changeLanguage("C");
-      }
-      else
-      {
-        ZTR.changeLanguage("de");
-      }
-    }
+  CCMP.FpsItem {
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.rightMargin: 48
+    height: 24
+    width: 64
+    z: Infinity
+    visible: debugBypass === true
   }
+
+//  /// @todo remove debugging code
+//  Shortcut {
+//    property bool cLang: false
+//    enabled: BUILD_TYPE === "debug"
+//    sequence: "F2"
+//    autoRepeat: false
+//    onActivated: {
+//      cLang = !cLang;
+//      if(cLang)
+//      {
+//        ZTR.changeLanguage("en_US");
+//      }
+//      else
+//      {
+//        ZTR.changeLanguage("de_DE");
+//      }
+//    }
+//  }
 
   Shortcut {
     property bool smallResolution: false
@@ -216,43 +225,6 @@ ApplicationWindow {
         displayWindow.width=1024;
         displayWindow.height=600;
       }
-    }
-  }
-
-  FPSCounter {
-    property bool originalState: false
-    //needs to stay in the foreground
-    z: 100
-    anchors.right: parent.right
-    //the calculated width*height must be >0 to trigger the paint() function call in c++
-    width: 100
-    height: 40
-
-
-    Component.onCompleted: {
-      originalState = fpsEnabled===1 ///integer evaluation
-      if(fpsEnabled !==1) //enable debugging control if disabled
-      {
-        fpsEnabled = Qt.binding(function(){
-          return (debugBypass ? 1 : 0 )
-        })
-      }
-    }
-
-    CCMP.DebugRectangle {
-      anchors.fill: parent
-      visible: debugBypass && parent.originalState==false
-    }
-
-    Label {
-      property real fps: parent.currentFPS.toFixed(2)
-      visible: parent.fpsEnabled
-      anchors.right: parent.right
-      anchors.rightMargin: 10
-      anchors.verticalCenter: parent.verticalCenter
-      textFormat: Text.PlainText
-      text:  fps + " FPS";
-      color: fps > 29 ? ( fps > 49 ? "lawngreen" : "yellow" ) : "red";
     }
   }
 
