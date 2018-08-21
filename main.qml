@@ -422,8 +422,8 @@ ApplicationWindow {
         ToolButton {
           implicitHeight: parent.height
           font.family: "FontAwesome"
-          font.pointSize: 14
-          text: FA.icon(FA.fa_columns) + ZTR["Pages"]
+          font.pointSize: 18
+          text: FA.fa_columns
           highlighted: layoutStack.currentIndex===layoutStackEnum.layoutPageIndex
           enabled: displayWindow.entitiesInitialized === true
           onClicked: {
