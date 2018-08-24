@@ -183,7 +183,7 @@ class ZeraGlueLogicPrivate
     m_fftTableData(new FftTableModel(40, 1, m_qPtr)),
     m_fftRelativeTableData(new FftTableModel(40, 1, m_qPtr))
   {
-    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, [this](){updateTranslation();});
+    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, m_qPtr, [this](){updateTranslation();});
 
     setupActualTable();
     setupBurdenTable();

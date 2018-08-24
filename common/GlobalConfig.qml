@@ -105,7 +105,7 @@ Item {
 
   readonly property real errorMarginUpperValue: {
     var retVal = parseFloat(settings.globalSettings.getOption("errorMarginUpperValue"));
-    if(isNaN(retVal) ||  isFinite(retVal) === false)
+    if(isNaN(retVal) || isFinite(retVal) === false)
     {
       errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
     }
