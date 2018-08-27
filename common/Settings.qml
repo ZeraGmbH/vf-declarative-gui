@@ -5,7 +5,7 @@ import QtQml.Models 2.1
 import QtGraphicalEffects 1.0
 import "qrc:/vf-controls/common" as VF
 import QtQuick.Controls.Material 2.0
-import GlobalConfig 1.0 //as GC
+import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -146,11 +146,10 @@ SettingsView {
           Layout.fillWidth: true
         }
         ZVisualComboBox {
-
           id: localeCB
           arrayMode: true
           model: ["de_DE", "en_US"]
-          imageModel: ["qrc:/data/staticdata/resources/flags/DE.svg", "qrc:/data/staticdata/resources/flags/US.svg"]
+          imageModel: ["qrc:/data/staticdata/resources/flags/DE.png", "qrc:/data/staticdata/resources/flags/US.png"]
           height: root.rowHeight-8
           width: height*2.5
           contentRowHeight: height*1.2

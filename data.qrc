@@ -36,8 +36,8 @@
         <file>staticdata/resources/x_sqrt_3.png</file>
         <file>staticdata/licenses/zera-opensource</file>
         <file>staticdata/resources/rms_values.png</file>
-        <file>staticdata/resources/flags/DE.svg</file>
-        <file>staticdata/resources/flags/US.svg</file>
         <file>staticdata/resources/spinner.png</file>
+        <file>staticdata/resources/flags/DE.png</file>
+        <file>staticdata/resources/flags/US.png</file>
     </qresource>
 </RCC>

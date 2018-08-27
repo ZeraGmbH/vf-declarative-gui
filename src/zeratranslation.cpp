@@ -113,6 +113,7 @@ void ZeraTranslation::reloadStringTable()
   //: as in "close this view"
   insert("Close", tr("Close", "not open"));
   insert("Accept", tr("Accept"));
+  insert("Cancel", tr("Cancel"));
   insert("Save", tr("Save"));
   insert("Default session", tr("Default session"));
   insert("Reference session", tr("Reference session"));
