@@ -10,7 +10,6 @@ QT_END_NAMESPACE
 
 /**
  * @brief Translation mapper with builtin qml notifications
- * @todo add search path variable for .ts files: /home/operator/translations as default ? Would allow user defined translations if lrelease would be available on the device
  */
 class ZeraTranslation : public QQmlPropertyMap
 {

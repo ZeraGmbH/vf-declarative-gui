@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick 2.0
 import ModuleIntrospection 1.0
 import ZeraSettings 1.0
+import ZeraTranslation 1.0
 
 Item {
 
@@ -16,6 +17,11 @@ Item {
   property bool tmpStatusNewErrors: false; //replacement for static variable will not be saved in settings.json
 
   readonly property var locale: Qt.locale(settings.globalSettings.getOption("locale"))
+  readonly property string localeName: settings.globalSettings.getOption("locale")
+  onLocaleNameChanged: {
+    ZTR.changeLanguage(localeName);
+  }
+
   function setLocale(newLocale) {
     settings.globalSettings.setOption("locale", newLocale);
   }

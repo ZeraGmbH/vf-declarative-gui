@@ -1,7 +1,7 @@
 #include "zeratranslation.h"
 #include <QLocale>
 #include <QFile>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDebug>
 
 ZeraTranslation::ZeraTranslation(QObject *parent) : QQmlPropertyMap(this, parent)
@@ -34,14 +34,19 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
     QLocale locale = QLocale(m_currentLanguage);
     QLocale::setDefault(locale);
     QString languageName = QLocale::languageToString(locale.language());
-    const QString filename = ":/translations/mt310s2_%1.qm"; ///@todo change to /home/operator/translations ? see class description todo
+
+#ifdef QT_DEBUG
+    const QString filename = ":/translations/mt310s2_%1.qm";
+#else
+    const QString filename = "/home/operator/translations/zera-gui_%1.qm";
+#endif
 
 
-    qApp->removeTranslator(&m_translator);
+    QCoreApplication::instance()->removeTranslator(&m_translator);
 
     if(m_translator.load(filename.arg(t_language)))
     {
-      qApp->installTranslator(&m_translator);
+      QCoreApplication::instance()->installTranslator(&m_translator);
       qDebug() << "Current Language changed to" << languageName << locale << t_language;
       reloadStringTable();
     }
@@ -144,6 +149,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Display Harmonics as table:", tr("Display Harmonics as table:"));
   //: number of decimals after the decimal separator
   insert("Decimal places:", tr("Decimal places:"));
+  //: used for the selection of language via country flag
+  insert("Language:", tr("Language:"));
   //: settings specific to the hardware
   insert("Device settings", tr("Device settings"));
   //: measurement channel the phase locked loop uses as base
