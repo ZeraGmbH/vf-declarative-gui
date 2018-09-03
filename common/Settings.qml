@@ -148,8 +148,8 @@ SettingsView {
         ZVisualComboBox {
           id: localeCB
           arrayMode: true
-          model: ["de_DE", "en_US"]
-          imageModel: ["qrc:/data/staticdata/resources/flags/DE.png", "qrc:/data/staticdata/resources/flags/US.png"]
+          model: ZTR["TRANSLATION_LOCALES"]
+          imageModel: ZTR["TRANSLATION_FLAGS"]
           height: root.rowHeight-8
           width: height*2.5
           contentRowHeight: height*1.2

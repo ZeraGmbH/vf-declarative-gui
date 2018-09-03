@@ -29,13 +29,17 @@ signals:
 public slots:
 
 private:
+  void setupTranslationFiles();
   void reloadStringTable();
-
 
   static ZeraTranslation *s_instance;
 
   QString m_currentLanguage;
   QTranslator m_translator;
+  //key = locale name (e.g. en_US, de_DE)
+  //value = absolute path
+  QHash<QString, QString> m_translationFilesModel;
+  QHash<QString, QString> m_translationFlagsModel;
 
   // QQmlPropertyMap interface
 protected:

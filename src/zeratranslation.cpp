@@ -1,12 +1,15 @@
 #include "zeratranslation.h"
 #include <QLocale>
+#include <QDir>
 #include <QFile>
+#include <QFileInfo>
+#include <QUrl>
 #include <QCoreApplication>
 #include <QDebug>
 
 ZeraTranslation::ZeraTranslation(QObject *parent) : QQmlPropertyMap(this, parent)
 {
-
+  setupTranslationFiles();
 }
 
 void ZeraTranslation::setStaticInstance(ZeraTranslation *t_instance)
@@ -34,17 +37,12 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
     QLocale locale = QLocale(m_currentLanguage);
     QLocale::setDefault(locale);
     QString languageName = QLocale::languageToString(locale.language());
-
-#ifdef QT_DEBUG
-    const QString filename = ":/translations/mt310s2_%1.qm";
-#else
-    const QString filename = "/home/operator/translations/zera-gui_%1.qm";
-#endif
+    const QString filename = m_translationFilesModel.value(t_language);
 
 
     QCoreApplication::instance()->removeTranslator(&m_translator);
 
-    if(m_translator.load(filename.arg(t_language)))
+    if(m_translator.load(filename))
     {
       QCoreApplication::instance()->installTranslator(&m_translator);
       qDebug() << "Current Language changed to" << languageName << locale << t_language;
@@ -59,6 +57,52 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
       reloadStringTable();
     }
   }
+}
+
+void ZeraTranslation::setupTranslationFiles()
+{
+#ifdef QT_DEBUG
+  //also load from qrc
+  const QStringList searchPaths {":/translations/", "/usr/share/zera/translations/", "/home/operator/translations/"};
+#else
+  const QStringList searchPaths {"/usr/share/zera/translations/", "/home/operator/translations/"};
+#endif
+
+  for(const QString &path : searchPaths)
+  {
+    QDir searchDir;
+    searchDir.setPath(path);
+    if(searchDir.exists() && searchDir.isReadable())
+    {
+      const auto qmList = searchDir.entryInfoList({"*.qm"}, QDir::Files);
+      for(const QFileInfo qmFileInfo : qmList)
+      {
+        const QString localeName = qmFileInfo.fileName().replace("zera-gui_","").replace(".qm","");
+        if(m_translationFilesModel.contains(localeName) == false)
+        {
+          QFileInfo flagFileInfo;
+          flagFileInfo.setFile(QString("%1/flag_%2.png").arg(qmFileInfo.path()).arg(localeName));//currently only supports .png (.svg rasterization is too slow)
+          if(flagFileInfo.exists())
+          {
+            m_translationFilesModel.insert(localeName, qmFileInfo.absoluteFilePath());
+            const QUrl flagUrl = QUrl::fromLocalFile(flagFileInfo.absoluteFilePath());
+            m_translationFlagsModel.insert(localeName, flagUrl.toString()); //qml image needs url form (qrc:<...> or file://<...>)
+          }
+          else
+          {
+            qWarning() << "Flag file for translation:" << qmFileInfo.absoluteFilePath() << "doesn't exist, skipping translation!";
+          }
+        }
+        else
+        {
+          qWarning() << "Skipping duplicate translation:" << qmFileInfo.absoluteFilePath() << "already loaded file from:" << m_translationFilesModel.value(localeName);
+        }
+      }
+    }
+  }
+  //export available languages to qml
+  insert("TRANSLATION_LOCALES", QVariant::fromValue<QStringList>(m_translationFlagsModel.keys()));
+  insert("TRANSLATION_FLAGS", QVariant::fromValue<QStringList>(m_translationFlagsModel.values()));
 }
 
 void ZeraTranslation::reloadStringTable()
