@@ -55,7 +55,7 @@ Item {
   ComboBox {
     anchors.bottom: peakChart.bottom
     anchors.bottomMargin: -45
-    width: parent.width*0.8
+    width: parent.width
     anchors.right: parent.right
     readonly property var translatedModel: {
       var inputKeys = Object.keys(GC.rangePeakVisualisationEnum)
