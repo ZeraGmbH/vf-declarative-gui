@@ -86,7 +86,7 @@ INSTALLS += target
 export(INSTALLS)
 
 
-LIBS += -lvein-event -lvein-component -lvein-net2 -lvein-framework-protobuf -lvein-tcp -lqml-veinentity -lvein-logger
+LIBS += -lvein-event -lvein-component -lvein-net2 -lvein-framework-protobuf -lvein-tcp -lqml-veinentity
 LIBS += -lqwt
 
 HEADERS += \
