@@ -21,15 +21,8 @@ ApplicationWindow {
   property bool debugBypass: false;
   property string currentSession;
   property var requiredIds: [];
-  property var errorMessages: [];
   property bool measuringPaused: false;
 
-  onErrorMessagesChanged: {
-    if(errorMessages && errorMessages.length > 0)
-    {
-      GC.tmpStatusNewErrors = true;
-    }
-  }
   visible: true
   width: 1024
   height: 600
@@ -46,13 +39,6 @@ ApplicationWindow {
     currentSession = Qt.binding(function() {
       return VeinEntity.getEntity("_System").Session;
     })
-
-    if(VeinEntity.hasEntity("_System"))
-    {
-      errorMessages = Qt.binding(function() {
-        return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
-      })
-    }
   }
 
   onCurrentSessionChanged: {
@@ -148,9 +134,6 @@ ApplicationWindow {
       {
         currentSession = Qt.binding(function() {
           return VeinEntity.getEntity("_System").Session;
-        });
-        errorMessages = Qt.binding(function() {
-          return JSON.parse(VeinEntity.getEntity("_System").Error_Messages);
         });
         pageView.sessionComponent = Qt.binding(function() {
           return currentSession;
@@ -259,7 +242,7 @@ ApplicationWindow {
       anchors.top: parent.top
       anchors.bottom: controlsBar.top
       anchors.margins: 8
-      currentIndex: (displayWindow.entitiesInitialized || displayWindow.errorMessages.length === 0) ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutStatusIndex
+      currentIndex: displayWindow.entitiesInitialized ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutStatusIndex
 
       QtObject {
         id: layoutStackEnum
