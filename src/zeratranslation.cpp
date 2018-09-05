@@ -37,24 +37,31 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
     QLocale locale = QLocale(m_currentLanguage);
     QLocale::setDefault(locale);
     QString languageName = QLocale::languageToString(locale.language());
-    const QString filename = m_translationFilesModel.value(t_language);
-
-
-    QCoreApplication::instance()->removeTranslator(&m_translator);
-
-    if(m_translator.load(filename))
+    if(m_translationFilesModel.contains(t_language))
     {
-      QCoreApplication::instance()->installTranslator(&m_translator);
-      qDebug() << "Current Language changed to" << languageName << locale << t_language;
-      reloadStringTable();
+      const QString filename = m_translationFilesModel.value(t_language);
+
+
+      QCoreApplication::instance()->removeTranslator(&m_translator);
+
+      if(m_translator.load(filename))
+      {
+        QCoreApplication::instance()->installTranslator(&m_translator);
+        qDebug() << "Current Language changed to" << languageName << locale << t_language;
+        reloadStringTable();
+      }
+      else
+      {
+        if(t_language != "C")
+        {
+          qWarning() << "Language not found:" << t_language << filename.arg(t_language);
+        }
+        reloadStringTable();
+      }
     }
     else
     {
-      if(t_language != "C")
-      {
-        qWarning() << "Language not found:" << t_language << filename.arg(t_language);
-      }
-      reloadStringTable();
+      qWarning() << "Language not found for locale:" << t_language;
     }
   }
 }
