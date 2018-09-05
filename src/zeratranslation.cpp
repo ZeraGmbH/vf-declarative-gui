@@ -450,11 +450,10 @@ void ZeraTranslation::reloadStringTable()
   insert("Logging enabled:", tr("Logging enabled:"));
   insert("Database location:", tr("Database location:"));
   insert("Database filename:", tr("Database filename:"));
-  insert("Filesystem info:", tr("Filesystem info:"));
-  insert("Device name: <b>%1</b>", tr("Device name: <b>%1</b>"));
-  insert("Filesystem type: <b>%1</b>", tr("Filesystem type: <b>%1</b>"));
-  //: %1 = available, %2 = total, %3 = percentage available
-  insert("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)", tr("Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)"));
+  //amount of storage available on the filesystem
+  insert("Filesystem storage available:", tr("Filesystem storage available:"));
+  //: %1 = filesystem storage available, %2 = total, %3 = percentage available
+  insert("<b>%1GB</b> of <b>%2GB</b> (%3%)", tr("<b>%1GB</b> of <b>%2GB</b> (%3%)"));
   insert("Scheduled logging enabled:", tr("Scheduled logging enabled:"));
   //: describes the duration of the recording
   insert("Logging Duration:", tr("Logging Duration:"));

@@ -22,13 +22,27 @@ CCMP.SettingsView {
   property var storageList: [];
   property string completeDBPath: (storageList.length > 0 && fileNameField.acceptableInput) ? storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
 
-  Component.onCompleted: updateStorageList();
+  Component.onCompleted: {
+    updateStorageList();
+    root.loggerEntity.LoggingEnabled = false;
+  }
 
   onLogEnabledChanged: {
     if(snapshotTrigger === true && logEnabled === true)
     {
       snapshotTrigger = false;
-      loggerEntity.LoggingEnabled  = false;
+      //causes wrong warning about property loop so use the timer as workaround
+      //loggerEntity.LoggingEnabled = false;
+      propertyLoopAvoidingLoggingEnabledTimer.start();
+    }
+  }
+
+  Timer {
+    id: propertyLoopAvoidingLoggingEnabledTimer
+    interval: 0
+    repeat: false
+    onTriggered: {
+      loggerEntity.LoggingEnabled = false;
     }
   }
 
@@ -132,6 +146,22 @@ CCMP.SettingsView {
     }
   }
 
+  LoggerRecordNamePopup {
+    id: recordNamePopup
+    onSigAccepted: {
+      if(loggerEntity.LoggingEnabled !== true)
+      {
+        loggerEntity.recordName = t_resultText;
+        loggerEntity.LoggingEnabled=true;
+      }
+    }
+    onSigCanceled: {
+      if(loggerEntity.LoggingEnabled !== true)
+      {
+        snapshotTrigger = false;
+      }
+    }
+  }
 
 
   model: VisualItemModel {
@@ -323,7 +353,6 @@ CCMP.SettingsView {
           implicitHeight: root.rowHeight
           enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
           onClicked: {
-            console.log(completeDBPath);
             root.loggerEntity.DatabaseFile = root.completeDBPath
           }
         }
@@ -373,7 +402,7 @@ CCMP.SettingsView {
 
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Filesystem info:"]
+          text: ZTR["Filesystem storage available:"]
           font.pixelSize: 20
 
           Layout.fillWidth: true
@@ -382,21 +411,8 @@ CCMP.SettingsView {
           readonly property double available: loggerEntity.FilesystemFree
           readonly property double total: loggerEntity.FilesystemTotal
           readonly property double percentAvail: total > 0 ? (available/total * 100).toFixed(2) : 0.0;
-          text: ZTR["Space available: <b>%1GB</b> of <b>%2GB</b> (%3%)"].arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
-        }
-        Item {
-          //spacer
-          width: 8
-        }
-        Label {
-          text: ZTR["Filesystem type: <b>%1</b>"].arg(loggerEntity.FilesystemType);
-        }
-        Item {
-          //spacer
-          width: 8
-        }
-        Label {
-          text: ZTR["Device name: <b>%1</b>"].arg(loggerEntity.FilesystemDevice);
+          text: ZTR["<b>%1GB</b> of <b>%2GB</b> (%3%)"].arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
+          font.pixelSize: 16
         }
       }
     }
@@ -543,10 +559,7 @@ CCMP.SettingsView {
       highlighted: true
 
       onClicked: {
-        if(loggerEntity.LoggingEnabled !== true)
-        {
-          loggerEntity.LoggingEnabled=true;
-        }
+        recordNamePopup.visible = true;
       }
     }
 
@@ -561,11 +574,8 @@ CCMP.SettingsView {
       enabled: loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true && !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
 
       onClicked: {
-        if(loggerEntity.LoggingEnabled !== true)
-        {
-          snapshotTrigger = true;
-          loggerEntity.LoggingEnabled=true;
-        }
+        snapshotTrigger=true;
+        recordNamePopup.visible = true;
       }
     }
 
