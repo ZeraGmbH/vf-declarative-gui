@@ -774,6 +774,11 @@ class ZeraGlueLogicPrivate
     if(fftTableRole != 0)
     {
       const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
+      /**
+       * @note The size check fixes:
+       * Alignment trap: not handling instruction edd21b00 at [<000523ae>]
+       * Unhandled fault: alignment exception (0x001) at 0x65747379
+       */
       if(tmpData.length() >= 3) //base oscillation imaginary part is at index 3
       {
         QModelIndex fftTableIndex, fftRelativeTableIndex;
