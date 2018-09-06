@@ -77,7 +77,8 @@ Popup {
 
       RadioButton {
         id: defaultRadioButton
-        checked: true
+        checked: loggerEntity.recordName !== undefined && loggerEntity.recordName !== "";
+        enabled: loggerEntity.recordName !== undefined && loggerEntity.recordName !== "";
         onCheckedChanged: {
           if(checked)
           {
@@ -105,6 +106,7 @@ Popup {
 
       RadioButton {
         ButtonGroup.group: presetSelectionGroup
+        checked: loggerEntity.recordName === undefined || loggerEntity.recordName === "";
         onCheckedChanged: {
           if(checked)
           {
@@ -262,6 +264,7 @@ Popup {
 
     Button {
       text: ZTR["Accept"]
+      enabled: intermediaryText !== "";
       highlighted: true
       onClicked: {
         sigAccepted(substitutePlaceholders(intermediaryText)); //updates values date/time placeholders
