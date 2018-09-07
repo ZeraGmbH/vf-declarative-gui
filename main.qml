@@ -423,6 +423,7 @@ ApplicationWindow {
           font.pointSize: 14
           text: displayWindow.measuringPaused ? FA.fa_play : FA.fa_pause
           enabled: displayWindow.entitiesInitialized === true
+          highlighted: displayWindow.measuringPaused
           onClicked: {
             VeinEntity.getEntity("_System").ModulesPaused = !displayWindow.measuringPaused;
           }
