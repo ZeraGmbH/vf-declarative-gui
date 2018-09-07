@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.3
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import GlobalConfig 1.0
 
 Popup {
   id: recordNamePopup
@@ -14,6 +15,8 @@ Popup {
   modal: true
   closePolicy: Popup.NoAutoClose
 
+  property QtObject customerdataEntity: VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : 0
+
   signal sigAccepted(string t_resultText);
   signal sigCanceled();
 
@@ -23,13 +26,15 @@ Popup {
   function substitutePlaceholders(t_text) {
     var retVal = t_text;
     var dateTime = new Date();
+    var customerID = customerdataEntity ? customerdataEntity.PAR_CustomerNumber : ZTR["[customer data is not available]"]
     var replacementModel = {
-      "$VIEW": "SOME_VIEW",
+      "$VIEW": ZTR[GC.currentViewName],
       "$YEAR": Qt.formatDate(dateTime, "yyyy"),
       "$MONTH": Qt.formatDate(dateTime, "MM"),
       "$DAY": Qt.formatDate(dateTime, "dd"),
       "$TIME": Qt.formatDateTime(dateTime, "hh:mm"),
-      "$SECONDS": Qt.formatDateTime(dateTime, "ss")
+      "$SECONDS": Qt.formatDateTime(dateTime, "ss"),
+      "$CUSTOMER_ID" : customerID.length>0 ? customerID : ZTR["[customer id is not set]"]
     }
 
     for(var replaceIndex in replacementModel)
@@ -62,6 +67,7 @@ Popup {
     anchors.bottom: popupControlContainer.top
     RowLayout {
       width: selectionColumn.width
+      visible: loggerEntity.recordName !== undefined && loggerEntity.recordName !== "";
 
       Label {
         text: "Current record name:"
@@ -98,7 +104,7 @@ Popup {
 
       Label {
         id: presetRecordNameLabel
-        text: "$VIEW $YEAR/$MONTH/$DAY $TIME"
+        text: "$VIEW $YEAR/$MONTH/$DAY"
         Layout.fillWidth: true
         font.pointSize: 10
         horizontalAlignment: Text.AlignRight

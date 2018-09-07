@@ -475,6 +475,11 @@ void ZeraTranslation::reloadStringTable()
   insert("Select recorded values:", tr("Select recorded values:"));
   insert("Manage customer data:", tr("Manage customer data:"));
   insert("Snapshot", tr("Snapshot"));
+  //: when the system disabled the customer data management, the brackets are for visual distinction from other text
+  insert("[customer data is not available]", tr("[customer data is not available]"));
+  //: when the customer number is empty, the brackets are for visual distinction from other text
+  insert("[customer id is not set]", tr("[customer id is not set]"));
+
 
   //LoggerDatasetSelector.qml
   insert("Regex search", tr("Regex search", "regular expression search"));
