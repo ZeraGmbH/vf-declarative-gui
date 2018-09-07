@@ -220,4 +220,7 @@ Item {
     settings.globalSettings.setOption("errorMarginUpperValue", upperLimit, true);
     settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit, true);
   }
+
+  //not saved to settings
+  property string currentViewName: "";
 }

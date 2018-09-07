@@ -5,6 +5,7 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 import "qrc:/components/common" as CCMP
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import GlobalConfig 1.0
 
 Item {
   id: root
@@ -78,6 +79,7 @@ Item {
       scale: PathView.iconScale
       opacity: PathView.iconOpacity
       z: -1/PathView.iconOpacity
+      property string itemName: name
 
       Rectangle {
         id: previewImage
@@ -148,6 +150,11 @@ Item {
     enabled: visible
     anchors.fill: parent
     highlightMoveDuration: 200
+
+    onCurrentItemChanged: {
+      //untranslated raw text
+      GC.currentViewName = currentItem.itemName;
+    }
 
     delegate: pageDelegate
     path: Path {
