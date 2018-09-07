@@ -306,24 +306,28 @@ ApplicationWindow {
     ListModel {
       id: syslogModel
 
+      /**
+       * @b loads json formatted log messages from systemd-journal-gatewayd at the same ip address as the modulemanager
+       * Only the zera-services user (_UID=15000) is emitting relevant log messages for this case
+       */
       Component.onCompleted: {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
           var entryNum = 0;
           switch(xhr.readyState)
           {
-          case XMLHttpRequest.HEADERS_RECEIVED:
-            console.log("Headers -->", xhr.getAllResponseHeaders());
-            break;
+//          case XMLHttpRequest.HEADERS_RECEIVED:
+//            console.log("Headers -->", xhr.getAllResponseHeaders());
+//            break;
           case XMLHttpRequest.LOADING:
             entryNum = syslogModel.count; //the response always contains the full data, but we need to parse only the new entries
             //[fallthrough]
           case XMLHttpRequest.DONE:
             var a = xhr.responseText.split("\n");
-            if(entryNum>0)
-            {
-              console.log("processing partial data for", a.length-entryNum-1, "entries")
-            }
+//            if(entryNum>0)
+//            {
+//              console.log("processing partial data for", a.length-entryNum-1, "entries")
+//            }
             for(; entryNum<a.length; ++entryNum)
             {
               var jsonString = a[entryNum];
