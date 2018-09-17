@@ -105,11 +105,4 @@ HEADERS += \
 
 INCLUDEPATH += src
 
-ZGUI_CONFIG_FILES = settings.json
-
-config_files.files = $$ZGUI_CONFIG_FILES
-config_files.path = /etc/skel/.config/vf-gui-com5003/
-INSTALLS += config_files
-
-OTHER_FILES += $$ZGUI_CONFIG_FILES \
-               TODO
+OTHER_FILES += settings.json
