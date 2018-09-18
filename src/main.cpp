@@ -29,6 +29,7 @@
 
 int main(int argc, char *argv[])
 {
+  const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
   //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
   //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
   //qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
@@ -75,6 +76,8 @@ int main(int argc, char *argv[])
   QTimer networkWatchdog;
   networkWatchdog.setInterval(3000);
   networkWatchdog.setSingleShot(true);
+
+  engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
 
 #ifdef QT_DEBUG
   engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");

@@ -85,6 +85,13 @@ ApplicationWindow {
     }
   }
 
+  Loader {
+    active: HAS_QT_VIRTUAL_KEYBOARD
+    Component.onCompleted: {
+      setSource("qrc:/components/common/VirtualKeyboardConfigurator.qml", { "textPreviewMode": true });
+    }
+  }
+
   Timer {
     id: entityTimeout
     interval: 5000
