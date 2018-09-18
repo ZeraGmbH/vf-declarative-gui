@@ -77,8 +77,6 @@ int main(int argc, char *argv[])
   networkWatchdog.setInterval(3000);
   networkWatchdog.setSingleShot(true);
 
-  engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
-
 #ifdef QT_DEBUG
   engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
 #else
@@ -91,6 +89,7 @@ int main(int argc, char *argv[])
   engine.rootContext()->setContextProperty("OS_TYPE", "linux");
 #endif //Q_OS_ANDROID
 
+  engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
   engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
   VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);

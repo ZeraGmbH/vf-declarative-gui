@@ -5,5 +5,6 @@ Item {
   property bool textPreviewMode: false;
   Component.onCompleted: {
     VirtualKeyboardSettings.fullScreenMode=textPreviewMode;
+    console.log("Detected qtvirtualkeyboard, setting fullScreenMode:", textPreviewMode);
   }
 }
