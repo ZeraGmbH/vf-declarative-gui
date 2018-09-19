@@ -59,7 +59,7 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
         reloadStringTable();
       }
     }
-    else
+    else if(t_language != "C")
     {
       qWarning() << "Language not found for locale:" << t_language;
     }
