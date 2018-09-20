@@ -270,7 +270,7 @@ Item {
         anchors.rightMargin: 4
         Label {
           text: modelData
-          anchors.verticalCenter: parent.verticalCenter
+          Layout.alignment: Qt.AlignVCenter
         }
         Item {
           Layout.fillWidth: true
