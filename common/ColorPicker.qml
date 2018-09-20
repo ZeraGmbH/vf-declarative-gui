@@ -37,15 +37,18 @@ Popup {
   }
 
   RowLayout {
+    anchors.fill: parent
     spacing: 16
-    ColumnLayout {
+    Column {
       id: inputLayout
-      width: root.width/2
+      Layout.fillWidth: true
+      height: root.height - root.padding*2
       Item {
         //hue bar
         width: inputLayout.width
         height: root.height/12
         LinearGradient {
+
           anchors.fill: parent
           start: Qt.point(0, 0)
           end: Qt.point(parent.width, 0)
@@ -162,8 +165,8 @@ Popup {
       }
     }
     Item {
-      width: root.width/1.5
-      height: root.height
+      width: root.width/2 - parent.spacing
+      height: root.height - root.padding*2
       Button {
         text: ZTR["Accept"]
         anchors.left: parent.left
