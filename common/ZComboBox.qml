@@ -24,7 +24,18 @@ Rectangle {
   property bool automaticIndexChange: false
   //support for QML ListModel and JS array
   property bool arrayMode: false
-  property var model;
+  property var model: [];
+  readonly property bool modelInitialized: arrayMode === true && model.length>0;
+  onModelInitializedChanged: {
+    if(modelInitialized === true)
+    {
+      fakeModel.clear();
+      for(var i=0; i<model.length; i++)
+      {
+        fakeModel.append({"text":model[i]})
+      }
+    }
+  }
 
   function getMaxRows() {
     if(contentMaxRows <= 0 || contentMaxRows > count)
@@ -34,16 +45,6 @@ Rectangle {
     else
     {
       return contentMaxRows
-    }
-  }
-  function populateFakeModel() {
-    fakeModel.clear();
-    if(arrayMode && model!==undefined)
-    {
-      for(var i=0; i<model.length; i++)
-      {
-        fakeModel.append({"text":model[i]})
-      }
     }
   }
   function updateCurrentText() {
@@ -81,11 +82,7 @@ Rectangle {
     root.expanded = false
   }
   onModelChanged: {
-    populateFakeModel()
     root.expanded=false
-  }
-  onArrayModeChanged: {
-    populateFakeModel()
   }
 
   //List view does not support JS arrays
@@ -208,7 +205,15 @@ Rectangle {
 
           Text {
             anchors.centerIn: parent
-            text: ZTR[model.text] !== undefined ? ZTR[model.text] : model.text
+            text: {
+              var retVal = "";
+              if(model.text !== undefined)
+              {
+                retVal = ZTR[model.text] !== undefined ? ZTR[model.text] : model.text
+              }
+              return retVal;
+            }
+
             textFormat: Text.PlainText
             color:Material.primaryTextColor
             font.pixelSize: root.fontSize

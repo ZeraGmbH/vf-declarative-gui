@@ -20,8 +20,8 @@ Rectangle {
   property int targetIndex;
   property string currentText;
   property string selectedText;
-  property var model;
-  property var imageModel;
+  property var model: [];
+  property var imageModel: [];
   property int contentRowWidth : width;
   property int contentRowHeight : height;
   property int contentMaxRows: 0
@@ -31,6 +31,18 @@ Rectangle {
   property real centerVerticalOffset: 0;
   //used when the displayed text should only change from external value changes
   property bool automaticIndexChange: false
+  property bool imageMipmap: true;
+  readonly property bool modelInitialized: arrayMode === true && model.length>0 && imageModel.length>0;
+  onModelInitializedChanged: {
+    if(modelInitialized === true)
+    {
+      fakeModel.clear();
+      for(var i=0; i<model.length; i++)
+      {
+        fakeModel.append({"text":model[i], "source":imageModel[i]})
+      }
+    }
+  }
 
   function getMaxRows() {
     if(contentMaxRows <= 0 || contentMaxRows > count)
@@ -40,17 +52,6 @@ Rectangle {
     else
     {
       return contentMaxRows
-    }
-  }
-
-  function populateFakeModel() {
-    fakeModel.clear();
-    if(arrayMode && model!==undefined && imageModel!==undefined)
-    {
-      for(var i=0; i<model.length; i++)
-      {
-        fakeModel.append({"text":model[i], "source":imageModel[i]})
-      }
     }
   }
 
@@ -71,9 +72,6 @@ Rectangle {
     }
   }
 
-  onArrayModeChanged: {
-    populateFakeModel()
-  }
   onCurrentIndexChanged: {
     targetIndex = currentIndex;
   }
@@ -87,7 +85,6 @@ Rectangle {
     fakeModel.clear();
     if(model && imageModel)
     {
-      populateFakeModel()
       root.expanded=false
     }
   }
@@ -95,7 +92,6 @@ Rectangle {
     fakeModel.clear();
     if(model && imageModel)
     {
-      populateFakeModel()
       root.expanded=false
     }
   }
@@ -114,7 +110,7 @@ Rectangle {
     anchors.topMargin: 2
     anchors.bottomMargin: 2
     anchors.rightMargin: parent.width/5
-    source:  model && imageModel ? fakeModel.get(targetIndex).source : undefined
+    source:  modelInitialized === true ? fakeModel.get(targetIndex).source : undefined
     fillMode: Image.PreserveAspectFit
     mipmap: true
   }
@@ -223,7 +219,7 @@ Rectangle {
             anchors.bottomMargin: 2
             source: model.source
             fillMode: Image.PreserveAspectFit
-            mipmap: true
+            mipmap: root.imageMipmap
           }
         }
       }
