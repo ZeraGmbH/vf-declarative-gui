@@ -82,7 +82,6 @@ CCMP.ModulePage {
             decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
           }
           CCMP.ZVisualComboBox {
-            arrayMode: true
             model: burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data
             imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
             property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);

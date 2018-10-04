@@ -149,7 +149,6 @@ SettingsView {
         }
         ZVisualComboBox {
           id: localeCB
-          arrayMode: true
           model: ZTR["TRANSLATION_LOCALES"]
           imageModel: ZTR["TRANSLATION_FLAGS"]
           height: root.rowHeight-8
