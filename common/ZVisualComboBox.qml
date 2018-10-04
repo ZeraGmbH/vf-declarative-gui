@@ -13,7 +13,7 @@ Rectangle {
   }
 
   //support for QML ListModel and JS array
-  property bool arrayMode: false
+  readonly property bool arrayMode: true
   property bool expanded: false
   property int count : (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
   property int currentIndex;
@@ -21,6 +21,7 @@ Rectangle {
   property string currentText;
   property string selectedText;
   property var model: [];
+  property var modelLength;
   property var imageModel: [];
   property int contentRowWidth : width;
   property int contentRowHeight : height;
@@ -33,7 +34,9 @@ Rectangle {
   property bool automaticIndexChange: false
   property bool imageMipmap: true;
   readonly property bool modelInitialized: arrayMode === true && model.length>0 && imageModel.length>0;
-  onModelInitializedChanged: {
+  onModelInitializedChanged: updateFakeModel();
+
+  function updateFakeModel() {
     if(modelInitialized === true)
     {
       fakeModel.clear();
@@ -42,7 +45,9 @@ Rectangle {
         fakeModel.append({"text":model[i], "source":imageModel[i]})
       }
     }
+    modelLength = model.length;
   }
+
 
   function getMaxRows() {
     if(contentMaxRows <= 0 || contentMaxRows > count)
@@ -89,7 +94,10 @@ Rectangle {
     }
   }
   onModelChanged: {
-    fakeModel.clear();
+    if(model.length !== modelLength)
+    {
+      updateFakeModel();
+    }
     if(model && imageModel)
     {
       root.expanded=false

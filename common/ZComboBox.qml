@@ -25,8 +25,11 @@ Rectangle {
   //support for QML ListModel and JS array
   property bool arrayMode: false
   property var model: [];
+  property var modelLength;
   readonly property bool modelInitialized: arrayMode === true && model.length>0;
-  onModelInitializedChanged: {
+  onModelInitializedChanged: updateFakeModel();
+
+  function updateFakeModel() {
     if(modelInitialized === true)
     {
       fakeModel.clear();
@@ -35,6 +38,7 @@ Rectangle {
         fakeModel.append({"text":model[i]})
       }
     }
+    modelLength = model.length;
   }
 
   function getMaxRows() {
@@ -82,6 +86,10 @@ Rectangle {
     root.expanded = false
   }
   onModelChanged: {
+    if(model.length !== modelLength)
+    {
+      updateFakeModel();
+    }
     root.expanded=false
   }
 
