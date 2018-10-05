@@ -26,7 +26,7 @@ ApplicationWindow {
   visible: true
   width: 1024
   height: 600
-  title: "zera-gui"
+  title: "ZeraGUI"
   Material.theme: Material.Dark
   Material.accent: "#339966"
 
