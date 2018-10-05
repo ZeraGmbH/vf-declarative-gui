@@ -26,7 +26,7 @@ ApplicationWindow {
   visible: true
   width: 1024
   height: 600
-  title: "COM5003"
+  title: "zera-gui"
   Material.theme: Material.Dark
   Material.accent: "#339966"
 
@@ -46,25 +46,21 @@ ApplicationWindow {
     {
     case "com5003-meas-session.json":
     {
-      displayWindow.title = "COM5003"
       requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
       break;
     }
     case "com5003-ref-session.json":
     {
-      displayWindow.title = "COM5003"
       requiredIds = [0, 2, 1001, 1020, 1050, 1150];
       break;
     }
     case "com5003-ced-session.json":
     {
-      displayWindow.title = "COM5003"
       requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1090, 1110, 1120, 1130, 1140, 1150];
       break;
     }
     case "mt310s2-meas-session.json":
     {
-      displayWindow.title = "MT310S2"
       requiredIds = [0, 2, 200, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150, 1160, 1161, 1170]; //1180
       break;
     }
