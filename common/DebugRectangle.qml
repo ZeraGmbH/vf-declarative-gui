@@ -1,5 +1,8 @@
 import QtQuick 2.0
 
+/**
+  * @b Used for debuging the real size / position of elements (QQC2 elements do not allow clean and simple modifications of their internal margins/padding)
+  */
 Rectangle {
   id: debugRectangle
   color: "transparent"

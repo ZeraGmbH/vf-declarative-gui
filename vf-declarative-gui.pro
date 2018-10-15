@@ -40,7 +40,6 @@ include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
     error("Set VF_LIBDIR to the path containing the vein-framework libraries")
     #(example) in QtCreator add qmake argument: VF_LIBDIR=<some path>/vein-framework/libs_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}
   }
-
   isEmpty(QWT_INCDIR) {
     error("Set QWT_INCDIR to the qwt includepath")
     #(example) in QtCreator add qmake argument: QWT_INCDIR=<some path>/qwt-6.1.2/src/

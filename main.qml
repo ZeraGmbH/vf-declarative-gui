@@ -89,7 +89,6 @@ ApplicationWindow {
   }
 
   Timer {
-    id: entityTimeout
     interval: 5000
     repeat: false
     running: VeinEntity.state !== VeinEntity.VQ_LOADED;

@@ -2,6 +2,10 @@ pragma Singleton
 import QtQuick 2.0
 import VeinEntity 1.0
 
+/**
+  * @b Lazy initialization of json metainformations that every measuring module should ship
+  * These contain validation information of components (e.g. a list of valid ranges for RangeModule1.PAR_ChannelXRange)
+  */
 Item {
   property var rangeIntrospection: VeinEntity.hasEntity("RangeModule1") ? JSON.parse(VeinEntity.getEntity("RangeModule1").INF_ModuleInterface) : 0
   property var dftIntrospection: VeinEntity.hasEntity("DFTModule1") ? JSON.parse(VeinEntity.getEntity("DFTModule1").INF_ModuleInterface) : 0

@@ -4,6 +4,9 @@
 #include "qnanoquickitem.h"
 #include "qnanoquickitempainter.h"
 
+/**
+ * @brief Paints the phasor diagram (DFTModulePage.qml)
+ */
 class PhasorDiagram: public QNanoQuickItem
 {
   Q_OBJECT

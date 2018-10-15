@@ -84,7 +84,6 @@ CCMP.SettingsView {
   function updateStorageList() {
     if(!listStorageTracer)
     {
-      console.log("Updating storage");
       listStorageTracer = loggerEntity.invokeRPC("listStorages()", ({}))
     }
     else

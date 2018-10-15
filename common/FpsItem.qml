@@ -2,6 +2,9 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.0
 
+/**
+  * @b Blatantly copied from qnanopainter example
+  */
 Item {
     id: root
     property int frameCounter: 0

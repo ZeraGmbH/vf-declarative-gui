@@ -7,6 +7,9 @@ class QQmlEngine;
 class QJSEngine;
 QT_END_NAMESPACE
 
+/**
+ * @brief Glue logic data holder with QML change notification support
+ */
 class GlueLogicPropertyMap : public QQmlPropertyMap
 {
   Q_OBJECT

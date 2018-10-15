@@ -8,6 +8,9 @@ class ZeraGlueLogicPrivate;
 class GlueLogicPropertyMap;
 class ZeraTranslation;
 
+/**
+ * @brief Glue logic / (buisness logic) handling class
+ */
 class ZeraGlueLogic : public VeinEvent::EventSystem
 {
   Q_OBJECT

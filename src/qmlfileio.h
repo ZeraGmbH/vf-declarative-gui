@@ -6,6 +6,9 @@
 #include <QString>
 #include <QQuickItem>
 
+/**
+ * @brief Currently only used to read license information
+ */
 class QmlFileIO : public QObject
 {
   Q_OBJECT

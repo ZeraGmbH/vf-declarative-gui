@@ -2,6 +2,9 @@ import QtQuick 2.0
 import QtCharts 2.0
 import QtQuick.Controls.Material 2.0
 
+/**
+  * @b currently unused
+  */
 ChartView {
   titleColor: Material.primaryTextColor
   antialiasing: true
