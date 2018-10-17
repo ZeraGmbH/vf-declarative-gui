@@ -155,7 +155,8 @@ Popup {
     anchors.right: middleFrame.left
     anchors.leftMargin: 8
     anchors.rightMargin: 8
-    Component.onCompleted: forceActiveFocus()
+    //disabled because of virtual keyboard
+    //Component.onCompleted: forceActiveFocus()
     enabled: availView.moving===false
   }
   Label {
@@ -184,7 +185,8 @@ Popup {
     onCurrentItemChanged: {
       if(currentIndex !== -1)
       {
-        availSearchField.focus=true;
+        //disabled because of virtual keyboard
+        //availSearchField.focus=true;
         selectedView.currentIndex = -1;
       }
     }
@@ -235,7 +237,8 @@ Popup {
     onCurrentItemChanged: {
       if(currentIndex !== -1)
       {
-        selectedSearchField.focus=true;
+        //disabled because of virtual keyboard
+        //selectedSearchField.focus=true;
         availView.currentIndex = -1;
       }
     }
