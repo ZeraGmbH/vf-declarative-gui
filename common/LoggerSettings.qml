@@ -531,8 +531,9 @@ CCMP.SettingsView {
 
           Layout.fillWidth: true
           Label {
-            visible: text.length>0
-            text: FA.icon(FA.fa_file_text)+(VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData").PAR_DatasetIdentifier : "");
+            readonly property string customerId: (VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData").PAR_DatasetIdentifier : "");
+            visible: customerId.length>0
+            text: FA.icon(FA.fa_file_text)+customerId
             font.family: "FontAwesome"
             anchors.right: parent.right
             anchors.rightMargin: 12
