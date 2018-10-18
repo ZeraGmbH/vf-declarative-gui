@@ -5,18 +5,17 @@ import GlobalConfig 1.0
 
 Item {
   id: root
-  property int inputMethodHints
   property var validator
   property string text: ""
   property alias textField: tInput
   property alias description: descriptionText
   property alias unit: unitLabel
+  property alias inputMethodHints: tInput.inputMethodHints;
+  property alias placeholderText: tInput.placeholderText;
   property QtObject entity
   property string controlPropertyName
   readonly property bool acceptableInput: tInput.acceptableInput && (!validator || (validator.top>=parseFloat(tInput.text) && validator.bottom<=parseFloat(tInput.text)))
   readonly property bool m_alteredValue: (Math.abs(parseFloat(tInput.text) - entity[controlPropertyName]) >=  Math.pow(10, -root.validator.decimals))
-
-  onInputMethodHintsChanged: tInput.inputMethodHints = inputMethodHints
   onTextChanged: tInput.text = text
   onValidatorChanged: tInput.validator = validator
 
@@ -38,8 +37,11 @@ Item {
   Item {
     property var intermediateValue: root.entity[root.controlPropertyName]
     onIntermediateValueChanged: {
-      tInput.text = intermediateValue
-      root.text = intermediateValue
+      if(intermediateValue !== undefined)
+      {
+        tInput.text = intermediateValue
+        root.text = intermediateValue
+      }
     }
   }
 

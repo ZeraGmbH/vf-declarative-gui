@@ -16,7 +16,7 @@ Item {
   property QtObject entity
   property string controlPropertyName
   property string text: ""
-  property int inputMethodHints
+  property alias inputMethodHints: tInput.inputMethodHints;
   property var validator
 
   //allows to convert the output in other formats before setting the component value
@@ -36,9 +36,8 @@ Item {
     }
   }
 
-  onTextChanged: tInput.text = text
-  onInputMethodHintsChanged: tInput.inputMethodHints = inputMethodHints
-  onValidatorChanged: tInput.validator = validator
+  onTextChanged: tInput.text = text;
+  onValidatorChanged: tInput.validator = validator;
 
   Item {
     property var intermediateValue: transformIncoming(root.entity[root.controlPropertyName])

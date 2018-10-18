@@ -496,6 +496,7 @@ CCMP.ModulePage {
             implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
             font.pixelSize: height/2
             text: GC.errorMarginUpperValue
+            inputMethodHints: Qt.ImhPreferNumbers
 
             mouseSelectionMode: TextInput.SelectWords
             selectByMouse: true
@@ -528,6 +529,7 @@ CCMP.ModulePage {
             implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
             font.pixelSize: height/2
             text: GC.errorMarginLowerValue
+            inputMethodHints: Qt.ImhPreferNumbers
 
             mouseSelectionMode: TextInput.SelectWords
             selectByMouse: true

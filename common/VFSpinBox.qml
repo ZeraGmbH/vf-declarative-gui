@@ -37,7 +37,7 @@ Item {
 
       SpinBox {
         id: valueSpinBox
-
+        inputMethodHints: Qt.ImhPreferNumbers
         //if text is entered via keyboard and the user presses enter with valid input -> accept the input instead of requiring one more click to the accept button
         property bool textAcceptWorkaround: false
         property int decimals: introspection.stepSize<1 ? 1 : 0
@@ -72,12 +72,12 @@ Item {
         function localTextToValue(value, locale) {
           return Number(value / 100).toLocaleString(locale, 'f', valueSpinBox.decimals)
         }
-        textFromValue: localTextToValue;
+        textFromValue: (localTextToValue);
 
         function localValueToText(text, locale) {
           return Number.fromLocaleString(locale, text) * 100
         }
-        valueFromText: localValueToText;
+        valueFromText: (localValueToText);
 
         Connections {
           target: valueSpinBox.contentItem //this is the TextInput
