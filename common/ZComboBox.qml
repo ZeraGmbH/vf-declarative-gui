@@ -89,7 +89,7 @@ Rectangle {
     root.expanded = false
   }
   onModelChanged: {
-    if(model.length !== modelLength)
+    if(model)
     {
       updateFakeModel();
     }

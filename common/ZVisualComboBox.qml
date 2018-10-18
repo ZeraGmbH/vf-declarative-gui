@@ -97,12 +97,9 @@ Rectangle {
     }
   }
   onModelChanged: {
-    if(model.length !== modelLength)
-    {
-      updateFakeModel();
-    }
     if(model && imageModel)
     {
+      updateFakeModel();
       root.expanded=false
     }
   }
