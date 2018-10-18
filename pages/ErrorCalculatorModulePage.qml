@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import QwtChart 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VFControls
+import "qrc:/data/staticdata/FontAwesome.js" as FA
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
@@ -458,6 +459,7 @@ CCMP.ModulePage {
           color: errorBar.isInMargins ? Material.backgroundColor :  Qt.darker("darkred", 2.5)
           property var barModel: []
           leftAxisBars: barModel
+          leftBaseline: (GC.errorMarginUpperValue+GC.errorMarginLowerValue)/2;
           legendEnabled: false
           bottomLabelsEnabled: false
 
@@ -491,7 +493,8 @@ CCMP.ModulePage {
           TextField {
             id: upperLimitInput
             anchors.fill: parent
-            anchors.bottomMargin: parent.width*4/5
+            anchors.bottomMargin: parent.height*3/4
+            anchors.leftMargin: parent.width/2
             anchors.rightMargin: 8
             implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
             font.pixelSize: height/2
@@ -519,12 +522,48 @@ CCMP.ModulePage {
               visible: parent.acceptableInput === false
               anchors.fill: parent
             }
+            Label {
+              text: "≤"
+              font.pixelSize: parent.height/2
+              anchors.right: parent.left
+              anchors.rightMargin: 4
+              anchors.verticalCenter: parent.verticalCenter
+            }
+          }
+
+          Label {
+            function calculateErrorBudget(errorValue) {
+              var retVal="???";
+              var centerLine = (GC.errorMarginUpperValue+GC.errorMarginLowerValue)/2;
+              //avoid division by zero
+              var upperErrorMargin = GC.errorMarginUpperValue !== 0  ? GC.errorMarginUpperValue : Math.pow(10, -15)
+              var lowerErrorMargin = GC.errorMarginUpperValue !== 0  ? GC.errorMarginLowerValue : -Math.pow(10, -15)
+
+              if(errorValue >= centerLine)
+              {
+                retVal = 100 - (errorValue-centerLine) / (upperErrorMargin-centerLine) * 100
+              }
+              else
+              {
+                retVal = 100 - (errorValue-centerLine) / (lowerErrorMargin-centerLine) * 100
+              }
+
+              return retVal;
+            }
+            readonly property real errorBudget: calculateErrorBudget(errorCalculator.ACT_Result).toFixed(3)
+            text: FA.icon(FA.fa_bullseye, (errorBudget > 10 ? Material.accent : (errorBudget >= 0 ? "gold" : "red"))) + " " + errorBudget +"%";
+            font.pixelSize: parent.height/8
+            font.family: "FontAwesome";
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: 8
           }
 
           TextField {
             id: lowerLimitInput
             anchors.fill: parent
-            anchors.topMargin: parent.width*4/5
+            anchors.topMargin: parent.height*3/4
+            anchors.leftMargin: parent.width/2
             anchors.rightMargin: 8
             implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
             font.pixelSize: height/2
@@ -551,6 +590,13 @@ CCMP.ModulePage {
               opacity: 0.2
               visible: parent.acceptableInput === false
               anchors.fill: parent
+            }
+            Label {
+              text: "≥"
+              font.pixelSize: parent.height/2
+              anchors.right: parent.left
+              anchors.rightMargin: 4
+              anchors.verticalCenter: parent.verticalCenter
             }
           }
         }

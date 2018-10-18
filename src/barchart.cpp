@@ -26,9 +26,9 @@ BarChart::BarChart(QQuickItem *parent):
   valuesTimer(new QTimer(this)),
   canvas(new QwtPlotCanvas()),
   plot(new QwtPlot()),
-  barDataLeft(new BarData()),
+  m_barDataLeft(new BarData()),
   m_minValueLeftAxis(1.0),
-  barDataRight(new BarData()),
+  m_barDataRight(new BarData()),
   m_minValueRightAxis(1.0)
 {
   connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
@@ -51,15 +51,15 @@ BarChart::BarChart(QQuickItem *parent):
 
   plot->setCanvas(canvas);
 
-  barDataLeft->attach(plot);
-  barDataLeft->setYAxis(QwtPlot::yLeft);
-  barDataLeft->setMargin(0);
-  barDataLeft->setLayoutPolicy(BarData::AutoAdjustSamples);
+  m_barDataLeft->attach(plot);
+  m_barDataLeft->setYAxis(QwtPlot::yLeft);
+  m_barDataLeft->setMargin(0);
+  m_barDataLeft->setLayoutPolicy(BarData::AutoAdjustSamples);
 
-  barDataRight->attach(plot);
-  barDataRight->setYAxis(QwtPlot::yRight);
-  barDataRight->setMargin(0);
-  barDataRight->setLayoutPolicy(BarData::AutoAdjustSamples);
+  m_barDataRight->attach(plot);
+  m_barDataRight->setYAxis(QwtPlot::yRight);
+  m_barDataRight->setMargin(0);
+  m_barDataRight->setLayoutPolicy(BarData::AutoAdjustSamples);
 
   plot->setAutoReplot(true);
 
@@ -82,6 +82,14 @@ BarChart::BarChart(QQuickItem *parent):
   m_lowerLimitMarker->setLinePen( Qt::red, 0, Qt::DashLine );
   m_lowerLimitMarker->setVisible(false);
   m_lowerLimitMarker->attach(plot);
+
+  m_centerMarker = new QwtPlotMarker();
+  m_centerMarker->setValue( 0.0, 0.0 );
+  m_centerMarker->setLineStyle( QwtPlotMarker::HLine );
+  m_centerMarker->setLabelAlignment( Qt::AlignRight | Qt::AlignBottom );
+  m_centerMarker->setLinePen( Qt::gray, 0, Qt::DashLine );
+  m_centerMarker->setVisible(false);
+  m_centerMarker->attach(plot);
 }
 
 BarChart::~BarChart()
@@ -127,6 +135,7 @@ void BarChart::setMarkers(double t_lowerLimit, double t_upperLimit)
 {
   m_lowerLimitMarker->setValue(0.0, t_lowerLimit);
   m_upperLimitMarker->setValue(0.0, t_upperLimit);
+  m_centerMarker->setValue(0.0, (t_lowerLimit+t_upperLimit)/2);
 }
 
 void BarChart::componentComplete()
@@ -176,6 +185,11 @@ QString BarChart::leftScaleTransform() const
   return static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yLeft))->getTextTransform();
 }
 
+double BarChart::leftBaseline() const
+{
+  return m_barDataLeft->baseline();
+}
+
 bool BarChart::rightAxisLogScale() const
 {
   return m_logScaleRightAxis;
@@ -215,6 +229,11 @@ QString BarChart::rightScaleTransform() const
 {
   Q_ASSERT(plot->axisScaleDraw(QwtPlot::yRight) != nullptr);
   return static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yRight))->getTextTransform();
+}
+
+double BarChart::rightBaseline() const
+{
+  return m_barDataRight->baseline();
 }
 
 void BarChart::onExternValuesChanged()
@@ -329,6 +348,7 @@ void BarChart::setMarkersEnabled(bool t_markersEnabled)
   m_markersEnabled = t_markersEnabled;
   m_lowerLimitMarker->setVisible(t_markersEnabled);
   m_upperLimitMarker->setVisible(t_markersEnabled);
+  m_centerMarker->setVisible(t_markersEnabled);
 }
 
 void BarChart::setTextColor(QColor t_textColor)
@@ -416,7 +436,7 @@ void BarChart::setLeftAxisMinValue(double t_leftAxisMinValue)
     {
       tmpScale=tmpScale/10;
     }
-    barDataLeft->setBaseline(m_minValueLeftAxis/10);
+    m_barDataLeft->setBaseline(m_minValueLeftAxis/10);
   }
   else
   {
@@ -430,7 +450,7 @@ void BarChart::setLeftAxisMinValue(double t_leftAxisMinValue)
 void BarChart::setLeftAxisBars(QList<QVariant> t_leftAxisValues)
 {
   QVector< double > samples;
-  barDataLeft->clearData();
+  m_barDataLeft->clearData();
   if (m_valuesLeftAxis != t_leftAxisValues)
   {
     foreach (QVariant tmpVar, t_leftAxisValues)
@@ -439,7 +459,7 @@ void BarChart::setLeftAxisBars(QList<QVariant> t_leftAxisValues)
       if(myBar)
       {
         samples += myBar->value();
-        barDataLeft->addData(myBar->color(), myBar->title());
+        m_barDataLeft->addData(myBar->color(), myBar->title());
         // value order may have changed,
         disconnect(myBar, SIGNAL(colorChanged(QColor)), this, SLOT(onExternValuesChanged()));
         disconnect(myBar, SIGNAL(valueChanged(double)), this, SLOT(onExternValuesChanged()));
@@ -459,16 +479,16 @@ void BarChart::setLeftAxisBars(QList<QVariant> t_leftAxisValues)
       if(myBar)
       {
         samples += myBar->value();
-        barDataLeft->addData(myBar->color(), myBar->title());
+        m_barDataLeft->addData(myBar->color(), myBar->title());
       }
     }
   }
-  barDataLeft->setSamples(samples);
+  m_barDataLeft->setSamples(samples);
   if(m_legendEnabled)
     plot->insertLegend(new QwtLegend());
 
   m_valuesLeftAxis = t_leftAxisValues;
-  bottomLabelsEnabledChanged(barDataLeft->getTitles());
+  bottomLabelsEnabledChanged(m_barDataLeft->getTitles());
   emit leftAxisBarsChanged(t_leftAxisValues);
 }
 
@@ -493,6 +513,14 @@ void BarChart::setLeftScaleTransform(const QString &t_leftAxisTransform)
 {
   Q_ASSERT(plot->axisScaleDraw(QwtPlot::yLeft) != nullptr);
   static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yLeft))->setTextTransform(t_leftAxisTransform);
+}
+
+void BarChart::setLeftBaseline(double t_leftBaseline)
+{
+  if(m_logScaleLeftAxis == false)
+  {
+    m_barDataLeft->setBaseline(t_leftBaseline);
+  }
 }
 
 void BarChart::setRightAxisLogScaleEnabled(bool t_rightAxisLogScaleEnabled)
@@ -550,7 +578,7 @@ void BarChart::setRightAxisMinValue(double t_rightAxisMinValue)
     {
       tmpScale=tmpScale/10;
     }
-    barDataRight->setBaseline(m_minValueRightAxis/10);
+    m_barDataRight->setBaseline(m_minValueRightAxis/10);
   }
   else
   {
@@ -563,7 +591,7 @@ void BarChart::setRightAxisMinValue(double t_rightAxisMinValue)
 void BarChart::setRightAxisBars(QList<QVariant> t_rightAxisValues)
 {
   QVector< double > samples;
-  barDataRight->clearData();
+  m_barDataRight->clearData();
   if (m_valuesRightAxis != t_rightAxisValues)
   {
     foreach (QVariant tmpVar, t_rightAxisValues)
@@ -572,7 +600,7 @@ void BarChart::setRightAxisBars(QList<QVariant> t_rightAxisValues)
       if(myBar)
       {
         samples += myBar->value();
-        barDataRight->addData(myBar->color(), myBar->title());
+        m_barDataRight->addData(myBar->color(), myBar->title());
         // value order may have changed,
         disconnect(myBar, SIGNAL(colorChanged(QColor)), this, SLOT(onExternValuesChanged()));
         disconnect(myBar, SIGNAL(valueChanged(double)), this, SLOT(onExternValuesChanged()));
@@ -592,12 +620,12 @@ void BarChart::setRightAxisBars(QList<QVariant> t_rightAxisValues)
       if(myBar)
       {
         samples += myBar->value();
-        barDataRight->addData(myBar->color(), myBar->title());
+        m_barDataRight->addData(myBar->color(), myBar->title());
       }
     }
   }
 
-  barDataRight->setSamples(samples);
+  m_barDataRight->setSamples(samples);
   if(m_legendEnabled)
     plot->insertLegend(new QwtLegend());
 
@@ -632,6 +660,14 @@ void BarChart::setRightScaleTransform(const QString &t_rightAxisTransform)
 {
     Q_ASSERT(plot->axisScaleDraw(QwtPlot::yRight) != nullptr);
     static_cast<SideScaleDraw*>(plot->axisScaleDraw(QwtPlot::yRight))->setTextTransform(t_rightAxisTransform);
+}
+
+void BarChart::setRightBaseline(double t_rightBaseline)
+{
+  if(m_logScaleRightAxis == false)
+  {
+    m_barDataRight->setBaseline(t_rightBaseline);
+  }
 }
 
 void BarChart::onExternValuesChangedTimeout()

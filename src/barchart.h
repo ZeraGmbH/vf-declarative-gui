@@ -44,6 +44,7 @@ class BarChart : public QQuickPaintedItem
   Q_PROPERTY(QColor leftAxisColor READ leftAxisColor WRITE setLeftAxisColor)
   Q_PROPERTY(QString leftAxisTitle READ leftAxisTitle WRITE setLeftAxisTitle)
   Q_PROPERTY(QString leftScaleTransform READ leftScaleTransform WRITE setLeftScaleTransform)
+  Q_PROPERTY(double leftBaseline READ leftBaseline WRITE setLeftBaseline)
 
   //right axis
   Q_PROPERTY(bool rightAxisLogScale READ rightAxisLogScale WRITE setRightAxisLogScaleEnabled)
@@ -54,6 +55,7 @@ class BarChart : public QQuickPaintedItem
   Q_PROPERTY(bool rightAxisEnabled READ rightAxisEnabled WRITE setRightAxisEnabled)
   Q_PROPERTY(QString rightAxisTitle READ rightAxisTitle WRITE setRightAxisTitle)
   Q_PROPERTY(QString rightScaleTransform READ rightScaleTransform WRITE setRightScaleTransform)
+  Q_PROPERTY(double rightBaseline READ rightBaseline WRITE setRightBaseline)
 
 public:
   BarChart(QQuickItem *parent = 0);
@@ -88,6 +90,7 @@ public:
   QColor leftAxisColor() const;
   QString leftAxisTitle() const;
   QString leftScaleTransform() const;
+  double leftBaseline() const;
 
   //right axis
   bool rightAxisLogScale() const;
@@ -98,6 +101,7 @@ public:
   bool rightAxisEnabled() const;
   QString rightAxisTitle() const;
   QString rightScaleTransform() const;
+  double rightBaseline() const;
 
 public slots:
   void onExternValuesChanged();
@@ -119,6 +123,8 @@ public slots:
   void setLeftAxisColor(QColor t_leftAxisColor);
   void setLeftAxisTitle(QString t_leftAxisTitle);
   void setLeftScaleTransform(const QString &t_leftAxisTransform);
+  void setLeftBaseline(double t_leftBaseline);
+
 
   //right axis
   void setRightAxisLogScaleEnabled(bool t_rightAxisLogScaleEnabled);
@@ -129,6 +135,7 @@ public slots:
   void setRightAxisEnabled(bool t_rightAxisEnabled);
   void setRightAxisTitle(QString t_rightAxisTitle);
   void setRightScaleTransform(const QString &t_rightAxisTransform);
+  void setRightBaseline(double t_rightBaseline);
 
 signals:
   void bgColorChanged(QColor t_bgColor);
@@ -163,17 +170,18 @@ private:
   QwtPlot *plot;
   QwtPlotMarker *m_upperLimitMarker;
   QwtPlotMarker *m_lowerLimitMarker;
+  QwtPlotMarker *m_centerMarker;
 
   //left axis
   bool m_logScaleLeftAxis=false;
-  BarData *barDataLeft;
+  BarData *m_barDataLeft;
   double m_maxValueLeftAxis=1000;
   double m_minValueLeftAxis=0.001;
   QList<QVariant> m_valuesLeftAxis;
 
   //right axis
   bool m_logScaleRightAxis;
-  BarData *barDataRight;
+  BarData *m_barDataRight;
   double m_maxValueRightAxis;
   double m_minValueRightAxis;
   QList<QVariant> m_valuesRightAxis;
