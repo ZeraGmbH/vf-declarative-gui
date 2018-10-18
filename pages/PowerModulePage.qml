@@ -127,9 +127,10 @@ CCMP.ModulePage {
           width: basicRowWidth
           height: root.rowHeight
           color: GC.tableShadeColor
-          text: root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName
+          text: (root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> P
           font.bold: true
           font.pixelSize: height*0.4
+
         }
         CCMP.GridItem {
           width: wideRowWidth
