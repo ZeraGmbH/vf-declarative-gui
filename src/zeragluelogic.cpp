@@ -779,7 +779,7 @@ class ZeraGlueLogicPrivate
        * Alignment trap: not handling instruction edd21b00 at [<000523ae>]
        * Unhandled fault: alignment exception (0x001) at 0x65747379
        */
-      if(tmpData.length() >= 3) //base oscillation imaginary part is at index 3
+      if(tmpData.length() > 3) //base oscillation imaginary part is at index 3
       {
         QModelIndex fftTableIndex, fftRelativeTableIndex;
         QVector2D tmpVec2d;
