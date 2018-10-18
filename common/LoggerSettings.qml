@@ -499,6 +499,7 @@ CCMP.SettingsView {
           entity: root.loggerEntity
           controlPropertyName: "ScheduledLoggingDuration"
           placeholderText: "00:00:00"
+          inputMethodHints: Qt.ImhPreferNumbers
           validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
           width: 280
@@ -529,6 +530,19 @@ CCMP.SettingsView {
           font.pixelSize: 20
 
           Layout.fillWidth: true
+          Label {
+            visible: text.length>0
+            text: FA.icon(FA.fa_file_text)+(VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData").PAR_DatasetIdentifier : "");
+            font.family: "FontAwesome"
+            anchors.right: parent.right
+            anchors.rightMargin: 12
+            Rectangle {
+              color: Material.dropShadowColor
+              radius: 3
+              anchors.fill: parent
+              anchors.margins: -8
+            }
+          }
         }
         Button {
           text: FA.fa_cogs
