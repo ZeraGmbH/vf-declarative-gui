@@ -75,7 +75,7 @@ Popup {
 
       Label {
         id: currentRecordNameLabel
-        text: loggerEntity.recordName
+        text: loggerEntity.recordName ? loggerEntity.recordName : "";
         Layout.fillWidth: true
         font.pointSize: 10
         horizontalAlignment: Text.AlignRight
