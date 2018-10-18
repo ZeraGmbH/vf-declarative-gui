@@ -418,7 +418,6 @@ ApplicationWindow {
           }
         }
 
-        Item { Layout.fillWidth: true }
         ToolButton {
           implicitHeight: parent.height
           font.family: "FontAwesome"
