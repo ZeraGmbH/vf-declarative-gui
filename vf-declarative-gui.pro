@@ -14,12 +14,15 @@ QMAKE_CXXFLAGS += -Werror=ignored-qualifiers -Werror=return-type -Werror=return-
 #gcc refuses to optimize BBOM code, so warn about any such cases
 QMAKE_CXXFLAGS += -Wdisabled-optimization
 
+#https://github.com/QUItCoding/qnanopainter
 !exists($$PWD/3rdparty/qnanopainter/libqnanopainter/include.pri) {
   error("Dependency 3rdparty/libnanopainter not found")
 }
+#https://github.com/ZeraGmbH/JsonSettingsQML
 !exists($$PWD/3rdparty/JsonSettingsQML/json-settings.pri) {
   error("Dependency 3rdparty/JsonSettingsQML not found")
 }
+#https://github.com/oKcerG/SortFilterProxyModel
 !exists($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri) {
   error("Dependency 3rdparty/SortFilterProxyModel not found")
 }
@@ -32,6 +35,7 @@ include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
 !contains(DEFINES, OE_BUILD) {
   message(Developer build)
 
+  #https://github.com/ZeraGmbH/vf-metaproject
   isEmpty(VF_INCDIR) {
     error("Set VF_INCDIR to the vein-framework includepath")
     #(example) in QtCreator add qmake argument: VF_INCDIR=<some path>/vein-framework/include/
@@ -40,6 +44,7 @@ include($$PWD/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri)
     error("Set VF_LIBDIR to the path containing the vein-framework libraries")
     #(example) in QtCreator add qmake argument: VF_LIBDIR=<some path>/vein-framework/libs_Qt_$${QT_MAJOR_VERSION}_$${QT_MINOR_VERSION}_$${QT_PATCH_VERSION}
   }
+  #http://qwt.sourceforge.net/
   isEmpty(QWT_INCDIR) {
     error("Set QWT_INCDIR to the qwt includepath")
     #(example) in QtCreator add qmake argument: QWT_INCDIR=<some path>/qwt-6.1.2/src/
@@ -104,4 +109,4 @@ HEADERS += \
 
 INCLUDEPATH += src
 
-OTHER_FILES += settings.json
+OTHER_FILES += settings.json README.md
