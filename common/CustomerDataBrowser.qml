@@ -254,6 +254,7 @@ Item {
       width: parent.width-8 //don't overlap with the ScrollIndicator
       height: rowHeight*1.5
       highlighted: ListView.isCurrentItem
+      readonly property bool isHighlighted: highlighted;
       onClicked: {
         if(customerData.FileSelected !== modelData)
         {
@@ -268,6 +269,13 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: 4
         anchors.rightMargin: 4
+        Label {
+          width: 24
+          font.family: "Fontawesome"
+          text: FA.fa_chevron_right
+          opacity: isHighlighted ? 1.0 : 0.0
+        }
+
         Label {
           text: modelData
           Layout.alignment: Qt.AlignVCenter
