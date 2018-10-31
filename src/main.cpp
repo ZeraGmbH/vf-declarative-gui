@@ -13,6 +13,7 @@
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
 #include <memory>
+#include <csignal>
 
 #include "fftbarchart.h"
 #include "hpwbarchart.h"
@@ -27,8 +28,24 @@
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 
+void signalHandler(int sig)
+{
+  if (sig == SIGINT)
+  {
+    qWarning("Application terminated by SIGINT\n");
+    qApp->quit();
+  }
+  else if (sig == SIGTERM)
+  {
+    qWarning("Application terminated by SIGTERM\n");
+    qApp->quit();
+  }
+}
+
 int main(int argc, char *argv[])
 {
+  signal(SIGINT,signalHandler);
+  signal(SIGTERM,signalHandler);
   //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
   //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
   //qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
@@ -186,6 +203,7 @@ int main(int argc, char *argv[])
       toDelete->deleteLater();
     }
     subSystems.clear();
+    globalSettingsFile->saveToFile(globalSettingsFile->getCurrentFilePath(), true);
   });
   return app.exec();
 }

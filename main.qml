@@ -31,9 +31,9 @@ ApplicationWindow {
   Material.accent: "#339966"
 
 
-  onClosing: {
-    settings.globalSettings.saveToFile(settings.globalSettings.getCurrentFilePath(), true);
-  }
+//  onClosing: {
+//    settings.globalSettings.saveToFile(settings.globalSettings.getCurrentFilePath(), true);
+//  }
 
   Component.onCompleted: {
     currentSession = Qt.binding(function() {
