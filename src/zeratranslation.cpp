@@ -266,6 +266,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Stop", tr("Stop"));
   insert("energy", tr("energy"));
   insert("mrate", tr("mrate"));
+  insert("Lower error margin:", tr("Lower error margin:"));
+  insert("Upper error margin:", tr("Upper error margin:"));
 
   //FftModulePage.qml
   //: text must be short enough to fit

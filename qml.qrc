@@ -13,6 +13,9 @@
         <file>pages/BurdenModulePage.qml</file>
         <file>pages/TransformerModulePage.qml</file>
         <file>pages/RMS4PhasePage.qml</file>
+        <file>pages/error_calculator_module/ErrorMarginView.qml</file>
+        <file>pages/error_calculator_module/ParameterView.qml</file>
+        <file>pages/error_calculator_module/MeasurementView.qml</file>
     </qresource>
     <qresource prefix="/components">
         <file>common/SettingsView.qml</file>

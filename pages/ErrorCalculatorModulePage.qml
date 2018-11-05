@@ -10,6 +10,7 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import "qrc:/pages/error_calculator_module" as D
 
 CCMP.ModulePage {
   id: root
@@ -20,6 +21,7 @@ CCMP.ModulePage {
   readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
   readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
   property int status: errorCalculator.ACT_Status
+  readonly property QtObject statusHolder: statuses
   property bool canStartMeasurement: status === statuses.idle || status === statuses.ready || status === statuses.aborted
 
   QtObject {
@@ -61,589 +63,65 @@ CCMP.ModulePage {
     return statusText
   }
 
+
   Column {
-    anchors.fill: parent
+    D.MeasurementView {
+      logicalParent: root
+      height: root.height*0.2
+      width: root.width
+    }
+    Row {
+      height: root.height*0.7
+      width: root.width
 
+      D.ParameterView {
+        logicalParent: root
+        width: parent.width*0.7
+        height: parent.height
+      }
+      D.ErrorMarginView {
+        logicalParent: root
+        width: parent.width*0.3
+        height: parent.height
+      }
+    }
     Item {
-      height: parent.height*0.18
-      width: height*3
-
-      anchors.horizontalCenter: parent.horizontalCenter
-
-
-      Item {
-        visible: root.status === statuses.armed
-        anchors.fill: parent
-        clip: true
-        Image {
-          source: "qrc:/data/staticdata/resources/Armed.svg"
-          sourceSize.width: parent.width
-          fillMode: Image.TileHorizontally
-          height: parent.height
-          width: parent.width
-        }
-      }
-
-      Item {
-        id: animatedReady
-        visible: root.status === statuses.started
-        anchors.fill: parent
-        clip: true
-        Image {
-          source: "qrc:/data/staticdata/resources/Ready.svg"
-          sourceSize.width: parent.width
-          fillMode: Image.TileHorizontally
-          height: parent.height
-          width: parent.width*2
-
-          SequentialAnimation on x {
-            loops: Animation.Infinite
-            NumberAnimation {
-              from: 0
-              to: -animatedReady.width
-              duration: 1050
-            }
-            NumberAnimation {
-              to: 0
-              duration: 0
-            }
-          }
-        }
-      }
-
-      Text {
-        visible: root.status === statuses.ready
-        text: ZTR["Result:"]
-        color: Material.primaryTextColor
-        textFormat: Text.PlainText
+      height: root.height*0.1
+      width: root.width
+      Button {
+        text: ZTR["Start"]
         font.pixelSize: 20
+        width: root.width/5
+
+        enabled: root.canStartMeasurement
+        highlighted: true
+
         anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
-      }
-
-      Text {
-        visible: root.status === statuses.ready
-        id: actResultLabel
-        width: parent.width
-        color: Material.primaryTextColor
-        textFormat: Text.PlainText
-        font.pixelSize: 50
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.height/10
-        horizontalAlignment: Text.AlignHCenter
-        text: GC.formatNumber(errorCalculator.ACT_Result)+"%"
-      }
-    }
-    Item { //spacer
-      height: 8
-      width: parent.width
-    }
-    ProgressBar {
-      id: actProgressBar
-      from: 0
-      to: 100
-      width: parent.width
-      height: parent.height/20
-      value: errorCalculator.ACT_Progress
-      indeterminate: root.status === statuses.armed
-
-
-      Text {
-        id: actProgressText
-        color: Material.primaryTextColor
-        textFormat: Text.PlainText
-        anchors.bottom: parent.top
         anchors.left: parent.left
+        onClicked: {
+          if(errorCalculator.PAR_STARTSTOP !== 1)
+          {
+            errorCalculator.PAR_STARTSTOP=1
+          }
+        }
+      }
+      Button {
+        text: ZTR["Stop"]
+        font.pixelSize: 20
+        width: root.width/5
+
+        enabled: root.canStartMeasurement === false
+
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         anchors.right: parent.right
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: root.height/20
-        text: parseInt(actProgressBar.value)+"%"
-      }
-    }
 
-    Item { //spacer
-      height: parent.height/10
-      width: parent.width
-    }
-
-    Item {
-      id: configPanel
-      anchors.left: parent.left
-      anchors.right: parent.right
-
-      height: root.height*0.5
-
-      Column {
-        anchors.fill: parent
-        anchors.topMargin: 16
-        anchors.rightMargin: root.width/3
-
-        Rectangle {
-          color: "transparent"
-          border.color: Material.dividerColor
-          height: parent.height/5
-          width: parent.width
-          Text {
-            color: Material.primaryTextColor
-            textFormat: Text.PlainText
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
-            text: ZTR["Mode:"]
-            font.pixelSize: Math.max(height/2, 20)
+        onClicked: {
+          if(errorCalculator.PAR_STARTSTOP !== 0)
+          {
+            errorCalculator.PAR_STARTSTOP=0
           }
-          VFControls.VFComboBox {
-            id: cbMode
-
-            enabled: root.canStartMeasurement
-            arrayMode: true
-
-            entity: root.errorCalculator
-            controlPropertyName: "PAR_Mode"
-            model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Mode.Validation.Data
-
-            anchors.right: parent.right
-            height: parent.height
-            width: parent.width*0.45
-
-            currentIndex: 0
-            contentRowWidth: width
-            contentRowHeight: height*1.2
-            contentFlow: GridView.FlowTopToBottom
-            centerVertical: true
-            centerVerticalOffset: height/2
-
-            opacity: enabled ? 1.0 : 0.7
-          }
-        }
-        Rectangle {
-          color: "transparent"
-          border.color: Material.dividerColor
-          height: parent.height/5
-          width: parent.width
-          Text {
-            color: Material.primaryTextColor
-            textFormat: Text.PlainText
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
-            text: ZTR["Reference input:"]
-            font.pixelSize: Math.max(height/2, 20)
-          }
-          VFControls.VFComboBox {
-            id: cbRefInput
-
-            enabled: root.canStartMeasurement
-            arrayMode: true
-
-            entity: root.errorCalculator
-            controlPropertyName: "PAR_RefInput"
-            model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
-
-            anchors.right: parent.right
-            height: parent.height
-            width: parent.width*0.45
-
-
-            currentIndex: 0
-            contentRowWidth: width
-            contentRowHeight: height*1.2
-            contentFlow: GridView.FlowTopToBottom
-            centerVertical: true
-            centerVerticalOffset: height/2
-
-            opacity: enabled ? 1.0 : 0.7
-          }
-          VFControls.VFComboBox {
-            arrayMode: true
-            enabled: root.canStartMeasurement
-            controlPropertyName: "PAR_MeasuringMode"
-            model: {
-              switch(cbRefInput.currentText) {
-              case "P":
-                return ModuleIntrospection.p1m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-              case "Q":
-                return ModuleIntrospection.p1m2Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-              case "S":
-                return ModuleIntrospection.p1m3Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-              default:
-                console.assert("Unhandled condition")
-                return undefined;
-              }
-            }
-
-            entity: {
-              switch(cbRefInput.currentText) {
-              case "P":
-                return root.p1m1
-              case "Q":
-                return root.p1m2
-              case "S":
-                return root.p1m3
-              default:
-                console.assert("Unhandled condition")
-                return undefined;
-              }
-            }
-
-            contentRowHeight: height*1.2
-            contentFlow: GridView.FlowTopToBottom
-            centerVertical: true
-            centerVerticalOffset: height/2
-            anchors.right: cbRefInput.left
-            anchors.rightMargin: 1
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: parent.width/6
-          }
-        }
-        Rectangle {
-          color: "transparent"
-          border.color: Material.dividerColor
-          height: parent.height/5
-          width: parent.width
-          Text {
-            color: Material.primaryTextColor
-            textFormat: Text.PlainText
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
-            text: ZTR["Device input:"]
-            font.pixelSize: Math.max(height/2, 20)
-          }
-          VFControls.VFComboBox {
-            id: cbDutInput
-
-            enabled: root.canStartMeasurement
-            arrayMode: true
-
-            entity: root.errorCalculator
-            controlPropertyName: "PAR_DutInput"
-            model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
-
-            anchors.right: parent.right
-            height: parent.height
-            width: parent.width*0.45
-
-            currentIndex: 0
-            contentRowWidth: width
-            contentRowHeight: height*1.2
-            contentFlow: GridView.FlowTopToBottom
-            centerVertical: true
-            centerVerticalOffset: height/2
-
-            opacity: enabled ? 1.0 : 0.7
-          }
-        }
-        Rectangle {
-          color: "transparent"
-          border.color: Material.dividerColor
-          height: parent.height/5
-          width: parent.width
-
-          VFControls.VFLineEdit {
-            id: deviceConstantField
-            width: parent.width
-            anchors.fill: parent
-            anchors.leftMargin: 4
-            inputMethodHints: Qt.ImhPreferNumbers
-            description.text: ZTR["DUT constant:"]
-            description.width: width*0.55
-
-            entity: root.errorCalculator
-            controlPropertyName: "PAR_DutConstant"
-            textField.font.pixelSize: height/2
-
-            enabled: root.canStartMeasurement
-            validator: CCMP.ZDoubleValidator {
-              bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[0];
-              top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[1];
-              decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[2]);
-            }
-
-            VFControls.VFComboBox {
-              id: cbDutConstantUnit
-              anchors.right: parent.right
-              anchors.rightMargin: parent.width*0.45 + 1
-              enabled: root.canStartMeasurement
-              arrayMode: true
-
-              entity: root.errorCalculator
-              controlPropertyName: "PAR_DUTConstUnit"
-              model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
-
-              height: parent.height
-              width: parent.width/6
-
-
-              currentIndex: 0
-              contentRowWidth: width
-              contentRowHeight: height*1.2
-              contentFlow: GridView.FlowTopToBottom
-              centerVertical: true
-              centerVerticalOffset: height/2
-
-              opacity: enabled ? 1.0 : 0.7
-            }
-          }
-        }
-        Rectangle {
-          visible: cbMode.currentText === "energy" // this is localization independent
-          color: "transparent"
-          border.color: Material.dividerColor
-          height: parent.height/5
-          width: parent.width
-
-          VFControls.VFLineEdit {
-            id: energyValueField
-            anchors.fill: parent
-            anchors.leftMargin: 4
-            inputMethodHints: Qt.ImhPreferNumbers
-            description.text: ZTR["Energy:"]
-            description.width: width*0.55
-
-            entity: root.errorCalculator
-            controlPropertyName: "PAR_Energy"
-            textField.font.pixelSize: height/2
-
-            enabled: root.canStartMeasurement
-            validator: CCMP.ZDoubleValidator {
-              bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[0];
-              top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[1];
-              decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[2]);
-            }
-          }
-        }
-        Rectangle {
-          visible: cbMode.currentText === "mrate" // this is localization independent
-          color: "transparent"
-          border.color: Material.dividerColor
-          height: parent.height/5
-          width: parent.width
-
-          VFControls.VFLineEdit {
-            id: mrateValueField
-            anchors.fill: parent
-            anchors.leftMargin: 4
-            inputMethodHints: Qt.ImhPreferNumbers
-            description.text: ZTR["MRate:"]
-            description.width: width*0.55
-
-            entity: root.errorCalculator
-            controlPropertyName: "PAR_MRate"
-            textField.font.pixelSize: height/2
-
-            enabled: root.canStartMeasurement
-
-            validator: CCMP.ZDoubleValidator {
-              bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[0];
-              top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[1];
-              decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[2]);
-            }
-          }
-        }
-      }
-      Rectangle {
-        anchors.fill: parent
-        anchors.topMargin: 16
-        anchors.leftMargin: 2*root.width/3
-        border.color: Material.dividerColor
-        color: "transparent"
-
-        BarChart {
-          id: errorMarginChart
-
-          anchors.fill: parent
-          anchors.rightMargin: parent.width*0.75
-
-          color: errorBar.isInMargins ? Material.backgroundColor :  Qt.darker("darkred", 2.5)
-          property var barModel: []
-          leftAxisBars: barModel
-          leftBaseline: (GC.errorMarginUpperValue+GC.errorMarginLowerValue)/2;
-          legendEnabled: false
-          bottomLabelsEnabled: false
-
-          property real maxValue: GC.errorMarginUpperValue
-          onMaxValueChanged: setMarkers(minValue, maxValue)
-          property real minValue: GC.errorMarginLowerValue
-          onMinValueChanged: setMarkers(minValue, maxValue)
-
-          markersEnabled: true
-          leftAxisMaxValue: maxValue!==0 ? maxValue+minMaxOffset : (minMaxOffset!==0 ? minMaxOffset : 0.25)
-          leftAxisMinValue: minValue!==0 ? minValue-minMaxOffset : (minMaxOffset!==0 ? -minMaxOffset : -0.25)
-
-          readonly property real minMaxOffset: Math.max(Math.abs(maxValue), Math.abs(minValue)) *0.25
-          textColor: Material.primaryTextColor
-          Component.onCompleted: setMarkers(minValue, maxValue);
-          Bar {
-            id: errorBar
-            value: errorCalculator.ACT_Result
-            readonly property bool isInMargins: value.toFixed(GC.decimalPlaces) >= errorMarginChart.minValue && value.toFixed(GC.decimalPlaces) <= errorMarginChart.maxValue
-            color: isInMargins ? "green" : "red"
-
-            Component.onCompleted: {
-              errorMarginChart.barModel.push(this);
-              errorMarginChart.barModelChanged();
-            }
-          }
-        }
-        Item {
-          anchors.fill: parent
-          anchors.leftMargin: parent.width/4 + 8
-          TextField {
-            id: upperLimitInput
-            anchors.fill: parent
-            anchors.bottomMargin: parent.height*3/4
-            anchors.leftMargin: parent.width/2
-            anchors.rightMargin: 8
-            implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
-            font.pixelSize: height/2
-            text: GC.errorMarginUpperValue
-            inputMethodHints: Qt.ImhPreferNumbers
-
-            mouseSelectionMode: TextInput.SelectWords
-            selectByMouse: true
-            onEditingFinished: {
-              var upperLimit = upperLimitInput.acceptableInput ? parseFloat(upperLimitInput.text) : 0;
-              GC.setErrorMargins(upperLimit, GC.errorMarginLowerValue);
-            }
-
-            onAccepted: {
-              focus = false
-            }
-
-            color: Material.primaryTextColor
-            horizontalAlignment: Text.AlignRight
-            validator: CCMP.ZDoubleValidator {bottom: errorMarginChart.minValue; top: 100; decimals: 3;}
-
-            Rectangle {
-              color: "red"
-              opacity: 0.2
-              visible: parent.acceptableInput === false
-              anchors.fill: parent
-            }
-            Label {
-              text: "≤"
-              font.pixelSize: parent.height/2
-              anchors.right: parent.left
-              anchors.rightMargin: 4
-              anchors.verticalCenter: parent.verticalCenter
-            }
-          }
-
-          Label {
-            function calculateErrorBudget(errorValue) {
-              var retVal="???";
-              var centerLine = (GC.errorMarginUpperValue+GC.errorMarginLowerValue)/2;
-              //avoid division by zero
-              var upperErrorMargin = GC.errorMarginUpperValue !== 0  ? GC.errorMarginUpperValue : Math.pow(10, -15)
-              var lowerErrorMargin = GC.errorMarginUpperValue !== 0  ? GC.errorMarginLowerValue : -Math.pow(10, -15)
-
-              if(errorValue >= centerLine)
-              {
-                retVal = 100 - (errorValue-centerLine) / (upperErrorMargin-centerLine) * 100
-              }
-              else
-              {
-                retVal = 100 - (errorValue-centerLine) / (lowerErrorMargin-centerLine) * 100
-              }
-
-              return retVal;
-            }
-            readonly property real errorBudget: calculateErrorBudget(errorCalculator.ACT_Result).toFixed(3)
-            text: FA.icon(FA.fa_bullseye, (errorBudget > 10 ? Material.accent : (errorBudget >= 0 ? "gold" : "red"))) + " " + errorBudget +"%";
-            font.pixelSize: parent.height/8
-            font.family: "FontAwesome";
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 8
-          }
-
-          TextField {
-            id: lowerLimitInput
-            anchors.fill: parent
-            anchors.topMargin: parent.height*3/4
-            anchors.leftMargin: parent.width/2
-            anchors.rightMargin: 8
-            implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, background ? background.implicitHeight : 0)
-            font.pixelSize: height/2
-            text: GC.errorMarginLowerValue
-            inputMethodHints: Qt.ImhPreferNumbers
-
-            mouseSelectionMode: TextInput.SelectWords
-            selectByMouse: true
-            onEditingFinished: {
-              var lowerLimit = lowerLimitInput.acceptableInput ? parseFloat(lowerLimitInput.text) : 0;
-              GC.setErrorMargins(GC.errorMarginUpperValue, lowerLimit);
-            }
-
-            onAccepted: {
-              focus = false
-            }
-
-            color: Material.primaryTextColor
-            horizontalAlignment: Text.AlignRight
-            validator: CCMP.ZDoubleValidator {bottom: -100; top: errorMarginChart.maxValue; decimals: 3;}
-
-            Rectangle {
-              color: "red"
-              opacity: 0.2
-              visible: parent.acceptableInput === false
-              anchors.fill: parent
-            }
-            Label {
-              text: "≥"
-              font.pixelSize: parent.height/2
-              anchors.right: parent.left
-              anchors.rightMargin: 4
-              anchors.verticalCenter: parent.verticalCenter
-            }
-          }
-        }
-      }
-    }
-  }
-
-  Item {
-    height: parent.height/10
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    Button {
-      id: startButton
-      text: ZTR["Start"]
-      font.pixelSize: 20
-      width: root.width/5
-
-      enabled: root.canStartMeasurement
-      highlighted: true
-
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.left: parent.left
-      onClicked: {
-        if(errorCalculator.PAR_STARTSTOP !== 1)
-        {
-          errorCalculator.PAR_STARTSTOP=1
-        }
-      }
-    }
-    Button {
-      id: stopButton
-      text: ZTR["Stop"]
-      font.pixelSize: 20
-      width: root.width/5
-
-      enabled: root.canStartMeasurement === false
-
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.right: parent.right
-
-      onClicked: {
-        if(errorCalculator.PAR_STARTSTOP !== 0)
-        {
-          errorCalculator.PAR_STARTSTOP=0
         }
       }
     }
