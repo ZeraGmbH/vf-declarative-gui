@@ -12,7 +12,6 @@
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
-#include <memory>
 #include <csignal>
 
 #include "fftbarchart.h"
@@ -32,13 +31,13 @@ void signalHandler(int sig)
 {
   if (sig == SIGINT)
   {
-    qWarning("Application terminated by SIGINT\n");
-    qApp->quit();
+    qWarning("Application terminated by SIGINT");
+    QCoreApplication::instance()->quit();
   }
   else if (sig == SIGTERM)
   {
-    qWarning("Application terminated by SIGTERM\n");
-    qApp->quit();
+    qWarning("Application terminated by SIGTERM");
+    QCoreApplication::instance()->quit();
   }
 }
 
