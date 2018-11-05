@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import QtCharts 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
@@ -14,43 +15,100 @@ import ModuleIntrospection 1.0
 Rectangle {
   //holds the state data
   property QtObject logicalParent;
+  readonly property real result: logicalParent.errorCalculator.ACT_Result;
+  onResultChanged: {
+    refreshLineData();
+  }
+
+  readonly property real maxValue: GC.errorMarginUpperValue
+  onMaxValueChanged: {
+    refreshLineData();
+  }
+  readonly property real minValue: GC.errorMarginLowerValue
+  onMinValueChanged: {
+    refreshLineData();
+  }
+  readonly property real minMaxOffset: Math.max(Math.abs(maxValue), Math.abs(minValue)) *0.5
+
+  Component.onCompleted: refreshLineData();
+  function refreshLineData() {
+    resultLine.clear();
+    resultLine.append(0, result);
+    resultLine.append(1, result);
+    upperErrorMarginLine.clear();
+    upperErrorMarginLine.append(0, maxValue);
+    upperErrorMarginLine.append(1, maxValue);
+    lowerErrorMarginLine.clear();
+    lowerErrorMarginLine.append(0, minValue);
+    lowerErrorMarginLine.append(1, minValue);
+  }
 
   border.color: Material.dividerColor
-  color: "transparent"
+  color: (minValue<=result && result<=maxValue) ? "transparent" : "#11FF0000";
 
-  BarChart {
-    id: errorMarginChart
-    anchors.fill: parent
+  ChartView {
+    z: parent.z-1
+    anchors.left: parent.left
+    anchors.right: parent.right
+    implicitHeight: parent.height
+    anchors.verticalCenter: parent.verticalCenter
 
-    color: errorBar.isInMargins ? Material.backgroundColor :  Qt.darker("darkred", 2.5)
-    property var barModel: []
-    leftAxisBars: barModel
-    leftBaseline: (GC.errorMarginUpperValue+GC.errorMarginLowerValue)/2;
-    legendEnabled: false
-    bottomLabelsEnabled: false
+    antialiasing: false
+    backgroundColor: Material.backgroundColor
+    legend.visible:false
 
-    property real maxValue: GC.errorMarginUpperValue
-    onMaxValueChanged: setMarkers(minValue, maxValue)
-    property real minValue: GC.errorMarginLowerValue
-    onMinValueChanged: setMarkers(minValue, maxValue)
+    margins.bottom:0
+    margins.left:0
+    margins.top:0
+    margins.right:0
 
-    markersEnabled: true
-    leftAxisMaxValue: maxValue!==0 ? maxValue+minMaxOffset : (minMaxOffset!==0 ? minMaxOffset : 0.25)
-    leftAxisMinValue: minValue!==0 ? minValue-minMaxOffset : (minMaxOffset!==0 ? -minMaxOffset : -0.25)
+    ValueAxis {
+      id: xAxis
+      min: 0
+      max: 1
+      labelsVisible: false
+      gridVisible: true
+      tickCount: 2
+      minorGridVisible: false
+      gridLineColor: Material.frameColor
+      color: "transparent"
+    }
+    ValueAxis {
+      id: yAxisLeft
 
-    readonly property real minMaxOffset: Math.max(Math.abs(maxValue), Math.abs(minValue)) *0.25
-    textColor: Material.primaryTextColor
-    Component.onCompleted: setMarkers(minValue, maxValue);
-    Bar {
-      id: errorBar
-      value: logicalParent.errorCalculator.ACT_Result
-      readonly property bool isInMargins: value.toFixed(GC.decimalPlaces) >= errorMarginChart.minValue && value.toFixed(GC.decimalPlaces) <= errorMarginChart.maxValue
-      color: isInMargins ? "green" : "red"
+      max: maxValue!==0 ? maxValue+minMaxOffset : (minMaxOffset!==0 ? minMaxOffset : 0.5)
+      min: minValue!==0 ? minValue-minMaxOffset : (minMaxOffset!==0 ? -minMaxOffset : -0.5)
 
-      Component.onCompleted: {
-        errorMarginChart.barModel.push(this);
-        errorMarginChart.barModelChanged();
-      }
+      tickCount: 7
+
+      minorGridLineColor: Material.dividerColor
+      gridLineColor: Material.frameColor
+      labelsColor: Material.primaryTextColor
+      color: Material.frameColor
+    }
+    LineSeries {
+      id: resultLine
+      axisX: xAxis
+      axisY: yAxisLeft
+      color: (minValue<=result && result<=maxValue) ? "lawngreen" : "red";
+      width: 3
+      //useOpenGL: true
+    }
+    LineSeries {
+      id: upperErrorMarginLine
+      axisX: xAxis
+      axisY: yAxisLeft
+      color: "red";
+      style: Qt.DashLine
+      width: 1
+    }
+    LineSeries {
+      id: lowerErrorMarginLine
+      axisX: xAxis
+      axisY: yAxisLeft
+      color: "red";
+      style: Qt.DashLine
+      width: 1
     }
   }
 }

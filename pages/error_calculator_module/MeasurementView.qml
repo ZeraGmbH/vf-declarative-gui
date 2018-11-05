@@ -85,7 +85,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: parent.height/10
         horizontalAlignment: Text.AlignHCenter
-        text: GC.formatNumber(errorCalculator.ACT_Result)+"%"
+        text: GC.formatNumber(logicalParent.errorCalculator.ACT_Result)+"%"
       }
     }
     Item { //spacer
