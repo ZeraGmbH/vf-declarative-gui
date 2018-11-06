@@ -29,20 +29,24 @@
 
 void signalHandler(int sig)
 {
-  if (sig == SIGINT)
+  if (sig == SIGHUP)
+  {
+    qWarning("Application terminated by SIGHUP");
+  }
+  else if (sig == SIGINT)
   {
     qWarning("Application terminated by SIGINT");
-    QCoreApplication::instance()->quit();
   }
   else if (sig == SIGTERM)
   {
     qWarning("Application terminated by SIGTERM");
-    QCoreApplication::instance()->quit();
   }
+  QCoreApplication::instance()->quit();
 }
 
 int main(int argc, char *argv[])
 {
+  signal(SIGHUP, signalHandler);
   signal(SIGINT,signalHandler);
   signal(SIGTERM,signalHandler);
   //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
