@@ -69,8 +69,8 @@ public:
     t_painter->setFillStyle(t_color);
     t_painter->setFont(m_defaultFont);
     //t_painter->moveTo(m_fromX, m_fromY);
-
-    t_painter->fillText(t_label, xPos, yPos);
+    //sub-pixel antialiasing makes everything blurry so round the x/y values
+    t_painter->fillText(t_label, round(xPos), round(yPos));
   }
 
   void drawArrowHead(QNanoPainter *t_painter, QVector2D t_vector, QNanoColor t_color, float t_maxValue)
@@ -113,6 +113,9 @@ public:
   void drawVoltageArrows(QNanoPainter *t_painter, float t_factor=1)
   {
     t_painter->setLineWidth(1);
+    //the font size is magically changed to a smaller size (from within the library)
+    //it is unaffected by Qt::AA_DisableHighDpiScaling, some sort of mad dpi scaling voodoo?!?
+    m_defaultFont.setPixelSize(20);
 
     drawArrowHead(t_painter, m_vector1, m_vector1Color, m_maxVoltage * t_factor);
     drawVectorLine(t_painter, m_vector1, m_vector1Color, m_maxVoltage * t_factor);
