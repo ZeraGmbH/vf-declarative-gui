@@ -80,7 +80,7 @@ Item {
         confirmInput()
       }
 
-      font.pixelSize: height/2
+      font.pixelSize: height/2.1
       color: Material.primaryTextColor
 
       Rectangle {

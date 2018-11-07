@@ -16,8 +16,8 @@ CCMP.ModulePage {
   readonly property QtObject glueLogic: ZGL;
   readonly property QtObject burdenModule: modeTabBar.currentItem.isVoltageBurden ? VeinEntity.getEntity("Burden1Module2") : VeinEntity.getEntity("Burden1Module1")
   readonly property var burdenIntrospection: modeTabBar.currentItem.isVoltageBurden ? ModuleIntrospection.burden2Introspection : ModuleIntrospection.burden1Introspection
-  property int rowHeight: Math.floor(height/12)
-  property int columnWidth: width/4.2 //0.7 + 3 + 0.5
+  readonly property int rowHeight: Math.floor(height/12)
+  readonly property int columnWidth: width/4.2 //0.7 + 3 + 0.5
 
   CCMP.SettingsView {
     anchors.left: parent.left
@@ -50,7 +50,7 @@ CCMP.ModulePage {
           width: root.width*0.9;
 
           description.text: ZTR["Nominal burden:"]
-          description.width: root.width/4.5
+          description.width: root.width/4
           entity: root.burdenModule
           controlPropertyName: "PAR_NominalBurden"
           inputMethodHints: Qt.ImhPreferNumbers
@@ -69,7 +69,7 @@ CCMP.ModulePage {
           width: root.width*0.9;
 
           description.text: ZTR["Nominal range:"]
-          description.width: root.width/4.5
+          description.width: root.width/4
           entity: root.burdenModule
           controlPropertyName: "PAR_NominalRange"
           inputMethodHints: Qt.ImhPreferNumbers
@@ -117,7 +117,7 @@ CCMP.ModulePage {
           width: root.width*0.9;
 
           description.text: ZTR["Wire crosssection:"]
-          description.width: root.width/4.5
+          description.width: root.width/4
           entity: root.burdenModule
           controlPropertyName: "PAR_WCrosssection"
           inputMethodHints: Qt.ImhPreferNumbers
@@ -136,7 +136,7 @@ CCMP.ModulePage {
           width: root.width*0.9;
 
           description.text: ZTR["Wire length:"]
-          description.width: root.width/4.5
+          description.width: root.width/4
           entity: root.burdenModule
           controlPropertyName: "PAR_WireLength"
           inputMethodHints: Qt.ImhPreferNumbers

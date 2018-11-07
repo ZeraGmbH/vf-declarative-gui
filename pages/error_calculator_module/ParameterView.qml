@@ -193,7 +193,7 @@ Item {
 
         entity: logicalParent.errorCalculator
         controlPropertyName: "PAR_DutConstant"
-        textField.font.pixelSize: height/2
+        textField.font.pixelSize: height/2.1
 
         enabled: logicalParent.canStartMeasurement
         validator: CCMP.ZDoubleValidator {
@@ -313,7 +313,7 @@ Item {
           anchors.rightMargin: height/4
           implicitHeight: Math.max(contentHeight + topPadding + bottomPadding, (background ? background.implicitHeight : 0))
 
-          font.pixelSize: root.rowHeight/2
+          font.pixelSize: root.rowHeight/2.1
           text: GC.errorMarginUpperValue
           inputMethodHints: Qt.ImhPreferNumbers
 
