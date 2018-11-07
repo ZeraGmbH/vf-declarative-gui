@@ -330,9 +330,11 @@ SettingsView {
               MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                  colorPicker.systemIndex = index+1
-                  colorPicker.oldColor = GC.systemColorByIndex(index+1)
-                  colorPicker.open()
+                  colorPicker.systemIndex = index+1;
+                  /// @bug setting the the same value twice doesn't reset the sliders
+                  colorPicker.oldColor = "transparent";
+                  colorPicker.oldColor = GC.systemColorByIndex(index+1);
+                  colorPicker.open();
                 }
               }
             }
