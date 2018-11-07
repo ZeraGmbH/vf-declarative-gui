@@ -39,9 +39,9 @@ Item {
         id: valueSpinBox
         inputMethodHints: Qt.ImhPreferNumbers
         //if text is entered via keyboard and the user presses enter with valid input -> accept the input instead of requiring one more click to the accept button
-        property bool textAcceptWorkaround: false
-        property int decimals: introspection.stepSize<1 ? 1 : 0
-        property real realValue: value / 100
+        readonly property bool textAcceptWorkaround: false
+        readonly property int decimals: introspection.stepSize<1 ? 1 : 0
+        readonly property real realValue: value / 100
 
         from: validator.bottom * 100
         //value: root.intermediateValue * 100
@@ -69,15 +69,8 @@ Item {
           decimals: GC.ceilLog10Of1DividedByX(introspection.stepSize);
         }
 
-        function localTextToValue(value, locale) {
-          return Number(value / 100).toLocaleString(locale, 'f', valueSpinBox.decimals)
-        }
-        textFromValue: (localTextToValue);
-
-        function localValueToText(text, locale) {
-          return Number.fromLocaleString(locale, text) * 100
-        }
-        valueFromText: (localValueToText);
+        textFromValue: (function(value, locale) { return Number(value / 100).toLocaleString(locale, 'f', valueSpinBox.decimals); });
+        valueFromText: (function(text, locale) { return Number.fromLocaleString(locale, text) * 100; });
 
         Connections {
           target: valueSpinBox.contentItem //this is the TextInput

@@ -12,8 +12,8 @@ CCMP.ModulePage {
   property bool sUnit : true;
   readonly property QtObject glueLogic: ZGL;
 
-  property int rowHeight: Math.floor(height/14) * 0.95
-  property int columnWidth: width/5.25
+  readonly property int rowHeight: Math.floor(height/14) * 0.95
+  readonly property int columnWidth: width/5.25
 
   Item {
     width: root.columnWidth*5.25

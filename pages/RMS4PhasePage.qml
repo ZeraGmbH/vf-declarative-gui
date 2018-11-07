@@ -10,11 +10,11 @@ import SortFilterProxyModel 0.2
 CCMP.ModulePage {
   id: root
 
-  property bool sUnit : true;
+  property bool sUnit: true;
   readonly property QtObject glueLogic: ZGL;
 
-  property int rowHeight: Math.floor(height/10)
-  property int columnWidth: width/5.25
+  readonly property int rowHeight: Math.floor(height/10)
+  readonly property int columnWidth: width/5.25
 
   SortFilterProxyModel {
     id: filteredActualValueModel

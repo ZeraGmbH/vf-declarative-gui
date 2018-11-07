@@ -11,9 +11,9 @@ import ModuleIntrospection 1.0
 CCMP.ModulePage {
   id: root
 
-  property int rowHeight: Math.floor(height/8)
-  property int basicRowWidth: width*0.05
-  property int wideRowWidth: width*0.2
+  readonly property int rowHeight: Math.floor(height/8)
+  readonly property int basicRowWidth: width*0.05
+  readonly property int wideRowWidth: width*0.2
 
   readonly property QtObject power1Module1: VeinEntity.getEntity("POWER1Module1")
   readonly property QtObject power1Module2: VeinEntity.getEntity("POWER1Module2")
