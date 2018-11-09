@@ -345,8 +345,8 @@ ApplicationWindow {
             break;
           }
         }
-        xhr.open("GET", "http://"+GC.serverIpAddress+":19531/entries?follow&boot&_UID=15000")//"&_SYSTEMD_UNIT=modulemanager.service&_SYSTEMD_UNIT=com5003d.service&_SYSTEMD_UNIT=sec1000d.service")
-        xhr.setRequestHeader("Accept", "application/json")
+        xhr.open("GET", "http://"+GC.serverIpAddress+":19531/entries?follow&boot&_UID=15000");
+        xhr.setRequestHeader("Accept", "application/json");
         xhr.send();
       }
     }

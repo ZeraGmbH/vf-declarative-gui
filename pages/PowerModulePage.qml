@@ -127,7 +127,7 @@ CCMP.ModulePage {
           width: basicRowWidth
           height: root.rowHeight
           color: GC.tableShadeColor
-          text: (root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> P
+          text: (root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> (P/Q/S)
           font.bold: true
           font.pixelSize: height*0.4
 
