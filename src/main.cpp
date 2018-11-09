@@ -47,8 +47,8 @@ void signalHandler(int sig)
 int main(int argc, char *argv[])
 {
   signal(SIGHUP, signalHandler);
-  signal(SIGINT,signalHandler);
-  signal(SIGTERM,signalHandler);
+  signal(SIGINT, signalHandler);
+  signal(SIGTERM, signalHandler);
   //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
   //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
   //qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
@@ -100,7 +100,14 @@ int main(int argc, char *argv[])
 #ifdef QT_DEBUG
   engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
 #else
-  engine.rootContext()->setContextProperty("BUILD_TYPE", "release");
+  if(qgetenv("VF_GUI_DEBUG") == QByteArray("debug_enabled")) //enviroment variable override
+  {
+    engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
+  }
+  else
+  {
+    engine.rootContext()->setContextProperty("BUILD_TYPE", "release");
+  }
 #endif //QT_DEBUG
 
 #ifdef Q_OS_ANDROID
