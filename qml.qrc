@@ -54,6 +54,8 @@
         <file>common/LoggerRecordNamePopup.qml</file>
         <file>common/FpsItem.qml</file>
         <file>common/VirtualKeyboardConfigurator.qml</file>
+        <file>common/LoggerDbSearchDialog.qml</file>
+        <file>common/LoggerDbLocationSelector.qml</file>
     </qresource>
     <qresource prefix="/vf-controls">
         <file>common/VFComboBox.qml</file>

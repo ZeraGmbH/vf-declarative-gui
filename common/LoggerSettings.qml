@@ -5,10 +5,10 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/components/common" as CCMP
 import "qrc:/vf-controls/common" as VF
-import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import GlobalConfig 1.0
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 
@@ -18,12 +18,10 @@ CCMP.SettingsView {
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
   property bool snapshotTrigger: false;
   readonly property bool logEnabled: loggerEntity.LoggingEnabled
-  property var listStorageTracer;
-  property var storageList: [];
-  property string completeDBPath: (storageList.length > 0 && fileNameField.acceptableInput) ? storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
+
+  property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
 
   Component.onCompleted: {
-    updateStorageList();
     root.loggerEntity.LoggingEnabled = false;
   }
 
@@ -81,42 +79,16 @@ CCMP.SettingsView {
     return Number(mSeconds);
   }
 
-  function updateStorageList() {
-    if(!listStorageTracer)
-    {
-      listStorageTracer = loggerEntity.invokeRPC("listStorages()", ({}))
-    }
-    else
-    {
-      console.warn("Storage list update already in progress");
-    }
-  }
-
-  Connections {
-    target: loggerEntity
-    onSigRPCFinished: {
-      if(t_resultData["RemoteProcedureData::resultCode"] !== 0)
-      {
-        console.warn("RPC error:", t_resultData["RemoteProcedureData::errorMessage"]);
-      }
-
-      if(t_identifier === listStorageTracer)
-      {
-        storageList = t_resultData["ZeraDBLogger::storageList"];
-        listStorageTracer = undefined;
-        if(storageList.length>0)
-        {
-          var fileName = loggerEntity.DatabaseFile;
-          for(var storageIdx in storageList)
-          {
-            if(fileName.indexOf(storageList[storageIdx]) === 0)
-            {
-              var fileNameNoExtension = fileName.replace(".db", "");
-              dbLocationSelector.currentIndex = storageIdx;
-              fileNameField.text = fileNameNoExtension.replace(storageList[storageIdx]+"/", "");
-            }
-          }
-        }
+  Loader {
+    id: loggerSearchPopup
+    active: false
+    sourceComponent: LoggerDbSearchDialog {
+      width: root.width
+      height: root.height
+      visible: true
+      onClosed: loggerSearchPopup.active = false;
+      onFileSelected: {
+        root.loggerEntity.DatabaseFile = t_file;
       }
     }
   }
@@ -129,7 +101,7 @@ CCMP.SettingsView {
       height: root.height
       closePolicy: Popup.NoAutoClose
       visible: true
-      onClosed: loggerDataSelection.active = false
+      onClosed: loggerDataSelection.active = false;
     }
   }
 
@@ -141,7 +113,7 @@ CCMP.SettingsView {
       height: root.height
       closePolicy: Popup.NoAutoClose
       visible: true
-      onClosed: cDataPopup.active = false
+      onClosed: cDataPopup.active = false;
     }
   }
 
@@ -207,75 +179,19 @@ CCMP.SettingsView {
       height: root.rowHeight;
       width: root.rowWidth;
 
-      RowLayout {
+      LoggerDbLocationSelector {
+        id: dbLocationSelector
         anchors.fill: parent
         anchors.leftMargin: 16
         anchors.rightMargin: 16
-
-        Label {
-          textFormat: Text.PlainText
-          text: ZTR["Database location:"]
-          font.pixelSize: 20
-        }
-        Item {
-          //spacer
-          width: 8
-        }
-
-        Item {
-          height: root.rowHeight
-          width: storageListIndicator.width
-          visible: root.storageList.length === 0 && storageListIndicator.opacity === 0;
-          Label {
-            anchors.centerIn: parent
-            id: storageListWarning
-            font.family: "FontAwesome"
-            font.pixelSize: 20
-            text: FA.fa_exclamation_triangle
-            color: Material.color(Material.Yellow)
-
-
-            MouseArea {
-              anchors.fill: parent
-              anchors.margins: -8
-              onClicked: console.log("tooltip")
-            }
-          }
-        }
-        BusyIndicator {
-          id: storageListIndicator
-
-          implicitHeight: root.rowHeight
-          implicitWidth: height
-          opacity: root.listStorageTracer !== undefined
-          Behavior on opacity {
-            NumberAnimation { from: 1; duration: 1000; }
-          }
-          visible: storageListWarning.visible === false
-        }
-        ComboBox {
-          id: dbLocationSelector
-          model: root.storageList;
-          implicitWidth: root.width/2;
-          height: root.rowHeight
-          enabled: root.storageList.length > 0
-          Layout.fillWidth: true
-        }
-        Button {
-          font.family: "FontAwesome"
-          font.pixelSize: 20
-          text: FA.fa_refresh
-          onClicked: {
-            if(root.listStorageTracer === undefined)
-            {
-              root.updateStorageList();
-            }
-          }
+        rowHeight: root.rowHeight
+        onCurrentIndexChanged: {
+          root.loggerEntity.DatabaseFile = "";
         }
       }
     }
     Item {
-      enabled: root.storageList.length > 0
+      enabled: dbLocationSelector.storageList.length > 0
       height: root.rowHeight;
       width: root.rowWidth;
 
@@ -292,6 +208,15 @@ CCMP.SettingsView {
         Item {
           //spacer
           width: 16
+        }
+        Button {
+          font.family: "FontAwesome"
+          font.pixelSize: 20
+          text: FA.fa_search
+          enabled: dbLocationSelector.storageList.length > 0
+          onClicked: {
+            loggerSearchPopup.active = true;
+          }
         }
 
         Label {
@@ -329,6 +254,7 @@ CCMP.SettingsView {
           height: root.rowHeight
           Layout.fillWidth: true
           placeholderText: "<directory name>/<filename>"
+          text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
           validator: RegExpValidator {
             regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
           }
@@ -363,7 +289,6 @@ CCMP.SettingsView {
           enabled: root.loggerEntity.DatabaseFile.length > 0
           onClicked: {
             root.loggerEntity.DatabaseFile = "";
-            fileNameField.clear();
           }
         }
       }
@@ -407,8 +332,9 @@ CCMP.SettingsView {
           Layout.fillWidth: true
         }
         Label {
-          readonly property double available: loggerEntity.FilesystemFree
-          readonly property double total: loggerEntity.FilesystemTotal
+          readonly property string mountPoint: GC.currentSelectedStoragePath === "/home/operator/logger" ? "/" : GC.currentSelectedStoragePath;
+          readonly property double available: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemFree : NaN
+          readonly property double total: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemTotal : NaN
           readonly property double percentAvail: total > 0 ? (available/total * 100).toFixed(2) : 0.0;
           text: ZTR["<b>%1GB</b> of <b>%2GB</b> (%3%)"].arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
           font.pixelSize: 16

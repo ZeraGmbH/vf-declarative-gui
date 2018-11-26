@@ -470,6 +470,7 @@ void ZeraTranslation::reloadStringTable()
   //: describes the ongoing task of recording data into a database
   insert("Logging data", tr("Logging data"));
   insert("Logging disabled", tr("Logging disabled"));
+  insert("No database selected", tr("No database selected"));
   insert("Database loaded", tr("Database loaded"));
   insert("Database error", tr("Database error"));
   insert("Database size:", tr("Database size:"));
@@ -481,6 +482,9 @@ void ZeraTranslation::reloadStringTable()
   insert("[customer data is not available]", tr("[customer data is not available]"));
   //: when the customer number is empty, the brackets are for visual distinction from other text
   insert("[customer id is not set]", tr("[customer id is not set]"));
+
+  //LoggerDbSearchDialog.qml
+  insert("Select file", tr("Select file"));
 
 
   //LoggerDatasetSelector.qml
