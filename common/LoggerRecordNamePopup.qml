@@ -15,7 +15,7 @@ Popup {
   modal: true
   closePolicy: Popup.NoAutoClose
 
-  property QtObject customerdataEntity: VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : 0
+  property QtObject customerdataEntity: VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
 
   signal sigAccepted(string t_resultText);
   signal sigCanceled();
