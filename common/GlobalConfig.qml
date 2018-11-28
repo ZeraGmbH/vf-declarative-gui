@@ -223,5 +223,5 @@ Item {
 
   //not saved to settings
   property string currentViewName: "";
-  property string currentSelectedStoragePath: "";
+  property string currentSelectedStoragePath: "/home/operator/logger"; //default
 }
