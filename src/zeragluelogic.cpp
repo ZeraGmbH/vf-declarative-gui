@@ -15,6 +15,8 @@
 //required for atan2 function
 #include <math.h>
 
+#include <functional>
+
 // DISCLAIMER: this is glue logic code, in this sense use the unix philosophy "worse is better"
 // If you don't know what that means then don't make assumptions, just google it!
 
@@ -192,6 +194,7 @@ class ZeraGlueLogicPrivate
     setupOsciData();
     setupFftData();
     setupPropertyMap();
+    setupDftDispatchTable();
   }
 
   ~ZeraGlueLogicPrivate()
@@ -594,12 +597,14 @@ class ZeraGlueLogicPrivate
 
   void setAngleUI(int t_systemNumber)
   {
-    Q_ASSERT(t_systemNumber>0 && t_systemNumber<4);
+    Q_ASSERT(t_systemNumber==-1 || (t_systemNumber>0 && t_systemNumber<4));
     double tmpAngle = 0;
     QModelIndex tmpIndex;
 
     switch(t_systemNumber)
     {
+      case -1:
+        return; //angle calculation is currently not supported for ACT_DFTPN(7/8) so skip this function
       case 1:
       {
         tmpAngle = m_angleI1-m_angleU1;
@@ -675,36 +680,8 @@ class ZeraGlueLogicPrivate
 
           m_actValueData->setData(mIndex, vectorAngle, valueCoordiates.x());
 
-          if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN1"))
-          {
-            m_angleU1 = vectorAngle;
-            setAngleUI(1);
-          }
-          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN2"))
-          {
-            m_angleU2 = vectorAngle;
-            setAngleUI(2);
-          }
-          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN3"))
-          {
-            m_angleU3 = vectorAngle;
-            setAngleUI(3);
-          }
-          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN4"))
-          {
-            m_angleI1 = vectorAngle;
-            setAngleUI(1);
-          }
-          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN5"))
-          {
-            m_angleI2 = vectorAngle;
-            setAngleUI(2);
-          }
-          else if(t_cmpData->componentName() == QLatin1String("ACT_DFTPN6"))
-          {
-            m_angleI3 = vectorAngle;
-            setAngleUI(3);
-          }
+          //use lookup table to call the right lambda that returns the id to update the angles
+          setAngleUI(m_dftDispatchTable.value(t_cmpData->componentName())(vectorAngle));
         }
       }
       retVal = true;
@@ -853,6 +830,21 @@ class ZeraGlueLogicPrivate
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftRelativeTableModelComponentName, QVariant::fromValue<QObject*>(m_fftRelativeTableData));
   }
 
+  /**
+   * @brief dispatch table for dft values, the lambdas return the index for setAngleUI()
+   */
+  void setupDftDispatchTable()
+  {
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN1"), [this](double vectorAngle) -> int { m_angleU1 = vectorAngle; return 1; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN2"), [this](double vectorAngle) -> int { m_angleU2 = vectorAngle; return 2; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN3"), [this](double vectorAngle) -> int { m_angleU3 = vectorAngle; return 3; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN4"), [this](double vectorAngle) -> int { m_angleI1 = vectorAngle; return 1; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN5"), [this](double vectorAngle) -> int { m_angleI2 = vectorAngle; return 2; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN6"), [this](double vectorAngle) -> int { m_angleI3 = vectorAngle; return 3; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN7"), [](double) -> int { return -1; }); //currently the angle is not calculated
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN8"), [](double) -> int { return -1; }); //currently the angle is not calculated
+  }
+
   void updateTranslation()
   {
     using namespace CommonTable;
@@ -973,6 +965,8 @@ class ZeraGlueLogicPrivate
   static constexpr char const *s_osciPNComponentName = "OSCIPNModel";
   static constexpr char const *s_fftTableModelComponentName = "FFTTableModel";
   static constexpr char const *s_fftRelativeTableModelComponentName = "FFTRelativeTableModel";
+
+  QHash<QString, std::function<int(double)> > m_dftDispatchTable;
 
   double m_angleU1=0;
   double m_angleU2=0;
