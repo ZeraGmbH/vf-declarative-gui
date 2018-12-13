@@ -82,7 +82,7 @@ void ZeraTranslation::setupTranslationFiles()
     if(searchDir.exists() && searchDir.isReadable())
     {
       const auto qmList = searchDir.entryInfoList({"*.qm"}, QDir::Files);
-      for(const QFileInfo qmFileInfo : qmList)
+      for(const QFileInfo &qmFileInfo : qmList)
       {
         const QString localeName = qmFileInfo.fileName().replace("zera-gui_","").replace(".qm","");
         if(m_translationFilesModel.contains(localeName) == false)

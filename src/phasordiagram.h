@@ -12,7 +12,7 @@ class PhasorDiagram: public QNanoQuickItem
   Q_OBJECT
 
 public:
-  explicit PhasorDiagram(QQuickItem *t_parent = 0);
+  explicit PhasorDiagram(QQuickItem *t_parent = nullptr);
 
   enum class VectorView : int
   {

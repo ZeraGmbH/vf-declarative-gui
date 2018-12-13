@@ -15,7 +15,7 @@ class ZeraTranslation : public QQmlPropertyMap
 {
   Q_OBJECT
 public:
-  explicit ZeraTranslation(QObject *parent = 0);
+  explicit ZeraTranslation(QObject *parent = nullptr);
 
   static void setStaticInstance(ZeraTranslation *t_instance);
 

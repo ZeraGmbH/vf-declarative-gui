@@ -39,7 +39,7 @@ class ActualValueModel : public QStandardItemModel
 public:
   explicit ActualValueModel(QObject *t_parent) : QStandardItemModel(t_parent){}
   ActualValueModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent) {}
-
+  virtual ~ActualValueModel() override;
   // QAbstractItemModel interface
 public:
   QHash<int, QByteArray> roleNames() const override
@@ -57,12 +57,14 @@ public:
   }
 };
 
+ActualValueModel::~ActualValueModel() {}
+
 class BurdenValueModel : public QStandardItemModel
 {
 public:
   explicit BurdenValueModel(QObject *t_parent) : QStandardItemModel(t_parent){}
   BurdenValueModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent) {}
-
+  virtual ~BurdenValueModel() override;
   // QAbstractItemModel interface
 public:
   QHash<int, QByteArray> roleNames() const override
@@ -78,6 +80,8 @@ public:
   }
 };
 
+BurdenValueModel::~BurdenValueModel() {}
+
 class FftTableModel : public QStandardItemModel
 {
 public:
@@ -89,6 +93,7 @@ public:
   {
     setupTimer();
   }
+  virtual ~FftTableModel() override;
 
   // QAbstractItemModel interface
 public:
@@ -149,6 +154,8 @@ private:
   }
 };
 
+FftTableModel::~FftTableModel() {}
+
 class ModelRowPair
 {
 public:
@@ -160,13 +167,13 @@ public:
 
   bool isNull() const
   {
-    return (m_model == 0 || m_row == 0);
+    return (m_model == nullptr || m_row == 0);
   }
 
-  QStandardItemModel * m_model=0;
-  int m_row=0;
+  QStandardItemModel * m_model=nullptr;
   //optional timer used for values that change too frequently
-  QTimer *m_updateInterval=0; //uses the qt parent system to cleanup the instance
+  QTimer *m_updateInterval=nullptr; //uses the qt parent system to cleanup the instance
+  int m_row=0;
 };
 
 class ZeraGlueLogicPrivate
@@ -720,7 +727,7 @@ class ZeraGlueLogicPrivate
   bool handleOsciValues(const VeinComponent::ComponentData *t_cmpData)
   {
     bool retVal=false;
-    ModelRowPair tmpPair = m_osciMapping.value(t_cmpData->componentName(), ModelRowPair(0, 0));
+    ModelRowPair tmpPair = m_osciMapping.value(t_cmpData->componentName(), ModelRowPair(nullptr, 0));
     if(tmpPair.isNull() == false)
     {
       QStandardItemModel *tmpModel = tmpPair.m_model;
@@ -928,7 +935,7 @@ class ZeraGlueLogicPrivate
 
   ZeraGlueLogic *m_qPtr;
   GlueLogicPropertyMap *m_propertyMap;
-  ZeraTranslation *m_translation = 0;
+  ZeraTranslation *m_translation = nullptr;
 
   QStandardItemModel *m_actValueData;
   QStandardItemModel *m_burden1Data;
@@ -1014,7 +1021,7 @@ ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, ZeraTranslatio
 ZeraGlueLogic::~ZeraGlueLogic()
 {
   delete m_dPtr;
-  m_dPtr=0;
+  m_dPtr=nullptr;
 }
 
 bool ZeraGlueLogic::processEvent(QEvent *t_event)

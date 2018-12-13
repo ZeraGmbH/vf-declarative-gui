@@ -1,5 +1,6 @@
 #include "phasordiagram.h"
 #include "qnanolineargradient.h"
+
 #include <QVector2D>
 
 //used for atan2 and math constants like M_PI
@@ -8,21 +9,22 @@
 // HelloItemPainter contains the painting code
 class PhasorPainter : public QNanoQuickItemPainter
 {
+  bool m_gridVisible = true;
+  bool m_circleVisible = true;
+  bool m_currentVisible = true;
+  PhasorDiagram::VectorView m_vectorView;
+  PhasorDiagram::VectorMode m_vectorMode;
+  QNanoColor m_gridColor;
+  QNanoColor m_circleColor;
+  float m_circleValue;
+  float m_labelPhiOffset;
   float m_fromX=0;
   float m_fromY=0;
   float m_phiOrigin=0;
   float m_gridScale=1;
   float m_maxVoltage;
   float m_maxCurrent;
-  bool m_currentVisible = true;
-  PhasorDiagram::VectorView m_vectorView;
-  PhasorDiagram::VectorMode m_vectorMode;
-  bool m_gridVisible = true;
-  QNanoColor m_gridColor;
-  bool m_circleVisible = true;
-  QNanoColor m_circleColor;
-  float m_circleValue;
-  float m_labelPhiOffset;
+
 
 
   QVector2D m_vector1;
@@ -53,6 +55,8 @@ public:
   {
     m_defaultFont.setPixelSize(20);
   }
+
+  virtual ~PhasorPainter() override;
 
   float pixelScale(float t_base)
   {
@@ -274,7 +278,7 @@ public:
     {
       t_painter->setStrokeStyle(m_circleColor);
       t_painter->beginPath();
-      t_painter->arc(m_fromX, m_fromY, m_gridScale * m_circleValue, 0, M_PI*2);
+      t_painter->arc(m_fromX, m_fromY, m_gridScale * m_circleValue, 0.0f, M_PI*2.0);
       t_painter->closePath();
       t_painter->stroke();
     }
@@ -304,7 +308,7 @@ protected:
       }
       case PhasorDiagram::VectorView::VIEW_THREE_PHASE:
       {
-        drawVoltageArrows(t_painter, sqrt(3)); //concatenated voltage
+        drawVoltageArrows(t_painter, sqrt(3.0f)); //concatenated voltage
         drawCurrentArrows(t_painter);
         break;
       }
@@ -314,7 +318,7 @@ protected:
   void synchronize(QNanoQuickItem *t_item) override
   {
     PhasorDiagram *realItem  = static_cast<PhasorDiagram *>(t_item);
-    Q_ASSERT(realItem != 0);
+    Q_ASSERT(realItem != nullptr);
 
     m_fromX = realItem->fromX();
     m_fromY = realItem->fromY();
@@ -378,6 +382,8 @@ protected:
     }
   }
 };
+
+PhasorPainter::~PhasorPainter() {}
 
 PhasorDiagram::PhasorDiagram(QQuickItem *t_parent) : QNanoQuickItem(t_parent)
 {
