@@ -27,9 +27,9 @@ BarScaleDraw::BarScaleDraw(Qt::Orientation t_orientation, const QStringList &t_l
   setLabelAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 }
 
-void BarScaleDraw::setColor(QColor t_arg)
+void BarScaleDraw::setColor(QColor t_color)
 {
-  m_textColor=t_arg;
+  m_textColor=t_color;
 }
 
 QwtText BarScaleDraw::label(double t_value) const

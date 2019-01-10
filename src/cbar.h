@@ -13,7 +13,7 @@ class cBar : public QQuickItem
   Q_PROPERTY(double value READ value WRITE setValue NOTIFY valueChanged)
 
 public:
-  explicit cBar(QQuickItem *parent = 0);
+  explicit cBar(QQuickItem *t_parent = 0);
   QColor color() const;
   QString title() const;
   double value() const;
@@ -24,15 +24,13 @@ signals:
   void valueChanged(double t_value);
 
 public slots:
-
   void setColor(QColor t_color);
   void setTitle(QString t_title);
   void setValue(double t_value);
+
 private:
   QColor m_color;
-
   QString m_title;
-
   double m_value;
 
 };

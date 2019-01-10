@@ -26,15 +26,10 @@ class BarChart : public QQuickPaintedItem
   Q_PROPERTY(bool bottomLabelsEnabled READ bottomLabelsEnabled WRITE setBottomLabelsEnabled NOTIFY bottomLabelsEnabledChanged)
   Q_PROPERTY(bool legendEnabled READ legendEnabled WRITE setLegendEnabled)
   Q_PROPERTY(bool markersEnabled READ markersEnabled WRITE setMarkersEnabled)
-
   Q_PROPERTY(QColor borderColor READ borderColor WRITE setborderColor NOTIFY borderColorChanged)
   Q_PROPERTY(QColor color READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
   Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
-
   Q_PROPERTY(QString chartTitle READ chartTitle WRITE setChartTitle)
-
-
-
 
   //left axis
   Q_PROPERTY(bool leftAxisLogScale READ leftAxisLogScale WRITE setLeftAxisLogScaleEnabled)
@@ -58,7 +53,7 @@ class BarChart : public QQuickPaintedItem
   Q_PROPERTY(double rightBaseline READ rightBaseline WRITE setRightBaseline)
 
 public:
-  BarChart(QQuickItem *parent = 0);
+  BarChart(QQuickItem *t_parent = 0);
   ~BarChart();
 
 
@@ -151,9 +146,6 @@ private slots:
   void onRefreshTimeout();
   void refreshPlot();
 
-protected:
-
-
 private:
   bool m_bottomLabelsEnabled;
   bool m_legendEnabled;
@@ -164,10 +156,10 @@ private:
   QColor m_textColor;
   QStringList m_bottomLabels;
   QString m_chartTitle;
-  QTimer *refreshTimer;
-  QTimer *valuesTimer;
-  QwtPlotCanvas *canvas;
-  QwtPlot *plot;
+  QTimer *m_refreshTimer;
+  QTimer *m_valuesTimer;
+  QwtPlotCanvas *m_canvas;
+  QwtPlot *m_plot;
   QwtPlotMarker *m_upperLimitMarker;
   QwtPlotMarker *m_lowerLimitMarker;
   QwtPlotMarker *m_centerMarker;

@@ -1,8 +1,8 @@
 #include "cbar.h"
 #include <QDebug>
 
-cBar::cBar(QQuickItem *parent) :
-  QQuickItem(parent)
+cBar::cBar(QQuickItem *t_parent) :
+  QQuickItem(t_parent)
 {
   m_color=QColor("white");
   m_value=0;
