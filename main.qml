@@ -102,28 +102,14 @@ ApplicationWindow {
     onStateChanged: {
       if(t_state === VeinEntity.VQ_LOADED)
       {
-        if(currentSession === "com5003-meas-session.json")
-        {
-          pageView.model = com5003MeasModel
-        }
-        else if(currentSession === "com5003-ref-session.json")
-        {
-          pageView.model = com5003RefModel
-        }
-        else if(currentSession === "com5003-ced-session.json")
-        {
-          pageView.model = com5003CedModel
-        }
-        else if(currentSession === "mt310s2-meas-session.json")
-        {
-          pageView.model = mt310s2MeasModel
-        }
+        dynamicPageModel.initModel();
+        pageView.model = dynamicPageModel;
 
         console.log("Loaded session: ", currentSession);
         ModuleIntrospection.reloadIntrospection();
         pageLoader.active = true;
         rangeIndicator.active = true;
-        pageView.currentValue = pageView.model.firstElement;
+        pageView.currentValue = pageView.model.get(0).elementValue;
         loadingScreen.close();
         displayWindow.entitiesInitialized = true;
       }
@@ -435,8 +421,9 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pointSize:  18
           text: FA.fa_download
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex;
-          enabled: displayWindow.entitiesInitialized === true
+          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutLoggerIndex;
+          enabled: displayWindow.entitiesInitialized === true;
+          visible: displayWindow.entitiesInitialized === true && VeinEntity.hasEntity("_LoggingSystem")
           onClicked: {
             layoutStack.currentIndex=layoutStackEnum.layoutLoggerIndex;
           }
@@ -482,21 +469,88 @@ ApplicationWindow {
       }
     }
 
+    ListModel {
+      id: dynamicPageModel
 
-    StaticData.MeasurementPageModel {
-      id: com5003MeasModel
-    }
-    StaticData.ReferencePageModel {
-      id: com5003RefModel
-    }
-    StaticData.CEDPageModel {
-      id: com5003CedModel
-    }
-    StaticData.MT310S2MeasurementPageModel {
-      id: mt310s2MeasModel
-    }
+      function hasDependentEntities(t_list) {
+        var retVal = false;
+        if(t_list !== undefined)
+        {
+          if(t_list.length > 0)
+          {
+            var tmpEntityName;
+            for(var tmpIndex in t_list)
+            {
+              tmpEntityName = t_list[tmpIndex];
+              retVal = VeinEntity.hasEntity(tmpEntityName);
 
+              if(retVal === false)
+              {
+                //exit loop
+                break;
+              }
+            }
+          }
+          else
+          {
+            retVal = true;
+          }
+        }
 
+        return retVal;
+      }
+
+      function initModel() {
+        if(hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"]))
+        {
+          append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/pages/ActualValuesPage.qml"});
+        }
+        if(hasDependentEntities(["OSCIModule1"]))
+        {
+          append({name: "Oscilloscope plot", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/pages/OsciModulePage.qml"});
+        }
+        if(hasDependentEntities(["FFTModule1"]))
+        {
+          append({name: "Harmonics", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/pages/FftModulePage.qml"});
+        }
+        if(hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
+        {
+          append({name: "Power values", icon: "qrc:/data/staticdata/resources/power.png", elementValue: "qrc:/pages/PowerModulePage.qml"});
+        }
+        if(hasDependentEntities(["Power3Module1"]))
+        {
+          append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/pages/HarmonicPowerModulePage.qml"});
+        }
+        if(hasDependentEntities(["Burden1Module1", "Burden1Module2"]))
+        {
+          append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/pages/BurdenModulePage.qml"});
+        }
+        if(hasDependentEntities(["Transformer1Module1"]))
+        {
+          append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/pages/TransformerModulePage.qml"});
+        }
+        if(hasDependentEntities(["SEC1Module1"]))
+        {
+          append({name: "Error calculator", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/pages/ErrorCalculatorModulePage.qml"});
+        }
+        if(hasDependentEntities(["DFTModule1"]))
+        {
+          append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/pages/DFTModulePage.qml"});
+        }
+        if(hasDependentEntities(["RMSModule1"]))
+        {
+          append({name: "RMS values", icon: "qrc:/data/staticdata/resources/rms_values.png", elementValue: "qrc:/pages/RMS4PhasePage.qml"});
+        }
+        if(hasDependentEntities(["POWER2Module1"]))
+        {
+          append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/pages/CEDModulePage.qml"});
+        }
+        if(hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
+        {
+          append({name: "Reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/pages/RefModulePage.qml"});
+        }
+      }
+    }
 
     CCMP.PagePathView {
       id: pageView
@@ -507,7 +561,7 @@ ApplicationWindow {
       onModelChanged: {
         if(model)
         {
-          currentValue = model.firstElement;
+          currentValue = model.get(0).elementValue;
           pageLoader.source = currentValue
         }
       }
