@@ -42,42 +42,26 @@ ApplicationWindow {
   }
 
   onCurrentSessionChanged: {
-    switch(currentSession)
+    var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
+
+    var oldIdList = VeinEntity.getEntityList();
+    for(var oldIdIterator in oldIdList)
     {
-    case "com5003-meas-session.json":
-    {
-      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150];
-      break;
-    }
-    case "com5003-ref-session.json":
-    {
-      requiredIds = [0, 2, 1001, 1020, 1050, 1150];
-      break;
-    }
-    case "com5003-ced-session.json":
-    {
-      requiredIds = [0, 2, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1090, 1110, 1120, 1130, 1140, 1150];
-      break;
-    }
-    case "mt310s2-meas-session.json":
-    {
-      requiredIds = [0, 2, 200, 1020, 1030, 1040, 1050, 1060, 1070, 1071, 1072, 1100, 1110, 1120, 1130, 1140, 1150, 1160, 1161, 1170]; //1180
-      break;
-    }
+      VeinEntity.entityUnsubscribeById(oldIdList[oldIdIterator]);
     }
 
-    for(var oldId in VeinEntity.getEntityList())
+    if(availableEntityIds !== undefined)
     {
-      if(requiredIds.indexOf(oldId)<0) //not contained
-      {
-        VeinEntity.entityUnsubscribeById(oldId);
-      }
+      availableEntityIds.push(0);
+    }
+    else
+    {
+      availableEntityIds = [0];
     }
 
-    requiredIds.sort();
-    for(var subscriptionId in requiredIds)
+    for(var newIdIterator in availableEntityIds)
     {
-      VeinEntity.entitySubscribeById(requiredIds[subscriptionId]);
+      VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
     }
   }
 
