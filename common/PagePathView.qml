@@ -15,11 +15,13 @@ Item {
 
   property int lastSelecedIndex
 
+  property bool gridViewEnabled: GC.pagesGridViewDisplay;
+  onGridViewEnabledChanged: GC.setPagesGridViewDisplay(gridViewEnabled);
   property double m_w: width
   property double m_h: height
   readonly property double scaleFactor: Math.min(m_w/1024, m_h/600);
 
-  property alias model: pathView.model
+  property var model;
   property alias sessionComponent: sessionSelector.intermediate
 
   //negative for no element
@@ -73,6 +75,29 @@ Item {
     opacity: 0.7
     anchors.fill: parent
   }
+
+
+  Button {
+    font.family: "FontAwesome"
+    font.pointSize: 18
+    text: FA.icon(FA.fa_image)
+    anchors.right: gridViewButton.left
+    anchors.rightMargin: 8
+    flat: true
+    enabled: root.gridViewEnabled == true
+    onClicked: root.gridViewEnabled = false;
+  }
+  Button {
+    id: gridViewButton
+    font.family: "FontAwesome"
+    font.pointSize: 18
+    text: FA.icon(FA.fa_list_ul)
+    anchors.right: parent.right
+    flat: true
+    enabled: root.gridViewEnabled == false
+    onClicked: root.gridViewEnabled = true;
+  }
+
   Component {
     id: pageDelegate
 
@@ -145,10 +170,76 @@ Item {
     }
   }
 
+  Component {
+    id: gridDelegate
 
+    Rectangle {
+      id: gridWrapper
+      property string itemName: name
+      border.color: Qt.darker(Material.frameColor, 1.3)
+      border.width: 3
+      width: root.width/3 - 8
+      height: 64*scaleFactor+6
+      color: "#11ffffff" //Material.backgroundColor
+      radius: 4
+
+      MouseArea {
+        anchors.fill: parent
+        onClicked: {
+          gridView.currentIndex = index;
+          root.elementSelected({"elementIndex": index, "value": elementValue})
+        }
+      }
+      Image {
+        id: listImage
+        width: height*1.83
+        height: parent.height-8
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 4
+        source: icon
+        mipmap: true
+      }
+      Label {
+        text: ZTR[name]
+        textFormat: Text.PlainText
+        anchors.left: listImage.right
+        anchors.leftMargin: 8
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.verticalCenter: parent.verticalCenter
+        wrapMode: Label.WordWrap
+        font.pointSize: 14
+        color: (gridWrapper.ListView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
+      }
+    }
+  }
+
+
+  GridView {
+    id: gridView
+    visible: root.gridViewEnabled
+    model: root.model
+    flow: GridView.FlowTopToBottom
+    boundsBehavior: Flickable.StopAtBounds
+    cellHeight: 64*scaleFactor+12
+    cellWidth: width/3
+    anchors.fill: parent
+    anchors.topMargin: root.height/10
+    anchors.bottomMargin: root.height/10
+    clip: true
+    onCurrentItemChanged: {
+      //untranslated raw text
+      GC.currentViewName = currentItem.itemName;
+    }
+
+    delegate: gridDelegate
+  }
 
   PathView {
     id: pathView
+    visible: root.gridViewEnabled == false
+    model: root.model
     interactive: false
     enabled: visible
     anchors.fill: parent

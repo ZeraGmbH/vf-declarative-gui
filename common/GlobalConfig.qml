@@ -50,7 +50,7 @@ Item {
   }
 
 
-  readonly property real rangePeakVisualisation : parseInt(settings.globalSettings.getOption("range_peak_logarithmic")) ///@todo rename config key?
+  readonly property real rangePeakVisualisation: parseInt(settings.globalSettings.getOption("range_peak_logarithmic")) ///@todo rename config key?
   function setRangePeakVisualisation(rangePeakVisualisation) {
     if(typeof rangePeakVisualisation === "number"
         && rangePeakVisualisation >=0
@@ -62,6 +62,11 @@ Item {
     {
       settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[rangePeakVisualisation]);
     }
+  }
+
+  readonly property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view"))
+  function setPagesGridViewDisplay(isGridView) {
+    settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0);
   }
 
   function setSystemColorByIndex(index, color) {
