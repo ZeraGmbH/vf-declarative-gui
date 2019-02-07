@@ -60,13 +60,13 @@ Item {
     }
     else if(rangePeakVisualisationEnum[rangePeakVisualisation] !== undefined)
     {
-      settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[rangePeakVisualisation]);
+      settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[rangePeakVisualisation], true);
     }
   }
 
   readonly property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view"))
   function setPagesGridViewDisplay(isGridView) {
-    settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0);
+    settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0, true);
   }
 
   function setSystemColorByIndex(index, color) {

@@ -13,7 +13,8 @@ import GlobalConfig 1.0
 Item {
   id: root
 
-  property int lastSelecedIndex
+  property int lastSelecedIndex;
+  onLastSelecedIndexChanged: gridView.currentIndex = lastSelecedIndex;
 
   property bool gridViewEnabled: GC.pagesGridViewDisplay;
   onGridViewEnabledChanged: GC.setPagesGridViewDisplay(gridViewEnabled);
@@ -189,7 +190,6 @@ Item {
       MouseArea {
         anchors.fill: parent
         onClicked: {
-          gridView.currentIndex = index;
           root.lastSelecedIndex = index
           root.elementSelected({"elementIndex": index, "value": elementValue})
         }
