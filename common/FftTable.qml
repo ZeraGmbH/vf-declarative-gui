@@ -14,6 +14,7 @@ Item {
   id: root
 
   readonly property QtObject glueLogic: ZGL;
+  readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
   readonly property int channelCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount;
   readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
   property int rowHeight: Math.floor(height/20)
@@ -31,7 +32,7 @@ Item {
       id: vBar
       anchors.right: parent.right
       anchors.top: fftFlickable.top
-      anchors.topMargin: root.rowHeight*2
+      anchors.topMargin: root.rowHeight*3
       anchors.bottom: fftFlickable.bottom
       orientation: Qt.Vertical
       Component.onCompleted: {
@@ -103,8 +104,40 @@ Item {
       }
 
       Row {
-        id: harmonicHeaders
+        id: thdnHeaders
         anchors.top: titleRow.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: root.rowHeight
+
+        CCMP.GridItem {
+          border.color: "#444" //disable border transparency
+          x: fftFlickable.contentX //keep item visible
+          z: 1
+          width: root.columnWidth-16
+          textAnchors.rightMargin: 2
+          height: root.rowHeight
+          color: GC.tableShadeColor
+          text:ZTR["THDN:"]
+          textColor: Material.primaryTextColor
+        }
+
+        Repeater {
+          model: root.channelCount
+          CCMP.GridItem {
+            width: root.columnWidth*2
+            height: root.rowHeight
+            readonly property string componentName: String("ACT_THDN%1").arg(index+1);
+            readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
+            text: GC.formatNumber(thdnModule[componentName]) + unit
+            textColor: GC.getColorByIndex(index+1)
+          }
+        }
+      }
+
+      Row {
+        id: harmonicHeaders
+        anchors.top: thdnHeaders.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         height: root.rowHeight
@@ -150,7 +183,7 @@ Item {
         id: lvHarmonics
         anchors.top: harmonicHeaders.bottom
         width: root.columnWidth*17
-        height: root.rowHeight*18//root.rowHeight*fftOrder
+        height: root.rowHeight*(20-3)//root.rowHeight*fftOrder
 
         model: relativeView ? glueLogic.FFTRelativeTableModel : glueLogic.FFTTableModel
         boundsBehavior: Flickable.StopAtBounds

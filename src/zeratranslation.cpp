@@ -274,6 +274,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Amp", tr("Amp", "Amplitude of the phasor"));
   //: text must be short enough to fit
   insert("Phase", tr("Phase","Phase of the phasor"));
+  //: total harmonic distortion with noise
+  insert("THDN:", tr("THDN:"));
 
   //: text must be short enough to fit
   insert("UL1", tr("UL1", "channel name"));

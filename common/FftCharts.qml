@@ -10,12 +10,14 @@ import "qrc:/vf-controls/common" as VFControls
 import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
 import ModuleIntrospection 1.0
+import ZeraTranslation 1.0
 
 Flickable {
   id: root
 
   readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
+  readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
   readonly property int fftCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount
   //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
   readonly property var leftChannels: {
@@ -57,12 +59,35 @@ Flickable {
 
   Repeater {
     model: Math.ceil(fftCount/2)
-    FftBarChart {
-      id: harmonicChart
+    Item {
       height: root.height/3
       width: root.width-16
-
       y: index*height
+      Label {
+        id: thdnLabelU
+        //index starts with 1
+        readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
+        readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
+        text: ZTR["THDN:"] +" "+ GC.formatNumber(thdnModule[componentName]) + unit
+        color: GC.systemColorByIndex(leftChannels[index]+1)
+      }
+      Label {
+        id: thdnLabelI
+        //index starts with 1
+        readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
+        readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
+        text: ZTR["THDN:"] +" "+ GC.formatNumber(thdnModule[componentName]) + unit
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        color: GC.systemColorByIndex(rightChannels[index]+1)
+      }
+
+    FftBarChart {
+      id: harmonicChart
+      anchors.fill: parent
+      anchors.topMargin: thdnLabelU.height
+
+
 
       rightAxisEnabled: true
 
@@ -87,6 +112,7 @@ Flickable {
 
       titleLeftAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(leftChannels[index]+1)].ChannelName
       titleRightAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(rightChannels[index]+1)].ChannelName
+    }
     }
   }
 }
