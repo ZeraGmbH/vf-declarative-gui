@@ -196,13 +196,16 @@ ApplicationWindow {
         layoutStack.currentIndex=layoutStackEnum.layoutPageIndex;
         pageView.visible = true
 
-        if(isLeftDirection)
+        if(GC.pagesGridViewDisplay === false)
         {
-          pageView.decrementElement()
-        }
-        else
-        {
-          pageView.incrementElement()
+          if(isLeftDirection)
+          {
+            pageView.decrementElement()
+          }
+          else
+          {
+            pageView.incrementElement()
+          }
         }
       }
     }

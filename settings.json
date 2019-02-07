@@ -6,6 +6,7 @@
     "groupColor2": "lawngreen",
     "groupColor3": "darkorange",
     "locale": "en",
+    "pages_grid_view": "1",
     "modulemanagerIp": "127.0.0.1",
     "modulemanagerPort": "12000",
     "range_peak_logarithmic": "0",

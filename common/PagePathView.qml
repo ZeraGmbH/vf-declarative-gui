@@ -68,6 +68,9 @@ Item {
     onClicked: {
       ;; //prevents unintentional clicks to underlying elements
     }
+    onWheel: {
+      ;; //prevents the wheel to affect elements in the background
+    }
   }
 
   Rectangle {
@@ -178,7 +181,7 @@ Item {
       property string itemName: name
       border.color: Qt.darker(Material.frameColor, 1.3)
       border.width: 3
-      width: root.width/3 - 8
+      width: root.width/3 - 12
       height: 64*scaleFactor+6
       color: "#11ffffff" //Material.backgroundColor
       radius: 4
@@ -187,12 +190,13 @@ Item {
         anchors.fill: parent
         onClicked: {
           gridView.currentIndex = index;
+          root.lastSelecedIndex = index
           root.elementSelected({"elementIndex": index, "value": elementValue})
         }
       }
       Image {
         id: listImage
-        width: height*1.83
+        width: height*1.83 //image form factor
         height: parent.height-8
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
@@ -210,7 +214,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         wrapMode: Label.WordWrap
         font.pointSize: 14
-        color: (gridWrapper.ListView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
+        color: (gridView.currentItem === gridWrapper ? Material.accentColor : Material.primaryTextColor)
       }
     }
   }
@@ -225,6 +229,7 @@ Item {
     cellHeight: 64*scaleFactor+12
     cellWidth: width/3
     anchors.fill: parent
+    anchors.leftMargin: 8
     anchors.topMargin: root.height/10
     anchors.bottomMargin: root.height/10
     clip: true
