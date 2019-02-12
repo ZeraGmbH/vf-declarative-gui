@@ -189,8 +189,8 @@ class ZeraGlueLogicPrivate
     m_osciP2Data(new QStandardItemModel(3, 128, m_qPtr)),
     m_osciP3Data(new QStandardItemModel(3, 128, m_qPtr)),
     m_osciAUXData(new QStandardItemModel(3, 128, m_qPtr)),
-    m_fftTableData(new FftTableModel(40, 1, m_qPtr)),
-    m_fftRelativeTableData(new FftTableModel(40, 1, m_qPtr))
+    m_fftTableData(new FftTableModel(1, 1, m_qPtr)),
+    m_fftRelativeTableData(new FftTableModel(1, 1, m_qPtr))
   {
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, m_qPtr, [this](){updateTranslation();});
 
@@ -786,7 +786,8 @@ class ZeraGlueLogicPrivate
           ampBaseOscillation = pow(10, -15);
         }
 
-
+        m_fftTableData->setRowCount(tmpData.length()/2);
+        m_fftRelativeTableData->setRowCount(tmpData.length()/2);
         for(int i=0; i<tmpData.length(); i+=2)
         {
           re = tmpData.at(i);
