@@ -352,6 +352,7 @@ class ZeraGlueLogicPrivate
     lambdaMap->insert("ACT_Lambda1", QPoint(RoleIndexes::L1, 9));
     lambdaMap->insert("ACT_Lambda2", QPoint(RoleIndexes::L2, 9));
     lambdaMap->insert("ACT_Lambda3", QPoint(RoleIndexes::L3, 9));
+    lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM, 9));
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
     p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 10));
