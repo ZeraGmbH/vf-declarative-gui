@@ -36,12 +36,12 @@ Popup {
     return { h: h, s: s, l: l };
   }
 
-  RowLayout {
+  Item {
     anchors.fill: parent
-    spacing: 16
+    //spacing: 16
     Column {
       id: inputLayout
-      Layout.fillWidth: true
+      width: root.width/2
       height: root.height - root.padding*2
       Item {
         //hue bar
@@ -164,34 +164,40 @@ Popup {
         value: oldColor.a
       }
     }
+    Button {
+      id: acceptButton
+      text: ZTR["Accept"]
+      anchors.left: parent.left
+      //anchors.rightMargin: parent.width - width - closeButton.width
+      anchors.bottom: parent.bottom
+      highlighted: true
+      onClicked: {
+        colorAccepted(newColor);
+        close();
+      }
+    }
+    Button {
+      id: closeButton
+      text: ZTR["Close"]
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      onClicked: close()
+    }
     Item {
-      width: root.width/2 - parent.spacing
-      height: root.height - root.padding*2
-      Button {
-        text: ZTR["Accept"]
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        highlighted: true
-        onClicked: {
-          colorAccepted(newColor);
-          close();
-        }
-      }
-      Button {
-        text: ZTR["Close"]
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        onClicked: close()
-      }
+      anchors.right: parent.right
+      anchors.bottom: closeButton.top
+      anchors.left: inputLayout.right
+      anchors.top: parent.top
       Rectangle {
         id: colorPreview
-        height: 100
+        height: parent.height*0.8
         width: height
         radius: height
         color: newColor
-        //border.width: 2
-        //border.color: Material.frameColor
         anchors.centerIn: parent
+        border.width: 2
+        border.color: Material.frameColor
+
 
         layer.enabled: true
         layer.effect: OpacityMask {
