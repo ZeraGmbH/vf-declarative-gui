@@ -25,7 +25,6 @@ Item {
   Item {
     width: root.columnWidth*13
     height: root.height
-    anchors.centerIn: parent
 
     ScrollBar {
       z: 1
@@ -46,6 +45,7 @@ Item {
       id: hBar
       anchors.top: fftFlickable.bottom
       anchors.left: fftFlickable.left
+      anchors.leftMargin: root.columnWidth-16
       anchors.right: fftFlickable.right
       orientation: Qt.Horizontal
       Component.onCompleted: {
