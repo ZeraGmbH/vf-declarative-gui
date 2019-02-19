@@ -66,26 +66,30 @@ Item {
         }
       }
 
-      Text {
-        visible: logicalParent.status === logicalParent.statusHolder.ready
-        text: ZTR["Result:"]
-        color: Material.primaryTextColor
-        textFormat: Text.PlainText
-        font.pixelSize: 20
-        anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
-      }
+      Item {
+        height: parent.height
+        width: root.width/3
+        Text {
+          visible: logicalParent.status === logicalParent.statusHolder.ready
+          text: ZTR["Result:"]
+          color: Material.primaryTextColor
+          textFormat: Text.PlainText
+          font.pixelSize: 20
+          anchors.top: parent.top
+          anchors.left: parent.left
+        }
 
-      Text {
-        visible: logicalParent.status === logicalParent.statusHolder.ready
-        width: parent.width
-        color: Material.primaryTextColor
-        textFormat: Text.PlainText
-        font.pixelSize: 50
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.height/10
-        horizontalAlignment: Text.AlignHCenter
-        text: GC.formatNumber(logicalParent.errorCalculator.ACT_Result)+"%"
+        Text {
+          visible: logicalParent.status === logicalParent.statusHolder.ready
+          width: parent.width
+          color: Material.primaryTextColor
+          textFormat: Text.PlainText
+          font.pixelSize: 50
+          anchors.bottom: parent.bottom
+          anchors.bottomMargin: parent.height/10
+          anchors.right: parent.right
+          text: GC.formatNumber(logicalParent.errorCalculator.ACT_Result)+"%"
+        }
       }
     }
     Item { //spacer
