@@ -7,12 +7,12 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import ZeraSettings 1.0
 
 import "qrc:/pages" as Pages
 import "qrc:/components/common" as CCMP
 import "qrc:/data/staticdata" as StaticData
 import "qrc:/data/staticdata/FontAwesome.js" as FA
-import ZeraSettings 1.0
 
 ApplicationWindow {
   id: displayWindow
@@ -183,32 +183,10 @@ ApplicationWindow {
     }
   }
 
-  CCMP.SwipeArea {
+  Item {
     anchors.fill: parent
-    drag.axis: Drag.XAxis
-    focus: true
     enabled: displayWindow.entitiesInitialized === true
-    triggerDistance: displayWindow.width/15
 
-    onHorizontalSwipe: {
-      if(pageView.visible !== true)
-      {
-        layoutStack.currentIndex=layoutStackEnum.layoutPageIndex;
-        pageView.visible = true
-
-        if(GC.pagesGridViewDisplay === false)
-        {
-          if(isLeftDirection)
-          {
-            pageView.decrementElement()
-          }
-          else
-          {
-            pageView.incrementElement()
-          }
-        }
-      }
-    }
 
     StackLayout {
       id: layoutStack
@@ -374,12 +352,12 @@ ApplicationWindow {
         ToolButton {
           implicitHeight: parent.height
           implicitWidth: rangeIndicator.width
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
+          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutRangeIndex
           enabled: displayWindow.entitiesInitialized === true
           onClicked: {
             if(rangeIndicator.active === true)
             {
-              layoutStack.currentIndex=layoutStackEnum.layoutRangeIndex;
+              layoutStack.currentIndex = layoutStackEnum.layoutRangeIndex;
             }
           }
 
@@ -421,10 +399,10 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pointSize:  18
           text: FA.fa_cogs
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex;
+          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutSettingsIndex;
           enabled: displayWindow.entitiesInitialized === true
           onClicked: {
-            layoutStack.currentIndex=layoutStackEnum.layoutSettingsIndex;
+            layoutStack.currentIndex = layoutStackEnum.layoutSettingsIndex;
           }
         }
         ToolButton {
@@ -433,9 +411,9 @@ ApplicationWindow {
           font.family: "FontAwesome"
           font.pointSize:  18
           text: FA.fa_info_circle
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
+          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutStatusIndex
           onClicked: {
-            layoutStack.currentIndex=layoutStackEnum.layoutStatusIndex;
+            layoutStack.currentIndex = layoutStackEnum.layoutStatusIndex;
           }
         }
         //        ToolButton {

@@ -97,6 +97,7 @@ Item {
     font.pointSize: 18
     text: FA.icon(FA.fa_list_ul)
     anchors.right: parent.right
+    anchors.rightMargin: 32
     flat: true
     enabled: root.gridViewEnabled == false
     onClicked: root.gridViewEnabled = true;

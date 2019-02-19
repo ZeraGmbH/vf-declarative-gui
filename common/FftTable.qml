@@ -62,20 +62,25 @@ Item {
       anchors.bottomMargin: parent.height%root.rowHeight
       anchors.rightMargin: 16
       contentWidth: root.columnWidth*(1+root.channelCount*2)-16
+      contentHeight: root.rowHeight*(fftOrder+3)
       clip: true
-      interactive: false
+      interactive: true
+      boundsBehavior: Flickable.StopAtBounds
 
       ScrollBar.horizontal: hBar
+      ScrollBar.vertical: vBar
 
       Row {
         id: titleRow
         anchors.left: parent.left
         anchors.right: parent.right
         height: root.rowHeight
+        y: fftFlickable.contentY //keep item visible on y axis moves
+        z:1
 
         Rectangle {
           color: Material.backgroundColor //hide item below
-          x: fftFlickable.contentX //keep item visible
+          x: fftFlickable.contentX //keep item visible on x axis moves
           z: 1
           width: root.columnWidth-16
           height: root.rowHeight
@@ -87,6 +92,7 @@ Item {
             width: root.columnWidth*2
             height: root.rowHeight
             color: GC.tableShadeColor
+            border.color: "#444" //disable border transparency
             Label {
               text: ZTR[ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName]
               anchors.centerIn: parent
@@ -112,7 +118,7 @@ Item {
 
         CCMP.GridItem {
           border.color: "#444" //disable border transparency
-          x: fftFlickable.contentX //keep item visible
+          x: fftFlickable.contentX //keep item visible on x axis moves
           z: 1
           width: root.columnWidth-16
           textAnchors.rightMargin: 2
@@ -131,6 +137,7 @@ Item {
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: GC.formatNumber(thdnModule[componentName]) + unit
             textColor: GC.getColorByIndex(index+1)
+            border.color: "#444" //disable border transparency
           }
         }
       }
@@ -163,6 +170,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               color: GC.tableShadeColor
+              border.color: "#444" //disable border transparency
               text: ZTR["Amp"] + (relativeView ? "%" : "");
               textColor: GC.getColorByIndex(index+1)
               font.bold: true
@@ -171,6 +179,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               color: GC.tableShadeColor
+              border.color: "#444" //disable border transparency
               text: ZTR["Phase"]
               textColor: GC.getColorByIndex(index+1)
               font.bold: true
@@ -181,16 +190,15 @@ Item {
 
       ListView {
         id: lvHarmonics
-        anchors.top: harmonicHeaders.bottom
+        z: -1
+        y: root.rowHeight*3
         width: root.columnWidth*17
-        height: root.rowHeight*(20-3)//root.rowHeight*fftOrder
+        height: root.rowHeight*(fftOrder+3) //root.rowHeight*(20-3)
 
         model: relativeView ? glueLogic.FFTRelativeTableModel : glueLogic.FFTTableModel
         boundsBehavior: Flickable.StopAtBounds
         cacheBuffer: root.fftOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
         clip: true
-
-        ScrollBar.vertical: vBar
 
         delegate: Component {
           Row {
