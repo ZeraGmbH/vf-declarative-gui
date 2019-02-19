@@ -34,7 +34,10 @@ class HpwBarChart : public QQuickPaintedItem
   Q_PROPERTY(double minValueLeftAxis READ minValueLeftAxis WRITE setMinValueLeftAxis)
   Q_PROPERTY(QColor colorLeftAxis READ colorLeftAxis WRITE setColorLeftAxis)
   Q_PROPERTY(QString titleLeftAxis READ titleLeftAxis WRITE setTitleLeftAxis)
-  Q_PROPERTY(QVariant leftValue READ fooDummy WRITE onLeftValueChanged) //writeonly
+
+  Q_PROPERTY(QList<double> pValueList READ fooDummy WRITE setPValues) //writeonly
+  Q_PROPERTY(QList<double> qValueList READ fooDummy WRITE setQValues) //writeonly
+  Q_PROPERTY(QList<double> sValueList READ fooDummy WRITE setSValues) //writeonly
 
 public:
   HpwBarChart(QQuickItem *t_parent = 0);
@@ -59,7 +62,7 @@ public:
   void classBegin() override {}
 
   //we really need support for writeonly properties
-  QVariant fooDummy() const { return QVariant(); }
+  QList<double> fooDummy() const { return QList<double>(); }
 
   //left axis
   double maxValueLeftAxis() const;
@@ -83,7 +86,11 @@ public slots:
   void setMinValueLeftAxis(double t_minValue);
   void setColorLeftAxis(QColor t_color);
   void setTitleLeftAxis(QString t_title);
-  void onLeftValueChanged(QVariant t_leftValue);
+
+  //PQS values
+  void setPValues(QList<double> t_pValues);
+  void setQValues(QList<double> t_qValues);
+  void setSValues(QList<double> t_sValues);
 
 signals:
   void bgColorChanged(QColor t_backgroundColor);
@@ -115,7 +122,9 @@ private:
   BarData *m_barDataLeft;
   double m_maxValueLeftAxis;
   double m_minValueLeftAxis;
-  QList<qreal> m_valuesLeftAxis;
+  QList<double> m_pValues;
+  QList<double> m_qValues;
+  QList<double> m_sValues;
   QColor m_colorLeftAxis;
   int m_leftBarCount;
 };

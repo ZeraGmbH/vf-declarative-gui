@@ -7,7 +7,7 @@
 class SideScaleDraw : public QwtScaleDraw
 {
 public:
-  SideScaleDraw();
+  SideScaleDraw(bool t_enabled=true);
 
   void setColor(QColor t_arg);
 

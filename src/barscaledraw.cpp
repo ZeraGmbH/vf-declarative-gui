@@ -12,8 +12,14 @@ BarScaleDraw::BarScaleDraw(Qt::Orientation t_orientation, const QStringList &t_l
   setTickLength(QwtScaleDiv::MinorTick, 0);
   setTickLength(QwtScaleDiv::MediumTick, 0);
   setTickLength(QwtScaleDiv::MajorTick, 2);
-
   enableComponent(QwtScaleDraw::Backbone, false);
+
+  if(t_labels.isEmpty()) //nothing to display so disable the fallback
+  {
+    //enableComponent(QwtScaleDraw::Backbone, false);
+    enableComponent(QwtScaleDraw::Ticks, false);
+    enableComponent(QwtScaleDraw::Labels, false);
+  }
 
   if (t_orientation == Qt::Vertical)
   {

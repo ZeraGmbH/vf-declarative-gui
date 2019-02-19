@@ -6,273 +6,208 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import "qrc:/components/common" as CCMP
 import GlobalConfig 1.0
+import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
-
 import ModuleIntrospection 1.0
 
-CCMP.ModulePage {
+Item {
   id: root
-  readonly property QtObject power3Module1: VeinEntity.getEntity("Power3Module1")
 
+  readonly property QtObject glueLogic: ZGL;
+  readonly property int channelCount: ModuleIntrospection.p3m1Introspection.ModuleInfo.HPWCount;
+  readonly property int hpwOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder; //the power3module harmonic order depends on the fftmodule
   property int rowHeight: Math.floor(height/20)
-  property int columnWidth: width/6.5
+  property int columnWidth: (width - vBar.width - width/20)/9
 
   readonly property bool relativeView: GC.showFftTableAsRelative > 0;
-
-  function getSafePercentageSI(denominator, base) {
-    if(base === 0.0) // avoid division by zero
-    {
-      base = Math.pow(10, -15)
-    }
-    return GC.formatNumber(100*denominator/base);
-  }
-
-  Component {
-    id: absoluteDelegate
-    Row {
-      width: root.columnWidth
-      height: root.rowHeight
-      CCMP.GridItem {
-        width: root.width/16
-        height: root.rowHeight
-        color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
-        text: index
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: GC.formatNumber(power3Module1.ACT_HPW1[index*2])
-        textColor: GC.system1ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: GC.formatNumber(power3Module1.ACT_HPW1[index*2+1])
-        textColor: GC.system1ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: GC.formatNumber(power3Module1.ACT_HPW2[index*2])
-        textColor: GC.system2ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: GC.formatNumber(power3Module1.ACT_HPW2[index*2+1])
-        textColor: GC.system2ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: GC.formatNumber(power3Module1.ACT_HPW3[index*2])
-        textColor: GC.system3ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: GC.formatNumber(power3Module1.ACT_HPW3[index*2+1])
-        textColor: GC.system3ColorDark
-      }
-    }
-  }
-
-  Component {
-    id: relativeDelegate
-    Row {
-      width: root.columnWidth
-      height: root.rowHeight
-      CCMP.GridItem {
-        width: root.width/16
-        height: root.rowHeight
-        color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
-        text: index
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        //power3Module1.ACT_HPW1[0] is the real part of DC, ...[2] is the real part of the base oscillation
-        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW1[index*2])+" W" : getSafePercentageSI(power3Module1.ACT_HPW1[index*2], power3Module1.ACT_HPW1[2])
-        textColor: GC.system1ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        //power3Module1.ACT_HPW1[1] is empty imaginary part of DC, ...[2] is the real imaginary of the base oscillation
-        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW1[index*2+1])+" Var" : getSafePercentageSI(power3Module1.ACT_HPW1[index*2+1], power3Module1.ACT_HPW1[3])
-        textColor: GC.system1ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW2[index*2])+" W" : getSafePercentageSI(power3Module1.ACT_HPW2[index*2], power3Module1.ACT_HPW2[2])
-        textColor: GC.system2ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW2[index*2+1])+" Var" : getSafePercentageSI(power3Module1.ACT_HPW2[index*2+1], power3Module1.ACT_HPW2[3])
-        textColor: GC.system2ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW3[index*2])+" W" : getSafePercentageSI(power3Module1.ACT_HPW3[index*2], power3Module1.ACT_HPW3[2])
-        textColor: GC.system3ColorDark
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        text: index===1 ? GC.formatNumber(power3Module1.ACT_HPW3[index*2+1])+" Var" : getSafePercentageSI(power3Module1.ACT_HPW3[index*2+1], power3Module1.ACT_HPW3[3])
-        textColor: GC.system3ColorDark
-      }
-    }
-  }
-
+  readonly property string relativeUnit: relativeView ? " %" : "";
 
   Item {
     width: root.width
     height: root.height
-    anchors.centerIn: parent
-    Row {
-      anchors.bottom: harmonicHeaders.top
-      anchors.left: parent.left
+
+    ScrollBar {
+      z: 1
+      id: vBar
       anchors.right: parent.right
-
-      height: root.rowHeight
-      Item {
-        //spacer
-        width: root.width/16
-        height: root.rowHeight
-      }
-
-      CCMP.GridItem {
-        width: root.columnWidth*2
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        text: ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPW1.ChannelName
-        textColor: GC.system1ColorDark
-        textHorizontalAlignment: Label.AlignHCenter
-        font.pixelSize: rowHeight
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.columnWidth*2
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        text: ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPW2.ChannelName
-        textHorizontalAlignment: Label.AlignHCenter
-        textColor: GC.system2ColorDark
-        font.pixelSize: rowHeight
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.columnWidth*2
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        text: ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPW3.ChannelName
-        textHorizontalAlignment: Label.AlignHCenter
-        textColor: GC.system3ColorDark
-        font.pixelSize: rowHeight
-        font.bold: true
+      anchors.top: fftFlickable.top
+      anchors.topMargin: harmonicHeaders.height
+      anchors.bottom: fftFlickable.bottom
+      orientation: Qt.Vertical
+      Component.onCompleted: {
+        if(QT_VERSION >= 0x050900) //policy was added after 5.7
+        {
+          policy = ScrollBar.AlwaysOn
+        }
       }
     }
 
-    Row {
-      id: harmonicHeaders
-      anchors.bottom: lvHarmonics.top
-      anchors.left: parent.left
-      anchors.right: parent.right
-      height: root.rowHeight
-
-      CCMP.GridItem {
-        width: root.width/16
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        text: "n"
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        font.bold: true
-        text: ZTR["Real"] + (relativeView ? "%" : "")
-        textColor: GC.system1ColorDark
-        textHorizontalAlignment: Label.AlignHCenter
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        font.bold: true
-        text: ZTR["Imaginary"] + (relativeView ? "%" : "")
-        textColor: GC.system1ColorDark
-        textHorizontalAlignment: Label.AlignHCenter
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        font.bold: true
-        text: ZTR["Real"] + (relativeView ? "%" : "")
-        textColor: GC.system2ColorDark
-        textHorizontalAlignment: Label.AlignHCenter
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        font.bold: true
-        text: ZTR["Imaginary"] + (relativeView ? "%" : "")
-        textColor: GC.system2ColorDark
-        textHorizontalAlignment: Label.AlignHCenter
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        font.bold: true
-        text: ZTR["Real"] + (relativeView ? "%" : "")
-        textColor: GC.system3ColorDark
-        textHorizontalAlignment: Label.AlignHCenter
-      }
-      CCMP.GridItem {
-        width: root.columnWidth
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        font.bold: true
-        text: ZTR["Imaginary"] + (relativeView ? "%" : "")
-        textColor: GC.system3ColorDark
-        textHorizontalAlignment: Label.AlignHCenter
-      }
-    }
-
-    ListView {
-      id: lvHarmonics
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.bottom: parent.bottom
-      anchors.bottomMargin: 4
-      height: root.rowHeight*18
-
-      model: 40
-      boundsBehavior: Flickable.StopAtBounds
-      cacheBuffer: root.rowHeight*4
+    Flickable {
+      id: fftFlickable
+      anchors.fill: parent
+      anchors.bottomMargin: parent.height%root.rowHeight
+      anchors.rightMargin: 16
+      contentWidth: root.columnWidth*(1+root.channelCount*2)-16
+      contentHeight: root.rowHeight*(hpwOrder+1)
       clip: true
+      interactive: true
+      boundsBehavior: Flickable.StopAtBounds
 
-      ScrollBar.vertical: ScrollBar {
-        Component.onCompleted: {
-          if(QT_VERSION >= 0x050900) //policy was added after 5.7
-          {
-            policy = ScrollBar.AlwaysOn;
+      ScrollBar.vertical: vBar
+
+      Row {
+        id: harmonicHeaders
+        anchors.left: parent.left
+        anchors.right: parent.right
+        y: fftFlickable.contentY
+        z: 1
+        height: root.rowHeight
+
+        CCMP.GridItem {
+          border.color: "#444" //disable border transparency
+          x: fftFlickable.contentX //keep item visible
+          z: 1
+          width: root.width/20
+          height: root.rowHeight
+          color: GC.tableShadeColor
+          text: "n"
+          textColor: Material.primaryTextColor
+          font.bold: true
+        }
+
+        Repeater {
+          model: root.channelCount
+          delegate: Row {
+            width: root.columnWidth*3
+            height: root.rowHeight
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              color: GC.tableShadeColor
+              border.color: "#444" //disable border transparency
+              text: ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPP%1").arg(index+1)].ChannelName + relativeUnit; //P
+              textColor: GC.getColorByIndex(index+1)
+              font.bold: true
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              color: GC.tableShadeColor
+              border.color: "#444" //disable border transparency
+              text: ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPQ%1").arg(index+1)].ChannelName + relativeUnit; //Q
+              textColor: GC.getColorByIndex(index+1)
+              font.bold: true
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              color: GC.tableShadeColor
+              border.color: "#444" //disable border transparency
+              text: ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPS%1").arg(index+1)].ChannelName + relativeUnit; //S
+              textColor: GC.getColorByIndex(index+1)
+              font.bold: true
+            }
           }
         }
       }
 
-      delegate: root.relativeView ? relativeDelegate : absoluteDelegate
+      ListView {
+        id: lvHarmonics
+        z: -1
+        y: harmonicHeaders.height
+        width: root.columnWidth*17
+        height: root.rowHeight*(hpwOrder+1)
+
+        model: relativeView ? glueLogic.HPWRelativeTableModel : glueLogic.HPWTableModel
+        boundsBehavior: Flickable.StopAtBounds
+        cacheBuffer: root.hpwOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
+        clip: true
+
+        //ScrollBar.vertical: vBar
+
+        delegate: Component {
+          Row {
+            height: root.rowHeight
+
+            CCMP.GridItem {
+              border.color: "#444" //disable border transparency
+              x: fftFlickable.contentX //keep item visible
+              z: 1
+              width: root.width/20
+              height: root.rowHeight
+              color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
+              text: index
+              font.bold: true
+            }
+            //S1
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS1P !== undefined ? GC.formatNumber(PowerS1P, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP1.Unit : "")
+              textColor: GC.system1ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS1Q !== undefined ? GC.formatNumber(PowerS1Q, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ1.Unit : "")
+              textColor: GC.system1ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS1S !== undefined ? GC.formatNumber(PowerS1S, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS1.Unit : "")
+              textColor: GC.system1ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            //S2
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS2P !== undefined ? GC.formatNumber(PowerS2P, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP2.Unit : "")
+              textColor: GC.system2ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS2Q !== undefined ? GC.formatNumber(PowerS2Q, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ2.Unit : "")
+              textColor: GC.system2ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS2S !== undefined ? GC.formatNumber(PowerS2S, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS2.Unit : "")
+              textColor: GC.system2ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            //S3
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS3P !== undefined ? GC.formatNumber(PowerS3P, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP3.Unit : "")
+              textColor: GC.system3ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS3Q !== undefined ? GC.formatNumber(PowerS3Q, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ3.Unit : "")
+              textColor: GC.system3ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+            CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (PowerS3S !== undefined ? GC.formatNumber(PowerS3S, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS3.Unit : "")
+              textColor: GC.system3ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
+          }
+        }
+      }
     }
   }
 }

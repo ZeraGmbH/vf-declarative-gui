@@ -117,6 +117,7 @@ public:
     roles.insert(VECTOR_L6, "VectorL6");
     roles.insert(VECTOR_L7, "VectorL7");
     roles.insert(VECTOR_L8, "VectorL8");
+
     return roles;
   }
 
@@ -140,7 +141,6 @@ public:
     VECTOR_L8,
   };
 
-
 private:
   QTimer m_dataChangeTimer;
   void setupTimer()
@@ -155,6 +155,67 @@ private:
 };
 
 FftTableModel::~FftTableModel() {}
+
+//harmonic power values
+class HPTableModel : public QStandardItemModel
+{
+public:
+  explicit HPTableModel(QObject *t_parent) : QStandardItemModel(t_parent)
+  {
+    setupTimer();
+  }
+  HPTableModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent)
+  {
+    setupTimer();
+  }
+  virtual ~HPTableModel() override;
+
+  // QAbstractItemModel interface
+public:
+  QHash<int, QByteArray> roleNames() const override
+  {
+    QHash<int, QByteArray> roles;
+
+    roles.insert(POWER_S1_P, "PowerS1P");
+    roles.insert(POWER_S2_P, "PowerS2P");
+    roles.insert(POWER_S3_P, "PowerS3P");
+    roles.insert(POWER_S1_Q, "PowerS1Q");
+    roles.insert(POWER_S2_Q, "PowerS2Q");
+    roles.insert(POWER_S3_Q, "PowerS3Q");
+    roles.insert(POWER_S1_S, "PowerS1S");
+    roles.insert(POWER_S2_S, "PowerS2S");
+    roles.insert(POWER_S3_S, "PowerS3S");
+
+    return roles;
+  }
+
+  enum RoleIndexes
+  {
+    POWER_S1_P=Qt::UserRole+1,
+    POWER_S2_P,
+    POWER_S3_P,
+    POWER_S1_Q=POWER_S1_P+100,
+    POWER_S2_Q,
+    POWER_S3_Q,
+    POWER_S1_S=POWER_S1_Q+100,
+    POWER_S2_S,
+    POWER_S3_S,
+  };
+
+private:
+  QTimer m_dataChangeTimer;
+  void setupTimer()
+  {
+    m_dataChangeTimer.setInterval(1000);
+    m_dataChangeTimer.setSingleShot(false);
+    QObject::connect(&m_dataChangeTimer, &QTimer::timeout, [&]() {
+      emit dataChanged(index(0, 0), index(rowCount()-1, columnCount()-1));
+    });
+    m_dataChangeTimer.start();
+  }
+};
+
+HPTableModel::~HPTableModel() {}
 
 class ModelRowPair
 {
@@ -189,8 +250,10 @@ class ZeraGlueLogicPrivate
     m_osciP2Data(new QStandardItemModel(3, 128, m_qPtr)),
     m_osciP3Data(new QStandardItemModel(3, 128, m_qPtr)),
     m_osciAUXData(new QStandardItemModel(3, 128, m_qPtr)),
-    m_fftTableData(new FftTableModel(1, 1, m_qPtr)),
-    m_fftRelativeTableData(new FftTableModel(1, 1, m_qPtr))
+    m_fftTableData(new FftTableModel(1, 1, m_qPtr)), //dynamic size
+    m_fftRelativeTableData(new FftTableModel(1, 1, m_qPtr)), //dynamic size
+    m_hpTableData(new HPTableModel(1, 1, m_qPtr)), //dynamic size
+    m_hpRelativeTableData(new HPTableModel(1, 1, m_qPtr)) //dynamic size
   {
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, m_qPtr, [this](){updateTranslation();});
 
@@ -580,6 +643,19 @@ class ZeraGlueLogicPrivate
     m_fftTableRoleMapping.insert("ACT_FFT6", FftTableModel::AMP_L6);
     m_fftTableRoleMapping.insert("ACT_FFT7", FftTableModel::AMP_L7);
     m_fftTableRoleMapping.insert("ACT_FFT8", FftTableModel::AMP_L8);
+
+    //harmonic power values
+    m_hpwTableRoleMapping.insert("ACT_HPP1", HPTableModel::POWER_S1_P);
+    m_hpwTableRoleMapping.insert("ACT_HPP2", HPTableModel::POWER_S2_P);
+    m_hpwTableRoleMapping.insert("ACT_HPP3", HPTableModel::POWER_S3_P);
+
+    m_hpwTableRoleMapping.insert("ACT_HPQ1", HPTableModel::POWER_S1_Q);
+    m_hpwTableRoleMapping.insert("ACT_HPQ2", HPTableModel::POWER_S2_Q);
+    m_hpwTableRoleMapping.insert("ACT_HPQ3", HPTableModel::POWER_S3_Q);
+
+    m_hpwTableRoleMapping.insert("ACT_HPS1", HPTableModel::POWER_S1_S);
+    m_hpwTableRoleMapping.insert("ACT_HPS2", HPTableModel::POWER_S2_S);
+    m_hpwTableRoleMapping.insert("ACT_HPS3", HPTableModel::POWER_S3_S);
   }
 
   /**
@@ -826,6 +902,45 @@ class ZeraGlueLogicPrivate
     return retVal;
   }
 
+  bool handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData)
+  {
+    bool retVal = false;
+    const int tableRole=m_hpwTableRoleMapping.value(t_cmpData->componentName(), 0);
+    if(tableRole != 0)
+    {
+      const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
+      QModelIndex tmpIndex, tmpRelativeIndex;
+      QSignalBlocker blocker(m_hpTableData);
+      QSignalBlocker relativeBlocker(m_hpRelativeTableData);
+      double ampBaseOscillation, currentValue;
+      //set ampBaseOscillation
+      ampBaseOscillation = tmpData.at(1);
+
+      m_hpTableData->setRowCount(tmpData.length());
+      m_hpRelativeTableData->setRowCount(tmpData.length());
+      for(int i=0; i<tmpData.length(); ++i)
+      {
+        currentValue = tmpData.at(i);
+        tmpIndex = m_hpTableData->index(i, 0);
+        m_hpTableData->setData(tmpIndex, currentValue, tableRole);
+
+        tmpRelativeIndex = m_hpRelativeTableData->index(i, 0);
+        if(Q_UNLIKELY(i==1)) //base oscillation is shown as absolute value (i=0 is DC)
+        {
+          m_hpRelativeTableData->setData(tmpRelativeIndex, ampBaseOscillation, tableRole); //absolute value
+        }
+        else
+        {
+          m_hpRelativeTableData->setData(tmpRelativeIndex, 100.0*currentValue/ampBaseOscillation, tableRole); //value relative to the amplitude of the base oscillation
+        }
+      }
+      retVal = true;
+      blocker.unblock();
+      relativeBlocker.unblock();
+    }
+    return retVal;
+  }
+
   void setupPropertyMap()
   {
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_actualValueComponentName, QVariant::fromValue<QObject*>(m_actValueData));
@@ -837,6 +952,8 @@ class ZeraGlueLogicPrivate
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciPNComponentName, QVariant::fromValue<QObject*>(m_osciAUXData));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
     m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftRelativeTableModelComponentName, QVariant::fromValue<QObject*>(m_fftRelativeTableData));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_hpwTableModelComponentName, QVariant::fromValue<QObject*>(m_hpTableData));
+    m_propertyMap->insert(ZeraGlueLogicPrivate::s_hpwRelativeTableModelComponentName, QVariant::fromValue<QObject*>(m_hpRelativeTableData));
   }
 
   /**
@@ -951,6 +1068,9 @@ class ZeraGlueLogicPrivate
   FftTableModel *m_fftTableData;
   FftTableModel *m_fftRelativeTableData;
 
+  HPTableModel *m_hpTableData;
+  HPTableModel *m_hpRelativeTableData;
+
   //stands for QHash<"entity descriptor", QHash<"component name", 2D coordinates>*>
   template <typename T>
   using CoordinateMapping = QHash<T, QHash<QString, QPoint>*>;
@@ -960,6 +1080,7 @@ class ZeraGlueLogicPrivate
 
   QHash<QString, ModelRowPair> m_osciMapping;
   QHash<QString, int> m_fftTableRoleMapping;
+  QHash<QString, int> m_hpwTableRoleMapping;
 
   QHash<int, QString> m_dynamicMeasuringModeDescriptor = {{10, ""}, {11, ""}, {12, ""}};
 
@@ -974,6 +1095,8 @@ class ZeraGlueLogicPrivate
   static constexpr char const *s_osciPNComponentName = "OSCIPNModel";
   static constexpr char const *s_fftTableModelComponentName = "FFTTableModel";
   static constexpr char const *s_fftRelativeTableModelComponentName = "FFTRelativeTableModel";
+  static constexpr char const *s_hpwTableModelComponentName = "HPWTableModel";
+  static constexpr char const *s_hpwRelativeTableModelComponentName = "HPWRelativeTableModel";
 
   QHash<QString, std::function<int(double)> > m_dftDispatchTable;
 
@@ -1046,17 +1169,19 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
         case ZeraGlueLogicPrivate::Modules::OsciModule:
         {
           const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-          Q_ASSERT(cmpData != nullptr);
-
           retVal = m_dPtr->handleOsciValues(cmpData);
           break;
         }
         case ZeraGlueLogicPrivate::Modules::FftModule:
         {
           const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-          Q_ASSERT(cmpData != nullptr);
-
           retVal = m_dPtr->handleFftValues(cmpData);
+          break;
+        }
+        case ZeraGlueLogicPrivate::Modules::Power3Module:
+        {
+          const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+          retVal = m_dPtr->handleHarmonicPowerValues(cmpData);
           break;
         }
         case ZeraGlueLogicPrivate::Modules::Burden1Module:
@@ -1065,7 +1190,6 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
           if(Q_UNLIKELY(burdenMapping != nullptr))
           {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-            Q_ASSERT(cmpData != nullptr);
             retVal = m_dPtr->handleBurden1Values(burdenMapping, cmpData);
           }
           break;
@@ -1076,7 +1200,6 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
           if(Q_UNLIKELY(burdenMapping != nullptr))
           {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-            Q_ASSERT(cmpData != nullptr);
             retVal = m_dPtr->handleBurden2Values(burdenMapping, cmpData);
           }
           break;

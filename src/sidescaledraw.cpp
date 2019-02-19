@@ -2,8 +2,14 @@
 
 #include <qwt_text.h>
 
-SideScaleDraw::SideScaleDraw() : QwtScaleDraw()
+SideScaleDraw::SideScaleDraw(bool t_enabled) : QwtScaleDraw()
 {
+  if(t_enabled == false) //disabled scale draw
+  {
+    enableComponent(QwtScaleDraw::Backbone, false);
+    enableComponent(QwtScaleDraw::Ticks, false);
+    enableComponent(QwtScaleDraw::Labels, false);
+  }
 }
 
 void SideScaleDraw::setColor(QColor t_arg)

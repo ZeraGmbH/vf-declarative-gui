@@ -191,7 +191,7 @@ void HpwBarChart::useBottomLabels(bool t_labelsEnabled)
   else
   {
     m_bottomLabels.clear();
-    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw()); //cleaned up by the plot
+    m_plot->setAxisScaleDraw(QwtPlot::xBottom, new BarScaleDraw(Qt::Vertical, {})); //cleaned up by the plot
     refreshPlot();
   }
 }
@@ -306,13 +306,13 @@ void HpwBarChart::setTitleLeftAxis(QString t_title)
 void HpwBarChart::onExternValuesChangedTimeout()
 {
   QVector<double> tmpSamples;
-  int tmpLeftBarCount=0;
-
   m_valuesTimer->stop();
 
-  if(m_valuesLeftAxis.count()>0)
+  if(m_pValues.count()>0 && m_qValues.count()>0 && m_sValues.count()>0
+     && m_pValues.count() == m_qValues.count() && m_pValues.count() == m_sValues.count())
   {
-    tmpLeftBarCount = m_valuesLeftAxis.count();
+    int tmpLeftBarCount=0;
+    tmpLeftBarCount = m_pValues.count() + m_qValues.count() + m_sValues.count();
 
     if(m_leftBarCount != tmpLeftBarCount)
     {
@@ -320,7 +320,12 @@ void HpwBarChart::onExternValuesChangedTimeout()
       onLeftBarCountChanged(m_leftBarCount);
     }
 
-    tmpSamples = m_valuesLeftAxis.toVector();
+    for(int sampleCount = 0; sampleCount < tmpLeftBarCount/3; ++sampleCount)
+    {
+      tmpSamples.append(m_pValues.at(sampleCount));
+      tmpSamples.append(m_qValues.at(sampleCount));
+      tmpSamples.append(m_sValues.at(sampleCount));
+    }
 
     if(m_legendEnabled)
     {
@@ -358,9 +363,21 @@ void HpwBarChart::refreshPlot()
     m_refreshTimer->start(500);
 }
 
-void HpwBarChart::onLeftValueChanged(QVariant t_leftValue)
+void HpwBarChart::setPValues(QList<double> t_pValues)
 {
-  m_valuesLeftAxis = t_leftValue.value<QList<qreal>>();
+  m_pValues = t_pValues;
+  onExternValuesChanged();
+}
+
+void HpwBarChart::setQValues(QList<double> t_qValues)
+{
+  m_qValues = t_qValues;
+  onExternValuesChanged();
+}
+
+void HpwBarChart::setSValues(QList<double> t_sValues)
+{
+  m_sValues = t_sValues;
   onExternValuesChanged();
 }
 
@@ -368,10 +385,13 @@ void HpwBarChart::onLeftBarCountChanged(int t_barCount)
 {
   m_barDataLeft->clearData();
 
-  //m_valuesLeftAxis is a list of real and imaginary numbers
-  for(int i=0; i<t_barCount-1; i+=2)
+  //m_valuesLeftAxis is a list of P Q S values
+  //for(int i=0; i<t_barCount-2; i+=3)
+  t_barCount=41;
+  for(int i=0; i<t_barCount; ++i)
   {
-    m_barDataLeft->addData(m_colorLeftAxis, QString::number(i/2));
+    m_barDataLeft->addData(m_colorLeftAxis, QString::number(i));
+    m_barDataLeft->addData(m_colorLeftAxis, QString(" "));
     m_barDataLeft->addData(m_colorLeftAxis, QString(" "));
   }
 }
