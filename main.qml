@@ -30,11 +30,6 @@ ApplicationWindow {
   Material.theme: Material.Dark
   Material.accent: "#339966"
 
-
-//  onClosing: {
-//    settings.globalSettings.saveToFile(settings.globalSettings.getCurrentFilePath(), true);
-//  }
-
   Component.onCompleted: {
     currentSession = Qt.binding(function() {
       return VeinEntity.getEntity("_System").Session;
@@ -144,25 +139,6 @@ ApplicationWindow {
     visible: debugBypass === true
   }
 
-//  /// @todo remove debugging code
-//  Shortcut {
-//    property bool cLang: false
-//    enabled: BUILD_TYPE === "debug"
-//    sequence: "F2"
-//    autoRepeat: false
-//    onActivated: {
-//      cLang = !cLang;
-//      if(cLang)
-//      {
-//        ZTR.changeLanguage("en_US");
-//      }
-//      else
-//      {
-//        ZTR.changeLanguage("de_DE");
-//      }
-//    }
-//  }
-
   Shortcut {
     property bool smallResolution: false
     enabled: BUILD_TYPE === "debug"
@@ -258,6 +234,13 @@ ApplicationWindow {
     }
     ListModel {
       id: syslogModel
+
+      onCountChanged:  {
+        if(count>500) //prevent the log from getting too big
+        {
+          remove(0, count-500);
+        }
+      }
 
       /**
        * @b loads json formatted log messages from systemd-journal-gatewayd at the same ip address as the modulemanager
