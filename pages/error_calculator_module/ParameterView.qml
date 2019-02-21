@@ -27,8 +27,8 @@ Item {
       border.color: Material.dividerColor
       height: root.rowHeight
       width: root.width
-      Text {
-        color: Material.primaryTextColor
+      enabled: logicalParent.canStartMeasurement
+      Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: 4
@@ -39,7 +39,6 @@ Item {
       VFControls.VFComboBox {
         id: cbMode
 
-        enabled: logicalParent.canStartMeasurement
         arrayMode: true
 
         entity: logicalParent.errorCalculator
@@ -65,8 +64,9 @@ Item {
       border.color: Material.dividerColor
       height: root.rowHeight
       width: root.width
-      Text {
-        color: Material.primaryTextColor
+      enabled: logicalParent.canStartMeasurement
+      Label {
+
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: 4
@@ -77,7 +77,6 @@ Item {
       VFControls.VFComboBox {
         id: cbRefInput
 
-        enabled: logicalParent.canStartMeasurement
         arrayMode: true
 
         entity: logicalParent.errorCalculator
@@ -146,8 +145,9 @@ Item {
       border.color: Material.dividerColor
       height: root.rowHeight
       width: root.width
-      Text {
-        color: Material.primaryTextColor
+      enabled: logicalParent.canStartMeasurement
+
+      Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: 4
@@ -156,7 +156,6 @@ Item {
         font.pixelSize: Math.max(height/2, 20)
       }
       VFControls.VFComboBox {
-        enabled: logicalParent.canStartMeasurement
         arrayMode: true
 
         entity: logicalParent.errorCalculator
@@ -231,7 +230,7 @@ Item {
       visible: cbMode.currentText === "energy" // this is localization independent
       color: "transparent"
       border.color: Material.dividerColor
-      height: root.rowHeight * visible
+      height: root.rowHeight * visible //don't waste space if not visible
       width: root.width
 
       VFControls.VFLineEdit {
@@ -257,7 +256,7 @@ Item {
       visible: cbMode.currentText === "mrate" // this is localization independent
       color: "transparent"
       border.color: Material.dividerColor
-      height: root.rowHeight * visible
+      height: root.rowHeight * visible //don't waste space if not visible
       width: root.width
 
       VFControls.VFLineEdit {
@@ -286,9 +285,8 @@ Item {
       height: root.rowHeight
       width: root.width
 
-      Text {
+      Label {
         id: upperLimitDescription
-        color: Material.primaryTextColor
         textFormat: Text.PlainText
         width: root.width * 0.55
         anchors.verticalCenter: parent.verticalCenter
@@ -378,9 +376,8 @@ Item {
       height: root.rowHeight
       width: root.width
 
-      Text {
+      Label {
         id: lowerLimitDescription
-        color: Material.primaryTextColor
         textFormat: Text.PlainText
         width: root.width * 0.55
         anchors.verticalCenter: parent.verticalCenter

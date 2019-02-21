@@ -23,6 +23,43 @@ Item {
       width: root.width
 
       Item {
+        height: parent.height
+        width: root.width/3
+        anchors.left: parent.left
+        readonly property int statusNotify: logicalParent.status;
+        visible: false;
+        onStatusNotifyChanged: {
+          if(statusNotify & logicalParent.statusHolder.ready)
+          {
+            visible = true;
+          }
+          else if(statusNotify === logicalParent.statusHolder.aborted)
+          {
+            visible = false;
+          }
+        }
+
+        Label {
+          text: ZTR["Energy:"]
+          textFormat: Text.PlainText
+          font.pixelSize: 20
+          anchors.top: parent.top
+          anchors.left: parent.left
+        }
+
+        Label {
+          width: parent.width
+          textFormat: Text.PlainText
+          font.pixelSize: 50
+          fontSizeMode: Text.HorizontalFit
+          anchors.bottom: parent.bottom
+          anchors.bottomMargin: parent.height/10
+          anchors.right: parent.right
+          text: GC.formatNumber(logicalParent.errorCalculator.ACT_Energy) + " " + ModuleIntrospection.sec1Introspection.ComponentInfo.ACT_Energy.Unit
+        }
+      }
+
+      Item {
         visible: logicalParent.status === logicalParent.statusHolder.armed
         anchors.centerIn: parent
         height: parent.height
@@ -39,7 +76,7 @@ Item {
 
       Item {
         id: animatedReady
-        visible: logicalParent.status === logicalParent.statusHolder.started
+        visible: logicalParent.status & logicalParent.statusHolder.started
         anchors.centerIn: parent
         height: parent.height
         width: root.width/3
@@ -50,6 +87,7 @@ Item {
           fillMode: Image.TileHorizontally
           height: parent.height
           width: parent.width*2
+
 
           SequentialAnimation on x {
             loops: Animation.Infinite
@@ -69,22 +107,36 @@ Item {
       Item {
         height: parent.height
         width: root.width/3
-        Text {
-          visible: logicalParent.status === logicalParent.statusHolder.ready
+        anchors.right: parent.right
+        readonly property int statusNotify: logicalParent.status;
+        visible: false;
+        onStatusNotifyChanged: {
+          if(statusNotify & logicalParent.statusHolder.ready)
+          {
+            visible = true;
+          }
+          else if(statusNotify === logicalParent.statusHolder.aborted)
+          {
+            visible = false;
+          }
+        }
+
+        Label {
           text: ZTR["Result:"]
-          color: Material.primaryTextColor
           textFormat: Text.PlainText
+          horizontalAlignment: Text.AlignHCenter
           font.pixelSize: 20
           anchors.top: parent.top
           anchors.left: parent.left
+          width: parent.width
         }
 
-        Text {
-          visible: logicalParent.status === logicalParent.statusHolder.ready
+        Label {
           width: parent.width
-          color: Material.primaryTextColor
           textFormat: Text.PlainText
+          horizontalAlignment: Text.AlignRight
           font.pixelSize: 50
+          fontSizeMode: Text.HorizontalFit
           anchors.bottom: parent.bottom
           anchors.bottomMargin: parent.height/10
           anchors.right: parent.right
@@ -106,9 +158,8 @@ Item {
       indeterminate: logicalParent.status === logicalParent.statusHolder.armed
 
 
-      Text {
+      Label {
         visible: logicalParent.status !== logicalParent.statusHolder.ready
-        color: Material.primaryTextColor
         textFormat: Text.PlainText
         anchors.bottom: parent.top
         anchors.left: parent.left

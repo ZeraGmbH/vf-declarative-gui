@@ -21,8 +21,8 @@ CCMP.ModulePage {
   readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
   readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
   property int status: errorCalculator.ACT_Status
-  readonly property QtObject statusHolder: statuses
-  property bool canStartMeasurement: status === statuses.idle || status === statuses.ready || status === statuses.aborted
+  readonly property alias statusHolder: statuses
+  readonly property bool canStartMeasurement: errorCalculator.PAR_StartStop !== 1
 
   QtObject {
     id: statuses
@@ -100,12 +100,26 @@ CCMP.ModulePage {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         onClicked: {
-          if(errorCalculator.PAR_STARTSTOP !== 1)
+          if(errorCalculator.PAR_StartStop !== 1)
           {
-            errorCalculator.PAR_STARTSTOP=1
+            errorCalculator.PAR_StartStop=1;
           }
         }
       }
+      CheckBox {
+        text: "Continuous measurement";
+        anchors.centerIn: parent
+        font.pixelSize: 20
+        enabled: errorCalculator.PAR_StartStop !== 1;
+        checked: errorCalculator.PAR_Continuous === 1;
+        onCheckedChanged: {
+          if(checked !== errorCalculator.PAR_Continuous)
+          {
+            errorCalculator.PAR_Continuous = (checked ? 1 : 0);
+          }
+        }
+      }
+
       Button {
         text: ZTR["Stop"]
         font.pixelSize: 20
@@ -118,9 +132,9 @@ CCMP.ModulePage {
         anchors.right: parent.right
 
         onClicked: {
-          if(errorCalculator.PAR_STARTSTOP !== 0)
+          if(errorCalculator.PAR_StartStop !== 0)
           {
-            errorCalculator.PAR_STARTSTOP=0
+            errorCalculator.PAR_StartStop=0;
           }
         }
       }
