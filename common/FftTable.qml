@@ -17,14 +17,13 @@ Item {
   readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
   readonly property int channelCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount;
   readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
-  property int rowHeight: Math.floor(height/20)
-  property int columnWidth: width/13
+  readonly property int rowHeight: Math.floor(height/20)
+  readonly property int columnWidth: width/7
 
   readonly property bool relativeView: GC.showFftTableAsRelative > 0;
 
   Item {
-    width: root.columnWidth*13
-    height: root.height
+    anchors.fill: parent
 
     ScrollBar {
       z: 1
@@ -61,7 +60,8 @@ Item {
       anchors.fill: parent
       anchors.bottomMargin: parent.height%root.rowHeight
       anchors.rightMargin: 16
-      contentWidth: root.columnWidth*(1+root.channelCount*2)-16
+      contentWidth: lvHarmonics.width
+      onContentWidthChanged: console.log(contentWidth, root.columnWidth*9)
       contentHeight: root.rowHeight*(fftOrder+3)
       clip: true
       interactive: true
@@ -88,7 +88,7 @@ Item {
 
         Repeater {
           model: root.channelCount
-          delegate:CCMP.GridRect {
+          delegate: CCMP.GridRect {
             width: root.columnWidth*2
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -192,7 +192,7 @@ Item {
         id: lvHarmonics
         z: -1
         y: root.rowHeight*3
-        width: root.columnWidth*17
+        width: root.columnWidth*17 - 16
         height: root.rowHeight*(fftOrder+3) //root.rowHeight*(20-3)
 
         model: relativeView ? glueLogic.FFTRelativeTableModel : glueLogic.FFTTableModel
