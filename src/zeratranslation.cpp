@@ -338,6 +338,10 @@ void ZeraTranslation::reloadStringTable()
   insert("Ms-Sec:", tr("Ms-Sec:"));
   insert("Mp-Prim:", tr("Mp-Prim:"));
   insert("Mp-Sec:", tr("Mp-Sec:"));
+  insert("X-Ratio", tr("X-Ratio"));
+  insert("N-Sec", tr("N-Sec"));
+  insert("X-Prim", tr("X-Prim"));
+  insert("X-Sec", tr("X-Sec"));
   insert("crad", tr("crad", "centiradian"));
   insert("arcmin", tr("arcmin", "arcminute"));
 

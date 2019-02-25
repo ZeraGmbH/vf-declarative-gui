@@ -16,12 +16,12 @@ CCMP.ModulePage {
   readonly property QtObject glueLogic: ZGL;
   readonly property QtObject transformerModule: VeinEntity.getEntity("Transformer1Module1")
   readonly property var transformerIntrospection: ModuleIntrospection.transformer1Introspection
-  readonly property int rowHeight: Math.floor(height/9)
+  readonly property int rowHeight: Math.floor(height/12)
 
   CCMP.SettingsView {
     anchors.left: parent.left
     anchors.right: parent.right
-    height: root.height*3/9
+    height: root.height*3/12
 
     model: VisualItemModel {
       Column {
@@ -165,7 +165,7 @@ CCMP.ModulePage {
   Column {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
-    height: root.height*6/9
+    height: root.height*9/12
     width: root.width
 
 
@@ -200,7 +200,7 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: "X-Ratio"
+        text: ZTR["X-Ratio"]
         font.bold: true
       }
       CCMP.GridItem {
@@ -231,7 +231,7 @@ CCMP.ModulePage {
       CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
-        text: "%"
+        text: root.transformerIntrospection.ComponentInfo.ACT_Error1.Unit;
       }
     }
 
@@ -295,6 +295,69 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         text: ZTR["arcmin"];
+      }
+    }
+
+    //n secondary
+    Row {
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        color: GC.tableShadeColor
+        text: ZTR["N-Sec"];
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.width*0.6
+        height: root.rowHeight
+        text: GC.formatNumber(transformerModule.ACT_INSecondary1)
+      }
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        text: transformerIntrospection.ComponentInfo.ACT_INSecondary1.Unit;
+      }
+    }
+
+    //transformer primary
+    Row {
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        color: GC.tableShadeColor
+        text: ZTR["X-Prim"];
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.width*0.6
+        height: root.rowHeight
+        text: GC.formatNumber(transformerModule.ACT_IXPrimary1)
+      }
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        text: transformerIntrospection.ComponentInfo.ACT_IXPrimary1.Unit;
+      }
+    }
+
+    //transformer secondary
+    Row {
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        color: GC.tableShadeColor
+        text: ZTR["X-Sec"];
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.width*0.6
+        height: root.rowHeight
+        text: GC.formatNumber(transformerModule.ACT_IXSecondary1)
+      }
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        text: transformerIntrospection.ComponentInfo.ACT_IXSecondary1.Unit;
       }
     }
   }
