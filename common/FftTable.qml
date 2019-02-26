@@ -61,7 +61,6 @@ Item {
       anchors.bottomMargin: parent.height%root.rowHeight
       anchors.rightMargin: 16
       contentWidth: lvHarmonics.width
-      onContentWidthChanged: console.log(contentWidth, root.columnWidth*9)
       contentHeight: root.rowHeight*(fftOrder+3)
       clip: true
       interactive: true
@@ -76,7 +75,7 @@ Item {
         anchors.right: parent.right
         height: root.rowHeight
         y: fftFlickable.contentY //keep item visible on y axis moves
-        z:1
+        z: 1
 
         Rectangle {
           color: Material.backgroundColor //hide item below
