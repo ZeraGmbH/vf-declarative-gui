@@ -103,23 +103,21 @@ Rectangle {
   Item {
     anchors.fill: parent
     anchors.rightMargin: parent.width/5
-    Text {
+    Label {
       anchors.left: parent.left
       anchors.leftMargin: 8
       anchors.verticalCenter: parent.verticalCenter
       text:  ZTR[root.currentText] !== undefined ? ZTR[root.currentText] : root.currentText
       textFormat: Text.PlainText
-      color: Material.primaryTextColor
       font.pixelSize: root.fontSize
     }
   }
-  Text {
+  Label {
     anchors.right: parent.right
     anchors.rightMargin: 8
     anchors.verticalCenter: parent.verticalCenter
     text: "▼"
     textFormat: Text.PlainText
-    color: Material.primaryTextColor
     font.pixelSize: root.fontSize/2
   }
 
@@ -214,7 +212,7 @@ Rectangle {
             }
           }
 
-          Text {
+          Label {
             anchors.centerIn: parent
             text: {
               var retVal = "";
@@ -226,7 +224,6 @@ Rectangle {
             }
 
             textFormat: Text.PlainText
-            color:Material.primaryTextColor
             font.pixelSize: root.fontSize
           }
         }

@@ -122,13 +122,12 @@ Rectangle {
     fillMode: Image.PreserveAspectFit
     mipmap: true
   }
-  Text {
+  Label {
     anchors.right: parent.right
     anchors.rightMargin: 8
     anchors.verticalCenter: parent.verticalCenter
     text: "▼"
     textFormat: Text.PlainText
-    color: Material.primaryTextColor
     font.pixelSize: root.fontSize/2
   }
 
