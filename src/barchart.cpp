@@ -438,7 +438,7 @@ void BarChart::setLeftAxisMinValue(double t_leftAxisMinValue)
   double tmpScale=1;
   if(m_logScaleLeftAxis)
   {
-    while(t_leftAxisMinValue != 0 && tmpScale>t_leftAxisMinValue)
+    while(t_leftAxisMinValue>0 && tmpScale>t_leftAxisMinValue)
     {
       tmpScale=tmpScale/10;
     }
