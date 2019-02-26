@@ -97,6 +97,27 @@ int main(int argc, char *argv[])
   networkWatchdog.setInterval(3000);
   networkWatchdog.setSingleShot(true);
 
+  JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
+
+  if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
+  {
+    const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    const QString targetPath = QString("%1/settings.json").arg(standardPath);
+    QDir standardConfigDirectory;
+
+    if(!standardConfigDirectory.exists(standardPath))
+    {
+      standardConfigDirectory.mkdir(standardPath);
+    }
+    //copy from qrc to standard dir
+    if(QFile::copy("://data/settings.json", targetPath))
+    {
+      qDebug("Deployed default settings file from: qrc://data/settings.json");
+      QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
+      globalSettingsFile->loadFromStandardLocation("settings.json");
+    }
+  }
+
 #ifdef QT_DEBUG
   engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
 #else
@@ -151,7 +172,6 @@ int main(int argc, char *argv[])
 
   netSystem->setOperationMode(VeinNet::NetworkSystem::VNOM_PASS_THROUGH);
 
-
   subSystems.append(glueLogicSystem);
   subSystems.append(netSystem);
   subSystems.append(tcpSystem);
@@ -159,33 +179,11 @@ int main(int argc, char *argv[])
 
   evHandler->setSubsystems(subSystems);
 
-  JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
-
-  if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
-  {
-    const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-    const QString targetPath = QString("%1/settings.json").arg(standardPath);
-    QDir standardConfigDirectory;
-
-    if(!standardConfigDirectory.exists(standardPath))
-    {
-      standardConfigDirectory.mkdir(standardPath);
-    }
-    //copy from qrc to standard dir
-    if(QFile::copy("://data/settings.json", targetPath))
-    {
-      qDebug("Deployed default settings file from: qrc://data/settings.json");
-      QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
-      globalSettingsFile->loadFromStandardLocation("settings.json");
-    }
-  }
-
   QString netHost = "127.0.0.1";
   int netPort = 12000;
 #ifdef Q_OS_ANDROID
   ///@todo for android: code is needed to fetch a list of possible hosts via QtZeroConf service discovery
 #endif //Q_OS_ANDROID
-
 
   if(globalSettingsFile->hasOption("modulemanagerIp") && globalSettingsFile->hasOption("modulemanagerPort"))
   {
