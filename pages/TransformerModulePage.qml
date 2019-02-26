@@ -194,6 +194,69 @@ CCMP.ModulePage {
       }
     }
 
+    //transformer primary
+    Row {
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        color: GC.tableShadeColor
+        text: ZTR["X-Prim"];
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.width*0.6
+        height: root.rowHeight
+        text: GC.formatNumber(transformerModule.ACT_IXPrimary1)
+      }
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        text: transformerIntrospection.ComponentInfo.ACT_IXPrimary1.Unit;
+      }
+    }
+
+    //n secondary
+    Row {
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        color: GC.tableShadeColor
+        text: ZTR["N-Sec"];
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.width*0.6
+        height: root.rowHeight
+        text: GC.formatNumber(transformerModule.ACT_INSecondary1)
+      }
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        text: transformerIntrospection.ComponentInfo.ACT_INSecondary1.Unit;
+      }
+    }
+
+    //transformer secondary
+    Row {
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        color: GC.tableShadeColor
+        text: ZTR["X-Sec"];
+        font.bold: true
+      }
+      CCMP.GridItem {
+        width: root.width*0.6
+        height: root.rowHeight
+        text: GC.formatNumber(transformerModule.ACT_IXSecondary1)
+      }
+      CCMP.GridItem {
+        width: root.width*0.2
+        height: root.rowHeight
+        text: transformerIntrospection.ComponentInfo.ACT_IXSecondary1.Unit;
+      }
+    }
+
     //Transformer Ratio
     Row {
       CCMP.GridItem {
@@ -295,69 +358,6 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         text: ZTR["arcmin"];
-      }
-    }
-
-    //n secondary
-    Row {
-      CCMP.GridItem {
-        width: root.width*0.2
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        text: ZTR["N-Sec"];
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.width*0.6
-        height: root.rowHeight
-        text: GC.formatNumber(transformerModule.ACT_INSecondary1)
-      }
-      CCMP.GridItem {
-        width: root.width*0.2
-        height: root.rowHeight
-        text: transformerIntrospection.ComponentInfo.ACT_INSecondary1.Unit;
-      }
-    }
-
-    //transformer primary
-    Row {
-      CCMP.GridItem {
-        width: root.width*0.2
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        text: ZTR["X-Prim"];
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.width*0.6
-        height: root.rowHeight
-        text: GC.formatNumber(transformerModule.ACT_IXPrimary1)
-      }
-      CCMP.GridItem {
-        width: root.width*0.2
-        height: root.rowHeight
-        text: transformerIntrospection.ComponentInfo.ACT_IXPrimary1.Unit;
-      }
-    }
-
-    //transformer secondary
-    Row {
-      CCMP.GridItem {
-        width: root.width*0.2
-        height: root.rowHeight
-        color: GC.tableShadeColor
-        text: ZTR["X-Sec"];
-        font.bold: true
-      }
-      CCMP.GridItem {
-        width: root.width*0.6
-        height: root.rowHeight
-        text: GC.formatNumber(transformerModule.ACT_IXSecondary1)
-      }
-      CCMP.GridItem {
-        width: root.width*0.2
-        height: root.rowHeight
-        text: transformerIntrospection.ComponentInfo.ACT_IXSecondary1.Unit;
       }
     }
   }
