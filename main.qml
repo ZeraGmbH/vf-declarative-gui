@@ -346,9 +346,22 @@ ApplicationWindow {
 
           CCMP.RangeIndicator {
             id: rangeIndicator
-            width: Math.ceil(displayWindow.width/1.8)
+            width: Math.ceil(displayWindow.width/2)
             height: controlsBar.height
             active: false
+          }
+        }
+
+        ToolButton {
+          implicitHeight: parent.height
+          implicitWidth: height*1.5
+          highlighted: false;
+          enabled: false
+          visible: rotaryFieldIndicator.dftModule && rotaryFieldIndicator.dftModule.ACT_RFIELD
+          CCMP.RotaryFieldIndicator {
+            id: rotaryFieldIndicator
+            height: parent.height
+            width: parent.width
           }
         }
 
@@ -484,6 +497,7 @@ ApplicationWindow {
         if(hasDependentEntities(["DFTModule1"]))
         {
           append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/pages/DFTModulePage.qml"});
+          rotaryFieldIndicator.dftModule = VeinEntity.getEntity("DFTModule1");
         }
         if(hasDependentEntities(["RMSModule1"]))
         {
