@@ -73,8 +73,8 @@ int main(int argc, char *argv[])
   qmlRegisterSingletonType<ZeraTranslation>("ZeraTranslation", 1, 0, "ZTR", ZeraTranslation::getStaticInstance);
   qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
 
-  qmlRegisterSingletonType(QUrl("qrc:/components/common/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
-  qmlRegisterSingletonType(QUrl("qrc:/components/common/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
+  qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
+  qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
 
   qmlRegisterType<JsonSettingsFile>("ZeraSettings", 1, 0, "ZeraSettings");
   qmlRegisterType<JsonGlobalSettings>("ZeraSettings", 1, 0, "ZeraGlobalSettings");
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
   QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
     if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_LOADED && loadedOnce == false)
     {
-      engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+      engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
       loadedOnce = true;
     }
     else if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
