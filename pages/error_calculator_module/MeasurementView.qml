@@ -24,7 +24,7 @@ Item {
 
       Item {
         height: parent.height
-        width: root.width/3
+        width: 3*root.width/7
         anchors.left: parent.left
         readonly property int statusNotify: logicalParent.status;
         visible: false;
@@ -54,8 +54,8 @@ Item {
       Item {
         visible: logicalParent.status === logicalParent.statusHolder.armed
         anchors.centerIn: parent
-        height: parent.height
-        width: 3*root.width/7
+        height: parent.height*0.8
+        width: root.width/7
         clip: true
         Image {
           source: "qrc:/data/staticdata/resources/Armed.svg"
@@ -70,7 +70,7 @@ Item {
         id: animatedReady
         visible: logicalParent.status & logicalParent.statusHolder.started
         anchors.centerIn: parent
-        height: parent.height
+        height: parent.height*0.8
         width: root.width/7
         clip: true
         Image {
