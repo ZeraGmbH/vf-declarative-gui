@@ -214,6 +214,7 @@ void ZeraTranslation::reloadStringTable()
   insert("DFT reference channel:", tr("DFT reference channel:"));
   //: System = measuring system
   insert("System colors:", tr("System colors:"));
+  insert("Frequency input/output configuration", tr("Frequency input/output configuration"));
 
   //SettingsInterval.qml
   //: time based integration interval

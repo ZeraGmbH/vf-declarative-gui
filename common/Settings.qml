@@ -18,6 +18,16 @@ SettingsView {
   readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
   rowHeight: 48
 
+  Loader {
+    id: fInOutPopup
+    active: VeinEntity.hasEntity("POWER1Module4")
+
+    sourceComponent: FrequencyInOutConfigPopup {
+      width: root.width
+      height: root.height
+    }
+  }
+
   ColorPicker {
     id: colorPicker
 
@@ -420,6 +430,31 @@ SettingsView {
         rowHeight: root.rowHeight
         rowWidth: root.rowWidth-36
         x: 20
+      }
+    }
+    Item {
+      height: root.rowHeight * visible; //do not waste space in the layout if not visible
+      width: root.rowWidth;
+      visible: VeinEntity.hasEntity("POWER1Module4")
+      RowLayout {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+        Label {
+          textFormat: Text.PlainText
+          text: ZTR["Frequency input/output configuration"];
+          font.pixelSize: 20
+
+          Layout.fillWidth: true
+        }
+        Button {
+          text: FA.fa_cogs
+          font.family: "FontAwesome"
+          font.pixelSize: 20
+          implicitHeight: root.rowHeight
+          onClicked: fInOutPopup.item.open();
+        }
       }
     }
   }
