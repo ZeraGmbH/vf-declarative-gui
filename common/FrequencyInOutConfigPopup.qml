@@ -59,8 +59,7 @@ Popup {
 
           contentRowHeight: height*0.8
           contentFlow: GridView.FlowTopToBottom
-          centerVertical: true
-          centerVerticalOffset: height/2
+          centerVertical: false
           Layout.alignment: Qt.AlignVCenter
           width: parent.width/6
           height: parent.height*0.8
