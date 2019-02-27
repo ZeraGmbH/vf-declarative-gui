@@ -73,6 +73,7 @@ Item {
       implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
                                background ? background.implicitHeight : 0)
 
+
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
       onAccepted: {
@@ -80,7 +81,7 @@ Item {
         confirmInput()
       }
 
-      font.pixelSize: height/2.1
+      font.pixelSize: height/2.5
       color: Material.primaryTextColor
 
       Rectangle {
