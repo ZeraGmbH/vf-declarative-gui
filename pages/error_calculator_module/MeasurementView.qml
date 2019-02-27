@@ -40,17 +40,9 @@ Item {
         }
 
         Label {
-          text: ZTR["Energy:"]
-          textFormat: Text.PlainText
-          font.pixelSize: 20
-          anchors.top: parent.top
-          anchors.left: parent.left
-        }
-
-        Label {
           width: parent.width
           textFormat: Text.PlainText
-          font.pixelSize: 50
+          font.pixelSize: 40
           fontSizeMode: Text.HorizontalFit
           anchors.bottom: parent.bottom
           anchors.bottomMargin: parent.height/10
@@ -63,7 +55,7 @@ Item {
         visible: logicalParent.status === logicalParent.statusHolder.armed
         anchors.centerIn: parent
         height: parent.height
-        width: root.width/3
+        width: 3*root.width/7
         clip: true
         Image {
           source: "qrc:/data/staticdata/resources/Armed.svg"
@@ -79,7 +71,7 @@ Item {
         visible: logicalParent.status & logicalParent.statusHolder.started
         anchors.centerIn: parent
         height: parent.height
-        width: root.width/3
+        width: root.width/7
         clip: true
         Image {
           source: "qrc:/data/staticdata/resources/Ready.svg"
@@ -106,7 +98,7 @@ Item {
 
       Item {
         height: parent.height
-        width: root.width/3
+        width: 3*root.width/7
         anchors.right: parent.right
         readonly property int statusNotify: logicalParent.status;
         visible: false;
@@ -122,20 +114,10 @@ Item {
         }
 
         Label {
-          text: ZTR["Result:"]
-          textFormat: Text.PlainText
-          horizontalAlignment: Text.AlignHCenter
-          font.pixelSize: 20
-          anchors.top: parent.top
-          anchors.left: parent.left
-          width: parent.width
-        }
-
-        Label {
           width: parent.width
           textFormat: Text.PlainText
           horizontalAlignment: Text.AlignRight
-          font.pixelSize: 50
+          font.pixelSize: 40
           fontSizeMode: Text.HorizontalFit
           anchors.bottom: parent.bottom
           anchors.bottomMargin: parent.height/10
