@@ -6,16 +6,16 @@ import QtQuick.Controls.Material 2.0
 
 Item {
   id: root
+  property QtObject dftModule: VeinEntity.getEntity("DFTModule1");
+  property var rotaryField: []
+  onDftModuleChanged: {
+    rotaryField = String(dftModule.ACT_RFIELD).split("");
+  }
 
   Rectangle {
     anchors.fill: parent
     color: Material.background
     opacity: 0.2
-  }
-  property QtObject dftModule;
-  property var rotaryField: []
-  onDftModuleChanged: {
-    rotaryField = String(dftModule.ACT_RFIELD).split("");
   }
 
   Repeater {

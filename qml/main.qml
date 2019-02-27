@@ -237,6 +237,7 @@ ApplicationWindow {
         }
       }
     }
+
     ListModel {
       id: syslogModel
 
@@ -303,6 +304,11 @@ ApplicationWindow {
       SettingsControls.Settings {}
     }
 
+    Component {
+      id: rotaryField
+      CCMP.RotaryFieldIndicator {}
+    }
+
 
     ToolBar {
       id: controlsBar
@@ -362,11 +368,13 @@ ApplicationWindow {
           implicitWidth: height*1.5
           highlighted: false;
           enabled: false
-          visible: rotaryFieldIndicator.dftModule && rotaryFieldIndicator.dftModule.ACT_RFIELD
-          CCMP.RotaryFieldIndicator {
+          visible: rotaryFieldIndicator.active
+          Loader {
             id: rotaryFieldIndicator
+            sourceComponent: rotaryField
             height: parent.height
             width: parent.width
+            active: false;
           }
         }
 
@@ -502,7 +510,7 @@ ApplicationWindow {
         if(hasDependentEntities(["DFTModule1"]))
         {
           append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
-          rotaryFieldIndicator.dftModule = VeinEntity.getEntity("DFTModule1");
+          rotaryFieldIndicator.active = true;
         }
         if(hasDependentEntities(["RMSModule1"]))
         {
