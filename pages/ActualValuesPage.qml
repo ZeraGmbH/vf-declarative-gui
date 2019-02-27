@@ -10,7 +10,6 @@ CCMP.ModulePage {
   id: root
 
   property bool sUnit : true;
-  readonly property QtObject glueLogic: ZGL;
 
   readonly property int rowHeight: Math.floor(height/14) * 0.95
   readonly property int columnWidth: width/5.25
@@ -21,7 +20,7 @@ CCMP.ModulePage {
     anchors.centerIn: parent
     ListView {
       anchors.fill: parent
-      model: glueLogic.ActualValueModel
+      model: ZGL.ActualValueModel
       boundsBehavior: Flickable.StopAtBounds
 
       delegate: Component {

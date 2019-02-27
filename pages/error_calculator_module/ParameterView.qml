@@ -16,6 +16,12 @@ Item {
   //holds the state data
   property QtObject logicalParent;
   property real rowHeight: height/7
+
+  readonly property QtObject p1m1: VeinEntity.getEntity("POWER1Module1")
+  readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
+  readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
+
+
   CCMP.SettingsView {
     anchors.fill: parent
     model: parameterModel
@@ -118,11 +124,11 @@ Item {
         entity: {
           switch(cbRefInput.currentText) {
           case "P":
-            return logicalParent.p1m1
+            return root.p1m1
           case "Q":
-            return logicalParent.p1m2
+            return root.p1m2
           case "S":
-            return logicalParent.p1m3
+            return root.p1m3
           default:
             console.assert("Unhandled condition")
             return undefined;

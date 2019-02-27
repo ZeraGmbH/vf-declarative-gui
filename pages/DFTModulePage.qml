@@ -11,7 +11,7 @@ import PhasorDiagram 1.0
 CCMP.ModulePage {
   id: root
 
-  readonly property QtObject dft: VeinEntity.getEntity("DFTModule1")
+  readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
   readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
 
   readonly property int e_starView: 0;
@@ -104,7 +104,7 @@ CCMP.ModulePage {
       var retVal=[0,0];
       if(root.viewMode===root.e_starView || root.viewMode===root.e_triangleView)
       {
-        retVal = root.dft["ACT_DFTPN"+parseInt(vecIndex+1)];
+        retVal = root.dftModule["ACT_DFTPN"+parseInt(vecIndex+1)];
       }
       else if(root.viewMode===root.e_threePhaseView)
       {
@@ -112,11 +112,11 @@ CCMP.ModulePage {
         {
         case 0:
         case 1:
-          retVal=root.dft["ACT_DFTPP"+parseInt(vecIndex+1)];
+          retVal=root.dftModule["ACT_DFTPP"+parseInt(vecIndex+1)];
           break;
         case 3:
         case 5:
-          retVal=root.dft["ACT_DFTPN"+parseInt(vecIndex+1)];
+          retVal=root.dftModule["ACT_DFTPN"+parseInt(vecIndex+1)];
           break;
         case 2:
         case 4:

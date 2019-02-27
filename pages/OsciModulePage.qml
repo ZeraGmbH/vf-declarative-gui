@@ -12,7 +12,6 @@ import ZeraGlueLogic 1.0
 CCMP.ModulePage {
   id: root
 
-  readonly property QtObject glueLogic: ZGL;
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
   readonly property real plotWidth: width-16;
 

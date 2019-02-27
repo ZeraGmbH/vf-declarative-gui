@@ -13,7 +13,6 @@ import ModuleIntrospection 1.0
 CCMP.ModulePage {
   id: root
 
-  readonly property QtObject glueLogic: ZGL;
   readonly property QtObject burdenModule: modeTabBar.currentItem.isVoltageBurden ? VeinEntity.getEntity("Burden1Module2") : VeinEntity.getEntity("Burden1Module1")
   readonly property var burdenIntrospection: modeTabBar.currentItem.isVoltageBurden ? ModuleIntrospection.burden2Introspection : ModuleIntrospection.burden1Introspection
   readonly property int rowHeight: Math.floor(height/12)
@@ -162,7 +161,7 @@ CCMP.ModulePage {
       anchors.bottom: parent.bottom
       height: parent.height
       width: root.columnWidth*4.2 //0.7 + 3 + 0.5
-      model: modeTabBar.currentItem.isVoltageBurden ? glueLogic.BurdenModelU : glueLogic.BurdenModelI
+      model: modeTabBar.currentItem.isVoltageBurden ? ZGL.BurdenModelU : ZGL.BurdenModelI
       boundsBehavior: Flickable.StopAtBounds
 
       delegate: Component {

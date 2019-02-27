@@ -13,7 +13,6 @@ import ModuleIntrospection 1.0
 CCMP.ModulePage {
   id: root
 
-  readonly property QtObject glueLogic: ZGL;
   readonly property QtObject transformerModule: VeinEntity.getEntity("Transformer1Module1")
   readonly property var transformerIntrospection: ModuleIntrospection.transformer1Introspection
   readonly property int rowHeight: Math.floor(height/12)

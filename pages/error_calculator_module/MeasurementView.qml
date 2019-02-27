@@ -86,7 +86,7 @@ Item {
             NumberAnimation {
               from: 0
               to: -animatedReady.width
-              duration: 1050
+              duration: 1000
             }
             NumberAnimation {
               to: 0

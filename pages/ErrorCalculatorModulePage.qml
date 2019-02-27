@@ -17,9 +17,6 @@ CCMP.ModulePage {
   clip: true
 
   readonly property QtObject errorCalculator: VeinEntity.getEntity("SEC1Module1")
-  readonly property QtObject p1m1: VeinEntity.getEntity("POWER1Module1")
-  readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
-  readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
   property int status: errorCalculator.ACT_Status
   readonly property alias statusHolder: statuses
   readonly property bool canStartMeasurement: errorCalculator.PAR_StartStop !== 1

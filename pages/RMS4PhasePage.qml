@@ -11,14 +11,13 @@ CCMP.ModulePage {
   id: root
 
   property bool sUnit: true;
-  readonly property QtObject glueLogic: ZGL;
 
   readonly property int rowHeight: Math.floor(height/10)
   readonly property int columnWidth: width/5.25
 
   SortFilterProxyModel {
     id: filteredActualValueModel
-    sourceModel: glueLogic.ActualValueModel
+    sourceModel: ZGL.ActualValueModel
 
     filters: [
       RegExpFilter {
