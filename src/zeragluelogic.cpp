@@ -390,13 +390,13 @@ class ZeraGlueLogicPrivate
 
 
     QHash<QString, QPoint> *thdnMap = new QHash<QString, QPoint>();
-    thdnMap->insert("ACT_THDN1", QPoint(RoleIndexes::L1, 3));
-    thdnMap->insert("ACT_THDN2", QPoint(RoleIndexes::L2, 3));
-    thdnMap->insert("ACT_THDN3", QPoint(RoleIndexes::L3, 3));
+    thdnMap->insert("ACT_THDR1", QPoint(RoleIndexes::L1, 3));
+    thdnMap->insert("ACT_THDR2", QPoint(RoleIndexes::L2, 3));
+    thdnMap->insert("ACT_THDR3", QPoint(RoleIndexes::L3, 3));
 
-    thdnMap->insert("ACT_THDN4", QPoint(RoleIndexes::L1, 5));
-    thdnMap->insert("ACT_THDN5", QPoint(RoleIndexes::L2, 5));
-    thdnMap->insert("ACT_THDN6", QPoint(RoleIndexes::L3, 5));
+    thdnMap->insert("ACT_THDR4", QPoint(RoleIndexes::L1, 5));
+    thdnMap->insert("ACT_THDR5", QPoint(RoleIndexes::L2, 5));
+    thdnMap->insert("ACT_THDR6", QPoint(RoleIndexes::L3, 5));
 
     QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
     dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 6));
@@ -443,7 +443,7 @@ class ZeraGlueLogicPrivate
 
 
     m_actualValueMapping->insert(static_cast<int>(Modules::RmsModule), rmsMap);
-    m_actualValueMapping->insert(static_cast<int>(Modules::ThdnModule), thdnMap);
+    m_actualValueMapping->insert(static_cast<int>(Modules::ThdnModule2), thdnMap);
     m_actualValueMapping->insert(static_cast<int>(Modules::DftModule), dftMap);
     m_actualValueMapping->insert(static_cast<int>(Modules::LambdaModule), lambdaMap);
     m_actualValueMapping->insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
@@ -1122,7 +1122,8 @@ class ZeraGlueLogicPrivate
     //Power1Module4 = 1073, // P+Q+S for SCPI clients
     //Power2Module1 = 1090, // CED session
     Power3Module = 1100,
-    ThdnModule = 1110,
+    ThdnModule1 = 1110,
+    ThdnModule2 = 1111,
     OsciModule = 1120,
     Sec1Module = 1130,
     LambdaModule = 1140,
