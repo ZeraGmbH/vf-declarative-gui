@@ -92,7 +92,7 @@ ApplicationWindow {
         ModuleIntrospection.reloadIntrospection();
         pageLoader.active = true;
         controlsBar.rangeIndicatorDependenciesReady = true;
-        pageView.currentValue = pageView.model.get(0).elementValue;
+        pageView.pageLoaderSource = pageView.model.get(0).elementValue;
         loadingScreen.close();
         displayWindow.entitiesInitialized = true;
       }
@@ -178,7 +178,7 @@ ApplicationWindow {
       //DefaultProperty: [
       Loader {
         id: pageLoader
-        source: pageView.currentValue
+        source: pageView.pageLoaderSource
         asynchronous: true
       }
       Loader {
@@ -225,6 +225,7 @@ ApplicationWindow {
     }
 
     ListModel {
+      ///@todo remove the syslogModel and view in favor of a OS log viewer
       id: syslogModel
 
       onCountChanged:  {
@@ -384,33 +385,12 @@ ApplicationWindow {
       }
     }
 
-    CCMP.PagePathView {
+    CCMP.PageView {
       id: pageView
-      property string currentValue;
-
       anchors.fill: parent
-
       ///@note do not break binding by setting visible directly
       visible: controlsBar.pageViewVisible;
-
-      onCancelSelected: controlsBar.pageViewVisible = false
-
-      onModelChanged: {
-        if(model)
-        {
-          currentValue = model.get(0).elementValue;
-          pageLoader.source = currentValue
-        }
-      }
-
-      onElementSelected: {
-        if(elementValue !== "")
-        {
-          currentValue = elementValue.value
-          pageLoader.source = currentValue
-          controlsBar.pageViewVisible = false
-        }
-      }
+      onCloseView: controlsBar.pageViewVisible = false;
     }
   }
 

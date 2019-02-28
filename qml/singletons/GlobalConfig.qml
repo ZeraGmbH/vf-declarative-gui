@@ -5,7 +5,6 @@ import ZeraSettings 1.0
 import ZeraTranslation 1.0
 
 Item {
-
   /**
     * @b default configuration values and utility functions
     * @todo reimplement as QObject with Q_PROPERTY / Q_INVOKABLE to get QtCreator to code complete stuff...
@@ -16,6 +15,8 @@ Item {
   }
 
   property bool tmpStatusNewErrors: false; //replacement for static variable will not be saved in settings.json
+
+  property int pageViewLastSelectedIndex: -1;
 
   readonly property var locale: Qt.locale(settings.globalSettings.getOption("locale"))
   readonly property string localeName: settings.globalSettings.getOption("locale")
