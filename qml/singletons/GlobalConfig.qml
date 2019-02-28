@@ -8,6 +8,7 @@ Item {
 
   /**
     * @b default configuration values and utility functions
+    * @todo reimplement as QObject with Q_PROPERTY / Q_INVOKABLE to get QtCreator to code complete stuff...
     */
 
   ZeraGlobalSettings {
@@ -47,6 +48,14 @@ Item {
     "RPV_ABSOLUTE" : 0,
     "RPV_ABSOLUTE_LOGSCALE" : 1,
     "RPV_RELATIVE_TO_LIMIT" : 2
+  }
+
+  readonly property var layoutStackEnum: {
+    "layoutPageIndex": 0,
+    "layoutRangeIndex": 1,
+    "layoutLoggerIndex": 2,
+    "layoutSettingsIndex": 3,
+    "layoutStatusIndex": 4
   }
 
 

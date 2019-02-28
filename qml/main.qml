@@ -25,7 +25,6 @@ ApplicationWindow {
   property bool debugBypass: false;
   property string currentSession;
   property var requiredIds: [];
-  property bool measuringPaused: false;
 
   visible: true
   width: 1024
@@ -92,7 +91,7 @@ ApplicationWindow {
         console.log("Loaded session: ", currentSession);
         ModuleIntrospection.reloadIntrospection();
         pageLoader.active = true;
-        rangeIndicator.active = true;
+        controlsBar.rangeIndicatorDependenciesReady = true;
         pageView.currentValue = pageView.model.get(0).elementValue;
         loadingScreen.close();
         displayWindow.entitiesInitialized = true;
@@ -109,9 +108,6 @@ ApplicationWindow {
         });
         pageView.sessionComponent = Qt.binding(function() {
           return currentSession;
-        });
-        measuringPaused = Qt.binding(function() {
-          return VeinEntity.getEntity("_System").ModulesPaused;
         });
       }
     }
@@ -176,17 +172,7 @@ ApplicationWindow {
       anchors.top: parent.top
       anchors.bottom: controlsBar.top
       anchors.margins: 8
-      currentIndex: displayWindow.entitiesInitialized ? layoutStackEnum.layoutPageIndex : layoutStackEnum.layoutStatusIndex
-
-      QtObject {
-        id: layoutStackEnum
-
-        readonly property int layoutPageIndex: 0
-        readonly property int layoutRangeIndex: 1
-        readonly property int layoutLoggerIndex: 2
-        readonly property int layoutSettingsIndex: 3
-        readonly property int layoutStatusIndex: 4
-      }
+      currentIndex: displayWindow.entitiesInitialized ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutStatusIndex
 
       ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
       //DefaultProperty: [
@@ -197,19 +183,19 @@ ApplicationWindow {
       }
       Loader {
         sourceComponent: rangePeak
-        active: layoutStack.currentIndex===layoutStackEnum.layoutRangeIndex
+        active: layoutStack.currentIndex===GC.layoutStackEnum.layoutRangeIndex
       }
       Loader {
         sourceComponent: loggerCmp
-        active: layoutStack.currentIndex===layoutStackEnum.layoutLoggerIndex
+        active: layoutStack.currentIndex===GC.layoutStackEnum.layoutLoggerIndex
       }
       Loader {
         sourceComponent: settingsCmp
-        active: layoutStack.currentIndex===layoutStackEnum.layoutSettingsIndex
+        active: layoutStack.currentIndex===GC.layoutStackEnum.layoutSettingsIndex
       }
       Loader {
         sourceComponent: statusCmp
-        active: layoutStack.currentIndex===layoutStackEnum.layoutStatusIndex
+        active: layoutStack.currentIndex===GC.layoutStackEnum.layoutStatusIndex
       }
       //Pages.RemoteSelection {}
       // ]
@@ -304,143 +290,14 @@ ApplicationWindow {
       SettingsControls.Settings {}
     }
 
-    Component {
-      id: rotaryField
-      CCMP.RotaryFieldIndicator {}
-    }
-
-
-    ToolBar {
+    CCMP.MainToolBar {
       id: controlsBar
       height: parent.height/16
       anchors.bottom: parent.bottom
-      anchors.left: parent.left
-      anchors.right: parent.right
-      background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
-      //provide more contrast
-      Material.accent: Material.Amber
+      width: displayWindow.width
 
-      RowLayout {
-        anchors.fill: parent
-        anchors.leftMargin: 4
-        anchors.rightMargin: 4
-
-        ToolButton {
-          implicitHeight: parent.height
-          font.family: "FontAwesome"
-          font.pointSize: 18
-          text: FA.fa_columns
-          highlighted: layoutStack.currentIndex===layoutStackEnum.layoutPageIndex
-          enabled: displayWindow.entitiesInitialized === true
-          onClicked: {
-            if(layoutStack.currentIndex===layoutStackEnum.layoutPageIndex)
-            {
-              pageView.visible=true;
-            }
-            else
-            {
-              layoutStack.currentIndex=layoutStackEnum.layoutPageIndex;
-            }
-          }
-        }
-        ToolButton {
-          implicitHeight: parent.height
-          implicitWidth: rangeIndicator.width
-          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutRangeIndex
-          enabled: displayWindow.entitiesInitialized === true
-          onClicked: {
-            if(rangeIndicator.active === true)
-            {
-              layoutStack.currentIndex = layoutStackEnum.layoutRangeIndex;
-            }
-          }
-
-          RangeControls.RangeIndicator {
-            id: rangeIndicator
-            width: Math.ceil(displayWindow.width/2)
-            height: controlsBar.height
-            active: false
-          }
-        }
-
-        ToolButton {
-          implicitHeight: parent.height
-          implicitWidth: height*1.5
-          highlighted: false;
-          enabled: false
-          visible: rotaryFieldIndicator.active
-          Loader {
-            id: rotaryFieldIndicator
-            sourceComponent: rotaryField
-            height: parent.height
-            width: parent.width
-            active: false;
-          }
-        }
-
-        ToolButton {
-          implicitHeight: parent.height
-          font.family: "FontAwesome"
-          font.pointSize: 14
-          text: displayWindow.measuringPaused ? FA.fa_play : FA.fa_pause
-          enabled: displayWindow.entitiesInitialized === true
-          highlighted: displayWindow.measuringPaused
-          onClicked: {
-            VeinEntity.getEntity("_System").ModulesPaused = !displayWindow.measuringPaused;
-          }
-        }
-        ToolButton {
-          implicitHeight: parent.height
-          implicitWidth: displayWindow.width/16
-          font.family: "FontAwesome"
-          font.pointSize:  18
-          text: FA.fa_download
-          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutLoggerIndex;
-          enabled: displayWindow.entitiesInitialized === true;
-          visible: displayWindow.entitiesInitialized === true && VeinEntity.hasEntity("_LoggingSystem")
-          onClicked: {
-            layoutStack.currentIndex=layoutStackEnum.layoutLoggerIndex;
-          }
-        }
-        ToolButton {
-          implicitHeight: parent.height
-          implicitWidth: displayWindow.width/16
-          font.family: "FontAwesome"
-          font.pointSize:  18
-          text: FA.fa_cogs
-          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutSettingsIndex;
-          enabled: displayWindow.entitiesInitialized === true
-          onClicked: {
-            layoutStack.currentIndex = layoutStackEnum.layoutSettingsIndex;
-          }
-        }
-        ToolButton {
-          implicitHeight: parent.height
-          implicitWidth: displayWindow.width/16
-          font.family: "FontAwesome"
-          font.pointSize:  18
-          text: FA.fa_info_circle
-          highlighted: layoutStack.currentIndex === layoutStackEnum.layoutStatusIndex
-          onClicked: {
-            layoutStack.currentIndex = layoutStackEnum.layoutStatusIndex;
-          }
-        }
-        //        ToolButton {
-        //          implicitHeight: parent.height
-        //          font.family: "FontAwesome"
-        //          font.pointSize: 14
-        //          text: FA.icon(FA.fa_server) + ZTR["Remotes"]
-        //          highlighted: layoutStack.currentIndex===layoutStackEnum.layout<...>Index
-        //          visible: OS_TYPE==="android" || debugBypass
-        //          CCMP.DebugRectangle {
-        //            anchors.fill: parent
-        //            visible: debugBypass && OS_TYPE!=="android"
-        //          }
-        //          onClicked: {
-        //            ;;
-        //          }
-        //        }
-      }
+      entityInitializationDone: displayWindow.entitiesInitialized;
+      layoutStackObj: layoutStack
     }
 
     ListModel {
@@ -510,7 +367,7 @@ ApplicationWindow {
         if(hasDependentEntities(["DFTModule1"]))
         {
           append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
-          rotaryFieldIndicator.active = true;
+          controlsBar.rotaryFieldDependenciesReady = true;
         }
         if(hasDependentEntities(["RMSModule1"]))
         {
@@ -529,10 +386,15 @@ ApplicationWindow {
 
     CCMP.PagePathView {
       id: pageView
-
       property string currentValue;
 
-      visible: false
+      anchors.fill: parent
+
+      ///@note do not break binding by setting visible directly
+      visible: controlsBar.pageViewVisible;
+
+      onCancelSelected: controlsBar.pageViewVisible = false
+
       onModelChanged: {
         if(model)
         {
@@ -541,16 +403,14 @@ ApplicationWindow {
         }
       }
 
-      anchors.fill: parent
       onElementSelected: {
         if(elementValue !== "")
         {
           currentValue = elementValue.value
           pageLoader.source = currentValue
-          visible = false
+          controlsBar.pageViewVisible = false
         }
       }
-      onCancelSelected: visible = false
     }
   }
 

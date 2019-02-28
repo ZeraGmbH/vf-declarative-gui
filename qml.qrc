@@ -61,5 +61,6 @@
         <file>qml/vf-controls/VFSpinBox.qml</file>
         <file>qml/vf-controls/VFSwitch.qml</file>
         <file>qml/vf-controls/VFTextInput.qml</file>
+        <file>qml/controls/MainToolBar.qml</file>
     </qresource>
 </RCC>
