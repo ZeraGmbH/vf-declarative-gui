@@ -9,7 +9,7 @@ Item {
   property QtObject dftModule: VeinEntity.getEntity("DFTModule1");
   property var rotaryField: []
   onDftModuleChanged: {
-    rotaryField = String(dftModule.ACT_RFIELD).split("");
+    rotaryField = Qt.binding(function(){return String(dftModule.ACT_RFIELD).split("");})
   }
 
   Rectangle {
