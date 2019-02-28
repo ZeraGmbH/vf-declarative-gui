@@ -75,12 +75,10 @@ SOURCES += src/main.cpp \
     src/hpwbarchart.cpp \
     src/sidescaledraw.cpp
 
-RESOURCES += \
-    qml.qrc \
-    data.qrc
+RESOURCES += appdata.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+# QML_IMPORT_PATH =
 
 
 # Default rules for deployment.
@@ -90,7 +88,7 @@ INSTALLS += target
 export(INSTALLS)
 
 
-LIBS += -lvein-event -lvein-component -lvein-net2 -lvein-framework-protobuf -lvein-tcp -lqml-veinentity
+LIBS += -lvein-event -lvein-component -lvein-net2 -lvein-tcp -lqml-veinentity
 LIBS += -lqwt
 
 HEADERS += \

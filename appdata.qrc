@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
         <file>qml/main.qml</file>
         <file>qml/controls/DebugRectangle.qml</file>
         <file>qml/controls/FpsItem.qml</file>
@@ -62,5 +63,37 @@
         <file>qml/vf-controls/VFSwitch.qml</file>
         <file>qml/vf-controls/VFTextInput.qml</file>
         <file>qml/controls/MainToolBar.qml</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file>3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf</file>
+        <file>staticdata/FontAwesome.js</file>
+        <file>staticdata/resources/Ready.svg</file>
+        <file>staticdata/resources/Armed.svg</file>
+        <file>staticdata/resources/power.png</file>
+        <file>staticdata/resources/harmonics.png</file>
+        <file>staticdata/resources/hpower.png</file>
+        <file>staticdata/resources/act_values.png</file>
+        <file>staticdata/resources/error_calc.png</file>
+        <file>staticdata/resources/ref_values.png</file>
+        <file>staticdata/resources/osci.png</file>
+        <file>staticdata/resources/dft_values.png</file>
+        <file>staticdata/resources/ced_power_values.png</file>
+        <file>staticdata/resources/appicon.png</file>
+        <file>settings.json</file>
+        <file>staticdata/resources/transformer.png</file>
+        <file>staticdata/resources/burden.png</file>
+        <file>staticdata/resources/checkers_pattern.png</file>
+        <file>staticdata/licenses/aboutqt.gplv3</file>
+        <file>staticdata/licenses/qnanopainter.zlib</file>
+        <file>staticdata/licenses/qwt.lgpl</file>
+        <file>staticdata/licenses/sortfilterproxyqml.mit</file>
+        <file>staticdata/license_index.json</file>
+        <file>staticdata/licenses/fontawesome.ofl-1.1</file>
+        <file>staticdata/resources/x_1_over_sqrt_3.png</file>
+        <file>staticdata/resources/x_1.png</file>
+        <file>staticdata/resources/x_sqrt_3.png</file>
+        <file>staticdata/licenses/zera-opensource</file>
+        <file>staticdata/resources/rms_values.png</file>
+        <file>staticdata/resources/spinner.png</file>
     </qresource>
 </RCC>
