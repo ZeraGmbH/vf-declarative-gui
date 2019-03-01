@@ -10,6 +10,12 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 Item {
   id: root
   property var model;
+  onModelChanged: {
+    if(model && model.count>0)
+    {
+      pageLoaderSource = model.get(0).elementValue;
+    }
+  }
   property alias sessionComponent: sessionSelector.intermediate
   property string pageLoaderSource;
 
@@ -18,6 +24,11 @@ Item {
 
   signal closeView();
   signal sessionChanged();
+
+  function elementSelected(elementValue) {
+    pageLoaderSource = elementValue
+    closeView();
+  }
 
   Rectangle {
     color: Material.backgroundColor
@@ -52,18 +63,10 @@ Item {
     CCMP.PageGridView {
       model: root.model
 
-      onModelChanged: {
-        if(model && model.count>0)
-        {
-          root.pageLoaderSource = model.get(0).elementValue;
-        }
-      }
-
       onElementSelected: {
         if(elementValue !== "")
         {
-          root.pageLoaderSource = elementValue.value
-          root.closeView();
+          root.elementSelected(elementValue.value);
         }
       }
     }
@@ -74,18 +77,10 @@ Item {
     CCMP.PagePathView {
       model: root.model
 
-      onModelChanged: {
-        if(model && model.count>0)
-        {
-          root.pageLoaderSource = model.get(0).elementValue;
-        }
-      }
-
       onElementSelected: {
         if(elementValue !== "")
         {
-          root.pageLoaderSource = elementValue.value
-          root.closeView();
+          root.elementSelected(elementValue.value);
         }
       }
     }

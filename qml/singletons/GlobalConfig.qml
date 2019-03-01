@@ -16,7 +16,7 @@ Item {
 
   property bool tmpStatusNewErrors: false; //replacement for static variable will not be saved in settings.json
 
-  property int pageViewLastSelectedIndex: -1;
+  property int pageViewLastSelectedIndex: 0;
 
   readonly property var locale: Qt.locale(settings.globalSettings.getOption("locale"))
   readonly property string localeName: settings.globalSettings.getOption("locale")
