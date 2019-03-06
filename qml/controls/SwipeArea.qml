@@ -16,13 +16,9 @@ MouseArea {
   drag.threshold: 25
 
   property int triggerDistance: 100
-  property bool dragging: drag.active
   property vector2d m_startPosition
 
-  signal horizontalSwipe(var isLeftDirection)
-  signal verticalSwipe(var isUpDirection)
-
-
+  readonly property bool dragging: drag.active
   onDraggingChanged: {
     if(dragging)
     {
@@ -40,6 +36,9 @@ MouseArea {
       }
     }
   }
+
+  signal horizontalSwipe(var isLeftDirection)
+  signal verticalSwipe(var isUpDirection)
 
   Item {
     id: pseudoDraggable
