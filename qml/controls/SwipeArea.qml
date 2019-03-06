@@ -2,7 +2,8 @@ import QtQuick 2.0
 
 /**
  * @b Enables swipe gestures without intercepting clicks
- * @note Do not override the onPressed() signal handler
+ * @warn Do not override the onPressed() signal handler
+ * @note currently not used anymore
  */
 MouseArea {
   id: root

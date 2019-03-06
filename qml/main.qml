@@ -21,9 +21,13 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 ApplicationWindow {
   id: displayWindow
 
+  //is set to true when the required entities are available
   property bool entitiesInitialized: false;
+  //used to display the fps and other debug infos
   property bool debugBypass: false;
+  //used to notify about the com5003 meas/CED/REF session change
   property string currentSession;
+  //only used to display a console error message, can be removed
   property var requiredIds: [];
 
   visible: true
@@ -65,6 +69,7 @@ ApplicationWindow {
   }
 
   Loader {
+    //configures the virtual keyboard to use fullscreenMode=true
     active: HAS_QT_VIRTUAL_KEYBOARD
     Component.onCompleted: {
       setSource("qrc:/qml/VirtualKeyboardConfigurator.qml", { "textPreviewMode": true });
@@ -161,6 +166,7 @@ ApplicationWindow {
   }
 
   Item {
+    //the main view displaying pages and other stuff
     anchors.fill: parent
     enabled: displayWindow.entitiesInitialized === true
 
@@ -197,7 +203,7 @@ ApplicationWindow {
         sourceComponent: statusCmp
         active: layoutStack.currentIndex===GC.layoutStackEnum.layoutStatusIndex
       }
-      //Pages.RemoteSelection {}
+      //Pages.RemoteSelection {...}
       // ]
       ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
     }
@@ -395,6 +401,7 @@ ApplicationWindow {
   }
 
   Popup {
+    //is shown when switching sessions
     id: loadingScreen
     x: parent.width/2 - width/2
     y: parent.height/2 - height/2

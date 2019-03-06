@@ -162,6 +162,7 @@ CCMP.ModulePage {
     }
   }
 
+  //could be replaced by a VisualItemModel
   Column {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom

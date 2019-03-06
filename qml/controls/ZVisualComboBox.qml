@@ -15,7 +15,7 @@ Rectangle {
     id: fakeModel
   }
 
-  //support for QML ListModel and JS array
+  //supports only arrays, but the property is kept to remain compatible with the ZComboBox, maybe it is possible to join both into one type that can handle both use cases?
   readonly property bool arrayMode: true
   property bool expanded: false
   property int count : (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
