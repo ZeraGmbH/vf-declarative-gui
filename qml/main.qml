@@ -15,6 +15,7 @@ import "qrc:/qml/controls/range_module" as RangeControls
 import "qrc:/qml/controls/logger" as LoggerControls
 import "qrc:/qml/controls/appinfo" as AppInfoControls
 import "qrc:/qml/controls/settings" as SettingsControls
+import "qrc:/qml/singletons" as Singletons
 import "qrc:/data/staticdata" as StaticData
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
@@ -71,8 +72,10 @@ ApplicationWindow {
   Loader {
     //configures the virtual keyboard to use fullscreenMode=true
     active: HAS_QT_VIRTUAL_KEYBOARD
-    Component.onCompleted: {
-      setSource("qrc:/qml/VirtualKeyboardConfigurator.qml", { "textPreviewMode": true });
+    sourceComponent: Component {
+      Singletons.VirtualKeyboardConfigurator {
+        textPreviewMode: true;
+      }
     }
   }
 
