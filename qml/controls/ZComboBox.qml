@@ -11,13 +11,13 @@ Rectangle {
   id: root
 
   property bool expanded: false
-  property int count : (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
+  readonly property int count: (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
   property int currentIndex;
   property int targetIndex;
   property string currentText;
   property string selectedText;
-  property int contentRowWidth : width;
-  property int contentRowHeight : height;
+  property int contentRowWidth: width;
+  property int contentRowHeight: height;
   property int contentMaxRows: 0
   property alias contentFlow: comboView.flow
   property real fontSize: 18;
