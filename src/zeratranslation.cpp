@@ -216,6 +216,11 @@ void ZeraTranslation::reloadStringTable()
   insert("System colors:", tr("System colors:"));
   insert("Frequency input/output configuration:", tr("Frequency input/output configuration:"));
 
+  //: Displayed in Frequency input/output configuration
+  insert("Nominal frequency:", tr("Nominal frequency:"));
+  //: Displayed in Frequency input/output configuration
+  insert("Frequency output constant:", tr("Frequency output constant:"));
+
   //SettingsInterval.qml
   //: time based integration interval
   insert("Integration time interval:", tr("Integration time interval:"));

@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
+import GlobalConfig 1.0
 import ZeraTranslation 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
@@ -14,6 +15,7 @@ Popup {
   property var fOutModel: ["FOut0"];
   readonly property int hF_IN_MODEL:  0x01;
   readonly property int hF_OUT_MODEL: 0x02;
+  modal: true
 
   property int modelMode: hF_IN_MODEL | hF_OUT_MODEL;
   function getModel() {
@@ -47,8 +49,33 @@ Popup {
         anchors.rightMargin: 8
         Label {
           Layout.alignment: Qt.AlignVCenter
-          text: modelData
           Layout.fillWidth:  true;
+          text: modelData
+          font.pixelSize: root.width/60
+        }
+
+        Label {
+          Layout.alignment: Qt.AlignVCenter
+          font.pixelSize: root.width/60
+          fontSizeMode: Label.HorizontalFit
+          text: ZTR["Nominal frequency:"] + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(GC.locale) + "hz";
+        }
+
+        Item {
+          //spacer
+          width: root.width/60
+        }
+
+        Label {
+          Layout.alignment: Qt.AlignVCenter
+          font.pixelSize: root.width/60
+          fontSizeMode: Label.HorizontalFit
+          text: ZTR["Frequency output constant:"] + " " + Number(VeinEntity.getEntity("POWER1Module4")[String("PAR_FOUTConstant%1").arg(index)]).toLocaleString(GC.locale);
+        }
+
+        Item {
+          //spacer
+          width: root.width/60;
         }
 
         VFControls.VFComboBox {
