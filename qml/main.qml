@@ -69,6 +69,13 @@ ApplicationWindow {
     }
   }
 
+  FontLoader {
+    //init fontawesome
+    source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
+  }
+
+
+
   Loader {
     //configures the virtual keyboard to use fullscreenMode=true
     active: HAS_QT_VIRTUAL_KEYBOARD
@@ -119,14 +126,6 @@ ApplicationWindow {
         });
       }
     }
-  }
-
-  ZeraGlobalSettings {
-    id: settings
-  }
-
-  FontLoader {
-    source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
   }
 
   Shortcut {
