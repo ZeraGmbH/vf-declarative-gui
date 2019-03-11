@@ -437,7 +437,7 @@ SettingsControls.SettingsView {
         Label {
           visible: loggerEntity.LoggingEnabled === true
           font.pixelSize: 20
-          property var countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
+          property string countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
           height: root.rowHeight
 
           text: countDown;
