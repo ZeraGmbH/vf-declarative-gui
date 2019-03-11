@@ -10,9 +10,8 @@ import "qrc:/qml/controls" as CCMP
 CCMP.ModulePage {
   id: root
 
-  property bool sUnit: true;
-
-  readonly property int rowHeight: Math.floor(height/10)
+  readonly property int rowCount: 10; //do not saturate the whole height with 5 rows
+  readonly property int rowHeight: Math.floor(height/rowCount)
   readonly property int columnWidth: width/5.25
 
   SortFilterProxyModel {
