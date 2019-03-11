@@ -1,3 +1,4 @@
+//this is not a "pragma Singleton", but it makes no sense to create more than one instance of this object
 import QtQuick 2.0
 import QtQuick.VirtualKeyboard.Settings 2.0
 
