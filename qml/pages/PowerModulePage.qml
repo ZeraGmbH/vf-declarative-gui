@@ -181,7 +181,7 @@ CCMP.ModulePage {
             entity: root.getModule(index)
             controlPropertyName: "PAR_MeasuringMode"
             model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
-            fontSize: Math.min(18, height/1.5, width/4);
+            fontSize: Math.min(14, height/1.5, width/4);
           }
         }
       }
