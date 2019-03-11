@@ -21,141 +21,138 @@ CCMP.ModulePage {
   SettingsControls.SettingsView {
     anchors.left: parent.left
     anchors.right: parent.right
-    height: root.height*3/12
+    height: root.rowHeight * model.count
 
     model: VisualItemModel {
-      Column {
+      Item {
         width: root.width
-        Item {
-          width: root.width
-          height: root.rowHeight
+        height: root.rowHeight
 
-          VFControls.VFLineEdit {
-            id: parPrimClampPrim
-            description.text: ZTR["Mp-Prim:"]
-            description.width: root.width/10;
-            height: root.rowHeight;
-            width: root.width/2 - 8;
+        VFControls.VFLineEdit {
+          id: parPrimClampPrim
+          description.text: ZTR["Mp-Prim:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
 
-            inputMethodHints: Qt.ImhPreferNumbers
+          inputMethodHints: Qt.ImhPreferNumbers
 
-            entity: root.transformerModule
-            controlPropertyName: "PAR_PrimClampPrim"
-            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+          entity: root.transformerModule
+          controlPropertyName: "PAR_PrimClampPrim"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: CCMP.ZDoubleValidator {
-              bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
-              top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
-              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
-            }
-          }
-          VFControls.VFLineEdit {
-            id: parPrimClampSec
-            anchors.right: parent.right
-            description.text: ZTR["Mp-Sec:"]
-            description.width: root.width/10;
-            height: root.rowHeight;
-            width: root.width/2 - 8;
-
-            inputMethodHints: Qt.ImhPreferNumbers
-
-            entity: root.transformerModule
-            controlPropertyName: "PAR_PrimClampSec"
-            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-            validator: CCMP.ZDoubleValidator {
-              bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
-              top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
-              decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
-            }
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
           }
         }
-        Item {
-          width: root.width
-          height: root.rowHeight
+        VFControls.VFLineEdit {
+          id: parPrimClampSec
+          anchors.right: parent.right
+          description.text: ZTR["Mp-Sec:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
 
-          VFControls.VFLineEdit {
-            id: parDutPrimary
-            description.text: ZTR["X-Prim:"]
-            description.width: root.width/10;
-            height: root.rowHeight;
-            width: root.width/2 - 8;
+          inputMethodHints: Qt.ImhPreferNumbers
 
-            inputMethodHints: Qt.ImhPreferNumbers
+          entity: root.transformerModule
+          controlPropertyName: "PAR_PrimClampSec"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            entity: root.transformerModule
-            controlPropertyName: "PAR_DutPrimary"
-            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-            validator: CCMP.ZDoubleValidator {
-              bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
-              top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
-              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
-            }
-          }
-          VFControls.VFLineEdit {
-            id: parDutSecondary
-            anchors.right: parent.right
-            description.text: ZTR["X-Sec:"]
-            description.width: root.width/10;
-            height: root.rowHeight;
-            width: root.width/2 - 8;
-
-            inputMethodHints: Qt.ImhPreferNumbers
-
-            entity: root.transformerModule
-            controlPropertyName: "PAR_DutSecondary"
-            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-            validator: CCMP.ZDoubleValidator {
-              bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
-              top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
-              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
-            }
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
+            decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
           }
         }
-        Item {
-          width: root.width
-          height: root.rowHeight
+      }
+      Item {
+        width: root.width
+        height: root.rowHeight
 
-          VFControls.VFLineEdit {
-            id: parSecClampPrim
-            description.text: ZTR["Ms-Prim:"]
-            description.width: root.width/10;
-            height: root.rowHeight;
-            width: root.width/2 - 8;
+        VFControls.VFLineEdit {
+          id: parDutPrimary
+          description.text: ZTR["X-Prim:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
 
-            inputMethodHints: Qt.ImhPreferNumbers
+          inputMethodHints: Qt.ImhPreferNumbers
 
-            entity: root.transformerModule
-            controlPropertyName: "PAR_SecClampPrim"
-            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+          entity: root.transformerModule
+          controlPropertyName: "PAR_DutPrimary"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: CCMP.ZDoubleValidator {
-              bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
-              top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
-              decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
-            }
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
           }
-          VFControls.VFLineEdit {
-            id: parSecClampSec
-            description.text: ZTR["Ms-Sec:"]
-            description.width: root.width/10;
-            height: root.rowHeight;
-            width: root.width/2 - 8;
-            anchors.right: parent.right
+        }
+        VFControls.VFLineEdit {
+          id: parDutSecondary
+          anchors.right: parent.right
+          description.text: ZTR["X-Sec:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
 
-            inputMethodHints: Qt.ImhPreferNumbers
+          inputMethodHints: Qt.ImhPreferNumbers
 
-            entity: root.transformerModule
-            controlPropertyName: "PAR_SecClampSec"
-            unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+          entity: root.transformerModule
+          controlPropertyName: "PAR_DutSecondary"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-            validator: CCMP.ZDoubleValidator {
-              bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
-              top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
-              decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);
-            }
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
+          }
+        }
+      }
+      Item {
+        width: root.width
+        height: root.rowHeight
+
+        VFControls.VFLineEdit {
+          id: parSecClampPrim
+          description.text: ZTR["Ms-Prim:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+
+          inputMethodHints: Qt.ImhPreferNumbers
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_SecClampPrim"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
+            decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
+          }
+        }
+        VFControls.VFLineEdit {
+          id: parSecClampSec
+          description.text: ZTR["Ms-Sec:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+          anchors.right: parent.right
+
+          inputMethodHints: Qt.ImhPreferNumbers
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_SecClampSec"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);
           }
         }
       }
