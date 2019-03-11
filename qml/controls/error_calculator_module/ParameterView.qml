@@ -108,6 +108,7 @@ Item {
         arrayMode: true
         enabled: logicalParent.canStartMeasurement
         controlPropertyName: "PAR_MeasuringMode"
+        fontSize: 16
         model: {
           switch(cbRefInput.currentText) {
           case "P":
@@ -168,7 +169,7 @@ Item {
         entity: logicalParent.errorCalculator
         controlPropertyName: "PAR_DutInput"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
-
+        fontSize: 16
         anchors.right: parent.right
         height: parent.height
         width: parent.width*0.45
@@ -213,7 +214,7 @@ Item {
           anchors.rightMargin: parent.width*0.45 + 1
           enabled: logicalParent.canStartMeasurement
           arrayMode: true
-
+          fontSize: 16
           entity: logicalParent.errorCalculator
           controlPropertyName: "PAR_DUTConstUnit"
           model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
