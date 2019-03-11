@@ -255,7 +255,7 @@ SettingsControls.SettingsView {
           id: fileNameField
           height: root.rowHeight
           Layout.fillWidth: true
-          placeholderText: "<directory name>/<filename>"
+          placeholderText: ZTR["<directory name>/<filename>"]
           text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
           validator: RegExpValidator {
             regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/

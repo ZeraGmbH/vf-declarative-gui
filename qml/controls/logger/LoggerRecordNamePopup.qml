@@ -55,7 +55,7 @@ Popup {
     anchors.left: parent.left
     anchors.right: parent.right
     horizontalAlignment: Text.AlignHCenter
-    text: "Select record name"
+    text: ZTR["Select record name"]
     font.pointSize: 20
   }
 
@@ -70,7 +70,7 @@ Popup {
       visible: loggerEntity.recordName !== undefined && loggerEntity.recordName !== "";
 
       Label {
-        text: "Current record name:"
+        text: ZTR["Current record name:"];
       }
 
       Label {
@@ -99,7 +99,7 @@ Popup {
       width: selectionColumn.width
 
       Label {
-        text: "Preset record name:"
+        text: ZTR["Preset record name:"]
       }
 
       Label {
@@ -125,7 +125,7 @@ Popup {
       width: selectionColumn.width
 
       Label {
-        text: "Custom record name:"
+        text: ZTR["Custom record name:"];
       }
       Item {
         //spacer
@@ -252,7 +252,7 @@ Popup {
     anchors.right: parent.right
 
     Label {
-      text: "Preview:"
+      text: ZTR["Preview:"];
       font.bold: true
       font.pointSize: 12
     }

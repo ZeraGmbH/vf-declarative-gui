@@ -104,7 +104,7 @@ CCMP.ModulePage {
         }
       }
       CheckBox {
-        text: "Continuous measurement";
+        text: ZTR["Continuous measurement"];
         anchors.centerIn: parent
         font.pixelSize: 20
         enabled: errorCalculator.PAR_StartStop !== 1;

@@ -274,6 +274,7 @@ void ZeraTranslation::reloadStringTable()
   insert("mrate", tr("mrate"));
   insert("Lower error margin:", tr("Lower error margin:"));
   insert("Upper error margin:", tr("Upper error margin:"));
+  insert("Continuous measurement", tr("Continuous measurement"));
 
   //FftModulePage.qml
   //: text must be short enough to fit
@@ -494,6 +495,8 @@ void ZeraTranslation::reloadStringTable()
   insert("[customer data is not available]", tr("[customer data is not available]"));
   //: when the customer number is empty, the brackets are for visual distinction from other text
   insert("[customer id is not set]", tr("[customer id is not set]"));
+  //: placeholder text for the database path/filename
+  insert("<directory name>/<filename>", tr("<directory name>/<filename>"));
 
   //LoggerDbSearchDialog.qml
   insert("Select file", tr("Select file"));
@@ -505,6 +508,14 @@ void ZeraTranslation::reloadStringTable()
   insert("Selected for recording", tr("Selected for recording", "list of selected elements"));
   insert("Description:", tr("Description:"));
   insert("Unit:", tr("Unit:", "SI or SI derived unit"));
+
+  //LoggerRecordNamePopup.qml
+  insert("Select record name", tr("Select record name"));
+  insert("Current record name:", tr("Current record name:"));
+  insert("Preset record name:", tr("Preset record name:"));
+  insert("Custom record name:", tr("Custom record name:"));
+  //: shows a preview of the database logger record name
+  insert("Preview:", tr("Preview:"));
 
   //CustomerDataEntry.qml
   insert("Customer data", tr("Customer data"));
@@ -550,6 +561,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Delete file", tr("Delete file"));
   //: %1 the file that is about to be deleted
   insert("Really delete file <b>'%1'</b>?", tr("Really delete file <b>'%1'</b>?"));
+  //: search customer data file via regular expression, see: https://en.wikipedia.org/wiki/Regular_expression
+  insert("Regex search", tr("Regex search"));
 
   emit sigLanguageChanged();
 }
