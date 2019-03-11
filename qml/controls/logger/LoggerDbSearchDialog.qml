@@ -27,7 +27,7 @@ Popup {
       console.assert(searchProgressId === undefined, "Search already in progress.")
       var searchPatternArray = (Array.isArray(searchPattern) ? searchPattern : [searchPattern]);
       searchResultData.clear();
-      searchProgressId = loggerDB.invokeRPC("findDBFile(QString searchPath, QString searchPatternList)", {
+      searchProgressId = loggerDB.invokeRPC("findDBFile(QString searchPath, QStringList searchPatternList)", {
                                               "searchPath": dbLocationSelector.storageList[dbLocationSelector.currentIndex],
                                               "searchPatternList": searchPatternArray
                                             })
@@ -93,9 +93,10 @@ Popup {
       font.pixelSize: 20
     }
 
-    Item {
+    BusyIndicator {
       //spacer
       width: 48
+      opacity: 1.0 * (searchProgressId !== undefined)
     }
 
     TextField {
