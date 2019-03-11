@@ -24,7 +24,9 @@ CCMP.ModulePage {
 
   property int referencePhaseMode: e_DIN;
 
-  property real phiOrigin: dinIECSelector.din410 ? Math.atan2(vData.getVector(0)[1],vData.getVector(0)[0])+Math.PI/2 : Math.atan2(vData.getVector(3)[1],vData.getVector(3)[0]);
+  readonly property real din410PhiOrigin: Math.atan2(vData.getVector(0)[1],vData.getVector(0)[0])+Math.PI/2
+  readonly property real iec387PhiOrigin: Math.atan2(vData.getVector(3)[1],vData.getVector(3)[0])
+  readonly property real phiOrigin: dinIECSelector.din410 ? din410PhiOrigin : iec387PhiOrigin;
 
   CCMP.ZComboBox {
     id: viewModeSelector
@@ -57,7 +59,7 @@ CCMP.ModulePage {
     width: root.width/7
     fontSize: Math.min(18, height/1.5, width/8);
 
-    property bool iOn: targetIndex===0
+    readonly property bool displayCurrents: targetIndex===0
   }
 
   CCMP.ZComboBox {
@@ -194,6 +196,6 @@ CCMP.ModulePage {
 
     vectorView: root.viewMode
     vectorMode: root.referencePhaseMode
-    currentVisible: currentOnOffSelector.iOn
+    currentVisible: currentOnOffSelector.displayCurrents
   }
 }
