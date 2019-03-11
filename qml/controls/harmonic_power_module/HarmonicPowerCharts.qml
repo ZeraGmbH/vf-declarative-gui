@@ -49,6 +49,17 @@ Flickable {
         color: Material.backgroundColor
         borderColor: Material.backgroundColor
         legendEnabled: false
+        function getTitleLabel() {
+          var retVal=[];
+
+          retVal.push(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPP%1").arg(index+1)].ChannelName)
+          retVal.push(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPQ%1").arg(index+1)].ChannelName)
+          retVal.push(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPS%1").arg(index+1)].ChannelName)
+
+          return retVal.join("  ");
+        }
+
+        titleLeftAxis: getTitleLabel();
         bottomLabelsEnabled: true
         colorLeftAxis: GC.systemColorByIndex(index+1)
 
