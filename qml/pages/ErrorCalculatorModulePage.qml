@@ -18,12 +18,12 @@ CCMP.ModulePage {
 
   readonly property QtObject errorCalculator: VeinEntity.getEntity("SEC1Module1")
   property int status: errorCalculator.ACT_Status
-  readonly property alias statusHolder: statuses
+  readonly property alias statusHolder: stateEnum
   readonly property bool canStartMeasurement: errorCalculator.PAR_StartStop !== 1
 
   QtObject {
-    id: statuses
-    //none of these state bits can be active in parallel
+    id: stateEnum
+    //some of these state bits can be active in parallel
 
     ///doing nothing waiting to start the measurement
     readonly property int idle: 0
@@ -41,19 +41,19 @@ CCMP.ModulePage {
     var statusText
     switch(value)
     {
-    case statuses.idle:
+    case stateEnum.idle:
       statusText=ZTR["Idle"]
       break;
-    case statuses.armed:
+    case stateEnum.armed:
       statusText=ZTR["Armed"]
       break;
-    case statuses.started:
+    case stateEnum.started:
       statusText=ZTR["Started"]
       break;
-    case statuses.ready:
+    case stateEnum.ready:
       statusText=ZTR["Ready"]
       break;
-    case statuses.aborted:
+    case stateEnum.aborted:
       statusText=ZTR["Aborted"]
       break;
     }
