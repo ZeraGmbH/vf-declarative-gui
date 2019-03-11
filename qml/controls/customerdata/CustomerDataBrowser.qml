@@ -192,7 +192,7 @@ Item {
 
     TextField {
       id: selectedSearchField
-      placeholderText: "Regex search"
+      placeholderText: ZTR["Regex search"]
       selectByMouse: true
       implicitWidth: topBar.width/3
       onAccepted: root.searchFile();
