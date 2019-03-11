@@ -18,7 +18,7 @@ Rectangle {
   //supports only arrays, but the property is kept to remain compatible with the ZComboBox, maybe it is possible to join both into one type that can handle both use cases?
   readonly property bool arrayMode: true
   property bool expanded: false
-  property int count : (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
+  property int count: (model !==undefined) ? (arrayMode===true ? fakeModel.count : model.count) : 0;
   property int currentIndex;
   property int targetIndex;
   property string currentText;
@@ -26,8 +26,8 @@ Rectangle {
   property var model: [];
   property var modelLength;
   property var imageModel: [];
-  property int contentRowWidth : width;
-  property int contentRowHeight : height;
+  property int contentRowWidth: width;
+  property int contentRowHeight: height;
   property int contentMaxRows: 0
   property alias contentFlow: comboView.flow
   property real fontSize: 18;
