@@ -9,8 +9,6 @@ import "qrc:/qml/controls" as CCMP
 CCMP.ModulePage {
   id: root
 
-  property bool sUnit : true;
-
   readonly property int rowHeight: Math.floor(height/14) * 0.95
   readonly property int columnWidth: width/5.25
 
