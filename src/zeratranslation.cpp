@@ -187,11 +187,16 @@ void ZeraTranslation::reloadStringTable()
   insert("Manual:", tr("Manual:", "not automatic"));
 
   //RangePeak.qml
-  insert("Peak values", tr("Peak values"));
-  insert("Scale visualisation:", tr("Scale visualisation:"));
+  insert("Peak values", tr("Peak values", "range peak values"));
+  //: range peak value diagram scale selection
+  insert("Scale visualisation:", tr("Scale visualisation:", "e.g. linear, logscale, relative to channel limit"));
+  //: range peak value diagram logarithmic scale visualisation
   insert("Logarithmic scale", tr("Logarithmic scale"));
+  //: range peak value diagram linear scale visualisation
   insert("RPV_ABSOLUTE", tr("Absolute"));
+  //: range peak value diagram logarithmic scale visualisation
   insert("RPV_ABSOLUTE_LOGSCALE", tr("Logarithmic"));
+  //: range peak value diagram relative to channel limit scale visualisation
   insert("RPV_RELATIVE_TO_LIMIT", tr("Relative to channel limit"));
 
   //Settings.qml
@@ -226,7 +231,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Integration time interval:", tr("Integration time interval:"));
   //: measurement period based integration interval
   insert("Integration period interval:", tr("Integration period interval:"));
-  insert("seconds", tr("seconds"));
+  //displayed under settings
+  insert("seconds", tr("seconds", "integration interval"));
 
   //main.qml
   insert("Loading...", tr("Loading..."));
@@ -251,11 +257,11 @@ void ZeraTranslation::reloadStringTable()
   insert("Idle", tr("Idle"));
   //: the state where the device waits for the first pulse / edge to be triggered
   insert("Armed", tr("Armed"));
-  insert("Started", tr("Started"));
+  insert("Started", tr("Started", "measurement started"));
   //: like finished
   insert("Ready", tr("Ready"));
-  insert("Aborted", tr("Aborted"));
-  insert("Result:", tr("Result:"));
+  insert("Aborted", tr("Aborted", "measurement was aborted"));
+  insert("Result:", tr("Result:", "error calculator result"));
   //: switch between time based and period based measurement
   insert("Mode:", tr("Mode:", "error calculator"));
   //: reference channel selection
@@ -472,7 +478,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Logging enabled:", tr("Logging enabled:"));
   insert("Database location:", tr("Database location:"));
   insert("Database filename:", tr("Database filename:"));
-  //amount of storage available on the filesystem
+  //: amount of space available on the filesystem where the dabase is to be stored
   insert("Filesystem storage available:", tr("Filesystem storage available:"));
   //: %1 = filesystem storage available, %2 = total, %3 = percentage available
   insert("<b>%1GB</b> of <b>%2GB</b> (%3%)", tr("<b>%1GB</b> of <b>%2GB</b> (%3%)"));
@@ -507,12 +513,18 @@ void ZeraTranslation::reloadStringTable()
   insert("Available for recording", tr("Available for recording", "list of selectable elements"));
   insert("Selected for recording", tr("Selected for recording", "list of selected elements"));
   insert("Description:", tr("Description:"));
+  //:shown in the value selection dialog of the database logger
   insert("Unit:", tr("Unit:", "SI or SI derived unit"));
 
   //LoggerRecordNamePopup.qml
+  //: displayed in logger record name popup, visible when the user presses start or snapshot in the logger
+  //: the record name is a database field that the user can use to search / filter different recordings
   insert("Select record name", tr("Select record name"));
+  //: the record name is a database field that the user can use to search / filter different recordings
   insert("Current record name:", tr("Current record name:"));
+  //: the record name is a database field that the user can use to search / filter different recordings
   insert("Preset record name:", tr("Preset record name:"));
+  //: the record name is a database field that the user can use to search / filter different recordings
   insert("Custom record name:", tr("Custom record name:"));
   //: shows a preview of the database logger record name
   insert("Preview:", tr("Preview:"));
@@ -552,15 +564,15 @@ void ZeraTranslation::reloadStringTable()
 
   //CustomerDataBrowser.qml
   //: Button text, action to create a file
-  insert("New file", tr("New file"));
-  insert("File name:", tr("File name:"));
-  insert("Search", tr("Search"));
+  insert("New file", tr("New file", "new customerdata file"));
+  insert("File name:", tr("File name:", "customerdata filename"));
+  insert("Search", tr("Search", "search for customerdata files"));
   //: clears input field
-  insert("Clear", tr("Clear"));
+  insert("Clear", tr("Clear", "clear search field"));
   //: Button text, action to delete a file
-  insert("Delete file", tr("Delete file"));
+  insert("Delete file", tr("Delete file", "delete customerdata file"));
   //: %1 the file that is about to be deleted
-  insert("Really delete file <b>'%1'</b>?", tr("Really delete file <b>'%1'</b>?"));
+  insert("Really delete file <b>'%1'</b>?", tr("Really delete file <b>'%1'</b>?", "confirmation to delete customerdata file"));
   //: search customer data file via regular expression, see: https://en.wikipedia.org/wiki/Regular_expression
   insert("Regex search", tr("Regex search"));
 
