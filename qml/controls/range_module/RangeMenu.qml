@@ -102,7 +102,7 @@ Item {
       y: grid.cellHeight*0.75
       height: grid.cellHeight*2
       width: grid.cellWidth*4
-      font.pixelSize: Math.min(18, root.height/20, width/6)
+      font.pixelSize: Math.min(18, root.height/20, width/6.5)
       color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
     }
     VFControls.VFSwitch {
@@ -153,7 +153,7 @@ Item {
       y: grid.cellHeight*2.75
       height: grid.cellHeight*2
       width: grid.cellWidth*4
-      font.pixelSize: Math.min(18, root.height/20, width/6)
+      font.pixelSize: Math.min(18, root.height/20, width/6.5)
       color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
     }
     VFControls.VFSwitch {
