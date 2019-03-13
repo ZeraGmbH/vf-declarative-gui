@@ -19,8 +19,6 @@ Popup {
 
   signal fileSelected(string t_file);
 
-  //VF_RPC(findDBFile, "findDBFile(QString searchPath, QString searchPatternList)", "returns ZeraDBLogger::searchResult: A lists of available database files on the currently selected storage")
-
   function sendSearchRPC(searchPattern) {
     if(searchPattern !== undefined)
     {
