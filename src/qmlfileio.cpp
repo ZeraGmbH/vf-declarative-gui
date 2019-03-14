@@ -1,4 +1,5 @@
 #include "qmlfileio.h"
+#include <QCoreApplication>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
