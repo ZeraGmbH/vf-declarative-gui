@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonParseError>
+#include <QDebug>
 #include <qqml.h>
 
 namespace QmlFileIOPrivate
