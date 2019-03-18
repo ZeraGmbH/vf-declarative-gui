@@ -146,7 +146,7 @@ Rectangle {
 
     property int heightOffset: (root.centerVertical ? -popupElement.height/2 : 0) + root.centerVerticalOffset
     property int widthOffset: (root.contentMaxRows > 0) ? -(root.contentRowWidth / (1+Math.floor(root.model.length / root.contentMaxRows))) : 0
-
+    background: Item {} //remove background rectangle
     closePolicy: Popup.CloseOnPressOutside
     onVisibleChanged: {
       root.expanded = visible
