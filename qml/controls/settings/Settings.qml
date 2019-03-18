@@ -36,8 +36,8 @@ SettingsView {
 
     dim: true
     x: parent.width/2 - width/2
-    width: parent.width*0.5
-    height: parent.height*0.5
+    width: parent.width*0.7
+    height: parent.height*0.7
     onColorAccepted: {
       GC.setSystemColorByIndex(systemIndex, t_color)
       //systemIndex = -1;

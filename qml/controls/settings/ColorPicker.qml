@@ -166,7 +166,7 @@ Popup {
       anchors.top: parent.top
       Rectangle {
         id: colorPreview
-        height: parent.height*0.8
+        height: parent.height*0.5
         width: height
         radius: height
         color: newColor
