@@ -222,7 +222,7 @@ void HpwBarChart::setLegendEnabled(bool t_legendEnabled)
     }
     else
     {
-      m_plot->insertLegend(NULL);
+      m_plot->insertLegend(nullptr);
     }
     refreshPlot();
   }
