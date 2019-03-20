@@ -19,6 +19,8 @@ RowLayout {
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
   property var listStorageTracer;
 
+  signal newIndexSelected(int index);
+
   Component.onCompleted: updateStorageList();
 
   function updateStorageList() {
@@ -122,6 +124,7 @@ RowLayout {
 
     onActivated: {
       GC.currentSelectedStoragePath = storageList[index];
+      root.newIndexSelected(index);
     }
   }
   Button {

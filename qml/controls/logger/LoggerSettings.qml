@@ -187,7 +187,8 @@ SettingsControls.SettingsView {
         anchors.leftMargin: 16
         anchors.rightMargin: 16
         rowHeight: root.rowHeight
-        onCurrentIndexChanged: {
+        onNewIndexSelected: {
+          //the user switched the db storage location manually so unload the database
           root.loggerEntity.DatabaseFile = "";
         }
       }
