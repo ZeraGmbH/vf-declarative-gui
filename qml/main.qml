@@ -28,8 +28,6 @@ ApplicationWindow {
   property bool debugBypass: false;
   //used to notify about the com5003 meas/CED/REF session change
   property string currentSession;
-  //only used to display a console error message, can be removed
-  property var requiredIds: [];
 
   visible: true
   width: 1024
@@ -64,7 +62,6 @@ ApplicationWindow {
 
     for(var newIdIterator in availableEntityIds)
     {
-      requiredIds.push(availableEntityIds[newIdIterator]);
       VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
     }
   }
@@ -99,16 +96,6 @@ ApplicationWindow {
       }
     }
   }
-
-  Timer {
-    interval: 5000
-    repeat: false
-    running: VeinEntity.state !== VeinEntity.VQ_LOADED;
-    onTriggered: {
-      console.error("Could not load all required modules, given up after", interval/1000, "seconds\nRequired:", requiredIds.sort(), "\nResolved:", VeinEntity.getEntityList().sort());
-    }
-  }
-
   Connections {
     target: VeinEntity
     onStateChanged: {
