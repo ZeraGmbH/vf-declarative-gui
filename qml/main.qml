@@ -74,6 +74,20 @@ ApplicationWindow {
     source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
   }
 
+  CCMP.DebugRectangle {
+    //show the current window size
+    visible: debugBypass === true;
+    Label {
+      text: String("Window size: %1x%2").arg(displayWindow.width).arg(displayWindow.height)
+      anchors.centerIn: parent
+      Component.onCompleted: {
+        parent.width=width + 8;
+        parent.height=height + 2;
+      }
+    }
+  }
+
+
 
 
   Loader {
