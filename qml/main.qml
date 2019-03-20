@@ -159,7 +159,7 @@ ApplicationWindow {
       smallResolution = !smallResolution;
       if(smallResolution)
       {
-        displayWindow.width=800;
+        displayWindow.width=750;
         displayWindow.height=480;
       }
       else
