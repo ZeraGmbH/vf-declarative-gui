@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
   evHandler->setSubsystems(subSystems);
 
   QString netHost = "127.0.0.1";
-  int netPort = 12000;
+  quint16 netPort = 12000;
 #ifdef Q_OS_ANDROID
   ///@todo for android: code is needed to fetch a list of possible hosts via QtZeroConf service discovery
 #endif //Q_OS_ANDROID
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
   if(globalSettingsFile->hasOption("modulemanagerIp") && globalSettingsFile->hasOption("modulemanagerPort"))
   {
     netHost = globalSettingsFile->getOption("modulemanagerIp");
-    netPort = globalSettingsFile->getOption("modulemanagerPort").toInt();
+    netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort").toUInt());
   }
 
   tcpSystem->connectToServer(netHost, netPort);
