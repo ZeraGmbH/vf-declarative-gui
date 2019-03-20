@@ -102,6 +102,8 @@ ApplicationWindow {
       {
         dynamicPageModel.initModel();
         pageView.model = dynamicPageModel;
+        //initialize the currentViewName to avoid "undefined" in the logger record name
+        GC.currentViewName = dynamicPageModel.get(0).name
 
         console.log("Loaded session: ", currentSession);
         ModuleIntrospection.reloadIntrospection();
