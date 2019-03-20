@@ -138,13 +138,7 @@ Item {
         {
           systemEntity.Session = systemEntity.SessionsAvailable[tmpIndex];
         }
-
         root.sessionChanged()
-        layoutStack.currentIndex=0;
-        rangeIndicator.active = false;
-        pageLoader.active = false;
-        entitiesInitialized = false;
-        loadingScreen.open();
       }
 
       model: {

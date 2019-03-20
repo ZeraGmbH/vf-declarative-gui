@@ -402,6 +402,13 @@ ApplicationWindow {
       ///@note do not break binding by setting visible directly
       visible: controlsBar.pageViewVisible;
       onCloseView: controlsBar.pageViewVisible = false;
+      onSessionChanged: {
+        layoutStack.currentIndex=0;
+        controlsBar.rangeIndicatorDependenciesReady = false;
+        pageLoader.active = false;
+        entitiesInitialized = false;
+        loadingScreen.open();
+      }
     }
   }
 
