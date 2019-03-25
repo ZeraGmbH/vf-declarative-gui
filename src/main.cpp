@@ -12,7 +12,6 @@
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
-#include <csignal>
 
 #include "fftbarchart.h"
 #include "hpwbarchart.h"
