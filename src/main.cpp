@@ -27,28 +27,8 @@
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 
-void signalHandler(int sig)
-{
-  if (sig == SIGHUP)
-  {
-    qWarning("Application terminated by SIGHUP");
-  }
-  else if (sig == SIGINT)
-  {
-    qWarning("Application terminated by SIGINT");
-  }
-  else if (sig == SIGTERM)
-  {
-    qWarning("Application terminated by SIGTERM");
-  }
-  QCoreApplication::instance()->quit();
-}
-
 int main(int argc, char *argv[])
 {
-  signal(SIGHUP, signalHandler);
-  signal(SIGINT, signalHandler);
-  signal(SIGTERM, signalHandler);
   //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
   //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
   //qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
@@ -98,6 +78,7 @@ int main(int argc, char *argv[])
   networkWatchdog.setSingleShot(true);
 
   JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
+  globalSettingsFile->setAutoWriteBackEnabled(true);
 
   if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
   {
@@ -211,7 +192,6 @@ int main(int argc, char *argv[])
       toDelete->deleteLater();
     }
     subSystems.clear();
-    globalSettingsFile->saveToFile(globalSettingsFile->getCurrentFilePath(), true);
   });
   return app.exec();
 }
