@@ -432,6 +432,7 @@ SettingsControls.SettingsView {
           validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
           width: 280
+          fontSize: height/2
           visible: loggerEntity.LoggingEnabled === false
         }
         Label {
