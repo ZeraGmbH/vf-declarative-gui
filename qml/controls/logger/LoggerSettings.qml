@@ -22,10 +22,6 @@ SettingsControls.SettingsView {
 
   property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
 
-  Component.onCompleted: {
-    root.loggerEntity.LoggingEnabled = false;
-  }
-
   onLogEnabledChanged: {
     if(snapshotTrigger === true && logEnabled === true)
     {

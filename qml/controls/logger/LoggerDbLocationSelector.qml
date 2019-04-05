@@ -81,8 +81,8 @@ RowLayout {
     width: storageListIndicator.width
     visible: root.storageList.length === 0 && storageListIndicator.opacity === 0;
     Label {
-      anchors.centerIn: parent
       id: storageListWarning
+      anchors.centerIn: parent
       font.family: "FontAwesome"
       font.pixelSize: 20
       text: FA.fa_exclamation_triangle
