@@ -16,6 +16,7 @@ Item {
   property var p2m1Introspection: VeinEntity.hasEntity("POWER2Module1") ? JSON.parse(VeinEntity.getEntity("POWER2Module1").INF_ModuleInterface) : 0
   property var p3m1Introspection: VeinEntity.hasEntity("Power3Module1") ? JSON.parse(VeinEntity.getEntity("Power3Module1").INF_ModuleInterface) : 0
   property var sec1Introspection: VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0
+  property var sem1Introspection: VeinEntity.hasEntity("SEM1Module1") ? JSON.parse(VeinEntity.getEntity("SEM1Module1").INF_ModuleInterface) : 0
   property var fftIntrospection: VeinEntity.hasEntity("FFTModule1") ? JSON.parse(VeinEntity.getEntity("FFTModule1").INF_ModuleInterface) : 0
   property var osciIntrospection: VeinEntity.hasEntity("OSCIModule1") ? JSON.parse(VeinEntity.getEntity("OSCIModule1").INF_ModuleInterface) : 0
   property var thdnIntrospection: VeinEntity.hasEntity("THDNModule1") ? JSON.parse(VeinEntity.getEntity("THDNModule1").INF_ModuleInterface) : 0
@@ -37,6 +38,7 @@ Item {
     p2m1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("POWER2Module1") ? JSON.parse(VeinEntity.getEntity("POWER2Module1").INF_ModuleInterface) : 0; })
     p3m1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("Power3Module1") ? JSON.parse(VeinEntity.getEntity("Power3Module1").INF_ModuleInterface) : 0; })
     sec1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0; })
+    sem1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("SEM1Module1") ? JSON.parse(VeinEntity.getEntity("SEM1Module1").INF_ModuleInterface) : 0; })
     fftIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("FFTModule1") ? JSON.parse(VeinEntity.getEntity("FFTModule1").INF_ModuleInterface) : 0; })
     osciIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("OSCIModule1") ? JSON.parse(VeinEntity.getEntity("OSCIModule1").INF_ModuleInterface) : 0; })
     thdnIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("THDNModule1") ? JSON.parse(VeinEntity.getEntity("THDNModule1").INF_ModuleInterface) : 0; })
