@@ -282,6 +282,11 @@ void ZeraTranslation::reloadStringTable()
   insert("Upper error margin:", tr("Upper error margin:"));
   insert("Continuous measurement", tr("Continuous measurement"));
 
+  //EnergyComparisonModulePage.qml
+  // TODO
+  insert("Duration:", tr("Duration:"));
+
+
   //FftModulePage.qml
   //: text must be short enough to fit
   insert("Amp", tr("Amp", "Amplitude of the phasor"));
@@ -320,6 +325,9 @@ void ZeraTranslation::reloadStringTable()
   insert("Harmonic power values", tr("Harmonic power values"));
   //: shows the deviation of measured energy between the reference device and the device under test
   insert("Error calculator", tr("Error calculator"));
+  //: shows energy comparison between the reference device and the device under test's registers/display
+  insert("Energy comparison", tr("Energy comparison"));
+
   insert("Burden values", tr("Burden values"));
   insert("Transformer values", tr("Transformer values"));
   //: effective values
