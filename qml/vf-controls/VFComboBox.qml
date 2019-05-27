@@ -7,25 +7,44 @@ CCMP.ZComboBox {
   id: root
   property QtObject entity
   property string controlPropertyName
+  property bool entityIsIndex: false
   function setInitialIndex() {
     if(entity && model) {
-      currentIndex = model.indexOf(entity[controlPropertyName]);
+      if(entityIsIndex !== true)
+      {
+        currentIndex = model.indexOf(entity[controlPropertyName]);
+      }
+      else
+      {
+        currentIndex = entity[controlPropertyName];
+      }
     }
   }
 
   automaticIndexChange: true
 
   onEntityChanged: setInitialIndex();
+  onEntityIsIndexChanged: setInitialIndex();
   onModelChanged: setInitialIndex();
   onSelectedTextChanged: {
-    if(entity[controlPropertyName] !== selectedText)
+    if(entityIsIndex !== true)
     {
-      entity[controlPropertyName] = selectedText
+      if(entity[controlPropertyName] !== selectedText)
+      {
+        entity[controlPropertyName] = selectedText
+      }
+    }
+    else
+    {
+      if(entity[controlPropertyName] !== model.indexOf(selectedText))
+      {
+        entity[controlPropertyName] = model.indexOf(selectedText)
+      }
     }
   }
 
   QtObject {
-    property int intermediate: model.indexOf(root.entity[root.controlPropertyName]);
+    property int intermediate: entityIsIndex !== true ? model.indexOf(root.entity[root.controlPropertyName]) : root.entity[root.controlPropertyName];
     onIntermediateChanged: {
       if(root.currentIndex !== intermediate)
       {
