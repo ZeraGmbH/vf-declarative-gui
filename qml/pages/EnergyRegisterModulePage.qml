@@ -104,19 +104,6 @@ CCMP.ModulePage {
           }
         }
       }
-      /*CheckBox {
-        text: ZTR["Continuous measurement"];
-        anchors.centerIn: parent
-        font.pixelSize: 20
-        enabled: energyRegister.PAR_StartStop !== 1;
-        checked: energyRegister.PAR_Continuous === 1;
-        onCheckedChanged: {
-          if(checked !== energyRegister.PAR_Continuous)
-          {
-            energyRegister.PAR_Continuous = (checked ? 1 : 0);
-          }
-        }
-      }*/
 
       Button {
         text: ZTR["Stop"]
