@@ -376,6 +376,10 @@ ApplicationWindow {
         {
           this.append({name: "Error calculator", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ErrorCalculatorModulePage.qml"});
         }
+        if(hasDependentEntities(["SEM1Module1"]))
+        {
+          this.append({name: "Energy register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/EnergyRegisterModulePage.qml"});
+        }
         if(hasDependentEntities(["DFTModule1"]))
         {
           this.append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});

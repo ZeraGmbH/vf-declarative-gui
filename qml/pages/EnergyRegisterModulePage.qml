@@ -10,16 +10,16 @@ import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 import "qrc:/qml/controls/error_calculator_module" as ErrorCalculator
-import "qrc:/qml/controls/energy_comparison_module" as EnergyComparison
+import "qrc:/qml/controls/energy_register_module" as EnergyRegister
 
 CCMP.ModulePage {
   id: root
   clip: true
 
-  readonly property QtObject energyComparison: VeinEntity.getEntity("SEM1Module1")
-  property int status: energyComparison.ACT_Status
+  readonly property QtObject energyRegister: VeinEntity.getEntity("SEM1Module1")
+  property int status: energyRegister.ACT_Status
   readonly property alias statusHolder: stateEnum
-  readonly property bool canStartMeasurement: energyComparison.PAR_StartStop !== 1
+  readonly property bool canStartMeasurement: energyRegister.PAR_StartStop !== 1
 
   QtObject {
     id: stateEnum
@@ -72,12 +72,12 @@ CCMP.ModulePage {
       height: root.height*0.7
       width: root.width
 
-      EnergyComparison.ParameterView {
+      EnergyRegister.ParameterView {
         logicalParent: root
         width: parent.width*0.7
         height: parent.height
       }
-      EnergyComparison.ErrorMarginView {
+      EnergyRegister.ErrorMarginView {
         logicalParent: root
         width: parent.width*0.3
         height: parent.height
@@ -98,9 +98,9 @@ CCMP.ModulePage {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         onClicked: {
-          if(energyComparison.PAR_StartStop !== 1)
+          if(energyRegister.PAR_StartStop !== 1)
           {
-            energyComparison.PAR_StartStop=1;
+            energyRegister.PAR_StartStop=1;
           }
         }
       }
@@ -108,12 +108,12 @@ CCMP.ModulePage {
         text: ZTR["Continuous measurement"];
         anchors.centerIn: parent
         font.pixelSize: 20
-        enabled: energyComparison.PAR_StartStop !== 1;
-        checked: energyComparison.PAR_Continuous === 1;
+        enabled: energyRegister.PAR_StartStop !== 1;
+        checked: energyRegister.PAR_Continuous === 1;
         onCheckedChanged: {
-          if(checked !== energyComparison.PAR_Continuous)
+          if(checked !== energyRegister.PAR_Continuous)
           {
-            energyComparison.PAR_Continuous = (checked ? 1 : 0);
+            energyRegister.PAR_Continuous = (checked ? 1 : 0);
           }
         }
       }*/
@@ -130,9 +130,9 @@ CCMP.ModulePage {
         anchors.right: parent.right
 
         onClicked: {
-          if(energyComparison.PAR_StartStop !== 0)
+          if(energyRegister.PAR_StartStop !== 0)
           {
-            energyComparison.PAR_StartStop=0;
+            energyRegister.PAR_StartStop=0;
           }
         }
       }

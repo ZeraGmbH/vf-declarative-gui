@@ -282,7 +282,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Upper error margin:", tr("Upper error margin:"));
   insert("Continuous measurement", tr("Continuous measurement"));
 
-  //EnergyComparisonModulePage.qml
+  //EnergyRegisterModulePage.qml
   // TODO
   insert("Duration:", tr("Duration:"));
 
@@ -326,7 +326,7 @@ void ZeraTranslation::reloadStringTable()
   //: shows the deviation of measured energy between the reference device and the device under test
   insert("Error calculator", tr("Error calculator"));
   //: shows energy comparison between the reference device and the device under test's registers/display
-  insert("Energy comparison", tr("Energy comparison"));
+  insert("Energy register", tr("Energy register"));
 
   insert("Burden values", tr("Burden values"));
   insert("Transformer values", tr("Transformer values"));

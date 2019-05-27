@@ -48,7 +48,7 @@ Item {
 
         arrayMode: true
 
-        entity: logicalParent.energyComparison
+        entity: logicalParent.energyRegister
         controlPropertyName: "PAR_Mode"
         model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_Mode.Validation.Data
 
@@ -86,7 +86,7 @@ Item {
 
         arrayMode: true
 
-        entity: logicalParent.energyComparison
+        entity: logicalParent.energyRegister
         controlPropertyName: "PAR_RefInput"
         model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
 
@@ -162,7 +162,7 @@ Item {
         description.text: ZTR["Duration:"]
         description.width: width*0.55
 
-        entity: logicalParent.energyComparison
+        entity: logicalParent.energyRegister
         controlPropertyName: "PAR_MeasTime"
         textField.font.pixelSize: height/2
 
@@ -192,7 +192,7 @@ Item {
       VFControls.VFComboBox {
         arrayMode: true
 
-        entity: logicalParent.energyComparison
+        entity: logicalParent.energyRegister
         controlPropertyName: "PAR_DutInput"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
         fontSize: 16
@@ -224,7 +224,7 @@ Item {
         description.text: ZTR["DUT constant:"]
         description.width: width*0.55
 
-        entity: logicalParent.energyComparison
+        entity: logicalParent.energyRegister
         controlPropertyName: "PAR_DutConstant"
         textField.font.pixelSize: height/2.1
 
@@ -241,7 +241,7 @@ Item {
           enabled: logicalParent.canStartMeasurement
           arrayMode: true
           fontSize: 16
-          entity: logicalParent.energyComparison
+          entity: logicalParent.energyRegister
           controlPropertyName: "PAR_DUTConstUnit"
           model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
 
@@ -274,7 +274,7 @@ Item {
         description.text: ZTR["MRate:"]
         description.width: width*0.55
 
-        entity: logicalParent.energyComparison
+        entity: logicalParent.energyRegister
         controlPropertyName: "PAR_MRate"
         textField.font.pixelSize: height/2
 
