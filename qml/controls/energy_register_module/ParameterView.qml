@@ -29,43 +29,6 @@ Item {
   }
   VisualItemModel {
     id: parameterModel
-    /*Rectangle {
-      color: "transparent"
-      border.color: Material.dividerColor
-      height: root.rowHeight
-      width: root.width
-      enabled: logicalParent.canStartMeasurement
-      Label {
-        textFormat: Text.PlainText
-        anchors.left: parent.left
-        anchors.leftMargin: 4
-        anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Mode:"]
-        font.pixelSize: Math.max(height/2, 20)
-      }
-      VFControls.VFComboBox {
-        id: cbMode
-
-        arrayMode: true
-
-        entity: logicalParent.energyRegister
-        controlPropertyName: "PAR_Mode"
-        model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_Mode.Validation.Data
-
-        anchors.right: parent.right
-        height: parent.height
-        width: parent.width*0.45
-
-        currentIndex: 0
-        contentRowWidth: width
-        contentRowHeight: height*1.2
-        contentFlow: GridView.FlowTopToBottom
-        centerVertical: true
-        centerVerticalOffset: height/2
-
-        opacity: enabled ? 1.0 : 0.7
-      }
-    }*/
     Rectangle {
       color: "transparent"
       border.color: Material.dividerColor
@@ -149,7 +112,45 @@ Item {
       }
     }
     Rectangle {
-      //visible: cbMode.currentText === "energy" // this is localization independent
+      color: "transparent"
+      border.color: Material.dividerColor
+      height: root.rowHeight
+      width: root.width
+      enabled: logicalParent.canStartMeasurement
+      Label {
+        textFormat: Text.PlainText
+        anchors.left: parent.left
+        anchors.leftMargin: 4
+        anchors.verticalCenter: parent.verticalCenter
+        text: ZTR["Mode:"]
+        font.pixelSize: Math.max(height/2, 20)
+      }
+      VFControls.VFComboBox {
+        id: cbMode
+
+        arrayMode: true
+
+        entity: logicalParent.energyRegister
+        controlPropertyName: "PAR_Targeted"
+        entityIsIndex: true
+        model: [ZTR["Start/Stop"],ZTR["Duration"]]
+
+        anchors.right: parent.right
+        height: parent.height
+        width: parent.width*0.45
+
+        currentIndex: 0
+        contentRowWidth: width
+        contentRowHeight: height*1.2
+        contentFlow: GridView.FlowTopToBottom
+        centerVertical: true
+        centerVerticalOffset: height/2
+
+        opacity: enabled ? 1.0 : 0.7
+      }
+    }
+    Rectangle {
+      visible: cbMode.currentIndex !== 0
       color: "transparent"
       border.color: Material.dividerColor
       height: root.rowHeight * visible //don't waste space if not visible

@@ -285,7 +285,8 @@ void ZeraTranslation::reloadStringTable()
   //EnergyRegisterModulePage.qml
   // TODO
   insert("Duration:", tr("Duration:"));
-
+  insert("Start/Stop", tr("Start/Stop"));
+  insert("Duration", tr("Duration"));
 
   //FftModulePage.qml
   //: text must be short enough to fit
