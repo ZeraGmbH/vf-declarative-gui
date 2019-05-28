@@ -171,7 +171,7 @@ Item {
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[0];
           top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[2]);
+          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[2]);
         }
       }
     }
@@ -182,58 +182,23 @@ Item {
       width: root.width
       enabled: logicalParent.canStartMeasurement
 
-      /*Label {
-        textFormat: Text.PlainText
-        anchors.left: parent.left
-        anchors.leftMargin: 4
-        anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Device input:"]
-        font.pixelSize: Math.max(height/2, 20)
-      }
-      VFControls.VFComboBox {
-        arrayMode: true
-
-        entity: logicalParent.energyRegister
-        controlPropertyName: "PAR_DutInput"
-        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
-        fontSize: 16
-        anchors.right: parent.right
-        height: parent.height
-        width: parent.width*0.45
-
-        currentIndex: 0
-        contentRowWidth: width
-        contentRowHeight: height*1.2
-        contentFlow: GridView.FlowTopToBottom
-        centerVertical: true
-        centerVerticalOffset: height/2
-
-        opacity: enabled ? 1.0 : 0.7
-      }*/
-    }
-    Rectangle {
-      color: "transparent"
-      border.color: Material.dividerColor
-      height: root.rowHeight
-      width: root.width
-
-      /*VFControls.VFLineEdit {
+      VFControls.VFLineEdit {
         width: parent.width
         anchors.fill: parent
         anchors.leftMargin: 4
         inputMethodHints: Qt.ImhPreferNumbers
-        description.text: ZTR["DUT constant:"]
+        description.text: ZTR["Start value:"]
         description.width: width*0.55
 
         entity: logicalParent.energyRegister
-        controlPropertyName: "PAR_DutConstant"
+        controlPropertyName: "PAR_T0Input"
         textField.font.pixelSize: height/2.1
 
         enabled: logicalParent.canStartMeasurement
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[0];
-          top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[2]);
+          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[0];
+          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[2]);
         }
 
         VFControls.VFComboBox {
@@ -243,6 +208,8 @@ Item {
           arrayMode: true
           fontSize: 16
           entity: logicalParent.energyRegister
+
+          // TODO
           controlPropertyName: "PAR_DUTConstUnit"
           model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
 
@@ -259,34 +226,58 @@ Item {
 
           opacity: enabled ? 1.0 : 0.7
         }
-      }*/
+      }
     }
     Rectangle {
-      visible: cbMode.currentText === "mrate" // this is localization independent
       color: "transparent"
       border.color: Material.dividerColor
-      height: root.rowHeight * visible //don't waste space if not visible
+      height: root.rowHeight
       width: root.width
 
-      /*VFControls.VFLineEdit {
+      VFControls.VFLineEdit {
+        width: parent.width
         anchors.fill: parent
         anchors.leftMargin: 4
         inputMethodHints: Qt.ImhPreferNumbers
-        description.text: ZTR["MRate:"]
+        description.text: ZTR["End value:"]
         description.width: width*0.55
 
         entity: logicalParent.energyRegister
-        controlPropertyName: "PAR_MRate"
-        textField.font.pixelSize: height/2
+        controlPropertyName: "PAR_T1input"
+        textField.font.pixelSize: height/2.1
 
         enabled: logicalParent.canStartMeasurement
-
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[0];
-          top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[2]);
+          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[0];
+          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[2]);
         }
-      }*/
+      }
+      VFControls.VFComboBox {
+        anchors.right: parent.right
+        anchors.rightMargin: parent.width*0.45 + 1
+        enabled: logicalParent.canStartMeasurement
+        arrayMode: true
+        fontSize: 16
+        entity: logicalParent.energyRegister
+
+        // TODO
+        controlPropertyName: "PAR_DUTConstUnit"
+        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
+
+        height: parent.height
+        width: parent.width/6
+
+
+        currentIndex: 0
+        contentRowWidth: width
+        contentRowHeight: height*1.2
+        contentFlow: GridView.FlowTopToBottom
+        centerVertical: true
+        centerVerticalOffset: height/2
+
+        opacity: enabled ? 1.0 : 0.7
+      }
     }
     Rectangle {
       color: "transparent"
