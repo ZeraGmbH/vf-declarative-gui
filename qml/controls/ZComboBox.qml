@@ -32,6 +32,11 @@ Rectangle {
   readonly property bool modelInitialized: arrayMode === true && model.length>0;
   onModelInitializedChanged: updateFakeModel();
 
+  color: Qt.darker(Material.frameColor) //buttonPressColor
+  //border.color: Material.dropShadowColor
+  opacity: enabled ? 1.0 : 0.5
+  radius: 4
+
   function updateFakeModel() {
     if(modelInitialized === true)
     {
@@ -74,10 +79,6 @@ Rectangle {
   onExpandedChanged: {
     expanded ? selectionDialog.open() : selectionDialog.close()
   }
-  color: Qt.darker(Material.frameColor) //buttonPressColor
-  //border.color: Material.dropShadowColor
-  opacity: enabled ? 1.0 : 0.5
-  radius: 4
   onCountChanged: {
     updateCurrentText()
   }
