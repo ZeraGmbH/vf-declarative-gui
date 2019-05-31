@@ -15,6 +15,8 @@ Item {
   id: root
   //holds the state data
   property QtObject logicalParent;
+  property alias progress: actProgressBar.value
+  property alias progressTo: actProgressBar.to
 
   Column {
     anchors.fill: parent
@@ -136,9 +138,7 @@ Item {
       to: 100
       width: parent.width
       height: parent.height/20
-      value: errorCalculator.ACT_Progress
       indeterminate: logicalParent.status === logicalParent.statusHolder.armed
-
 
       Label {
         visible: logicalParent.status !== logicalParent.statusHolder.ready
@@ -148,7 +148,7 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: 20
-        text: parseInt(actProgressBar.value)+"%"
+        text: parseInt(actProgressBar.value / actProgressBar.to)+"%"
       }
     }
   }

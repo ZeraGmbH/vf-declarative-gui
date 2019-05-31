@@ -10,6 +10,7 @@ import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/data/staticdata/FontAwesome.js" as FA
+import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
 import "qrc:/qml/controls/error_calculator_module" as ErrorCalculator
 
 CCMP.ModulePage {
@@ -62,10 +63,11 @@ CCMP.ModulePage {
 
 
   Column {
-    ErrorCalculator.MeasurementView {
+    ErrorCommon.MeasurementView {
       logicalParent: root
       height: root.height*0.2
       width: root.width
+      progress: errorCalculator.ACT_Progress
     }
     Row {
       height: root.height*0.7
@@ -76,8 +78,8 @@ CCMP.ModulePage {
         width: parent.width*0.7
         height: parent.height
       }
-      ErrorCalculator.ErrorMarginView {
-        logicalParent: root
+      ErrorCommon.ErrorMarginView {
+        result: root.errorCalculator.ACT_Result
         width: parent.width*0.3
         height: parent.height
       }

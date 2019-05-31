@@ -13,9 +13,7 @@ import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Rectangle {
-  //holds the state data
-  property QtObject logicalParent;
-  readonly property real result: logicalParent.errorCalculator.ACT_Result;
+  property real result;
   onResultChanged: {
     refreshLineData();
   }

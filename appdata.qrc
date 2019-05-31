@@ -22,9 +22,10 @@
         <file>qml/controls/customerdata/CustomerDataBrowser.qml</file>
         <file>qml/controls/customerdata/CustomerDataEditor.qml</file>
         <file>qml/controls/customerdata/CustomerDataEntry.qml</file>
-        <file>qml/controls/error_calculator_module/ErrorMarginView.qml</file>
-        <file>qml/controls/error_calculator_module/MeasurementView.qml</file>
+        <file>qml/controls/error_comparison_common/ErrorMarginView.qml</file>
+        <file>qml/controls/error_comparison_common/MeasurementView.qml</file>
         <file>qml/controls/error_calculator_module/ParameterView.qml</file>
+        <file>qml/controls/energy_register_module/ParameterView.qml</file>
         <file>qml/controls/fft_module/FftCharts.qml</file>
         <file>qml/controls/fft_module/FftTable.qml</file>
         <file>qml/controls/harmonic_power_module/HarmonicPowerCharts.qml</file>
@@ -66,8 +67,6 @@
         <file>qml/controls/MainToolBar.qml</file>
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
-        <file>qml/controls/energy_register_module/ErrorMarginView.qml</file>
-        <file>qml/controls/energy_register_module/ParameterView.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf</file>

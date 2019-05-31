@@ -9,7 +9,7 @@ import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/data/staticdata/FontAwesome.js" as FA
-import "qrc:/qml/controls/error_calculator_module" as ErrorCalculator
+import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
 import "qrc:/qml/controls/energy_register_module" as EnergyRegister
 
 CCMP.ModulePage {
@@ -62,8 +62,9 @@ CCMP.ModulePage {
 
 
   Column {
-    // TODO move to a common solution
-    ErrorCalculator.MeasurementView {
+    ErrorCommon.MeasurementView {
+      progress: energyRegister.PAR_Targeted ? energyRegister.ACT_Time : 0
+      progressTo: energyRegister.PAR_Targeted ? energyRegister.PAR_MeasTime : 1.0
       logicalParent: root
       height: root.height*0.2
       width: root.width
@@ -77,8 +78,8 @@ CCMP.ModulePage {
         width: parent.width*0.7
         height: parent.height
       }
-      EnergyRegister.ErrorMarginView {
-        logicalParent: root
+      ErrorCommon.ErrorMarginView {
+        result: root.energyRegister.ACT_Result
         width: parent.width*0.3
         height: parent.height
       }
