@@ -388,7 +388,7 @@ SettingsControls.SettingsView {
       }
       RowLayout {
         enabled: loggerEntity.ScheduledLoggingEnabled === true
-        opacity: enabled ? 1.0 : 0.5
+        opacity: enabled ? 1.0 : 0.7
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right

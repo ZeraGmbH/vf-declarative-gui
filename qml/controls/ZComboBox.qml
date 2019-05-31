@@ -34,7 +34,7 @@ Rectangle {
 
   color: Qt.darker(Material.frameColor) //buttonPressColor
   //border.color: Material.dropShadowColor
-  opacity: enabled ? 1.0 : 0.5
+  opacity: enabled ? 1.0 : 0.7
   radius: 4
 
   function updateFakeModel() {

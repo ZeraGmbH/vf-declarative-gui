@@ -69,7 +69,6 @@ Item {
         centerVertical: true
         centerVerticalOffset: height/2
 
-        opacity: enabled ? 1.0 : 0.7
       }
       VFControls.VFComboBox {
         id: cbRefMeasMode
@@ -154,8 +153,6 @@ Item {
         contentFlow: GridView.FlowTopToBottom
         centerVertical: true
         centerVerticalOffset: height/2
-
-        opacity: enabled ? 1.0 : 0.7
       }
     }
     Rectangle {
@@ -285,8 +282,6 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: GC.standardMargin
         width: parent.width/6
-
-        opacity: enabled ? 1.0 : 0.7
       }
 
     }

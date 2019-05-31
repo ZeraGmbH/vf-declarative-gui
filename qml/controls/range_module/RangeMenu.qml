@@ -211,7 +211,6 @@ Item {
           anchors.topMargin: parent.height/3
           width: parent.width*0.95
           enabled: parent.enabled
-          opacity: enabled ? 1.0 : 0.4
           fontSize: Math.min(18, root.height/20, width/6)
         }
       }
@@ -256,7 +255,6 @@ Item {
           anchors.topMargin: parent.height/3
           width: parent.width*0.95
           enabled: parent.enabled
-          opacity: enabled ? 1.0 : 0.4
           fontSize: Math.min(18, root.height/20, width/6)
         }
       }

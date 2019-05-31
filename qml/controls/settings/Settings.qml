@@ -75,7 +75,7 @@ SettingsView {
         font.pixelSize: 20
 
         Layout.fillWidth: true
-        opacity: enabled ? 1.0 : 0.4
+        opacity: enabled ? 1.0 : 0.7
       }
 
       Item {
@@ -91,7 +91,7 @@ SettingsView {
         implicitWidth: root.rowWidth/4
         height: root.rowHeight-8
 
-        opacity: enabled ? 1.0 : 0.4
+        opacity: enabled ? 1.0 : 0.7
       }
     }
   }
@@ -106,7 +106,7 @@ SettingsView {
         font.pixelSize: 20
 
         Layout.fillWidth: true
-        opacity: enabled ? 1.0 : 0.4
+        opacity: enabled ? 1.0 : 0.7
       }
 
       Item {
@@ -122,7 +122,7 @@ SettingsView {
         implicitWidth: root.rowWidth/4
         height: root.rowHeight-8
 
-        opacity: enabled ? 1.0 : 0.4
+        opacity: enabled ? 1.0 : 0.7
       }
     }
   }
