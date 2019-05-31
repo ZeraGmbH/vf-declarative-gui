@@ -37,7 +37,6 @@ Item {
       width: root.width
       enabled: logicalParent.canStartMeasurement
       Label {
-        id: lblRefInput
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
@@ -123,7 +122,6 @@ Item {
       width: root.width
       enabled: logicalParent.canStartMeasurement
       Label {
-        id: lblMode
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
