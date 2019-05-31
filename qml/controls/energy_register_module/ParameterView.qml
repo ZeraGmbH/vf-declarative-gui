@@ -172,6 +172,8 @@ Item {
         font.pixelSize: Math.max(height/2, 20)
       }
       VFControls.VFLineEdit {
+        inputMethodHints: Qt.ImhPreferNumbers
+
         entity: logicalParent.energyRegister
         controlPropertyName: "PAR_MeasTime"
 
