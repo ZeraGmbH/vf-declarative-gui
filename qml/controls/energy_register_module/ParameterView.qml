@@ -75,7 +75,6 @@ Item {
       VFControls.VFComboBox {
         id: cbRefMeasMode
         arrayMode: true
-        enabled: logicalParent.canStartMeasurement
         controlPropertyName: "PAR_MeasuringMode"
         model: {
           switch(cbRefInput.currentText) {
@@ -162,7 +161,7 @@ Item {
       }
     }
     Rectangle {
-      visible: cbMode.currentIndex !== 0
+      enabled: logicalParent.canStartMeasurement && cbMode.currentIndex !== 0
       color: "transparent"
       border.color: Material.dividerColor
       height: root.rowHeight * visible //don't waste space if not visible
@@ -188,7 +187,6 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        enabled: logicalParent.canStartMeasurement
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[0];
           top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[1];
@@ -201,7 +199,6 @@ Item {
       border.color: Material.dividerColor
       height: root.rowHeight * 2
       width: root.width
-      enabled: logicalParent.canStartMeasurement
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
@@ -223,7 +220,6 @@ Item {
 
         inputMethodHints: Qt.ImhPreferNumbers
 
-        enabled: logicalParent.canStartMeasurement
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[0];
           top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[1];
@@ -262,8 +258,6 @@ Item {
 
         inputMethodHints: Qt.ImhPreferNumbers
 
-
-        enabled: logicalParent.canStartMeasurement
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[0];
           top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[1];
@@ -316,7 +310,6 @@ Item {
         inputMethodHints: Qt.ImhPreferNumbers
         text: GC.errorMarginUpperValue
 
-        enabled: logicalParent.canStartMeasurement
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function confirmInput() {
           upperLimitInput.text = upperLimitInput.textField.text
@@ -349,7 +342,6 @@ Item {
         inputMethodHints: Qt.ImhPreferNumbers
         text: GC.errorMarginLowerValue
 
-        enabled: logicalParent.canStartMeasurement
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function confirmInput() {
           lowerLimitInput.text = lowerLimitInput.textField.text
