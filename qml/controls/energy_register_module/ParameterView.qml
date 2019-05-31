@@ -168,7 +168,6 @@ Item {
       width: root.width
 
       Label {
-        id: lblDuration
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
@@ -192,6 +191,14 @@ Item {
           top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[2]);
         }
+      }
+      Label {
+        textFormat: Text.PlainText
+        anchors.right: parent.right
+        width: parent.width * 1 / 6 - GC.standardTextMargin
+        anchors.verticalCenter: parent.verticalCenter
+        text: "s"
+        font.pixelSize: Math.max(height/2, 20)
       }
     }
     Rectangle {
@@ -316,6 +323,14 @@ Item {
           GC.setErrorMargins(parseFloat(upperLimitInput.text), GC.errorMarginLowerValue);
         }
       }
+      Label {
+        textFormat: Text.PlainText
+        anchors.right: parent.right
+        width: parent.width * 1 / 6 - GC.standardTextMargin
+        anchors.verticalCenter: parent.verticalCenter
+        text: "%"
+        font.pixelSize: Math.max(height/2, 20)
+      }
     }
     Rectangle {
       color: "transparent"
@@ -347,6 +362,14 @@ Item {
           lowerLimitInput.text = lowerLimitInput.textField.text
           GC.setErrorMargins(GC.errorMarginUpperValue, parseFloat(lowerLimitInput.text));
         }
+      }
+      Label {
+        textFormat: Text.PlainText
+        anchors.right: parent.right
+        width: parent.width * 1 / 6 - GC.standardTextMargin
+        anchors.verticalCenter: parent.verticalCenter
+        text: "%"
+        font.pixelSize: Math.max(height/2, 20)
       }
     }
   }
