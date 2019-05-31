@@ -68,6 +68,7 @@ CCMP.ModulePage {
       height: root.height*0.2
       width: root.width
       progress: errorCalculator.ACT_Progress
+      progressTo: 100
     }
     Row {
       height: root.height*0.7

@@ -135,7 +135,6 @@ Item {
     ProgressBar {
       id: actProgressBar
       from: 0
-      to: 100
       width: parent.width
       height: parent.height/20
       indeterminate: logicalParent.status === logicalParent.statusHolder.armed
@@ -148,7 +147,7 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: 20
-        text: parseInt(actProgressBar.value / actProgressBar.to)+"%"
+        text: parseInt(actProgressBar.value / actProgressBar.to * 100)+"%"
       }
     }
   }
