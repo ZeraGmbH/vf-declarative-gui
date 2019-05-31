@@ -89,7 +89,7 @@ Item {
     }
   }
 
-  readonly property double standardMargin: 4
+  readonly property double standardMargin: 0
   readonly property double standardMarginMin: 1
   readonly property double standardMarginWithMin: standardMargin > standardMarginMin ? standardMargin : standardMarginMin
   readonly property double standardTextMargin: 8
