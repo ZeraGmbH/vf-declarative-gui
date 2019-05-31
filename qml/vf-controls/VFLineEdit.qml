@@ -56,7 +56,7 @@ Item {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     anchors.right: unitLabel.left
-    anchors.rightMargin: 8
+    anchors.rightMargin: GC.standardMargin
 
     //radius: height/4
     //border.color: Material.frameColor
@@ -67,8 +67,8 @@ Item {
       id: tInput
       anchors.fill: parent
       anchors.bottomMargin: -8
-      anchors.leftMargin: height/4
-      anchors.rightMargin: height/4
+      anchors.leftMargin: GC.standardTextMargin
+      anchors.rightMargin: GC.standardTextMargin
       horizontalAlignment: Text.AlignRight
       implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
                                background ? background.implicitHeight : 0)
@@ -97,7 +97,7 @@ Item {
     height: parent.height
     font.pixelSize: height/2
     anchors.right: acceptButton.left
-    anchors.rightMargin: 8
+    anchors.rightMargin: GC.standardTextMargin
     verticalAlignment: Text.AlignVCenter
   }
 
@@ -108,12 +108,16 @@ Item {
 
     implicitHeight: 0
     width: height
-    //only show the button if the value is different from the remote
-    //visible: root.m_alteredValue
+    anchors.topMargin: GC.standardMargin
+    anchors.bottomMargin: GC.standardMargin
+    // Button has special ideas - force our margins
+    background.anchors.fill: acceptButton
+    background.anchors.topMargin: GC.standardMargin
+    background.anchors.bottomMargin: GC.standardMargin
     highlighted: true
 
     anchors.right: resetButton.left
-    anchors.rightMargin: 8
+    anchors.rightMargin: GC.standardMarginWithMin
     anchors.bottom: parent.bottom
     anchors.top: parent.top
 
@@ -123,6 +127,7 @@ Item {
     }
     enabled: root.m_alteredValue && root.acceptableInput
   }
+
   Button {
     id: resetButton
     text: "\u00D7" //unicode x mark
@@ -130,13 +135,17 @@ Item {
 
     implicitHeight: 0
     width: height
-    //only show the button if the value is different from the remote
-    //visible: root.m_alteredValue
+    anchors.topMargin: GC.standardMargin
+    anchors.bottomMargin: GC.standardMargin
+    // Button has special ideas - force our margins
+    background.anchors.fill: resetButton
+    background.anchors.topMargin: GC.standardMargin
+    background.anchors.bottomMargin: GC.standardMargin
 
     anchors.right: parent.right
-    anchors.rightMargin: 8
     anchors.bottom: parent.bottom
     anchors.top: parent.top
+
     onClicked: {
       focus = true
       tInput.text = root.entity[root.controlPropertyName]
