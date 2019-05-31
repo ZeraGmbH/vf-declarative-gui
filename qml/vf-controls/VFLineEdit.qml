@@ -82,7 +82,6 @@ Item {
       }
 
       font.pixelSize: height/2.5
-      color: Material.primaryTextColor
 
       Rectangle {
         color: "red"
