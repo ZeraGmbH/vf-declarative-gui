@@ -15,11 +15,11 @@ Item {
   property QtObject entity
   property string controlPropertyName
   readonly property bool acceptableInput: tInput.acceptableInput && (!validator || (validator.top>=parseFloat(tInput.text) && validator.bottom<=parseFloat(tInput.text)))
-  readonly property bool m_alteredValue: (Math.abs(parseFloat(tInput.text) - entity[controlPropertyName]) >=  Math.pow(10, -root.validator.decimals))
+  readonly property bool m_alteredValue: (Math.abs(parseFloat(tInput.text) - (controlPropertyName !== "" ? entity[controlPropertyName] : parseFloat(text))) >=  Math.pow(10, -root.validator.decimals))
   onTextChanged: tInput.text = text
   onValidatorChanged: tInput.validator = validator
 
-
+  // override when not connected to entity/component
   function confirmInput() {
     if(tInput.text !== root.text && root.acceptableInput)
     {
@@ -35,7 +35,7 @@ Item {
   }
 
   Item {
-    property var intermediateValue: root.entity[root.controlPropertyName]
+    property var intermediateValue: root.controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text
     onIntermediateValueChanged: {
       if(intermediateValue !== undefined)
       {
@@ -148,7 +148,7 @@ Item {
 
     onClicked: {
       focus = true
-      tInput.text = root.entity[root.controlPropertyName]
+      tInput.text = controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text
     }
     enabled: root.m_alteredValue
   }
