@@ -15,6 +15,7 @@ Item {
   id: root
   //holds the state data
   property QtObject logicalParent;
+  property real measurementResult;
   property alias progress: actProgressBar.value
   property alias progressTo: actProgressBar.to
 
@@ -116,6 +117,7 @@ Item {
         }
 
         Label {
+          id: resultLabel
           width: parent.width
           textFormat: Text.PlainText
           horizontalAlignment: Text.AlignRight
@@ -124,7 +126,7 @@ Item {
           anchors.bottom: parent.bottom
           anchors.bottomMargin: parent.height/10
           anchors.right: parent.right
-          text: GC.formatNumber(logicalParent.errorCalculator.ACT_Result)+"%"
+          text: GC.formatNumber(measurementResult)+"%"
         }
       }
     }

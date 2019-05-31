@@ -63,6 +63,7 @@ CCMP.ModulePage {
 
   Column {
     ErrorCommon.MeasurementView {
+      measurementResult: energyRegister.ACT_Result
       progress: energyRegister.PAR_Targeted ? energyRegister.ACT_Time : 0
       progressTo: energyRegister.PAR_Targeted ? energyRegister.PAR_MeasTime : 1.0
       logicalParent: root

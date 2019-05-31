@@ -67,6 +67,7 @@ CCMP.ModulePage {
       logicalParent: root
       height: root.height*0.2
       width: root.width
+      measurementResult: errorCalculator.ACT_Result
       progress: errorCalculator.ACT_Progress
       progressTo: 100
     }
