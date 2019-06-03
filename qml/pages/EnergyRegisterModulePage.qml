@@ -66,6 +66,8 @@ CCMP.ModulePage {
       measurementResult: energyRegister.ACT_Result
       progress: energyRegister.PAR_Targeted ? energyRegister.ACT_Time : 0
       progressTo: energyRegister.PAR_Targeted ? energyRegister.PAR_MeasTime : 1.0
+      // do not display as long as it is not clear which's job it is to change unit
+      //actualValue: GC.formatNumber(energyRegister.ACT_Energy) + " " + ModuleIntrospection.sem1Introspection.ComponentInfo.ACT_Energy.Unit
       logicalParent: root
       height: root.height*0.2
       width: root.width

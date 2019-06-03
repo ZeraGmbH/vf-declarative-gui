@@ -18,6 +18,7 @@ Item {
   property real measurementResult;
   property alias progress: actProgressBar.value
   property alias progressTo: actProgressBar.to
+  property string actualValue;
 
   Column {
     anchors.fill: parent
@@ -49,7 +50,7 @@ Item {
           fontSizeMode: Text.HorizontalFit
           anchors.bottom: parent.bottom
           anchors.right: parent.right
-          text: GC.formatNumber(logicalParent.errorCalculator.ACT_Energy) + " " + ModuleIntrospection.sec1Introspection.ComponentInfo.ACT_Energy.Unit
+          text: actualValue
         }
       }
 

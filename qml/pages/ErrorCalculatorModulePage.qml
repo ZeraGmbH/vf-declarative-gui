@@ -70,6 +70,7 @@ CCMP.ModulePage {
       measurementResult: errorCalculator.ACT_Result
       progress: errorCalculator.ACT_Progress
       progressTo: 100
+      actualValue: GC.formatNumber(errorCalculator.ACT_Energy) + " " + ModuleIntrospection.sec1Introspection.ComponentInfo.ACT_Energy.Unit
     }
     Row {
       height: root.height*0.7
