@@ -48,7 +48,6 @@ Item {
           font.pixelSize: 40
           fontSizeMode: Text.HorizontalFit
           anchors.bottom: parent.bottom
-          anchors.bottomMargin: parent.height/10
           anchors.right: parent.right
           text: GC.formatNumber(logicalParent.errorCalculator.ACT_Energy) + " " + ModuleIntrospection.sec1Introspection.ComponentInfo.ACT_Energy.Unit
         }
@@ -124,7 +123,6 @@ Item {
           font.pixelSize: 40
           fontSizeMode: Text.HorizontalFit
           anchors.bottom: parent.bottom
-          anchors.bottomMargin: parent.height/10
           anchors.right: parent.right
           text: GC.formatNumber(measurementResult)+"%"
         }
