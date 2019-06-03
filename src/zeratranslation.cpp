@@ -253,6 +253,10 @@ void ZeraTranslation::reloadStringTable()
   insert("Status", tr("Status"));
   */
 
+  //ComparisonTabsModulePage.qml
+  insert("Pulse Measurement", tr("Pulse Measurement"));
+  insert("Energy Register", tr("Energy Register"));
+
   //ErrorCalculatorModulePage.qml
   insert("Idle", tr("Idle"));
   //: the state where the device waits for the first pulse / edge to be triggered
@@ -328,7 +332,7 @@ void ZeraTranslation::reloadStringTable()
   //: shows the deviation of measured energy between the reference device and the device under test
   insert("Error calculator", tr("Error calculator"));
   //: shows energy comparison between the reference device and the device under test's registers/display
-  insert("Energy register", tr("Energy register"));
+  insert("Comparison measurements", tr("Comparison measurements"));
 
   insert("Burden values", tr("Burden values"));
   insert("Transformer values", tr("Transformer values"));
