@@ -315,85 +315,57 @@ ApplicationWindow {
     ListModel {
       id: dynamicPageModel
 
-      function hasDependentEntities(t_list) {
-        var retVal = false;
-        if(t_list !== undefined)
-        {
-          if(t_list.length > 0)
-          {
-            var tmpEntityName;
-            for(var tmpIndex in t_list)
-            {
-              tmpEntityName = t_list[tmpIndex];
-              retVal = VeinEntity.hasEntity(tmpEntityName);
-
-              if(retVal === false)
-              {
-                //exit loop
-                break;
-              }
-            }
-          }
-          else
-          {
-            retVal = true;
-          }
-        }
-
-        return retVal;
-      }
-
       function initModel() {
-        if(hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"]))
+        if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"]))
         {
           this.append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValuesPage.qml"});
         }
-        if(hasDependentEntities(["OSCIModule1"]))
+        if(ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
         {
           this.append({name: "Oscilloscope plot", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/OsciModulePage.qml"});
         }
-        if(hasDependentEntities(["FFTModule1"]))
+        if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]))
         {
           this.append({name: "Harmonics", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
         }
-        if(hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
+        if(ModuleIntrospection.hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
         {
           this.append({name: "Power values", icon: "qrc:/data/staticdata/resources/power.png", elementValue: "qrc:/qml/pages/PowerModulePage.qml"});
         }
-        if(hasDependentEntities(["Power3Module1"]))
+        if(ModuleIntrospection.hasDependentEntities(["Power3Module1"]))
         {
           this.append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerModulePage.qml"});
         }
-        if(hasDependentEntities(["Burden1Module1", "Burden1Module2"]))
+        if(ModuleIntrospection.hasDependentEntities(["Burden1Module1", "Burden1Module2"]))
         {
           this.append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"});
         }
-        if(hasDependentEntities(["Transformer1Module1"]))
+        if(ModuleIntrospection.hasDependentEntities(["Transformer1Module1"]))
         {
           this.append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"});
         }
-        if(hasDependentEntities(["SEC1Module1"]))
+        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]))
         {
           this.append({name: "Error calculator", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ErrorCalculatorModulePage.qml"});
         }
-        if(hasDependentEntities(["SEM1Module1"]))
+        if(ModuleIntrospection.hasDependentEntities(["SEM1Module1"]))
         {
-          this.append({name: "Energy register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/EnergyRegisterModulePage.qml"});
+           this.append({name: "Energy register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/EnergyRegisterModulePage.qml"});
         }
-        if(hasDependentEntities(["DFTModule1"]))
+        if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
         {
           this.append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
           controlsBar.rotaryFieldDependenciesReady = true;
         }
-        if(hasDependentEntities(["RMSModule1"]))
+        if(ModuleIntrospection.hasDependentEntities(["RMSModule1"]))
         {
           this.append({name: "RMS values", icon: "qrc:/data/staticdata/resources/rms_values.png", elementValue: "qrc:/qml/pages/RMS4PhasePage.qml"});
         }
-        if(hasDependentEntities(["POWER2Module1"]))
+        if(ModuleIntrospection.hasDependentEntities(["POWER2Module1"]))
         {
           this.append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"});
         }
-        if(hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
+        if(ModuleIntrospection.hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
         {
           this.append({name: "Reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"});
         }

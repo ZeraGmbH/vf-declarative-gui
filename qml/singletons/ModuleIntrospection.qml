@@ -66,4 +66,32 @@ Item {
 
     introMap = tmpMap;
   }
+
+  function hasDependentEntities(t_list) {
+    var retVal = false;
+    if(t_list !== undefined)
+    {
+      if(t_list.length > 0)
+      {
+        var tmpEntityName;
+        for(var tmpIndex in t_list)
+        {
+          tmpEntityName = t_list[tmpIndex];
+          retVal = VeinEntity.hasEntity(tmpEntityName);
+
+          if(retVal === false)
+          {
+            //exit loop
+            break;
+          }
+        }
+      }
+      else
+      {
+        retVal = true;
+      }
+    }
+
+    return retVal;
+  }
 }
