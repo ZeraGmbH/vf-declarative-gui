@@ -22,6 +22,9 @@ Item {
   readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
   readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
 
+  readonly property real col1Width: 7/20
+  readonly property real col2Width: 9/20
+  readonly property real col3Width: 4/20
 
   SettingsControls.SettingsView {
     anchors.fill: parent
@@ -39,7 +42,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Mode:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -53,8 +56,8 @@ Item {
         controlPropertyName: "PAR_Mode"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Mode.Validation.Data
 
-        x: parent.width*2/6
-        width: parent.width*3/6 - GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width - GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -75,7 +78,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Reference input:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -89,8 +92,8 @@ Item {
         controlPropertyName: "PAR_RefInput"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
 
-        x: parent.width*2/6
-        width: parent.width*3/6 - GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width - GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -132,8 +135,8 @@ Item {
           }
         }
 
-        x : parent.width*5/6
-        width: parent.width/6-GC.standardMargin
+        anchors.right: parent.right
+        width: parent.width*col3Width-GC.standardMargin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -155,7 +158,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Device input:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -167,8 +170,8 @@ Item {
         controlPropertyName: "PAR_DutInput"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -190,7 +193,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["DUT constant:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -202,8 +205,8 @@ Item {
         entity: logicalParent.errorCalculator
         controlPropertyName: "PAR_DutConstant"
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -226,8 +229,8 @@ Item {
         anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
         anchors.bottomMargin: GC.standardMargin
-        x : parent.width*5/6
-        width: parent.width/6-GC.standardMargin
+        anchors.right: parent.right
+        width: parent.width*col3Width-GC.standardMargin
 
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
@@ -245,7 +248,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Energy:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -254,8 +257,8 @@ Item {
       VFControls.VFLineEdit {
         inputMethodHints: Qt.ImhPreferNumbers
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -283,7 +286,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["MRate:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -292,8 +295,8 @@ Item {
       VFControls.VFLineEdit {
         inputMethodHints: Qt.ImhPreferNumbers
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -318,14 +321,16 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Upper error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
       VFControls.VFLineEdit {
         id: upperLimitInput
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -342,7 +347,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.right: parent.right
-        width: parent.width * 1 / 6 - GC.standardTextMargin
+        width: parent.width*col3Width - GC.standardTextMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
         font.pixelSize: Math.max(height/2, 20)
@@ -358,14 +363,15 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Lower error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
       VFControls.VFLineEdit {
         id: lowerLimitInput
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -382,7 +388,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.right: parent.right
-        width: parent.width * 1 / 6 - GC.standardTextMargin
+        width: parent.width*col3Width - GC.standardTextMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
         font.pixelSize: Math.max(height/2, 20)

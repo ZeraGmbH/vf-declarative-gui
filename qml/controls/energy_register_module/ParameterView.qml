@@ -22,6 +22,9 @@ Item {
   readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
   readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
 
+  readonly property real col1Width: 7/20
+  readonly property real col2Width: 9/20
+  readonly property real col3Width: 4/20
 
   SettingsControls.SettingsView {
     anchors.fill: parent
@@ -40,7 +43,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width * col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Reference input:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -54,8 +57,8 @@ Item {
         controlPropertyName: "PAR_RefInput"
         model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
 
-        x: parent.width*2/6
-        width: parent.width*3/6 - GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width - GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -102,8 +105,8 @@ Item {
           }
         }
 
-        x : parent.width*5/6
-        width: parent.width/6-GC.standardMargin
+        anchors.right: parent.right
+        width: parent.width*col3Width-GC.standardMargin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -124,7 +127,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width*2/6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Mode:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -139,8 +142,8 @@ Item {
         entityIsIndex: true
         model: [ZTR["Start/Stop"],ZTR["Duration"]]
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -166,7 +169,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
-        width: parent.width * 2 / 6
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Duration:"]
         font.pixelSize: Math.max(height/2, 20)
@@ -177,8 +180,8 @@ Item {
         entity: logicalParent.energyRegister
         controlPropertyName: "PAR_MeasTime"
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -192,7 +195,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.right: parent.right
-        width: parent.width * 1 / 6 - GC.standardTextMargin
+        width: parent.width * col3Width - GC.standardTextMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "s"
         font.pixelSize: Math.max(height/2, 20)
@@ -207,6 +210,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -parent.height * 0.25
         text: ZTR["Start value:"]
@@ -216,8 +220,8 @@ Item {
         entity: logicalParent.energyRegister
         controlPropertyName: "PAR_T0Input"
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         height: parent.height * 0.5
@@ -236,7 +240,7 @@ Item {
           color: "transparent"
           border.color: Material.dividerColor
           height: 1
-          width: parent.width*5/6 - GC.standardMargin
+          width: parent.width*(col1Width+col2Width) - GC.standardMargin
           anchors.left: parent.left
           anchors.verticalCenter: parent.verticalCenter
       }
@@ -245,6 +249,7 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: parent.height * 0.25
         text: ZTR["End value:"]
@@ -254,8 +259,8 @@ Item {
         entity: logicalParent.energyRegister
         controlPropertyName: "PAR_T1input"
 
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.bottom: parent.bottom
         height: parent.height * 0.5
@@ -283,9 +288,8 @@ Item {
         contentFlow: GridView.FlowTopToBottom
         anchors.right: parent.right
         anchors.rightMargin: GC.standardMargin
-        width: parent.width/6
+        width: parent.width*col3Width
       }
-
     }
     Rectangle {
       color: "transparent"
@@ -297,14 +301,15 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Upper error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
       VFControls.VFLineEdit {
         id: upperLimitInput
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -321,7 +326,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.right: parent.right
-        width: parent.width * 1 / 6 - GC.standardTextMargin
+        width: parent.width*col3Width - GC.standardTextMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
         font.pixelSize: Math.max(height/2, 20)
@@ -337,14 +342,15 @@ Item {
         textFormat: Text.PlainText
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextMargin
+        width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Lower error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
       VFControls.VFLineEdit {
         id: lowerLimitInput
-        x: parent.width*2/6
-        width: parent.width*3/6-GC.standardMarginWithMin
+        x: parent.width*col1Width
+        width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -361,7 +367,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.right: parent.right
-        width: parent.width * 1 / 6 - GC.standardTextMargin
+        width: parent.width*col3Width - GC.standardTextMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
         font.pixelSize: Math.max(height/2, 20)
