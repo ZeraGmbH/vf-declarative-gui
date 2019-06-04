@@ -287,6 +287,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Continuous measurement", tr("Continuous measurement"));
 
   //EnergyRegisterModulePage.qml
+  insert("Energy register", tr("Energy register"));
   insert("Duration:", tr("Duration:"));
   insert("Start/Stop", tr("Start/Stop"));
   insert("Duration", tr("Duration"));
