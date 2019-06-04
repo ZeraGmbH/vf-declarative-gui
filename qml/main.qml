@@ -356,6 +356,10 @@ ApplicationWindow {
         {
            this.append({name: "Energy register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/EnergyRegisterModulePage.qml"});
         }
+        if(ModuleIntrospection.hasDependentEntities(["SPM1Module1"]))
+        {
+           this.append({name: "Power register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/PowerRegisterModulePage.qml"});
+        }
         if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
         {
           this.append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
