@@ -92,7 +92,8 @@ Item {
   readonly property double standardMargin: 0
   readonly property double standardMarginMin: 1
   readonly property double standardMarginWithMin: standardMargin > standardMarginMin ? standardMargin : standardMarginMin
-  readonly property double standardTextMargin: 8
+  readonly property double standardTextHorizMargin: 8
+  readonly property double standardTextBottomMargin: -8
   readonly property double standardComboContentScale: 1.2
 
   readonly property color system1ColorBright: settings.globalSettings.getOption("system1Color") //"#EEff7755"

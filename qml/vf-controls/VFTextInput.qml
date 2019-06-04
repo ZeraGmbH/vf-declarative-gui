@@ -52,31 +52,44 @@ Item {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     anchors.right: acceptButton.left
-    anchors.rightMargin: 8
-
-    //radius: height/4
-    //border.color: Material.frameColor
-    //border.width: 1.5
-    //color: root.m_alteredValue ? (root.acceptableInput ? Material.primaryColor : Material.backgroundDimColor) : "transparent"
+    anchors.rightMargin: GC.standardMargin
 
     TextField {
       id: tInput
       anchors.fill: parent
-      anchors.bottomMargin: -8
-      anchors.leftMargin: height/4
-      anchors.rightMargin: height/4
+      anchors.bottomMargin: GC.standardTextBottomMargin
+      anchors.leftMargin: GC.standardTextHorizMargin
+      anchors.rightMargin: GC.standardTextHorizMargin
       implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
                                background ? background.implicitHeight : 0)
 
-      font.pixelSize: Math.max(height/2, 16)
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
       onAccepted: {
         focus = false
         confirmInput()
       }
+      Keys.onEscapePressed: {
+        focus = false
+        text = transformIncoming(root.entity[root.controlPropertyName]);
+      }
 
-      //color: Material.primaryTextColor
+      font.pixelSize: height/2.5
+
+      Rectangle {
+        color: "red"
+        opacity: 0.2
+        visible: root.acceptableInput === false
+        anchors.fill: parent
+        anchors.bottomMargin: -GC.standardTextBottomMargin
+      }
+      Rectangle {
+        color: "green"
+        opacity: 0.2
+        visible: root.m_alteredValue && root.acceptableInput
+        anchors.fill: parent
+        anchors.bottomMargin: -GC.standardTextBottomMargin
+      }
     }
   }
 
@@ -86,12 +99,17 @@ Item {
     font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
-    width: height*1.2
-    //only show the button if the value is different from the remote
+    width: height
+    anchors.topMargin: GC.standardMargin
+    anchors.bottomMargin: GC.standardMargin
+    // Button has special ideas - force our margins
+    background.anchors.fill: acceptButton
+    background.anchors.topMargin: GC.standardMargin
+    background.anchors.bottomMargin: GC.standardMargin
     highlighted: true
 
     anchors.right: resetButton.left
-    anchors.rightMargin: 8
+    anchors.rightMargin: GC.standardMargin
     anchors.bottom: parent.bottom
     anchors.top: parent.top
 
@@ -107,16 +125,22 @@ Item {
     font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
-    width: height*1.2
-    //only show the button if the value is different from the remote
-    enabled: root.m_alteredValue
+    width: height
+    anchors.topMargin: GC.standardMargin
+    anchors.bottomMargin: GC.standardMargin
+    // Button has special ideas - force our margins
+    background.anchors.fill: resetButton
+    background.anchors.topMargin: GC.standardMargin
+    background.anchors.bottomMargin: GC.standardMargin
+
     anchors.right: parent.right
-    anchors.rightMargin: 8
     anchors.bottom: parent.bottom
     anchors.top: parent.top
+
     onClicked: {
       focus = true
       tInput.text = transformIncoming(root.entity[root.controlPropertyName]);
     }
+    enabled: root.m_alteredValue
   }
 }

@@ -83,7 +83,6 @@ Item {
           height: parent.height
           width: parent.width*2
 
-
           SequentialAnimation on x {
             loops: Animation.Infinite
             NumberAnimation {

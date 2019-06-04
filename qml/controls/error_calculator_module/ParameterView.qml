@@ -41,7 +41,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Mode:"]
@@ -77,7 +77,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Reference input:"]
@@ -157,7 +157,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Device input:"]
@@ -192,7 +192,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["DUT constant:"]
@@ -247,7 +247,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Energy:"]
@@ -285,7 +285,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["MRate:"]
@@ -320,7 +320,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Upper error margin:"]
@@ -347,7 +347,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.right: parent.right
-        width: parent.width*col3Width - GC.standardTextMargin
+        width: parent.width*col3Width - GC.standardTextHorizMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
         font.pixelSize: Math.max(height/2, 20)
@@ -362,7 +362,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Lower error margin:"]
@@ -388,7 +388,7 @@ Item {
       Label {
         textFormat: Text.PlainText
         anchors.right: parent.right
-        width: parent.width*col3Width - GC.standardTextMargin
+        width: parent.width*col3Width - GC.standardTextHorizMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
         font.pixelSize: Math.max(height/2, 20)

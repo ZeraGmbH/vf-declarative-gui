@@ -58,27 +58,25 @@ Item {
     anchors.right: unitLabel.left
     anchors.rightMargin: GC.standardMargin
 
-    //radius: height/4
-    //border.color: Material.frameColor
-    //border.width: 1.5
-    //color: root.m_alteredValue ? (root.acceptableInput ? Material.primaryColor : Material.backgroundDimColor) : "transparent"
-
     TextField {
       id: tInput
       anchors.fill: parent
-      anchors.bottomMargin: -8
-      anchors.leftMargin: GC.standardTextMargin
-      anchors.rightMargin: GC.standardTextMargin
+      anchors.bottomMargin: GC.standardTextBottomMargin
+      anchors.leftMargin: GC.standardTextHorizMargin
+      anchors.rightMargin: GC.standardTextHorizMargin
       horizontalAlignment: Text.AlignRight
       implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
                                background ? background.implicitHeight : 0)
-
 
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
       onAccepted: {
         focus = false
         confirmInput()
+      }
+      Keys.onEscapePressed: {
+        focus = false
+        text = controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text
       }
 
       font.pixelSize: height/2.5
@@ -88,6 +86,14 @@ Item {
         opacity: 0.2
         visible: root.acceptableInput === false
         anchors.fill: parent
+        anchors.bottomMargin: -GC.standardTextBottomMargin
+      }
+      Rectangle {
+        color: "green"
+        opacity: 0.2
+        visible: root.m_alteredValue && root.acceptableInput
+        anchors.fill: parent
+        anchors.bottomMargin: -GC.standardTextBottomMargin
       }
     }
   }
@@ -96,14 +102,14 @@ Item {
     height: parent.height
     font.pixelSize: height/2
     anchors.right: acceptButton.left
-    anchors.rightMargin: GC.standardTextMargin
+    anchors.rightMargin: GC.standardTextHorizMargin
     verticalAlignment: Text.AlignVCenter
   }
 
   Button {
     id: acceptButton
     text: "\u2713" //unicode checkmark
-    font.pixelSize: height/2
+    font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
     width: height
@@ -121,8 +127,8 @@ Item {
     anchors.top: parent.top
 
     onClicked: {
-      focus = true;
-      confirmInput();
+      focus = true
+      confirmInput()
     }
     enabled: root.m_alteredValue && root.acceptableInput
   }
@@ -130,7 +136,7 @@ Item {
   Button {
     id: resetButton
     text: "\u00D7" //unicode x mark
-    font.pixelSize: height/2
+    font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
     width: height
