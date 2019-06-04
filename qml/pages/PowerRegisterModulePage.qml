@@ -43,7 +43,7 @@ CCMP.ModulePage {
       progress: powerRegister.PAR_Targeted ? powerRegister.ACT_Time : 0
       progressTo: powerRegister.PAR_Targeted ? powerRegister.PAR_MeasTime : 1.0
       // do not display as long as it is not clear which's job it is to change unit
-      //actualValue: GC.formatNumber(powerRegister.ACT_Energy) + " " + ModuleIntrospection.sem1Introspection.ComponentInfo.ACT_Energy.Unit
+      //actualValue: GC.formatNumber(powerRegister.ACT_Energy) + " " + ModuleIntrospection.spm1Introspection.ComponentInfo.ACT_Energy.Unit
       logicalParent: root
       height: root.height*0.2
       width: root.width
@@ -58,7 +58,7 @@ CCMP.ModulePage {
         height: parent.height
       }
       ErrorCommon.ErrorMarginView {
-        result: root.energyRegister.ACT_Result
+        result: root.powerRegister.ACT_Result
         width: parent.width*0.3
         height: parent.height
       }
@@ -78,9 +78,9 @@ CCMP.ModulePage {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         onClicked: {
-          if(energyRegister.PAR_StartStop !== 1)
+          if(powerRegister.PAR_StartStop !== 1)
           {
-            energyRegister.PAR_StartStop=1;
+            powerRegister.PAR_StartStop=1;
           }
         }
       }
@@ -97,9 +97,9 @@ CCMP.ModulePage {
         anchors.right: parent.right
 
         onClicked: {
-          if(energyRegister.PAR_StartStop !== 0)
+          if(powerRegister.PAR_StartStop !== 0)
           {
-            energyRegister.PAR_StartStop=0;
+            powerRegister.PAR_StartStop=0;
           }
         }
       }

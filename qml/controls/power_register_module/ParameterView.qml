@@ -55,7 +55,7 @@ Item {
 
         entity: logicalParent.powerRegister
         controlPropertyName: "PAR_RefInput"
-        model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
+        model: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
 
         x: parent.width*col1Width
         width: parent.width*col2Width - GC.standardMarginWithMin
@@ -187,9 +187,9 @@ Item {
         anchors.bottom: parent.bottom
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[0];
-          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[2]);
+          bottom: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[0];
+          top: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[2]);
         }
       }
       Label {
@@ -229,9 +229,9 @@ Item {
         inputMethodHints: Qt.ImhPreferNumbers
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[0];
-          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[2]);
+          bottom: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[0];
+          top: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[2]);
         }
 
       }
@@ -268,9 +268,9 @@ Item {
         inputMethodHints: Qt.ImhPreferNumbers
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[0];
-          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[2]);
+          bottom: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T1input.Validation.Data[0];
+          top: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T1input.Validation.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T1input.Validation.Data[2]);
         }
       }
       VFControls.VFComboBox {
@@ -280,7 +280,7 @@ Item {
         entity: logicalParent.powerRegister
 
         controlPropertyName: "PAR_TXUNIT"
-        model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_TXUNIT.Validation.Data
+        model: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_TXUNIT.Validation.Data
 
         height: parent.height - 2*GC.standardMargin
         anchors.verticalCenter: parent.verticalCenter
