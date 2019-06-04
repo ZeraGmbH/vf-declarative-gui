@@ -38,30 +38,6 @@ CCMP.ModulePage {
     readonly property int aborted: 8
   }
 
-  function getStatusText(value) {
-    var statusText
-    switch(value)
-    {
-    case stateEnum.idle:
-      statusText=ZTR["Idle"]
-      break;
-    case stateEnum.armed:
-      statusText=ZTR["Armed"]
-      break;
-    case stateEnum.started:
-      statusText=ZTR["Started"]
-      break;
-    case stateEnum.ready:
-      statusText=ZTR["Ready"]
-      break;
-    case stateEnum.aborted:
-      statusText=ZTR["Aborted"]
-      break;
-    }
-    return statusText
-  }
-
-
   Column {
     ErrorCommon.MeasurementView {
       logicalParent: root
