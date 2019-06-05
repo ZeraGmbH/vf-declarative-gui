@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Controls 2.0
 import GlobalConfig 1.0
+import "qrc:/qml/controls" as CCMP
 
 Item {
   id: root
@@ -106,19 +107,14 @@ Item {
     verticalAlignment: Text.AlignVCenter
   }
 
-  Button {
+  CCMP.ZButton {
     id: acceptButton
     text: "\u2713" //unicode checkmark
     font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
     width: height
-    anchors.topMargin: GC.standardMargin
-    anchors.bottomMargin: GC.standardMargin
-    // Button has special ideas - force our margins
-    background.anchors.fill: acceptButton
-    background.anchors.topMargin: GC.standardMargin
-    background.anchors.bottomMargin: GC.standardMargin
+
     highlighted: true
 
     anchors.right: resetButton.left
@@ -133,19 +129,13 @@ Item {
     enabled: root.m_alteredValue && root.acceptableInput
   }
 
-  Button {
+  CCMP.ZButton {
     id: resetButton
     text: "\u00D7" //unicode x mark
     font.pixelSize: Math.max(height/2, 20)
 
     implicitHeight: 0
     width: height
-    anchors.topMargin: GC.standardMargin
-    anchors.bottomMargin: GC.standardMargin
-    // Button has special ideas - force our margins
-    background.anchors.fill: resetButton
-    background.anchors.topMargin: GC.standardMargin
-    background.anchors.bottomMargin: GC.standardMargin
 
     anchors.right: parent.right
     anchors.bottom: parent.bottom
