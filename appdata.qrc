@@ -12,6 +12,7 @@
         <file>qml/controls/SpinBoxIntrospection.qml</file>
         <file>qml/controls/StyledChart.qml</file>
         <file>qml/controls/SwipeArea.qml</file>
+        <file>qml/controls/ZButton.qml</file>
         <file>qml/controls/ZComboBox.qml</file>
         <file>qml/controls/ZDoubleValidator.qml</file>
         <file>qml/controls/ZVisualComboBox.qml</file>
