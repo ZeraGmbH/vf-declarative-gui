@@ -58,7 +58,7 @@ Item {
   Popup {
     id: addFilePopup
 
-    readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList !== undefined && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") > 0
+    readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList !== undefined && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") >= 0
 
     onOpened: filenameField.forceActiveFocus()
     onClosed: filenameField.clear()
