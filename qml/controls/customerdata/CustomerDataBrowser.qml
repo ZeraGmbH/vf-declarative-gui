@@ -81,6 +81,12 @@ Item {
           opacity: 0.3
           visible: addFilePopup.fileNameAlreadyExists
         }
+        onAccepted: {
+          root.saveChanges()
+        }
+        Keys.onEscapePressed: {
+          addFilePopup.close()
+        }
       }
       Label {
         text: ".json"
