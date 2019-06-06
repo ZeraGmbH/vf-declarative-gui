@@ -14,7 +14,7 @@ Item {
   readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
   readonly property int channelCount: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount;
   readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
-  readonly property int rowHeight: Math.floor(height/20)
+  readonly property int rowHeight: Math.floor(height/14)
   readonly property int columnWidth: width/7
 
   readonly property bool relativeView: GC.showFftTableAsRelative > 0;
