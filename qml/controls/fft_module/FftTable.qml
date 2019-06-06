@@ -85,7 +85,7 @@ Item {
         Repeater {
           model: root.channelCount
           delegate: CCMP.GridRect {
-            width: root.columnWidth*2
+            width: root.columnWidth*(GC.showFftTablePhase ? 2 : 1)
             height: root.rowHeight
             color: GC.tableShadeColor
             border.color: "#444" //disable border transparency
@@ -127,7 +127,7 @@ Item {
         Repeater {
           model: root.channelCount
           CCMP.GridItem {
-            width: root.columnWidth*2
+            width: root.columnWidth* (GC.showFftTablePhase ? 2 : 1)
             height: root.rowHeight
             readonly property string componentName: String("ACT_THDN%1").arg(index+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
@@ -160,7 +160,7 @@ Item {
         Repeater {
           model: root.channelCount
           delegate: Row {
-            width: root.columnWidth*2
+            width: root.columnWidth*(GC.showFftTablePhase ? 2 : 1)
             height: root.rowHeight
             CCMP.GridItem {
               width: root.columnWidth
@@ -179,6 +179,7 @@ Item {
               text: ZTR["Phase"]
               textColor: GC.getColorByIndex(index+1)
               font.bold: true
+              visible: GC.showFftTablePhase
             }
           }
         }
@@ -188,7 +189,7 @@ Item {
         id: lvHarmonics
         z: -1
         y: root.rowHeight*3
-        width: root.columnWidth*17 - 16
+        width: root.columnWidth*(GC.showFftTablePhase ? 17 : 9) - 16
         height: root.rowHeight*(fftOrder+3) //root.rowHeight*(20-3)
 
         model: relativeView ? ZGL.FFTRelativeTableModel : ZGL.FFTTableModel
@@ -223,6 +224,7 @@ Item {
               text: VectorL1 !== undefined ? GC.formatNumber(VectorL1, 3) : ""
               textColor: GC.system1ColorDark
               font.pixelSize: rowHeight*0.5
+              visible: GC.showFftTablePhase
             }
             CCMP.GridItem {
               width: root.columnWidth
@@ -237,6 +239,7 @@ Item {
               text: VectorL2 !== undefined ? GC.formatNumber(VectorL2, 3) : ""
               textColor: GC.system2ColorDark
               font.pixelSize: rowHeight*0.5
+              visible: GC.showFftTablePhase
             }
             CCMP.GridItem {
               width: root.columnWidth
@@ -251,6 +254,7 @@ Item {
               text: VectorL3 !== undefined ? GC.formatNumber(VectorL3, 3) : ""
               textColor: GC.system3ColorDark
               font.pixelSize: rowHeight*0.5
+              visible: GC.showFftTablePhase
             }
             CCMP.GridItem {
               width: root.columnWidth
@@ -265,6 +269,7 @@ Item {
               text: VectorL4 !== undefined ? GC.formatNumber(VectorL4, 3) : ""
               textColor: GC.system1ColorBright
               font.pixelSize: rowHeight*0.5
+              visible: GC.showFftTablePhase
             }
             CCMP.GridItem {
               width: root.columnWidth
@@ -279,6 +284,7 @@ Item {
               text: VectorL5 !== undefined ? GC.formatNumber(VectorL5, 3) : ""
               textColor: GC.system2ColorBright
               font.pixelSize: rowHeight*0.5
+              visible: GC.showFftTablePhase
             }
             CCMP.GridItem {
               width: root.columnWidth
@@ -293,6 +299,7 @@ Item {
               text: VectorL6 !== undefined ? GC.formatNumber(VectorL6, 3) : ""
               textColor: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
+              visible: GC.showFftTablePhase
             }
             CCMP.GridItem {
               width: root.columnWidth
@@ -308,7 +315,7 @@ Item {
               text: VectorL7 !== undefined ? GC.formatNumber(VectorL7, 3) : ""
               textColor: GC.system4ColorDark
               font.pixelSize: rowHeight*0.5
-              visible: root.channelCount>6
+              visible: root.channelCount>6 && GC.showFftTablePhase
             }
             CCMP.GridItem {
               width: root.columnWidth
@@ -324,7 +331,7 @@ Item {
               text: VectorL8 !== undefined ? GC.formatNumber(VectorL8, 3) : ""
               textColor: GC.system4ColorBright
               font.pixelSize: rowHeight*0.5
-              visible: root.channelCount>6
+              visible: root.channelCount>6 && GC.showFftTablePhase
             }
           }
         }

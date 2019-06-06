@@ -45,6 +45,12 @@ Item {
     settings.globalSettings.setOption("fft_table_as_relative", setValue, true);
   }
 
+  readonly property int showFftTablePhase: parseInt(settings.globalSettings.getOption("fft_table_show_phase"))
+  function setShowFftTablePhase(showPhase) {
+    var setValue = showPhase ? 1 : 0
+    settings.globalSettings.setOption("fft_table_show_phase", setValue, true);
+  }
+
   readonly property var rangePeakVisualisationEnum: {
     "RPV_ABSOLUTE" : 0,
     "RPV_ABSOLUTE_LOGSCALE" : 1,
