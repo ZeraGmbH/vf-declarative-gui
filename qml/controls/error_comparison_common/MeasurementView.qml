@@ -31,17 +31,6 @@ Item {
         width: 3*root.width/7
         anchors.left: parent.left
         readonly property int statusNotify: logicalParent.status;
-        visible: false;
-        onStatusNotifyChanged: {
-          if(statusNotify & logicalParent.statusHolder.ready)
-          {
-            visible = true;
-          }
-          else if(statusNotify === logicalParent.statusHolder.aborted)
-          {
-            visible = false;
-          }
-        }
 
         Label {
           width: parent.width
@@ -109,7 +98,7 @@ Item {
           {
             visible = true;
           }
-          else if(statusNotify === logicalParent.statusHolder.aborted)
+          else if(statusNotify === logicalParent.statusHolder.aborted || statusNotify & logicalParent.statusHolder.started)
           {
             visible = false;
           }
