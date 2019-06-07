@@ -344,11 +344,11 @@ ApplicationWindow {
         {
           this.append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"});
         }
-        /*if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || hasDependentEntities(["SPM1Module1"]))
+        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || hasDependentEntities(["SPM1Module1"]))
         {
           this.append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
-        }*/
-        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]))
+        }
+        /*if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]))
         {
           this.append({name: "Error calculator", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ErrorCalculatorModulePage.qml"});
         }
@@ -359,7 +359,7 @@ ApplicationWindow {
         if(ModuleIntrospection.hasDependentEntities(["SPM1Module1"]))
         {
            this.append({name: "Power register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/PowerRegisterModulePage.qml"});
-        }
+        }*/
         if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
         {
           this.append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});

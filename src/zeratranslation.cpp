@@ -335,6 +335,11 @@ void ZeraTranslation::reloadStringTable()
   //: shows energy comparison between the reference device and the device under test's registers/display
   insert("Comparison measurements", tr("Comparison measurements"));
 
+  //ComparisonTabsView.qml
+  insert("Pulse measurement", tr("Pulse measurement"));
+  insert("Energy register", tr("Energy register"));
+  insert("Power register", tr("Power register"));
+
   insert("Burden values", tr("Burden values"));
   insert("Transformer values", tr("Transformer values"));
   //: effective values
