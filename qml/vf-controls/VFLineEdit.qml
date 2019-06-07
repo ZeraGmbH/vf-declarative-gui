@@ -85,14 +85,14 @@ Item {
       Rectangle {
         color: "red"
         opacity: 0.2
-        visible: root.acceptableInput === false
+        visible: root.acceptableInput === false && tInput.enabled
         anchors.fill: parent
         anchors.bottomMargin: -GC.standardTextBottomMargin
       }
       Rectangle {
         color: "green"
         opacity: 0.2
-        visible: root.m_alteredValue && root.acceptableInput
+        visible: root.m_alteredValue && root.acceptableInput && tInput.enabled
         anchors.fill: parent
         anchors.bottomMargin: -GC.standardTextBottomMargin
       }
