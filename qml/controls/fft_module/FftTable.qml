@@ -93,7 +93,7 @@ Item {
               text: ZTR[ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName]
               anchors.centerIn: parent
               anchors.rightMargin: 8
-              font.pixelSize: rowHeight
+              font.pixelSize: rowHeight*0.5
               font.family: "Droid Sans Mono"
               font.bold: true
               color: GC.getColorByIndex(index+1)
@@ -122,6 +122,7 @@ Item {
           color: GC.tableShadeColor
           text:ZTR["THDN:"]
           textColor: Material.primaryTextColor
+          font.bold: true
         }
 
         Repeater {
@@ -133,6 +134,7 @@ Item {
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: GC.formatNumber(thdnModule[componentName]) + unit
             textColor: GC.getColorByIndex(index+1)
+            font.pixelSize: rowHeight*0.5
             border.color: "#444" //disable border transparency
           }
         }
@@ -167,8 +169,9 @@ Item {
               height: root.rowHeight
               color: GC.tableShadeColor
               border.color: "#444" //disable border transparency
-              text: ZTR["Amp"] + (relativeView ? "%" : "");
+              text: ZTR["Amp"] + (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+"]");
               textColor: GC.getColorByIndex(index+1)
+              font.pixelSize: rowHeight*0.5
               font.bold: true
             }
             CCMP.GridItem {
@@ -176,8 +179,9 @@ Item {
               height: root.rowHeight
               color: GC.tableShadeColor
               border.color: "#444" //disable border transparency
-              text: ZTR["Phase"]
+              text: ZTR["Phase"] + " [°]"
               textColor: GC.getColorByIndex(index+1)
+              font.pixelSize: rowHeight*0.5
               font.bold: true
               visible: GC.showFftTablePhase
             }
