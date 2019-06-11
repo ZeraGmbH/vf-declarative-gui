@@ -5,20 +5,31 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
+import GlobalConfig 1.0
+import "qrc:/qml/controls" as CCMP
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: root
 
-  property bool noSearchResults: false;
+  // 'public' properties
+  property bool withOKButton: false
+
+  // 'private' properties
   property var searchableProperties: [];
   property QtObject customerData: VeinEntity.getEntity("CustomerData")
   property var searchProgressId;
+  property real rowHeight: height/11 // 11 lines total
+  // Same as CustomerDataEntry 'Save' / 'Close'
+  property real buttonWidth: width/4;
+  // Used by file-list and filter-combobox
+  property real indicatorWidth: 24
 
   function searchFile() {
     if(selectedSearchField.text.length>0)
     {
       console.assert(searchProgressId === undefined, "Search in progress. todo: implement canceling pending search")
+      searchResultData.containsSelected = false
       searchResultData.clear();
       var searchMapData = ({});
       searchMapData[searchableProperties[searchFieldSelector.currentIndex]] = selectedSearchField.text
@@ -26,8 +37,25 @@ Item {
     }
   }
 
-  signal switchToViewMode();
+  function saveChanges() {
+    customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
+    customerData.FileSelected = filenameField.text+".json"
+    addFilePopup.close()
+    switchToEditMode();
+  }
+
   signal switchToEditMode();
+  signal ok();
+  signal cancel();
+
+  // for file listview & filter
+  ListModel {
+    id: searchResultData
+    // True if search for customer data files did not find matching
+    property bool noSearchResults: false;
+    // True if search for customer data files contains selected
+    property bool containsSelected: false
+  }
 
   Connections {
     target: customerData
@@ -41,7 +69,7 @@ Item {
       {
         if(searchResultData.count === 0)
         {
-          noSearchResults=true;
+          searchResultData.noSearchResults=true;
         }
 
         searchProgressId = undefined;
@@ -50,7 +78,10 @@ Item {
     onSigRPCProgress: {
       if(t_identifier === searchProgressId)
       {
-        searchResultData.append({"modelData":t_progressData["CustomerDataSystem::searchResult"]});
+        var name = t_progressData["CustomerDataSystem::searchResult"]
+        searchResultData.append({"modelData":name});
+        if(name === customerData.FileSelected)
+          searchResultData.containsSelected = true
       }
     }
   }
@@ -95,19 +126,18 @@ Item {
         Layout.fillWidth: true
         width: rowWidth/20
       }
-      Button {
-        text: ZTR["Save"]
+      CCMP.ZButton {
+        text: ZTR["OK"]
+        width: newFileCancel.width
         enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
-        highlighted: true
+        //highlighted: true
         onClicked: {
-          customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
-          customerData.FileSelected = filenameField.text+".json"
-          addFilePopup.close()
-          root.switchToEditMode();
+          root.saveChanges()
         }
       }
-      Button {
-        text: ZTR["Close"]
+      CCMP.ZButton {
+        id: newFileCancel
+        text: ZTR["Cancel"]
         onClicked: {
           addFilePopup.close()
         }
@@ -154,36 +184,177 @@ Item {
     }
   }
 
-  ListModel {
-    id: searchResultData
-  }
+  // For rookies like me: here starts view we see by default
+  Rectangle {
+    id: rectFiles
+    color: "transparent"
+    border.color: Material.dividerColor
+    anchors.top: parent.top
+    height: root.rowHeight*8
+    width: root.width
 
-  RowLayout {
-    id: topBar
-    anchors.left: parent.left
-    anchors.right: parent.right
-    height: rowHeight*1.5;
-    Button {
-      text: FA.icon(FA.fa_file)+ZTR["New file"]
+    Label {
+      textFormat: Text.PlainText
+      anchors.left: parent.left
+      anchors.leftMargin: GC.standardTextHorizMargin
+      anchors.top: parent.top
+      height: root.rowHeight
+      text: ZTR["Customer data files:"]
+      verticalAlignment: Text.AlignVCenter
+      font.pixelSize: root.rowHeight/2
+    }
+
+    ListView {
+      id: lvFileBrowser
+      anchors.fill: parent
+      anchors.topMargin: root.rowHeight
+      anchors.rightMargin: root.buttonWidth+GC.standardTextHorizMargin
+      model: searchResultData.count > 0 ? searchResultData : customerData.FileList
+      boundsBehavior: Flickable.StopAtBounds
+      highlightFollowsCurrentItem: true
+      currentIndex: customerData.FileList ? customerData.FileList.indexOf(customerData.FileSelected) : 0
+      clip: true
+
+      ScrollIndicator.vertical: ScrollIndicator {
+        width: 8
+        active: true
+        onActiveChanged: {
+          if(active !== true)
+          {
+            active = true;
+          }
+        }
+      }
+
+      delegate: ItemDelegate {
+        id: fileListDelegate
+        width: parent.width-8 //don't overlap with the ScrollIndicator
+        height: rowHeight
+        highlighted: ListView.isCurrentItem
+        onClicked: {
+          if(customerData.FileSelected !== modelData)
+          {
+            customerData.FileSelected = modelData
+            if(searchResultData.count !== 0)
+                searchResultData.containsSelected = true
+          }
+        }
+        onDoubleClicked: {
+          root.switchToEditMode()
+        }
+
+        Row {
+          id: fileRow
+          anchors.fill: parent
+          anchors.leftMargin: GC.standardTextHorizMargin
+          Label {
+            id: activeIndicator
+            width: indicatorWidth
+            font.family: "Fontawesome"
+            text: FA.fa_chevron_right
+            opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
+            anchors.verticalCenter: parent.verticalCenter
+          }
+
+          Label {
+            x: indicatorWidth+GC.standardTextHorizMargin
+            width: parent.width - root.buttonWidth - 2*GC.standardTextHorizMargin
+            text: modelData
+            anchors.verticalCenter: parent.verticalCenter
+          }
+        }
+      }
+    }
+    CCMP.ZButton {
+      text: FA.icon(FA.fa_file)+ZTR["New"]
       font.family: "FontAwesome"
-      topPadding: 0
-      bottomPadding: 0
-      implicitHeight: rowHeight*1.5
+
+      anchors.right: parent.right
+      width: root.buttonWidth
+
+      anchors.top: parent.top
+      anchors.topMargin: 1.5*rowHeight
+      height: rowHeight
+
       onClicked: {
         addFilePopup.open()
       }
     }
-    Item {
-      Layout.fillWidth: true
+    CCMP.ZButton {
+      text: FA.icon(FA.fa_edit)+ZTR["Edit"]
+      font.family: "FontAwesome"
+
+      anchors.right: parent.right
+      width: root.buttonWidth
+
+      anchors.top: parent.top
+      anchors.topMargin: 4*rowHeight
+      height: rowHeight
+
+      enabled: customerData.FileSelected !== "" && (searchResultData.count === 0 || searchResultData.containsSelected)
+
+      onClicked: {
+        switchToEditMode()
+      }
+    }
+    CCMP.ZButton {
+      text: FA.icon(FA.fa_trash)+ZTR["Delete"]
+      font.family: "FontAwesome"
+
+      anchors.right: parent.right
+      width: root.buttonWidth
+
+      anchors.top: parent.top
+      anchors.topMargin: 6.5*rowHeight
+      height: rowHeight
+
+      enabled: customerData.FileSelected !== "" && (searchResultData.count === 0 || searchResultData.containsSelected)
+
+      onClicked: {
+        removeFilePopup.fileName = lvFileBrowser.model[lvFileBrowser.currentIndex].toString();
+        removeFilePopup.open()
+      }
+    }
+
+  }
+  Rectangle {
+    id: rectFilter
+    color: "transparent"
+    border.color: Material.dividerColor
+    anchors.top: rectFiles.bottom
+    height: root.rowHeight*2
+    width: root.width
+    property real comboTextVertOffset : -height * 0.05
+    function clearSearch() {
+      searchResultData.noSearchResults = false;
+      console.assert(searchProgressId === undefined, "Search in progress. todo: implement canceling pending search");
+      selectedSearchField.clear();
+      searchResultData.clear();
+    }
+
+    Label {
+      textFormat: Text.PlainText
+      anchors.left: parent.left
+      anchors.leftMargin: GC.standardTextHorizMargin
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.verticalCenterOffset: -parent.height * 0.25
+      text: ZTR["Filter:"]
+      font.pixelSize: root.rowHeight/2
     }
     ComboBox {
       id: searchFieldSelector
       model: searchableProperties
-      implicitWidth: root.width/4
-      height: parent.height - 8 //margins
-      Layout.alignment: Qt.AlignVCenter
+
+      anchors.left: parent.left
+      anchors.leftMargin: indicatorWidth+GC.standardTextHorizMargin
+      width: parent.width/4
+
+      height: parent.height*1.3/2
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.verticalCenterOffset: parent.height * 0.25 + rectFilter.comboTextVertOffset
+
       displayText: ZTR[currentText]
-      //flat: false
+      flat: false
 
       ///@note qt 5.9 has a policy for scrollbars to be visible if required instead of the current "hiding if not scrolling" bullshit
       //...policy: ScrollBar.AsNeeded //or ScrollBar.AlwaysOn
@@ -200,106 +371,107 @@ Item {
       id: selectedSearchField
       placeholderText: ZTR["Regex search"]
       selectByMouse: true
-      implicitWidth: topBar.width/3
+      anchors.left: searchFieldSelector.right
+      anchors.leftMargin: GC.standardTextHorizMargin
+      anchors.right: parent.right
+      anchors.rightMargin: root.buttonWidth+GC.standardTextHorizMargin
+
+      height: parent.height*1.3/2
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.verticalCenterOffset: parent.height * 0.25 + rectFilter.comboTextVertOffset
       onAccepted: root.searchFile();
+      Keys.onEscapePressed: {
+        rectFilter.clearSearch()
+      }
+
       Rectangle {
         anchors.fill: parent
         color: "red"
         opacity: 0.2
-        visible: root.noSearchResults == true
+        visible: searchResultData.noSearchResults === true
       }
     }
-    Button {
+
+    CCMP.ZButton {
       text: FA.icon(FA.fa_search)+ZTR["Search"]
       font.family: "FontAwesome"
-      topPadding: 0
-      bottomPadding: 0
-      implicitHeight: rowHeight*1.5
+
+      anchors.right: parent.right
+      width: root.buttonWidth
+
+      height: parent.height/2
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.verticalCenterOffset: -parent.height * 0.25
+
       enabled: selectedSearchField.text.length>0 && searchProgressId === undefined
       onClicked: {
-        root.noSearchResults = false;
+        searchResultData.noSearchResults = false;
         root.searchFile();
       }
     }
-    Button {
-      text: ZTR["Clear"]
-      topPadding: 0
-      bottomPadding: 0
-      implicitHeight: rowHeight*1.5
-      enabled: searchResultData.count>0 || root.noSearchResults === true
+
+    CCMP.ZButton {
+      id: buttonClearFilter
+      text: FA.icon(FA.fa_times) + ZTR["Clear"]
+      font.family: "FontAwesome"
+
+      anchors.right: parent.right
+      width: root.buttonWidth
+
+      height: parent.height/2
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.verticalCenterOffset: parent.height * 0.25
+
+      enabled: searchResultData.count>0 || searchResultData.noSearchResults === true
       onClicked: {
-        root.noSearchResults = false;
-        console.assert(searchProgressId === undefined, "Search in progress. todo: implement canceling pending search");
-        selectedSearchField.clear();
-        searchResultData.clear();
+        rectFilter.clearSearch()
       }
     }
   }
-  ListView {
-    id: lvFileBrowser
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    anchors.top: topBar.bottom
-    model: searchResultData.count > 0 ? searchResultData : customerData.FileList
-    boundsBehavior: Flickable.StopAtBounds
-    highlightFollowsCurrentItem: true
-    currentIndex: customerData.FileList ? customerData.FileList.indexOf(customerData.FileSelected) : 0
-    ScrollIndicator.vertical: ScrollIndicator {
-      width: 8
-      active: true
-      onActiveChanged: {
-        if(active !== true)
-        {
-          active = true;
-        }
+  Item {
+    id: buttonContainer
+    anchors.top: rectFilter.bottom
+    anchors.topMargin: root.rowHeight / 8
+    height: root.rowHeight
+    width: root.width
+
+    CCMP.ZButton {
+      id: buttonClose
+      text: ZTR["Close"]
+      visible: !root.withOKButton
+
+      width: GC.standardButtonWidth // TODO fix binding loop
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+
+      onClicked: {
+        cancel()
       }
     }
+    CCMP.ZButton {
+      id: buttonOK
+      text: ZTR["OK"]
+      visible: root.withOKButton
 
-    delegate: ItemDelegate {
-      width: parent.width-8 //don't overlap with the ScrollIndicator
-      height: rowHeight*1.5
-      highlighted: ListView.isCurrentItem
-      readonly property bool isHighlighted: highlighted;
+      width: GC.standardButtonWidth // TODO fix binding loop
+      anchors.right: parent.horizontalCenter
+      anchors.rightMargin: GC.standardMarginMin
+      anchors.verticalCenter: parent.verticalCenter
       onClicked: {
-        if(customerData.FileSelected !== modelData)
-        {
-          customerData.FileSelected = modelData
-        }
+        ok()
       }
-      onDoubleClicked: {
-        root.switchToViewMode()
-      }
+    }
+    CCMP.ZButton {
+      id: buttonCancel
+      text: ZTR["Cancel"]
+      visible: root.withOKButton
 
-      RowLayout {
-        anchors.fill: parent
-        anchors.leftMargin: 4
-        anchors.rightMargin: 4
-        Label {
-          width: 24
-          font.family: "Fontawesome"
-          text: FA.fa_chevron_right
-          opacity: isHighlighted ? 1.0 : 0.0
-        }
-
-        Label {
-          text: modelData
-          Layout.alignment: Qt.AlignVCenter
-        }
-        Item {
-          Layout.fillWidth: true
-        }
-
-        Button {
-          text: FA.icon(FA.fa_trash)+ZTR["Delete file"]
-          font.family: "FontAwesome"
-          //padding: 0
-          implicitHeight: rowHeight*1.5
-          onClicked: {
-            removeFilePopup.fileName = modelData
-            removeFilePopup.open()
-          }
-        }
+      width: GC.standardButtonWidth // TODO fix binding loop
+      anchors.leftMargin: GC.standardMarginMin
+      anchors.left: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      onClicked: {
+        cancel()
       }
     }
   }

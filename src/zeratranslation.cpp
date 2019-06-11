@@ -162,6 +162,7 @@ void ZeraTranslation::reloadStringTable()
 
   //PagePathView.qml
   //: as in "close this view"
+  insert("OK", tr("OK"));
   insert("Close", tr("Close", "not open"));
   insert("Accept", tr("Accept"));
   insert("Cancel", tr("Cancel"));
@@ -583,18 +584,27 @@ void ZeraTranslation::reloadStringTable()
   insert("PAR_PowerGridComment", tr("Power grid Comment:"));
 
   //CustomerDataBrowser.qml
+
+  insert("Customer data files:", tr("Customer data files:"));
   //: Button text, action to create a file
-  insert("New file", tr("New file", "new customerdata file"));
+  insert("New", tr("New", "new file"));
+  //: Button text, action to edit a file
+  insert("Edit", tr("Edit", "edit file"));
+  //: Button text, action to select a file
+  insert("Set current", tr("Set current", "Set file selected currently"));
+  //: Button text, action to delete a file
+  insert("Delete", tr("Delete", "delete (file)"));
   insert("File name:", tr("File name:", "customerdata filename"));
   insert("Search", tr("Search", "search for customerdata files"));
   //: clears input field
   insert("Clear", tr("Clear", "clear search field"));
-  //: Button text, action to delete a file
-  insert("Delete file", tr("Delete file", "delete customerdata file"));
-  //: %1 the file that is about to be deleted
+
   insert("Really delete file <b>'%1'</b>?", tr("Really delete file <b>'%1'</b>?", "confirmation to delete customerdata file"));
   //: search customer data file via regular expression, see: https://en.wikipedia.org/wiki/Regular_expression
   insert("Regex search", tr("Regex search"));
+  //: search customer data filter label
+  insert("Filter:", tr("Filter:"));
+
 
   emit sigLanguageChanged();
 }
