@@ -42,7 +42,7 @@ CCMP.ModulePage {
       measurementResult: powerRegister.ACT_Result
       progress: powerRegister.PAR_Targeted ? powerRegister.ACT_Time : 0
       progressTo: powerRegister.PAR_Targeted ? powerRegister.PAR_MeasTime : 1.0
-      actualValue: GC.formatNumber(powerRegister.ACT_Energy) + " " + ModuleIntrospection.spm1Introspection.ComponentInfo.ACT_Energy.Unit
+      actualValue: GC.formatNumber(powerRegister.ACT_Power) + " " + ModuleIntrospection.spm1Introspection.ComponentInfo.ACT_Power.Unit
       logicalParent: root
       height: root.height*0.2
       width: root.width
