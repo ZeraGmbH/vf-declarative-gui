@@ -302,6 +302,13 @@ void ZeraTranslation::reloadStringTable()
   insert("Phase", tr("Phase","Phase of the phasor"));
   //: total harmonic distortion with noise
   insert("THDN:", tr("THDN:"));
+  insert("Harmonic table", tr("Harmonic table", "Tab text harmonic table"));
+  insert("Harmonic chart", tr("Harmonic chart", "Tab text harmonic chart"));
+
+  //HarmonicPowerModulePage.qml
+  insert("Harmonic power table", tr("Harmonic power table", "Tab text harmonic power table"));
+  insert("Harmonic power chart", tr("Harmonic power chart", "Tab text harmonic power chart"));
+
 
   //: text must be short enough to fit
   insert("UL1", tr("UL1", "channel name"));

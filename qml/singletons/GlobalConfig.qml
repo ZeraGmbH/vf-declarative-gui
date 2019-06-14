@@ -33,12 +33,6 @@ Item {
     settings.globalSettings.setOption("digits", digits);
   }
 
-  readonly property int showFftAsTable: parseInt(settings.globalSettings.getOption("fft_as_table"))
-  function setShowFftAsTable(isTableView) {
-    var setValue = isTableView ? 1 : 0;
-    settings.globalSettings.setOption("fft_as_table", setValue);
-  }
-
   readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative"))
   function setShowFftTableAsRelative(isRelative) {
     var setValue = isRelative ? 1 : 0
