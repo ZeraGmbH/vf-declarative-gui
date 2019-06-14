@@ -24,6 +24,7 @@ Item {
     id: comparisonTabsBar
     width: parent.width
     currentIndex: swipeView.currentIndex
+    contentHeight: 32
   }
 
   // TabButtons
