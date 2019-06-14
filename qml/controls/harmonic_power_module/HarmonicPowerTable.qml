@@ -16,7 +16,7 @@ Item {
   readonly property QtObject glueLogic: ZGL;
   readonly property int channelCount: ModuleIntrospection.p3m1Introspection.ModuleInfo.HPWCount;
   readonly property int hpwOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder; //the power3module harmonic order depends on the fftmodule
-  property int rowHeight: Math.floor(height/20)
+  property int rowHeight: Math.floor(height/12)
   property int columnWidth: (width - vBar.width - width/20)/9
 
   readonly property bool relativeView: GC.showFftTableAsRelative > 0;
