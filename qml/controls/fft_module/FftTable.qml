@@ -218,7 +218,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : "")
+              text: (AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : "")
               textColor: GC.system1ColorDark
               font.pixelSize: rowHeight*0.5
             }
@@ -233,7 +233,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : "")
+              text: (AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : "")
               textColor: GC.system2ColorDark
               font.pixelSize: rowHeight*0.5
             }
@@ -248,7 +248,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : "")
+              text: (AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : "")
               textColor: GC.system3ColorDark
               font.pixelSize: rowHeight*0.5
             }
@@ -263,7 +263,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : "")
+              text: (AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : "")
               textColor: GC.system1ColorBright
               font.pixelSize: rowHeight*0.5
             }
@@ -278,7 +278,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : "")
+              text: (AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : "")
               textColor: GC.system2ColorBright
               font.pixelSize: rowHeight*0.5
             }
@@ -293,7 +293,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : "")
+              text: (AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : "")
               textColor: GC.system3ColorBright
               font.pixelSize: rowHeight*0.5
             }
@@ -308,7 +308,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : "")
+              text: (AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : "")
               textColor: GC.system4ColorDark
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
@@ -324,7 +324,7 @@ Item {
             CCMP.GridItem {
               width: root.columnWidth
               height: root.rowHeight
-              text: (AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : "") + (relativeView && index===1 ? " "+ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : "")
+              text: (AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : "")
               textColor: GC.system4ColorBright
               font.pixelSize: rowHeight*0.5
               visible: root.channelCount>6
