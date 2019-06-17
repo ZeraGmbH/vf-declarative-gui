@@ -81,7 +81,7 @@ SettingsControls.SettingsView {
     active: false
     sourceComponent: LoggerDbSearchDialog {
       width: root.width
-      height: root.height
+      height: Qt.inputMethod.visible ? root.height/2 : root.height
       visible: true
       onClosed: loggerSearchPopup.active = false;
       onFileSelected: {

@@ -7,15 +7,13 @@ import ZeraTranslation 1.0
 
 Popup {
   id: root
-
-  dim: true
-  modal: true
   closePolicy: Popup.NoAutoClose
+  modal: !Qt.inputMethod.visible
 
   property var searchProgressId;
   property bool noSearchResults: false;
   readonly property QtObject loggerDB: VeinEntity.getEntity("_LoggingSystem")
-  property int rowHeight: height/16;
+  property int rowHeight: Qt.inputMethod.visible ? height/10 : height/20;
 
   signal fileSelected(string t_file);
 
