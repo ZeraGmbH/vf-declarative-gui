@@ -204,7 +204,6 @@ void ZeraTranslation::reloadStringTable()
   //: settings specific to the GUI application
   insert("Application Settings", tr("Application Settings"));
   //: used for a yes / no configuration element
-  insert("Display Harmonics as table:", tr("Display Harmonics as table:"));
   insert("Display harmonic tables relative to the fundamental oscillation:", tr("Display harmonic tables relative to the fundamental oscillation:"));
   //: number of decimals after the decimal separator
   insert("Decimal places:", tr("Decimal places:"));
@@ -333,7 +332,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Actual values", tr("Actual values"));
   insert("Oscilloscope plot", tr("Oscilloscope plot"));
   //: FFT bar diagrams or tables that show the harmonic component distribution of the measured values
-  insert("Harmonics", tr("Harmonics"));
+  insert("Curves & Harmonics", tr("Curves & Harmonics"));
   //: measuring mode dependent power values
   insert("Power values", tr("Power values"));
   //: FFT tables that show the real and imaginary parts of the measured power values

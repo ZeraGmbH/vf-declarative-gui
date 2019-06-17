@@ -9,7 +9,7 @@ import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
 import "qrc:/qml/controls" as CCMP
 
-CCMP.ModulePage {
+Item {
   id: root
 
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
@@ -52,6 +52,8 @@ CCMP.ModulePage {
     anchors.fill: parent
     boundsBehavior: Flickable.StopAtBounds
     model: Math.ceil(channelCount/2)
+    clip: true
+
     ScrollBar.vertical: ScrollBar {
       Component.onCompleted: {
         if(QT_VERSION >= 0x050900) //policy was added after 5.7

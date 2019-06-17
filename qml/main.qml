@@ -320,13 +320,13 @@ ApplicationWindow {
         {
           this.append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValuesPage.qml"});
         }
-        if(ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
+        /*if(ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
         {
           this.append({name: "Oscilloscope plot", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/OsciModulePage.qml"});
-        }
-        if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]))
+        }*/
+        if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
         {
-          this.append({name: "Harmonics", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
+          this.append({name: "Curves & Harmonics", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
         {
