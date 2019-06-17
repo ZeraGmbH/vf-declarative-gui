@@ -102,15 +102,24 @@ SettingsControls.SettingsView {
     }
   }
 
+  Connections {
+    target: customerDataEntry.item
+    onOk: {
+        // TODO: extra activity?
+        customerDataEntry.active=false;
+    }
+    onCancel: {
+        customerDataEntry.active=false;
+    }
+  }
+
   Loader {
-    id: cDataPopup
+    id: customerDataEntry
     active: false
     sourceComponent: CDataControls.CustomerDataEntry {
       width: root.width
       height: root.height
-      closePolicy: Popup.NoAutoClose
       visible: true
-      onClosed: cDataPopup.active = false;
     }
   }
 
@@ -477,7 +486,7 @@ SettingsControls.SettingsView {
           font.pixelSize: 20
           implicitHeight: root.rowHeight
           enabled: loggerEntity.LoggingEnabled === false
-          onClicked: cDataPopup.active=true;
+          onClicked: customerDataEntry.active=true;
         }
       }
     }
@@ -487,6 +496,7 @@ SettingsControls.SettingsView {
     height: root.rowHeight*1.2;
     width: root.width;
     anchors.bottom: parent.bottom
+    visible: !customerDataEntry.active
 
     Button {
       id: startButton

@@ -72,31 +72,22 @@ Item {
     delegate: RowLayout {
       property string propName: propertyName;
       height: root.rowHeight*1.2
-      width: root.width - root.padding*2 - gvScrollBar.width*1.5
       Label {
         text: ZTR[propName];
-        width: contentWidth;
-        height: root.rowHeight
-      }
-      //spacer
-      Item {
-        Layout.fillWidth: true;
+        Layout.minimumWidth: root.width / 4;
         height: root.rowHeight
       }
       TextField {
         text: customerData[propName];
         Layout.fillWidth: true;
-        Layout.maximumWidth: parent.width/1.3;
+        //Layout.maximumWidth: parent.width/1.3;
         height: root.rowHeight;
+        Layout.minimumWidth: root.width*3/4-gvScrollBar.width*1.5;
         selectByMouse: true;
         readOnly: !dataEditor.interactive;
         onTextChanged: updateDataObject(propName, text);
         // TODO: is this working with virtual keyboard??
         //onAccepted: ok()
-      }
-      //spacer
-      Item {
-        width: 4
       }
     }
 

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
@@ -7,8 +7,11 @@ import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
-Popup {
+Rectangle {
   id: root
+  color: Material.backgroundColor
+  Layout.fillWidth: true
+  Layout.fillHeight: true
 
   readonly property QtObject customerData: VeinEntity.getEntity("CustomerData");
 
@@ -30,17 +33,19 @@ Popup {
     editableDataObject = ({});
   }
 
+  signal ok();
+  signal cancel();
+
   Connections {
     target: dataBrowserLoader.item
     onSwitchToEditMode: {
       editActive = true
     }
     onCancel: {
-        root.close()
+        cancel()
     }
     onOk: {
-        // TODO send signal to my caller
-        root.close()
+        ok()
     }
   }
 
