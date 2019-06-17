@@ -62,7 +62,6 @@
         <file>qml/pages/TransformerModulePage.qml</file>
         <file>qml/singletons/GlobalConfig.qml</file>
         <file>qml/singletons/ModuleIntrospection.qml</file>
-        <file>qml/singletons/VirtualKeyboardConfigurator.qml</file>
         <file>qml/vf-controls/VFComboBox.qml</file>
         <file>qml/vf-controls/VFLineEdit.qml</file>
         <file>qml/vf-controls/VFSpinBox.qml</file>
