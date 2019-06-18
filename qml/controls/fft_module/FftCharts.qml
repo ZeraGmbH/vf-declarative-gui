@@ -78,37 +78,34 @@ Flickable {
         color: GC.systemColorByIndex(rightChannels[index]+1)
       }
 
-    FftBarChart {
-      id: harmonicChart
-      anchors.fill: parent
-      anchors.topMargin: thdnLabelU.height
+      FftBarChart {
+        id: harmonicChart
+        anchors.fill: parent
+        anchors.topMargin: thdnLabelU.height
 
+        rightAxisEnabled: true
 
+        color: Material.backgroundColor
+        borderColor: Material.backgroundColor
+        legendEnabled: false
+        bottomLabelsEnabled: true
+        logScaleLeftAxis: false
+        logScaleRightAxis: false
+        colorLeftAxis: GC.systemColorByIndex(leftChannels[index]+1)
+        colorRightAxis: GC.systemColorByIndex(rightChannels[index]+1)
 
-      rightAxisEnabled: true
+        leftValue: fftModule[String("ACT_FFT%1").arg(leftChannels[index]+1)]
+        rightValue: fftModule[String("ACT_FFT%1").arg(rightChannels[index]+1)]
 
-      color: Material.backgroundColor
-      borderColor: Material.backgroundColor
-      legendEnabled: false
-      bottomLabelsEnabled: true
-      logScaleLeftAxis: false
-      logScaleRightAxis: false
-      colorLeftAxis: GC.systemColorByIndex(leftChannels[index]+1)
-      colorRightAxis: GC.systemColorByIndex(rightChannels[index]+1)
+        maxValueLeftAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(leftChannels[index]+1)] * 1.5
+        minValueLeftAxis: 0
+        maxValueRightAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(rightChannels[index]+1)] * 1.5
+        minValueRightAxis: 0
+        textColor: Material.primaryTextColor
 
-      leftValue: fftModule[String("ACT_FFT%1").arg(leftChannels[index]+1)]
-      rightValue: fftModule[String("ACT_FFT%1").arg(rightChannels[index]+1)]
-
-
-      maxValueLeftAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(leftChannels[index]+1)] * 1.5
-      minValueLeftAxis: 0
-      maxValueRightAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(rightChannels[index]+1)] * 1.5
-      minValueRightAxis: 0
-      textColor: Material.primaryTextColor
-
-      titleLeftAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(leftChannels[index]+1)].ChannelName
-      titleRightAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(rightChannels[index]+1)].ChannelName
-    }
+        titleLeftAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(leftChannels[index]+1)].ChannelName
+        titleRightAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(rightChannels[index]+1)].ChannelName
+      }
     }
   }
 }
