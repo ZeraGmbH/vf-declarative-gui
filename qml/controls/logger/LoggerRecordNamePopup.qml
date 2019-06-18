@@ -9,10 +9,9 @@ import GlobalConfig 1.0
 Popup {
   id: recordNamePopup
   width: root.width*0.9
-  height:root.height
+  height:root.height/2
   x: root.width/2 - width/2
-  dim: true
-  modal: true
+  modal: !Qt.inputMethod.visible
   closePolicy: Popup.NoAutoClose
 
   property QtObject customerdataEntity: VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
