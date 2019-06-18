@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 import QtQuick.VirtualKeyboard 2.4
+import QtQuick.VirtualKeyboard.Settings 2.2
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -41,6 +42,7 @@ ApplicationWindow {
     currentSession = Qt.binding(function() {
       return VeinEntity.getEntity("_System").Session;
     })
+    VirtualKeyboardSettings.locale = GC.localeName
   }
 
   onCurrentSessionChanged: {
