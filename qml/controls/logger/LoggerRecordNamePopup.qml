@@ -8,9 +8,8 @@ import GlobalConfig 1.0
 
 Popup {
   id: recordNamePopup
-  width: root.width*0.9
-  height:root.height/2
-  x: root.width/2 - width/2
+  width: root.width
+  height:root.height*11/20
   modal: !Qt.inputMethod.visible
   closePolicy: Popup.NoAutoClose
 
@@ -55,7 +54,7 @@ Popup {
     anchors.right: parent.right
     horizontalAlignment: Text.AlignHCenter
     text: ZTR["Select record name"]
-    font.pointSize: 20
+    font.pointSize: 15
   }
 
   Column {
