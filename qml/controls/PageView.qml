@@ -94,7 +94,6 @@ Item {
 
   Button {
     height: root.height/10
-    width: height*3
     Material.accent: Material.color(Material.Red)
     highlighted: true
     font.family: "FontAwesome"
