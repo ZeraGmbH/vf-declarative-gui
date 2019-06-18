@@ -66,30 +66,34 @@ Item {
     delegate: Item {
       height: root.height/3
       width: root.plotWidth
+      Label {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        rotation: -90
+        text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName;
+        color: GC.getColorByIndex(leftChannels[index]+1);
+      }
+      Label {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        rotation: 90
+        text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName;
+        color: GC.getColorByIndex(rightChannels[index]+1);
+      }
       ChartView {
         anchors.left: parent.left
         anchors.right: parent.right
-        implicitHeight: parent.height*1.25
+        // lots of trials - hope they won't change ChartView too much in future releases..
+        height: (parent.height + Math.sqrt(parent.height) * 10) / 1.4
         anchors.verticalCenter: parent.verticalCenter
-
-        Label {
-          anchors.verticalCenter: parent.verticalCenter
-          anchors.left: parent.left
-          rotation: -90
-          text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName;
-          color: GC.getColorByIndex(leftChannels[index]+1);
-        }
-        Label {
-          anchors.verticalCenter: parent.verticalCenter
-          anchors.right: parent.right
-          rotation: 90
-          text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName;
-          color: GC.getColorByIndex(rightChannels[index]+1);
-        }
+        margins.top: 15
+        margins.bottom: 0
 
         antialiasing: false
-        backgroundColor: Material.backgroundColor
+        backgroundColor: "transparent"//Material.backgroundColor
         legend.visible:false
+        legend.width: 0
+        legend.height: 0
 
         ValueAxis {
           id: xAxis
