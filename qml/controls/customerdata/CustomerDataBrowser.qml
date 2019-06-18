@@ -88,6 +88,7 @@ Item {
 
   Popup {
     id: addFilePopup
+    closePolicy: Popup.NoAutoClose
 
     readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList !== undefined && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") >= 0
 
