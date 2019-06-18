@@ -1,11 +1,10 @@
 {
     "digits": "3",
-    "fft_as_table": "0",
     "fft_table_as_relative": "0",
     "groupColor1": "lightskyblue",
     "groupColor2": "lawngreen",
     "groupColor3": "darkorange",
-    "locale": "en",
+    "locale": "en_GB",
     "pages_grid_view": "1",
     "modulemanagerIp": "127.0.0.1",
     "modulemanagerPort": "12000",
