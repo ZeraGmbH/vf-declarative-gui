@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
   //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
   //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
   //qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
+  qputenv("QT_VIRTUALKEYBOARD_LAYOUT_PATH", QByteArray("qrc:/qml/vkeyboard/layouts"));
   const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
 
   QStringList loggingFilters = QStringList() << QString("%1.debug=false").arg(VEIN_EVENT().categoryName()) <<
