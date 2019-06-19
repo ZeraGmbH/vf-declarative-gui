@@ -35,8 +35,6 @@ CCMP.ModulePage {
           height: root.rowHeight;
           width: root.width/2 - 8;
 
-          inputMethodHints: Qt.ImhPreferNumbers
-
           entity: root.transformerModule
           controlPropertyName: "PAR_PrimClampPrim"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
@@ -54,8 +52,6 @@ CCMP.ModulePage {
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;
-
-          inputMethodHints: Qt.ImhPreferNumbers
 
           entity: root.transformerModule
           controlPropertyName: "PAR_PrimClampSec"
@@ -79,8 +75,6 @@ CCMP.ModulePage {
           height: root.rowHeight;
           width: root.width/2 - 8;
 
-          inputMethodHints: Qt.ImhPreferNumbers
-
           entity: root.transformerModule
           controlPropertyName: "PAR_DutPrimary"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
@@ -98,8 +92,6 @@ CCMP.ModulePage {
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;
-
-          inputMethodHints: Qt.ImhPreferNumbers
 
           entity: root.transformerModule
           controlPropertyName: "PAR_DutSecondary"
@@ -123,8 +115,6 @@ CCMP.ModulePage {
           height: root.rowHeight;
           width: root.width/2 - 8;
 
-          inputMethodHints: Qt.ImhPreferNumbers
-
           entity: root.transformerModule
           controlPropertyName: "PAR_SecClampPrim"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
@@ -142,8 +132,6 @@ CCMP.ModulePage {
           height: root.rowHeight;
           width: root.width/2 - 8;
           anchors.right: parent.right
-
-          inputMethodHints: Qt.ImhPreferNumbers
 
           entity: root.transformerModule
           controlPropertyName: "PAR_SecClampSec"

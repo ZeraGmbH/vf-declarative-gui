@@ -52,7 +52,6 @@ CCMP.ModulePage {
         description.width: root.width/4
         entity: root.burdenModule
         controlPropertyName: "PAR_NominalBurden"
-        inputMethodHints: Qt.ImhPreferNumbers
         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
         unit.width: root.rowHeight*1.5
 
@@ -71,7 +70,6 @@ CCMP.ModulePage {
         description.width: root.width/4
         entity: root.burdenModule
         controlPropertyName: "PAR_NominalRange"
-        inputMethodHints: Qt.ImhPreferNumbers
         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
         unit.width: root.rowHeight*1.5
 
@@ -119,7 +117,6 @@ CCMP.ModulePage {
         description.width: root.width/4
         entity: root.burdenModule
         controlPropertyName: "PAR_WCrosssection"
-        inputMethodHints: Qt.ImhPreferNumbers
         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
         unit.width: root.rowHeight*1.5
 
@@ -138,7 +135,6 @@ CCMP.ModulePage {
         description.width: root.width/4
         entity: root.burdenModule
         controlPropertyName: "PAR_WireLength"
-        inputMethodHints: Qt.ImhPreferNumbers
         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
         unit.width: root.rowHeight*1.5
 

@@ -200,8 +200,6 @@ Item {
       }
 
       VFControls.VFLineEdit {
-        inputMethodHints: Qt.ImhPreferNumbers
-
         entity: logicalParent.errorCalculator
         controlPropertyName: "PAR_DutConstant"
 
@@ -255,8 +253,6 @@ Item {
       }
 
       VFControls.VFLineEdit {
-        inputMethodHints: Qt.ImhPreferNumbers
-
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
 
@@ -293,8 +289,6 @@ Item {
       }
 
       VFControls.VFLineEdit {
-        inputMethodHints: Qt.ImhPreferNumbers
-
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
 
@@ -326,7 +320,7 @@ Item {
         text: ZTR["Upper error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
-      VFControls.VFLineEdit {
+      CCMP.ZLineEdit {
         id: upperLimitInput
 
         x: parent.width*col1Width
@@ -335,12 +329,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        inputMethodHints: Qt.ImhPreferNumbers
         text: GC.errorMarginUpperValue
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-        function confirmInput() {
-          upperLimitInput.text = upperLimitInput.textField.text
+        function postApplyInput() {
           GC.setErrorMargins(parseFloat(upperLimitInput.text), GC.errorMarginLowerValue);
         }
       }
@@ -368,7 +360,7 @@ Item {
         text: ZTR["Lower error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
-      VFControls.VFLineEdit {
+      CCMP.ZLineEdit {
         id: lowerLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -376,12 +368,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        inputMethodHints: Qt.ImhPreferNumbers
         text: GC.errorMarginLowerValue
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-        function confirmInput() {
-          lowerLimitInput.text = lowerLimitInput.textField.text
+        function postApplyInput() {
           GC.setErrorMargins(GC.errorMarginUpperValue, parseFloat(lowerLimitInput.text));
         }
       }

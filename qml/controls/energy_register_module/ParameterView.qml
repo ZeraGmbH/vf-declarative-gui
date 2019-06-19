@@ -175,8 +175,6 @@ Item {
         font.pixelSize: Math.max(height/2, 20)
       }
       VFControls.VFLineEdit {
-        inputMethodHints: Qt.ImhPreferNumbers
-
         entity: logicalParent.energyRegister
         controlPropertyName: "PAR_MeasTime"
 
@@ -226,8 +224,6 @@ Item {
         anchors.top: parent.top
         height: parent.height * 0.5
 
-        inputMethodHints: Qt.ImhPreferNumbers
-
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[0];
           top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[1];
@@ -264,8 +260,6 @@ Item {
 
         anchors.bottom: parent.bottom
         height: parent.height * 0.5
-
-        inputMethodHints: Qt.ImhPreferNumbers
 
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[0];
@@ -306,7 +300,7 @@ Item {
         text: ZTR["Upper error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
-      VFControls.VFLineEdit {
+      CCMP.ZLineEdit {
         id: upperLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -314,12 +308,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        inputMethodHints: Qt.ImhPreferNumbers
         text: GC.errorMarginUpperValue
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-        function confirmInput() {
-          upperLimitInput.text = upperLimitInput.textField.text
+        function postApplyInput() {
           GC.setErrorMargins(parseFloat(upperLimitInput.text), GC.errorMarginLowerValue);
         }
       }
@@ -347,7 +339,7 @@ Item {
         text: ZTR["Lower error margin:"]
         font.pixelSize: Math.max(height/2, 20)
       }
-      VFControls.VFLineEdit {
+      CCMP.ZLineEdit {
         id: lowerLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -355,12 +347,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        inputMethodHints: Qt.ImhPreferNumbers
         text: GC.errorMarginLowerValue
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-        function confirmInput() {
-          lowerLimitInput.text = lowerLimitInput.textField.text
+        function postApplyInput() {
           GC.setErrorMargins(GC.errorMarginUpperValue, parseFloat(lowerLimitInput.text));
         }
       }
