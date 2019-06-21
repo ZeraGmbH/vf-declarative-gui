@@ -157,9 +157,10 @@ Item {
               discardInput()
           }
         }
-        else {
+        // Hmm - maybe we should add an option for this...
+        /*else {
           selectAll()
-        }
+        }*/
       }
 
       font.pixelSize: height/2.5
