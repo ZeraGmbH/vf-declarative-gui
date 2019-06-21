@@ -10,6 +10,8 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: dataEditor
+  anchors.fill: parent
+  readonly property real rowHeight: parent.height / 15
 
   property bool interactive: true
 
@@ -64,37 +66,34 @@ Item {
     anchors.bottom: buttonContainer.top
 
     focus: true
+    clip: true
     Keys.onEscapePressed: cancel()
 
-    clip: true
     //keep everything in the buffer to not lose input data
-    cacheBuffer: model.count * root.rowHeight*1.2 //delegate height
+    cacheBuffer: model.count * dataEditor.rowHeight*1.2 //delegate height
     delegate: RowLayout {
       property string propName: propertyName;
-      height: root.rowHeight*1.2
+      height: dataEditor.rowHeight*1.2
       Label {
         text: ZTR[propName];
-        Layout.minimumWidth: root.width / 4;
-        height: root.rowHeight
+        Layout.minimumWidth: dataEditor.width / 4;
+        height: dataEditor.rowHeight
       }
-      TextField {
+      CCMP.ZLineEdit {
         text: customerData[propName];
         Layout.fillWidth: true;
-        //Layout.maximumWidth: parent.width/1.3;
-        height: root.rowHeight;
-        Layout.minimumWidth: root.width*3/4-gvScrollBar.width*1.5;
-        selectByMouse: true;
+        height: dataEditor.rowHeight*1.2;
+        Layout.minimumWidth: dataEditor.width*3/4-gvScrollBar.width*1.5;
         readOnly: !dataEditor.interactive;
         onTextChanged: updateDataObject(propName, text);
-        // TODO: is this working with virtual keyboard??
-        //onAccepted: ok()
+        textField.horizontalAlignment: Text.AlignLeft
       }
     }
 
     section.property: "section"
     section.criteria: ViewSection.FullString
     section.delegate: Label {
-      height: root.rowHeight*1.5
+      height: dataEditor.rowHeight*1.5
       verticalAlignment: Text.AlignBottom
       text: ZTR[section]
       font.pointSize: 16
