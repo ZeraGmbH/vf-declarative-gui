@@ -22,8 +22,8 @@ Item {
   readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
   readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
 
-  readonly property real col1Width: 7/20
-  readonly property real col2Width: 9/20
+  readonly property real col1Width: 10/20
+  readonly property real col2Width: 6/20
   readonly property real col3Width: 4/20
 
   SettingsControls.SettingsView {
