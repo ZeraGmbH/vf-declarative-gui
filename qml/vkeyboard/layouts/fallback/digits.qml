@@ -102,15 +102,13 @@ KeyboardLayout {
                 displayText: "\u2190"
                 key: Qt.Key_Left
                 showPreview: false
-                // TODO: pretify
-                enabled: InputContext.cursorPosition > 0
+                repeat: true
             }
             CCMP.ZDarkKey {
                 text: "\u2192"
                 key: Qt.Key_Right
                 showPreview: false
-                // TODO: pretify
-                enabled: InputContext.cursorPosition < InputContext.surroundingText.length || InputContext.selectedText !== ""
+                repeat: true
             }
         }
         KeyboardRow {
