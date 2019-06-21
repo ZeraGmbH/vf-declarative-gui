@@ -13,6 +13,7 @@
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/ZButton.qml</file>
         <file>qml/controls/ZComboBox.qml</file>
+        <file>qml/controls/ZDarkKey.qml</file>
         <file>qml/controls/ZLineEdit.qml</file>
         <file>qml/controls/ZDoubleValidator.qml</file>
         <file>qml/controls/ZVisualComboBox.qml</file>

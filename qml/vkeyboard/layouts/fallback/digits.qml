@@ -33,6 +33,7 @@ import QtQuick.VirtualKeyboard 2.1
 import QtQuick.VirtualKeyboard.Plugins 2.3
 import QtQuick.VirtualKeyboard.Styles 2.2
 import GlobalConfig 1.0
+import "qrc:/qml/controls" as CCMP
 
 KeyboardLayout {
     inputMethod: PlainInputMethod {}
@@ -56,24 +57,11 @@ KeyboardLayout {
                 key: Qt.Key_9
                 text: "9"
             }
-            Key {
+            CCMP.ZDarkKey {
                 key: Qt.Key_Escape
-                text: "Esc"
+                displayText: "Esc"
                 weight: 2
                 showPreview: false
-                /*smallText: "Esc"
-                smallTextVisible: true*/
-                /*keyPanelDelegate: KeyPanel {
-                  Rectangle {
-                    radius: 5
-                    anchors.fill: parent
-                    color: "#1e1b18"
-                    Text {
-                      anchors.fill: parent
-                      text: control.displayText
-                    }
-                  }
-                }*/
             }
         }
         KeyboardRow {
@@ -89,8 +77,12 @@ KeyboardLayout {
                 key: Qt.Key_6
                 text: "6"
             }
+            CCMP.ZDarkKey {
+                showPreview: false
+                key: Qt.Key_End
+                text: "End"
+            }
             BackspaceKey {
-                weight: 2
             }
         }
         KeyboardRow {
@@ -106,14 +98,14 @@ KeyboardLayout {
                 key: Qt.Key_3
                 text: "3"
             }
-            Key {
+            CCMP.ZDarkKey {
                 displayText: "\u2190"
                 key: Qt.Key_Left
                 showPreview: false
                 // TODO: pretify
                 enabled: InputContext.cursorPosition > 0
             }
-            Key {
+            CCMP.ZDarkKey {
                 text: "\u2192"
                 key: Qt.Key_Right
                 showPreview: false
