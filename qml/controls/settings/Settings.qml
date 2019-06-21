@@ -175,7 +175,6 @@ SettingsView {
             }
           }
 
-
           onSelectedTextChanged: {
             if(GC.localeName !== selectedText)
             {

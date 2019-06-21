@@ -17,26 +17,21 @@ CCMP.ZLineEdit {
     if(root.isNumeric)
     {
       if(root.isDouble)
-        root.entity[root.controlPropertyName] = parseFloat(textField.text)
+        root.entity[root.controlPropertyName] = parseFloat(text)
       else
-        root.entity[root.controlPropertyName] = parseInt(textField.text, 10)
+        root.entity[root.controlPropertyName] = parseInt(text, 10)
     }
     else
-      root.entity[root.controlPropertyName] = textField.text
+      root.entity[root.controlPropertyName] = text
   }
 
   // monitor entity/component changes
   Item {
-    // make sure control as ZLineEdit when controlPropertyName was not set
+    // make sure control works like ZLineEdit when controlPropertyName was not set
     property var intermediateValue: root.controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text
     onIntermediateValueChanged: {
-      if(intermediateValue !== undefined)
-      {
-        textField.text = intermediateValue
+      if(intermediateValue !== undefined && !inApply)
         root.text = intermediateValue
-      }
     }
   }
-
-
 }

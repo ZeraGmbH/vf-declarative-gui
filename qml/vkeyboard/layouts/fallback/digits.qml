@@ -32,6 +32,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.VirtualKeyboard 2.1
 import QtQuick.VirtualKeyboard.Plugins 2.3
 import QtQuick.VirtualKeyboard.Styles 2.2
+import GlobalConfig 1.0
 
 KeyboardLayout {
     inputMethod: PlainInputMethod {}
@@ -132,8 +133,8 @@ KeyboardLayout {
             Key {
                 // The decimal key, if it is not "," then we fallback to
                 // "." in case it is an unhandled different result
-                key: Qt.locale().decimalPoint === "," ? Qt.Key_Comma : Qt.Key_Period
-                text: Qt.locale().decimalPoint === "," ? "," : "."
+                key: GC.locale.decimalPoint === "," ? Qt.Key_Comma : Qt.Key_Period
+                text: GC.locale.decimalPoint === "," ? "," : "."
             }
             EnterKey {
                 weight: 2

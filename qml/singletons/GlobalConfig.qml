@@ -153,7 +153,7 @@ Item {
     else
     {
       var dec = decimals ? decimals : decimalPlaces
-      return Number(num).toLocaleString(Qt.locale("en_US"), 'f', dec) //always use '.' as decimal separator
+      return Number(num).toLocaleString(Qt.locale(localeName), 'f', dec)
     }
   }
 

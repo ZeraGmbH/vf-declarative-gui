@@ -13,8 +13,11 @@ Item {
       tInput.inputMethodHints = Qt.ImhDigitsOnly
     }
   }
-  property string text: ""
-  onTextChanged: tInput.text = text
+  property string text: "" // locale C
+  onTextChanged: {
+    if(!inApply)
+      localTextToInput()
+  }
   property alias textField: tInput
   property alias inputMethodHints: tInput.inputMethodHints;
   property alias placeholderText: tInput.placeholderText;
@@ -26,24 +29,20 @@ Item {
   // overridable
   function postApplyInput() {}
 
-  function applyInput() {
-    if(tInput.text !== root.text && root.hasValidInput()) {
-      if(hasAlteredValue())
-      {
-        root.text = tInput.text
-        postApplyInput()
-      }
-      // we changed text but did not change value
-      else
-        // discard changes
-        tInput.text = root.text
-    }
+  // helpers
+  // bit of a hack to check for IntValidator / DoubleValidator to detect a numeric field
+  readonly property bool isNumeric: validator && 'bottom' in validator && 'top' in validator
+  readonly property bool isDouble: isNumeric && 'decimals' in validator
+  property bool inApply: false
+  readonly property string localeName: GC.localeName
+  onLocaleNameChanged: {
+    localTextToInput()
   }
-  function discardInput() {
-    if(tInput.text !== root.text) {
-      // default: discard
-      tInput.text = root.text
-    }
+  function getInputCLocale() {
+    return isDouble ? tInput.text.replace(",", ".") : tInput.text
+  }
+  function localTextToInput() {
+    tInput.text = isDouble ? text.replace(GC.locale.decimalPoint === "," ? "." : ",", GC.locale.decimalPoint) : text
   }
   function hasAlteredValue() {
     var altered = false
@@ -52,7 +51,7 @@ Item {
       if(tInput.text !== root.text && (tInput.text === "" || root.text === ""))
         altered = true
       else if(isDouble)
-        altered = (Math.abs(parseFloat(tInput.text) - parseFloat(text))) >= Math.pow(10, -root.validator.decimals)
+        altered = (Math.abs(parseFloat(getInputCLocale()) - parseFloat(text))) >= Math.pow(10, -root.validator.decimals)
       else
         altered = parseInt(tInput.text, 10) === parseInt(text, 10)
     }
@@ -60,21 +59,38 @@ Item {
       altered = tInput.text !== root.text
     return altered
   }
-
-
-
-  // helper
-  // bit of a hack to check for IntValidator / DoubleValidator to detect a numeric field
-  readonly property bool isNumeric: validator && 'bottom' in validator && 'top' in validator
-  readonly property bool isDouble: isNumeric && 'decimals' in validator
-
+  function applyInput() {
+    if(getInputCLocale() !== root.text && root.hasValidInput()) {
+      if(hasAlteredValue())
+      {
+        inApply = true
+        root.text = getInputCLocale()
+        postApplyInput()
+        inApply = false
+      }
+      // we changed text but did not change value
+      else
+        // discard changes
+        localTextToInput()
+    }
+  }
+  function discardInput() {
+    if(tInput.text !== root.text) {
+      // default: discard
+      localTextToInput()
+    }
+  }
   function hasValidInput() {
     var valid = tInput.acceptableInput
     if (valid && root.validator) {
-      // IntValidator / DoubleValidator?
-      if(root.isNumetic) {
+      // IntValidator / DoubleValidator
+      if(root.isNumeric) {
         if(root.isDouble)
-          valid = root.validator.top>=parseFloat(tInput.text) && root.validator.bottom<=parseFloat(tInput.text)
+          // Sometimes wrong decimal separator is accepted by DoubleValidator so check for it
+          if(GC.locale.decimalPoint === "," ? tInput.text.includes(".") : tInput.text.includes(","))
+            valid = false
+          else
+            valid = root.validator.top>=parseFloat(getInputCLocale()) && root.validator.bottom<=parseFloat(getInputCLocale())
         else
           valid = root.validator.top>=parseInt(tInput.text, 10) && root.validator.bottom<=parseInt(tInput.text, 10)
       }

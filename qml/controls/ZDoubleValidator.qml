@@ -1,6 +1,7 @@
 import QtQuick 2.0
+import GlobalConfig 1.0
 
-//all input numbers are formatted with en_US locale
+// adjust validator to locale selected
 DoubleValidator {
-  locale: "en_US"
+  locale: GC.localeName
 }
