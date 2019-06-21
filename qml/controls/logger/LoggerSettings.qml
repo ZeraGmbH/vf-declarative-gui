@@ -239,19 +239,6 @@ SettingsControls.SettingsView {
             onClicked: console.log("tooltip")
           }
         }
-        //        VFControls.VFTextInput {
-        //          id: dbPathInput
-        //          entity: root.loggerEntity
-        //          controlPropertyName: "DatabaseFile"
-
-        //          Layout.fillWidth: true
-        //          height: root.rowHeight
-        //          validator: RegExpValidator {
-        //            //disallow \ space : ? * " < > | /.. \0 //
-        //            regExp: /(?!.*(\\|\s|:|\?|\*|"|<|>|\||\/\.\.|\0|\/\/))^(\/)([^/\0]+(\/)?)+/
-        //          }
-        //          fontSize: 18
-        //        }
         Item {
           //spacer
           width: 8
@@ -412,11 +399,12 @@ SettingsControls.SettingsView {
 
           Layout.fillWidth: true
         }
-        VFControls.VFTextInput {
+        VFControls.VFLineEdit {
           id: durationField
 
-          function transformOutgoing (t_output) {
-            return timeToMs(t_output);
+          // overrides
+          function postApplyInput() {
+            entity[controlPropertyName] = timeToMs(text)
           }
           function transformIncoming(t_incoming) {
             if(t_incoming !== undefined)
@@ -431,13 +419,11 @@ SettingsControls.SettingsView {
 
           entity: root.loggerEntity
           controlPropertyName: "ScheduledLoggingDuration"
-          placeholderText: "00:00:00"
-          inputMethodHints: Qt.ImhPreferNumbers
+          placeholderText: "HH:MM:SS"
           ///@note maybe a bit confusing that the 00:00:00 from the placeholderText is forbidden as input?
           validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
           width: 280
-          fontSize: height/2
           visible: loggerEntity.LoggingEnabled === false
         }
         Label {

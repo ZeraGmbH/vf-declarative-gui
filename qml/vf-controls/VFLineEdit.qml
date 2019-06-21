@@ -11,6 +11,9 @@ CCMP.ZLineEdit {
   property QtObject entity
   property string controlPropertyName
 
+  // overridable
+  function transformIncoming(t_incoming) { return t_incoming; }
+
   // overrides
   function postApplyInput() {
     // Numerical?
@@ -28,7 +31,7 @@ CCMP.ZLineEdit {
   // monitor entity/component changes
   Item {
     // make sure control works like ZLineEdit when controlPropertyName was not set
-    property var intermediateValue: root.controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text
+    property var intermediateValue: transformIncoming(root.controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text)
     onIntermediateValueChanged: {
       if(intermediateValue !== undefined && !inApply)
         root.text = intermediateValue

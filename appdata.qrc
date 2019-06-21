@@ -66,7 +66,6 @@
         <file>qml/vf-controls/VFLineEdit.qml</file>
         <file>qml/vf-controls/VFSpinBox.qml</file>
         <file>qml/vf-controls/VFSwitch.qml</file>
-        <file>qml/vf-controls/VFTextInput.qml</file>
         <file>qml/controls/MainToolBar.qml</file>
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
