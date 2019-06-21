@@ -21,6 +21,7 @@ Item {
   property alias textField: tInput
   property alias inputMethodHints: tInput.inputMethodHints;
   property alias placeholderText: tInput.placeholderText;
+  property alias readOnly: tInput.readOnly
 
   // some extra labels (would like to get rid of them...)
   property alias description: descriptionText
@@ -31,7 +32,7 @@ Item {
 
   // helpers
   // bit of a hack to check for IntValidator / DoubleValidator to detect a numeric field
-  readonly property bool isNumeric: validator && 'bottom' in validator && 'top' in validator
+  readonly property bool isNumeric: validator !== undefined && 'bottom' in validator && 'top' in validator
   readonly property bool isDouble: isNumeric && 'decimals' in validator
   property bool inApply: false
   readonly property string localeName: GC.localeName
@@ -121,12 +122,10 @@ Item {
     TextField {
       id: tInput
       anchors.fill: parent
-      anchors.bottomMargin: GC.standardTextBottomMargin
       anchors.leftMargin: GC.standardTextHorizMargin
       anchors.rightMargin: GC.standardTextHorizMargin
       horizontalAlignment: Text.AlignRight
-      implicitHeight: Math.max(contentHeight + topPadding + bottomPadding,
-                               background ? background.implicitHeight : 0)
+      bottomPadding: GC.standardTextBottomMargin
 
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
@@ -159,14 +158,12 @@ Item {
         opacity: 0.2
         visible: root.hasValidInput() === false && tInput.enabled
         anchors.fill: parent
-        anchors.bottomMargin: -GC.standardTextBottomMargin
       }
       Rectangle {
         color: "green"
         opacity: 0.2
         visible: root.hasValidInput() && tInput.enabled && root.hasAlteredValue()
         anchors.fill: parent
-        anchors.bottomMargin: -GC.standardTextBottomMargin
       }
     }
   }
