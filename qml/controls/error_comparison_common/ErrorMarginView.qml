@@ -60,6 +60,9 @@ Rectangle {
     margins.top:0
     margins.right:0
 
+    localizeNumbers: true
+    locale: GC.locale
+
     ValueAxis {
       id: xAxis
       min: 0

@@ -94,6 +94,8 @@ Item {
         legend.visible:false
         legend.width: 0
         legend.height: 0
+        localizeNumbers: true
+        locale: GC.locale
 
         ValueAxis {
           id: xAxis
