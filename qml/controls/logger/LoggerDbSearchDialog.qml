@@ -51,11 +51,7 @@ Popup {
       }
       else if(t_identifier === searchProgressId)
       {
-        if(searchResultData.count === 0)
-        {
-          noSearchResults=true;
-        }
-
+        noSearchResults = searchResultData.count === 0
         searchProgressId = undefined;
       }
     }
