@@ -23,6 +23,7 @@ Item {
   property alias placeholderText: tInput.placeholderText;
   property alias readOnly: tInput.readOnly
   readonly property bool acceptableInput: hasValidInput()
+  property real pointSize: height/2.5
 
   // some extra labels (would like to get rid of them...)
   property alias description: descriptionText
@@ -109,7 +110,7 @@ Item {
     id: descriptionText
     height: root.rowHeight
     anchors.verticalCenter: parent.verticalCenter
-    font.pixelSize: Math.max(height/2, 20)
+    font.pointSize: root.pointSize
     anchors.left: parent.left
     anchors.rightMargin: text !== "" ? GC.standardMargin : 0
   }
@@ -127,6 +128,7 @@ Item {
       anchors.rightMargin: GC.standardTextHorizMargin
       horizontalAlignment: Text.AlignRight
       bottomPadding: GC.standardTextBottomMargin
+      font.pointSize: root.pointSize
 
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
@@ -164,8 +166,6 @@ Item {
         }*/
       }
 
-      font.pixelSize: height/2.5
-
       Rectangle {
         color: "red"
         opacity: 0.2
@@ -183,7 +183,7 @@ Item {
   Label { // compatibility - see comment above
     id: unitLabel
     height: parent.height
-    font.pixelSize: height/2
+    font.pointSize: root.pointSize
     anchors.right: parent.right
     anchors.rightMargin: text !== "" ? GC.standardMargin : 0
     verticalAlignment: Text.AlignVCenter
