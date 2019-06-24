@@ -243,7 +243,7 @@ SettingsControls.SettingsView {
           //spacer
           width: 8
         }
-        TextField {
+        CCMP.ZLineEdit {
           id: fileNameField
           height: root.rowHeight
           Layout.fillWidth: true
