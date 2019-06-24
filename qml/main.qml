@@ -403,17 +403,16 @@ ApplicationWindow {
     property bool textEntered: Qt.inputMethod.visible
     // Hmm - why is this necessary?
     property real realHeight: height/1.65
-    visible: textEntered
     opacity: 0
     NumberAnimation on opacity {
       id: keyboardAnimation
       onStarted: {
       if(to === 1)
-        inputPanel.visible = inputPanel.textEntered
+        inputPanel.visible = true
       }
       onFinished: {
         if(to === 0)
-          inputPanel.visible = inputPanel.textEntered
+          inputPanel.visible = false
       }
     }
     onTextEnteredChanged: {
