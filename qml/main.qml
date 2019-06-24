@@ -167,7 +167,7 @@ ApplicationWindow {
     anchors.fill: parent
     enabled: displayWindow.entitiesInitialized === true
     contentWidth: parent.width;
-    contentHeight: parent.height//+inputPanel.realHeight
+    contentHeight: parent.height
     boundsBehavior: Flickable.StopAtBounds
     interactive: false
     NumberAnimation on contentY
@@ -401,8 +401,8 @@ ApplicationWindow {
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     property bool textEntered: Qt.inputMethod.visible
-    // Hmm - why is this necessary?
-    property real realHeight: height/1.65
+    // Hmm - what is this magic factor?
+    onHeightChanged: GC.vkeyboardHeight = height/1.17
     opacity: 0
     NumberAnimation on opacity {
       id: keyboardAnimation
