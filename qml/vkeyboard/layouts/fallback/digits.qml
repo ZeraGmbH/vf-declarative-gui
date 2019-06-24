@@ -33,7 +33,7 @@ import QtQuick.VirtualKeyboard 2.1
 import QtQuick.VirtualKeyboard.Plugins 2.3
 import QtQuick.VirtualKeyboard.Styles 2.2
 import QtQuick.VirtualKeyboard.Settings 2.2
-import "qrc:/qml/controls" as CCMP
+import "qrc:/qml/vkeyboard" as VKEYB
 
 KeyboardLayout {
     inputMethod: PlainInputMethod {}
@@ -44,6 +44,7 @@ KeyboardLayout {
         Layout.fillHeight: true
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredWidth: height*5/4
+        // Row1
         KeyboardRow {
             Key {
                 key: Qt.Key_7
@@ -57,13 +58,14 @@ KeyboardLayout {
                 key: Qt.Key_9
                 text: "9"
             }
-            CCMP.ZDarkKey {
+            VKEYB.DarkKey {
                 key: Qt.Key_Escape
                 displayText: "Esc"
                 weight: 2
                 showPreview: false
             }
         }
+        // Row2
         KeyboardRow {
             Key {
                 key: Qt.Key_4
@@ -77,14 +79,11 @@ KeyboardLayout {
                 key: Qt.Key_6
                 text: "6"
             }
-            CCMP.ZDarkKey {
-                showPreview: false
-                key: Qt.Key_End
-                text: "End"
-            }
-            BackspaceKey {
+            EnterKey {
+                weight: 2
             }
         }
+        // Row3
         KeyboardRow {
             Key {
                 key: Qt.Key_1
@@ -98,19 +97,15 @@ KeyboardLayout {
                 key: Qt.Key_3
                 text: "3"
             }
-            CCMP.ZDarkKey {
-                displayText: "\u2190"
-                key: Qt.Key_Left
+            VKEYB.DarkKey {
                 showPreview: false
-                repeat: true
+                key: Qt.Key_End
+                text: "End"
             }
-            CCMP.ZDarkKey {
-                text: "\u2192"
-                key: Qt.Key_Right
-                showPreview: false
-                repeat: true
+            BackspaceKey {
             }
         }
+        // Row4
         KeyboardRow {
             Key {
                 key: Qt.Key_Minus
@@ -126,8 +121,17 @@ KeyboardLayout {
                 key: VirtualKeyboardSettings.locale.decimalPoint === "," ? Qt.Key_Comma : Qt.Key_Period
                 text: VirtualKeyboardSettings.locale.decimalPoint === "," ? "," : "."
             }
-            EnterKey {
-                weight: 2
+            VKEYB.DarkKey {
+                displayText: "\u2190"
+                key: Qt.Key_Left
+                showPreview: false
+                repeat: true
+            }
+            VKEYB.DarkKey {
+                text: "\u2192"
+                key: Qt.Key_Right
+                showPreview: false
+                repeat: true
             }
         }
     }

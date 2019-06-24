@@ -29,6 +29,7 @@
 
 import QtQuick 2.0
 import QtQuick.VirtualKeyboard 2.1
+import "qrc:/qml/vkeyboard" as VKEYB
 
 KeyboardLayout {
     inputMode: InputEngine.InputMode.Latin
@@ -180,29 +181,35 @@ KeyboardLayout {
     }
     KeyboardRow {
         keyWeight: 154
+        VKEYB.DarkKey {
+            key: Qt.Key_Escape
+            displayText: "Esc"
+            showPreview: false
+        }
         SymbolModeKey {
-            weight: 217
-        }
-        ChangeLanguageKey {
-            weight: 154
-        }
-        HandwritingModeKey {
-            weight: 154
         }
         SpaceKey {
-            weight: 864
+            weight: 1100
         }
-        Key {
-            key: Qt.Key_Apostrophe
-            text: "'"
+        VKEYB.DarkKey {
+            displayText: "\u2190"
+            key: Qt.Key_Left
+            showPreview: false
+            repeat: true
+            weight: 110
         }
-        Key {
-            key: 0xE000
-            text: ":-)"
-            alternativeKeys: [ ";-)", ":-)", ":-D", ":-(", "<3" ]
+        VKEYB.DarkKey {
+            text: "\u2192"
+            key: Qt.Key_Right
+            showPreview: false
+            repeat: true
+            weight: 110
         }
-        HideKeyboardKey {
-            weight: 204
+        VKEYB.DarkKey {
+            showPreview: false
+            key: Qt.Key_End
+            text: "End"
+            weight: 110
         }
     }
 }
