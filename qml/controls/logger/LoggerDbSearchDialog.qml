@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation 1.0
+import GlobalConfig 1.0
 
 Popup {
   id: root
@@ -91,15 +92,24 @@ Popup {
       opacity: 1.0 * (searchProgressId !== undefined)
     }
 
+    // No ZLineEdit due to different RETURN/ESC/redBackground handling
     TextField {
       id: tfSearchPattern
       text: "*";
       Layout.fillWidth: true;
+      bottomPadding: GC.standardTextBottomMargin
+      Keys.onEscapePressed: {
+        focus = false
+      }
+      onAccepted: {
+        sendSearchRPC(text+".db");
+        focus = false
+      }
       Rectangle {
         anchors.fill: parent
         color: "red"
         opacity: 0.2
-        visible: root.noSearchResults == true
+        visible: root.noSearchResults === true
       }
     }
 
