@@ -22,6 +22,7 @@ Item {
   property alias inputMethodHints: tInput.inputMethodHints;
   property alias placeholderText: tInput.placeholderText;
   property alias readOnly: tInput.readOnly
+  readonly property bool acceptableInput: hasValidInput()
 
   // some extra labels (would like to get rid of them...)
   property alias description: descriptionText
