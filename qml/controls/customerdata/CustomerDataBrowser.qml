@@ -102,10 +102,12 @@ Item {
       Item {
         width: rowWidth/25
       }
+      // No ZLineEdit due to different RETURN/ESC/redBackground handling
       TextField {
         id: filenameField
         validator: RegExpValidator { regExp: /^[^.|"/`$!/\\<>:?~{}]+$/ }
         implicitWidth: Math.min(Math.max(rowWidth/5, contentWidth), rowWidth/2)
+        bottomPadding: GC.standardTextBottomMargin
         selectByMouse: true
         Rectangle {
           anchors.fill: parent
@@ -368,6 +370,7 @@ Item {
       }
     }
 
+    // No ZLineEdit due to different RETURN/ESC/redBackground handling
     TextField {
       id: selectedSearchField
       placeholderText: ZTR["Regex search"]
@@ -376,6 +379,7 @@ Item {
       anchors.leftMargin: GC.standardTextHorizMargin
       anchors.right: parent.right
       anchors.rightMargin: root.buttonWidth+GC.standardTextHorizMargin
+      bottomPadding: GC.standardTextBottomMargin
 
       height: parent.height*1.3/2
       anchors.verticalCenter: parent.verticalCenter
