@@ -16,7 +16,8 @@ Item {
   id: root
   //holds the state data
   property QtObject logicalParent;
-  property real rowHeight: height/7
+  readonly property real rowHeight: height/7
+  readonly property real pointSize: rowHeight/2.5
 
   readonly property QtObject p1m1: VeinEntity.getEntity("POWER1Module1")
   readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
@@ -45,7 +46,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Mode:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
         id: cbMode
@@ -81,7 +82,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Reference input:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
         id: cbRefInput
@@ -161,7 +162,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Device input:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
         arrayMode: true
@@ -196,7 +197,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["DUT constant:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
 
       VFControls.VFLineEdit {
@@ -208,6 +209,7 @@ Item {
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[0];
@@ -249,18 +251,19 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Energy:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
 
       VFControls.VFLineEdit {
+        entity: logicalParent.errorCalculator
+        controlPropertyName: "PAR_Energy"
+
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-
-        entity: logicalParent.errorCalculator
-        controlPropertyName: "PAR_Energy"
+        pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[0];
@@ -285,18 +288,19 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["MRate:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
 
       VFControls.VFLineEdit {
+        entity: logicalParent.errorCalculator
+        controlPropertyName: "PAR_MRate"
+
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-
-        entity: logicalParent.errorCalculator
-        controlPropertyName: "PAR_MRate"
+        pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
           bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[0];
@@ -318,16 +322,16 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Upper error margin:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
       CCMP.ZLineEdit {
         id: upperLimitInput
-
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        pointSize: root.pointSize
 
         text: GC.errorMarginUpperValue
 
@@ -342,7 +346,7 @@ Item {
         width: parent.width*col3Width - GC.standardTextHorizMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
     }
     Rectangle {
@@ -358,7 +362,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Lower error margin:"]
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
       CCMP.ZLineEdit {
         id: lowerLimitInput
@@ -367,6 +371,7 @@ Item {
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        pointSize: root.pointSize
 
         text: GC.errorMarginLowerValue
 
@@ -381,7 +386,7 @@ Item {
         width: parent.width*col3Width - GC.standardTextHorizMargin
         anchors.verticalCenter: parent.verticalCenter
         text: "%"
-        font.pixelSize: Math.max(height/2, 20)
+        font.pointSize: root.pointSize
       }
     }
   }
