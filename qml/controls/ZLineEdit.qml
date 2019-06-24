@@ -108,8 +108,8 @@ Item {
   // controls
   Label { // compatibility - see comment above
     id: descriptionText
-    height: root.rowHeight
-    anchors.verticalCenter: parent.verticalCenter
+    height: parent.height
+    verticalAlignment: Text.AlignVCenter
     font.pointSize: root.pointSize
     anchors.left: parent.left
     anchors.rightMargin: text !== "" ? GC.standardMargin : 0
