@@ -318,7 +318,8 @@ ApplicationWindow {
       function initModel() {
         if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"]))
         {
-          this.append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValuesPage.qml"});
+          this.append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
+          //this.append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValuesPage.qml"});
         }
         /*if(ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
         {
@@ -360,11 +361,11 @@ ApplicationWindow {
         {
            this.append({name: "Power register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/PowerRegisterModulePage.qml"});
         }*/
-        if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
+        /*if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
         {
           this.append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
           controlsBar.rotaryFieldDependenciesReady = true;
-        }
+        }*/
         if(ModuleIntrospection.hasDependentEntities(["RMSModule1"]))
         {
           this.append({name: "RMS values", icon: "qrc:/data/staticdata/resources/rms_values.png", elementValue: "qrc:/qml/pages/RMS4PhasePage.qml"});

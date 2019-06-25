@@ -9,12 +9,12 @@ import "qrc:/qml/controls" as CCMP
 CCMP.ModulePage {
   id: root
 
-  readonly property int rowHeight: Math.floor(height/14) * 0.95
+  readonly property int rowHeight: Math.floor(height/14)
   readonly property int columnWidth: width/5.25
 
   Item {
     width: root.columnWidth*5.25
-    height: root.height*0.95
+    height: root.height
     anchors.centerIn: parent
     ListView {
       anchors.fill: parent

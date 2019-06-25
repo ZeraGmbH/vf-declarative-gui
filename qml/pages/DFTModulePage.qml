@@ -28,6 +28,8 @@ CCMP.ModulePage {
   readonly property real iec387PhiOrigin: Math.atan2(vData.getVector(3)[1],vData.getVector(3)[0])
   readonly property real phiOrigin: dinIECSelector.din410 ? din410PhiOrigin : iec387PhiOrigin;
 
+  property real topMargin: 0
+
   CCMP.ZComboBox {
     id: viewModeSelector
     arrayMode: true
@@ -155,6 +157,7 @@ CCMP.ModulePage {
 
   PhasorDiagram {
     anchors.fill: parent
+    anchors.topMargin: root.topMargin
 
     fromX: Math.floor(width/2)
     fromY: Math.floor(height/2)
