@@ -267,9 +267,10 @@ Popup {
     }
 
     Button {
-      text: ZTR["Accept"]
+      id: okButton
+      text: ZTR["OK"]
       enabled: intermediaryText !== "";
-      highlighted: true
+      Layout.minimumWidth: cancelButton.width
       onClicked: {
         customRecordNameTextField.applyInput()
         sigAccepted(substitutePlaceholders(intermediaryText)); //updates values date/time placeholders
@@ -277,12 +278,10 @@ Popup {
         defaultRadioButton.checked = true;
       }
     }
-    Item {
-      //spacer
-      width: 16
-    }
     Button {
+      id: cancelButton
       text: ZTR["Cancel"]
+      Layout.minimumWidth: okButton.width
       onClicked: {
         customRecordNameTextField.discardInput();
         sigCanceled();
