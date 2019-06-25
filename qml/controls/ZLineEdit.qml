@@ -24,6 +24,7 @@ Item {
   property alias readOnly: tInput.readOnly
   readonly property bool acceptableInput: hasValidInput()
   property real pointSize: height/2.5
+  property bool changeOnFocusLost: true
 
   // some extra labels (would like to get rid of them...)
   property alias description: descriptionText
@@ -152,7 +153,7 @@ Item {
       }
 
       onFocusChanged: {
-        if(!focus) {
+        if(changeOnFocusLost && !focus) {
           if(root.hasAlteredValue()) {
             if(root.hasValidInput())
               applyInput()
