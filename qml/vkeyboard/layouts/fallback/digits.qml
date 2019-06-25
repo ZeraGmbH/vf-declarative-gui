@@ -118,8 +118,8 @@ KeyboardLayout {
             Key {
                 // The decimal key, if it is not "," then we fallback to
                 // "." in case it is an unhandled different result
-                key: VirtualKeyboardSettings.locale.decimalPoint === "," ? Qt.Key_Comma : Qt.Key_Period
-                text: VirtualKeyboardSettings.locale.decimalPoint === "," ? "," : "."
+                key: Qt.locale(VirtualKeyboardSettings.locale).decimalPoint === "," ? Qt.Key_Comma : Qt.Key_Period
+                text: Qt.locale(VirtualKeyboardSettings.locale).decimalPoint === "," ? "," : "."
             }
             VKEYB.DarkKey {
                 displayText: "\u2190"
