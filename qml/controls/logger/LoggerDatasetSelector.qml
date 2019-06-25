@@ -158,6 +158,7 @@ Popup {
     //disabled because of virtual keyboard
     //Component.onCompleted: forceActiveFocus()
     enabled: availView.moving===false
+    inputMethodHints: Qt.ImhNoAutoUppercase
   }
   Label {
     anchors.bottom: availSearchField.top
@@ -211,6 +212,7 @@ Popup {
     anchors.leftMargin: 8
     anchors.rightMargin: 8
     enabled: selectedView.moving===false
+    inputMethodHints: Qt.ImhNoAutoUppercase
   }
   Label {
     anchors.bottom: selectedSearchField.top

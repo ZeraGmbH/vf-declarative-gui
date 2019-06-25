@@ -133,6 +133,7 @@ Item {
 
       mouseSelectionMode: TextInput.SelectWords
       selectByMouse: true
+      inputMethodHints: Qt.ImhNoAutoUppercase
       onAccepted: {
         applyInput()
         focus = false

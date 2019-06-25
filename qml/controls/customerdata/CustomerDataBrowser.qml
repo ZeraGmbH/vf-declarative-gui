@@ -109,6 +109,7 @@ Item {
         implicitWidth: Math.min(Math.max(rowWidth/5, contentWidth), rowWidth/2)
         bottomPadding: GC.standardTextBottomMargin
         selectByMouse: true
+        inputMethodHints: Qt.ImhNoAutoUppercase
         Rectangle {
           anchors.fill: parent
           color: "red"
@@ -384,6 +385,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       anchors.verticalCenterOffset: parent.height * 0.25 + rectFilter.comboTextVertOffset
       onAccepted: root.searchFile();
+      inputMethodHints: Qt.ImhNoAutoUppercase
       Keys.onEscapePressed: {
         rectFilter.clearSearch()
       }

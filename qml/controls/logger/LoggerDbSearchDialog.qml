@@ -98,6 +98,7 @@ Popup {
       text: "*";
       Layout.fillWidth: true;
       bottomPadding: GC.standardTextBottomMargin
+      inputMethodHints: Qt.ImhNoAutoUppercase
       Keys.onEscapePressed: {
         focus = false
       }
