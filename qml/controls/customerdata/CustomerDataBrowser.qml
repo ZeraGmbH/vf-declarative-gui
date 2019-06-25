@@ -379,7 +379,6 @@ Item {
       anchors.leftMargin: GC.standardTextHorizMargin
       anchors.right: parent.right
       anchors.rightMargin: root.buttonWidth+GC.standardTextHorizMargin
-      bottomPadding: GC.standardTextBottomMargin
 
       height: parent.height*1.3/2
       anchors.verticalCenter: parent.verticalCenter
@@ -391,6 +390,7 @@ Item {
 
       Rectangle {
         anchors.fill: parent
+        anchors.bottomMargin: GC.standardTextBottomMargin
         color: "red"
         opacity: 0.2
         visible: searchResultData.noSearchResults === true
@@ -433,51 +433,43 @@ Item {
       }
     }
   }
-  Item {
+  RowLayout {
     id: buttonContainer
     anchors.top: rectFilter.bottom
-    anchors.topMargin: root.rowHeight / 8
-    height: root.rowHeight
+    anchors.bottom: root.bottom
     width: root.width
 
-    CCMP.ZButton {
+    Item {
+      //spacer
+      Layout.fillWidth: true
+    }
+    Button {
       id: buttonClose
       text: ZTR["Close"]
       visible: !root.withOKButton
-
-      width: GC.standardButtonWidth // TODO fix binding loop
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.verticalCenter: parent.verticalCenter
-
       onClicked: {
         cancel()
       }
     }
-    CCMP.ZButton {
+    Button {
       id: buttonOK
       text: ZTR["OK"]
       visible: root.withOKButton
-
-      width: GC.standardButtonWidth // TODO fix binding loop
-      anchors.right: parent.horizontalCenter
-      anchors.rightMargin: GC.standardMarginMin
-      anchors.verticalCenter: parent.verticalCenter
       onClicked: {
         ok()
       }
     }
-    CCMP.ZButton {
+    Button {
       id: buttonCancel
       text: ZTR["Cancel"]
       visible: root.withOKButton
-
-      width: GC.standardButtonWidth // TODO fix binding loop
-      anchors.leftMargin: GC.standardMarginMin
-      anchors.left: parent.horizontalCenter
-      anchors.verticalCenter: parent.verticalCenter
       onClicked: {
         cancel()
       }
+    }
+    Item {
+      //spacer
+      Layout.fillWidth: true
     }
   }
 }

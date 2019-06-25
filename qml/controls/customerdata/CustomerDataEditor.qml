@@ -110,34 +110,36 @@ Item {
       }
     }
   }
-  Item {
+  RowLayout {
     anchors.bottom: parent.bottom
-    anchors.horizontalCenter: parent.horizontalCenter
+    Layout.alignment: Qt.AlignHCenter
     id: buttonContainer
     height: parent.height / 10
     width: parent.width
 
-    CCMP.ZButton {
-      id: buttonOK
+    Item {
+      //spacer
+      Layout.fillWidth: true
+    }
+    Button {
+      id: okButton
       text: ZTR["OK"]
-      width: GC.standardButtonWidth // TODO fix binding loop
-      anchors.right: parent.horizontalCenter
-      anchors.rightMargin: GC.standardMarginMin
-      anchors.verticalCenter: parent.verticalCenter
+      Layout.minimumWidth: cancelButton.width
       onClicked: {
         ok()
       }
     }
-    CCMP.ZButton {
-      id: buttonCancel
+    Button {
+      id: cancelButton
       text: ZTR["Cancel"]
-      width: GC.standardButtonWidth // TODO fix binding loop
-      anchors.leftMargin: GC.standardMarginMin
-      anchors.left: parent.horizontalCenter
-      anchors.verticalCenter: parent.verticalCenter
+      Layout.minimumWidth: okButton.width
       onClicked: {
         cancel()
       }
+    }
+    Item {
+      //spacer
+      Layout.fillWidth: true
     }
   }
 }
