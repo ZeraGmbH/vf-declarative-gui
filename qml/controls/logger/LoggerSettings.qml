@@ -252,12 +252,6 @@ SettingsControls.SettingsView {
           validator: RegExpValidator {
             regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
           }
-
-          Rectangle {
-            anchors.fill: parent
-            visible: enabled && parent.acceptableInput === false && parent.text !== "";
-            color: "#44FF0000";
-          }
         }
 
         Label {
