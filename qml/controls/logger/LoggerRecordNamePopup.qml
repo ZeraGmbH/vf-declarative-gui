@@ -155,6 +155,7 @@ Popup {
       Button {
         text: "$VIEW"
         focusPolicy: Qt.NoFocus
+        enabled: customRecordNameRadio.checked
         onPressed: {
           if(customRecordNameTextField.focus === true)
           {
@@ -169,6 +170,7 @@ Popup {
       Button {
         text: "$YEAR"
         focusPolicy: Qt.NoFocus
+        enabled: customRecordNameRadio.checked
         onPressed: {
           if(customRecordNameTextField.focus === true)
           {
@@ -179,6 +181,7 @@ Popup {
       Button {
         text: "$MONTH"
         focusPolicy: Qt.NoFocus
+        enabled: customRecordNameRadio.checked
         onPressed: {
           if(customRecordNameTextField.focus === true)
           {
@@ -189,6 +192,7 @@ Popup {
       Button {
         text: "$DAY"
         focusPolicy: Qt.NoFocus
+        enabled: customRecordNameRadio.checked
         onPressed: {
           if(customRecordNameTextField.focus === true)
           {
@@ -203,6 +207,7 @@ Popup {
       Button {
         text: "$TIME"
         focusPolicy: Qt.NoFocus
+        enabled: customRecordNameRadio.checked
         onPressed: {
           if(customRecordNameTextField.focus === true)
           {
@@ -213,6 +218,7 @@ Popup {
       Button {
         text: "$SECONDS"
         focusPolicy: Qt.NoFocus
+        enabled: customRecordNameRadio.checked
         onPressed: {
           if(customRecordNameTextField.focus === true)
           {
@@ -228,6 +234,7 @@ Popup {
         text: "$CUSTOMER_ID"
         visible: VeinEntity.hasEntity("CustomerData")
         focusPolicy: Qt.NoFocus
+        enabled: customRecordNameRadio.checked
         onPressed: {
           if(customRecordNameTextField.focus === true)
           {
