@@ -329,10 +329,10 @@ ApplicationWindow {
         {
           this.append({name: "Curves & Harmonics", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
         }
-        if(ModuleIntrospection.hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
+        /*if(ModuleIntrospection.hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
         {
           this.append({name: "Power values", icon: "qrc:/data/staticdata/resources/power.png", elementValue: "qrc:/qml/pages/PowerModulePage.qml"});
-        }
+        }*/
         if(ModuleIntrospection.hasDependentEntities(["Power3Module1"]))
         {
           this.append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerModulePage.qml"});
@@ -366,10 +366,10 @@ ApplicationWindow {
           this.append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
           controlsBar.rotaryFieldDependenciesReady = true;
         }*/
-        if(ModuleIntrospection.hasDependentEntities(["RMSModule1"]))
+        /*if(ModuleIntrospection.hasDependentEntities(["RMSModule1"]))
         {
           this.append({name: "RMS values", icon: "qrc:/data/staticdata/resources/rms_values.png", elementValue: "qrc:/qml/pages/RMS4PhasePage.qml"});
-        }
+        }*/
         if(ModuleIntrospection.hasDependentEntities(["POWER2Module1"]))
         {
           this.append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"});

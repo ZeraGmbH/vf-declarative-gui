@@ -37,6 +37,18 @@ Item {
       text: ZTR["Vector diagram"]
     }
   }
+  Component {
+    id: tabPower
+    TabButton {
+      text: ZTR["Power values"]
+    }
+  }
+  Component {
+    id: tabRms
+    TabButton {
+      text: ZTR["RMS values"]
+    }
+  }
 
   // Pages
   Component {
@@ -50,6 +62,16 @@ Item {
       topMargin: 10
     }
   }
+  Component {
+    id: pagePower
+    Pages.PowerModulePage {
+    }
+  }
+  Component {
+    id: pageRms
+    Pages.RMS4PhasePage {
+    }
+  }
 
   // create tabs/pages dynamic
   Component.onCompleted: {
@@ -59,6 +81,12 @@ Item {
 
     actualValueTabsBar.addItem(tabVector.createObject(actualValueTabsBar))
      swipeView.addItem(pageVector.createObject(swipeView))
+
+    actualValueTabsBar.addItem(tabPower.createObject(actualValueTabsBar))
+     swipeView.addItem(pagePower.createObject(swipeView))
+
+    actualValueTabsBar.addItem(tabRms.createObject(actualValueTabsBar))
+     swipeView.addItem(pageRms.createObject(swipeView))
   }
 }
 
