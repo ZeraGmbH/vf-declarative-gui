@@ -95,7 +95,7 @@ SettingsControls.SettingsView {
     active: false
     sourceComponent: LoggerDatasetSelector {
       width: root.width
-      height: root.height
+      height: root.height-GC.vkeyboardHeight
       closePolicy: Popup.NoAutoClose
       visible: true
       onClosed: loggerDataSelection.active = false;
