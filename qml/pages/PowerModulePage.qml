@@ -179,7 +179,7 @@ CCMP.ModulePage {
       height: parent.height
       Label {
         id: labelMMode
-        text: "Measurement modes:"
+        text: ZTR["Measuring modes:"]
         width: root.firstColumnWidth+root.valueColumnWidth-GC.standardTextHorizMargin
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextHorizMargin

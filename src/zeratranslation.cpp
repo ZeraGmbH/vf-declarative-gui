@@ -367,8 +367,7 @@ void ZeraTranslation::reloadStringTable()
   insert("CED power values", tr("CED power values"));
 
   //HarmonicPowerModulePage.qml
-  insert("Real", tr("Real", "complex number part"));
-  insert("Imaginary", tr("Imaginary", "complex number part"));
+  insert("Measuring modes:", tr("Measuring modes:", "label for measuring mode selectors"));
 
   //TransformerModulePage.qml
   insert("TR1", tr("TR1", "transformer system 1"));
