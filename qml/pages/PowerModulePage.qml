@@ -11,9 +11,13 @@ import "qrc:/qml/vf-controls" as VFControls
 CCMP.ModulePage {
   id: root
 
-  readonly property int rowHeight: Math.floor(height/8)
-  readonly property int basicRowWidth: width*0.05
-  readonly property int wideRowWidth: width*0.2
+  readonly property int row1stHeight: Math.floor(height/8)
+  readonly property int rowHeight: Math.floor((height-2*row1stHeight)/3)
+
+  readonly property int firstColumnWidth: width*0.05
+  readonly property int valueColumnWidth: width*0.22
+  readonly property int lastColumnWidth: width-firstColumnWidth-4*valueColumnWidth
+
 
   readonly property QtObject power1Module1: VeinEntity.getEntity("POWER1Module1")
   readonly property QtObject power1Module2: VeinEntity.getEntity("POWER1Module2")
@@ -55,64 +59,55 @@ CCMP.ModulePage {
 
   Row {
     id: heardersRow
+    height: root.row1stHeight
     CCMP.GridRect {
-      width: basicRowWidth
-      height: root.rowHeight
+      width: firstColumnWidth
+      height: parent.height
       color: GC.tableShadeColor
       //spacer
     }
     CCMP.GridItem {
-      width: wideRowWidth
-      height: root.rowHeight
+      width: valueColumnWidth
+      height: parent.height
       color: GC.tableShadeColor
       text: ZTR["L1"]
       textColor: GC.system1ColorDark
-      font.bold: true
-      font.pixelSize: height*0.4
+      font.pixelSize: rowHeight*0.4
     }
     CCMP.GridItem {
-      width: wideRowWidth
-      height: root.rowHeight
+      width: valueColumnWidth
+      height: parent.height
       color: GC.tableShadeColor
       text: ZTR["L2"]
       textColor: GC.system2ColorDark
-      font.bold: true
-      font.pixelSize: height*0.4
+      font.pixelSize: rowHeight*0.4
     }
     CCMP.GridItem {
-      width: wideRowWidth
-      height: root.rowHeight
+      width: valueColumnWidth
+      height: parent.height
       color: GC.tableShadeColor
       text: ZTR["L3"]
       textColor: GC.system3ColorDark
-      font.bold: true
-      font.pixelSize: height*0.4
+      font.pixelSize: rowHeight*0.4
     }
     CCMP.GridItem {
-      width: wideRowWidth
-      height: root.rowHeight
+      width: valueColumnWidth
+      height: parent.height
       color: GC.tableShadeColor
       text: "Σ"
-      font.bold: true
-      font.pixelSize: height*0.4
+      font.pixelSize: rowHeight*0.4
     }
     CCMP.GridItem {
-      width: basicRowWidth
-      height: root.rowHeight
+      width: lastColumnWidth
+      height: parent.height
       color: GC.tableShadeColor
       text: "[ ]"
-      font.bold: true
-      font.pixelSize: height*0.3
-    }
-    CCMP.GridRect {
-      //mode switch has no header
-      width: basicRowWidth*2
-      height: root.rowHeight
-      color: GC.tableShadeColor
+      font.pixelSize: rowHeight*0.3
     }
   }
 
   ListView {
+    id: listView
     anchors.top: heardersRow.bottom
     height: root.rowHeight*count
     width: parent.width
@@ -123,65 +118,103 @@ CCMP.ModulePage {
 
     delegate: Component {
       Row {
+        height: root.rowHeight
         CCMP.GridItem {
-          width: basicRowWidth
-          height: root.rowHeight
+          width: firstColumnWidth
+          height: parent.height
           color: GC.tableShadeColor
           text: (root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> (P/Q/S)
-          font.bold: true
           font.pixelSize: height*0.4
 
         }
         CCMP.GridItem {
-          width: wideRowWidth
-          height: root.rowHeight
+          width: valueColumnWidth
+          height: parent.height
           clip: true
           text: GC.formatNumber(root.getModule(index).ACT_PQS1);
           textColor: GC.system1ColorDark
           font.pixelSize: height*0.4
         }
         CCMP.GridItem {
-          width: wideRowWidth
-          height: root.rowHeight
+          width: valueColumnWidth
+          height: parent.height
           clip: true
           text: GC.formatNumber(root.getModule(index).ACT_PQS2);
           textColor: GC.system2ColorDark
           font.pixelSize: height*0.4
         }
         CCMP.GridItem {
-          width: wideRowWidth
-          height: root.rowHeight
+          width: valueColumnWidth
+          height: parent.height
           clip: true
           text: GC.formatNumber(root.getModule(index).ACT_PQS3);
           textColor: GC.system3ColorDark
           font.pixelSize: height*0.4
         }
         CCMP.GridItem {
-          width: wideRowWidth
-          height: root.rowHeight
+          width: valueColumnWidth
+          height: parent.height
           clip: true
           text: GC.formatNumber(root.getModule(index).ACT_PQS4);
           font.pixelSize: height*0.4
         }
         CCMP.GridItem {
-          width: basicRowWidth
-          height: root.rowHeight
+          width: lastColumnWidth
+          height: parent.height
           clip: true
           text: root.getMetadata(index).ComponentInfo.ACT_PQS1.Unit
-          font.bold: true
-          font.pixelSize: height*0.3
+          font.pixelSize: height*0.25
         }
-        CCMP.GridRect {
-          //mode switch
-          width: basicRowWidth*2
-          height: root.rowHeight
+      }
+    }
+  }
+  Row {
+    id: footerRow
+    height: root.row1stHeight
+    width: parent.width
+    anchors.top: listView.bottom
+    CCMP.GridRect {
+      id: measModeGrid
+      width: parent.width
+      height: parent.height
+      Label {
+        id: labelMMode
+        text: "Measurement modes:"
+        width: root.firstColumnWidth+root.valueColumnWidth-GC.standardTextHorizMargin
+        anchors.left: parent.left
+        anchors.leftMargin: GC.standardTextHorizMargin
+        anchors.verticalCenter: parent.verticalCenter
+        font.pixelSize: parent.height*0.4
+      }
+
+      Repeater {
+        model: 3
+        Column {
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          x: root.firstColumnWidth+root.valueColumnWidth*(index+1)
+          width: root.valueColumnWidth
+          Label {
+            text: (root.getMetadata(modelData).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> (P/Q/S)
+            height: parent.height
+            anchors.right: measModeCombo.left
+            anchors.rightMargin: GC.standardTextHorizMargin
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: measModeGrid.height*0.4
+          }
           VFControls.VFComboBox {
-            anchors.fill: parent
+            id: measModeCombo
+            width: parent.width / 2
+            height: parent.height
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            centerVerticalOffset: -parent.height*(modelLength-1)
             arrayMode: true
             entity: root.getModule(index)
             controlPropertyName: "PAR_MeasuringMode"
             model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
-            fontSize: Math.min(14, height/1.5, width/4);
+            fontSize: height*0.4
           }
         }
       }
