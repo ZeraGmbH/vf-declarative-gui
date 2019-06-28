@@ -35,13 +35,13 @@ Item {
   Component {
     id: tabVoltage
     TabButton {
-      text: ZTR["Voltage-Burden"]
+      text: ZTR["Voltage Burden"]
     }
   }
   Component {
     id: tabCurrent
     TabButton {
-      text: ZTR["Current-Burden"]
+      text: ZTR["Current Burden"]
     }
   }
 
