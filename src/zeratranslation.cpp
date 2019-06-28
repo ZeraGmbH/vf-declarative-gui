@@ -353,8 +353,8 @@ void ZeraTranslation::reloadStringTable()
   insert("RMS values", tr("RMS values"));
 
   //BurdenModulePage.qml
-  insert("Voltage-Burden", tr("Voltage-Burden"));
-  insert("Current-Burden", tr("Current-Burden"));
+  insert("Voltage Burden", tr("Voltage Burden", "Tab title current burden"));
+  insert("Current Burden", tr("Current Burden", "Tab title current burden"));
   insert("Nominal burden:", tr("Nominal burden:"));
   insert("Nominal range:", tr("Nominal range:"));
   insert("Wire crosssection:", tr("Wire crosssection:"));
