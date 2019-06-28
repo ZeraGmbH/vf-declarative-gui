@@ -205,7 +205,7 @@ CCMP.ModulePage {
           }
           VFControls.VFComboBox {
             id: measModeCombo
-            width: parent.width / 2
+            width: parent.width * 2 / 3
             height: parent.height
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
