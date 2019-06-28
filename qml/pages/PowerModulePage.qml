@@ -189,7 +189,7 @@ CCMP.ModulePage {
 
       Repeater {
         model: 3
-        Column {
+        Item {
           anchors.top: parent.top
           anchors.bottom: parent.bottom
           x: root.firstColumnWidth+root.valueColumnWidth*(index+1)
