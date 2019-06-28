@@ -43,6 +43,7 @@ Item {
     clip: true
     interactive: true
     boundsBehavior: Flickable.StopAtBounds
+    flickableDirection: Flickable.VerticalFlick
 
     ScrollBar.vertical: vBar
 
