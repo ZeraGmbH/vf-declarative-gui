@@ -50,17 +50,26 @@ Item {
   // Pages
   Component {
     id: pageOsc
-    Osc.OsciModulePage {
+    Loader {
+      active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+      sourceComponent: Osc.OsciModulePage {
+      }
     }
   }
   Component {
     id: pageTable
-    Pages.FftTable {
+    Loader {
+      active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+      sourceComponent: Pages.FftTable {
+      }
     }
   }
   Component {
     id: pageChart
-    Pages.FftCharts {
+    Loader {
+      active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+      sourceComponent: Pages.FftCharts {
+      }
     }
   }
 
