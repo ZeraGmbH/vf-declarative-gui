@@ -123,6 +123,7 @@ Item {
     onTriggered: {
       settings.globalSettings.setOption("errorMarginUpperValue", 10, true); //sane default
       settings.globalSettings.setOption("errorMarginLowerValue", -10, true); //sane default
+      settings.globalSettings.setOption("auto_scale_limit", 1.0, true); //sane default
     }
   }
 
@@ -143,6 +144,139 @@ Item {
       errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
     }
     return retVal;
+  }
+
+  readonly property real autoScaleLimit: {
+    var str = settings.globalSettings.getOption("auto_scale_limit")
+    if(str === "") {
+      str = "1"
+      errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
+    }
+    return parseFloat(str)
+  }
+
+  // Auto scale helper functions
+
+  /* Settings/autoScaleLimit: A float number to set at which limit the value
+     changes and unit is prefixed e.g for autoScaleLimit=1.2 value >= 1200 is
+     changed to 1.2k */
+  function setAutoScaleLimit(limit) {
+    if(typeof limit === "string") {
+      settings.globalSettings.setOption("auto_scale_limit", limit, true);
+    }
+    else  {
+      settings.globalSettings.setOption("auto_scale_limit", formatNumber(limit, 3), true);
+    }
+  }
+  // Auto scale float value (num) / unit. Return value is an array [value,unit]
+  function doAutoScale(num, strUnit) {
+    // remove prefix (means calc base unit and value)
+    var baseUnitInfo = getExponentAndBaseUnitFromUnit(strUnit)
+    var baseValue = num * Math.pow(10, baseUnitInfo[0])
+    // calc scaled value and prefixed unit on base values
+    var autoScaleExponent = getAutoScaleExponent(baseValue)
+    var autoScalePrefix = getPrefixFromExponent(autoScaleExponent)
+    var autoScaleValue = baseValue * Math.pow(10, -autoScaleExponent)
+    var autoScaleUnit = autoScalePrefix+baseUnitInfo[1]
+    return [autoScaleValue, autoScaleUnit]
+  }
+
+  function getAutoScaleExponent(num) {
+    var floatVal = 0.0
+    if(typeof num === "string") {
+      floatVal = parseFloat(num)
+    }
+    else {
+      floatVal = num
+    }
+    floatVal = Math.abs(floatVal)
+    var exponent = 0
+    // a zero value does not get a prefix
+    if(floatVal < 1e-15*autoScaleLimit)
+      exponent = 0
+    else if(floatVal < 1e-12*autoScaleLimit)
+      exponent = -12
+    else if(floatVal < 1e-9*autoScaleLimit)
+      exponent = -9
+    else if(floatVal < 1e-6*autoScaleLimit)
+      exponent = -6
+    else if(floatVal < 1e-3*autoScaleLimit)
+      exponent = -3
+    else if(floatVal > 1e3*autoScaleLimit)
+      exponent = 3
+    else if(floatVal > 1e6*autoScaleLimit)
+      exponent = 6
+    else if(floatVal > 1e9*autoScaleLimit)
+      exponent = 9
+    else if(floatVal > 1e12*autoScaleLimit)
+      exponent = 12
+    return exponent
+  }
+  function getPrefixFromExponent(exponent) {
+    var str = ""
+    switch(exponent) {
+    case -12:
+      str="p"
+      break
+    case -9:
+      str="n"
+      break
+    case -6:
+      str="µ"
+      break
+    case -3:
+      str="m"
+      break
+    case 3:
+      str="k"
+      break
+    case 6:
+      str="M"
+      break
+    case 9:
+      str="G"
+      break
+    case 12:
+      str="T"
+      break
+    }
+    return str
+  }
+  function getAutoScalePrefix(num) {
+    var exponent = getAutoScaleExponent(num)
+    return getPrefixFromExponent(exponent)
+  }
+  function getExponentAndBaseUnitFromUnit(strUnit) {
+    var strPrefix = strUnit.substring(0,1)
+    var exponent = 0
+    switch(strPrefix) {
+    case "p":
+      exponent = -12
+      break
+    case "n":
+      exponent = -9
+      break
+    case "µ":
+      exponent = -6
+      break
+    case "m":
+      exponent = -3
+      break
+    case "k":
+      exponent = 3
+      break
+    case "M":
+      exponent = 6
+      break
+    case "G":
+      exponent = 9
+      break
+    case "T":
+      exponent = 12
+      break
+    }
+    var strNewUnit = exponent === 0 ? strUnit : strUnit.substring(1)
+    return [exponent, strNewUnit]
   }
 
   function formatNumber(num, decimals) {
