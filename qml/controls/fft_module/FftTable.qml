@@ -341,6 +341,7 @@ Item {
     anchors.rightMargin: vBar.width
     anchors.bottomMargin: hBar.height
     enabled: false
+    drag.axis: Drag.XAxis
     property real oldXPos: 0
     onPositionChanged: {
       // can we swipe contents left?
