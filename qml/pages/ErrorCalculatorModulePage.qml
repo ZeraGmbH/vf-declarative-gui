@@ -46,7 +46,9 @@ CCMP.ModulePage {
       measurementResult: errorCalculator.ACT_Result
       progress: errorCalculator.ACT_Progress
       progressTo: 100
-      actualValue: (errorCalculator.PAR_Continuous === 1 ? GC.formatNumber(errorCalculator.ACT_EnergyFinal) : GC.formatNumber(errorCalculator.ACT_Energy)) + " " + ModuleIntrospection.sec1Introspection.ComponentInfo.ACT_Energy.Unit
+      readonly property real currEnergy: errorCalculator.PAR_Continuous === 1 ? errorCalculator.ACT_EnergyFinal : errorCalculator.ACT_Energy
+      readonly property var scaledEnergyArr: GC.doAutoScale(currEnergy, ModuleIntrospection.sec1Introspection.ComponentInfo.ACT_Energy.Unit)
+      actualValue: GC.formatNumber(scaledEnergyArr[0]) + " " + scaledEnergyArr[1]
     }
     Row {
       height: root.height*0.7
