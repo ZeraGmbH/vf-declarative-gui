@@ -153,7 +153,10 @@ Item {
     else
     {
       var dec = decimals ? decimals : decimalPlaces
-      return Number(num).toLocaleString(Qt.locale(localeName), 'f', dec)
+      var strNum = Number(num).toLocaleString(locale, 'f', dec)
+      // remove thousands separator
+      strNum = strNum.replace(locale.decimalPoint === "," ? "." : ",", "")
+      return strNum
     }
   }
 
