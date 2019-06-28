@@ -54,10 +54,10 @@ Item {
     ScrollBar.vertical: vBar
     // The following dance is necessary to improve swiping into next tab.
     onAtXBeginningChanged: {
-      mouseArea.enabled = atXBeginning
+      helperMouseArea.enabled = atXBeginning
     }
     onAtXEndChanged: {
-      mouseArea.enabled = atXEnd
+      helperMouseArea.enabled = atXEnd
     }
 
     Row {
@@ -336,7 +336,7 @@ Item {
     }
   }
   MouseArea {
-    id: mouseArea
+    id: helperMouseArea
     anchors.fill: parent
     anchors.rightMargin: vBar.width
     anchors.bottomMargin: hBar.height
