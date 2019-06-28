@@ -74,7 +74,9 @@ Item {
     cellHeight: 64*scaleFactor+12
     cellWidth: width/2
     anchors.fill: parent
-    anchors.leftMargin: 8
+    // Center one in case of one column
+    // This is a hack - but it works and a better solution was not yet found
+    anchors.leftMargin: 8 + (model.count <= 6 ? root.width/4 : 0)
     anchors.topMargin: root.height/10
     anchors.bottomMargin: root.height/10
     clip: true
