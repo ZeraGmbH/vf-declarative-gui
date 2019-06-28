@@ -34,6 +34,7 @@ ApplicationWindow {
   visible: true
   width: 1024
   height: 600
+  flags: Qt.FramelessWindowHint
   title: "ZeraGUI"
   Material.theme: Material.Dark
   Material.accent: "#339966"
