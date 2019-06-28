@@ -32,8 +32,8 @@ ApplicationWindow {
   property string currentSession;
 
   visible: true
-  width: 1024
-  height: 600
+  width: Screen.desktopAvailableWidth
+  height: Screen.desktopAvailableHeight
   flags: Qt.FramelessWindowHint
   title: "ZeraGUI"
   Material.theme: Material.Dark
