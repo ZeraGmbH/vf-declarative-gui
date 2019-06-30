@@ -57,7 +57,7 @@ Item {
       else if(isDouble)
         altered = (Math.abs(parseFloat(getInputCLocale()) - parseFloat(text))) >= Math.pow(10, -root.validator.decimals)
       else
-        altered = parseInt(tInput.text, 10) === parseInt(text, 10)
+        altered = parseInt(tInput.text, 10) !== parseInt(text, 10)
     }
     else
       altered = tInput.text !== root.text
