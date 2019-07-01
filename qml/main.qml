@@ -342,7 +342,7 @@ ApplicationWindow {
         {
           this.append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
         }
-        if(ModuleIntrospection.hasDependentEntities(["Burden1Module1", "Burden1Module2"]))
+        if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"]))
         {
           this.append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"});
         }
