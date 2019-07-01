@@ -338,6 +338,10 @@ ApplicationWindow {
         {
           this.append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerModulePage.qml"});
         }
+        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || hasDependentEntities(["SPM1Module1"]))
+        {
+          this.append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
+        }
         if(ModuleIntrospection.hasDependentEntities(["Burden1Module1", "Burden1Module2"]))
         {
           this.append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"});
@@ -345,10 +349,6 @@ ApplicationWindow {
         if(ModuleIntrospection.hasDependentEntities(["Transformer1Module1"]))
         {
           this.append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"});
-        }
-        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || hasDependentEntities(["SPM1Module1"]))
-        {
-          this.append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
         }
         /*if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]))
         {
