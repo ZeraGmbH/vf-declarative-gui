@@ -29,12 +29,6 @@ Item {
 
   // TabButtons
   Component {
-    id: tabOsc
-    TabButton {
-      text: ZTR["Oscilloscope plot"]
-    }
-  }
-  Component {
     id: tabChart
     TabButton {
       text: ZTR["Harmonic table"]
@@ -46,20 +40,18 @@ Item {
       text: ZTR["Harmonic chart"]
     }
   }
+  Component {
+    id: tabOsc
+    TabButton {
+      text: ZTR["Oscilloscope plot"]
+    }
+  }
 
   // Pages
   Component {
-    id: pageOsc
-    Loader {
-      active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
-      sourceComponent: Osc.OsciModulePage {
-      }
-    }
-  }
-  Component {
     id: pageTable
     Loader {
-      active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+      active: true
       sourceComponent: Pages.FftTable {
       }
     }
@@ -67,19 +59,26 @@ Item {
   Component {
     id: pageChart
     Loader {
-      active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+      active: true
+      asynchronous: true
+      visible: status === Loader.Ready
       sourceComponent: Pages.FftCharts {
+      }
+    }
+  }
+  Component {
+    id: pageOsc
+    Loader {
+      active: pageTable.status === Loader.Ready && pageChart.status === Loader.Ready
+      asynchronous: true
+      visible: status === Loader.Ready
+      sourceComponent: Osc.OsciModulePage {
       }
     }
   }
 
   // create tabs/pages dynamic
   Component.onCompleted: {
-    if(hasOsci)
-    {
-      harmonicsTabsBar.addItem(tabOsc.createObject(harmonicsTabsBar))
-      swipeView.addItem(pageOsc.createObject(swipeView))
-    }
     if(hasFft)
     {
       harmonicsTabsBar.addItem(tabChart.createObject(harmonicsTabsBar))
@@ -87,6 +86,11 @@ Item {
 
       harmonicsTabsBar.addItem(tabEnergy.createObject(harmonicsTabsBar))
       swipeView.addItem(pageChart.createObject(swipeView))
+    }
+    if(hasOsci)
+    {
+      harmonicsTabsBar.addItem(tabOsc.createObject(harmonicsTabsBar))
+      swipeView.addItem(pageOsc.createObject(swipeView))
     }
   }
 }
