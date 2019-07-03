@@ -332,7 +332,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Actual values", tr("Actual values"));
   insert("Oscilloscope plot", tr("Oscilloscope plot"));
   //: FFT bar diagrams or tables that show the harmonic component distribution of the measured values
-  insert("Curves & Harmonics", tr("Curves & Harmonics"));
+  insert("Harmonics & Curves", tr("Harmonics & Curves"));
   //: measuring mode dependent power values
   insert("Power values", tr("Power values"));
   //: FFT tables that show the real and imaginary parts of the measured power values

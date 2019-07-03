@@ -328,7 +328,7 @@ ApplicationWindow {
         }*/
         if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
         {
-          this.append({name: "Curves & Harmonics", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
+          this.append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
         }
         /*if(ModuleIntrospection.hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
         {
