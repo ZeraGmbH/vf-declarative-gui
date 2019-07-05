@@ -32,7 +32,7 @@ CCMP.ModulePage {
     anchors.fill: parent
     ListView {
       anchors.fill: parent
-      model: filteredActualValueModel //glueLogic.ActualValueModel
+      model: filteredActualValueModel //ZGL.ActualValueModel
       boundsBehavior: Flickable.StopAtBounds
 
       delegate: Component {
