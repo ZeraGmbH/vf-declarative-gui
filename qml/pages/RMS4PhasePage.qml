@@ -5,11 +5,13 @@ import VeinEntity 1.0
 import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
 import SortFilterProxyModel 0.2
+import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
 
 CCMP.ModulePage {
   id: root
 
+  readonly property int channelCount: ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount;
   readonly property int row1stHeight: Math.floor(height/8)
   readonly property int rowHeight: Math.floor((height-row1stHeight)/4)
   readonly property int columnWidth: width/4.7
@@ -21,7 +23,7 @@ CCMP.ModulePage {
     filters: [
       RegExpFilter {
         //match all that have data for UN and IN
-        roleName: "AUX"
+        roleName: channelCount > 6 ? "AUX" : "L1"
         pattern: "[^()]"
         caseSensitivity: Qt.CaseInsensitive
       }
