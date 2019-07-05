@@ -6,6 +6,7 @@ import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
 import SortFilterProxyModel 0.2
 import ModuleIntrospection 1.0
+import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
 
 CCMP.ModulePage {
@@ -22,9 +23,9 @@ CCMP.ModulePage {
 
     filters: [
       RegExpFilter {
-        //match all that have data for UN and IN
-        roleName: channelCount > 6 ? "AUX" : "L1"
-        pattern: "[^()]"
+        roleName: "Name"
+        // specify by Name-role (1st column) what to see (leading empty string for header row
+        pattern: "^$|^"+ZTR["UPN"]+"$|^"+ZTR["I"]+"$|^"+ZTR["∠U"]+"$|^"+ZTR["∠I"]+"$"
         caseSensitivity: Qt.CaseInsensitive
       }
     ]
