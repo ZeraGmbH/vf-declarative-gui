@@ -30,8 +30,8 @@ Item {
   property alias description: descriptionText
   property alias unit: unitLabel
 
-  // overridable
-  function postApplyInput() {}
+  // overridable (return true: apply immediate)
+  function doApplyInput(newText) {return true}
 
   // helpers
   // bit of a hack to check for IntValidator / DoubleValidator to detect a numeric field
@@ -72,8 +72,10 @@ Item {
       if(hasAlteredValue())
       {
         inApply = true
-        root.text = getInputCLocale()
-        postApplyInput()
+        var newText = getInputCLocale()
+        if(doApplyInput(newText)) {
+          root.text = newText
+        }
         inApply = false
       }
       // we changed text but did not change value

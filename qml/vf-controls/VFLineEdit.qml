@@ -15,17 +15,19 @@ CCMP.ZLineEdit {
   function transformIncoming(t_incoming) { return t_incoming; }
 
   // overrides
-  function postApplyInput() {
+  function doApplyInput(newText) {
     // Numerical?
     if(root.isNumeric)
     {
       if(root.isDouble)
-        root.entity[root.controlPropertyName] = parseFloat(text)
+        root.entity[root.controlPropertyName] = parseFloat(newText)
       else
-        root.entity[root.controlPropertyName] = parseInt(text, 10)
+        root.entity[root.controlPropertyName] = parseInt(newText, 10)
     }
     else
-      root.entity[root.controlPropertyName] = text
+      root.entity[root.controlPropertyName] = newText
+    // wait to be applied
+    return false
   }
 
   // monitor entity/component changes

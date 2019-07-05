@@ -336,8 +336,9 @@ Item {
         text: GC.errorMarginUpperValue
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-        function postApplyInput() {
-          GC.setErrorMargins(parseFloat(upperLimitInput.text), GC.errorMarginLowerValue);
+        function doApplyInput(newText) {
+          GC.setErrorMargins(parseFloat(newText), GC.errorMarginLowerValue);
+          return false
         }
       }
       Label {
@@ -376,8 +377,9 @@ Item {
         text: GC.errorMarginLowerValue
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-        function postApplyInput() {
-          GC.setErrorMargins(GC.errorMarginUpperValue, parseFloat(lowerLimitInput.text));
+        function doApplyInput(newText) {
+          GC.setErrorMargins(GC.errorMarginUpperValue, parseFloat(newText));
+          return false
         }
       }
       Label {

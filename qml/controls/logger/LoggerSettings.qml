@@ -397,8 +397,10 @@ SettingsControls.SettingsView {
           id: durationField
 
           // overrides
-          function postApplyInput() {
-            entity[controlPropertyName] = timeToMs(text)
+          function doApplyInput(newText) {
+            entity[controlPropertyName] = timeToMs(newText)
+            // wait to be applied
+            return false
           }
           function transformIncoming(t_incoming) {
             if(t_incoming !== undefined)
