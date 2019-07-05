@@ -15,7 +15,10 @@ CCMP.ModulePage {
   readonly property int channelCount: ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount;
   readonly property int row1stHeight: Math.floor(height/8)
   readonly property int rowHeight: Math.floor((height-row1stHeight)/4)
-  readonly property int columnWidth: width/4.7
+  readonly property int columnWidth1st: pixelSize * 2.3
+  readonly property int columnWidthLast: pixelSize * 1.3
+  readonly property int columnWidth: (width-(columnWidth1st+columnWidthLast))/(channelCount/2)
+  readonly property int pixelSize: (channelCount>6 ? rowHeight*0.36 : rowHeight*0.45)
 
   SortFilterProxyModel {
     id: filteredActualValueModel
@@ -40,14 +43,13 @@ CCMP.ModulePage {
 
       delegate: Component {
         Row {
-          width: root.columnWidth*5.2
           height: index === 0 ? root.row1stHeight : root.rowHeight
           CCMP.GridItem {
-            width: root.columnWidth*0.5
+            width: root.columnWidth1st
             height: parent.height
             color: GC.tableShadeColor
             text: Name!==undefined ? Name : ""
-            font.pixelSize: root.rowHeight*0.35
+            font.pixelSize: root.pixelSize
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -55,7 +57,7 @@ CCMP.ModulePage {
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L1!==undefined ? GC.formatNumber(L1) : ""
             textColor: GC.system1ColorDark
-            font.pixelSize: root.rowHeight*0.35
+            font.pixelSize: root.pixelSize
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -63,7 +65,7 @@ CCMP.ModulePage {
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L2!==undefined ? GC.formatNumber(L2) : ""
             textColor: GC.system2ColorDark
-            font.pixelSize: root.rowHeight*0.35
+            font.pixelSize: root.pixelSize
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -71,7 +73,7 @@ CCMP.ModulePage {
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L3!==undefined ? GC.formatNumber(L3) : ""
             textColor: GC.system3ColorDark
-            font.pixelSize: root.rowHeight*0.35
+            font.pixelSize: root.pixelSize
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -79,14 +81,15 @@ CCMP.ModulePage {
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: AUX!==undefined ? GC.formatNumber(AUX) : ""
             textColor: GC.system4ColorDark
-            font.pixelSize: root.rowHeight*0.35
+            font.pixelSize: root.pixelSize
+            visible: channelCount > 6
           }
           CCMP.GridItem {
-            width: root.columnWidth/5
+            width: root.columnWidthLast
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: Unit ? Unit : ""
-            font.pixelSize: root.rowHeight*0.35
+            font.pixelSize: root.pixelSize
           }
         }
       }
