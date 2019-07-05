@@ -16,6 +16,7 @@ Item {
   readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
   readonly property int rowHeight: Math.floor(height/14)
   readonly property int columnWidth: width/7
+  readonly property bool hasHorizScroll: GC.showFftTablePhase ? channelCount > 3 : channelCount > 6
 
   readonly property bool relativeView: GC.showFftTableAsRelative > 0;
 
@@ -36,7 +37,7 @@ Item {
     anchors.leftMargin: root.columnWidth-16
     anchors.right: fftFlickable.right
     orientation: Qt.Horizontal
-    policy: fftFlickable.contentWidth > fftFlickable.width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+    policy: hasHorizScroll ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
   }
 
   Flickable {
@@ -49,15 +50,16 @@ Item {
     clip: true
     interactive: true
     boundsBehavior: Flickable.StopAtBounds
+    flickableDirection: hasHorizScroll ? Flickable.HorizontalAndVerticalFlick : Flickable.VerticalFlick
 
     ScrollBar.horizontal: hBar
     ScrollBar.vertical: vBar
     // The following dance is necessary to improve swiping into next tab.
     onAtXBeginningChanged: {
-      helperMouseArea.enabled = atXBeginning
+      helperMouseArea.enabled = hasHorizScroll && atXBeginning
     }
     onAtXEndChanged: {
-      helperMouseArea.enabled = atXEnd
+      helperMouseArea.enabled = hasHorizScroll && atXEnd
     }
 
     Row {
@@ -187,12 +189,13 @@ Item {
       id: lvHarmonics
       z: -1
       y: root.rowHeight*3
-      width: root.columnWidth*(GC.showFftTablePhase ? 17 : 9) - 16
-      height: root.rowHeight*(fftOrder+3) //root.rowHeight*(20-3)
+      width: root.columnWidth*(GC.showFftTablePhase ? channelCount*2+1 : channelCount+1) - 16
+      height: root.rowHeight*(fftOrder+3)
 
       model: relativeView ? ZGL.FFTRelativeTableModel : ZGL.FFTTableModel
       boundsBehavior: Flickable.StopAtBounds
       cacheBuffer: root.fftOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
+
       clip: true
 
       delegate: Component {
@@ -321,7 +324,7 @@ Item {
             text: (AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : "")
             textColor: GC.system4ColorBright
             font.pixelSize: rowHeight*0.5
-            visible: root.channelCount>6
+            visible: root.channelCount>7
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -329,7 +332,7 @@ Item {
             text: VectorL8 !== undefined ? GC.formatNumber(VectorL8, 3) : ""
             textColor: GC.system4ColorBright
             font.pixelSize: rowHeight*0.5
-            visible: root.channelCount>6 && GC.showFftTablePhase
+            visible: root.channelCount>7 && GC.showFftTablePhase
           }
         }
       }
