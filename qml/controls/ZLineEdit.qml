@@ -52,15 +52,19 @@ Item {
     var altered = false
     // Numerical?
     if(isNumeric) {
-      if(tInput.text !== root.text && (tInput.text === "" || root.text === ""))
+      if(tInput.text !== root.text && (tInput.text === "" || root.text === "")) {
         altered = true
-      else if(isDouble)
+      }
+      else if(isDouble) {
         altered = (Math.abs(parseFloat(getInputCLocale()) - parseFloat(text))) >= Math.pow(10, -root.validator.decimals)
-      else
+      }
+      else {
         altered = parseInt(tInput.text, 10) !== parseInt(text, 10)
+      }
     }
-    else
+    else {
       altered = tInput.text !== root.text
+    }
     return altered
   }
   function applyInput() {
@@ -73,9 +77,10 @@ Item {
         inApply = false
       }
       // we changed text but did not change value
-      else
+      else {
         // discard changes
         localTextToInput()
+      }
     }
   }
   function discardInput() {
@@ -89,14 +94,18 @@ Item {
     if (valid && root.validator) {
       // IntValidator / DoubleValidator
       if(root.isNumeric) {
-        if(root.isDouble)
+        if(root.isDouble) {
           // Sometimes wrong decimal separator is accepted by DoubleValidator so check for it
-          if(GC.locale.decimalPoint === "," ? tInput.text.includes(".") : tInput.text.includes(","))
+          if(GC.locale.decimalPoint === "," ? tInput.text.includes(".") : tInput.text.includes(",")) {
             valid = false
-          else
+          }
+          else {
             valid = root.validator.top>=parseFloat(getInputCLocale()) && root.validator.bottom<=parseFloat(getInputCLocale())
-        else
+          }
+        }
+        else {
           valid = root.validator.top>=parseInt(tInput.text, 10) && root.validator.bottom<=parseInt(tInput.text, 10)
+        }
       }
       // RegExpValidator
       else {
@@ -147,21 +156,25 @@ Item {
       /* Avoid QML magic: when the cursor is at start/end position,
          left/right keys are used to change tab. We don't want that */
       Keys.onLeftPressed: {
-        if(cursorPosition > 0 || selectedText !== "")
+        if(cursorPosition > 0 || selectedText !== "") {
           event.accepted = false;
+        }
       }
       Keys.onRightPressed: {
-        if(cursorPosition < text.length || selectedText !== "")
+        if(cursorPosition < text.length || selectedText !== "") {
           event.accepted = false;
+        }
       }
 
       onFocusChanged: {
         if(changeOnFocusLost && !focus) {
           if(root.hasAlteredValue()) {
-            if(root.hasValidInput())
+            if(root.hasValidInput()) {
               applyInput()
-            else
+            }
+            else {
               discardInput()
+            }
           }
         }
         // Hmm - maybe we should add an option for this...
