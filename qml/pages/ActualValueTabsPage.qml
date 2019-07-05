@@ -80,13 +80,13 @@ Item {
     swipeView.addItem(pageTable.createObject(swipeView))
 
     actualValueTabsBar.addItem(tabVector.createObject(actualValueTabsBar))
-     swipeView.addItem(pageVector.createObject(swipeView))
+    swipeView.addItem(pageVector.createObject(swipeView))
 
     actualValueTabsBar.addItem(tabPower.createObject(actualValueTabsBar))
-     swipeView.addItem(pagePower.createObject(swipeView))
+    swipeView.addItem(pagePower.createObject(swipeView))
 
     actualValueTabsBar.addItem(tabRms.createObject(actualValueTabsBar))
-     swipeView.addItem(pageRms.createObject(swipeView))
+    swipeView.addItem(pageRms.createObject(swipeView))
   }
 }
 
