@@ -317,6 +317,7 @@ ApplicationWindow {
       id: dynamicPageModel
 
       function initModel() {
+        clear()
         if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
         {
           controlsBar.rotaryFieldDependenciesReady = true;
