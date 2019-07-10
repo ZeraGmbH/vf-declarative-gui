@@ -324,63 +324,63 @@ ApplicationWindow {
         }
         if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"]))
         {
-          this.append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
+          append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
         }
         /*if(ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
         {
-          this.append({name: "Oscilloscope plot", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/OsciModulePage.qml"});
+          append({name: "Oscilloscope plot", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/OsciModulePage.qml"});
         }*/
         if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
         {
-          this.append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
+          append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftModulePage.qml"});
         }
         /*if(ModuleIntrospection.hasDependentEntities(["POWER1Module1", "POWER1Module2", "POWER1Module3"]))
         {
-          this.append({name: "Power values", icon: "qrc:/data/staticdata/resources/power.png", elementValue: "qrc:/qml/pages/PowerModulePage.qml"});
+          append({name: "Power values", icon: "qrc:/data/staticdata/resources/power.png", elementValue: "qrc:/qml/pages/PowerModulePage.qml"});
         }*/
         if(ModuleIntrospection.hasDependentEntities(["Power3Module1"]))
         {
-          this.append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerModulePage.qml"});
+          append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerModulePage.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || hasDependentEntities(["SPM1Module1"]))
         {
-          this.append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
+          append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"]))
         {
-          this.append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"});
+          append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["Transformer1Module1"]))
         {
-          this.append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"});
+          append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"});
         }
         /*if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]))
         {
-          this.append({name: "Error calculator", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ErrorCalculatorModulePage.qml"});
+          append({name: "Error calculator", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ErrorCalculatorModulePage.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["SEM1Module1"]))
         {
-           this.append({name: "Energy register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/EnergyRegisterModulePage.qml"});
+           append({name: "Energy register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/EnergyRegisterModulePage.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["SPM1Module1"]))
         {
-           this.append({name: "Power register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/PowerRegisterModulePage.qml"});
+           append({name: "Power register", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/PowerRegisterModulePage.qml"});
         }*/
         /*if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
         {
-          this.append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
+          append({name: "Vector diagram", icon: "qrc:/data/staticdata/resources/dft_values.png", elementValue: "qrc:/qml/pages/DFTModulePage.qml"});
         }*/
         /*if(ModuleIntrospection.hasDependentEntities(["RMSModule1"]))
         {
-          this.append({name: "RMS values", icon: "qrc:/data/staticdata/resources/rms_values.png", elementValue: "qrc:/qml/pages/RMS4PhasePage.qml"});
+          append({name: "RMS values", icon: "qrc:/data/staticdata/resources/rms_values.png", elementValue: "qrc:/qml/pages/RMS4PhasePage.qml"});
         }*/
         if(ModuleIntrospection.hasDependentEntities(["POWER2Module1"]))
         {
-          this.append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"});
+          append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
         {
-          this.append({name: "Reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"});
+          append({name: "Reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"});
         }
       }
     }
