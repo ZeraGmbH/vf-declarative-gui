@@ -451,11 +451,10 @@ ApplicationWindow {
     y: parent.height/2 - height/2
     closePolicy: Popup.NoAutoClose
     modal: true
-    visible: false
     implicitWidth: parent.width/10
     implicitHeight: parent.width/10
     BusyIndicator {
-      running: visible
+      running: true
       anchors.fill: parent
     }
   }
