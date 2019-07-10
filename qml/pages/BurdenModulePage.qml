@@ -228,11 +228,11 @@ Item {
   Component.onCompleted: {
     if(hasVoltageBurden) {
       tabsBar.addItem(tabVoltage.createObject(tabsBar))
-      swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : false}))
+      swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : true}))
     }
     if(hasCurrentBurden) {
       tabsBar.addItem(tabCurrent.createObject(tabsBar))
-      swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : true}))
+      swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : false}))
     }
   }
 }
