@@ -415,6 +415,7 @@ SettingsControls.SettingsView {
 
           entity: root.loggerEntity
           controlPropertyName: "ScheduledLoggingDuration"
+          inputMethodHints: Qt.ImhPreferNumbers
           placeholderText: "HH:MM:SS"
           ///@note maybe a bit confusing that the 00:00:00 from the placeholderText is forbidden as input?
           validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
