@@ -44,19 +44,16 @@ SettingsControls.SettingsView {
   rowHeight: 48 //height/12
 
   function msToTime(t_mSeconds) {
-    var retVal = "";
-    if(t_mSeconds !== undefined)
-    {
-      var ms = t_mSeconds % 1000;
-      t_mSeconds = (t_mSeconds - ms) / 1000;
-      var secs = t_mSeconds % 60;
-      t_mSeconds = (t_mSeconds - secs) / 60;
-      var mins = t_mSeconds % 60;
-      var hours = (t_mSeconds - mins) / 60;
+    if(t_mSeconds === undefined)
+        t_mSeconds = 0
+    var ms = t_mSeconds % 1000
+    t_mSeconds = (t_mSeconds - ms) / 1000
+    var secs = t_mSeconds % 60;
+    t_mSeconds = (t_mSeconds - secs) / 60
+    var mins = t_mSeconds % 60;
+    var hours = (t_mSeconds - mins) / 60;
 
-      retVal = ("0"+hours).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
-    }
-    return retVal;
+    return ("0"+hours).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
   }
   function timeToMs(t_time) {
     var mSeconds = 0;
@@ -403,21 +400,12 @@ SettingsControls.SettingsView {
             return false
           }
           function transformIncoming(t_incoming) {
-            if(t_incoming !== undefined)
-            {
-              return msToTime(t_incoming);
-            }
-            else
-            {
-              return "";
-            }
+            return msToTime(t_incoming);
           }
 
           entity: root.loggerEntity
           controlPropertyName: "ScheduledLoggingDuration"
           inputMethodHints: Qt.ImhPreferNumbers
-          placeholderText: "HH:MM:SS"
-          ///@note maybe a bit confusing that the 00:00:00 from the placeholderText is forbidden as input?
           validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
           width: 280
