@@ -10,7 +10,7 @@ Item {
   onValidatorChanged: {
     tInput.validator = validator
     if(isNumeric) {
-      tInput.inputMethodHints = Qt.ImhDigitsOnly
+      tInput.inputMethodHints = Qt.ImhFormattedNumbersOnly
     }
   }
   property string text: "" // locale C

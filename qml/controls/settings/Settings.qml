@@ -234,7 +234,7 @@ SettingsView {
           to: 7;
           stepSize: 1
           value: GC.decimalPlaces
-          inputMethodHints: Qt.ImhDigitsOnly
+          inputMethodHints: Qt.ImhFormattedNumbersOnly
           onValueChanged: {
             if(value !== GC.decimalPlaces)
             {

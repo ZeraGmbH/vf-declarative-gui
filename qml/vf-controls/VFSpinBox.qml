@@ -37,7 +37,7 @@ Item {
 
       SpinBox {
         id: valueSpinBox
-        inputMethodHints: Qt.ImhDigitsOnly
+        inputMethodHints: Qt.ImhFormattedNumbersOnly
         //if text is entered via keyboard and the user presses enter with valid input -> accept the input instead of requiring one more click to the accept button
         readonly property bool textAcceptWorkaround: false
         readonly property int decimals: introspection.stepSize<1 ? 1 : 0

@@ -71,13 +71,13 @@
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
         <file>qml/vkeyboard/DarkKey.qml</file>
-        <file>qml/vkeyboard/layouts/de_DE/digits.fallback</file>
+        <file>qml/vkeyboard/layouts/de_DE/numbers.fallback</file>
         <file>qml/vkeyboard/layouts/de_DE/main.qml</file>
         <file>qml/vkeyboard/layouts/de_DE/symbols.fallback</file>
-        <file>qml/vkeyboard/layouts/en_GB/digits.fallback</file>
+        <file>qml/vkeyboard/layouts/en_GB/numbers.fallback</file>
         <file>qml/vkeyboard/layouts/en_GB/main.fallback</file>
         <file>qml/vkeyboard/layouts/en_GB/symbols.fallback</file>
-        <file>qml/vkeyboard/layouts/fallback/digits.qml</file>
+        <file>qml/vkeyboard/layouts/fallback/numbers.qml</file>
         <file>qml/vkeyboard/layouts/fallback/main.qml</file>
         <file>qml/vkeyboard/layouts/fallback/symbols.qml</file>
     </qresource>
