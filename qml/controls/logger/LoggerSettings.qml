@@ -403,11 +403,14 @@ SettingsControls.SettingsView {
           function transformIncoming(t_incoming) {
             return msToTime(t_incoming);
           }
+          function hasValidInput() {
+            var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
+            return regex.test(textField.text)
+          }
 
           entity: root.loggerEntity
           controlPropertyName: "ScheduledLoggingDuration"
           inputMethodHints: Qt.ImhPreferNumbers
-          validator: RegExpValidator { regExp: /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/ }
           height: root.rowHeight
           width: 280
           visible: loggerEntity.LoggingEnabled === false
