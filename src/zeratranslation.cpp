@@ -510,7 +510,7 @@ void ZeraTranslation::reloadStringTable()
   insert("<b>%1GB</b> of <b>%2GB</b> (%3%)", tr("<b>%1GB</b> of <b>%2GB</b> (%3%)"));
   insert("Scheduled logging enabled:", tr("Scheduled logging enabled:"));
   //: describes the duration of the recording
-  insert("Logging Duration:", tr("Logging Duration:"));
+  insert("Logging Duration [hh:mm:ss]:", tr("Logging Duration [hh:mm:ss]:"));
   insert("Logger status:", tr("Logger status:"));
   //: describes the ongoing task of recording data into a database
   insert("Logging data", tr("Logging data"));

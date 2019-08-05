@@ -385,7 +385,7 @@ SettingsControls.SettingsView {
         height: root.rowHeight
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Logging Duration:"]
+          text: ZTR["Logging Duration [hh:mm:ss]:"]
           font.pixelSize: 20
           height: root.rowHeight
 
