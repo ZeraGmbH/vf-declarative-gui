@@ -44,8 +44,9 @@ SettingsControls.SettingsView {
   rowHeight: 48 //height/12
 
   function msToTime(t_mSeconds) {
-    if(t_mSeconds === undefined)
-        t_mSeconds = 0
+    if(t_mSeconds === undefined) {
+      t_mSeconds = 0
+    }
     var ms = t_mSeconds % 1000
     t_mSeconds = (t_mSeconds - ms) / 1000
     var secs = t_mSeconds % 60;
