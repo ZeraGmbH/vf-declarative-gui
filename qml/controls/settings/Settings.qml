@@ -228,26 +228,16 @@ SettingsView {
           Layout.fillWidth: true
         }
 
-        SpinBox {
+        CCMP.ZSpinBox {
           id: actDecimalPlaces
-          from: 3;
-          to: 7;
-          stepSize: 1
-          value: GC.decimalPlaces
-          inputMethodHints: Qt.ImhFormattedNumbersOnly
-          onValueChanged: {
-            if(value !== GC.decimalPlaces)
-            {
-              GC.setDecimalPlaces(value)
-            }
+          text: GC.decimalPlaces
+          validator: IntValidator {
+              bottom: 3
+              top: 7
           }
-
-          contentItem: Label {
-            text: parent.textFromValue(parent.value, parent.locale)
-            textFormat: Text.PlainText
-
-            horizontalAlignment: Qt.AlignHCenter
-            verticalAlignment: Qt.AlignVCenter
+          function doApplyInput(newText) {
+            GC.setDecimalPlaces(newText)
+            return true
           }
         }
       }
