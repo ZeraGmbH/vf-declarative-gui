@@ -2,7 +2,7 @@ import QtQuick 2.0
 import GlobalConfig 1.0
 
 Item {
-  function strToCLocale(str) {
+  function strToCLocale(str, isNumeric, isDouble) {
     if(isNumeric) {
       if(!isDouble) {
         return parseInt(str, 10)
@@ -15,7 +15,7 @@ Item {
       return str
     }
   }
-  function strToLocal(str) {
+  function strToLocal(str, isNumeric, isDouble) {
     if(isNumeric) {
       if(!isDouble) {
         return parseInt(str)
@@ -37,7 +37,7 @@ Item {
       }
       else if(isDouble) {
         var expVal = Math.pow(10, decimals)
-        var fieldVal = parseFloat(strToCLocale(fieldText)) * expVal
+        var fieldVal = parseFloat(strToCLocale(fieldText, isNumeric, isDouble)) * expVal
         var textVal = parseFloat(text) * expVal
         altered = Math.abs(fieldVal-textVal) > 0.1
       }
@@ -61,7 +61,7 @@ Item {
             valid = false
           }
           else {
-            valid = top>=parseFloat(strToCLocale(text)) && bottom<=parseFloat(strToCLocale(text))
+            valid = top>=parseFloat(strToCLocale(text, isNumeric, isDouble)) && bottom<=parseFloat(strToCLocale(text, isNumeric, isDouble))
           }
         }
         else {

@@ -19,7 +19,7 @@ Item {
   }
   property string text: "" // locale C
   onTextChanged: {
-    tField.text = tHelper.strToLocal(text)
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
   }
   property alias textField: tField
   property alias inputMethodHints: tField.inputMethodHints;
@@ -55,15 +55,15 @@ Item {
   readonly property bool isDouble: isNumeric && 'decimals' in validator
   readonly property string localeName: GC.localeName
   onLocaleNameChanged: {
-    tField.text = tHelper.strToLocal(text)
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
   }
   function applyInput() {
-    if(tHelper.strToCLocale(tField.text) !== text) {
+    if(tHelper.strToCLocale(tField.text, isNumeric, isDouble) !== text) {
       if(hasValidInput())
       {
         if(hasAlteredValue())
         {
-          var newText = tHelper.strToCLocale(tField.text)
+          var newText = tHelper.strToCLocale(tField.text, isNumeric, isDouble)
           if(doApplyInput(newText)) {
             text = newText
           }
@@ -80,7 +80,7 @@ Item {
   }
   function discardInput() {
     if(tField.text !== text) {
-      tField.text = tHelper.strToLocal(text)
+      tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
     }
   }
 

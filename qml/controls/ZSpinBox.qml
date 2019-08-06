@@ -72,16 +72,16 @@ Item {
     readonly property string localeName: VirtualKeyboardSettings.locale
     onLocaleNameChanged: {
         sBox.locale = Qt.locale(localeName)
-        tField.text = tHelper.strToLocal(text)
+        tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
     }
     function applyInput() {
-        if(tHelper.strToCLocale(tField.text) !== text) {
+        if(tHelper.strToCLocale(tField.text, isNumeric, isDouble) !== text) {
             if(hasValidInput())
             {
                 if(hasAlteredValue())
                 {
                     inApply = true
-                    var newText = tHelper.strToCLocale(tField.text)
+                    var newText = tHelper.strToCLocale(tField.text, isNumeric, isDouble)
                     if(doApplyInput(newText)) {
                         text = newText
                         inApply = false
@@ -99,7 +99,7 @@ Item {
     }
     function discardInput() {
         if(tField.text !== text) {
-            tField.text = tHelper.strToLocal(text)
+            tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
         }
     }
 
@@ -116,10 +116,10 @@ Item {
             if (isNumeric) {
                 if(isDouble) {
                     var val = value / Math.pow(10, validator.decimals)
-                    return tHelper.strToLocal(val.toString())
+                    return tHelper.strToLocal(val.toString(), isNumeric, isDouble)
                 }
                 else {
-                    return tHelper.strToLocal(value.toString())
+                    return tHelper.strToLocal(value.toString(), isNumeric, isDouble)
                 }
             }
             else {
