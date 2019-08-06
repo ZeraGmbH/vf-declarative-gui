@@ -35,7 +35,7 @@ CCMP.ZLineEdit {
     // make sure control works like ZLineEdit when controlPropertyName was not set
     property var intermediateValue: transformIncoming(root.controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text)
     onIntermediateValueChanged: {
-      if(intermediateValue !== undefined && !inApply)
+      if(intermediateValue !== undefined)
         root.text = intermediateValue
     }
   }

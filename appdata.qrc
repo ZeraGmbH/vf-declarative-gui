@@ -13,8 +13,9 @@
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/ZButton.qml</file>
         <file>qml/controls/ZComboBox.qml</file>
-        <file>qml/controls/ZLineEdit.qml</file>
         <file>qml/controls/ZDoubleValidator.qml</file>
+        <file>qml/controls/ZLineEdit.qml</file>
+        <file>qml/controls/ZSpinBox.qml</file>
         <file>qml/controls/ZVisualComboBox.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
@@ -45,6 +46,7 @@
         <file>qml/controls/settings/Settings.qml</file>
         <file>qml/controls/settings/SettingsInterval.qml</file>
         <file>qml/controls/settings/SettingsView.qml</file>
+        <file>qml/helpers/TextHelper.qml</file>
         <file>qml/pages/ActualValuesPage.qml</file>
         <file>qml/pages/ActualValueTabsPage.qml</file>
         <file>qml/pages/BurdenModulePage.qml</file>
