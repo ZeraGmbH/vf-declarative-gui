@@ -10,6 +10,7 @@ CCMP.ZLineEdit {
   // entitiy/component settings
   property QtObject entity
   property string controlPropertyName
+  text: transformIncoming(controlPropertyName !== "" ? entity[controlPropertyName] : text)
 
   // overridable
   function transformIncoming(t_incoming) { return t_incoming; }
@@ -28,15 +29,5 @@ CCMP.ZLineEdit {
       root.entity[root.controlPropertyName] = newText
     // wait to be applied
     return false
-  }
-
-  // monitor entity/component changes
-  Item {
-    // make sure control works like ZLineEdit when controlPropertyName was not set
-    property var intermediateValue: transformIncoming(root.controlPropertyName !== "" ? root.entity[root.controlPropertyName] : root.text)
-    onIntermediateValueChanged: {
-      if(intermediateValue !== undefined)
-        root.text = intermediateValue
-    }
   }
 }
