@@ -35,12 +35,10 @@ void ZeraTranslation::changeLanguage(const QString &t_language)
   {
     m_currentLanguage = t_language;
     QLocale locale = QLocale(m_currentLanguage);
-    QLocale::setDefault(locale);
     QString languageName = QLocale::languageToString(locale.language());
     if(m_translationFilesModel.contains(t_language) || t_language == "C")
     {
       const QString filename = m_translationFilesModel.value(t_language);
-
 
       QCoreApplication::instance()->removeTranslator(&m_translator);
 
