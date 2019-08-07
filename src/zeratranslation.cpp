@@ -230,7 +230,8 @@ void ZeraTranslation::reloadStringTable()
   //: measurement period based integration interval
   insert("Integration period interval:", tr("Integration period interval:"));
   //displayed under settings
-  insert("seconds", tr("seconds", "integration interval"));
+  insert("seconds", tr("seconds", "integration time interval unit"));
+  insert("periods", tr("periods", "integration period interval unit"));
 
   //main.qml
   insert("Loading...", tr("Loading..."));

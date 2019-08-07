@@ -1,5 +1,8 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
+import QtQuick.Layouts 1.2
+import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -13,6 +16,9 @@ Column {
 
   property var periodList;
   property var timeList;
+
+  property var periodIntrospection: ModuleIntrospection.introMap[periodList[0].EntityName];
+  property var timeIntrospection: ModuleIntrospection.introMap[timeList[0].EntityName];
 
   property bool hasPeriodEntries: false
 
@@ -61,56 +67,92 @@ Column {
 
   Component {
     id: timeComponent
-    VFControls.VFSpinBox {
-      intermediateValue: timeList[0].PAR_Interval
-      onOutValueChanged: {
-        for(var i=0; i<timeList.length; ++i)
-        {
-          if(timeList[i].PAR_Interval !== outValue)
-          {
-            timeList[i].PAR_Interval = outValue;
-          }
-        }
-      }
-      CCMP.SpinBoxIntrospection {
-        property var timeIntrospection: ModuleIntrospection.introMap[timeList[0].EntityName];
-        unit: ZTR["seconds"];
-        upperBound: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
-        lowerBound: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
-        stepSize: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2];
-        Component.onCompleted: parent.introspection = this
-      }
-
-      text: ZTR["Integration time interval:"]
+    Item {
       height: root.rowHeight
       width: root.rowWidth
+      RowLayout {
+        anchors.fill: parent
+        Label {
+          font.pixelSize: Math.max(height/2, 20)
+          text: ZTR["Integration time interval:"]
+        }
+        Item {
+          Layout.fillWidth: true
+        }
+        VFControls.VFSpinBox {
+          height: root.rowHeight
+          entity: timeList[0]
+          controlPropertyName: "PAR_Interval"
+          validator: CCMP.ZDoubleValidator{
+            bottom: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
+            top: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
+          }
+          // we have to override doApplyInput because integration time displays
+          // first entity's value but hast to change all in our list
+          function doApplyInput(newText) {
+            var newVal = parseFloat(newText)
+            for(var i=0; i<timeList.length; ++i)
+            {
+              if(timeList[i].PAR_Interval !== newVal)
+              {
+                timeList[i].PAR_Interval = newVal;
+              }
+            }
+            // wait to be applied
+            return false
+          }
+        }
+        Label {
+          font.pixelSize: Math.max(height/2, 20)
+          text: ZTR["seconds"];
+        }
+      }
     }
   }
   Component {
     id: periodComponent
-    VFControls.VFSpinBox {
-      intermediateValue: periodList[0].PAR_Interval
-      onOutValueChanged: {
-        for(var i=0; i<periodList.length; ++i)
-        {
-          if(periodList[i].PAR_Interval !== outValue)
-          {
-            periodList[i].PAR_Interval = outValue;
-          }
-        }
-      }
-      CCMP.SpinBoxIntrospection {
-        property var periodIntrospection: ModuleIntrospection.introMap[periodList[0].EntityName];
-        unit: "periods";
-        upperBound: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
-        lowerBound: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
-        stepSize: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2];
-        Component.onCompleted: parent.introspection = this
-      }
-
-      text: ZTR["Integration period interval:"]
+    Item {
       height: root.rowHeight
       width: root.rowWidth
+      RowLayout {
+        anchors.fill: parent
+        Label {
+          font.pixelSize: Math.max(height/2, 20)
+          text: ZTR["Integration period interval:"]
+        }
+        Item {
+          Layout.fillWidth: true
+        }
+        VFControls.VFSpinBox {
+          height: root.rowHeight
+          entity: periodList[0]
+          controlPropertyName: "PAR_Interval"
+          validator: CCMP.ZDoubleValidator{
+            bottom: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
+            top: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
+          }
+          // we have to override doApplyInput because integration period displays
+          // first entity's value but hast to change all in our list
+          function doApplyInput(newText) {
+            var newVal = parseFloat(newText)
+            for(var i=0; i<periodList.length; ++i)
+            {
+              if(periodList[i].PAR_Interval !== newVal)
+              {
+                periodList[i].PAR_Interval = newVal;
+              }
+            }
+            // wait to be applied
+            return false
+          }
+        }
+        Label {
+          font.pixelSize: Math.max(height/2, 20)
+          text: ZTR["periods"];
+        }
+      }
     }
   }
 }

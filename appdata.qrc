@@ -9,7 +9,6 @@
         <file>qml/controls/ModulePage.qml</file>
         <file>qml/controls/PagePathView.qml</file>
         <file>qml/controls/RotaryFieldIndicator.qml</file>
-        <file>qml/controls/SpinBoxIntrospection.qml</file>
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/ZButton.qml</file>
         <file>qml/controls/ZComboBox.qml</file>

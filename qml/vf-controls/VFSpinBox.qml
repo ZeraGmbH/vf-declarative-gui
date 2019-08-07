@@ -7,126 +7,30 @@ import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
 
 
-Item {
+CCMP.ZSpinBox {
   id: root
-  property CCMP.SpinBoxIntrospection introspection;
-  property alias text: descriptionLabel.text
-  property real outValue;
-  property real intermediateValue;
-  onIntermediateValueChanged: {
-    valueSpinBox.value = intermediateValue * 100
-  }
 
+  // entitiy/component settings
+  property QtObject entity
+  property string controlPropertyName
+  text: transformIncoming(controlPropertyName !== "" ? entity[controlPropertyName] : text)
 
+  // overridable
+  function transformIncoming(t_incoming) { return t_incoming; }
 
-  Rectangle {
-    anchors.fill: parent
-    color: valueSpinBox.realValue !== intermediateValue ? "#33000044" : "transparent"
-    radius: 4
-
-    RowLayout {
-      anchors.fill: parent
-      Label {
-        id: descriptionLabel
-        font.pixelSize: Math.max(height/2, 20)
-      }
-      Item {
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-      }
-
-      SpinBox {
-        id: valueSpinBox
-        inputMethodHints: Qt.ImhFormattedNumbersOnly
-        //if text is entered via keyboard and the user presses enter with valid input -> accept the input instead of requiring one more click to the accept button
-        readonly property bool textAcceptWorkaround: false
-        readonly property int decimals: introspection.stepSize<1 ? 1 : 0
-        readonly property real realValue: value / 100
-
-        from: validator.bottom * 100
-        //value: root.intermediateValue * 100
-        to: validator.top * 100
-        stepSize: introspection.stepSize * 100
-        width: 200
-        editable: true
-
-        onRealValueChanged: {
-          if(textAcceptWorkaround === true)
-          {
-            focus=false
-            outValue = valueSpinBox.realValue
-            textAcceptWorkaround = false;
-          }
-        }
-
-        Component.onCompleted: {
-          value = root.intermediateValue * 100
-        }
-
-        validator: CCMP.ZDoubleValidator {
-          bottom: introspection.lowerBound
-          top: introspection.upperBound
-          decimals: GC.ceilLog10Of1DividedByX(introspection.stepSize);
-        }
-
-        textFromValue: (function(value, locale) { return Number(value / 100).toLocaleString(locale, 'f', valueSpinBox.decimals); });
-        valueFromText: (function(text, locale) { return Number.fromLocaleString(locale, text) * 100; });
-
-        Connections {
-          target: valueSpinBox.contentItem //this is the TextInput
-          onAccepted: {
-            valueSpinBox.textAcceptWorkaround = true
-          }
-          Component.onCompleted: valueSpinBox.contentItem.selectByMouse=true
-        }
-      }
-
-
-      Label {
-        id: unitLabel
-        Layout.preferredWidth: 40
-        Layout.minimumWidth: contentWidth
-        height: parent.height
-        text: introspection.unit
-        font.pixelSize: Math.max(height/3, 20)
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignRight
-      }
-
-      Item {
-        width: 2
-      }
-
-      Button {
-        id: acceptButton
-        text: "\u2713" //unicode checkmark
-        font.pixelSize: Math.max(height/2, 16)
-        implicitHeight: root.height*0.8
-        implicitWidth: implicitHeight
-        highlighted: true
-        //only enable the button if the value is different from the remote
-        enabled: intermediateValue !== valueSpinBox.realValue
-
-        onClicked: {
-          focus=true
-          outValue = valueSpinBox.realValue
-        }
-      }
-      Button {
-        id: resetButton
-        text: "\u00D7" //unicode x mark
-        font.pixelSize: Math.max(height/2, 16)
-        implicitHeight: root.height*0.8
-        implicitWidth: implicitHeight
-
-        //only enable the button if the value is different from the remote
-        enabled: intermediateValue !== valueSpinBox.realValue
-
-        onClicked: {
-          focus = true
-          valueSpinBox.value = intermediateValue * 100
-        }
-      }
+  // overrides
+  function doApplyInput(newText) {
+    // Numerical?
+    if(root.isNumeric)
+    {
+      if(root.isDouble)
+        root.entity[root.controlPropertyName] = parseFloat(newText)
+      else
+        root.entity[root.controlPropertyName] = parseInt(newText, 10)
     }
+    else
+      root.entity[root.controlPropertyName] = newText
+    // wait to be applied
+    return false
   }
 }
