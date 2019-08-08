@@ -501,7 +501,7 @@ void ZeraTranslation::reloadStringTable()
   //LoggerSettings.qml
   insert("Database Logging", tr("Database Logging"));
   insert("Logging enabled:", tr("Logging enabled:"));
-  insert("Database location:", tr("Database location:"));
+  insert("DB location:", tr("DB location:"));
   insert("Database filename:", tr("Database filename:"));
   //: amount of space available on the filesystem where the dabase is to be stored
   insert("Filesystem storage available:", tr("Filesystem storage available:"));

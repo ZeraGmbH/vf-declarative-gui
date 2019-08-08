@@ -16,6 +16,7 @@ RowLayout {
 
   property var storageList: [];
   property int rowHeight;
+  property int pixelSize: 20;
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
   property var listStorageTracer;
 
@@ -68,8 +69,9 @@ RowLayout {
 
   Label {
     textFormat: Text.PlainText
-    text: ZTR["Database location:"]
-    font.pixelSize: 20
+    text: ZTR["DB location:"]
+    height: rowHeight
+    font.pixelSize: root.pixelSize
   }
   Item {
     //spacer
@@ -84,10 +86,9 @@ RowLayout {
       id: storageListWarning
       anchors.centerIn: parent
       font.family: "FontAwesome"
-      font.pixelSize: 20
+      font.pixelSize: root.pixelSize
       text: FA.fa_exclamation_triangle
       color: Material.color(Material.Yellow)
-
 
       MouseArea {
         anchors.fill: parent
@@ -112,8 +113,10 @@ RowLayout {
     model: root.storageList;
     implicitWidth: root.width/2;
     height: root.rowHeight
+    font.pixelSize: root.pixelSize
     enabled: root.storageList.length > 0
     Layout.fillWidth: true
+    Layout.fillHeight: true
 
     Connections {
       target: GC
@@ -129,7 +132,8 @@ RowLayout {
   }
   Button {
     font.family: "FontAwesome"
-    font.pixelSize: 20
+    implicitHeight: root.rowHeight
+    font.pixelSize: root.pixelSize
     text: FA.fa_refresh
     onClicked: {
       if(root.listStorageTracer === undefined)
