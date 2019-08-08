@@ -22,6 +22,12 @@ SettingsControls.SettingsView {
 
   property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
 
+  horizMargin: GC.standardTextHorizMargin
+  rowHeight: (height-footerHeight)/8
+
+  readonly property int footerHeight: height/10
+  readonly property double fontScale: 0.4
+
   onLogEnabledChanged: {
     if(snapshotTrigger === true && logEnabled === true)
     {
@@ -40,12 +46,6 @@ SettingsControls.SettingsView {
       loggerEntity.LoggingEnabled = false;
     }
   }
-
-  horizMargin: GC.standardTextHorizMargin
-  rowHeight: (height-footerHeight)/9
-
-  readonly property int footerHeight: height/10
-  readonly property double fontScale: 0.5
 
   function msToTime(t_mSeconds) {
     if(t_mSeconds === undefined) {
