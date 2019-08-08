@@ -6,9 +6,6 @@ import QtQuick.Controls.Material 2.0
 Item {
   id: root
 
-  signal acceptClicked;
-  signal resetClicked;
-
   property VisualItemModel model;
   property int rowHeight: height/10
   property int rowWidth: sView.width-sView.anchors.leftMargin
