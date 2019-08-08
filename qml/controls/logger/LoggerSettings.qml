@@ -162,6 +162,13 @@ SettingsControls.SettingsView {
           font.pixelSize: root.rowHeight*fontScale
           Layout.fillWidth: true
         }
+        Label { // exclamation mark if no database selected
+          font.family: "FontAwesome"
+          font.pixelSize: root.rowHeight*fontScale
+          text: FA.fa_exclamation_triangle
+          color: Material.color(Material.Yellow)
+          visible: loggerEntity.DatabaseReady === false
+        }
         Label {
           text: ZTR[loggerEntity.LoggingStatus]
           font.pixelSize: root.rowHeight*fontScale
@@ -172,21 +179,6 @@ SettingsControls.SettingsView {
           implicitHeight: root.rowHeight
           implicitWidth: height
           visible: loggerEntity.LoggingEnabled
-        }
-      }
-    }
-    Item {
-      height: root.rowHeight;
-      width: root.rowWidth;
-
-      LoggerDbLocationSelector {
-        id: dbLocationSelector
-        anchors.fill: parent
-        rowHeight: root.rowHeight
-        pixelSize: root.rowHeight*fontScale
-        onNewIndexSelected: {
-          //the user switched the db storage location manually so unload the database
-          root.loggerEntity.DatabaseFile = "";
         }
       }
     }
@@ -205,7 +197,28 @@ SettingsControls.SettingsView {
         }
         Item {
           //spacer
-          width: 16
+          width: 24
+        }
+        CCMP.ZLineEdit {
+          id: fileNameField
+          Layout.fillWidth: true
+          Layout.fillHeight: true
+          textField.font.pixelSize: root.rowHeight*fontScale
+          placeholderText: ZTR["<directory name>/<filename>"]
+          text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
+          validator: RegExpValidator {
+            regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
+          }
+        }
+        Label {
+          textFormat: Text.PlainText
+          text: ".db"
+          font.pixelSize: root.rowHeight*fontScale
+          horizontalAlignment: Text.AlignLeft
+        }
+        Item {
+          //spacer
+          width: GC.standardMarginWithMin
         }
         Button {
           font.family: "FontAwesome"
@@ -217,42 +230,8 @@ SettingsControls.SettingsView {
             loggerSearchPopup.active = true;
           }
         }
-
-        Label {
-          font.family: "FontAwesome"
-          font.pixelSize: root.rowHeight*fontScale
-          text: FA.fa_exclamation_triangle
-          color: Material.color(Material.Yellow)
-          visible: loggerEntity.DatabaseReady === false
-
-          MouseArea {
-            anchors.fill: parent
-            anchors.margins: -8
-            onClicked: console.log("tooltip")
-          }
-        }
-        Item {
-          //spacer
-          width: 8
-        }
-        CCMP.ZLineEdit {
-          id: fileNameField
-          Layout.fillWidth: true
-          Layout.fillHeight: true
-          placeholderText: ZTR["<directory name>/<filename>"]
-          text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
-          validator: RegExpValidator {
-            regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
-          }
-        }
-
-        Label {
-          textFormat: Text.PlainText
-          text: ".db"
-          font.pixelSize: root.rowHeight*fontScale
-        }
         Button {
-          text: FA.fa_check
+          text: (enabled ? "<font color=\"lawngreen\">" : "<font color=\"grey\">") + FA.fa_check
           font.family: "FontAwesome"
           font.pixelSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
@@ -262,7 +241,7 @@ SettingsControls.SettingsView {
           }
         }
         Button {
-          text: FA.fa_eject
+          text: (enabled ? "<font color=\"#EEff0000\">" : "<font color=\"grey\">") + FA.fa_eject  // darker red
           font.family: "FontAwesome"
           font.pixelSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
@@ -295,6 +274,21 @@ SettingsControls.SettingsView {
         }
       }
     }
+    Item {
+      height: root.rowHeight;
+      width: root.rowWidth;
+
+      LoggerDbLocationSelector {
+        id: dbLocationSelector
+        anchors.fill: parent
+        rowHeight: root.rowHeight
+        pixelSize: root.rowHeight*fontScale
+        onNewIndexSelected: {
+          //the user switched the db storage location manually so unload the database
+          root.loggerEntity.DatabaseFile = "";
+        }
+      }
+    }
     RowLayout {
       height: root.rowHeight;
       width: root.rowWidth;
@@ -314,23 +308,6 @@ SettingsControls.SettingsView {
       }
     }
     RowLayout {
-      height: root.rowHeight;
-      width: root.rowWidth;
-      Label {
-        textFormat: Text.PlainText
-        text: ZTR["Scheduled logging enabled:"]
-        font.pixelSize: root.rowHeight*fontScale
-        Layout.fillWidth: true
-      }
-      VFControls.VFSwitch {
-        id: scheduledLogging
-        height: parent.height
-        entity: root.loggerEntity
-        controlPropertyName: "ScheduledLoggingEnabled"
-      }
-    }
-    RowLayout {
-      enabled: loggerEntity.ScheduledLoggingEnabled === true
       opacity: enabled ? 1.0 : 0.7
       height: root.rowHeight;
       width: root.rowWidth;
@@ -339,6 +316,7 @@ SettingsControls.SettingsView {
         text: ZTR["Logging Duration [hh:mm:ss]:"]
         font.pixelSize: root.rowHeight*fontScale
         Layout.fillWidth: true
+        enabled: loggerEntity.ScheduledLoggingEnabled === true
       }
       VFControls.VFLineEdit {
         id: durationField
@@ -361,8 +339,15 @@ SettingsControls.SettingsView {
         controlPropertyName: "ScheduledLoggingDuration"
         inputMethodHints: Qt.ImhPreferNumbers
         height: root.rowHeight
+        textField.font.pixelSize: root.rowHeight*fontScale
         width: 280
-        visible: loggerEntity.LoggingEnabled === false
+        enabled: loggerEntity.ScheduledLoggingEnabled === true
+      }
+      VFControls.VFSwitch {
+        id: scheduledLogging
+        height: parent.height
+        entity: root.loggerEntity
+        controlPropertyName: "ScheduledLoggingEnabled"
       }
       Label {
         visible: loggerEntity.LoggingEnabled === true
