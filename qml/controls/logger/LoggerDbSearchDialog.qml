@@ -127,14 +127,6 @@ Popup {
       text: ZTR["Cancel"];
       enabled: searchProgressId !== undefined;
     }
-    Item {
-      Layout.fillWidth: true
-    }
-
-    Button {
-      text: ZTR["Close"];
-      onClicked: root.close();
-    }
   }
 
   ListModel {
@@ -145,11 +137,13 @@ Popup {
     id: lvFileBrowser
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: parent.bottom
+    anchors.bottom: closeButtonContainer.top
+    anchors.bottomMargin: root.bottomMargin
     anchors.top: controlsTopSearchBar.bottom
     model: searchResultData.count > 0 ? searchResultData : []
     boundsBehavior: Flickable.StopAtBounds
     highlightFollowsCurrentItem: true
+    clip: true
     ScrollIndicator.vertical: ScrollIndicator {
       width: 8
       active: true
@@ -191,4 +185,19 @@ Popup {
       }
     }
   }
+  Item {
+    id: closeButtonContainer
+    anchors.bottom: parent.bottom
+    height: root.rowHeight*2
+    width: root.width
+    Button {
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      text: ZTR["Close"];
+      onClicked: root.close();
+      font.pixelSize: root.rowHeight
+    }
+  }
+
+
 }
