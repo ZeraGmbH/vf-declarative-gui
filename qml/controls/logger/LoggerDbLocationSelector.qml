@@ -132,7 +132,7 @@ RowLayout {
   }
   Button {
     font.family: "FontAwesome"
-    implicitHeight: root.rowHeight
+    height: root.rowHeight
     font.pixelSize: root.pixelSize
     text: FA.fa_refresh
     onClicked: {
