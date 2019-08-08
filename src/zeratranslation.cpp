@@ -503,10 +503,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Logging enabled:", tr("Logging enabled:"));
   insert("DB location:", tr("DB location:"));
   insert("Database filename:", tr("Database filename:"));
-  //: amount of space available on the filesystem where the dabase is to be stored
-  insert("Filesystem storage available:", tr("Filesystem storage available:"));
-  //: %1 = filesystem storage available, %2 = total, %3 = percentage available
-  insert("<b>%1GB</b> of <b>%2GB</b> (%3%)", tr("<b>%1GB</b> of <b>%2GB</b> (%3%)"));
+  //: %1 = database size %2 = filesystem storage available, %2 = total, %3 = percentage available
+  insert("<b>%1MB</b> (available <b>%2GB</b> of <b>%3GB</b> / %4%)", tr("<b>%1MB</b> (available <b>%2GB</b> of <b>%3GB</b> / %4%)"));
   insert("Scheduled logging enabled:", tr("Scheduled logging enabled:"));
   //: describes the duration of the recording
   insert("Logging Duration [hh:mm:ss]:", tr("Logging Duration [hh:mm:ss]:"));
@@ -517,7 +515,7 @@ void ZeraTranslation::reloadStringTable()
   insert("No database selected", tr("No database selected"));
   insert("Database loaded", tr("Database loaded"));
   insert("Database error", tr("Database error"));
-  insert("Database size:", tr("Database size:"));
+  insert("DB size:", tr("DB size:"));
   //: the user can make a selection of values he wants to log into a database
   insert("Select recorded values:", tr("Select recorded values:"));
   insert("Manage customer data:", tr("Manage customer data:"));

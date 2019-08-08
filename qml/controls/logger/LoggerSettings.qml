@@ -41,7 +41,11 @@ SettingsControls.SettingsView {
     }
   }
 
-  rowHeight: 48 //height/12
+  horizMargin: GC.standardTextHorizMargin
+  rowHeight: (height-footerHeight)/9
+
+  readonly property int footerHeight: height/10
+  readonly property double fontScale: 0.5
 
   function msToTime(t_mSeconds) {
     if(t_mSeconds === undefined) {
@@ -138,37 +142,29 @@ SettingsControls.SettingsView {
     }
   }
 
-
   model: VisualItemModel {
-    Item {
-      height: root.rowHeight;
+    Label {
+      text: ZTR["Database Logging"]
       width: root.rowWidth;
-      Label {
-        text: ZTR["Database Logging"]
-        font.pixelSize: 24
-        anchors.horizontalCenter: parent.horizontalCenter
-        height: root.rowHeight
-      }
+      horizontalAlignment: Text.AlignHCenter
+      font.pixelSize: root.rowHeight*fontScale
     }
+
     Item {
       height: root.rowHeight;
       width: root.rowWidth;
 
       RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-
         Label {
           textFormat: Text.PlainText
           text: ZTR["Logger status:"]
-          font.pixelSize: 20
-
+          font.pixelSize: root.rowHeight*fontScale
           Layout.fillWidth: true
         }
         Label {
           text: ZTR[loggerEntity.LoggingStatus]
-          font.pixelSize: 16
+          font.pixelSize: root.rowHeight*fontScale
         }
         BusyIndicator {
           id: busyIndicator
@@ -186,9 +182,8 @@ SettingsControls.SettingsView {
       LoggerDbLocationSelector {
         id: dbLocationSelector
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
         rowHeight: root.rowHeight
+        pixelSize: root.rowHeight*fontScale
         onNewIndexSelected: {
           //the user switched the db storage location manually so unload the database
           root.loggerEntity.DatabaseFile = "";
@@ -202,13 +197,11 @@ SettingsControls.SettingsView {
 
       RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
 
         Label {
           textFormat: Text.PlainText
           text: ZTR["Database filename:"]
-          font.pixelSize: 20
+          font.pixelSize: root.rowHeight*fontScale
         }
         Item {
           //spacer
@@ -216,7 +209,8 @@ SettingsControls.SettingsView {
         }
         Button {
           font.family: "FontAwesome"
-          font.pixelSize: 20
+          implicitHeight: root.rowHeight
+          font.pixelSize: root.rowHeight*fontScale
           text: FA.fa_search
           enabled: dbLocationSelector.storageList.length > 0
           onClicked: {
@@ -226,7 +220,7 @@ SettingsControls.SettingsView {
 
         Label {
           font.family: "FontAwesome"
-          font.pixelSize: 20
+          font.pixelSize: root.rowHeight*fontScale
           text: FA.fa_exclamation_triangle
           color: Material.color(Material.Yellow)
           visible: loggerEntity.DatabaseReady === false
@@ -243,8 +237,8 @@ SettingsControls.SettingsView {
         }
         CCMP.ZLineEdit {
           id: fileNameField
-          height: root.rowHeight
           Layout.fillWidth: true
+          Layout.fillHeight: true
           placeholderText: ZTR["<directory name>/<filename>"]
           text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
           validator: RegExpValidator {
@@ -255,12 +249,12 @@ SettingsControls.SettingsView {
         Label {
           textFormat: Text.PlainText
           text: ".db"
-          font.pixelSize: 20
+          font.pixelSize: root.rowHeight*fontScale
         }
         Button {
           text: FA.fa_check
           font.family: "FontAwesome"
-          font.pixelSize: 20
+          font.pixelSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
           enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
           onClicked: {
@@ -270,7 +264,7 @@ SettingsControls.SettingsView {
         Button {
           text: FA.fa_eject
           font.family: "FontAwesome"
-          font.pixelSize: 20
+          font.pixelSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
           enabled: root.loggerEntity.DatabaseFile.length > 0
           onClicked: {
@@ -285,36 +279,10 @@ SettingsControls.SettingsView {
       visible: loggerEntity.DatabaseReady === true
       RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Database size:"]
-          font.pixelSize: 20
-
-          Layout.fillWidth: true
-        }
-        Label {
-          text:  String("<b>%1MB</b>").arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2));
-          font.pixelSize: 16
-        }
-      }
-    }
-    Item {
-      height: root.rowHeight;
-      width: root.rowWidth;
-      visible: loggerEntity.DatabaseReady === true
-      RowLayout {
-        anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-
-        Label {
-          textFormat: Text.PlainText
-          text: ZTR["Filesystem storage available:"]
-          font.pixelSize: 20
-
+          text: ZTR["DB size:"]
+          font.pixelSize: root.rowHeight*fontScale
           Layout.fillWidth: true
         }
         Label {
@@ -322,107 +290,87 @@ SettingsControls.SettingsView {
           readonly property double available: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemFree : NaN
           readonly property double total: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemTotal : NaN
           readonly property double percentAvail: total > 0 ? (available/total * 100).toFixed(2) : 0.0;
-          text: ZTR["<b>%1GB</b> of <b>%2GB</b> (%3%)"].arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
-          font.pixelSize: 16
+          text:  ZTR["<b>%1MB</b> (available <b>%2GB</b> of <b>%3GB</b> / %4%)"].arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2)).arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
+          font.pixelSize: root.rowHeight*fontScale
         }
       }
     }
-
     RowLayout {
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.leftMargin: 16
-      anchors.rightMargin: 16
+      height: root.rowHeight;
+      width: root.rowWidth;
       Label {
         textFormat: Text.PlainText
         text: ZTR["Select recorded values:"]
-        font.pixelSize: 20
-
+        font.pixelSize: root.rowHeight*fontScale
         Layout.fillWidth: true
       }
       Button {
         text: FA.fa_cogs
         font.family: "FontAwesome"
-        font.pixelSize: 20
+        font.pixelSize: root.rowHeight*fontScale
         implicitHeight: root.rowHeight
         enabled: loggerEntity.LoggingEnabled === false
         onClicked: loggerDataSelection.active=true;
       }
     }
-    Item {
-      height: root.rowHeight*2
+    RowLayout {
+      height: root.rowHeight;
       width: root.rowWidth;
-
-      RowLayout {
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-
-        Label {
-          textFormat: Text.PlainText
-          text: ZTR["Scheduled logging enabled:"]
-          font.pixelSize: 20
-
-          Layout.fillWidth: true
-        }
-        VFControls.VFSwitch {
-          id: scheduledLogging
-          height: parent.height
-          entity: root.loggerEntity
-          controlPropertyName: "ScheduledLoggingEnabled"
-        }
+      Label {
+        textFormat: Text.PlainText
+        text: ZTR["Scheduled logging enabled:"]
+        font.pixelSize: root.rowHeight*fontScale
+        Layout.fillWidth: true
       }
-      RowLayout {
-        enabled: loggerEntity.ScheduledLoggingEnabled === true
-        opacity: enabled ? 1.0 : 0.7
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
+      VFControls.VFSwitch {
+        id: scheduledLogging
+        height: parent.height
+        entity: root.loggerEntity
+        controlPropertyName: "ScheduledLoggingEnabled"
+      }
+    }
+    RowLayout {
+      enabled: loggerEntity.ScheduledLoggingEnabled === true
+      opacity: enabled ? 1.0 : 0.7
+      height: root.rowHeight;
+      width: root.rowWidth;
+      Label {
+        textFormat: Text.PlainText
+        text: ZTR["Logging Duration [hh:mm:ss]:"]
+        font.pixelSize: root.rowHeight*fontScale
+        Layout.fillWidth: true
+      }
+      VFControls.VFLineEdit {
+        id: durationField
+
+        // overrides
+        function doApplyInput(newText) {
+          entity[controlPropertyName] = timeToMs(newText)
+          // wait to be applied
+          return false
+        }
+        function transformIncoming(t_incoming) {
+          return msToTime(t_incoming);
+        }
+        function hasValidInput() {
+          var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
+          return regex.test(textField.text)
+        }
+
+        entity: root.loggerEntity
+        controlPropertyName: "ScheduledLoggingDuration"
+        inputMethodHints: Qt.ImhPreferNumbers
         height: root.rowHeight
-        Label {
-          textFormat: Text.PlainText
-          text: ZTR["Logging Duration [hh:mm:ss]:"]
-          font.pixelSize: 20
-          height: root.rowHeight
+        width: 280
+        visible: loggerEntity.LoggingEnabled === false
+      }
+      Label {
+        visible: loggerEntity.LoggingEnabled === true
+        font.pixelSize: root.rowHeight*fontScale
+        property string countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
+        height: root.rowHeight
 
-          Layout.fillWidth: true
-        }
-        VFControls.VFLineEdit {
-          id: durationField
-
-          // overrides
-          function doApplyInput(newText) {
-            entity[controlPropertyName] = timeToMs(newText)
-            // wait to be applied
-            return false
-          }
-          function transformIncoming(t_incoming) {
-            return msToTime(t_incoming);
-          }
-          function hasValidInput() {
-            var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
-            return regex.test(textField.text)
-          }
-
-          entity: root.loggerEntity
-          controlPropertyName: "ScheduledLoggingDuration"
-          inputMethodHints: Qt.ImhPreferNumbers
-          height: root.rowHeight
-          width: 280
-          visible: loggerEntity.LoggingEnabled === false
-        }
-        Label {
-          visible: loggerEntity.LoggingEnabled === true
-          font.pixelSize: 20
-          property string countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
-          height: root.rowHeight
-
-          text: countDown;
-        }
+        text: countDown;
       }
     }
     Item {
@@ -431,13 +379,11 @@ SettingsControls.SettingsView {
       RowLayout {
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
         visible: VeinEntity.hasEntity("CustomerData")
         Label {
           textFormat: Text.PlainText
           text: ZTR["Manage customer data:"]
-          font.pixelSize: 20
+          font.pixelSize: root.rowHeight*fontScale
 
           Layout.fillWidth: true
           Label {
@@ -446,7 +392,7 @@ SettingsControls.SettingsView {
             text: FA.icon(FA.fa_file_text)+customerId
             font.family: "FontAwesome"
             anchors.right: parent.right
-            anchors.rightMargin: 12
+            anchors.rightMargin: 10
             Rectangle {
               color: Material.dropShadowColor
               radius: 3
@@ -458,7 +404,7 @@ SettingsControls.SettingsView {
         Button {
           text: FA.fa_cogs
           font.family: "FontAwesome"
-          font.pixelSize: 20
+          font.pixelSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
           enabled: loggerEntity.LoggingEnabled === false
           onClicked: customerDataEntry.active=true;
@@ -468,7 +414,7 @@ SettingsControls.SettingsView {
   }
   Item {
     id: buttonContainer
-    height: root.rowHeight*1.2;
+    height: root.footerHeight
     width: root.width;
     anchors.bottom: parent.bottom
     visible: !customerDataEntry.active
@@ -476,13 +422,13 @@ SettingsControls.SettingsView {
     Button {
       id: startButton
       text: ZTR["Start"]
-      font.pixelSize: 20
+      font.pixelSize: root.rowHeight*fontScale
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
+      anchors.leftMargin: GC.standardTextHorizMargin
       width: root.rowWidth/4
       enabled: loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true && !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
       highlighted: true
-
       onClicked: {
         recordNamePopup.visible = true;
       }
@@ -491,7 +437,7 @@ SettingsControls.SettingsView {
     Button {
       id: snapshotButton
       text: ZTR["Snapshot"]
-      font.pixelSize: 20
+      font.pixelSize: root.rowHeight*fontScale
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
       anchors.horizontalCenter: parent.horizontalCenter
@@ -507,10 +453,11 @@ SettingsControls.SettingsView {
     Button {
       id: stopButton
       text: ZTR["Stop"]
-      font.pixelSize: 20
+      font.pixelSize: root.rowHeight*fontScale
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
       anchors.right: parent.right
+      anchors.rightMargin: GC.standardTextHorizMargin
       width: root.rowWidth/4
       enabled: loggerEntity.LoggingEnabled === true
 
