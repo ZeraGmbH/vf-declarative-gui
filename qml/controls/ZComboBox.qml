@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
@@ -32,10 +32,11 @@ Rectangle {
   readonly property bool modelInitialized: arrayMode === true && model.length>0;
   onModelInitializedChanged: updateFakeModel();
 
-  color: Qt.darker(Material.frameColor) //buttonPressColor
+  color: Qt.darker(Material.frameColor, (focus ? 1.25 : 2.0)) //buttonPressColor
   //border.color: Material.dropShadowColor
   opacity: enabled ? 1.0 : 0.7
   radius: 4
+  activeFocusOnTab: true
 
   function updateFakeModel() {
     if(modelInitialized === true)
@@ -76,6 +77,11 @@ Rectangle {
     }
   }
 
+  onFocusChanged: {
+    if(!focus) {
+      expanded = false
+    }
+  }
   onExpandedChanged: {
     expanded ? selectionDialog.open() : selectionDialog.close()
   }
@@ -127,6 +133,7 @@ Rectangle {
     onClicked: {
       if(root.enabled && root.count>0)
       {
+        root.focus = true
         root.expanded=true
       }
     }
@@ -210,6 +217,7 @@ Rectangle {
                 }
               }
               selectionDialog.close()
+              root.focus = false
             }
           }
 
