@@ -7,18 +7,23 @@ Item {
   id: root
 
   property VisualItemModel model;
+  property int horizMargin: 0
   property int rowHeight: height/10
-  property int rowWidth: sView.width-sView.anchors.leftMargin
+  // hack to check scroll bar visibility
+  property int rowWidth: sView.width-horizMargin-(sView.atYBeginning && sView.atYEnd ? 0 : scroller.width)
   property alias viewAnchors: sView.anchors
 
   ListView {
     id: sView
-    clip: true
     anchors.fill: parent
+    anchors.leftMargin: root.horizMargin
+    anchors.rightMargin: root.horizMargin
+    clip: true
     spacing: 0
     model: root.model
     boundsBehavior: Flickable.StopAtBounds
     ScrollIndicator.vertical: ScrollIndicator {
+      id: scroller
       active: true
       onActiveChanged: {
         if(active !== true)
