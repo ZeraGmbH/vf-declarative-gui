@@ -69,9 +69,11 @@ Popup {
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
-
     rowHeight: root.rowHeight
-    onCurrentIndexChanged: searchResultData.clear();
+    onNewIndexSelected: {
+      searchResultData.clear();
+      sendSearchRPC(tfSearchPattern.text+".db");
+    }
   }
 
   RowLayout {

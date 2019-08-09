@@ -284,8 +284,10 @@ SettingsControls.SettingsView {
         rowHeight: root.rowHeight
         pixelSize: root.rowHeight*fontScale
         onNewIndexSelected: {
-          //the user switched the db storage location manually so unload the database
-          root.loggerEntity.DatabaseFile = "";
+          if(byUser) {
+            //the user switched the db storage location manually so unload the database
+            root.loggerEntity.DatabaseFile = "";
+          }
         }
       }
     }

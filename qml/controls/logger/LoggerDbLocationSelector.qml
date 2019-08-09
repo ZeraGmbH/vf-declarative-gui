@@ -20,7 +20,7 @@ RowLayout {
   readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
   property var listStorageTracer;
 
-  signal newIndexSelected(int index);
+  signal newIndexSelected(bool byUser);
 
   Component.onCompleted: updateStorageList();
 
@@ -60,6 +60,7 @@ RowLayout {
             if(selectedStorage.indexOf(storageList[storageIdx]) === 0)
             {
               root.currentIndex = storageIdx;
+              root.newIndexSelected(false);
             }
           }
         }
@@ -127,7 +128,7 @@ RowLayout {
 
     onActivated: {
       GC.currentSelectedStoragePath = storageList[index];
-      root.newIndexSelected(index);
+      root.newIndexSelected(true);
     }
   }
   Button {
