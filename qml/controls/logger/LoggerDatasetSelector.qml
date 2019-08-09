@@ -7,6 +7,7 @@ import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
 import ZeraTranslation  1.0
 import "qrc:/data/staticdata/FontAwesome.js" as FA
+import "qrc:/qml/controls" as CCMP
 
 Popup {
   id: root
@@ -18,6 +19,7 @@ Popup {
                                       : (selectedView.currentItem !== undefined && selectedView.currentItem !== null
                                          ? selectedModel.get(filteredSelectedModel.mapToSource(selectedView.currentIndex))
                                          : undefined));
+  //property real rowHeight: 20
 
   function initModels() {
     availModel.clear();
@@ -146,19 +148,17 @@ Popup {
     }
   }
 
-  TextField {
+  CCMP.ZLineEdit {
     id: availSearchField
     placeholderText: ZTR["Regex search"]
-    selectByMouse: true
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: middleFrame.left
     anchors.leftMargin: 8
     anchors.rightMargin: 8
-    //disabled because of virtual keyboard
-    //Component.onCompleted: forceActiveFocus()
+    height: 40 // TODO auto scale
     enabled: availView.moving===false
-    inputMethodHints: Qt.ImhNoAutoUppercase
+    textField.horizontalAlignment: Text.AlignLeft
   }
   Label {
     anchors.bottom: availSearchField.top
@@ -202,17 +202,17 @@ Popup {
       }
     }
   }
-  TextField {
+  CCMP.ZLineEdit {
     id: selectedSearchField
     placeholderText: ZTR["Regex search"]
-    selectByMouse: true
     anchors.top: parent.top
     anchors.right: parent.right
     anchors.left: middleFrame.right
     anchors.leftMargin: 8
     anchors.rightMargin: 8
+    height: 40 // TODO auto scale
     enabled: selectedView.moving===false
-    inputMethodHints: Qt.ImhNoAutoUppercase
+    textField.horizontalAlignment: Text.AlignLeft
   }
   Label {
     anchors.bottom: selectedSearchField.top
@@ -380,7 +380,7 @@ Popup {
 
     Button {
       id: resetButton
-      text: ZTR["Close"]
+      text: ZTR["Cancel"]
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
