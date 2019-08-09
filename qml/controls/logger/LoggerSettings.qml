@@ -25,8 +25,8 @@ SettingsControls.SettingsView {
   horizMargin: GC.standardTextHorizMargin
   rowHeight: (height-footerHeight)/8
 
-  readonly property double footerHeight: height/10
-  readonly property double fontScale: 0.3
+  readonly property real footerHeight: height/10
+  readonly property real fontScale: 0.3
 
   onLogEnabledChanged: {
     if(snapshotTrigger === true && logEnabled === true)

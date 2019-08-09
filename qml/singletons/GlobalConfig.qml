@@ -89,13 +89,13 @@ Item {
     }
   }
 
-  readonly property double standardMargin: 0
-  readonly property double standardMarginMin: 1
-  readonly property double standardMarginWithMin: standardMargin > standardMarginMin ? standardMargin : standardMarginMin
-  readonly property double standardTextHorizMargin: 8
-  readonly property double standardTextBottomMargin: 8
-  readonly property double standardComboContentScale: 1.2
-  property double vkeyboardHeight: 0
+  readonly property real standardMargin: 0
+  readonly property real standardMarginMin: 1
+  readonly property real standardMarginWithMin: standardMargin > standardMarginMin ? standardMargin : standardMarginMin
+  readonly property real standardTextHorizMargin: 8
+  readonly property real standardTextBottomMargin: 8
+  readonly property real standardComboContentScale: 1.2
+  property real vkeyboardHeight: 0
 
   readonly property color system1ColorBright: settings.globalSettings.getOption("system1Color") //"#EEff7755"
   readonly property color system1ColorDark: settings.globalSettings.getOption("system1ColorDark") // "#EEff0000"

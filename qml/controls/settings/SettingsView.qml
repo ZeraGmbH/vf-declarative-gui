@@ -8,7 +8,7 @@ Item {
 
   property VisualItemModel model;
   property int horizMargin: 0
-  property double rowHeight: height/10
+  property real rowHeight: height/10
   // hack to check scroll bar visibility
   property int rowWidth: sView.width-horizMargin-(sView.atYBeginning && sView.atYEnd ? 0 : scroller.width)
   property alias viewAnchors: sView.anchors
