@@ -85,7 +85,7 @@ Popup {
     Label {
       textFormat: Text.PlainText
       text: ZTR["Database filename:"]
-      font.pixelSize: 20
+      font.pointSize: 20
     }
 
     BusyIndicator {
@@ -197,7 +197,7 @@ Popup {
       anchors.verticalCenter: parent.verticalCenter
       text: ZTR["Close"];
       onClicked: root.close();
-      font.pixelSize: root.rowHeight
+      font.pointSize: root.rowHeight
     }
   }
 
