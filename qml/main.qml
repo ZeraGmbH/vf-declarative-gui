@@ -318,10 +318,7 @@ ApplicationWindow {
 
       function initModel() {
         clear()
-        if(ModuleIntrospection.hasDependentEntities(["DFTModule1"]))
-        {
-          controlsBar.rotaryFieldDependenciesReady = true;
-        }
+        controlsBar.rotaryFieldDependenciesReady = ModuleIntrospection.hasDependentEntities(["DFTModule1"]) && !ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"])
         if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"]))
         {
           append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
@@ -342,7 +339,7 @@ ApplicationWindow {
         {
           append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerModulePage.qml"});
         }
-        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || hasDependentEntities(["SPM1Module1"]))
+        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"]))
         {
           append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
         }

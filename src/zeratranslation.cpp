@@ -128,11 +128,19 @@ void ZeraTranslation::reloadStringTable()
   insert("4LSg", tr("4LSg", "4 Leiter Scheinleistung geometrisch = 4 wire apparent power geometric"));
   insert("2LS", tr("2LS", "2 Leiter Scheinleistung = 2 wire apparent power"));
   insert("2LSg", tr("2LSg", "2 Leiter Scheinleistung geometrisch = 2 wire apparent power geometric"));
+  insert("QREF", tr("QREF", "Referenz-Modus = reference mode"));
 
   insert("L1", tr("L1", "measuring system 1"));
   insert("L2", tr("L2", "measuring system 2"));
   insert("L3", tr("L3", "measuring system 3"));
   insert("AUX", tr("AUX", "auxiliary measuring system"));
+
+  insert("REF1", tr("REF1", "reference channel 1"));
+  insert("REF2", tr("REF1", "reference channel 2"));
+  insert("REF3", tr("REF1", "reference channel 3"));
+  insert("REF4", tr("REF1", "reference channel 4"));
+  insert("REF5", tr("REF1", "reference channel 5"));
+  insert("REF6", tr("REF1", "reference channel 6"));
 
   insert("UPN", tr("UPN","voltage pase to neutral"));
   insert("UPP", tr("UPP","voltage phase to phase"));
