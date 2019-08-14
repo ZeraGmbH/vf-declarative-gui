@@ -18,7 +18,6 @@ Item {
     Image {
         id: spinnerImage
         anchors.verticalCenter: parent.verticalCenter
-        x: 4 * dp
         width: 36 * dp
         height: width
         source: "qrc:/data/staticdata/resources/spinner.png"
@@ -36,8 +35,6 @@ Item {
         anchors.left: spinnerImage.right
         anchors.leftMargin: 8 * dp
         anchors.verticalCenter: spinnerImage.verticalCenter
-        color: "#c0c0c0"
-        font.pixelSize: 18 * dp
         text: "Ø " + root.fpsAvg + " | " + root.fps + " fps"
     }
 

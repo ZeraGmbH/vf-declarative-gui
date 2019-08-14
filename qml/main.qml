@@ -75,19 +75,6 @@ ApplicationWindow {
     source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
   }
 
-  CCMP.DebugRectangle {
-    //show the current window size
-    visible: debugBypass === true;
-    Label {
-      text: String("Window size: %1x%2").arg(displayWindow.width).arg(displayWindow.height)
-      anchors.centerIn: parent
-      Component.onCompleted: {
-        parent.width=width + 8;
-        parent.height=height + 2;
-      }
-    }
-  }
-
   Connections {
     target: VeinEntity
     onStateChanged: {
@@ -130,16 +117,6 @@ ApplicationWindow {
     onActivated: {
       debugBypass = !debugBypass;
     }
-  }
-
-  CCMP.FpsItem {
-    anchors.top: parent.top
-    anchors.right: parent.right
-    anchors.rightMargin: 48
-    height: 24
-    width: 64
-    z: Infinity
-    visible: debugBypass === true
   }
 
   Shortcut {
@@ -361,6 +338,24 @@ ApplicationWindow {
       }
     }
   }
+
+  Loader {
+    active: debugBypass === true
+    sourceComponent: Item {
+      height: 100
+      Label {
+        id: windowSize
+        text: String("Window size: %1x%2").arg(displayWindow.width).arg(displayWindow.height)
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: 32
+      }
+      CCMP.FpsItem {
+        anchors.left: windowSize.right
+        anchors.verticalCenter: parent.verticalCenter
+      }
+    }
+  }
+
   InputPanel {
     id: inputPanel
     anchors.left: parent.left
