@@ -116,7 +116,7 @@ Item {
         textAnchors.rightMargin: 2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text:ZTR["THDN:"]
+        text: ZTR["THDN:"]
         textColor: Material.primaryTextColor
         font.bold: true
       }
@@ -170,16 +170,18 @@ Item {
             font.pixelSize: rowHeight*0.5
             font.bold: true
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            color: GC.tableShadeColor
-            border.color: "#444" //disable border transparency
-            text: ZTR["Phase"] + " [°]"
-            textColor: GC.getColorByIndex(index+1)
-            font.pixelSize: rowHeight*0.5
-            font.bold: true
-            visible: GC.showFftTablePhase
+          Loader {
+            active: GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              color: GC.tableShadeColor
+              border.color: "#444" //disable border transparency
+              text: ZTR["Phase"] + " [°]"
+              textColor: GC.getColorByIndex(index+1)
+              font.pixelSize: rowHeight*0.5
+              font.bold: true
+            }
           }
         }
       }
@@ -219,13 +221,15 @@ Item {
             textColor: GC.system1ColorDark
             font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: VectorL1 !== undefined ? GC.formatNumber(VectorL1, 3) : ""
-            textColor: GC.system1ColorDark
-            font.pixelSize: rowHeight*0.5
-            visible: GC.showFftTablePhase
+          Loader {
+            active: GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: GC.showFftTablePhase && VectorL1 !== undefined ? GC.formatNumber(VectorL1, 3) : ""
+              textColor: GC.system1ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -234,13 +238,15 @@ Item {
             textColor: GC.system2ColorDark
             font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: VectorL2 !== undefined ? GC.formatNumber(VectorL2, 3) : ""
-            textColor: GC.system2ColorDark
-            font.pixelSize: rowHeight*0.5
-            visible: GC.showFftTablePhase
+          Loader {
+            active: GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: GC.showFftTablePhase && VectorL2 !== undefined ? GC.formatNumber(VectorL2, 3) : ""
+              textColor: GC.system2ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -249,13 +255,15 @@ Item {
             textColor: GC.system3ColorDark
             font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: VectorL3 !== undefined ? GC.formatNumber(VectorL3, 3) : ""
-            textColor: GC.system3ColorDark
-            font.pixelSize: rowHeight*0.5
-            visible: GC.showFftTablePhase
+          Loader {
+            active: GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: GC.showFftTablePhase && VectorL3 !== undefined ? GC.formatNumber(VectorL3, 3) : ""
+              textColor: GC.system3ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -264,13 +272,15 @@ Item {
             textColor: GC.system1ColorBright
             font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: VectorL4 !== undefined ? GC.formatNumber(VectorL4, 3) : ""
-            textColor: GC.system1ColorBright
-            font.pixelSize: rowHeight*0.5
-            visible: GC.showFftTablePhase
+          Loader {
+            active: GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: GC.showFftTablePhase && VectorL4 !== undefined ? GC.formatNumber(VectorL4, 3) : ""
+              textColor: GC.system1ColorBright
+              font.pixelSize: rowHeight*0.5
+            }
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -279,13 +289,15 @@ Item {
             textColor: GC.system2ColorBright
             font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: VectorL5 !== undefined ? GC.formatNumber(VectorL5, 3) : ""
-            textColor: GC.system2ColorBright
-            font.pixelSize: rowHeight*0.5
-            visible: GC.showFftTablePhase
+          Loader {
+            active: GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: GC.showFftTablePhase && VectorL5 !== undefined ? GC.formatNumber(VectorL5, 3) : ""
+              textColor: GC.system2ColorBright
+              font.pixelSize: rowHeight*0.5
+            }
           }
           CCMP.GridItem {
             width: root.columnWidth
@@ -294,45 +306,55 @@ Item {
             textColor: GC.system3ColorBright
             font.pixelSize: rowHeight*0.5
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: VectorL6 !== undefined ? GC.formatNumber(VectorL6, 3) : ""
-            textColor: GC.system3ColorBright
-            font.pixelSize: rowHeight*0.5
-            visible: GC.showFftTablePhase
+          Loader {
+            active: GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: GC.showFftTablePhase && VectorL6 !== undefined ? GC.formatNumber(VectorL6, 3) : ""
+              textColor: GC.system3ColorBright
+              font.pixelSize: rowHeight*0.5
+            }
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: (AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : "")
-            textColor: GC.system4ColorDark
-            font.pixelSize: rowHeight*0.5
-            visible: root.channelCount>6
+          Loader {
+            active: root.channelCount>6
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : "")
+              textColor: GC.system4ColorDark
+              font.pixelSize: rowHeight*0.5
+            }
           }
-          CCMP.GridItem {
+          Loader {
+            active: root.channelCount>6 && GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             text: VectorL7 !== undefined ? GC.formatNumber(VectorL7, 3) : ""
             textColor: GC.system4ColorDark
             font.pixelSize: rowHeight*0.5
-            visible: root.channelCount>6 && GC.showFftTablePhase
+            }
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: (AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : "")
-            textColor: GC.system4ColorBright
-            font.pixelSize: rowHeight*0.5
-            visible: root.channelCount>7
+          Loader {
+            active: root.channelCount>7
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: (AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : "")
+              textColor: GC.system4ColorBright
+              font.pixelSize: rowHeight*0.5
+            }
           }
-          CCMP.GridItem {
-            width: root.columnWidth
-            height: root.rowHeight
-            text: VectorL8 !== undefined ? GC.formatNumber(VectorL8, 3) : ""
-            textColor: GC.system4ColorBright
-            font.pixelSize: rowHeight*0.5
-            visible: root.channelCount>7 && GC.showFftTablePhase
+          Loader {
+            active: root.channelCount>7 && GC.showFftTablePhase
+            sourceComponent: CCMP.GridItem {
+              width: root.columnWidth
+              height: root.rowHeight
+              text: VectorL8 !== undefined ? GC.formatNumber(VectorL8, 3) : ""
+              textColor: GC.system4ColorBright
+              font.pixelSize: rowHeight*0.5
+            }
           }
         }
       }
