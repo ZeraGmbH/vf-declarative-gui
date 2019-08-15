@@ -59,12 +59,13 @@ Flickable {
       height: root.height/3
       width: root.width-16
       y: index*height
+      readonly property string strThdn: ZTR["THDN:"]
       Label {
         id: thdnLabelU
         //index starts with 1
         readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
         readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
-        text: ZTR["THDN:"] +" "+ GC.formatNumber(thdnModule[componentName]) + unit
+        text: strThdn +" "+ GC.formatNumber(thdnModule[componentName]) + unit
         color: GC.systemColorByIndex(leftChannels[index]+1)
       }
       Label {
@@ -72,7 +73,7 @@ Flickable {
         //index starts with 1
         readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
         readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
-        text: ZTR["THDN:"] +" "+ GC.formatNumber(thdnModule[componentName]) + unit
+        text: strThdn +" "+ GC.formatNumber(thdnModule[componentName]) + unit
         anchors.right: parent.right
         anchors.rightMargin: 8
         color: GC.systemColorByIndex(rightChannels[index]+1)
