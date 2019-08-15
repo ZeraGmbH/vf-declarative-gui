@@ -136,11 +136,11 @@ void ZeraTranslation::reloadStringTable()
   insert("AUX", tr("AUX", "auxiliary measuring system"));
 
   insert("REF1", tr("REF1", "reference channel 1"));
-  insert("REF2", tr("REF1", "reference channel 2"));
-  insert("REF3", tr("REF1", "reference channel 3"));
-  insert("REF4", tr("REF1", "reference channel 4"));
-  insert("REF5", tr("REF1", "reference channel 5"));
-  insert("REF6", tr("REF1", "reference channel 6"));
+  insert("REF2", tr("REF2", "reference channel 2"));
+  insert("REF3", tr("REF3", "reference channel 3"));
+  insert("REF4", tr("REF4", "reference channel 4"));
+  insert("REF5", tr("REF5", "reference channel 5"));
+  insert("REF6", tr("REF6", "reference channel 6"));
 
   insert("UPN", tr("UPN","voltage pase to neutral"));
   insert("UPP", tr("UPP","voltage phase to phase"));
