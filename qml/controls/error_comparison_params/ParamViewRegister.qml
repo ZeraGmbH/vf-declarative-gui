@@ -14,7 +14,7 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: root
-  // properties to set from parent
+  // properties to set by parent
   property QtObject logicalParent;
   property var validatorRefInput
   property var validatorMeasTime
