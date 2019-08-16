@@ -45,42 +45,6 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Mode:"]
-        font.pointSize: root.pointSize
-      }
-      VFControls.VFComboBox {
-        id: cbMode
-
-        arrayMode: true
-
-        entity: logicalParent.errCalEntity
-        controlPropertyName: "PAR_Mode"
-        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Mode.Validation.Data
-
-        x: parent.width*col1Width
-        width: parent.width*col2Width - GC.standardMarginWithMin
-
-        anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
-
-        contentRowHeight: height*GC.standardComboContentScale
-        contentFlow: GridView.FlowTopToBottom
-      }
-    }
-    Rectangle {
-      color: "transparent"
-      border.color: Material.dividerColor
-      height: root.rowHeight
-      width: root.width
-      enabled: logicalParent.canStartMeasurement
-      Label {
-        textFormat: Text.PlainText
-        anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextHorizMargin
-        width: parent.width*col1Width
-        anchors.verticalCenter: parent.verticalCenter
         text: ZTR["Reference input:"]
         font.pointSize: root.pointSize
       }
@@ -138,6 +102,42 @@ Item {
 
         anchors.right: parent.right
         width: parent.width*col3Width-GC.standardMargin
+
+        anchors.top: parent.top
+        anchors.topMargin: GC.standardMargin
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: GC.standardMargin
+
+        contentRowHeight: height*GC.standardComboContentScale
+        contentFlow: GridView.FlowTopToBottom
+      }
+    }
+    Rectangle {
+      color: "transparent"
+      border.color: Material.dividerColor
+      height: root.rowHeight
+      width: root.width
+      enabled: logicalParent.canStartMeasurement
+      Label {
+        textFormat: Text.PlainText
+        anchors.left: parent.left
+        anchors.leftMargin: GC.standardTextHorizMargin
+        width: parent.width*col1Width
+        anchors.verticalCenter: parent.verticalCenter
+        text: ZTR["Mode:"]
+        font.pointSize: root.pointSize
+      }
+      VFControls.VFComboBox {
+        id: cbMode
+
+        arrayMode: true
+
+        entity: logicalParent.errCalEntity
+        controlPropertyName: "PAR_Mode"
+        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Mode.Validation.Data
+
+        x: parent.width*col1Width
+        width: parent.width*col2Width - GC.standardMarginWithMin
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
