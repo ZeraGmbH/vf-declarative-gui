@@ -11,7 +11,7 @@ import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
-import "qrc:/qml/controls/error_calculator_module" as ErrorCalculator
+import "qrc:/qml/controls/error_comparison_params" as ParamViews
 
 CCMP.ModulePage {
   id: root
@@ -54,7 +54,7 @@ CCMP.ModulePage {
       height: root.height*0.7
       width: root.width
 
-      ErrorCalculator.ParameterView {
+      ParamViews.ParamViewComparison {
         logicalParent: root
         width: parent.width*0.7
         height: parent.height

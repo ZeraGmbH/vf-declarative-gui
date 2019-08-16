@@ -25,8 +25,9 @@
         <file>qml/controls/customerdata/CustomerDataEntry.qml</file>
         <file>qml/controls/error_comparison_common/ErrorMarginView.qml</file>
         <file>qml/controls/error_comparison_common/MeasurementView.qml</file>
-        <file>qml/controls/error_calculator_module/ParameterView.qml</file>
-        <file>qml/controls/energy_register_module/ParameterView.qml</file>
+        <file>qml/controls/error_comparison_params/ParamViewComparison.qml</file>
+        <file>qml/controls/error_comparison_params/ParamViewEnergyRegister.qml</file>
+        <file>qml/controls/error_comparison_params/ParamViewPowerRegister.qml</file>
         <file>qml/controls/fft_module/FftCharts.qml</file>
         <file>qml/controls/fft_module/FftTable.qml</file>
         <file>qml/controls/harmonic_power_module/HarmonicPowerCharts.qml</file>
@@ -36,7 +37,6 @@
         <file>qml/controls/logger/LoggerDbSearchDialog.qml</file>
         <file>qml/controls/logger/LoggerRecordNamePopup.qml</file>
         <file>qml/controls/logger/LoggerSettings.qml</file>
-        <file>qml/controls/power_register_module/ParameterView.qml</file>
         <file>qml/controls/range_module/RangeIndicator.qml</file>
         <file>qml/controls/range_module/RangeMenu.qml</file>
         <file>qml/controls/range_module/RangePeak.qml</file>
