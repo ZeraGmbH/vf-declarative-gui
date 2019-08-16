@@ -51,8 +51,14 @@ CCMP.ModulePage {
       height: root.height*0.7
       width: root.width
 
-      ParamViews.ParamViewEnergyRegister {
+      ParamViews.ParamViewRegister {
         logicalParent: root
+        validatorRefInput: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_RefInput.Validation
+        validatorMeasTime: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation
+        validatorT0Input: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation
+        validatorT1Input: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation
+        validatorTxUnit: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_TXUNIT.Validation
+
         width: parent.width*0.7
         height: parent.height
       }

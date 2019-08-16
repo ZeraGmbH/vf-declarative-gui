@@ -14,8 +14,14 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: root
-  //holds the state data
+  // properties to set from parent
   property QtObject logicalParent;
+  property var validatorRefInput
+  property var validatorMeasTime
+  property var validatorT0Input
+  property var validatorT1Input
+  property var validatorTxUnit
+
   readonly property real rowHeight: height/7
   readonly property real pointSize: rowHeight/2.5
 
@@ -56,7 +62,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_RefInput"
-        model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
+        model: validatorRefInput.Data
 
         x: parent.width*col1Width
         width: parent.width*col2Width - GC.standardMarginWithMin
@@ -163,7 +169,7 @@ Item {
       enabled: logicalParent.canStartMeasurement && cbMode.currentIndex !== 0
       color: "transparent"
       border.color: Material.dividerColor
-      height: root.rowHeight * visible //don't waste space if not visible
+      height: root.rowHeight
       width: root.width
 
       Label {
@@ -187,9 +193,9 @@ Item {
         pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[0];
-          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_MeasTime.Validation.Data[2]);
+          bottom: validatorMeasTime.Data[0];
+          top: validatorMeasTime.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(validatorMeasTime.Data[2]);
         }
       }
       Label {
@@ -228,9 +234,9 @@ Item {
         pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[0];
-          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T0Input.Validation.Data[2]);
+          bottom: validatorT0Input.Data[0];
+          top: validatorT0Input.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(validatorT0Input.Data[2]);
         }
 
       }
@@ -266,9 +272,9 @@ Item {
         pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[0];
-          top: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_T1input.Validation.Data[2]);
+          bottom: validatorT1Input.Data[0];
+          top: validatorT1Input.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(validatorT1Input.Data[2]);
         }
       }
       VFControls.VFComboBox {
@@ -278,7 +284,7 @@ Item {
         entity: logicalParent.errCalEntity
 
         controlPropertyName: "PAR_TXUNIT"
-        model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_TXUNIT.Validation.Data
+        model: validatorTxUnit.Data
 
         height: parent.height - 2*GC.standardMargin
         anchors.verticalCenter: parent.verticalCenter
