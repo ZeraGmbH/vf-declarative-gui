@@ -14,8 +14,17 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 Item {
   id: root
-  //holds the state data
+  // properties to set by parent
   property QtObject logicalParent;
+  property var validatorRefInput
+  property var validatorMode
+  property var validatorDutInput
+  property var validatorDutConstant
+  property var validatorDutConstUnit
+  // either energy or mrate
+  property var validatorEnergy
+  property var validatorMrate
+
   readonly property real rowHeight: height/7
   readonly property real pointSize: rowHeight/2.5
 
@@ -55,7 +64,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_RefInput"
-        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
+        model: validatorRefInput.Data
 
         x: parent.width*col1Width
         width: parent.width*col2Width - GC.standardMarginWithMin
@@ -134,7 +143,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Mode"
-        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Mode.Validation.Data
+        model: validatorMode.Data
 
         x: parent.width*col1Width
         width: parent.width*col2Width - GC.standardMarginWithMin
@@ -169,7 +178,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DutInput"
-        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
+        model: validatorDutInput.Data
 
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -212,9 +221,9 @@ Item {
         pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[0];
-          top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutConstant.Validation.Data[2]);
+          bottom: validatorDutConstant.Data[0];
+          top: validatorDutConstant.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(validatorDutConstant.Data[2]);
         }
       }
 
@@ -223,7 +232,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DUTConstUnit"
-        model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
+        model: validatorDutConstUnit.Data
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -238,7 +247,7 @@ Item {
     }
     Rectangle {
       enabled: logicalParent.canStartMeasurement
-      visible: cbMode.currentText === "energy" // this is localization independent
+      visible: validatorEnergy !== undefined
       color: "transparent"
       border.color: Material.dividerColor
       height: root.rowHeight * visible //don't waste space if not visible
@@ -266,15 +275,15 @@ Item {
         pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[0];
-          top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Energy.Validation.Data[2]);
+          bottom: validatorEnergy.Data[0];
+          top: validatorEnergy.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2]);
         }
       }
       // TODO unit?
     }
     Rectangle {
-      visible: cbMode.currentText === "mrate" // this is localization independent
+      visible: validatorMrate !== undefined
       enabled: logicalParent.canStartMeasurement
       color: "transparent"
       border.color: Material.dividerColor
@@ -303,9 +312,9 @@ Item {
         pointSize: root.pointSize
 
         validator: CCMP.ZDoubleValidator {
-          bottom: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[0];
-          top: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_MRate.Validation.Data[2]);
+          bottom: validatorMrate.Data[0];
+          top: validatorMrate.Data[1];
+          decimals: GC.ceilLog10Of1DividedByX(validatorMrate.Data[2]);
         }
       }
     }

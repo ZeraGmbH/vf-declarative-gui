@@ -305,7 +305,7 @@ ApplicationWindow {
         if(ModuleIntrospection.hasDependentEntities(["Power3Module1"])) {
           append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerModulePage.qml"});
         }
-        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
+        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
           append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
         }
         if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {

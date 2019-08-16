@@ -15,7 +15,8 @@ Item {
   property var p1m4Introspection: VeinEntity.hasEntity("POWER1Module4") ? JSON.parse(VeinEntity.getEntity("POWER1Module4").INF_ModuleInterface) : 0
   property var p2m1Introspection: VeinEntity.hasEntity("POWER2Module1") ? JSON.parse(VeinEntity.getEntity("POWER2Module1").INF_ModuleInterface) : 0
   property var p3m1Introspection: VeinEntity.hasEntity("Power3Module1") ? JSON.parse(VeinEntity.getEntity("Power3Module1").INF_ModuleInterface) : 0
-  property var sec1Introspection: VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0
+  property var sec1m1Introspection: VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0
+  property var sec1m2Introspection: VeinEntity.hasEntity("SEC1Module2") ? JSON.parse(VeinEntity.getEntity("SEC1Module2").INF_ModuleInterface) : 0
   property var sem1Introspection: VeinEntity.hasEntity("SEM1Module1") ? JSON.parse(VeinEntity.getEntity("SEM1Module1").INF_ModuleInterface) : 0
   property var spm1Introspection: VeinEntity.hasEntity("SPM1Module1") ? JSON.parse(VeinEntity.getEntity("SPM1Module1").INF_ModuleInterface) : 0
   property var fftIntrospection: VeinEntity.hasEntity("FFTModule1") ? JSON.parse(VeinEntity.getEntity("FFTModule1").INF_ModuleInterface) : 0
@@ -38,7 +39,8 @@ Item {
     p1m4Introspection = Qt.binding(function() { return VeinEntity.hasEntity("POWER1Module4") ? JSON.parse(VeinEntity.getEntity("POWER1Module4").INF_ModuleInterface) : 0; })
     p2m1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("POWER2Module1") ? JSON.parse(VeinEntity.getEntity("POWER2Module1").INF_ModuleInterface) : 0; })
     p3m1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("Power3Module1") ? JSON.parse(VeinEntity.getEntity("Power3Module1").INF_ModuleInterface) : 0; })
-    sec1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0; })
+    sec1m1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("SEC1Module1") ? JSON.parse(VeinEntity.getEntity("SEC1Module1").INF_ModuleInterface) : 0; })
+    sec1m2Introspection = Qt.binding(function() { return VeinEntity.hasEntity("SEC1Module2") ? JSON.parse(VeinEntity.getEntity("SEC1Module2").INF_ModuleInterface) : 0; })
     sem1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("SEM1Module1") ? JSON.parse(VeinEntity.getEntity("SEM1Module1").INF_ModuleInterface) : 0; })
     spm1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("SPM1Module1") ? JSON.parse(VeinEntity.getEntity("SPM1Module1").INF_ModuleInterface) : 0; })
     fftIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("FFTModule1") ? JSON.parse(VeinEntity.getEntity("FFTModule1").INF_ModuleInterface) : 0; })
