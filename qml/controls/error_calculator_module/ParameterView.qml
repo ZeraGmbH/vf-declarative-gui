@@ -53,7 +53,7 @@ Item {
 
         arrayMode: true
 
-        entity: logicalParent.errorCalculator
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Mode"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_Mode.Validation.Data
 
@@ -89,7 +89,7 @@ Item {
 
         arrayMode: true
 
-        entity: logicalParent.errorCalculator
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_RefInput"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
 
@@ -167,7 +167,7 @@ Item {
       VFControls.VFComboBox {
         arrayMode: true
 
-        entity: logicalParent.errorCalculator
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DutInput"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DutInput.Validation.Data
 
@@ -201,7 +201,7 @@ Item {
       }
 
       VFControls.VFLineEdit {
-        entity: logicalParent.errorCalculator
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DutConstant"
 
         x: parent.width*col1Width
@@ -221,7 +221,7 @@ Item {
       VFControls.VFComboBox {
         arrayMode: true
 
-        entity: logicalParent.errorCalculator
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DUTConstUnit"
         model: ModuleIntrospection.sec1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation.Data
 
@@ -255,7 +255,7 @@ Item {
       }
 
       VFControls.VFLineEdit {
-        entity: logicalParent.errorCalculator
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Energy"
 
         x: parent.width*col1Width
@@ -292,7 +292,7 @@ Item {
       }
 
       VFControls.VFLineEdit {
-        entity: logicalParent.errorCalculator
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_MRate"
 
         x: parent.width*col1Width

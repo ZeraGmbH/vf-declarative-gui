@@ -16,10 +16,10 @@ CCMP.ModulePage {
   id: root
   clip: true
 
-  readonly property QtObject energyRegister: VeinEntity.getEntity("SEM1Module1")
-  property int status: energyRegister.ACT_Status
+  readonly property QtObject errCalEntity: VeinEntity.getEntity("SEM1Module1")
+  property int status: errCalEntity.ACT_Status
   readonly property alias statusHolder: stateEnum
-  readonly property bool canStartMeasurement: energyRegister.PAR_StartStop !== 1
+  readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
 
   QtObject {
     id: stateEnum
@@ -39,10 +39,10 @@ CCMP.ModulePage {
 
   Column {
     ErrorCommon.MeasurementView {
-      measurementResult: energyRegister.ACT_Result
-      progress: energyRegister.PAR_Targeted ? energyRegister.ACT_Time : 0
-      progressTo: energyRegister.PAR_Targeted ? energyRegister.PAR_MeasTime : 1.0
-      actualValue: GC.formatNumber(energyRegister.ACT_Energy) + " " + ModuleIntrospection.sem1Introspection.ComponentInfo.ACT_Energy.Unit
+      measurementResult: errCalEntity.ACT_Result
+      progress: errCalEntity.PAR_Targeted ? errCalEntity.ACT_Time : 0
+      progressTo: errCalEntity.PAR_Targeted ? errCalEntity.PAR_MeasTime : 1.0
+      actualValue: GC.formatNumber(errCalEntity.ACT_Energy) + " " + ModuleIntrospection.sem1Introspection.ComponentInfo.ACT_Energy.Unit
       logicalParent: root
       height: root.height*0.2
       width: root.width
@@ -57,7 +57,7 @@ CCMP.ModulePage {
         height: parent.height
       }
       ErrorCommon.ErrorMarginView {
-        result: root.energyRegister.ACT_Result
+        result: root.errCalEntity.ACT_Result
         width: parent.width*0.3
         height: parent.height
       }
@@ -77,9 +77,9 @@ CCMP.ModulePage {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         onClicked: {
-          if(energyRegister.PAR_StartStop !== 1)
+          if(errCalEntity.PAR_StartStop !== 1)
           {
-            energyRegister.PAR_StartStop=1;
+            errCalEntity.PAR_StartStop=1;
           }
         }
       }
@@ -96,9 +96,9 @@ CCMP.ModulePage {
         anchors.right: parent.right
 
         onClicked: {
-          if(energyRegister.PAR_StartStop !== 0)
+          if(errCalEntity.PAR_StartStop !== 0)
           {
-            energyRegister.PAR_StartStop=0;
+            errCalEntity.PAR_StartStop=0;
           }
         }
       }

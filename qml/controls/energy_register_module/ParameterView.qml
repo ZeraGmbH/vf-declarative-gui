@@ -54,7 +54,7 @@ Item {
 
         arrayMode: true
 
-        entity: logicalParent.energyRegister
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_RefInput"
         model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_RefInput.Validation.Data
 
@@ -138,7 +138,7 @@ Item {
 
         arrayMode: true
 
-        entity: logicalParent.energyRegister
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Targeted"
         entityIsIndex: true
         model: [ZTR["Start/Stop"],ZTR["Duration"]]
@@ -176,7 +176,7 @@ Item {
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
-        entity: logicalParent.energyRegister
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_MeasTime"
 
         x: parent.width*col1Width
@@ -217,7 +217,7 @@ Item {
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
-        entity: logicalParent.energyRegister
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_T0Input"
 
         x: parent.width*col1Width
@@ -255,7 +255,7 @@ Item {
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
-        entity: logicalParent.energyRegister
+        entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_T1input"
 
         x: parent.width*col1Width
@@ -275,7 +275,7 @@ Item {
         enabled: logicalParent.canStartMeasurement
         arrayMode: true
         fontSize: 16
-        entity: logicalParent.energyRegister
+        entity: logicalParent.errCalEntity
 
         controlPropertyName: "PAR_TXUNIT"
         model: ModuleIntrospection.sem1Introspection.ComponentInfo.PAR_TXUNIT.Validation.Data

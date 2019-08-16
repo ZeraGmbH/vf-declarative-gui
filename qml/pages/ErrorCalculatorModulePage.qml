@@ -17,10 +17,10 @@ CCMP.ModulePage {
   id: root
   clip: true
 
-  readonly property QtObject errorCalculator: VeinEntity.getEntity("SEC1Module1")
-  property int status: errorCalculator.ACT_Status
+  readonly property QtObject errCalEntity: VeinEntity.getEntity("SEC1Module1")
+  property int status: errCalEntity.ACT_Status
   readonly property alias statusHolder: stateEnum
-  readonly property bool canStartMeasurement: errorCalculator.PAR_StartStop !== 1
+  readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
 
   QtObject {
     id: stateEnum
@@ -43,10 +43,10 @@ CCMP.ModulePage {
       logicalParent: root
       height: root.height*0.2
       width: root.width
-      measurementResult: errorCalculator.ACT_Result
-      progress: errorCalculator.ACT_Progress
+      measurementResult: errCalEntity.ACT_Result
+      progress: errCalEntity.ACT_Progress
       progressTo: 100
-      readonly property real currEnergy: errorCalculator.PAR_Continuous === 1 ? errorCalculator.ACT_EnergyFinal : errorCalculator.ACT_Energy
+      readonly property real currEnergy: errCalEntity.PAR_Continuous === 1 ? errCalEntity.ACT_EnergyFinal : errCalEntity.ACT_Energy
       readonly property var scaledEnergyArr: GC.doAutoScale(currEnergy, ModuleIntrospection.sec1Introspection.ComponentInfo.ACT_Energy.Unit)
       actualValue: GC.formatNumber(scaledEnergyArr[0]) + " " + scaledEnergyArr[1]
     }
@@ -60,7 +60,7 @@ CCMP.ModulePage {
         height: parent.height
       }
       ErrorCommon.ErrorMarginView {
-        result: root.errorCalculator.ACT_Result
+        result: root.errCalEntity.ACT_Result
         width: parent.width*0.3
         height: parent.height
       }
@@ -80,9 +80,9 @@ CCMP.ModulePage {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         onClicked: {
-          if(errorCalculator.PAR_StartStop !== 1)
+          if(errCalEntity.PAR_StartStop !== 1)
           {
-            errorCalculator.PAR_StartStop=1;
+            errCalEntity.PAR_StartStop=1;
           }
         }
       }
@@ -90,12 +90,12 @@ CCMP.ModulePage {
         text: ZTR["Continuous measurement"];
         anchors.centerIn: parent
         font.pixelSize: 20
-        enabled: errorCalculator.PAR_StartStop !== 1;
-        checked: errorCalculator.PAR_Continuous === 1;
+        enabled: errCalEntity.PAR_StartStop !== 1;
+        checked: errCalEntity.PAR_Continuous === 1;
         onCheckedChanged: {
-          if(checked !== errorCalculator.PAR_Continuous)
+          if(checked !== errCalEntity.PAR_Continuous)
           {
-            errorCalculator.PAR_Continuous = (checked ? 1 : 0);
+            errCalEntity.PAR_Continuous = (checked ? 1 : 0);
           }
         }
       }
@@ -112,9 +112,9 @@ CCMP.ModulePage {
         anchors.right: parent.right
 
         onClicked: {
-          if(errorCalculator.PAR_StartStop !== 0)
+          if(errCalEntity.PAR_StartStop !== 0)
           {
-            errorCalculator.PAR_StartStop=0;
+            errCalEntity.PAR_StartStop=0;
           }
         }
       }
