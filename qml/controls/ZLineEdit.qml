@@ -11,19 +11,7 @@ Item {
 
   // public interface
   property var validator
-  onValidatorChanged: {
-    tField.validator = validator
-    if(isNumeric) {
-      tField.inputMethodHints = Qt.ImhFormattedNumbersOnly
-    }
-    else {
-      tField.inputMethodHints = Qt.ImhNoAutoUppercase
-    }
-  }
   property string text: "" // locale C
-  onTextChanged: {
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
-  }
   property alias textField: tField
   property alias inputMethodHints: tField.inputMethodHints;
   property alias placeholderText: tField.placeholderText;
@@ -36,13 +24,8 @@ Item {
   property alias description: descriptionText
   property alias unit: unitLabel
 
-  // overridable (return true: apply immediate)
-  function doApplyInput(newText) {return true}
-
-  // helpers
-  HELPERS.TextHelper {
-    id: tHelper
-  }
+  // overridables
+  function doApplyInput(newText) {return true} // (return true: apply immediate)
   function hasAlteredValue() {
     var decimals = isDouble ? validator.decimals : 0
     return tHelper.hasAlteredValue(isNumeric, isDouble, decimals, tField.text, text)
@@ -53,13 +36,31 @@ Item {
     return tHelper.hasValidInput(isNumeric, isDouble, validator !== undefined, bottom, top, tField.acceptableInput, tField.text)
   }
 
+  // signal handler
+  onTextChanged: {
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+  }
+  onValidatorChanged: {
+    tField.validator = validator
+    if(isNumeric) {
+      tField.inputMethodHints = Qt.ImhFormattedNumbersOnly
+    }
+    else {
+      tField.inputMethodHints = Qt.ImhNoAutoUppercase
+    }
+  }
+  onLocaleNameChanged: {
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+  }
+
+  // helpers
+  HELPERS.TextHelper {
+    id: tHelper
+  }
   // bit of a hack to check for IntValidator / DoubleValidator to detect a numeric field
   readonly property bool isNumeric: validator !== undefined && 'bottom' in validator && 'top' in validator
   readonly property bool isDouble: isNumeric && 'decimals' in validator
   readonly property string localeName: GC.localeName
-  onLocaleNameChanged: {
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
-  }
   function applyInput() {
     if(tHelper.strToCLocale(tField.text, isNumeric, isDouble) !== text) {
       if(hasValidInput())

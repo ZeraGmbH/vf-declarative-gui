@@ -13,11 +13,32 @@ Item {
   property alias stepSize: sBox.stepSize
   property alias spinBox: sBox
   property bool readOnly: false
-  onReadOnlyChanged: {
-    sBox.editable = !readOnly
-  }
 
   property var validator
+  property string text: "" // locale C
+  readonly property bool acceptableInput: hasValidInput()
+  property bool changeOnFocusLost: true
+
+  // overridables
+  function doApplyInput(newText) {return true} //  (return true: apply immediate)
+  function hasAlteredValue() {
+    var decimals = isDouble ? validator.decimals : 0
+    return tHelper.hasAlteredValue(isNumeric, isDouble, decimals, tField.text, text)
+  }
+  function hasValidInput() {
+    var bottom = isNumeric ? validator.bottom : 0
+    var top = isNumeric ? validator.top : 0
+    return tHelper.hasValidInput(isNumeric, isDouble, validator !== undefined, bottom, top, tField.acceptableInput, tField.text)
+  }
+
+  // signal handler
+  onTextChanged: {
+    if(!inApply) {
+      sBox.value = sBox.valueFromText(text, Qt.locale())
+      tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+    }
+    inApply = false
+  }
   onValidatorChanged: {
     sBox.validator = validator
     if(isNumeric) {
@@ -35,32 +56,17 @@ Item {
       sBox.inputMethodHints = Qt.ImhNoAutoUppercase
     }
   }
-  property string text: "" // locale C
-  onTextChanged: {
-    if(!inApply) {
-      sBox.value = sBox.valueFromText(text, Qt.locale())
-      tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
-    }
-    inApply = false
+  onReadOnlyChanged: {
+    sBox.editable = !readOnly
   }
-  readonly property bool acceptableInput: hasValidInput()
-  property bool changeOnFocusLost: true
-
-  // overridable (return true: apply immediate)
-  function doApplyInput(newText) {return true}
+  onLocaleNameChanged: {
+    sBox.locale = Qt.locale(localeName)
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+  }
 
   // helpers
   HELPERS.TextHelper {
     id: tHelper
-  }
-  function hasAlteredValue() {
-    var decimals = isDouble ? validator.decimals : 0
-    return tHelper.hasAlteredValue(isNumeric, isDouble, decimals, tField.text, text)
-  }
-  function hasValidInput() {
-    var bottom = isNumeric ? validator.bottom : 0
-    var top = isNumeric ? validator.top : 0
-    return tHelper.hasValidInput(isNumeric, isDouble, validator !== undefined, bottom, top, tField.acceptableInput, tField.text)
   }
 
   property var tField: sBox.contentItem
@@ -71,10 +77,6 @@ Item {
   property bool inApply: false
   property bool inFocusKill: false
   readonly property string localeName: VirtualKeyboardSettings.locale
-  onLocaleNameChanged: {
-    sBox.locale = Qt.locale(localeName)
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
-  }
   function applyInput() {
     if(tHelper.strToCLocale(tField.text, isNumeric, isDouble) !== text) {
       if(hasValidInput())
