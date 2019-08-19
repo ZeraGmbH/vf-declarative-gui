@@ -251,7 +251,7 @@ Item {
         enabled: logicalParent.canStartMeasurement
         color: "transparent"
         border.color: Material.dividerColor
-        height: root.rowHeight * visible //don't waste space if not visible
+        height: root.rowHeight
         width: root.width
 
         Label {
@@ -290,7 +290,7 @@ Item {
         enabled: logicalParent.canStartMeasurement
         color: "transparent"
         border.color: Material.dividerColor
-        height: root.rowHeight * visible //don't waste space if not visible
+        height: root.rowHeight
         width: root.width
 
         Label {
