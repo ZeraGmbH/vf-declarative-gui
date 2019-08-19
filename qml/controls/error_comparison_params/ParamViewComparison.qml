@@ -245,76 +245,80 @@ Item {
         contentFlow: GridView.FlowTopToBottom
       }
     }
-    Rectangle {
-      enabled: logicalParent.canStartMeasurement
-      visible: validatorEnergy !== undefined
-      color: "transparent"
-      border.color: Material.dividerColor
-      height: root.rowHeight * visible //don't waste space if not visible
-      width: root.width
+    Loader {
+      active: validatorEnergy !== undefined
+      sourceComponent: Rectangle {
+        enabled: logicalParent.canStartMeasurement
+        color: "transparent"
+        border.color: Material.dividerColor
+        height: root.rowHeight * visible //don't waste space if not visible
+        width: root.width
 
-      Label {
-        textFormat: Text.PlainText
-        anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextHorizMargin
-        width: parent.width*col1Width
-        anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Energy:"]
-        font.pointSize: root.pointSize
-      }
-
-      VFControls.VFLineEdit {
-        entity: logicalParent.errCalEntity
-        controlPropertyName: "PAR_Energy"
-
-        x: parent.width*col1Width
-        width: parent.width*col2Width-GC.standardMarginWithMin
-
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        pointSize: root.pointSize
-
-        validator: CCMP.ZDoubleValidator {
-          bottom: validatorEnergy.Data[0];
-          top: validatorEnergy.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2]);
+        Label {
+          textFormat: Text.PlainText
+          anchors.left: parent.left
+          anchors.leftMargin: GC.standardTextHorizMargin
+          width: parent.width*col1Width
+          anchors.verticalCenter: parent.verticalCenter
+          text: ZTR["Energy:"]
+          font.pointSize: root.pointSize
         }
+
+        VFControls.VFLineEdit {
+          entity: logicalParent.errCalEntity
+          controlPropertyName: "PAR_Energy"
+
+          x: parent.width*col1Width
+          width: parent.width*col2Width-GC.standardMarginWithMin
+
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          pointSize: root.pointSize
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: validatorEnergy.Data[0];
+            top: validatorEnergy.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2]);
+          }
+        }
+        // TODO unit?
       }
-      // TODO unit?
     }
-    Rectangle {
-      visible: validatorMrate !== undefined
-      enabled: logicalParent.canStartMeasurement
-      color: "transparent"
-      border.color: Material.dividerColor
-      height: root.rowHeight * visible //don't waste space if not visible
-      width: root.width
+    Loader {
+      active: validatorMrate !== undefined
+      sourceComponent: Rectangle {
+        enabled: logicalParent.canStartMeasurement
+        color: "transparent"
+        border.color: Material.dividerColor
+        height: root.rowHeight * visible //don't waste space if not visible
+        width: root.width
 
-      Label {
-        textFormat: Text.PlainText
-        anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextHorizMargin
-        width: parent.width*col1Width
-        anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["MRate:"]
-        font.pointSize: root.pointSize
-      }
+        Label {
+          textFormat: Text.PlainText
+          anchors.left: parent.left
+          anchors.leftMargin: GC.standardTextHorizMargin
+          width: parent.width*col1Width
+          anchors.verticalCenter: parent.verticalCenter
+          text: ZTR["MRate:"]
+          font.pointSize: root.pointSize
+        }
 
-      VFControls.VFLineEdit {
-        entity: logicalParent.errCalEntity
-        controlPropertyName: "PAR_MRate"
+        VFControls.VFLineEdit {
+          entity: logicalParent.errCalEntity
+          controlPropertyName: "PAR_MRate"
 
-        x: parent.width*col1Width
-        width: parent.width*col2Width-GC.standardMarginWithMin
+          x: parent.width*col1Width
+          width: parent.width*col2Width-GC.standardMarginWithMin
 
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        pointSize: root.pointSize
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
-          bottom: validatorMrate.Data[0];
-          top: validatorMrate.Data[1];
-          decimals: GC.ceilLog10Of1DividedByX(validatorMrate.Data[2]);
+          validator: CCMP.ZDoubleValidator {
+            bottom: validatorMrate.Data[0];
+            top: validatorMrate.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(validatorMrate.Data[2]);
+          }
         }
       }
     }

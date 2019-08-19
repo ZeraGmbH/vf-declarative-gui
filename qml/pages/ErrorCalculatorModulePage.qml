@@ -19,6 +19,8 @@ CCMP.ModulePage {
 
   property QtObject errCalEntity
   property var moduleIntrospection
+  property alias validatorMrate: paramView.validatorMrate
+  property alias validatorEnergy: paramView.validatorEnergy
   property int status: errCalEntity.ACT_Status
   readonly property alias statusHolder: stateEnum
   readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
@@ -56,13 +58,13 @@ CCMP.ModulePage {
       width: root.width
 
       ParamViews.ParamViewComparison {
+        id: paramView
         logicalParent: root
         validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
         validatorMode: moduleIntrospection.ComponentInfo.PAR_Mode.Validation
         validatorDutInput: moduleIntrospection.ComponentInfo.PAR_DutInput.Validation
         validatorDutConstant: moduleIntrospection.ComponentInfo.PAR_DutConstant.Validation
         validatorDutConstUnit: moduleIntrospection.ComponentInfo.PAR_DUTConstUnit.Validation
-        validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
 
         width: parent.width*0.7
         height: parent.height

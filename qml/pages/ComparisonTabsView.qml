@@ -61,6 +61,7 @@ Item {
     Pages.ErrorCalculatorModulePage {
       errCalEntity: VeinEntity.getEntity("SEC1Module1")
       moduleIntrospection: ModuleIntrospection.sec1m1Introspection
+      validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
     }
   }
   Component {
@@ -68,6 +69,7 @@ Item {
     Pages.ErrorCalculatorModulePage {
       errCalEntity: VeinEntity.getEntity("SEC1Module2")
       moduleIntrospection: ModuleIntrospection.sec1m2Introspection
+      validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
     }
   }
   Component {
