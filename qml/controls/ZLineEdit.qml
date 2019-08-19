@@ -140,8 +140,8 @@ Item {
 
       onFocusChanged: {
         if(changeOnFocusLost && !focus) {
-          if(root.hasAlteredValue()) {
-            if(root.hasValidInput()) {
+          if(hasAlteredValue()) {
+            if(hasValidInput()) {
               applyInput()
             }
             else {
@@ -158,13 +158,13 @@ Item {
       Rectangle {
         color: "red"
         opacity: 0.2
-        visible: root.hasValidInput() === false && tField.enabled
+        visible: hasValidInput() === false && tField.enabled
         anchors.fill: parent
       }
       Rectangle {
         color: "green"
         opacity: 0.2
-        visible: root.hasValidInput() && tField.enabled && root.hasAlteredValue()
+        visible: hasValidInput() && tField.enabled && hasAlteredValue()
         anchors.fill: parent
       }
     }
