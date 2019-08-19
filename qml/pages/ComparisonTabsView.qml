@@ -33,7 +33,7 @@ Item {
   Component {
     id: tabPulse
     TabButton {
-      text: ZTR["Pulse measurement"]
+      text: ZTR["Meter test"]
     }
   }
   Component {
@@ -60,12 +60,14 @@ Item {
     id: pagePulse
     Pages.ErrorCalculatorModulePage {
       errCalEntity: VeinEntity.getEntity("SEC1Module1")
+      moduleIntrospection: ModuleIntrospection.sec1m1Introspection
     }
   }
   Component {
     id: pagePulseEnergy
     Pages.ErrorCalculatorModulePage {
       errCalEntity: VeinEntity.getEntity("SEC1Module2")
+      moduleIntrospection: ModuleIntrospection.sec1m2Introspection
     }
   }
   Component {
@@ -90,7 +92,7 @@ Item {
       swipeView.addItem(pagePulse.createObject(swipeView))
     }
     if(hasSEC1_2) {
-      comparisonTabsBar.addItem(tabPulse.createObject(comparisonTabsBar))
+      comparisonTabsBar.addItem(tabPulseEnergy.createObject(comparisonTabsBar))
       swipeView.addItem(pagePulseEnergy.createObject(swipeView))
     }
     if(hasSEM1) {

@@ -345,7 +345,9 @@ void ZeraTranslation::reloadStringTable()
   insert("Comparison measurements", tr("Comparison measurements"));
 
   //ComparisonTabsView.qml
-  insert("Pulse measurement", tr("Pulse measurement"));
+  //: Comparison tabs label texts
+  insert("Meter test", tr("Meter test"));
+  insert("Energy comparison", tr("Energy comparison"));
   insert("Energy register", tr("Energy register"));
   insert("Power register", tr("Power register"));
 

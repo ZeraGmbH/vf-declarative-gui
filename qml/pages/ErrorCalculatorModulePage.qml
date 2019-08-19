@@ -18,6 +18,7 @@ CCMP.ModulePage {
   clip: true
 
   property QtObject errCalEntity
+  property var moduleIntrospection
   property int status: errCalEntity.ACT_Status
   readonly property alias statusHolder: stateEnum
   readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
@@ -47,7 +48,7 @@ CCMP.ModulePage {
       progress: errCalEntity.ACT_Progress
       progressTo: 100
       readonly property real currEnergy: errCalEntity.PAR_Continuous === 1 ? errCalEntity.ACT_EnergyFinal : errCalEntity.ACT_Energy
-      readonly property var scaledEnergyArr: GC.doAutoScale(currEnergy, ModuleIntrospection.sec1m1Introspection.ComponentInfo.ACT_Energy.Unit)
+      readonly property var scaledEnergyArr: GC.doAutoScale(currEnergy, moduleIntrospection.ComponentInfo.ACT_Energy.Unit)
       actualValue: GC.formatNumber(scaledEnergyArr[0]) + " " + scaledEnergyArr[1]
     }
     Row {
@@ -56,12 +57,12 @@ CCMP.ModulePage {
 
       ParamViews.ParamViewComparison {
         logicalParent: root
-        validatorRefInput: ModuleIntrospection.sec1m1Introspection.ComponentInfo.PAR_RefInput.Validation
-        validatorMode: ModuleIntrospection.sec1m1Introspection.ComponentInfo.PAR_Mode.Validation
-        validatorDutInput: ModuleIntrospection.sec1m1Introspection.ComponentInfo.PAR_DutInput.Validation
-        validatorDutConstant: ModuleIntrospection.sec1m1Introspection.ComponentInfo.PAR_DutConstant.Validation
-        validatorDutConstUnit: ModuleIntrospection.sec1m1Introspection.ComponentInfo.PAR_DUTConstUnit.Validation
-        validatorMrate: ModuleIntrospection.sec1m1Introspection.ComponentInfo.PAR_MRate.Validation
+        validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
+        validatorMode: moduleIntrospection.ComponentInfo.PAR_Mode.Validation
+        validatorDutInput: moduleIntrospection.ComponentInfo.PAR_DutInput.Validation
+        validatorDutConstant: moduleIntrospection.ComponentInfo.PAR_DutConstant.Validation
+        validatorDutConstUnit: moduleIntrospection.ComponentInfo.PAR_DUTConstUnit.Validation
+        validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
 
         width: parent.width*0.7
         height: parent.height
