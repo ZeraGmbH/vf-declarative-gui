@@ -61,7 +61,8 @@ Item {
             valid = false
           }
           else {
-            valid = top>=parseFloat(strToCLocale(text, isNumeric, isDouble)) && bottom<=parseFloat(strToCLocale(text, isNumeric, isDouble))
+            var floatVal = parseFloat(strToCLocale(text, isNumeric, isDouble))
+            valid = top>=floatVal && bottom<=floatVal
           }
         }
         else {
