@@ -15,6 +15,7 @@
         <file>qml/controls/ZDoubleValidator.qml</file>
         <file>qml/controls/ZLineEdit.qml</file>
         <file>qml/controls/ZSpinBox.qml</file>
+        <file>qml/controls/ZUnitComboBox.qml</file>
         <file>qml/controls/ZVisualComboBox.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
