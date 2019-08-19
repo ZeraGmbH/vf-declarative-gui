@@ -51,13 +51,12 @@
         <file>qml/pages/CEDModulePage.qml</file>
         <file>qml/pages/DFTModulePage.qml</file>
         <file>qml/pages/ErrorCalculatorModulePage.qml</file>
-        <file>qml/pages/EnergyRegisterModulePage.qml</file>
+        <file>qml/pages/ErrorRegisterModulePage.qml</file>
         <file>qml/pages/ComparisonTabsView.qml</file>
         <file>qml/pages/FftModulePage.qml</file>
         <file>qml/pages/HarmonicPowerModulePage.qml</file>
         <file>qml/pages/OsciModulePage.qml</file>
         <file>qml/pages/PowerModulePage.qml</file>
-        <file>qml/pages/PowerRegisterModulePage.qml</file>
         <file>qml/pages/RMS4PhasePage.qml</file>
         <file>qml/pages/RefModulePage.qml</file>
         <file>qml/pages/TransformerModulePage.qml</file>

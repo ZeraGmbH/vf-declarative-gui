@@ -70,12 +70,16 @@ Item {
   }
   Component {
     id: pageEnergy
-    Pages.EnergyRegisterModulePage {
+    Pages.ErrorRegisterModulePage {
+      errCalEntity: VeinEntity.getEntity("SEM1Module1")
+      moduleIntrospection: ModuleIntrospection.sem1Introspection
     }
   }
   Component {
     id: pagePower
-    Pages.PowerRegisterModulePage {
+    Pages.ErrorRegisterModulePage {
+      errCalEntity: VeinEntity.getEntity("SPM1Module1")
+      moduleIntrospection: ModuleIntrospection.spm1Introspection
     }
   }
 

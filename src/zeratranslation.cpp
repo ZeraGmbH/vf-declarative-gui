@@ -260,11 +260,6 @@ void ZeraTranslation::reloadStringTable()
   insert("Status", tr("Status"));
   */
 
-  //ComparisonTabsModulePage.qml (some are used outside tab)
-  insert("Pulse measurement", tr("Pulse measurement"));
-  insert("Energy register", tr("Energy register"));
-  insert("Power register", tr("Power register"));
-
   //ErrorCalculatorModulePage.qml
   insert("Idle", tr("Idle"));
   //: the state where the device waits for the first pulse / edge to be triggered
@@ -294,7 +289,7 @@ void ZeraTranslation::reloadStringTable()
   insert("Upper error margin:", tr("Upper error margin:"));
   insert("Continuous measurement", tr("Continuous measurement"));
 
-  //EnergyRegisterModulePage.qml
+  //ErrorRegisterModulePage.qml
   insert("Duration:", tr("Duration:"));
   insert("Start/Stop", tr("Start/Stop"));
   insert("Duration", tr("Duration"));

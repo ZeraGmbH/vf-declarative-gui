@@ -16,7 +16,8 @@ CCMP.ModulePage {
   id: root
   clip: true
 
-  readonly property QtObject errCalEntity: VeinEntity.getEntity("SPM1Module1")
+  property QtObject errCalEntity
+  property var moduleIntrospection
   property int status: errCalEntity.ACT_Status
   readonly property alias statusHolder: stateEnum
   readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
@@ -42,7 +43,7 @@ CCMP.ModulePage {
       measurementResult: errCalEntity.ACT_Result
       progress: errCalEntity.PAR_Targeted ? errCalEntity.ACT_Time : 0
       progressTo: errCalEntity.PAR_Targeted ? errCalEntity.PAR_MeasTime : 1.0
-      actualValue: GC.formatNumber(errCalEntity.ACT_Power) + " " + ModuleIntrospection.spm1Introspection.ComponentInfo.ACT_Power.Unit
+      actualValue: GC.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
       logicalParent: root
       height: root.height*0.2
       width: root.width
@@ -53,11 +54,11 @@ CCMP.ModulePage {
 
       ParamViews.ParamViewRegister {
         logicalParent: root
-        validatorRefInput: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_RefInput.Validation
-        validatorMeasTime: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_MeasTime.Validation
-        validatorT0Input: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T0Input.Validation
-        validatorT1Input: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_T1input.Validation
-        validatorTxUnit: ModuleIntrospection.spm1Introspection.ComponentInfo.PAR_TXUNIT.Validation
+        validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
+        validatorMeasTime: moduleIntrospection.ComponentInfo.PAR_MeasTime.Validation
+        validatorT0Input: moduleIntrospection.ComponentInfo.PAR_T0Input.Validation
+        validatorT1Input: moduleIntrospection.ComponentInfo.PAR_T1input.Validation
+        validatorTxUnit: moduleIntrospection.ComponentInfo.PAR_TXUNIT.Validation
 
         width: parent.width*0.7
         height: parent.height
