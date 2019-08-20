@@ -31,9 +31,7 @@ Item {
     return tHelper.hasAlteredValue(isNumeric, isDouble, decimals, tField.text, text)
   }
   function hasValidInput() {
-    var bottom = isNumeric ? validator.bottom : 0
-    var top = isNumeric ? validator.top : 0
-    return tHelper.hasValidInput(isNumeric, isDouble, validator !== undefined, bottom, top, tField.acceptableInput, tField.text)
+    return tField.acceptableInput && tHelper.hasValidInput(isDouble, tField.text)
   }
 
   // signal handler

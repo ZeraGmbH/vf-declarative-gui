@@ -51,27 +51,12 @@ Item {
     return altered
   }
 
-  function hasValidInput(isNumeric, isDouble, hasValidator, bottom, top, valid, text) {
-    if (valid && hasValidator) {
-      // IntValidator / DoubleValidator
-      if(isNumeric) {
-        if(isDouble) {
-          // Sometimes wrong decimal separator is accepted by DoubleValidator so check for it
-          if(GC.locale.decimalPoint === "," ? text.includes(".") : text.includes(",")) {
-            valid = false
-          }
-          else {
-            var floatVal = parseFloat(strToCLocale(text, isNumeric, isDouble))
-            valid = top>=floatVal && bottom<=floatVal
-          }
-        }
-        else {
-          valid = top>=parseInt(text, 10) && bottom<=parseInt(text, 10)
-        }
-      }
-      // RegExpValidator
-      else {
-        // TODO?
+  function hasValidInput(isDouble, text) {
+    var valid = true
+    if(isDouble) {
+      // Sometimes wrong decimal separator is accepted by DoubleValidator so check for it
+      if(GC.locale.decimalPoint === "," ? text.includes(".") : text.includes(",")) {
+        valid = false
       }
     }
     return valid
