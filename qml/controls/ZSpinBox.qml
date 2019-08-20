@@ -28,12 +28,15 @@ Item {
   function hasValidInput() {
     return tField.acceptableInput && tHelper.hasValidInput(isDouble, tField.text)
   }
+  function discardInput() {
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+  }
 
   // signal handler
   onTextChanged: {
     if(!inApply) {
       sBox.value = sBox.valueFromText(text, Qt.locale())
-      tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+      discardInput()
     }
     inApply = false
   }
@@ -59,7 +62,7 @@ Item {
   }
   onLocaleNameChanged: {
     sBox.locale = Qt.locale(localeName)
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+    discardInput()
   }
 
   // helpers
@@ -95,9 +98,6 @@ Item {
     else {
       discardInput()
     }
-  }
-  function discardInput() {
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
   }
 
   // controls

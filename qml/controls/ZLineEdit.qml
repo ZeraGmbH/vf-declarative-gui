@@ -33,10 +33,13 @@ Item {
   function hasValidInput() {
     return tField.acceptableInput && tHelper.hasValidInput(isDouble, tField.text)
   }
+  function discardInput() {
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+  }
 
   // signal handler
   onTextChanged: {
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+    discardInput()
   }
   onValidatorChanged: {
     tField.validator = validator
@@ -48,7 +51,7 @@ Item {
     }
   }
   onLocaleNameChanged: {
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
+    discardInput()
   }
 
   // helpers
@@ -77,9 +80,6 @@ Item {
     else {
       discardInput()
     }
-  }
-  function discardInput() {
-    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
   }
 
   // controls
