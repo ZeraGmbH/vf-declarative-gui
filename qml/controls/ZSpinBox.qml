@@ -142,7 +142,7 @@ Item {
 
     // Events
     Keys.onReturnPressed: {
-      // Hmm try to get same behaviour as TextEditEx
+      // Hmm try to get same behaviour as ZLineEdit
       if(hasValidInput())
       {
         applyInput()

@@ -111,7 +111,7 @@ Item {
       selectByMouse: true
       inputMethodHints: Qt.ImhNoAutoUppercase
       onAccepted: {
-        if(root.hasValidInput()) {
+        if(hasValidInput()) {
           applyInput()
           focus = false
         }
