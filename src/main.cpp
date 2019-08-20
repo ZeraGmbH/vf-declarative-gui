@@ -34,6 +34,10 @@ int main(int argc, char *argv[])
   qputenv("QT_VIRTUALKEYBOARD_LAYOUT_PATH", QByteArray("qrc:/qml/vkeyboard/layouts"));
   const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
 
+  QLocale locale = QLocale("C");
+  locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
+  QLocale::setDefault(locale);
+
   QStringList loggingFilters = QStringList() << QString("%1.debug=false").arg(VEIN_EVENT().categoryName()) <<
                                                 QString("%1.debug=false").arg(VEIN_NET_VERBOSE().categoryName()) <<
                                                 QString("%1.debug=false").arg(VEIN_NET_INTRO_VERBOSE().categoryName()) << //< Introspection logging is still enabled
