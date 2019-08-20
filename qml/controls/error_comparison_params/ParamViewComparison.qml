@@ -324,7 +324,19 @@ Item {
         CCMP.ZUnitComboBox {
           id: unitCombo
           // entity base unit is kWh (maybe we add some magic later - for now use harcoding)
-          arrEntries: [["Wh","kWh","MWh"],[1e-3,1e0,1e3]]
+          arrEntries: {
+            switch(cbRefInput.currentText) {
+            case "P":
+              return [["Wh","kWh","MWh"],[1e-3,1e0,1e3]]
+            case "Q":
+              return [["VArh","kVArh","MVArh"],[1e-3,1e0,1e3]]
+            case "S":
+              return [["VAh","kVAh","MVAh"],[1e-3,1e0,1e3]]
+            default:
+              console.assert("Unhandled condition")
+              return undefined;
+            }
+          }
           anchors.top: parent.top
           anchors.topMargin: GC.standardMargin
           anchors.bottom: parent.bottom
