@@ -60,30 +60,26 @@ Item {
   readonly property bool isDouble: isNumeric && 'decimals' in validator
   readonly property string localeName: GC.localeName
   function applyInput() {
-    if(tHelper.strToCLocale(tField.text, isNumeric, isDouble) !== text) {
-      if(hasValidInput())
+    if(hasValidInput())
+    {
+      if(hasAlteredValue())
       {
-        if(hasAlteredValue())
-        {
-          var newText = tHelper.strToCLocale(tField.text, isNumeric, isDouble)
-          if(doApplyInput(newText)) {
-            text = newText
-          }
-        }
-        // we changed text but did not change value
-        else {
-          discardInput()
+        var newText = tHelper.strToCLocale(tField.text, isNumeric, isDouble)
+        if(doApplyInput(newText)) {
+          text = newText
         }
       }
+      // we changed text but did not change value
       else {
         discardInput()
       }
     }
+    else {
+      discardInput()
+    }
   }
   function discardInput() {
-    if(tField.text !== text) {
-      tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
-    }
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
   }
 
   // controls

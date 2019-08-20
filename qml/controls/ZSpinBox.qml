@@ -76,32 +76,28 @@ Item {
   property bool inFocusKill: false
   readonly property string localeName: VirtualKeyboardSettings.locale
   function applyInput() {
-    if(tHelper.strToCLocale(tField.text, isNumeric, isDouble) !== text) {
-      if(hasValidInput())
+    if(hasValidInput())
+    {
+      if(hasAlteredValue())
       {
-        if(hasAlteredValue())
-        {
-          inApply = true
-          var newText = tHelper.strToCLocale(tField.text, isNumeric, isDouble)
-          if(doApplyInput(newText)) {
-            text = newText
-            inApply = false
-          }
-        }
-        // we changed text but did not change value
-        else {
-          discardInput()
+        inApply = true
+        var newText = tHelper.strToCLocale(tField.text, isNumeric, isDouble)
+        if(doApplyInput(newText)) {
+          text = newText
+          inApply = false
         }
       }
+      // we changed text but did not change value
       else {
         discardInput()
       }
     }
+    else {
+      discardInput()
+    }
   }
   function discardInput() {
-    if(tField.text !== text) {
-      tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
-    }
+    tField.text = tHelper.strToLocal(text, isNumeric, isDouble)
   }
 
   // controls
