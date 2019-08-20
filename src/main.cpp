@@ -170,11 +170,8 @@ int main(int argc, char *argv[])
   ///@todo for android: code is needed to fetch a list of possible hosts via QtZeroConf service discovery
 #endif //Q_OS_ANDROID
 
-  if(globalSettingsFile->hasOption("modulemanagerIp") && globalSettingsFile->hasOption("modulemanagerPort"))
-  {
-    netHost = globalSettingsFile->getOption("modulemanagerIp");
-    netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort").toUInt());
-  }
+  netHost = globalSettingsFile->getOption("modulemanagerIp", "127.0.0.1");
+  netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort", "12000").toUInt());
 
   tcpSystem->connectToServer(netHost, netPort);
 

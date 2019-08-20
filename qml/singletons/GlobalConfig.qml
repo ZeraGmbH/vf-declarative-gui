@@ -18,8 +18,8 @@ Item {
 
   property int pageViewLastSelectedIndex: 0;
 
-  readonly property var locale: Qt.locale(settings.globalSettings.getOption("locale"))
-  readonly property string localeName: settings.globalSettings.getOption("locale")
+  readonly property string localeName: settings.globalSettings.getOption("locale", "en_GB")
+  readonly property var locale: Qt.locale(localeName)
   onLocaleNameChanged: {
     ZTR.changeLanguage(localeName);
   }
@@ -28,18 +28,18 @@ Item {
     settings.globalSettings.setOption("locale", newLocale, true);
   }
 
-  readonly property int decimalPlaces: parseInt(settings.globalSettings.getOption("digits"))
+  readonly property int decimalPlaces: parseInt(settings.globalSettings.getOption("digits", "3"))
   function setDecimalPlaces(digits) {
     settings.globalSettings.setOption("digits", digits);
   }
 
-  readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative"))
+  readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative", "0"))
   function setShowFftTableAsRelative(isRelative) {
     var setValue = isRelative ? 1 : 0
     settings.globalSettings.setOption("fft_table_as_relative", setValue, true);
   }
 
-  readonly property int showFftTablePhase: parseInt(settings.globalSettings.getOption("fft_table_show_phase"))
+  readonly property int showFftTablePhase: parseInt(settings.globalSettings.getOption("fft_table_show_phase", "0"))
   function setShowFftTablePhase(showPhase) {
     var setValue = showPhase ? 1 : 0
     settings.globalSettings.setOption("fft_table_show_phase", setValue, true);
@@ -60,7 +60,7 @@ Item {
   }
 
 
-  readonly property real rangePeakVisualisation: parseInt(settings.globalSettings.getOption("range_peak_logarithmic")) ///@todo rename config key?
+  readonly property real rangePeakVisualisation: parseInt(settings.globalSettings.getOption("range_peak_logarithmic", "0")) ///@todo rename config key?
   function setRangePeakVisualisation(rangePeakVisualisation) {
     if(typeof rangePeakVisualisation === "number"
         && rangePeakVisualisation >=0
@@ -74,7 +74,7 @@ Item {
     }
   }
 
-  readonly property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view"))
+  readonly property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view", "1"))
   function setPagesGridViewDisplay(isGridView) {
     settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0, true);
   }
@@ -97,21 +97,21 @@ Item {
   readonly property real standardComboContentScale: 1.2
   property real vkeyboardHeight: 0
 
-  readonly property color system1ColorBright: settings.globalSettings.getOption("system1Color") //"#EEff7755"
-  readonly property color system1ColorDark: settings.globalSettings.getOption("system1ColorDark") // "#EEff0000"
+  readonly property color system1ColorBright: settings.globalSettings.getOption("system1Color", "#EEff7755")
+  readonly property color system1ColorDark: settings.globalSettings.getOption("system1ColorDark", "#EEff0000")
 
-  readonly property color system2ColorBright: settings.globalSettings.getOption("system2Color") //"#EEffffbb"
-  readonly property color system2ColorDark: settings.globalSettings.getOption("system2ColorDark") //"#EEffff00"
+  readonly property color system2ColorBright: settings.globalSettings.getOption("system2Color", "#EEffffbb")
+  readonly property color system2ColorDark: settings.globalSettings.getOption("system2ColorDark", "#EEffff00")
 
-  readonly property color system3ColorBright: settings.globalSettings.getOption("system3Color") //"#EE58acfa"
-  readonly property color system3ColorDark: settings.globalSettings.getOption("system3ColorDark") //"#EE0092ff"
+  readonly property color system3ColorBright: settings.globalSettings.getOption("system3Color", "#EE58acfa")
+  readonly property color system3ColorDark: settings.globalSettings.getOption("system3ColorDark", "#EE0092ff")
 
-  readonly property color system4ColorBright: settings.globalSettings.getOption("system4Color") //"#EEffffff"
-  readonly property color system4ColorDark: settings.globalSettings.getOption("system4ColorDark") //"#EEcccccc"
+  readonly property color system4ColorBright: settings.globalSettings.getOption("system4Color", "#EEffffff")
+  readonly property color system4ColorDark: settings.globalSettings.getOption("system4ColorDark", "#EEcccccc")
 
-  readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1") //"lightskyblue"
-  readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2") //"lawngreen"
-  readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3") //"darkorange"
+  readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1", "lightskyblue")
+  readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2", "lawngreen")
+  readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3", "darkorange")
 
   readonly property color tableShadeColor: "#003040"
 
@@ -128,7 +128,7 @@ Item {
   }
 
   readonly property real errorMarginUpperValue: {
-    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginUpperValue"));
+    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginUpperValue", "10.0"));
     if(isNaN(retVal) || isFinite(retVal) === false)
     {
       errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
@@ -138,7 +138,7 @@ Item {
 
 
   readonly property real errorMarginLowerValue: {
-    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginLowerValue"));
+    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginLowerValue", "-10.0"));
     if(isNaN(retVal) || isFinite(retVal) === false)
     {
       errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
@@ -147,7 +147,7 @@ Item {
   }
 
   readonly property real autoScaleLimit: {
-    var str = settings.globalSettings.getOption("auto_scale_limit")
+    var str = settings.globalSettings.getOption("auto_scale_limit", "1.0")
     if(str === "") {
       str = "1"
       errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
@@ -294,7 +294,7 @@ Item {
     }
   }
 
-  readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp");
+  readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
 
   function systemColorByIndex(index) {
     var retVal;
