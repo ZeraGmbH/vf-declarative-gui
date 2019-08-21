@@ -63,7 +63,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         text: ZTR["L1"]
-        textColor: GC.system1ColorDark
+        textColor: GC.colorUL1
         font.pixelSize: height*0.3
         font.bold: true
       }
@@ -72,7 +72,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         text: ZTR["L2"]
-        textColor: GC.system2ColorDark
+        textColor: GC.colorUL2
         font.pixelSize: height*0.3
         font.bold: true
       }
@@ -81,7 +81,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         text: ZTR["L3"]
-        textColor: GC.system3ColorDark
+        textColor: GC.colorUL3
         font.pixelSize: height*0.3
         font.bold: true
       }
@@ -90,7 +90,7 @@ CCMP.ModulePage {
         height: root.rowHeight
         color: GC.tableShadeColor
         text: "Σ"
-        textColor: GC.system3ColorDark
+        textColor: GC.colorUL3
         font.pixelSize: height*0.3
         font.bold: true
       }
@@ -158,7 +158,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               horizontalAlignment: Label.AlignRight
               verticalAlignment: Label.AlignVCenter
-              color: GC.system1ColorDark
+              color: GC.colorUL1
               font.pixelSize: height*0.3
             }
           }
@@ -173,7 +173,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               horizontalAlignment: Label.AlignRight
               verticalAlignment: Label.AlignVCenter
-              color: GC.system2ColorDark
+              color: GC.colorUL2
               font.pixelSize: height*0.3
             }
           }
@@ -188,7 +188,7 @@ CCMP.ModulePage {
               anchors.rightMargin: 8
               horizontalAlignment: Label.AlignRight
               verticalAlignment: Label.AlignVCenter
-              color: GC.system3ColorBright
+              color: GC.colorIL3
               font.pixelSize: height*0.3
             }
           }

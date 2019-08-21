@@ -71,7 +71,7 @@ CCMP.ModulePage {
       height: parent.height
       color: GC.tableShadeColor
       text: ZTR["L1"]
-      textColor: GC.system1ColorDark
+      textColor: GC.colorUL1
       font.pixelSize: rowHeight*0.4
     }
     CCMP.GridItem {
@@ -79,7 +79,7 @@ CCMP.ModulePage {
       height: parent.height
       color: GC.tableShadeColor
       text: ZTR["L2"]
-      textColor: GC.system2ColorDark
+      textColor: GC.colorUL2
       font.pixelSize: rowHeight*0.4
     }
     CCMP.GridItem {
@@ -87,7 +87,7 @@ CCMP.ModulePage {
       height: parent.height
       color: GC.tableShadeColor
       text: ZTR["L3"]
-      textColor: GC.system3ColorDark
+      textColor: GC.colorUL3
       font.pixelSize: rowHeight*0.4
     }
     CCMP.GridItem {
@@ -132,7 +132,7 @@ CCMP.ModulePage {
           height: parent.height
           clip: true
           text: GC.formatNumber(root.getModule(index).ACT_PQS1);
-          textColor: GC.system1ColorDark
+          textColor: GC.colorUL1
           font.pixelSize: height*0.4
         }
         CCMP.GridItem {
@@ -140,7 +140,7 @@ CCMP.ModulePage {
           height: parent.height
           clip: true
           text: GC.formatNumber(root.getModule(index).ACT_PQS2);
-          textColor: GC.system2ColorDark
+          textColor: GC.colorUL2
           font.pixelSize: height*0.4
         }
         CCMP.GridItem {
@@ -148,7 +148,7 @@ CCMP.ModulePage {
           height: parent.height
           clip: true
           text: GC.formatNumber(root.getModule(index).ACT_PQS3);
-          textColor: GC.system3ColorDark
+          textColor: GC.colorUL3
           font.pixelSize: height*0.4
         }
         CCMP.GridItem {

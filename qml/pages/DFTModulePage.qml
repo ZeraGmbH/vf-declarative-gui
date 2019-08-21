@@ -162,12 +162,12 @@ CCMP.ModulePage {
     fromX: Math.floor(width/2)
     fromY: Math.floor(height/2)
 
-    vector1Color: GC.system1ColorDark
-    vector2Color: GC.system2ColorDark
-    vector3Color: GC.system3ColorDark
-    vector4Color: GC.system1ColorBright
-    vector5Color: GC.system2ColorBright
-    vector6Color: GC.system3ColorBright
+    vector1Color: GC.colorUL1
+    vector2Color: GC.colorUL2
+    vector3Color: GC.colorUL3
+    vector4Color: GC.colorIL1
+    vector5Color: GC.colorIL2
+    vector6Color: GC.colorIL3
 
     vector1Data: vData.getVector(0);
     vector2Data: vData.getVector(1);

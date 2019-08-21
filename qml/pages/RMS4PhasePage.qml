@@ -56,7 +56,7 @@ CCMP.ModulePage {
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L1!==undefined ? GC.formatNumber(L1) : ""
-            textColor: GC.system1ColorDark
+            textColor: GC.colorUL1
             font.pixelSize: root.pixelSize
           }
           CCMP.GridItem {
@@ -64,7 +64,7 @@ CCMP.ModulePage {
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L2!==undefined ? GC.formatNumber(L2) : ""
-            textColor: GC.system2ColorDark
+            textColor: GC.colorUL2
             font.pixelSize: root.pixelSize
           }
           CCMP.GridItem {
@@ -72,7 +72,7 @@ CCMP.ModulePage {
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L3!==undefined ? GC.formatNumber(L3) : ""
-            textColor: GC.system3ColorDark
+            textColor: GC.colorUL3
             font.pixelSize: root.pixelSize
           }
           CCMP.GridItem {
@@ -80,7 +80,7 @@ CCMP.ModulePage {
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: AUX!==undefined ? GC.formatNumber(AUX) : ""
-            textColor: GC.system4ColorDark
+            textColor: GC.colorUAux1
             font.pixelSize: root.pixelSize
             visible: channelCount > 6
           }

@@ -37,21 +37,21 @@ CCMP.ModulePage {
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L1!==undefined ? GC.formatNumber(L1) : ""
-            textColor: GC.system1ColorDark
+            textColor: GC.colorUL1
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L2!==undefined ? GC.formatNumber(L2) : ""
-            textColor: GC.system2ColorDark
+            textColor: GC.colorUL2
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
             text: L3!==undefined ? GC.formatNumber(L3) : ""
-            textColor: GC.system3ColorDark
+            textColor: GC.colorUL3
           }
           CCMP.GridItem {
             width: root.columnWidth

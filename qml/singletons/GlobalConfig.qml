@@ -85,14 +85,14 @@ Item {
 
   function getJsonColorNameByIndex(index) {
     var retVal
-    var availableSystems = ["system1ColorDark",   // 1
-                            "system2ColorDark",   // 2
-                            "system3ColorDark",   // 3
-                            "system1Color",       // 4
-                            "system2Color",       // 5
-                            "system3Color",       // 6
-                            "system4ColorDark",   // 7
-                            "system4Color"];      // 8
+    var availableSystems = ["colorUL1",     // 1
+                            "colorUL2",     // 2
+                            "colorUL3",     // 3
+                            "colorIL1",     // 4
+                            "colorIL2",     // 5
+                            "colorIL3",     // 6
+                            "colorUAux1",   // 7
+                            "colorIAux1"];  // 8
     retVal = availableSystems[index-1]
     return retVal
   }
@@ -119,10 +119,10 @@ Item {
       retVal = "#EE58acfa";
       break;
     case 7:
-      retVal = "#EEcccccc";
+      retVal = "#EEffffff";
       break;
     case 8:
-      retVal = "#EEffffff";
+      retVal = "#EEcccccc";
       break;
     }
     return retVal
@@ -143,14 +143,14 @@ Item {
     }
   }
 
-  readonly property color system1ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(1), getDefaultColorByIndex(1))
-  readonly property color system2ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(2), getDefaultColorByIndex(2))
-  readonly property color system3ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(3), getDefaultColorByIndex(3))
-  readonly property color system1ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(4), getDefaultColorByIndex(4))
-  readonly property color system2ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(5), getDefaultColorByIndex(5))
-  readonly property color system3ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(6), getDefaultColorByIndex(6))
-  readonly property color system4ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(7), getDefaultColorByIndex(7))
-  readonly property color system4ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(8), getDefaultColorByIndex(8))
+  readonly property color colorUL1: settings.globalSettings.getOption(getJsonColorNameByIndex(1), getDefaultColorByIndex(1))
+  readonly property color colorUL2: settings.globalSettings.getOption(getJsonColorNameByIndex(2), getDefaultColorByIndex(2))
+  readonly property color colorUL3: settings.globalSettings.getOption(getJsonColorNameByIndex(3), getDefaultColorByIndex(3))
+  readonly property color colorIL1: settings.globalSettings.getOption(getJsonColorNameByIndex(4), getDefaultColorByIndex(4))
+  readonly property color colorIL2: settings.globalSettings.getOption(getJsonColorNameByIndex(5), getDefaultColorByIndex(5))
+  readonly property color colorIL3: settings.globalSettings.getOption(getJsonColorNameByIndex(6), getDefaultColorByIndex(6))
+  readonly property color colorUAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(7), getDefaultColorByIndex(7))
+  readonly property color colorIAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(8), getDefaultColorByIndex(8))
 
   readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1", "lightskyblue")
   readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2", "lawngreen")

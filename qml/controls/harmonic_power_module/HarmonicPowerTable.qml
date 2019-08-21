@@ -136,21 +136,21 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS1P !== undefined ? GC.formatNumber(PowerS1P, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP1.Unit : "")
-            textColor: GC.system1ColorDark
+            textColor: GC.colorUL1
             font.pixelSize: rowHeight*0.5
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS1Q !== undefined ? GC.formatNumber(PowerS1Q, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ1.Unit : "")
-            textColor: GC.system1ColorDark
+            textColor: GC.colorUL1
             font.pixelSize: rowHeight*0.5
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS1S !== undefined ? GC.formatNumber(PowerS1S, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS1.Unit : "")
-            textColor: GC.system1ColorDark
+            textColor: GC.colorUL1
             font.pixelSize: rowHeight*0.5
           }
           //S2
@@ -158,21 +158,21 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS2P !== undefined ? GC.formatNumber(PowerS2P, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP2.Unit : "")
-            textColor: GC.system2ColorDark
+            textColor: GC.colorUL2
             font.pixelSize: rowHeight*0.5
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS2Q !== undefined ? GC.formatNumber(PowerS2Q, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ2.Unit : "")
-            textColor: GC.system2ColorDark
+            textColor: GC.colorUL2
             font.pixelSize: rowHeight*0.5
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS2S !== undefined ? GC.formatNumber(PowerS2S, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS2.Unit : "")
-            textColor: GC.system2ColorDark
+            textColor: GC.colorUL2
             font.pixelSize: rowHeight*0.5
           }
           //S3
@@ -180,21 +180,21 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS3P !== undefined ? GC.formatNumber(PowerS3P, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP3.Unit : "")
-            textColor: GC.system3ColorDark
+            textColor: GC.colorUL3
             font.pixelSize: rowHeight*0.5
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS3Q !== undefined ? GC.formatNumber(PowerS3Q, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ3.Unit : "")
-            textColor: GC.system3ColorDark
+            textColor: GC.colorUL3
             font.pixelSize: rowHeight*0.5
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             text: (PowerS3S !== undefined ? GC.formatNumber(PowerS3S, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS3.Unit : "")
-            textColor: GC.system3ColorDark
+            textColor: GC.colorUL3
             font.pixelSize: rowHeight*0.5
           }
         }

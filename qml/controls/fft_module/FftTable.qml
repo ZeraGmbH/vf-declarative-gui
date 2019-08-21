@@ -218,7 +218,7 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : "")
-            textColor: GC.system1ColorDark
+            textColor: GC.colorUL1
             font.pixelSize: rowHeight*0.5
           }
           Loader {
@@ -227,7 +227,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: GC.showFftTablePhase && VectorL1 !== undefined ? GC.formatNumber(VectorL1, 3) : ""
-              textColor: GC.system1ColorDark
+              textColor: GC.colorUL1
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -235,7 +235,7 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : "")
-            textColor: GC.system2ColorDark
+            textColor: GC.colorUL2
             font.pixelSize: rowHeight*0.5
           }
           Loader {
@@ -244,7 +244,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: GC.showFftTablePhase && VectorL2 !== undefined ? GC.formatNumber(VectorL2, 3) : ""
-              textColor: GC.system2ColorDark
+              textColor: GC.colorUL2
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -252,7 +252,7 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : "")
-            textColor: GC.system3ColorDark
+            textColor: GC.colorUL3
             font.pixelSize: rowHeight*0.5
           }
           Loader {
@@ -261,7 +261,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: GC.showFftTablePhase && VectorL3 !== undefined ? GC.formatNumber(VectorL3, 3) : ""
-              textColor: GC.system3ColorDark
+              textColor: GC.colorUL3
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -269,7 +269,7 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : "")
-            textColor: GC.system1ColorBright
+            textColor: GC.colorIL1
             font.pixelSize: rowHeight*0.5
           }
           Loader {
@@ -278,7 +278,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: GC.showFftTablePhase && VectorL4 !== undefined ? GC.formatNumber(VectorL4, 3) : ""
-              textColor: GC.system1ColorBright
+              textColor: GC.colorIL1
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -286,7 +286,7 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : "")
-            textColor: GC.system2ColorBright
+            textColor: GC.colorIL2
             font.pixelSize: rowHeight*0.5
           }
           Loader {
@@ -295,7 +295,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: GC.showFftTablePhase && VectorL5 !== undefined ? GC.formatNumber(VectorL5, 3) : ""
-              textColor: GC.system2ColorBright
+              textColor: GC.colorIL2
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -303,7 +303,7 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: (AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : "")
-            textColor: GC.system3ColorBright
+            textColor: GC.colorIL3
             font.pixelSize: rowHeight*0.5
           }
           Loader {
@@ -312,7 +312,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: GC.showFftTablePhase && VectorL6 !== undefined ? GC.formatNumber(VectorL6, 3) : ""
-              textColor: GC.system3ColorBright
+              textColor: GC.colorIL3
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -322,7 +322,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: (AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : "")
-              textColor: GC.system4ColorDark
+              textColor: GC.colorUAux1
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -332,7 +332,7 @@ Item {
             width: root.columnWidth
             height: root.rowHeight
             text: VectorL7 !== undefined ? GC.formatNumber(VectorL7, 3) : ""
-            textColor: GC.system4ColorDark
+            textColor: GC.colorUAux1
             font.pixelSize: rowHeight*0.5
             }
           }
@@ -342,7 +342,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: (AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8, 3) : "") + (relativeView && index===1 ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : "")
-              textColor: GC.system4ColorBright
+              textColor: GC.colorIAux1
               font.pixelSize: rowHeight*0.5
             }
           }
@@ -352,7 +352,7 @@ Item {
               width: root.columnWidth
               height: root.rowHeight
               text: VectorL8 !== undefined ? GC.formatNumber(VectorL8, 3) : ""
-              textColor: GC.system4ColorBright
+              textColor: GC.colorIAux1
               font.pixelSize: rowHeight*0.5
             }
           }
