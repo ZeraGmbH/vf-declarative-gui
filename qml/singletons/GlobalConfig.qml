@@ -35,6 +35,11 @@ Item {
     settings.globalSettings.setOption("fft_table_show_phase", setValue);
   }
 
+  readonly property int energyScaleSelection: parseInt(settings.globalSettings.getOption("energy_scale_selection", "1")) // 1 -> kWh
+  function setEnergyScaleSelection(selection) {
+    settings.globalSettings.setOption("energy_scale_selection", selection);
+  }
+
   readonly property var rangePeakVisualisationEnum: {
     "RPV_ABSOLUTE" : 0,
     "RPV_ABSOLUTE_LOGSCALE" : 1,

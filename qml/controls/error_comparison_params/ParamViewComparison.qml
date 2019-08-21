@@ -323,6 +323,7 @@ Item {
         }
         CCMP.ZUnitComboBox {
           id: unitCombo
+          currentIndex: GC.energyScaleSelection
           // entity base unit is kWh (maybe we add some magic later - for now use harcoding)
           arrEntries: {
             switch(cbRefInput.currentText) {
@@ -346,6 +347,10 @@ Item {
 
           contentRowHeight: height*GC.standardComboContentScale
           contentFlow: GridView.FlowTopToBottom
+          onCurrentFactorChanged: {
+            // Hmm unitCombo does not fire onCurrentIndexChanged so use onCurrentFactorChanged...
+            GC.setEnergyScaleSelection(targetIndex)
+          }
         }
       }
     }
