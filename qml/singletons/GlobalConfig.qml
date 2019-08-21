@@ -26,13 +26,13 @@ Item {
   readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative", "0"))
   function setShowFftTableAsRelative(isRelative) {
     var setValue = isRelative ? 1 : 0
-    settings.globalSettings.setOption("fft_table_as_relative", setValue, true);
+    settings.globalSettings.setOption("fft_table_as_relative", setValue);
   }
 
   readonly property int showFftTablePhase: parseInt(settings.globalSettings.getOption("fft_table_show_phase", "0"))
   function setShowFftTablePhase(showPhase) {
     var setValue = showPhase ? 1 : 0
-    settings.globalSettings.setOption("fft_table_show_phase", setValue, true);
+    settings.globalSettings.setOption("fft_table_show_phase", setValue);
   }
 
   readonly property var rangePeakVisualisationEnum: {
@@ -60,13 +60,13 @@ Item {
     }
     else if(rangePeakVisualisationEnum[rangePeakVisualisation] !== undefined)
     {
-      settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[rangePeakVisualisation], true);
+      settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[rangePeakVisualisation]);
     }
   }
 
   readonly property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view", "1"))
   function setPagesGridViewDisplay(isGridView) {
-    settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0, true);
+    settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0);
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ Item {
   }
 
   function setSystemColorByIndex(index, color) {
-    settings.globalSettings.setOption(getJsonColorNameByIndex(index), color, true);
+    settings.globalSettings.setOption(getJsonColorNameByIndex(index), color);
   }
 
   function setSystemDefaultColors() {
@@ -196,11 +196,11 @@ Item {
 
   readonly property real errorMarginUpperValue: parseFloat(settings.globalSettings.getOption("errorMarginUpperValue", "10.0"))
   function setErrorMarginUpperValue(upperLimit) {
-    settings.globalSettings.setOption("errorMarginUpperValue", upperLimit, true);
+    settings.globalSettings.setOption("errorMarginUpperValue", upperLimit);
   }
   readonly property real errorMarginLowerValue: parseFloat(settings.globalSettings.getOption("errorMarginLowerValue", "-10.0"))
   function setErrorMarginLowerValue(lowerLimit) {
-    settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit, true);
+    settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit);
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -214,10 +214,10 @@ Item {
 
   function setAutoScaleLimit(limit) {
     if(typeof limit === "string") {
-      settings.globalSettings.setOption("auto_scale_limit", limit, true);
+      settings.globalSettings.setOption("auto_scale_limit", limit);
     }
     else  {
-      settings.globalSettings.setOption("auto_scale_limit", formatNumber(limit, 3), true);
+      settings.globalSettings.setOption("auto_scale_limit", formatNumber(limit, 3));
     }
   }
   // Auto scale float value (num) / unit. Return value is an array [value,unit]
@@ -345,7 +345,7 @@ Item {
   }
 
   function setLocale(newLocale) {
-    settings.globalSettings.setOption("locale", newLocale, true);
+    settings.globalSettings.setOption("locale", newLocale);
   }
 
   /////////////////////////////////////////////////////////////////////////////
