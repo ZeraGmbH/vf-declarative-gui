@@ -323,7 +323,7 @@ Item {
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
-          GC.setErrorMargins(parseFloat(newText), GC.errorMarginLowerValue);
+          GC.setErrorMarginUpperValue(newText)
           return false
         }
       }
@@ -364,7 +364,7 @@ Item {
 
         validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
-          GC.setErrorMargins(GC.errorMarginUpperValue, parseFloat(newText));
+          GC.setErrorMarginLowerValue(newText)
           return false
         }
       }

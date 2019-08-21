@@ -194,57 +194,24 @@ Item {
   /////////////////////////////////////////////////////////////////////////////
   // Error margins
 
-  Timer {
-    id: errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer
-    interval: 0
-    repeat: false
-    running: false
-    onTriggered: {
-      settings.globalSettings.setOption("errorMarginUpperValue", 10, true); //sane default
-      settings.globalSettings.setOption("errorMarginLowerValue", -10, true); //sane default
-      settings.globalSettings.setOption("auto_scale_limit", 1.0, true); //sane default
-    }
-  }
-
-  function setErrorMargins(upperLimit, lowerLimit) {
+  readonly property real errorMarginUpperValue: parseFloat(settings.globalSettings.getOption("errorMarginUpperValue", "10.0"))
+  function setErrorMarginUpperValue(upperLimit) {
     settings.globalSettings.setOption("errorMarginUpperValue", upperLimit, true);
+  }
+  readonly property real errorMarginLowerValue: parseFloat(settings.globalSettings.getOption("errorMarginLowerValue", "-10.0"))
+  function setErrorMarginLowerValue(lowerLimit) {
     settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit, true);
   }
 
-  readonly property real errorMarginUpperValue: {
-    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginUpperValue", "10.0"));
-    if(isNaN(retVal) || isFinite(retVal) === false)
-    {
-      errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
-    }
-    return retVal;
-  }
-
-
-  readonly property real errorMarginLowerValue: {
-    var retVal = parseFloat(settings.globalSettings.getOption("errorMarginLowerValue", "-10.0"));
-    if(isNaN(retVal) || isFinite(retVal) === false)
-    {
-      errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
-    }
-    return retVal;
-  }
-
-  readonly property real autoScaleLimit: {
-    var str = settings.globalSettings.getOption("auto_scale_limit", "1.0")
-    if(str === "") {
-      str = "1"
-      errorMarginSaneDefaultPropertyBindingLoopAvoidingTimer.start()
-    }
-    return parseFloat(str)
-  }
-
   /////////////////////////////////////////////////////////////////////////////
-  // Auto scale helper functions
+  // Auto scale (+ helper functions)
 
   /* Settings/autoScaleLimit: A float number to set at which limit the value
      changes and unit is prefixed e.g for autoScaleLimit=1.2 value >= 1200 is
      changed to 1.2k */
+
+  readonly property real autoScaleLimit: parseFloat(settings.globalSettings.getOption("auto_scale_limit", "1.0"))
+
   function setAutoScaleLimit(limit) {
     if(typeof limit === "string") {
       settings.globalSettings.setOption("auto_scale_limit", limit, true);
