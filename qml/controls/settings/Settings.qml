@@ -321,7 +321,7 @@ SettingsView {
           font.pointSize: 12
           text: FA.fa_undo
           onClicked: {
-            GC.setDefaultColors()
+            GC.setSystemDefaultColors()
           }
         }
       }

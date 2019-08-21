@@ -83,37 +83,80 @@ Item {
   /////////////////////////////////////////////////////////////////////////////
   // Color settings...
 
-  function systemColorByIndex(index) {
-    var retVal;
+  function getJsonColorNameByIndex(index) {
+    var retVal
+    var availableSystems = ["system1ColorDark",   // 1
+                            "system2ColorDark",   // 2
+                            "system3ColorDark",   // 3
+                            "system1Color",       // 4
+                            "system2Color",       // 5
+                            "system3Color",       // 6
+                            "system4ColorDark",   // 7
+                            "system4Color"];      // 8
+    retVal = availableSystems[index-1]
+    return retVal
+  }
+
+  function getDefaultColorByIndex(index) {
+    var retVal
     switch(index) {
     case 1:
-      retVal = system1ColorDark;
+      retVal = "#EEff0000";
       break;
     case 2:
-      retVal = system2ColorDark;
+      retVal = "#EEffff00";
       break;
     case 3:
-      retVal = system3ColorDark;
+      retVal = "#EE0092ff";
       break;
     case 4:
-      retVal = system1ColorBright;
+      retVal = "#EEff7755";
       break;
     case 5:
-      retVal = system2ColorBright;
+      retVal = "#EEffffbb";
       break;
     case 6:
-      retVal = system3ColorBright;
+      retVal = "#EE58acfa";
       break;
     case 7:
-      retVal = system4ColorDark;
+      retVal = "#EEcccccc";
       break;
     case 8:
-      retVal = system4ColorBright;
+      retVal = "#EEffffff";
       break;
-
     }
-    return retVal;
+    return retVal
   }
+
+  function systemColorByIndex(index) {
+    return settings.globalSettings.getOption(getJsonColorNameByIndex(index), getDefaultColorByIndex(index))
+  }
+
+  function setSystemColorByIndex(index, color) {
+    settings.globalSettings.setOption(getJsonColorNameByIndex(index), color, true);
+  }
+
+  function setSystemDefaultColors() {
+    var index
+    for (index=1; index<=8; ++index) {
+      setSystemColorByIndex(index, getDefaultColorByIndex(index))
+    }
+  }
+
+  readonly property color system1ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(1), getDefaultColorByIndex(1))
+  readonly property color system2ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(2), getDefaultColorByIndex(2))
+  readonly property color system3ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(3), getDefaultColorByIndex(3))
+  readonly property color system1ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(4), getDefaultColorByIndex(4))
+  readonly property color system2ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(5), getDefaultColorByIndex(5))
+  readonly property color system3ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(6), getDefaultColorByIndex(6))
+  readonly property color system4ColorDark: settings.globalSettings.getOption(getJsonColorNameByIndex(7), getDefaultColorByIndex(7))
+  readonly property color system4ColorBright: settings.globalSettings.getOption(getJsonColorNameByIndex(8), getDefaultColorByIndex(8))
+
+  readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1", "lightskyblue")
+  readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2", "lawngreen")
+  readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3", "darkorange")
+
+  readonly property color tableShadeColor: "#003040"
 
   function getColorByIndex(rangIndex, grouping) {
     var retVal;
@@ -147,46 +190,6 @@ Item {
     }
     return retVal;
   }
-
-  function setDefaultColors() {
-    setSystemColorByIndex(1, "#EEff0000")
-    setSystemColorByIndex(2, "#EEffff00")
-    setSystemColorByIndex(3, "#EE0092ff")
-    setSystemColorByIndex(4, "#EEff7755")
-    setSystemColorByIndex(5, "#EEffffbb")
-    setSystemColorByIndex(6, "#EE58acfa")
-    setSystemColorByIndex(7, "#EEcccccc")
-    setSystemColorByIndex(8, "#EEffffff")
-  }
-
-  function setSystemColorByIndex(index, color) {
-    //index starts with 1 not 0
-    var realIndex = index-1;
-    var availableSystems = ["system1ColorDark", "system2ColorDark", "system3ColorDark", "system1Color", "system2Color", "system3Color", "system4ColorDark", "system4Color"];
-    if(realIndex < availableSystems.length && color !== undefined)
-    {
-      settings.globalSettings.setOption(availableSystems[realIndex], color, true);
-    }
-  }
-
-  readonly property color system1ColorBright: settings.globalSettings.getOption("system1Color", "#EEff7755")
-  readonly property color system1ColorDark: settings.globalSettings.getOption("system1ColorDark", "#EEff0000")
-
-  readonly property color system2ColorBright: settings.globalSettings.getOption("system2Color", "#EEffffbb")
-  readonly property color system2ColorDark: settings.globalSettings.getOption("system2ColorDark", "#EEffff00")
-
-  readonly property color system3ColorBright: settings.globalSettings.getOption("system3Color", "#EE58acfa")
-  readonly property color system3ColorDark: settings.globalSettings.getOption("system3ColorDark", "#EE0092ff")
-
-  readonly property color system4ColorBright: settings.globalSettings.getOption("system4Color", "#EEffffff")
-  readonly property color system4ColorDark: settings.globalSettings.getOption("system4ColorDark", "#EEcccccc")
-
-  readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1", "lightskyblue")
-  readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2", "lawngreen")
-  readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3", "darkorange")
-
-  readonly property color tableShadeColor: "#003040"
-
 
   /////////////////////////////////////////////////////////////////////////////
   // Error margins
