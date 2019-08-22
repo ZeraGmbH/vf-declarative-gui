@@ -58,7 +58,7 @@ Item {
   }
   Component {
     id: pageVector
-    Pages.DFTModulePage {
+    Pages.VectorModulePage {
       topMargin: 10
     }
   }

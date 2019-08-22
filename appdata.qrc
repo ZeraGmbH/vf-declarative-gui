@@ -50,7 +50,6 @@
         <file>qml/pages/ActualValueTabsPage.qml</file>
         <file>qml/pages/BurdenModulePage.qml</file>
         <file>qml/pages/CEDModulePage.qml</file>
-        <file>qml/pages/DFTModulePage.qml</file>
         <file>qml/pages/ErrorCalculatorModulePage.qml</file>
         <file>qml/pages/ErrorRegisterModulePage.qml</file>
         <file>qml/pages/ComparisonTabsView.qml</file>
@@ -61,6 +60,7 @@
         <file>qml/pages/RMS4PhasePage.qml</file>
         <file>qml/pages/RefModulePage.qml</file>
         <file>qml/pages/TransformerModulePage.qml</file>
+        <file>qml/pages/VectorModulePage.qml</file>
         <file>qml/singletons/GlobalConfig.qml</file>
         <file>qml/singletons/ModuleIntrospection.qml</file>
         <file>qml/vf-controls/VFComboBox.qml</file>

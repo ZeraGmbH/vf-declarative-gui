@@ -5,7 +5,7 @@
 #include "qnanoquickitempainter.h"
 
 /**
- * @brief Paints the phasor diagram (DFTModulePage.qml)
+ * @brief Paints the phasor diagram (VectorModulePage.qml)
  */
 class PhasorDiagram: public QNanoQuickItem
 {
