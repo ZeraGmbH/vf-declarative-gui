@@ -375,8 +375,11 @@ Item {
     {
       var dec = decimals ? decimals : decimalPlaces
       var strNum = Number(num).toLocaleString(locale, 'f', dec)
-      // remove thousands separator
-      strNum = strNum.replace(locale.decimalPoint === "," ? "." : ",", "")
+      // remove group separators (this is ugly but don't get documented examples to fly here...)
+      var groupSepChar = locale.decimalPoint === "," ? "." : ","
+      while(strNum.includes(groupSepChar)) {
+        strNum = strNum.replace(groupSepChar, "")
+      }
       return strNum
     }
   }
