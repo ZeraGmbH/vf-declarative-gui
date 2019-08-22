@@ -74,6 +74,12 @@ Item {
     settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0);
   }
 
+  readonly property int screenResolution: parseInt(settings.globalSettings.getOption("screen_resolution", "0"))
+  function setScreenResolution(resolution) {
+    settings.globalSettings.setOption("screen_resolution", resolution);
+  }
+
+
   /////////////////////////////////////////////////////////////////////////////
   // Common standard margins
 

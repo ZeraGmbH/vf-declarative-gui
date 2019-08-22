@@ -30,10 +30,12 @@ ApplicationWindow {
   property bool debugBypass: false;
   //used to notify about the com5003 meas/CED/REF session change
   property string currentSession;
+  // for development: current resolution
+  property int screenResolution: GC.screenResolution
 
   visible: true
-  width: Screen.desktopAvailableWidth
-  height: Screen.desktopAvailableHeight
+  width: getScreenWidth()
+  height: getScreenHeight()
   flags: Qt.FramelessWindowHint
   title: "ZeraGUI"
   Material.theme: Material.Dark
@@ -68,6 +70,40 @@ ApplicationWindow {
     {
       VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
     }
+  }
+  function getScreenWidth() {
+    var width = Screen.desktopAvailableWidth
+    if(BUILD_TYPE === "debug") {
+      switch(displayWindow.screenResolution) {
+      case 0:
+        width=750;
+        break
+      case 1:
+        width=1024;
+        break
+      case 2:
+        width = Screen.desktopAvailableWidth
+        break
+      }
+    }
+    return width
+  }
+  function getScreenHeight() {
+    var height = Screen.desktopAvailableHeight
+    if(BUILD_TYPE === "debug") {
+      switch(displayWindow.screenResolution) {
+      case 0:
+        height=480;
+        break
+      case 1:
+        height=600;
+        break
+      case 2:
+        height = Screen.desktopAvailableHeight
+        break
+      }
+    }
+    return height
   }
 
   FontLoader {
@@ -120,22 +156,12 @@ ApplicationWindow {
   }
 
   Shortcut {
-    property bool smallResolution: false
     enabled: BUILD_TYPE === "debug"
     sequence: "F3"
     autoRepeat: false
     onActivated: {
-      smallResolution = !smallResolution;
-      if(smallResolution)
-      {
-        displayWindow.width=750;
-        displayWindow.height=480;
-      }
-      else
-      {
-        displayWindow.width=1024;
-        displayWindow.height=600;
-      }
+      screenResolution = (screenResolution+1) % 3
+      GC.setScreenResolution(screenResolution)
     }
   }
 
