@@ -57,11 +57,66 @@ Item {
       readonly property int rowHeight: Math.floor(height/rowCount)
       readonly property int columnWidth: width/4.2 //0.7 + 3 + 0.5
 
+      ListView {
+        id: burdenValueView
+        height: page.rowHeight*model.rowCount()
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        model: page.isVoltagePage ? ZGL.BurdenModelU : ZGL.BurdenModelI
+        boundsBehavior: Flickable.StopAtBounds
+
+        delegate: Component {
+          Row {
+            width: page.width
+            height: page.rowHeight
+            CCMP.GridItem {
+              width: page.columnWidth*0.7
+              height: page.rowHeight
+              color: GC.tableShadeColor
+              text: Name!==undefined ? Name : ""
+              font.bold: true
+            }
+            CCMP.GridItem {
+              width: page.columnWidth
+              height: page.rowHeight
+              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+              text: L1!==undefined ? GC.formatNumber(L1) : ""
+              textColor: GC.colorUL1
+              font.bold: index === 0
+            }
+            CCMP.GridItem {
+              width: page.columnWidth
+              height: page.rowHeight
+              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+              text: L2!==undefined ? GC.formatNumber(L2) : ""
+              textColor: GC.colorUL2
+              font.bold: index === 0
+            }
+            CCMP.GridItem {
+              width: page.columnWidth
+              height: page.rowHeight
+              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+              text: L3!==undefined ? GC.formatNumber(L3) : ""
+              textColor: GC.colorUL3
+              font.bold: index === 0
+            }
+            CCMP.GridItem {
+              width: page.columnWidth/2
+              height: page.rowHeight
+              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+              text: Unit ? Unit : ""
+              font.bold: index === 0
+            }
+          }
+        }
+      }
       SettingsControls.SettingsView {
         id: settingsView
         anchors.left: parent.left
         anchors.right: parent.right
         height: page.height*model.count/page.rowCount
+        anchors.bottom: parent.bottom
 
         model: VisualItemModel {
           VFControls.VFLineEdit {
@@ -163,60 +218,6 @@ Item {
               bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2]);
-            }
-          }
-        }
-      }
-      ListView {
-        id: burdenValueView
-        height: page.rowHeight*model.rowCount()
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        model: page.isVoltagePage ? ZGL.BurdenModelU : ZGL.BurdenModelI
-        boundsBehavior: Flickable.StopAtBounds
-
-        delegate: Component {
-          Row {
-            width: page.width
-            height: page.rowHeight
-            CCMP.GridItem {
-              width: page.columnWidth*0.7
-              height: page.rowHeight
-              color: GC.tableShadeColor
-              text: Name!==undefined ? Name : ""
-              font.bold: true
-            }
-            CCMP.GridItem {
-              width: page.columnWidth
-              height: page.rowHeight
-              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-              text: L1!==undefined ? GC.formatNumber(L1) : ""
-              textColor: GC.colorUL1
-              font.bold: index === 0
-            }
-            CCMP.GridItem {
-              width: page.columnWidth
-              height: page.rowHeight
-              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-              text: L2!==undefined ? GC.formatNumber(L2) : ""
-              textColor: GC.colorUL2
-              font.bold: index === 0
-            }
-            CCMP.GridItem {
-              width: page.columnWidth
-              height: page.rowHeight
-              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-              text: L3!==undefined ? GC.formatNumber(L3) : ""
-              textColor: GC.colorUL3
-              font.bold: index === 0
-            }
-            CCMP.GridItem {
-              width: page.columnWidth/2
-              height: page.rowHeight
-              color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-              text: Unit ? Unit : ""
-              font.bold: index === 0
             }
           }
         }
