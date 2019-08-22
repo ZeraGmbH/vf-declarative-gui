@@ -39,8 +39,8 @@ CCMP.ModulePage {
       root.viewMode = targetIndex
     }
 
-    anchors.topMargin: 20
-    anchors.top: root.top;
+    anchors.bottomMargin: 24
+    anchors.bottom: currentOnOffSelector.top;
     anchors.right: root.right
     anchors.rightMargin: 20
     height: root.height/10
@@ -53,8 +53,8 @@ CCMP.ModulePage {
     arrayMode: true
     model: ["VEC  IL  ON", "VEC  IL  OFF"]
 
-    anchors.topMargin: 24
-    anchors.top: viewModeSelector.bottom;
+    anchors.bottomMargin: 24
+    anchors.bottom: dinIECSelector.top;
     anchors.right: root.right
     anchors.rightMargin: 20
     height: root.height/10
@@ -69,13 +69,15 @@ CCMP.ModulePage {
     arrayMode: true
     model: ["DIN410", "IEC387"]
 
-    anchors.topMargin: 24
-    anchors.top: currentOnOffSelector.bottom;
+    anchors.bottomMargin: 24
+    anchors.bottom: parent.bottom;
     anchors.right: root.right
     anchors.rightMargin: 20
     height: root.height/10
     width: root.width/7
     fontSize: Math.min(18, height/1.5, width/8);
+    centerVertical: true
+    centerVerticalOffset: height/2
 
     property bool din410: targetIndex===0
   }
