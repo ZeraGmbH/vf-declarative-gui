@@ -18,142 +18,12 @@ CCMP.ModulePage {
   readonly property var transformerIntrospection: ModuleIntrospection.transformer1Introspection
   readonly property int rowHeight: Math.floor(height/12)
 
-  SettingsControls.SettingsView {
-    anchors.left: parent.left
-    anchors.right: parent.right
-    height: root.rowHeight * model.count
-
-    model: VisualItemModel {
-      Item {
-        width: root.width
-        height: root.rowHeight
-
-        VFControls.VFLineEdit {
-          id: parPrimClampPrim
-          description.text: ZTR["Mp-Prim:"]
-          description.width: root.width/10;
-          height: root.rowHeight;
-          width: root.width/2 - 8;
-
-          entity: root.transformerModule
-          controlPropertyName: "PAR_PrimClampPrim"
-          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-          validator: CCMP.ZDoubleValidator {
-            bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
-            top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
-            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
-          }
-        }
-        VFControls.VFLineEdit {
-          id: parPrimClampSec
-          anchors.right: parent.right
-          description.text: ZTR["Mp-Sec:"]
-          description.width: root.width/10;
-          height: root.rowHeight;
-          width: root.width/2 - 8;
-
-          entity: root.transformerModule
-          controlPropertyName: "PAR_PrimClampSec"
-          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-          validator: CCMP.ZDoubleValidator {
-            bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
-            top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
-            decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
-          }
-        }
-      }
-      Item {
-        width: root.width
-        height: root.rowHeight
-
-        VFControls.VFLineEdit {
-          id: parDutPrimary
-          description.text: ZTR["X-Prim:"]
-          description.width: root.width/10;
-          height: root.rowHeight;
-          width: root.width/2 - 8;
-
-          entity: root.transformerModule
-          controlPropertyName: "PAR_DutPrimary"
-          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-          validator: CCMP.ZDoubleValidator {
-            bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
-            top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
-            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
-          }
-        }
-        VFControls.VFLineEdit {
-          id: parDutSecondary
-          anchors.right: parent.right
-          description.text: ZTR["X-Sec:"]
-          description.width: root.width/10;
-          height: root.rowHeight;
-          width: root.width/2 - 8;
-
-          entity: root.transformerModule
-          controlPropertyName: "PAR_DutSecondary"
-          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-          validator: CCMP.ZDoubleValidator {
-            bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
-            top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
-            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
-          }
-        }
-      }
-      Item {
-        width: root.width
-        height: root.rowHeight
-
-        VFControls.VFLineEdit {
-          id: parSecClampPrim
-          description.text: ZTR["Ms-Prim:"]
-          description.width: root.width/10;
-          height: root.rowHeight;
-          width: root.width/2 - 8;
-
-          entity: root.transformerModule
-          controlPropertyName: "PAR_SecClampPrim"
-          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-          validator: CCMP.ZDoubleValidator {
-            bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
-            top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
-            decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
-          }
-        }
-        VFControls.VFLineEdit {
-          id: parSecClampSec
-          description.text: ZTR["Ms-Sec:"]
-          description.width: root.width/10;
-          height: root.rowHeight;
-          width: root.width/2 - 8;
-          anchors.right: parent.right
-
-          entity: root.transformerModule
-          controlPropertyName: "PAR_SecClampSec"
-          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
-
-          validator: CCMP.ZDoubleValidator {
-            bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
-            top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
-            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);
-          }
-        }
-      }
-    }
-  }
-
   //could be replaced by a VisualItemModel
   Column {
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.bottom: parent.bottom
+    anchors.top: parent.top
     height: root.height*9/12
     width: root.width
-
 
     //Header
     Row {
@@ -344,6 +214,136 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         text: ZTR["arcmin"];
+      }
+    }
+  }
+
+  SettingsControls.SettingsView {
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: root.rowHeight * model.count
+    anchors.bottom: parent.bottom
+
+    model: VisualItemModel {
+      Item {
+        width: root.width
+        height: root.rowHeight
+
+        VFControls.VFLineEdit {
+          id: parPrimClampPrim
+          description.text: ZTR["Mp-Prim:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_PrimClampPrim"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
+          }
+        }
+        VFControls.VFLineEdit {
+          id: parPrimClampSec
+          anchors.right: parent.right
+          description.text: ZTR["Mp-Sec:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_PrimClampSec"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
+            decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
+          }
+        }
+      }
+      Item {
+        width: root.width
+        height: root.rowHeight
+
+        VFControls.VFLineEdit {
+          id: parDutPrimary
+          description.text: ZTR["X-Prim:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_DutPrimary"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
+          }
+        }
+        VFControls.VFLineEdit {
+          id: parDutSecondary
+          anchors.right: parent.right
+          description.text: ZTR["X-Sec:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_DutSecondary"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
+          }
+        }
+      }
+      Item {
+        width: root.width
+        height: root.rowHeight
+
+        VFControls.VFLineEdit {
+          id: parSecClampPrim
+          description.text: ZTR["Ms-Prim:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_SecClampPrim"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
+            decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
+          }
+        }
+        VFControls.VFLineEdit {
+          id: parSecClampSec
+          description.text: ZTR["Ms-Sec:"]
+          description.width: root.width/10;
+          height: root.rowHeight;
+          width: root.width/2 - 8;
+          anchors.right: parent.right
+
+          entity: root.transformerModule
+          controlPropertyName: "PAR_SecClampSec"
+          unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
+
+          validator: CCMP.ZDoubleValidator {
+            bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
+            top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
+            decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);
+          }
+        }
       }
     }
   }
