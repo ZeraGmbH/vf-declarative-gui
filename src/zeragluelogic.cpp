@@ -314,15 +314,15 @@ class ZeraGlueLogicPrivate
     mIndex = m_actValueData->index(2, 0);
     m_actValueData->setData(mIndex, m_translation->value("UPP"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(3, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
-    mIndex = m_actValueData->index(4, 0);
     m_actValueData->setData(mIndex, m_translation->value("∠U"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(4, 0);
+    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(5, 0);
     m_actValueData->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(6, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
-    mIndex = m_actValueData->index(7, 0);
     m_actValueData->setData(mIndex, m_translation->value("∠I"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(7, 0);
+    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(8, 0);
     m_actValueData->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(9, 0);
@@ -342,15 +342,15 @@ class ZeraGlueLogicPrivate
     mIndex = m_actValueData->index(2, 0);
     m_actValueData->setData(mIndex, "V", RoleIndexes::UNIT);
     mIndex = m_actValueData->index(3, 0);
-    m_actValueData->setData(mIndex, "%", RoleIndexes::UNIT);
-    mIndex = m_actValueData->index(4, 0);
     m_actValueData->setData(mIndex, "°", RoleIndexes::UNIT);
+    mIndex = m_actValueData->index(4, 0);
+    m_actValueData->setData(mIndex, "%", RoleIndexes::UNIT);
     mIndex = m_actValueData->index(5, 0);
     m_actValueData->setData(mIndex, "A", RoleIndexes::UNIT);
     mIndex = m_actValueData->index(6, 0);
-    m_actValueData->setData(mIndex, "%", RoleIndexes::UNIT);
-    mIndex = m_actValueData->index(7, 0);
     m_actValueData->setData(mIndex, "°", RoleIndexes::UNIT);
+    mIndex = m_actValueData->index(7, 0);
+    m_actValueData->setData(mIndex, "%", RoleIndexes::UNIT);
     mIndex = m_actValueData->index(8, 0);
     m_actValueData->setData(mIndex, "°", RoleIndexes::UNIT);
     //mIndex = m_actValueData->index(9, 0); //none
@@ -390,24 +390,24 @@ class ZeraGlueLogicPrivate
 
 
     QHash<QString, QPoint> *thdnMap = new QHash<QString, QPoint>();
-    thdnMap->insert("ACT_THDR1", QPoint(RoleIndexes::L1, 3));
-    thdnMap->insert("ACT_THDR2", QPoint(RoleIndexes::L2, 3));
-    thdnMap->insert("ACT_THDR3", QPoint(RoleIndexes::L3, 3));
+    thdnMap->insert("ACT_THDR1", QPoint(RoleIndexes::L1, 4));
+    thdnMap->insert("ACT_THDR2", QPoint(RoleIndexes::L2, 4));
+    thdnMap->insert("ACT_THDR3", QPoint(RoleIndexes::L3, 4));
 
-    thdnMap->insert("ACT_THDR4", QPoint(RoleIndexes::L1, 6));
-    thdnMap->insert("ACT_THDR5", QPoint(RoleIndexes::L2, 6));
-    thdnMap->insert("ACT_THDR6", QPoint(RoleIndexes::L3, 6));
+    thdnMap->insert("ACT_THDR4", QPoint(RoleIndexes::L1, 7));
+    thdnMap->insert("ACT_THDR5", QPoint(RoleIndexes::L2, 7));
+    thdnMap->insert("ACT_THDR6", QPoint(RoleIndexes::L3, 7));
 
     QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
-    dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 4));
-    dftMap->insert("ACT_DFTPN2", QPoint(RoleIndexes::L2, 4));
-    dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, 4));
-    dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::AUX, 4));
+    dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 3));
+    dftMap->insert("ACT_DFTPN2", QPoint(RoleIndexes::L2, 3));
+    dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, 3));
+    dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::AUX, 3));
 
-    dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, 7));
-    dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, 7));
-    dftMap->insert("ACT_DFTPN6", QPoint(RoleIndexes::L3, 7));
-    dftMap->insert("ACT_DFTPN8", QPoint(RoleIndexes::AUX, 7));
+    dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, 6));
+    dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, 6));
+    dftMap->insert("ACT_DFTPN6", QPoint(RoleIndexes::L3, 6));
+    dftMap->insert("ACT_DFTPN8", QPoint(RoleIndexes::AUX, 6));
 
     //(8) ∠UI is a calculated value
 
@@ -992,15 +992,15 @@ class ZeraGlueLogicPrivate
     mIndex = m_actValueData->index(2, 0);
     m_actValueData->setData(mIndex, m_translation->value("UPP"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(3, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
-    mIndex = m_actValueData->index(4, 0);
     m_actValueData->setData(mIndex, m_translation->value("∠U"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(4, 0);
+    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(5, 0);
     m_actValueData->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(6, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
-    mIndex = m_actValueData->index(7, 0);
     m_actValueData->setData(mIndex, m_translation->value("∠I"), RoleIndexes::NAME);
+    mIndex = m_actValueData->index(7, 0);
+    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(8, 0);
     m_actValueData->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(9, 0);
