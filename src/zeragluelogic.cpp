@@ -379,24 +379,9 @@ class ZeraGlueLogicPrivate
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
     rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::AUX, 1));
 
-    rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 5));
-    rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 5));
-    rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 5));
-    rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::AUX, 5));
-
     rmsMap->insert("ACT_RMSPP1", QPoint(RoleIndexes::L1, 2));
     rmsMap->insert("ACT_RMSPP2", QPoint(RoleIndexes::L2, 2));
     rmsMap->insert("ACT_RMSPP3", QPoint(RoleIndexes::L3, 2));
-
-
-    QHash<QString, QPoint> *thdnMap = new QHash<QString, QPoint>();
-    thdnMap->insert("ACT_THDR1", QPoint(RoleIndexes::L1, 4));
-    thdnMap->insert("ACT_THDR2", QPoint(RoleIndexes::L2, 4));
-    thdnMap->insert("ACT_THDR3", QPoint(RoleIndexes::L3, 4));
-
-    thdnMap->insert("ACT_THDR4", QPoint(RoleIndexes::L1, 7));
-    thdnMap->insert("ACT_THDR5", QPoint(RoleIndexes::L2, 7));
-    thdnMap->insert("ACT_THDR6", QPoint(RoleIndexes::L3, 7));
 
     QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
     dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 3));
@@ -404,10 +389,24 @@ class ZeraGlueLogicPrivate
     dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, 3));
     dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::AUX, 3));
 
+    QHash<QString, QPoint> *thdnMap = new QHash<QString, QPoint>();
+    thdnMap->insert("ACT_THDR1", QPoint(RoleIndexes::L1, 4));
+    thdnMap->insert("ACT_THDR2", QPoint(RoleIndexes::L2, 4));
+    thdnMap->insert("ACT_THDR3", QPoint(RoleIndexes::L3, 4));
+
+    rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 5));
+    rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 5));
+    rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 5));
+    rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::AUX, 5));
+
     dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, 6));
     dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, 6));
     dftMap->insert("ACT_DFTPN6", QPoint(RoleIndexes::L3, 6));
     dftMap->insert("ACT_DFTPN8", QPoint(RoleIndexes::AUX, 6));
+
+    thdnMap->insert("ACT_THDR4", QPoint(RoleIndexes::L1, 7));
+    thdnMap->insert("ACT_THDR5", QPoint(RoleIndexes::L2, 7));
+    thdnMap->insert("ACT_THDR6", QPoint(RoleIndexes::L3, 7));
 
     //(8) ∠UI is a calculated value
 
