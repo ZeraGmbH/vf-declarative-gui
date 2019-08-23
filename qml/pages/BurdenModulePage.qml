@@ -82,7 +82,7 @@ Item {
               height: page.rowHeight
               color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
               text: L1!==undefined ? GC.formatNumber(L1) : ""
-              textColor: GC.colorUL1
+              textColor: isVoltagePage ? GC.colorUL1 : GC.colorIL1
               font.bold: index === 0
             }
             CCMP.GridItem {
@@ -90,7 +90,7 @@ Item {
               height: page.rowHeight
               color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
               text: L2!==undefined ? GC.formatNumber(L2) : ""
-              textColor: GC.colorUL2
+              textColor: isVoltagePage ? GC.colorUL2 : GC.colorIL2
               font.bold: index === 0
             }
             CCMP.GridItem {
@@ -98,7 +98,7 @@ Item {
               height: page.rowHeight
               color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
               text: L3!==undefined ? GC.formatNumber(L3) : ""
-              textColor: GC.colorUL3
+              textColor: isVoltagePage ? GC.colorUL3 : GC.colorIL3
               font.bold: index === 0
             }
             CCMP.GridItem {
