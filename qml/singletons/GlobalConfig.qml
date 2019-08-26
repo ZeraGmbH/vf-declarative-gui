@@ -23,6 +23,12 @@ Item {
     settings.globalSettings.setOption("digits", digits);
   }
 
+  readonly property int showAuxPhases: parseInt(settings.globalSettings.getOption("show_aux_phases", "0"))
+  function setShowAuxPhases(showAux) {
+    var setValue = showAux ? 1 : 0
+    settings.globalSettings.setOption("show_aux_phases", setValue);
+  }
+
   readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative", "0"))
   function setShowFftTableAsRelative(isRelative) {
     var setValue = isRelative ? 1 : 0

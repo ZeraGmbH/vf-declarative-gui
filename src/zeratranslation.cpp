@@ -226,6 +226,8 @@ void ZeraTranslation::reloadStringTable()
   //: System = measuring system
   insert("System colors:", tr("System colors:"));
   insert("Frequency input/output configuration:", tr("Frequency input/output configuration:"));
+  //: Settings show/hide AUX phases
+  insert("Show AUX phase values:", tr("Show AUX phase values:"));
 
   //: Displayed in Frequency input/output configuration
   insert("Nominal frequency:", tr("Nominal frequency:"));

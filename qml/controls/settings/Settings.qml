@@ -326,6 +326,33 @@ SettingsView {
         }
       }
     }
+    Loader {
+      active: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
+      height: root.rowHeight;
+      width: root.rowWidth;
+      sourceComponent: RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+
+        Label {
+          textFormat: Text.PlainText
+          text: ZTR["Show AUX phase values:"]
+          font.pixelSize: 20
+
+          Layout.fillWidth: true
+        }
+        CheckBox {
+          height: parent.height
+          Component.onCompleted: checked = GC.showAuxPhases
+          onCheckedChanged: {
+            GC.setShowAuxPhases(checked);
+          }
+        }
+      }
+    }
+
+
 
     //header
     Item {
