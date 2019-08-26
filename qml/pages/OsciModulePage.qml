@@ -109,6 +109,7 @@ Item {
         }
         ValueAxis {
           id: yAxisLeft
+          visible: root.rangeModule["PAR_Channel"+(leftChannels[index]+1)+"Range"] !== "--"
           //120% possible rejection * sqrt(2) rounded up to avoid crooked numbers
           property real minMax: root.rangeModule["INF_Channel"+(leftChannels[index]+1)+"ActREJ"]*2.0
 
@@ -123,6 +124,7 @@ Item {
         }
         ValueAxis {
           id: yAxisRight
+          visible: root.rangeModule["PAR_Channel"+(rightChannels[index]+1)+"Range"] !== "--"
           //120% possible rejection * sqrt(2) rounded up to avoid crooked numbers
           property real minMax: root.rangeModule["INF_Channel"+(rightChannels[index]+1)+"ActREJ"]*2.0
 
