@@ -23,7 +23,7 @@ Item {
     settings.globalSettings.setOption("digits", digits);
   }
 
-  readonly property int showAuxPhases: parseInt(settings.globalSettings.getOption("show_aux_phases", "0"))
+  readonly property bool showAuxPhases: parseInt(settings.globalSettings.getOption("show_aux_phases", "0"))
   function setShowAuxPhases(showAux) {
     var setValue = showAux ? 1 : 0
     settings.globalSettings.setOption("show_aux_phases", setValue);
@@ -31,15 +31,19 @@ Item {
   // we have to decouple change of showAuxPhases with a timer because of some
   // CPU intensive views: when the operator changes selection, it takes ages until
   // the checkbox in settings view is updated due to heavy load caused.
-  readonly property bool showAuxPhasesDecoupled: showAuxPhases
+  property bool showAuxPhasesDecoupled: showAuxPhases
   onShowAuxPhasesChanged: {
     decoupleTimer.start()
   }
   Timer {
     id: decoupleTimer
-    interval: 200
+    interval: 500
+    // We must break binding on startup
+    Component.onCompleted: {
+      showAuxPhasesDecoupled = showAuxPhases
+    }
     onTriggered: {
-      // yes we intent to break property binding
+      stop()
       showAuxPhasesDecoupled = showAuxPhases
     }
   }
