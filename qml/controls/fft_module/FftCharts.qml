@@ -14,7 +14,7 @@ Flickable {
   readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
   readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
-  readonly property int fftCount: GC.showAuxPhases ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(6, ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount);
+  readonly property int fftCount: GC.showAuxPhasesDecoupled ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(6, ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount);
   //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
   readonly property var leftChannels: {
     var retVal = [];

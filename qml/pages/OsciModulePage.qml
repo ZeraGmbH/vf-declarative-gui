@@ -14,7 +14,7 @@ Item {
 
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
   readonly property real plotWidth: width-16;
-  readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : Math.min(6, ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount)
+  readonly property int channelCount: GC.showAuxPhasesDecoupled ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : Math.min(6, ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount)
 
   //convention that channels are numbered by unit was broken, so do some $%!7 to get the right data
   readonly property var dataModels: [ZGL.OSCIP1Model, ZGL.OSCIP2Model, ZGL.OSCIP3Model, ZGL.OSCIP1Model, ZGL.OSCIP2Model, ZGL.OSCIP3Model,  ZGL.OSCIPNModel, ZGL.OSCIPNModel]
