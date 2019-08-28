@@ -12,7 +12,7 @@ import "qrc:/qml/controls" as CCMP
 CCMP.ModulePage {
   id: root
 
-  readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount : Math.min(ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount, 6)
+  readonly property int channelCount: GC.showAuxPhasesDecoupled ? ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount : Math.min(ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount, 6)
   readonly property int row1stHeight: Math.floor(height/8)
   readonly property int rowHeight: Math.floor((height-row1stHeight)/4)
   readonly property int columnWidth1st: pixelSize * 2.3
