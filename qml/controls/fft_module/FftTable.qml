@@ -85,7 +85,7 @@ Item {
           height: root.rowHeight
           color: GC.tableShadeColor
           border.color: "#444" //disable border transparency
-          Label {
+          Text {
             text: ZTR[ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName]
             anchors.centerIn: parent
             anchors.rightMargin: 8
@@ -93,8 +93,8 @@ Item {
             font.family: "Droid Sans Mono"
             font.bold: true
             color: GC.getColorByIndex(index+1)
-            horizontalAlignment: Label.AlignRight
-            verticalAlignment: Label.AlignVCenter
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
             textFormat: Text.PlainText
           }
         }

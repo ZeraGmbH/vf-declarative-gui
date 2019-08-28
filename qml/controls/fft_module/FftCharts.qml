@@ -60,16 +60,16 @@ Flickable {
       width: root.width-16
       y: index*height
       readonly property string strThdn: ZTR["THDN:"]
-      Label {
-        id: thdnLabelU
+      Text {
+        id: thdnTextU
         //index starts with 1
         readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
         readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
         text: strThdn +" "+ GC.formatNumber(thdnModule[componentName]) + unit
         color: GC.systemColorByIndex(leftChannels[index]+1)
       }
-      Label {
-        id: thdnLabelI
+      Text {
+        id: thdnTextI
         //index starts with 1
         readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
         readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
@@ -82,7 +82,7 @@ Flickable {
       FftBarChart {
         id: harmonicChart
         anchors.fill: parent
-        anchors.topMargin: thdnLabelU.height
+        anchors.topMargin: thdnTextU.height
 
         rightAxisEnabled: true
 
