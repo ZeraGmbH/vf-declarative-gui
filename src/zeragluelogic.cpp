@@ -87,11 +87,9 @@ class FftTableModel : public QStandardItemModel
 public:
   explicit FftTableModel(QObject *t_parent) : QStandardItemModel(t_parent)
   {
-    setupTimer();
   }
   FftTableModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent)
   {
-    setupTimer();
   }
   virtual ~FftTableModel() override;
 
@@ -142,16 +140,6 @@ public:
   };
 
 private:
-  QTimer m_dataChangeTimer;
-  void setupTimer()
-  {
-    m_dataChangeTimer.setInterval(1000);
-    m_dataChangeTimer.setSingleShot(false);
-    QObject::connect(&m_dataChangeTimer, &QTimer::timeout, [&]() {
-      emit dataChanged(index(0, 0), index(rowCount()-1, columnCount()-1));
-    });
-    m_dataChangeTimer.start();
-  }
 };
 
 FftTableModel::~FftTableModel() {}
@@ -845,9 +833,6 @@ class ZeraGlueLogicPrivate
         QVector2D tmpVec2d;
         double re, im, vectorAngle, length, ampBaseOscillation;
 
-        QSignalBlocker blocker(m_fftTableData);
-        QSignalBlocker relativeBlocker(m_fftRelativeTableData);
-
         //set ampBaseOscillation
         re = tmpData.at(2);
         im = tmpData.at(3);
@@ -892,9 +877,6 @@ class ZeraGlueLogicPrivate
           m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole+100);
           m_fftRelativeTableData->setData(fftRelativeTableIndex, vectorAngle, fftTableRole+100);
         }
-        blocker.unblock();
-        relativeBlocker.unblock();
-
         retVal = true;
       }
     }
