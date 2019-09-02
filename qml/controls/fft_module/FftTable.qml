@@ -212,7 +212,7 @@ Item {
           }
 
           property bool updateRowContents: isRowVisible()
-          readonly property bool movingVertically: vBar.active // vBar.active catches all cases / fftFlickable.movingVertically ignores scroll at bar
+          readonly property bool movingVertically: vBar.active || fftFlickable.movingVertically
           /* We switch between two modes to get low CPU load on user idle and fast flicking:
             1. When user does not interact in FftTable we can reduce number of rows updated
                to those visible only. This also improves situations when FftTable is loaded but
