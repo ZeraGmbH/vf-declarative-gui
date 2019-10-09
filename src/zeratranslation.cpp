@@ -22,8 +22,8 @@ void ZeraTranslation::setStaticInstance(ZeraTranslation *t_instance)
 
 QObject *ZeraTranslation::getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
 {
-  Q_UNUSED(t_engine);
-  Q_UNUSED(t_scriptEngine);
+  Q_UNUSED(t_engine)
+  Q_UNUSED(t_scriptEngine)
 
   return s_instance;
 }
@@ -621,7 +621,7 @@ void ZeraTranslation::reloadStringTable()
 QVariant ZeraTranslation::updateValue(const QString &key, const QVariant &input)
 {
   Q_ASSERT(false); //do not change the values from QML
-  Q_UNUSED(input);
+  Q_UNUSED(input)
   return value(key);
 }
 

@@ -156,8 +156,8 @@ bool QmlFileIO::writeJsonFile(const QString &t_fileName, const QVariant &t_conte
 
 QObject *QmlFileIO::getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
 {
-  Q_UNUSED(t_engine);
-  Q_UNUSED(t_scriptEngine);
+  Q_UNUSED(t_engine)
+  Q_UNUSED(t_scriptEngine)
 
   return s_instance;
 }
