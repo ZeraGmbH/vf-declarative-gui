@@ -104,13 +104,13 @@ set(RESOURCES ${APP_RESOURCES} ${3RDPARTY_RESOURCES})
 
 
 # our application
-add_executable(VfDecGui
+add_executable(vf-declarative-gui
     ${SOURCES} ${HEADERS} ${RESOURCES}
     )
 
 # dependencies
 
-target_include_directories(VfDecGui 
+target_include_directories(vf-declarative-gui
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${QWT_INCLUDE_DIRS}
@@ -119,14 +119,14 @@ target_include_directories(VfDecGui
 ## Choose between openGL and GLES
 if(${useGles})
     set (glLib ${GLES2_LIBRARIES})
-    target_include_directories(VfDecGui PUBLIC ${GLES2_INCLUDE_DIR})
+    target_include_directories(vf-declarative-gui PUBLIC ${GLES2_INCLUDE_DIR})
 else()
     set(glLib ${OPENGL_LIBRARIES})
 endif()
 
 
 ## linking
-target_link_libraries(VfDecGui
+target_link_libraries(vf-declarative-gui
     PRIVATE
     Qt5::Core
     Qt5::Widgets
@@ -145,8 +145,8 @@ target_link_libraries(VfDecGui
     )
 
 
-install(TARGETS VfDecGui
-    EXPORT VfDecGui
+install(TARGETS vf-declarative-gui
+    EXPORT vf-declarative-gui
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
