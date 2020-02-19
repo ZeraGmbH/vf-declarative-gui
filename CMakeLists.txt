@@ -20,7 +20,7 @@ include(FeatureSummary)
 #Required Packages
 
 ##Qt5 libs
-find_package(Qt5 "5.12.0" COMPONENTS Core Widgets Quick QuickControls2 CONFIG REQUIRED Qml COMPONENTS)
+find_package(Qt5 "5.12.0" COMPONENTS Core Widgets Quick QuickControls2 Qml CONFIG REQUIRED COMPONENTS)
 
 ##QWT libs
 find_package(PkgConfig REQUIRED)
