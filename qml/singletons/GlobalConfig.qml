@@ -104,6 +104,11 @@ Item {
     settings.globalSettings.setOption("screen_resolution", resolution);
   }
 
+  readonly property bool showVirtualKeyboard: parseInt(settings.globalSettings.getOption("show_virtual_keyboard", "1"))
+  function setShowVirtualKeyboard(show) {
+    settings.globalSettings.setOption("show_virtual_keyboard", show ? 1 : 0);
+  }
+
 
   /////////////////////////////////////////////////////////////////////////////
   // Common standard margins

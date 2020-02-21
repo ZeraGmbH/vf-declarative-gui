@@ -395,7 +395,7 @@ ApplicationWindow {
       id: keyboardAnimation
       onStarted: {
       if(to === 1)
-        inputPanel.visible = true
+        inputPanel.visible = GC.showVirtualKeyboard
       }
       onFinished: {
         if(to === 0)
@@ -404,21 +404,22 @@ ApplicationWindow {
     }
     onTextEnteredChanged: {
       var rectInput = Qt.inputMethod.anchorRectangle
-      if (inputPanel.textEntered) {
-        if(rectInput.bottom > inputPanel.y)
-        {
-          flickableAnimation.to = rectInput.bottom - inputPanel.y + 10
-          flickableAnimation.start()
+      if(inputPanel.textEntered) {
+        if(GC.showVirtualKeyboard) {
+          if(rectInput.bottom > inputPanel.y) {
+            flickableAnimation.to = rectInput.bottom - inputPanel.y + 10
+            flickableAnimation.start()
+          }
+          keyboardAnimation.to = 1
+          keyboardAnimation.duration = 500
+          keyboardAnimation.start()
         }
-        keyboardAnimation.to = 1
-        keyboardAnimation.duration = 500
-        keyboardAnimation.start()
       }
       else {
         if(flickable.contentY !== 0) {
           flickableAnimation.to = 0
           flickableAnimation.start()
-           }
+        }
         keyboardAnimation.to = 0
         keyboardAnimation.duration = 0
         keyboardAnimation.start()
