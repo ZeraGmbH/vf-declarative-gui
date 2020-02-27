@@ -1,3 +1,4 @@
 {
-    "modulemanagerIp": "127.0.0.1"
+    "modulemanagerIp": "127.0.0.1",
+    "modulemanagerPort": "12000"
 }
