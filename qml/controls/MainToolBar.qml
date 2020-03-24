@@ -13,7 +13,8 @@ ToolBar {
   id: root
   property alias rotaryFieldDependenciesReady: rotaryFieldIndicatorLoader.active;
   property alias rangeIndicatorDependenciesReady: rangeIndicator.active;
-  property bool entityInitializationDone: false;
+
+  property bool entityInitializationDone: GC.entityInitializationDone
   onEntityInitializationDoneChanged: {
     if(entityInitializationDone)
     {
@@ -26,8 +27,6 @@ ToolBar {
   property bool measurementPaused: false;
   property bool pageViewVisible: false;
   property QtObject layoutStackObj;
-
-
 
   background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
   //provide more contrast

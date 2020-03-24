@@ -3,6 +3,7 @@ import QtQuick 2.0
 import ModuleIntrospection 1.0
 import ZeraSettings 1.0
 import ZeraTranslation 1.0
+import VeinEntity 1.0
 
 Item {
   /**
@@ -414,9 +415,21 @@ Item {
     }
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Misc settings / status
   readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
 
   //not saved to settings
   property string currentViewName: "";
   property string currentSelectedStoragePath: "/home/operator/logger"; //default
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Vein global status
+
+  // Vein components can be used only after vein is initialized otherwise
+  // we get nul-errors accessing components. To get around we wrap components
+  // in properties and bind them once vein is up. The property
+  // 'entityInitializationDone' is set from main.qml...
+  property bool entityInitializationDone: false;
 }

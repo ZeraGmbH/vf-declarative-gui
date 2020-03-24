@@ -24,8 +24,6 @@ import "qrc:/data/staticdata/FontAwesome.js" as FA
 ApplicationWindow {
   id: displayWindow
 
-  //is set to true when the required entities are available
-  property bool entitiesInitialized: false;
   //used to display the fps and other debug infos
   property bool debugBypass: false;
   //used to notify about the com5003 meas/CED/REF session change
@@ -127,7 +125,7 @@ ApplicationWindow {
         controlsBar.rangeIndicatorDependenciesReady = true;
         pageView.pageLoaderSource = pageView.model.get(0).elementValue;
         loadingScreen.close();
-        displayWindow.entitiesInitialized = true;
+        GC.entityInitializationDone = true;
       }
     }
 
@@ -169,7 +167,7 @@ ApplicationWindow {
     // main view displaying pages and other stuff - (flickable for virtual keyboard)
     id: flickable
     anchors.fill: parent
-    enabled: displayWindow.entitiesInitialized === true
+    enabled: GC.entityInitializationDone === true
     contentWidth: parent.width;
     contentHeight: parent.height
     boundsBehavior: Flickable.StopAtBounds
@@ -187,7 +185,7 @@ ApplicationWindow {
       anchors.top: parent.top
       anchors.bottom: controlsBar.top
       anchors.margins: 8
-      currentIndex: displayWindow.entitiesInitialized ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutStatusIndex
+      currentIndex: GC.entityInitializationDone ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutStatusIndex
 
       ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
       //DefaultProperty: [
@@ -312,7 +310,7 @@ ApplicationWindow {
       anchors.bottom: parent.bottom
       width: displayWindow.width
 
-      entityInitializationDone: displayWindow.entitiesInitialized;
+      entityInitializationDone: GC.entityInitializationDone;
       layoutStackObj: layoutStack
     }
 
@@ -359,7 +357,7 @@ ApplicationWindow {
         layoutStack.currentIndex=0;
         controlsBar.rangeIndicatorDependenciesReady = false;
         pageLoader.active = false;
-        entitiesInitialized = false;
+        GC.entityInitializationDone = false;
         loadingScreen.open();
       }
     }
