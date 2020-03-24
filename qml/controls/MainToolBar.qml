@@ -45,6 +45,7 @@ ToolBar {
     anchors.rightMargin: 4
 
     ToolButton {
+      id: pageSelectorButton
       implicitHeight: parent.height
       font.family: "FontAwesome"
       font.pointSize: 18
@@ -75,7 +76,6 @@ ToolBar {
           root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutRangeIndex;
         }
       }
-
       RangeControls.RangeIndicator {
         id: rangeIndicator
         width: Math.ceil(root.width/1.8)
@@ -85,6 +85,7 @@ ToolBar {
     }
 
     ToolButton {
+      id: rotaryFieldIndicator
       implicitHeight: parent.height
       implicitWidth: height*1.5
       highlighted: false;
@@ -101,6 +102,7 @@ ToolBar {
     }
 
     ToolButton {
+      id: pauseButton
       implicitHeight: parent.height
       font.family: "FontAwesome"
       font.pointSize: 14
@@ -113,6 +115,7 @@ ToolBar {
       }
     }
     ToolButton {
+      id: logStartButton
       implicitHeight: parent.height
       implicitWidth: root.width/16
       font.family: "FontAwesome"
@@ -127,6 +130,7 @@ ToolBar {
       }
     }
     ToolButton {
+      id: settingsButton
       implicitHeight: parent.height
       implicitWidth: root.width/16
       font.family: "FontAwesome"
@@ -140,6 +144,7 @@ ToolBar {
       }
     }
     ToolButton {
+      id: infoButton
       implicitHeight: parent.height
       implicitWidth: root.width/16
       font.family: "FontAwesome"
