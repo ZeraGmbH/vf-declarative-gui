@@ -20,13 +20,6 @@ Item {
     height: root.rowHeight*1.5
     currentIndex: 0
     TabButton {
-      id: errorLogButton
-      text: FA.icon(FA.fa_exclamation_triangle, GC.tmpStatusNewErrors ? Material.color(Material.Yellow) : "#44ffffff" )+ZTR["Device log"]
-      font.family: "FontAwesome"
-      height: parent.height
-      font.pixelSize: height/2
-    }
-    TabButton {
       id: deviceStatusButton
       text: FA.icon(FA.fa_info_circle)+ZTR["Device info"]
       font.family: "FontAwesome"
@@ -56,6 +49,13 @@ Item {
       height: parent.height
       font.pixelSize: height/2
     }
+    TabButton {
+      id: errorLogButton
+      text: FA.icon(FA.fa_exclamation_triangle, GC.tmpStatusNewErrors ? Material.color(Material.Yellow) : "#44ffffff" )+ZTR["Device log"]
+      font.family: "FontAwesome"
+      height: parent.height
+      font.pixelSize: height/2
+    }
   }
 
   StackLayout {
@@ -66,6 +66,16 @@ Item {
 
     Loader {
       active: stackLayout.currentIndex === 0
+      sourceComponent: DeviceInformation {
+      }
+    }
+    Loader {
+      active: stackLayout.currentIndex === 1
+      sourceComponent: LicenseInformation {
+      }
+    }
+    Loader {
+      active: stackLayout.currentIndex === 2
       sourceComponent: Notifications {
         errorDataModel: root.errorDataModel
       }
@@ -76,16 +86,6 @@ Item {
         }
       }
       Component.onDestruction: GC.tmpStatusNewErrors = false;
-    }
-    Loader {
-      active: stackLayout.currentIndex === 1
-      sourceComponent: DeviceInformation {
-      }
-    }
-    Loader {
-      active: stackLayout.currentIndex === 2
-      sourceComponent: LicenseInformation {
-      }
     }
   }
 }
