@@ -27,11 +27,28 @@ Item {
       font.pixelSize: height/2
     }
     TabButton {
+      id: deviceStatusButton
       text: FA.icon(FA.fa_info_circle)+ZTR["Device info"]
       font.family: "FontAwesome"
       height: parent.height
       font.pixelSize: height/2
       enabled: VeinEntity.hasEntity("StatusModule1")
+      Material.foreground: GC.adjustmentStatusOk ? "white" : "red"
+      Timer {
+          interval: 300
+          repeat: true
+          running: !GC.adjustmentStatusOk && !deviceStatusButton.checked
+          onRunningChanged: {
+              if(!running) {
+                  deviceStatusButton.opacity = 1
+              }
+          }
+          property bool show: true
+          onTriggered: {
+              show = !show
+              deviceStatusButton.opacity = show ? 1 : 0
+          }
+      }
     }
     TabButton {
       text: FA.icon("<b>§</b>")+ZTR["License information"]
