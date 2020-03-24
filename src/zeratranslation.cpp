@@ -499,6 +499,9 @@ void ZeraTranslation::reloadStringTable()
   insert("FPGA firmware version:", tr("FPGA firmware version:"));
   insert("Microcontroller firmware version:", tr("Microcontroller firmware version:"));
   insert("Adjustment status:", tr("Adjustment status:"));
+  insert("Not adjusted", tr("Not adjusted"));
+  insert("Wrong version", tr("Wrong version"));
+  insert("Wrong serial number", tr("Wrong serial number"));
   insert("Adjustment checksum:", tr("Adjustment checksum:"));
   insert("IP addresses:", tr("IP addresses:"));
 

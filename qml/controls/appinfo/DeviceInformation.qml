@@ -128,13 +128,15 @@ Item {
       Label {
         font.pointSize: 14
         text: ZTR["Adjustment status:"]
+        color: GC.adjustmentStatusOk ? "white" : "red"
       }
       Item {
         Layout.fillWidth: true
       }
       Label {
         font.pointSize: 14
-        text: statusEnt.INF_Adjusted
+        text: GC.adjustmentStatusDescription
+        color: GC.adjustmentStatusOk ? "white" : "red"
       }
     }
     RowLayout {

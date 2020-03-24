@@ -432,4 +432,44 @@ Item {
   // in properties and bind them once vein is up. The property
   // 'entityInitializationDone' is set from main.qml...
   property bool entityInitializationDone: false;
+  onEntityInitializationDoneChanged: {
+    if(entityInitializationDone)
+    {
+      adjustmentStatusText = Qt.binding(function() {
+        return VeinEntity.getEntity("StatusModule1").INF_Adjusted;
+      });
+    }
+  }
+
+  // adjustment status helpers
+  property string adjustmentStatusText: "0"
+  readonly property bool adjustmentStatusOk : {
+      // To avoid confusion we assume adjusted state as long as vein is not up
+      return !entityInitializationDone || parseInt(adjustmentStatusText) === 0
+  }
+
+  readonly property string adjustmentStatusDescription : {
+      var status = parseInt(adjustmentStatusText)
+      var strStatus = "OK"
+      if(status !== 0) {
+          strStatus = ""
+          // see mt310s2d/com5003d / adjustment.h for flags definition
+          if(status & 1) {
+              strStatus += ZTR["Not adjusted"]
+          }
+          if(status & 2) {
+              if(strStatus !== "") {
+                  strStatus += " / "
+              }
+              strStatus += ZTR["Wrong version"]
+          }
+          if(status & 4) {
+              if(strStatus !== "") {
+                  strStatus += " / "
+              }
+              strStatus += ZTR["Wrong serial number"]
+          }
+      }
+      return strStatus;
+  }
 }

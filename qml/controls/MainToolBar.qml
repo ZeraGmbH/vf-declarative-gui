@@ -149,7 +149,24 @@ ToolBar {
       font.family: "FontAwesome"
       font.pointSize:  18
       text: FA.fa_info_circle
-      highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
+      highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex && GC.adjustmentStatusOk
+      Material.foreground: GC.adjustmentStatusOk ? "white" : "red"
+      Timer {
+          interval: 300
+          repeat: true
+          running: !GC.adjustmentStatusOk
+          onRunningChanged: {
+              if(!running) {
+                  infoButton.opacity = 1
+              }
+          }
+          property bool show: true
+          onTriggered: {
+              show = !show
+              infoButton.opacity = show ? 1 : 0
+          }
+      }
+
       onClicked: {
         //shows the appinfo
         root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutStatusIndex;
