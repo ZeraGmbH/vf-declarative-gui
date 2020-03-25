@@ -22,12 +22,17 @@ Item {
   property var validatorT1Input
   property var validatorTxUnit
 
+  // hack to determine if we are in ced-session and have to use POWER2Module1
+  // to get/set measurement-modes
+  readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
+
   readonly property real rowHeight: height/7
   readonly property real pointSize: rowHeight/2.5
 
   readonly property QtObject p1m1: VeinEntity.getEntity("POWER1Module1")
   readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
   readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
+  readonly property QtObject p2m1: VeinEntity.getEntity("POWER2Module1")
 
   readonly property real col1Width: 10/20
   readonly property real col2Width: 6/20
@@ -85,6 +90,9 @@ Item {
         arrayMode: true
         controlPropertyName: "PAR_MeasuringMode"
         model: {
+          if(usePower2) {
+            return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
+          }
           switch(cbRefInput.currentText) {
           case "P":
             return ModuleIntrospection.p1m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
@@ -99,6 +107,9 @@ Item {
         }
 
         entity: {
+          if(usePower2) {
+              return root.p2m1
+          }
           switch(cbRefInput.currentText) {
           case "P":
             return root.p1m1
