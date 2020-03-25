@@ -81,7 +81,7 @@ Item {
   }
 
 
-  readonly property real rangePeakVisualisation: parseInt(settings.globalSettings.getOption("range_peak_logarithmic", "0")) ///@todo rename config key?
+  readonly property real rangePeakVisualisation: parseInt(settings.globalSettings.getOption("range_peak_logarithmic", "2")) ///@todo rename config key?
   function setRangePeakVisualisation(rangePeakVisualisation) {
     if(typeof rangePeakVisualisation === "number"
         && rangePeakVisualisation >=0
