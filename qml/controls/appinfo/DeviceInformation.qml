@@ -125,10 +125,10 @@ Item {
     RowLayout {
       width: parent.width
       height: root.rowHeight
+      Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
       Label {
         font.pointSize: 14
         text: ZTR["Adjustment status:"]
-        color: GC.adjustmentStatusOk ? "white" : "red"
       }
       Item {
         Layout.fillWidth: true
@@ -136,7 +136,6 @@ Item {
       Label {
         font.pointSize: 14
         text: GC.adjustmentStatusDescription
-        color: GC.adjustmentStatusOk ? "white" : "red"
       }
     }
     RowLayout {

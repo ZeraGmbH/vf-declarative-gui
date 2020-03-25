@@ -150,7 +150,7 @@ ToolBar {
       font.pointSize:  18
       text: FA.fa_info_circle
       highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex && GC.adjustmentStatusOk
-      Material.foreground: GC.adjustmentStatusOk ? "white" : "red"
+      Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
       Timer {
           interval: 300
           repeat: true
