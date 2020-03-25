@@ -65,7 +65,7 @@ Item {
     currentIndex: informationSelector.currentIndex
 
     Loader {
-      active: stackLayout.currentIndex === 0
+      active: stackLayout.currentIndex === 0 && VeinEntity.hasEntity("StatusModule1")
       sourceComponent: DeviceInformation {
       }
     }
