@@ -26,7 +26,7 @@ Item {
       height: parent.height
       font.pixelSize: height/2
       enabled: VeinEntity.hasEntity("StatusModule1")
-      Material.foreground: GC.adjustmentStatusOk ? "white" : "red"
+      Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
       Timer {
           interval: 300
           repeat: true
