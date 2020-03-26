@@ -29,7 +29,7 @@ Item {
       }
       Label {
         font.pointSize: 14
-        text: statusEnt.INF_SerialNr
+        text: statusEnt.PAR_SerialNr
       }
     }
     RowLayout {
