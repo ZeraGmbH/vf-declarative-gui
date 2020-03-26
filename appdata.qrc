@@ -43,8 +43,6 @@
         <file>qml/controls/settings/ColorPicker.qml</file>
         <file>qml/controls/settings/FrequencyInOutConfigPopup.qml</file>
         <file>qml/controls/settings/Settings.qml</file>
-	<file>qml/controls/settings/ApplicationSettings.qml</file>
-	<file>qml/controls/settings/DeviceSettings.qml</file>
         <file>qml/controls/settings/SettingsInterval.qml</file>
         <file>qml/controls/settings/SettingsView.qml</file>
         <file>qml/helpers/TextHelper.qml</file>
