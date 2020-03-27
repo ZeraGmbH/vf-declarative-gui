@@ -120,18 +120,6 @@ Item {
         discardInput()
         focus = false
       }
-      /* Avoid QML magic: when the cursor is at start/end position,
-         left/right keys are used to change tab. We don't want that */
-      Keys.onLeftPressed: {
-        if(cursorPosition > 0 || selectedText !== "") {
-          event.accepted = false;
-        }
-      }
-      Keys.onRightPressed: {
-        if(cursorPosition < text.length || selectedText !== "") {
-          event.accepted = false;
-        }
-      }
 
       onFocusChanged: {
         if(changeOnFocusLost && !focus) {
