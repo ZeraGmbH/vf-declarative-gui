@@ -5,6 +5,7 @@
 #include <QIcon>
 #include <QStandardPaths>
 #include <QDir>
+#include <QQmlDebuggingEnabler>
 
 #include <ve_eventhandler.h>
 #include <vn_networksystem.h>
@@ -37,6 +38,10 @@ int main(int argc, char *argv[])
 
   qputenv("QT_VIRTUALKEYBOARD_LAYOUT_PATH", QByteArray("qrc:/qml/vkeyboard/layouts"));
   const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
+
+#if QT_CONFIG(qml_debug)
+  QQmlDebuggingEnabler enabler;
+#endif
 
   QLocale locale = QLocale("C");
   locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
