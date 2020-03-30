@@ -26,6 +26,7 @@
 #include "jsonglobalsettings.h"
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
+#include <zvkeyboard.h>
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +37,8 @@ int main(int argc, char *argv[])
   // Type 'InputPanel'
   qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
 
-  qputenv("QT_VIRTUALKEYBOARD_LAYOUT_PATH", QByteArray("qrc:/qml/vkeyboard/layouts"));
+  ZVKeyboard::setKeyboardLayoutEnvironment();
+
   const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
 
 #if QT_CONFIG(qml_debug)
