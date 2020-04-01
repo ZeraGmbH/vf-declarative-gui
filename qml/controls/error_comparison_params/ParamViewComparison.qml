@@ -33,10 +33,10 @@ Item {
   readonly property real rowHeight: height/7
   readonly property real pointSize: rowHeight/2.5
 
-  readonly property QtObject p1m1: VeinEntity.getEntity("POWER1Module1")
-  readonly property QtObject p1m2: VeinEntity.getEntity("POWER1Module2")
-  readonly property QtObject p1m3: VeinEntity.getEntity("POWER1Module3")
-  readonly property QtObject p2m1: VeinEntity.getEntity("POWER2Module1")
+  readonly property QtObject p1m1: !usePower2 ? VeinEntity.getEntity("POWER1Module1") : QtObject
+  readonly property QtObject p1m2: !usePower2 ? VeinEntity.getEntity("POWER1Module2") : QtObject
+  readonly property QtObject p1m3: !usePower2 ? VeinEntity.getEntity("POWER1Module3") : QtObject
+  readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject
 
   readonly property real col1Width: 10/20
   readonly property real col2Width: 6/20
