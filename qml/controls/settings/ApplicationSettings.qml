@@ -13,17 +13,15 @@ import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
 
-
 SettingsView {
     id: root
-
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: 48
 
     ColorPicker {
         id: colorPicker
-
+        // set at rButton.onClicked
         property int systemIndex;
 
         dim: true
@@ -32,25 +30,10 @@ SettingsView {
         height: parent.height*0.7
         onColorAccepted: {
             GC.setSystemColorByIndex(systemIndex, t_color)
-            //systemIndex = -1;
         }
-        //onClosed: systemIndex = -1;
     }
 
-
     model: VisualItemModel {
-        //header
-//        Item {
-//            height: root.rowHeight;
-//            width: root.rowWidth;
-//            Label {
-//                text: ZTR["Application Settings"]
-//                font.pixelSize: 24
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                anchors.bottom: parent.bottom
-//            }
-//        }
-
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
@@ -64,7 +47,6 @@ SettingsView {
                     textFormat: Text.PlainText
                     text: ZTR["Language:"]
                     font.pixelSize: 20
-
                     Layout.fillWidth: true
                 }
                 CCMP.ZVisualComboBox {
@@ -78,15 +60,13 @@ SettingsView {
 
                     property string intermediate: GC.localeName
                     onIntermediateChanged: {
-                        if(model[currentIndex] !== intermediate)
-                        {
+                        if(model[currentIndex] !== intermediate) {
                             currentIndex = model.indexOf(intermediate);
                         }
                     }
 
                     onSelectedTextChanged: {
-                        if(GC.localeName !== selectedText)
-                        {
+                        if(GC.localeName !== selectedText) {
                             GC.setLocale(selectedText);
                             VirtualKeyboardSettings.locale = selectedText
                         }
@@ -133,7 +113,6 @@ SettingsView {
                     textFormat: Text.PlainText
                     text: ZTR["Decimal places:"]
                     font.pixelSize: 20
-
                     Layout.fillWidth: true
                 }
 
@@ -204,9 +183,6 @@ SettingsView {
                                 colorPicker.open();
                             }
                         }
-
-
-
                     }
                 }
                 Button {
@@ -244,11 +220,5 @@ SettingsView {
                 }
             }
         }
-
-
-
-
-
     }
-
 }
