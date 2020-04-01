@@ -42,7 +42,7 @@ Item {
         value: (GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? relativeValue : rangeModule["ACT_Channel"+(index+1)+"Peak"]) + 1e-15; //0.0 is out of domain for logscale
         //toFixed(2) because of visual screen flickering of bars, bug in Qwt?
         //Math.sqrt(2) because peak value are compared with rms rejection
-        property real relativeValue: (100 * rangeModule["ACT_Channel"+(index+1)+"Peak"] / (Math.sqrt(2) * rangeModule["INF_Channel"+(index+1)+"ActREJ"])).toFixed(2)
+        property real relativeValue: Number((100 * rangeModule["ACT_Channel"+(index+1)+"Peak"] / (Math.sqrt(2) * rangeModule["INF_Channel"+(index+1)+"ActREJ"])).toFixed(2))
         color: GC.getColorByIndex(index+1, root.rangeGrouping)
         Component.onCompleted: {
           peakChart.peakBars.push(this);
