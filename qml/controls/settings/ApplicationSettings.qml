@@ -167,7 +167,6 @@ SettingsView {
                     text: ZTR["System colors:"]
                     font.pixelSize: 20
                 }
-
                 ListView {
                     clip: true
                     Layout.fillWidth: true
@@ -175,7 +174,7 @@ SettingsView {
                     model: root.channelCount
                     orientation: ListView.Horizontal
                     layoutDirection: "RightToLeft"
-                    spacing: 6
+                    spacing: 4
                     boundsBehavior: Flickable.StopAtBounds
                     ScrollIndicator.horizontal: ScrollIndicator {
                         onActiveChanged: active = true;
@@ -186,22 +185,22 @@ SettingsView {
                         width:  rButton.width// + lChannel.contentWidth
                         height: root.rowHeight
 
-
                         Button{
                             id: rButton
-                            height: root.rowHeight*0.7;
+                            width: root.rowHeight*1.18
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
-                            text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(index+1)+"Range"].ChannelName
-                            background: Rectangle{
-                                anchors.fill: parent
-                                color: GC.systemColorByIndex(index+1)
+                            text: {
+                                var workingIndex = root.channelCount-index
+                                var colorLead = "<font color='" + GC.systemColorByIndex(workingIndex) + "'>"
+                                var colorTrail = "</font>"
+                                return colorLead + ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName + colorTrail
                             }
                             onClicked: {
-                                colorPicker.systemIndex = index+1;
+                                colorPicker.systemIndex = root.channelCount-index;
                                 /// @bug setting the the same value twice doesn't reset the sliders
                                 colorPicker.oldColor = "transparent";
-                                colorPicker.oldColor = GC.systemColorByIndex(index+1);
+                                colorPicker.oldColor = GC.systemColorByIndex(colorPicker.systemIndex);
                                 colorPicker.open();
                             }
                         }
