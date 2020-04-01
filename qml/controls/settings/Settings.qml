@@ -34,13 +34,13 @@ Item{
     Component{
         id: appTab
         TabButton {
-            text: qsTr("Application Settings")
+            text: ZTR["Application Settings"]
         }
     }
     Component{
         id: devTab
         TabButton {
-            text: qsTr("Device Settings")
+            text: ZTR["Device settings"]
         }
     }
 
