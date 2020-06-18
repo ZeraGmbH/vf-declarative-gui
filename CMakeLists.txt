@@ -53,7 +53,6 @@ if(${useGles})
 else()
     add_definitions(-DQ_OS_LINUX)
     add_definitions(-DQT_OPENGL_3)
-    add_definitions(-DQNANO_ENABLE_GLES3)
     add_definitions(-DQT_OPENGL_3_2)
 endif()
 
