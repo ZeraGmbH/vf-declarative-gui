@@ -62,8 +62,8 @@ set(QNANO_SOURCES
 if(${useGles})
     set(QNANO_SOURCES
         ${QNANO_SOURCES} 
-        ${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/private/qnanobackendgles2.h 
-        ${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/private/qnanobackendgles3.h
+        ${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/private/qnanobackendgles2.cpp 
+        ${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/private/qnanobackendgles3.cpp
         )
 else()
     set(QNANO_SOURCES
