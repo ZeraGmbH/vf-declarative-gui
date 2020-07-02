@@ -7,9 +7,7 @@ TARGET =
 DEPENDPATH += . \
               src \
               3rdparty/JsonSettingsQML \
-              3rdparty/SortFilterProxyModel \
               3rdparty/qnanopainter/libqnanopainter \
-              3rdparty/SortFilterProxyModel/tests \
               3rdparty/qnanopainter/examples/gallery \
               3rdparty/qnanopainter/examples/helloworld \
               3rdparty/qnanopainter/examples/qnanopainter_vs_qpainter_demo \
@@ -28,8 +26,6 @@ INCLUDEPATH += . \
                3rdparty/qnanopainter/libqnanopainter/nanovg \
                3rdparty/qnanopainter/libqnanopainter/private \
                3rdparty/JsonSettingsQML \
-               3rdparty/SortFilterProxyModel \
-               3rdparty/SortFilterProxyModel/tests \
                3rdparty/qnanopainter/examples/gallery/qnanopainter_features/src \
                3rdparty/qnanopainter/examples/gallery/mouse_events/src \
                3rdparty/qnanopainter/examples/gallery/painting/src \
@@ -53,9 +49,6 @@ HEADERS += src/barchart.h \
            3rdparty/JsonSettingsQML/jsonglobalsettings.h \
            3rdparty/JsonSettingsQML/jsonsettings_plugin.h \
            3rdparty/JsonSettingsQML/jsonsettingsfile.h \
-           3rdparty/SortFilterProxyModel/filter.h \
-           3rdparty/SortFilterProxyModel/qqmlsortfilterproxymodel.h \
-           3rdparty/SortFilterProxyModel/sorter.h \
            3rdparty/qnanopainter/libqnanopainter/qnanoboxgradient.h \
            3rdparty/qnanopainter/libqnanopainter/qnanocolor.h \
            3rdparty/qnanopainter/libqnanopainter/qnanofont.h \
@@ -66,7 +59,6 @@ HEADERS += src/barchart.h \
            3rdparty/qnanopainter/libqnanopainter/qnanoquickitem.h \
            3rdparty/qnanopainter/libqnanopainter/qnanoquickitempainter.h \
            3rdparty/qnanopainter/libqnanopainter/qnanoradialgradient.h \
-           3rdparty/SortFilterProxyModel/tests/indexsorter.h \
            3rdparty/qnanopainter/examples/helloworld/helloitem.h \
            3rdparty/qnanopainter/libqnanopainter/nanovg/fontstash.h \
            3rdparty/qnanopainter/libqnanopainter/nanovg/nanovg.h \
@@ -102,9 +94,6 @@ SOURCES += src/barchart.cpp \
            3rdparty/JsonSettingsQML/jsonglobalsettings.cpp \
            3rdparty/JsonSettingsQML/jsonsettings_plugin.cpp \
            3rdparty/JsonSettingsQML/jsonsettingsfile.cpp \
-           3rdparty/SortFilterProxyModel/filter.cpp \
-           3rdparty/SortFilterProxyModel/qqmlsortfilterproxymodel.cpp \
-           3rdparty/SortFilterProxyModel/sorter.cpp \
            3rdparty/qnanopainter/libqnanopainter/qnanoboxgradient.cpp \
            3rdparty/qnanopainter/libqnanopainter/qnanocolor.cpp \
            3rdparty/qnanopainter/libqnanopainter/qnanofont.cpp \
@@ -115,8 +104,6 @@ SOURCES += src/barchart.cpp \
            3rdparty/qnanopainter/libqnanopainter/qnanoquickitem.cpp \
            3rdparty/qnanopainter/libqnanopainter/qnanoquickitempainter.cpp \
            3rdparty/qnanopainter/libqnanopainter/qnanoradialgradient.cpp \
-           3rdparty/SortFilterProxyModel/tests/indexsorter.cpp \
-           3rdparty/SortFilterProxyModel/tests/tst_sortfilterproxymodel.cpp \
            3rdparty/qnanopainter/examples/gallery/main.cpp \
            3rdparty/qnanopainter/examples/helloworld/main.cpp \
            3rdparty/qnanopainter/examples/qnanopainter_vs_qpainter_demo/main.cpp \

@@ -9,7 +9,6 @@ include_directories(${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/
 include_directories(${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/nanovg)
 include_directories(${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/private)
 include_directories(${PROJECT_SOURCE_DIR}/3rdparty/JsonSettingsQML)
-include_directories(${PROJECT_SOURCE_DIR}/3rdparty/SortFilterProxyModel)
 
 ##qnanopainter
 
