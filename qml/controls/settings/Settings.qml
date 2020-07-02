@@ -53,7 +53,7 @@ Item{
     Component{
         id: netTab
         TabButton {
-            text: "Network settings"
+            text: ZTR["Network settings"]
         }
     }
 

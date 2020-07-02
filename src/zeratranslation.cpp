@@ -217,6 +217,8 @@ void ZeraTranslation::reloadStringTable()
   insert("Language:", tr("Language:"));
   //: settings specific to the hardware
   insert("Device settings", tr("Device settings"));
+  //: settings specific to the network
+  insert("Network settings", tr("Network settings"));
   //: measurement channel the phase locked loop uses as base
   insert("PLL channel:", tr("PLL channel:"));
   //: automatic phase locked loop channel selection
