@@ -13,7 +13,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(useGles "Using GLES instead of openGL" OFF)
 
-
 # cmake macros
 include(FeatureSummary)
 
@@ -34,6 +33,7 @@ find_Package(VfTcp REQUIRED )
 find_Package(VfQml REQUIRED )
 find_Package(VfHelpers REQUIRED )
 find_Package(ZVKeyboard REQUIRED)
+find_package(SortFilterProxyModelCmake REQUIRED)
 
 ##use GLES or openGL GLES does not support find_package()
 if(${useGles})
@@ -70,11 +70,6 @@ endif()
 ##https://github.com/ZeraGmbH/JsonSettingsQML
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/JsonSettingsQML/json-settings.pri") 
     message(FATAL_ERROR "Dependency 3rdparty/JsonSettingsQML not found")
-endif()
-
-##https://github.com/oKcerG/SortFilterProxyModel
-if(NOT EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/SortFilterProxyModel/SortFilterProxyModel.pri") 
-    message(FATAL_ERROR "Dependency 3rdparty/SortFilterProxyModel not found")
 endif()
 
 
@@ -140,11 +135,13 @@ target_link_libraries(vf-declarative-gui
     VeinMeta::VfQml
     VeinMeta::VfHelpers
     ZeraQml::ZVKeyboard
+    ZeraQml::SortFilterProxyModelCmake
     #Other Libs
     ${QWT_LIBRARIES}
     ${glLib}
     )
 
+target_compile_definitions(vf-declarative-gui PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 install(TARGETS vf-declarative-gui
     EXPORT vf-declarative-gui
