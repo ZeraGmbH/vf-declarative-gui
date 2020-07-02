@@ -4,6 +4,4 @@
 [submodule "JsonSettingsQML"]
   path = 3rdparty/JsonSettingsQML
   url = https://github.com/ZeraGmbH/JsonSettingsQML.git
-[submodule "SortFilterProxyModel"]
-  path = 3rdparty/SortFilterProxyModel
-  url = https://github.com/oKcerG/SortFilterProxyModel.git
+
