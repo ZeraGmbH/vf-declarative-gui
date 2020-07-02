@@ -34,6 +34,7 @@ find_Package(VfQml REQUIRED )
 find_Package(VfHelpers REQUIRED )
 find_Package(ZVKeyboard REQUIRED)
 find_package(SortFilterProxyModelCmake REQUIRED)
+find_Package(anmlib REQUIRED)
 
 ##use GLES or openGL GLES does not support find_package()
 if(${useGles})
@@ -135,6 +136,7 @@ target_link_libraries(vf-declarative-gui
     VeinMeta::VfQml
     VeinMeta::VfHelpers
     ZeraQml::ZVKeyboard
+    ZeraQml::anmlib
     ZeraQml::SortFilterProxyModelCmake
     #Other Libs
     ${QWT_LIBRARIES}

@@ -12,6 +12,12 @@ import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/data/staticdata/FontAwesome.js" as FA
 
+import anmsettings 1.0
+
+import "qrc:/src/qml/"
+import "qrc:/src/qml/tree"
+import "qrc:/"
+
 Item{
     id:tabroot
     anchors.fill: parent
@@ -44,6 +50,13 @@ Item{
         }
     }
 
+    Component{
+        id: netTab
+        TabButton {
+            text: "Network settings"
+        }
+    }
+
 
 
     Component{
@@ -61,6 +74,20 @@ Item{
     }
 
 
+    Component{
+    id: netPage
+    NetworkManager{
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.margins: 0
+        onNotification: {
+           // notificationManager.notify(title,msg);
+        }
+    }
+
+    }
+
+
 
 
     Component.onCompleted: {
@@ -71,6 +98,8 @@ Item{
         settingsTabsBar.addItem(devTab.createObject(settingsTabsBar))
         swipeView.addItem(devPage.createObject(swipeView))
 
+        settingsTabsBar.addItem(netTab.createObject(settingsTabsBar))
+        swipeView.addItem(netPage.createObject(swipeView))
 
 
     }
