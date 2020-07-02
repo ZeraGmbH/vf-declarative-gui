@@ -19,7 +19,7 @@ include(FeatureSummary)
 #Required Packages
 
 ##Qt5 libs
-find_package(Qt5 "5.12.0" COMPONENTS Core Widgets Quick QuickControls2 Qml CONFIG REQUIRED COMPONENTS)
+find_package(Qt5 "5.12.0" COMPONENTS Core Widgets DBus Xml Quick QuickControls2 Qml CONFIG REQUIRED COMPONENTS)
 
 ##QWT libs
 find_package(PkgConfig REQUIRED)
@@ -128,6 +128,8 @@ target_link_libraries(vf-declarative-gui
     Qt5::Widgets
     Qt5::Quick
     Qt5::QuickControls2
+    Qt5::DBus
+    Qt5::Xml
     #Zera Libs
     VeinMeta::VfEvent
     VeinMeta::VfComponent
