@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
   qmlRegisterType<HpwBarChart>("QwtChart", 1, 0, "HpwBarChart");
   qmlRegisterType<BarChart>("QwtChart", 1, 0, "BarChart");
   qmlRegisterType<cBar>("QwtChart", 1, 0, "Bar");
-  qmlRegisterType<PhasorDiagram>("PhasorDiagram", 1, 0, "PhasorDiagram");
   qmlRegisterSingletonType<ZeraTranslation>("ZeraTranslation", 1, 0, "ZTR", ZeraTranslation::getStaticInstance);
   qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
 

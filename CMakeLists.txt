@@ -7,12 +7,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-
-#Options
-
-option(useGles "Using GLES instead of openGL" OFF)
-
 # cmake macros
 include(FeatureSummary)
 
@@ -35,39 +29,14 @@ find_Package(VfHelpers REQUIRED )
 find_Package(ZVKeyboard REQUIRED)
 find_package(SortFilterProxyModelCmake REQUIRED)
 find_Package(anmlib REQUIRED)
-
-##use GLES or openGL GLES does not support find_package()
-if(${useGles})
-    pkg_check_modules(GLES glesv2)
-    message(WARNING "You are using GLES. GLES build is not tested yet")
-else()
-    find_package(OpenGL REQUIRED)
-endif()
-
-
-#Compiler Flags
-
-##set build with openGL
-if(${useGles})
-    add_definitions(-DQNANO_QT_GL_INCLUDE)
-    add_definitions(-DQT_OPENGL_ES_2)
-else()
-    add_definitions(-DQ_OS_LINUX)
-    add_definitions(-DQT_OPENGL_3)
-    add_definitions(-DQT_OPENGL_3_2)
-endif()
-
+find_Package(uivlib REQUIRED)
+find_package(OpenGL REQUIRED)
 
 
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
 
 #Check for 3rdParty dependencies
-##https://github.com/QUItCoding/qnanopainter
-if(NOT EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/qnanopainter/libqnanopainter/include.pri") 
-    message(FATAL_ERROR "Dependency 3rdparty/libnanopainter not found")
-endif()
-
 ##https://github.com/ZeraGmbH/JsonSettingsQML
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/JsonSettingsQML/json-settings.pri") 
     message(FATAL_ERROR "Dependency 3rdparty/JsonSettingsQML not found")
@@ -139,6 +108,7 @@ target_link_libraries(vf-declarative-gui
     VeinMeta::VfHelpers
     ZeraQml::ZVKeyboard
     ZeraQml::anmlib
+    ZeraQml::uivlib
     ZeraQml::SortFilterProxyModelCmake
     #Other Libs
     ${QWT_LIBRARIES}
