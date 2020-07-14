@@ -4,7 +4,7 @@ import VeinEntity 1.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
-import PhasorDiagram 1.0
+import uivectorgraphics 1.0
 import "qrc:/qml/controls" as CCMP
 
 CCMP.ModulePage {
