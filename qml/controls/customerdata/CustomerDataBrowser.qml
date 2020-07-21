@@ -7,7 +7,7 @@ import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 Item {
   id: root
@@ -254,7 +254,7 @@ Item {
           Label {
             id: activeIndicator
             width: indicatorWidth
-            font.family: "Fontawesome"
+            font.family: FA.old
             text: FA.fa_chevron_right
             opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
@@ -271,7 +271,7 @@ Item {
     }
     CCMP.ZButton {
       text: FA.icon(FA.fa_file)+ZTR["New"]
-      font.family: "FontAwesome"
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -286,7 +286,7 @@ Item {
     }
     CCMP.ZButton {
       text: FA.icon(FA.fa_edit)+ZTR["Edit"]
-      font.family: "FontAwesome"
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -303,7 +303,7 @@ Item {
     }
     CCMP.ZButton {
       text: FA.icon(FA.fa_trash)+ZTR["Delete"]
-      font.family: "FontAwesome"
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -401,7 +401,7 @@ Item {
 
     CCMP.ZButton {
       text: FA.icon(FA.fa_search)+ZTR["Search"]
-      font.family: "FontAwesome"
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -420,7 +420,7 @@ Item {
     CCMP.ZButton {
       id: buttonClearFilter
       text: FA.icon(FA.fa_times) + ZTR["Clear"]
-      font.family: "FontAwesome"
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth

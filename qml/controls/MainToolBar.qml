@@ -7,7 +7,7 @@ import VeinEntity 1.0
 
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/range_module" as RangeControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 ToolBar {
   id: root
@@ -46,7 +46,7 @@ ToolBar {
     ToolButton {
       id: pageSelectorButton
       implicitHeight: parent.height
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pointSize: 18
       text: FA.fa_columns
       highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
@@ -103,7 +103,7 @@ ToolBar {
     ToolButton {
       id: pauseButton
       implicitHeight: parent.height
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pointSize: 14
       text: root.measurementPaused ? FA.fa_play : FA.fa_pause
       enabled: root.entityInitializationDone === true
@@ -117,7 +117,7 @@ ToolBar {
       id: logStartButton
       implicitHeight: parent.height
       implicitWidth: root.width/16
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pointSize:  18
       text: FA.fa_download
       highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
@@ -132,7 +132,7 @@ ToolBar {
       id: settingsButton
       implicitHeight: parent.height
       implicitWidth: root.width/16
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pointSize:  18
       text: FA.fa_cogs
       highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
@@ -146,7 +146,7 @@ ToolBar {
       id: infoButton
       implicitHeight: parent.height
       implicitWidth: root.width/16
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pointSize:  18
       text: FA.fa_info_circle
       highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex && GC.adjustmentStatusOk
@@ -176,7 +176,7 @@ ToolBar {
       //placeholder for managing Connections to different servers in android
     ToolButton {
       implicitHeight: parent.height
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pointSize: 14
       text: FA.icon(FA.fa_server) + ZTR["Remotes"]
       highlighted: root.currentLayoutIndex===layoutStackEnum.layout<...>Index

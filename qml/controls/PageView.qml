@@ -5,7 +5,7 @@ import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraTranslation 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 Item {
   id: root
@@ -37,7 +37,7 @@ Item {
   }
 
   Button {
-    font.family: "FontAwesome"
+    font.family: FA.old
     font.pointSize: 18
     text: FA.icon(FA.fa_image)
     anchors.right: gridViewButton.left
@@ -48,7 +48,7 @@ Item {
   }
   Button {
     id: gridViewButton
-    font.family: "FontAwesome"
+    font.family: FA.old
     font.pointSize: 18
     text: FA.icon(FA.fa_list_ul)
     anchors.right: parent.right
@@ -96,7 +96,7 @@ Item {
     height: root.height/10
     Material.accent: Material.color(Material.Red)
     highlighted: true
-    font.family: "FontAwesome"
+    font.family: FA.old
     font.pixelSize: 20
     text: FA.icon(FA.fa_times) + ZTR["Close"]
     anchors.horizontalCenter: parent.horizontalCenter

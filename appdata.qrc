@@ -43,8 +43,8 @@
         <file>qml/controls/settings/ColorPicker.qml</file>
         <file>qml/controls/settings/FrequencyInOutConfigPopup.qml</file>
         <file>qml/controls/settings/Settings.qml</file>
-	<file>qml/controls/settings/ApplicationSettings.qml</file>
-	<file>qml/controls/settings/DeviceSettings.qml</file>
+        <file>qml/controls/settings/ApplicationSettings.qml</file>
+        <file>qml/controls/settings/DeviceSettings.qml</file>
         <file>qml/controls/settings/SettingsInterval.qml</file>
         <file>qml/controls/settings/SettingsView.qml</file>
         <file>qml/helpers/TextHelper.qml</file>
@@ -74,8 +74,6 @@
         <file>qml/controls/PageView.qml</file>
     </qresource>
     <qresource prefix="/data">
-        <file>3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf</file>
-        <file>staticdata/FontAwesome.js</file>
         <file>staticdata/resources/Ready.svg</file>
         <file>staticdata/resources/Armed.svg</file>
         <file>staticdata/resources/power.png</file>

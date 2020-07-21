@@ -28,9 +28,11 @@ find_Package(VfQml REQUIRED )
 find_Package(VfHelpers REQUIRED )
 find_Package(ZVKeyboard REQUIRED)
 find_package(SortFilterProxyModelCmake REQUIRED)
+find_package(zerafa REQUIRED)
 find_Package(anmlib REQUIRED)
 find_Package(uivlib REQUIRED)
 find_package(OpenGL REQUIRED)
+
 
 
 ##enable useful warnings
@@ -107,6 +109,7 @@ target_link_libraries(vf-declarative-gui
     VeinMeta::VfQml
     VeinMeta::VfHelpers
     ZeraQml::ZVKeyboard
+    ZeraQml::zerafa
     ZeraQml::anmlib
     ZeraQml::uivlib
     ZeraQml::SortFilterProxyModelCmake

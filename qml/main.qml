@@ -19,7 +19,7 @@ import "qrc:/qml/controls/appinfo" as AppInfoControls
 import "qrc:/qml/controls/settings" as SettingsControls
 import "qrc:/qml/singletons" as Singletons
 import "qrc:/data/staticdata" as StaticData
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 ApplicationWindow {
   id: displayWindow
@@ -104,10 +104,10 @@ ApplicationWindow {
     return height
   }
 
-  FontLoader {
-    //init fontawesome
-    source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
-  }
+//  FontLoader {
+//    //init fontawesome
+//    source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
+//  }
 
   Connections {
     target: VeinEntity

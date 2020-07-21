@@ -10,7 +10,7 @@ import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/customerdata" as CDataControls
 import "qrc:/qml/controls/settings" as SettingsControls
 import "qrc:/qml/vf-controls" as VFControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 
 SettingsControls.SettingsView {
@@ -164,7 +164,7 @@ SettingsControls.SettingsView {
           Layout.fillWidth: true
         }
         Label { // exclamation mark if no database selected
-          font.family: "FontAwesome"
+          font.family: FA.old
           font.pointSize: root.rowHeight*fontScale
           text: FA.fa_exclamation_triangle
           color: Material.color(Material.Yellow)
@@ -222,7 +222,7 @@ SettingsControls.SettingsView {
           width: GC.standardMarginWithMin
         }
         Button {
-          font.family: "FontAwesome"
+          font.family: FA.old
           implicitHeight: root.rowHeight
           font.pointSize: root.rowHeight*fontScale
           text: FA.fa_search
@@ -233,7 +233,7 @@ SettingsControls.SettingsView {
         }
         Button {
           text: (enabled ? "<font color=\"lawngreen\">" : "<font color=\"grey\">") + FA.fa_check
-          font.family: "FontAwesome"
+          font.family: FA.old
           font.pointSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
           enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
@@ -243,7 +243,7 @@ SettingsControls.SettingsView {
         }
         Button {
           text: (enabled ? "<font color=\"#EEff0000\">" : "<font color=\"grey\">") + FA.fa_eject  // darker red
-          font.family: "FontAwesome"
+          font.family: FA.old
           font.pointSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
           enabled: root.loggerEntity.DatabaseFile.length > 0
@@ -303,7 +303,7 @@ SettingsControls.SettingsView {
       }
       Button {
         text: FA.fa_cogs
-        font.family: "FontAwesome"
+        font.family: FA.old
         font.pointSize: root.rowHeight*fontScale
         implicitHeight: root.rowHeight
         enabled: loggerEntity.LoggingEnabled === false
@@ -378,7 +378,7 @@ SettingsControls.SettingsView {
             readonly property string customerId: (VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData").PAR_DatasetIdentifier : "");
             visible: customerId.length>0
             text: FA.icon(FA.fa_file_text)+customerId
-            font.family: "FontAwesome"
+            font.family: FA.old
             anchors.right: parent.right
             anchors.rightMargin: 10
             Rectangle {
@@ -391,7 +391,7 @@ SettingsControls.SettingsView {
         }
         Button {
           text: FA.fa_cogs
-          font.family: "FontAwesome"
+          font.family: FA.old
           font.pointSize: root.rowHeight*fontScale
           implicitHeight: root.rowHeight
           enabled: loggerEntity.LoggingEnabled === false

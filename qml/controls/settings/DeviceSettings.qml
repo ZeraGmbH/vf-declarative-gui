@@ -10,7 +10,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 
 
@@ -196,7 +196,7 @@ SettingsView {
                 }
                 Button {
                     text: FA.fa_cogs
-                    font.family: "FontAwesome"
+                    font.family: FA.old
                     font.pixelSize: 20
                     implicitHeight: root.rowHeight
                     onClicked: fInOutPopup.item.open();

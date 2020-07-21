@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
 import ZeraTranslation  1.0
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 
 Popup {
@@ -313,7 +313,7 @@ Popup {
       anchors.bottom: parent.bottom
       anchors.horizontalCenter: parent.horizontalCenter
       text: FA.fa_long_arrow_right
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pixelSize: 32
       focusPolicy: Qt.NoFocus //prevent stealing the focus from search field
 
@@ -330,7 +330,7 @@ Popup {
       anchors.bottom: parent.bottom
       anchors.horizontalCenter: parent.horizontalCenter
       text: FA.fa_long_arrow_left
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pixelSize: 32
       focusPolicy: Qt.NoFocus //prevent stealing the focus from search field
 

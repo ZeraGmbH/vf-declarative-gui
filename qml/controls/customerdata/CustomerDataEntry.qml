@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 Rectangle {
   id: root

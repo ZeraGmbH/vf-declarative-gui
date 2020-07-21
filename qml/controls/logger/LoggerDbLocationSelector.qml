@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 
 
@@ -86,7 +86,7 @@ RowLayout {
     Label {
       id: storageListWarning
       anchors.centerIn: parent
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pointSize: root.pointSize
       text: FA.fa_exclamation_triangle
       color: Material.color(Material.Yellow)
@@ -132,7 +132,7 @@ RowLayout {
     }
   }
   Button {
-    font.family: "FontAwesome"
+    font.family: FA.old
     height: root.rowHeight
     font.pointSize: root.pointSize
     text: FA.fa_refresh

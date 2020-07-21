@@ -10,7 +10,7 @@ import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/vf-controls" as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 import "qrc:/qml/helpers" as HELPERS
 
 Item {
