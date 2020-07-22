@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
 
 Item {

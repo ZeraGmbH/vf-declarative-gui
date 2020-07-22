@@ -7,8 +7,9 @@ import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
 
 Item {
@@ -131,7 +132,7 @@ Item {
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2]);
@@ -149,12 +150,12 @@ Item {
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
             }
-            CCMP.ZVisualComboBox {
+            ZVisualComboBox {
               model: burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data
               imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
               property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);
@@ -196,7 +197,7 @@ Item {
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2]);
@@ -214,7 +215,7 @@ Item {
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2]);

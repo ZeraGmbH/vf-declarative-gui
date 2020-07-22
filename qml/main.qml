@@ -10,16 +10,18 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraSettings 1.0
+import ZeraFa 1.0
+
 
 import "qrc:/qml/pages" as Pages
-import "qrc:/qml/controls" as CCMP
+import "qrc:/qml/controls/" as CCMP
+
 import "qrc:/qml/controls/range_module" as RangeControls
 import "qrc:/qml/controls/logger" as LoggerControls
 import "qrc:/qml/controls/appinfo" as AppInfoControls
 import "qrc:/qml/controls/settings" as SettingsControls
 import "qrc:/qml/singletons" as Singletons
 import "qrc:/data/staticdata" as StaticData
-import ZeraFa 1.0
 
 ApplicationWindow {
   id: displayWindow

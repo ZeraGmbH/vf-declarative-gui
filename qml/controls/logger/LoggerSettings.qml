@@ -6,10 +6,11 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/customerdata" as CDataControls
 import "qrc:/qml/controls/settings" as SettingsControls
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
 
 
@@ -118,7 +119,7 @@ SettingsControls.SettingsView {
 
   Loader {
     id: customerDataEntry
-    active: false
+    active: falseZDoubleValidator
     sourceComponent: CDataControls.CustomerDataEntry {
       width: root.width
       height: root.height
@@ -184,7 +185,7 @@ SettingsControls.SettingsView {
       }
     }
     Item {
-      enabled: dbLocationSelector.storageList.length > 0
+      enabled: dbLocationSelector.storageLZDoubleValidatorist.length > 0
       height: root.rowHeight;
       width: root.rowWidth;
 
@@ -200,7 +201,7 @@ SettingsControls.SettingsView {
           //spacer
           width: 24
         }
-        CCMP.ZLineEdit {
+        ZLineEdit {
           id: fileNameField
           Layout.fillWidth: true
           Layout.fillHeight: true

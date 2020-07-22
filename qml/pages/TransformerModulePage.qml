@@ -7,8 +7,9 @@ import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
 
 CCMP.ModulePage {
@@ -87,7 +88,7 @@ CCMP.ModulePage {
       }
       CCMP.GridItem {
         width: root.width*0.2
-        height: root.rowHeight
+        height: root.rowHeightCCMP.ZDoubleValidator
         text: transformerIntrospection.ComponentInfo.ACT_INSecondary1.Unit;
       }
     }
@@ -159,7 +160,7 @@ CCMP.ModulePage {
       CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
-        color: GC.tableShadeColor
+        color: GC.tableShadeColorCCMP.ZDoubleValidator
         text: "X-δ"
         font.bold: true
       }
@@ -240,7 +241,7 @@ CCMP.ModulePage {
           controlPropertyName: "PAR_PrimClampPrim"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
             top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
             decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
@@ -258,7 +259,7 @@ CCMP.ModulePage {
           controlPropertyName: "PAR_PrimClampSec"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
             top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
             decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
@@ -280,7 +281,7 @@ CCMP.ModulePage {
           controlPropertyName: "PAR_DutPrimary"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
             top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
             decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
@@ -298,7 +299,7 @@ CCMP.ModulePage {
           controlPropertyName: "PAR_DutSecondary"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
             top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
             decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
@@ -320,7 +321,7 @@ CCMP.ModulePage {
           controlPropertyName: "PAR_SecClampPrim"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
             top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
             decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
@@ -338,7 +339,7 @@ CCMP.ModulePage {
           controlPropertyName: "PAR_SecClampSec"
           unit.text: transformerIntrospection.ComponentInfo[controlPropertyName].Unit
 
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
             top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
             decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);

@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import ZeraFa 1.0
 
@@ -79,7 +80,7 @@ Item {
         Layout.minimumWidth: dataEditor.width / 4;
         height: dataEditor.rowHeight
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         text: customerData[propName];
         Layout.fillWidth: true;
         height: dataEditor.rowHeight*1.2;

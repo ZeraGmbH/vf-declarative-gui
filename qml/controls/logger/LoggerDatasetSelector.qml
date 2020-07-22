@@ -7,6 +7,7 @@ import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
 import ZeraTranslation  1.0
 import ZeraFa 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 
 Popup {
@@ -148,7 +149,7 @@ Popup {
     }
   }
 
-  CCMP.ZLineEdit {
+  ZLineEdit {
     id: availSearchField
     placeholderText: ZTR["Regex search"]
     anchors.top: parent.top
@@ -202,7 +203,7 @@ Popup {
       }
     }
   }
-  CCMP.ZLineEdit {
+  ZLineEdit {
     id: selectedSearchField
     placeholderText: ZTR["Regex search"]
     anchors.top: parent.top

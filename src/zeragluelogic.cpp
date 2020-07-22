@@ -1,6 +1,6 @@
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
-#include "zeratranslation.h"
+#include <zeratranslation.h>
 #include <QStandardItemModel>
 #include <QHash>
 #include <QPoint>
@@ -227,10 +227,10 @@ public:
 
 class ZeraGlueLogicPrivate
 {
-  ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation) :
+  ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap) :
     m_qPtr(t_public),
     m_propertyMap(t_propertyMap),
-    m_translation(t_translation),
+    m_translation(ZeraTranslation::getInstance()),
     m_actValueData(new ActualValueModel(14, 1, m_qPtr)),
     m_burden1Data(new BurdenValueModel(7, 1, m_qPtr)),
     m_burden2Data(new BurdenValueModel(7, 1, m_qPtr)),
@@ -1122,9 +1122,9 @@ class ZeraGlueLogicPrivate
   friend class ZeraGlueLogic;
 };
 
-ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation, QObject *t_parent) :
+ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
   VeinEvent::EventSystem(t_parent),
-  m_dPtr(new ZeraGlueLogicPrivate(this, t_propertyMap, t_translation))
+  m_dPtr(new ZeraGlueLogicPrivate(this, t_propertyMap))
 {
 }
 

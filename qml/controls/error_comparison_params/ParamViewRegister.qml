@@ -7,8 +7,9 @@ import QwtChart 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
 import ZeraFa 1.0
 
@@ -203,7 +204,7 @@ Item {
         anchors.bottom: parent.bottom
         pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
+        validator: ZDoubleValidator {
           bottom: validatorMeasTime.Data[0];
           top: validatorMeasTime.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(validatorMeasTime.Data[2]);
@@ -244,7 +245,7 @@ Item {
         height: parent.height * 0.5
         pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
+        validator: ZDoubleValidator {
           bottom: validatorT0Input.Data[0];
           top: validatorT0Input.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(validatorT0Input.Data[2]);
@@ -282,7 +283,7 @@ Item {
         height: parent.height * 0.5
         pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
+        validator: ZDoubleValidator {
           bottom: validatorT1Input.Data[0];
           top: validatorT1Input.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(validatorT1Input.Data[2]);
@@ -321,7 +322,7 @@ Item {
         text: ZTR["Upper error margin:"]
         font.pointSize: root.pointSize
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         id: upperLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -332,7 +333,7 @@ Item {
 
         text: GC.errorMarginUpperValue
 
-        validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
+        validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
           GC.setErrorMarginUpperValue(newText)
           return false
@@ -362,7 +363,7 @@ Item {
         text: ZTR["Lower error margin:"]
         font.pointSize: root.pointSize
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         id: lowerLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -373,7 +374,7 @@ Item {
 
         text: GC.errorMarginLowerValue
 
-        validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
+        validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
           GC.setErrorMarginLowerValue(newText)
           return false

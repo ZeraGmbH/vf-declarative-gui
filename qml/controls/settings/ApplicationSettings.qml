@@ -8,8 +8,9 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
 
 
@@ -49,7 +50,7 @@ SettingsView {
                     font.pixelSize: 20
                     Layout.fillWidth: true
                 }
-                CCMP.ZVisualComboBox {
+                ZVisualComboBox {
                     id: localeCB
                     model: ZTR["TRANSLATION_LOCALES"]
                     imageModel: ZTR["TRANSLATION_FLAGS"]
@@ -116,7 +117,7 @@ SettingsView {
                     Layout.fillWidth: true
                 }
 
-                CCMP.ZSpinBox {
+                ZSpinBox {
                     id: actDecimalPlaces
                     text: GC.decimalPlaces
                     validator: IntValidator {

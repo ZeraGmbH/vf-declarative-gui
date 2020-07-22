@@ -15,7 +15,7 @@ class ZeraGlueLogic : public VeinEvent::EventSystem
 {
   Q_OBJECT
 public:
-  explicit ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation, QObject *t_parent=nullptr);
+  explicit ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=nullptr);
   ~ZeraGlueLogic() override;
 
   // EventSystem interface

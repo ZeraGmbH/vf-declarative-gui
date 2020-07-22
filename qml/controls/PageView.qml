@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraTranslation 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import ZeraFa 1.0
 
@@ -112,7 +113,7 @@ Item {
     color: Material.dropShadowColor
     visible: sessionSelector.model.length > 1
 
-    CCMP.ZComboBox {
+    ZComboBox {
       id: sessionSelector
 
       property QtObject systemEntity;

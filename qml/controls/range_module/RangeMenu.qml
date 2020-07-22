@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import ZeraTranslation  1.0
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 
 Item {
   id: root

@@ -6,24 +6,20 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QQmlDebuggingEnabler>
-
 #include <ve_eventhandler.h>
 #include <vn_networksystem.h>
 #include <vn_tcpsystem.h>
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
-
 #include "fftbarchart.h"
 #include "hpwbarchart.h"
 #include "barchart.h"
 #include "cbar.h"
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
-#include "zeratranslation.h"
+#include <zeratranslation.h>
 #include "phasordiagram.h"
-
-#include "jsonglobalsettings.h"
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 #include <zvkeyboard.h>
@@ -64,23 +60,17 @@ int main(int argc, char *argv[])
   qmlRegisterType<HpwBarChart>("QwtChart", 1, 0, "HpwBarChart");
   qmlRegisterType<BarChart>("QwtChart", 1, 0, "BarChart");
   qmlRegisterType<cBar>("QwtChart", 1, 0, "Bar");
-  qmlRegisterSingletonType<ZeraTranslation>("ZeraTranslation", 1, 0, "ZTR", ZeraTranslation::getStaticInstance);
-  qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
-
-  qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
-  qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
-
-  qmlRegisterType<JsonSettingsFile>("ZeraSettings", 1, 0, "ZeraSettings");
-  qmlRegisterType<JsonGlobalSettings>("ZeraSettings", 1, 0, "ZeraGlobalSettings");
-
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication app(argc, argv);
+  qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
+  qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
+
   app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
-  ZeraTranslation *zeraTranslation = new ZeraTranslation(&app);
+  ZeraTranslation *zeraTranslation = ZeraTranslation::getInstance();
   //load defaults as there could be no language available
   zeraTranslation->changeLanguage("C");
-  ZeraTranslation::setStaticInstance(zeraTranslation);
+  //ZeraTranslation::setStaticInstance(zeraTranslation);
   QmlFileIO::setStaticInstance(new QmlFileIO(&app));
 
   GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
@@ -136,7 +126,7 @@ int main(int argc, char *argv[])
   engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
   VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-  ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, zeraTranslation, &app);
+  ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, &app);
   VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
   VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
   VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);

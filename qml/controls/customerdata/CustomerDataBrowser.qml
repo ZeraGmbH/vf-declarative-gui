@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import ZeraFa 1.0
 
@@ -130,7 +131,7 @@ Item {
         Layout.fillWidth: true
         width: rowWidth/20
       }
-      CCMP.ZButton {
+      ZButton {
         text: ZTR["OK"]
         width: newFileCancel.width
         enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
@@ -139,7 +140,7 @@ Item {
           root.saveChanges()
         }
       }
-      CCMP.ZButton {
+      ZButton {
         id: newFileCancel
         text: ZTR["Cancel"]
         onClicked: {
@@ -269,7 +270,7 @@ Item {
         }
       }
     }
-    CCMP.ZButton {
+    ZButton {
       text: FA.icon(FA.fa_file)+ZTR["New"]
       font.family: FA.old
 
@@ -284,7 +285,7 @@ Item {
         addFilePopup.open()
       }
     }
-    CCMP.ZButton {
+    ZButton {
       text: FA.icon(FA.fa_edit)+ZTR["Edit"]
       font.family: FA.old
 
@@ -301,7 +302,7 @@ Item {
         switchToEditMode()
       }
     }
-    CCMP.ZButton {
+    ZButton {
       text: FA.icon(FA.fa_trash)+ZTR["Delete"]
       font.family: FA.old
 
@@ -399,7 +400,7 @@ Item {
       }
     }
 
-    CCMP.ZButton {
+    ZButton {
       text: FA.icon(FA.fa_search)+ZTR["Search"]
       font.family: FA.old
 
@@ -417,7 +418,7 @@ Item {
       }
     }
 
-    CCMP.ZButton {
+    ZButton {
       id: buttonClearFilter
       text: FA.icon(FA.fa_times) + ZTR["Clear"]
       font.family: FA.old
