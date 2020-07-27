@@ -46,14 +46,14 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Language:"]
+                    text: Z.tr("Language:")
                     font.pixelSize: 20
                     Layout.fillWidth: true
                 }
                 ZVisualComboBox {
                     id: localeCB
-                    model: ZTR["TRANSLATION_LOCALES"]
-                    imageModel: ZTR["TRANSLATION_FLAGS"]
+                    model: Z.tr("TRANSLATION_LOCALES")
+                    imageModel: Z.tr("TRANSLATION_FLAGS")
                     height: root.rowHeight-8
                     width: height*2.5
                     contentRowHeight: height*1.2
@@ -86,7 +86,7 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Display harmonic tables relative to the fundamental oscillation:"]
+                    text: Z.tr("Display harmonic tables relative to the fundamental oscillation:")
                     font.pixelSize: 20
 
                     Layout.fillWidth: true
@@ -112,7 +112,7 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Decimal places:"]
+                    text: Z.tr("Decimal places:")
                     font.pixelSize: 20
                     Layout.fillWidth: true
                 }
@@ -144,7 +144,7 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["System colors:"]
+                    text: Z.tr("System colors:")
                     font.pixelSize: 20
                 }
                 ListView {
@@ -207,7 +207,7 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Show AUX phase values:"]
+                    text: Z.tr("Show AUX phase values:")
                     font.pixelSize: 20
 
                     Layout.fillWidth: true

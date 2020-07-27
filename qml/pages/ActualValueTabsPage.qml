@@ -9,6 +9,9 @@ import "qrc:/qml/pages" as Pages
 Item {
   id: root
 
+
+
+
   SwipeView {
     id: swipeView
     anchors.fill: parent
@@ -28,25 +31,25 @@ Item {
   Component {
     id: tabTable
     TabButton {
-      text: ZTR["Actual values"]
+      text:Z.tr("Actual values")
     }
   }
   Component {
     id: tabVector
     TabButton {
-      text: ZTR["Vector diagram"]
+      text: Z.tr("Vector diagram")
     }
   }
   Component {
     id: tabPower
     TabButton {
-      text: ZTR["Power values"]
+      text: Z.tr("Power values")
     }
   }
   Component {
     id: tabRms
     TabButton {
-      text: ZTR["RMS values"]
+      text: Z.tr("RMS values")
     }
   }
 

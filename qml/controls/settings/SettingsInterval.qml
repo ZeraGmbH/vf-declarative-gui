@@ -75,7 +75,7 @@ Column {
         anchors.fill: parent
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["Integration time interval:"]
+          text: Z.tr("Integration time interval:")
         }
         Item {
           Layout.fillWidth: true
@@ -106,7 +106,7 @@ Column {
         }
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["seconds"];
+          text: Z.tr("seconds");
         }
       }
     }
@@ -120,7 +120,7 @@ Column {
         anchors.fill: parent
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["Integration period interval:"]
+          text: Z.tr("Integration period interval:")
         }
         Item {
           Layout.fillWidth: true
@@ -151,7 +151,7 @@ Column {
         }
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["periods"];
+          text: Z.tr("periods");
         }
       }
     }

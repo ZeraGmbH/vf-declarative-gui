@@ -98,7 +98,7 @@ Item {
     RowLayout {
       anchors.fill: parent
       Label {
-        text: ZTR["File name:"]
+        text: Z.tr("File name:")
       }
       Item {
         width: rowWidth/25
@@ -132,7 +132,7 @@ Item {
         width: rowWidth/20
       }
       ZButton {
-        text: ZTR["OK"]
+        text: Z.tr("OK")
         width: newFileCancel.width
         enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
         //highlighted: true
@@ -142,7 +142,7 @@ Item {
       }
       ZButton {
         id: newFileCancel
-        text: ZTR["Cancel"]
+        text: Z.tr("Cancel")
         onClicked: {
           addFilePopup.close()
         }
@@ -161,13 +161,13 @@ Item {
     onClosed: fileName="";
     Column {
       Label {
-        text: ZTR["Really delete file <b>'%1'</b>?"].arg(removeFilePopup.fileName)
+        text: Z.tr("Really delete file <b>'%1'</b>?").arg(removeFilePopup.fileName)
       }
       RowLayout {
         width: parent.width
 
         Button { ///todo: Qt 5.9 use DelayButton
-          text: ZTR["Accept"]
+          text: Z.tr("Accept")
           Material.accent: Material.color(Material.Red, Material.Shade500);
           highlighted: true
           onClicked: {
@@ -180,7 +180,7 @@ Item {
         }
 
         Button {
-          text: ZTR["Close"]
+          text: Z.tr("Close")
           onClicked: {
             removeFilePopup.close()
           }
@@ -204,7 +204,7 @@ Item {
       anchors.leftMargin: GC.standardTextHorizMargin
       anchors.top: parent.top
       height: root.rowHeight
-      text: ZTR["Customer data files:"]
+      text: Z.tr("Customer data files:")
       verticalAlignment: Text.AlignVCenter
       font.pixelSize: root.rowHeight/2
     }
@@ -271,7 +271,7 @@ Item {
       }
     }
     ZButton {
-      text: FA.icon(FA.fa_file)+ZTR["New"]
+      text: FA.icon(FA.fa_file)+Z.tr("New")
       font.family: FA.old
 
       anchors.right: parent.right
@@ -286,7 +286,7 @@ Item {
       }
     }
     ZButton {
-      text: FA.icon(FA.fa_edit)+ZTR["Edit"]
+      text: FA.icon(FA.fa_edit)+Z.tr("Edit")
       font.family: FA.old
 
       anchors.right: parent.right
@@ -303,7 +303,7 @@ Item {
       }
     }
     ZButton {
-      text: FA.icon(FA.fa_trash)+ZTR["Delete"]
+      text: FA.icon(FA.fa_trash)+Z.tr("Delete")
       font.family: FA.old
 
       anchors.right: parent.right
@@ -343,7 +343,7 @@ Item {
       anchors.leftMargin: GC.standardTextHorizMargin
       anchors.verticalCenter: parent.verticalCenter
       anchors.verticalCenterOffset: -parent.height * 0.25
-      text: ZTR["Filter:"]
+      text: Z.tr("Filter:")
       font.pixelSize: root.rowHeight/2
     }
     ComboBox {
@@ -358,14 +358,14 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       anchors.verticalCenterOffset: parent.height * 0.25 + rectFilter.comboTextVertOffset
 
-      displayText: ZTR[currentText]
+      displayText: Z.tr(currentText)
       flat: false
 
       ///@note qt 5.9 has a policy for scrollbars to be visible if required instead of the current "hiding if not scrolling" bullshit
       //...policy: ScrollBar.AsNeeded //or ScrollBar.AlwaysOn
       delegate: MenuItem {
         width: searchFieldSelector.popup.width
-        text: searchFieldSelector.textRole ? (Array.isArray(searchFieldSelector.model) ? ZTR[modelData[searchFieldSelector.textRole]] : ZTR[model[searchFieldSelector.textRole]]) : ZTR[modelData]
+        text: searchFieldSelector.textRole ? (Array.isArray(searchFieldSelector.model) ? Z.tr(modelData[searchFieldSelector.textRole]) : Z.tr(model[searchFieldSelector.textRole])) : Z.tr(modelData)
         Material.foreground: searchFieldSelector.currentIndex === index ? searchFieldSelector.popup.Material.accent : searchFieldSelector.popup.Material.foreground
         highlighted: searchFieldSelector.highlightedIndex === index
         hoverEnabled: searchFieldSelector.hoverEnabled
@@ -375,7 +375,7 @@ Item {
     // No ZLineEdit due to different RETURN/ESC/redBackground handling
     TextField {
       id: selectedSearchField
-      placeholderText: ZTR["Regex search"]
+      placeholderText: Z.tr("Regex search")
       selectByMouse: true
       anchors.left: searchFieldSelector.right
       anchors.leftMargin: GC.standardTextHorizMargin
@@ -401,7 +401,7 @@ Item {
     }
 
     ZButton {
-      text: FA.icon(FA.fa_search)+ZTR["Search"]
+      text: FA.icon(FA.fa_search)+Z.tr("Search")
       font.family: FA.old
 
       anchors.right: parent.right
@@ -420,7 +420,7 @@ Item {
 
     ZButton {
       id: buttonClearFilter
-      text: FA.icon(FA.fa_times) + ZTR["Clear"]
+      text: FA.icon(FA.fa_times) + Z.tr("Clear")
       font.family: FA.old
 
       anchors.right: parent.right
@@ -448,7 +448,7 @@ Item {
     }
     Button {
       id: buttonClose
-      text: ZTR["Close"]
+      text: Z.tr("Close")
       visible: !root.withOKButton
       onClicked: {
         cancel()
@@ -456,7 +456,7 @@ Item {
     }
     Button {
       id: buttonOK
-      text: ZTR["OK"]
+      text: Z.tr("OK")
       visible: root.withOKButton
       onClicked: {
         ok()
@@ -464,7 +464,7 @@ Item {
     }
     Button {
       id: buttonCancel
-      text: ZTR["Cancel"]
+      text: Z.tr("Cancel")
       visible: root.withOKButton
       onClicked: {
         cancel()

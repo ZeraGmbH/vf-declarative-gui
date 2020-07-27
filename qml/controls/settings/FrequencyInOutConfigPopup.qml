@@ -58,7 +58,7 @@ Popup {
           Layout.alignment: Qt.AlignVCenter
           font.pixelSize: root.width/60
           fontSizeMode: Label.HorizontalFit
-          text: ZTR["Nominal frequency:"] + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(GC.locale) + "hz";
+          text: Z.tr("Nominal frequency:") + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(GC.locale) + "hz";
         }
 
         Item {
@@ -70,7 +70,7 @@ Popup {
           Layout.alignment: Qt.AlignVCenter
           font.pixelSize: root.width/60
           fontSizeMode: Label.HorizontalFit
-          text: ZTR["Frequency output constant:"] + " " + Number(VeinEntity.getEntity("POWER1Module4")[String("PAR_FOUTConstant%1").arg(index)]).toLocaleString(GC.locale);
+          text: Z.tr("Frequency output constant:") + " " + Number(VeinEntity.getEntity("POWER1Module4")[String("PAR_FOUTConstant%1").arg(index)]).toLocaleString(GC.locale);
         }
 
         Item {
@@ -98,7 +98,7 @@ Popup {
 
   Button {
     id: closeButton
-    text: ZTR["Close"]
+    text: Z.tr("Close")
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     onClicked: close()

@@ -28,7 +28,7 @@ CCMP.ModulePage {
       RegExpFilter {
         roleName: "Name"
         // specify by Name-role (1st column) what to see (leading empty string for header row
-        pattern: "^$|^"+ZTR["UPN"]+"$|^"+ZTR["I"]+"$|^"+ZTR["∠U"]+"$|^"+ZTR["∠I"]+"$"
+        pattern: "^$|^"+Z.tr("UPN")+"$|^"+Z.tr("I")+"$|^"+Z.tr("∠U")+"$|^"+Z.tr("∠I")+"$"
         caseSensitivity: Qt.CaseInsensitive
       }
     ]
@@ -44,7 +44,7 @@ CCMP.ModulePage {
       delegate: Component {
         Row {
           height: index === 0 ? root.row1stHeight : root.rowHeight
-          readonly property bool isCurrent: Name === ZTR["kI"] || Name === ZTR["I"] || Name === ZTR["∠I"]
+          readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
           CCMP.GridItem {
             width: root.columnWidth1st
             height: parent.height

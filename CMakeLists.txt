@@ -37,7 +37,7 @@ find_package(globalconfig REQUIRED)
 find_package(zeracomponents REQUIRED)
 find_package(qmlhelpers REQUIRED)
 find_package(zeraveincomponents REQUIRED)
-
+find_package(qwtcharts REQUIRED)
 
 
 ##enable useful warnings
@@ -114,6 +114,7 @@ target_link_libraries(vf-declarative-gui
     ZeraQml::zeracomponents
     ZeraQml::qmlhelpers
     ZeraQml::zeraveincomponents
+    ZeraQml::qwtcharts
     #Other Libs
     ${QWT_LIBRARIES}
     ${glLib}

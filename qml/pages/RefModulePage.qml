@@ -24,7 +24,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: ZTR["REF1"]
+      text: Z.tr("REF1")
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -32,7 +32,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: ZTR["REF2"]
+      text: Z.tr("REF2")
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -40,7 +40,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: ZTR["REF3"]
+      text: Z.tr("REF3")
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -48,7 +48,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: ZTR["REF4"]
+      text: Z.tr("REF4")
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -56,7 +56,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: ZTR["REF5"]
+      text: Z.tr("REF5")
       font.bold: true
       font.pixelSize: height*0.3
     }
@@ -64,7 +64,7 @@ CCMP.ModulePage {
       width: wideRowWidth
       height: root.rowHeight
       color: GC.tableShadeColor
-      text: ZTR["REF6"]
+      text: Z.tr("REF6")
       font.bold: true
       font.pixelSize: height*0.3
     }

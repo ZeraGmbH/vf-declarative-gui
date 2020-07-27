@@ -70,7 +70,7 @@ RowLayout {
 
   Label {
     textFormat: Text.PlainText
-    text: ZTR["DB location:"]
+    text: Z.tr("DB location:")
     height: rowHeight
     font.pointSize: root.pointSize
   }

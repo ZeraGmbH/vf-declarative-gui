@@ -99,7 +99,7 @@ Item {
     highlighted: true
     font.family: FA.old
     font.pixelSize: 20
-    text: FA.icon(FA.fa_times) + ZTR["Close"]
+    text: FA.icon(FA.fa_times) + Z.tr("Close")
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
     onClicked: root.closeView()

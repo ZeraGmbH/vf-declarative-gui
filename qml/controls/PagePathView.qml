@@ -95,7 +95,7 @@ Item {
       }
       Label {
         id: nameText
-        text: ZTR[name]
+        text: Z.tr(name)
         textFormat: Text.PlainText
         anchors.horizontalCenter: previewImage.horizontalCenter
         anchors.bottom: previewImage.bottom

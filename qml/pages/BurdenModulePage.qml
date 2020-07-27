@@ -36,13 +36,13 @@ Item {
   Component {
     id: tabVoltage
     TabButton {
-      text: ZTR["Voltage Burden"]
+      text: Z.tr("Voltage Burden")
     }
   }
   Component {
     id: tabCurrent
     TabButton {
-      text: ZTR["Current Burden"]
+      text: Z.tr("Current Burden")
     }
   }
 
@@ -125,7 +125,7 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Nominal burden:"]
+            description.text: Z.tr("Nominal burden:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_NominalBurden"
@@ -143,7 +143,7 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Nominal range:"]
+            description.text: Z.tr("Nominal range:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_NominalRange"
@@ -190,7 +190,7 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Wire crosssection:"]
+            description.text: Z.tr("Wire crosssection:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_WCrosssection"
@@ -208,7 +208,7 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Wire length:"]
+            description.text: Z.tr("Wire length:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_WireLength"

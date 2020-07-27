@@ -87,7 +87,7 @@ Item {
           color: GC.tableShadeColor
           border.color: "#444" //disable border transparency
           Text {
-            text: ZTR[ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName]
+            text: Z.tr(ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName)
             anchors.centerIn: parent
             anchors.rightMargin: 8
             font.pixelSize: rowHeight*0.5
@@ -117,7 +117,7 @@ Item {
         textAnchors.rightMargin: 2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: ZTR["THDN:"]
+        text: Z.tr("THDN:")
         textColor: Material.primaryTextColor
         font.bold: true
       }
@@ -166,7 +166,7 @@ Item {
             height: root.rowHeight
             color: GC.tableShadeColor
             border.color: "#444" //disable border transparency
-            text: ZTR["Amp"] + (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+"]");
+            text: Z.tr("Amp") + (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+")");
             textColor: GC.getColorByIndex(index+1)
             font.pixelSize: rowHeight*0.5
             font.bold: true
@@ -178,7 +178,7 @@ Item {
               height: root.rowHeight
               color: GC.tableShadeColor
               border.color: "#444" //disable border transparency
-              text: ZTR["Phase"] + " [°]"
+              text: Z.tr("Phase") + " [°)"
               textColor: GC.getColorByIndex(index+1)
               font.pixelSize: rowHeight*0.5
               font.bold: true

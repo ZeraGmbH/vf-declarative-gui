@@ -5,13 +5,15 @@ import QtQuick.Layouts 1.3
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraTranslationbackend  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
+import ZeraVeinComponents 1.0 as VFControls
+import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/customerdata" as CDataControls
 import "qrc:/qml/controls/settings" as SettingsControls
-import ZeraVeinComponents 1.0 as VFControls
-import ZeraFa 1.0
+
 
 
 SettingsControls.SettingsView {
@@ -119,7 +121,7 @@ SettingsControls.SettingsView {
 
   Loader {
     id: customerDataEntry
-    active: falseZDoubleValidator
+    active: false
     sourceComponent: CDataControls.CustomerDataEntry {
       width: root.width
       height: root.height
@@ -146,7 +148,7 @@ SettingsControls.SettingsView {
 
   model: VisualItemModel {
     Label {
-      text: ZTR["Database Logging"]
+      text: Z.tr("Database Logging")
       width: root.rowWidth;
       horizontalAlignment: Text.AlignHCenter
       font.pointSize: root.rowHeight*fontScale
@@ -160,7 +162,7 @@ SettingsControls.SettingsView {
         anchors.fill: parent
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Logger status:"]
+          text: Z.tr("Logger status:")
           font.pointSize: root.rowHeight*fontScale
           Layout.fillWidth: true
         }
@@ -172,7 +174,7 @@ SettingsControls.SettingsView {
           visible: loggerEntity.DatabaseReady === false
         }
         Label {
-          text: ZTR[loggerEntity.LoggingStatus]
+          text: Z.tr(loggerEntity.LoggingStatus)
           font.pointSize: root.rowHeight*fontScale
         }
         BusyIndicator {
@@ -185,7 +187,7 @@ SettingsControls.SettingsView {
       }
     }
     Item {
-      enabled: dbLocationSelector.storageLZDoubleValidatorist.length > 0
+      enabled: dbLocationSelector.storageList.length > 0
       height: root.rowHeight;
       width: root.rowWidth;
 
@@ -194,7 +196,7 @@ SettingsControls.SettingsView {
 
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Database filename:"]
+          text: Z.tr("Database filename:")
           font.pointSize: root.rowHeight*fontScale
         }
         Item {
@@ -206,7 +208,7 @@ SettingsControls.SettingsView {
           Layout.fillWidth: true
           Layout.fillHeight: true
           textField.font.pointSize: root.rowHeight*fontScale
-          placeholderText: ZTR["<directory name>/<filename>"]
+          placeholderText: Z.tr("<directory name>/<filename>")
           text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
           validator: RegExpValidator {
             regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
@@ -262,7 +264,7 @@ SettingsControls.SettingsView {
         anchors.fill: parent
         Label {
           textFormat: Text.PlainText
-          text: ZTR["DB size:"]
+          text: Z.tr("DB size:")
           font.pointSize: root.rowHeight*fontScale
           Layout.fillWidth: true
         }
@@ -271,7 +273,7 @@ SettingsControls.SettingsView {
           readonly property double available: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemFree : NaN
           readonly property double total: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemTotal : NaN
           readonly property double percentAvail: total > 0 ? (available/total * 100).toFixed(2) : 0.0;
-          text:  ZTR["<b>%1MB</b> (available <b>%2GB</b> of <b>%3GB</b> / %4%)"].arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2)).arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
+          text:  Z.tr("<b>%1MB</b> (available <b>%2GB</b> of <b>%3GB</b> / %4%)").arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2)).arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
           font.pointSize: root.rowHeight*fontScale
         }
       }
@@ -298,7 +300,7 @@ SettingsControls.SettingsView {
       width: root.rowWidth;
       Label {
         textFormat: Text.PlainText
-        text: ZTR["Select recorded values:"]
+        text: Z.tr("Select recorded values:")
         font.pointSize: root.rowHeight*fontScale
         Layout.fillWidth: true
       }
@@ -317,7 +319,7 @@ SettingsControls.SettingsView {
       width: root.rowWidth;
       Label {
         textFormat: Text.PlainText
-        text: ZTR["Logging Duration [hh:mm:ss]:"]
+        text: Z.tr("Logging Duration [hh:mm:ss]:")
         font.pointSize: root.rowHeight*fontScale
         Layout.fillWidth: true
         enabled: loggerEntity.ScheduledLoggingEnabled === true
@@ -371,7 +373,7 @@ SettingsControls.SettingsView {
         visible: VeinEntity.hasEntity("CustomerData")
         Label {
           textFormat: Text.PlainText
-          text: ZTR["Manage customer data:"]
+          text: Z.tr("Manage customer data:")
           font.pointSize: root.rowHeight*fontScale
 
           Layout.fillWidth: true
@@ -410,7 +412,7 @@ SettingsControls.SettingsView {
 
     Button {
       id: startButton
-      text: ZTR["Start"]
+      text: Z.tr("Start")
       font.pointSize: root.rowHeight*fontScale
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
@@ -425,7 +427,7 @@ SettingsControls.SettingsView {
 
     Button {
       id: snapshotButton
-      text: ZTR["Snapshot"]
+      text: Z.tr("Snapshot")
       font.pointSize: root.rowHeight*fontScale
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
@@ -441,7 +443,7 @@ SettingsControls.SettingsView {
 
     Button {
       id: stopButton
-      text: ZTR["Stop"]
+      text: Z.tr("Stop")
       font.pointSize: root.rowHeight*fontScale
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom

@@ -12,14 +12,9 @@
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
-#include "fftbarchart.h"
-#include "hpwbarchart.h"
-#include "barchart.h"
-#include "cbar.h"
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
 #include <zeratranslation.h>
-#include "phasordiagram.h"
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 #include <zvkeyboard.h>
@@ -55,11 +50,6 @@ int main(int argc, char *argv[])
   QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
 
   bool loadedOnce = false;
-
-  qmlRegisterType<FftBarChart>("QwtChart", 1, 0, "FftBarChart");
-  qmlRegisterType<HpwBarChart>("QwtChart", 1, 0, "HpwBarChart");
-  qmlRegisterType<BarChart>("QwtChart", 1, 0, "BarChart");
-  qmlRegisterType<cBar>("QwtChart", 1, 0, "Bar");
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication app(argc, argv);
   qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);

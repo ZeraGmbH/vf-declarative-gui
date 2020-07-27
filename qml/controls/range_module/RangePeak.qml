@@ -31,7 +31,7 @@ Item {
     bottomLabelsEnabled: root.bottomLabels
     leftScaleTransform: GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? "%1%" : "%1";
 
-    chartTitle: ZTR["Peak values"]
+    chartTitle: Z.tr("Peak values")
     leftAxisMinValue: GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? 0 : root.minValue
     leftAxisMaxValue: GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? 125 : root.maxValue
     textColor: Material.primaryTextColor
@@ -62,7 +62,7 @@ Item {
       var retVal = [];
       for(var i in inputKeys)
       {
-        retVal.push(ZTR[inputKeys[i]]);
+        retVal.push(Z.tr(inputKeys[i]));
       }
       return retVal;
     }
@@ -75,7 +75,7 @@ Item {
     }
 
     Label {
-      text: ZTR["Scale visualisation:"]
+      text: Z.tr("Scale visualisation:")
       anchors.right: parent.left
       anchors.rightMargin: 8
       font.pointSize: 14

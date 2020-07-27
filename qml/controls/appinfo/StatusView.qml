@@ -21,7 +21,7 @@ Item {
     currentIndex: 0
     TabButton {
       id: deviceStatusButton
-      text: FA.icon(FA.fa_info_circle)+ZTR["Device info"]
+      text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
       font.family: FA.old
       height: parent.height
       font.pixelSize: height/2
@@ -44,14 +44,14 @@ Item {
       }
     }
     TabButton {
-      text: FA.icon("<b>§</b>")+ZTR["License information"]
+      text: FA.icon("<b>§</b>")+Z.tr("License information")
       font.family: FA.old
       height: parent.height
       font.pixelSize: height/2
     }
     TabButton {
       id: errorLogButton
-      text: FA.icon(FA.fa_exclamation_triangle, GC.tmpStatusNewErrors ? Material.color(Material.Yellow) : "#44ffffff" )+ZTR["Device log"]
+      text: FA.icon(FA.fa_exclamation_triangle, GC.tmpStatusNewErrors ? Material.color(Material.Yellow) : "#44ffffff" )+Z.tr("Device log")
       font.family: FA.old
       height: parent.height
       font.pixelSize: height/2

@@ -51,7 +51,7 @@ Item {
         mipmap: true
       }
       Label {
-        text: ZTR[name]
+        text: Z.tr(name)
         textFormat: Text.PlainText
         anchors.left: listImage.right
         anchors.leftMargin: 8

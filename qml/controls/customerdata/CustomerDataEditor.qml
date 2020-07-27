@@ -76,7 +76,7 @@ Item {
       property string propName: propertyName;
       height: dataEditor.rowHeight*1.2
       Label {
-        text: ZTR[propName];
+        text: Z.tr(propName);
         Layout.minimumWidth: dataEditor.width / 4;
         height: dataEditor.rowHeight
       }
@@ -96,7 +96,7 @@ Item {
     section.delegate: Label {
       height: dataEditor.rowHeight*1.5
       verticalAlignment: Text.AlignBottom
-      text: ZTR[section]
+      text: Z.tr(section)
       font.pointSize: 16
       font.bold: true
     }
@@ -124,7 +124,7 @@ Item {
     }
     Button {
       id: okButton
-      text: ZTR["OK"]
+      text: Z.tr("OK")
       Layout.minimumWidth: cancelButton.width
       onClicked: {
         ok()
@@ -132,7 +132,7 @@ Item {
     }
     Button {
       id: cancelButton
-      text: ZTR["Cancel"]
+      text: Z.tr("Cancel")
       Layout.minimumWidth: okButton.width
       onClicked: {
         cancel()

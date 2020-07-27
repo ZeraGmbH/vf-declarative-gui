@@ -58,7 +58,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width * col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Reference input:"]
+        text: Z.tr("Reference input:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -148,7 +148,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Mode:"]
+        text: Z.tr("Mode:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -159,7 +159,7 @@ Item {
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Targeted"
         entityIsIndex: true
-        model: [ZTR["Start/Stop"],ZTR["Duration"]]
+        model: [Z.tr("Start/Stop"),Z.tr("Duration")]
 
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -190,7 +190,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Duration:"]
+        text: Z.tr("Duration:")
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
@@ -231,7 +231,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -parent.height * 0.25
-        text: ZTR["Start value:"]
+        text: Z.tr("Start value:")
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
@@ -269,7 +269,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: parent.height * 0.25
-        text: ZTR["End value:"]
+        text: Z.tr("End value:")
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
@@ -319,7 +319,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Upper error margin:"]
+        text: Z.tr("Upper error margin:")
         font.pointSize: root.pointSize
       }
       ZLineEdit {
@@ -360,7 +360,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Lower error margin:"]
+        text: Z.tr("Lower error margin:")
         font.pointSize: root.pointSize
       }
       ZLineEdit {

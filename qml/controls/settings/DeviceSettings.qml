@@ -37,7 +37,7 @@ SettingsView {
         RowLayout {
             Label {
                 textFormat: Text.PlainText
-                text: ZTR["PLL channel automatic:"]
+                text: Z.tr("PLL channel automatic:")
                 font.pixelSize: 20
 
                 Layout.fillWidth: true
@@ -58,7 +58,7 @@ SettingsView {
 
             Label {
                 textFormat: Text.PlainText
-                text: ZTR["PLL channel:"]
+                text: Z.tr("PLL channel:")
                 font.pixelSize: 20
 
                 Layout.fillWidth: true
@@ -89,7 +89,7 @@ SettingsView {
 
             Label {
                 textFormat: Text.PlainText
-                text: ZTR["DFT reference channel:"]
+                text: Z.tr("DFT reference channel:")
                 font.pixelSize: 20
 
                 Layout.fillWidth: true
@@ -189,7 +189,7 @@ SettingsView {
                 anchors.rightMargin: 16
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Frequency input/output configuration:"];
+                    text: Z.tr("Frequency input/output configuration:");
                     font.pixelSize: 20
 
                     Layout.fillWidth: true

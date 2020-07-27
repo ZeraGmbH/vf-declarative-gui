@@ -151,7 +151,7 @@ Popup {
 
   ZLineEdit {
     id: availSearchField
-    placeholderText: ZTR["Regex search"]
+    placeholderText: Z.tr("Regex search")
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: middleFrame.left
@@ -165,7 +165,7 @@ Popup {
     anchors.bottom: availSearchField.top
     anchors.horizontalCenter: availSearchField.horizontalCenter
     font.pointSize: 10
-    text: ZTR["Available for recording"]
+    text: Z.tr("Available for recording")
   }
 
   ListView {
@@ -205,7 +205,7 @@ Popup {
   }
   ZLineEdit {
     id: selectedSearchField
-    placeholderText: ZTR["Regex search"]
+    placeholderText: Z.tr("Regex search")
     anchors.top: parent.top
     anchors.right: parent.right
     anchors.left: middleFrame.right
@@ -219,7 +219,7 @@ Popup {
     anchors.bottom: selectedSearchField.top
     anchors.horizontalCenter: selectedSearchField.horizontalCenter
     font.pointSize: 10
-    text: ZTR["Selected for recording"]
+    text: Z.tr("Selected for recording")
   }
   ListView {
     id: selectedView
@@ -268,7 +268,7 @@ Popup {
       anchors.fill: parent
 
       Label {
-        text: ZTR["Description:"]
+        text: Z.tr("Description:")
         font.bold: true
         anchors.left: parent.left
         anchors.right: parent.right
@@ -287,7 +287,7 @@ Popup {
         width: parent.width
       }
       Label {
-        text: ZTR["Unit:"]
+        text: Z.tr("Unit:")
         font.bold: true
         anchors.left: parent.left
         anchors.right: parent.right
@@ -353,7 +353,7 @@ Popup {
 
     Button {
       id: acceptButton
-      text: ZTR["Accept"]
+      text: Z.tr("Accept")
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
@@ -381,7 +381,7 @@ Popup {
 
     Button {
       id: resetButton
-      text: ZTR["Cancel"]
+      text: Z.tr("Cancel")
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom

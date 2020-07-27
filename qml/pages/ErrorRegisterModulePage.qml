@@ -73,7 +73,7 @@ CCMP.ModulePage {
       height: root.height*0.1
       width: root.width
       Button {
-        text: ZTR["Start"]
+        text: Z.tr("Start")
         font.pixelSize: 20
         width: root.width/5
 
@@ -92,7 +92,7 @@ CCMP.ModulePage {
       }
 
       Button {
-        text: ZTR["Stop"]
+        text: Z.tr("Stop")
         font.pixelSize: 20
         width: root.width/5
 

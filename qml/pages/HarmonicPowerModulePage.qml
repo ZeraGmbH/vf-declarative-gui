@@ -26,13 +26,13 @@ Item {
   Component {
     id: tabChart
     TabButton {
-      text: ZTR["Harmonic power table"]
+      text: Z.tr("Harmonic power table")
     }
   }
   Component {
     id: tabEnergy
     TabButton {
-      text: ZTR["Harmonic power chart"]
+      text: Z.tr("Harmonic power chart")
     }
   }
 

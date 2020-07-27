@@ -39,7 +39,7 @@ CCMP.ModulePage {
         width: root.width*0.6
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: ZTR["TR1"]
+        text: Z.tr("TR1")
         font.bold: true
       }
       CCMP.GridItem {
@@ -57,7 +57,7 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: ZTR["X-Prim"];
+        text: Z.tr("X-Prim");
         font.bold: true
       }
       CCMP.GridItem {
@@ -78,7 +78,7 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: ZTR["N-Sec"];
+        text: Z.tr("N-Sec");
         font.bold: true
       }
       CCMP.GridItem {
@@ -88,7 +88,7 @@ CCMP.ModulePage {
       }
       CCMP.GridItem {
         width: root.width*0.2
-        height: root.rowHeightCCMP.ZDoubleValidator
+        height: root.rowHeight
         text: transformerIntrospection.ComponentInfo.ACT_INSecondary1.Unit;
       }
     }
@@ -99,7 +99,7 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: ZTR["X-Sec"];
+        text: Z.tr("X-Sec");
         font.bold: true
       }
       CCMP.GridItem {
@@ -120,7 +120,7 @@ CCMP.ModulePage {
         width: root.width*0.2
         height: root.rowHeight
         color: GC.tableShadeColor
-        text: ZTR["X-Ratio"]
+        text: Z.tr("X-Ratio")
         font.bold: true
       }
       CCMP.GridItem {
@@ -160,7 +160,7 @@ CCMP.ModulePage {
       CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
-        color: GC.tableShadeColorCCMP.ZDoubleValidator
+        color: GC.tableShadeColor
         text: "X-δ"
         font.bold: true
       }
@@ -193,7 +193,7 @@ CCMP.ModulePage {
       CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
-        text: ZTR["crad"];
+        text: Z.tr("crad");
       }
     }
 
@@ -214,7 +214,7 @@ CCMP.ModulePage {
       CCMP.GridItem {
         width: root.width*0.2
         height: root.rowHeight
-        text: ZTR["arcmin"];
+        text: Z.tr("arcmin");
       }
     }
   }
@@ -232,7 +232,7 @@ CCMP.ModulePage {
 
         VFControls.VFLineEdit {
           id: parPrimClampPrim
-          description.text: ZTR["Mp-Prim:"]
+          description.text: Z.tr("Mp-Prim:")
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;
@@ -250,7 +250,7 @@ CCMP.ModulePage {
         VFControls.VFLineEdit {
           id: parPrimClampSec
           anchors.right: parent.right
-          description.text: ZTR["Mp-Sec:"]
+          description.text: Z.tr("Mp-Sec:")
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;
@@ -272,7 +272,7 @@ CCMP.ModulePage {
 
         VFControls.VFLineEdit {
           id: parDutPrimary
-          description.text: ZTR["X-Prim:"]
+          description.text: Z.tr("X-Prim:")
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;
@@ -290,7 +290,7 @@ CCMP.ModulePage {
         VFControls.VFLineEdit {
           id: parDutSecondary
           anchors.right: parent.right
-          description.text: ZTR["X-Sec:"]
+          description.text: Z.tr("X-Sec:")
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;
@@ -312,7 +312,7 @@ CCMP.ModulePage {
 
         VFControls.VFLineEdit {
           id: parSecClampPrim
-          description.text: ZTR["Ms-Prim:"]
+          description.text: Z.tr("Ms-Prim:")
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;
@@ -329,7 +329,7 @@ CCMP.ModulePage {
         }
         VFControls.VFLineEdit {
           id: parSecClampSec
-          description.text: ZTR["Ms-Sec:"]
+          description.text: Z.tr("Ms-Sec:")
           description.width: root.width/10;
           height: root.rowHeight;
           width: root.width/2 - 8;

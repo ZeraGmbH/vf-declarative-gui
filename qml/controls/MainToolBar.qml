@@ -178,7 +178,7 @@ ToolBar {
       implicitHeight: parent.height
       font.family: FA.old
       font.pointSize: 14
-      text: FA.icon(FA.fa_server) + ZTR["Remotes"]
+      text: FA.icon(FA.fa_server) + Z.tr("Remotes")
       highlighted: root.currentLayoutIndex===layoutStackEnum.layout<...>Index
       visible: OS_TYPE==="android" || debugBypass
       CCMP.DebugRectangle {

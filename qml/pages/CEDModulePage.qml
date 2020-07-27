@@ -65,7 +65,7 @@ CCMP.ModulePage {
         width: columnWidth
         height: row1stHeight
         color: GC.tableShadeColor
-        text: ZTR["L1"]
+        text: Z.tr("L1")
         textColor: GC.colorUL1
         font.pixelSize: pixelSize
       }
@@ -73,7 +73,7 @@ CCMP.ModulePage {
         width: columnWidth
         height: row1stHeight
         color: GC.tableShadeColor
-        text: ZTR["L2"]
+        text: Z.tr("L2")
         textColor: GC.colorUL2
         font.pixelSize: pixelSize
       }
@@ -81,7 +81,7 @@ CCMP.ModulePage {
         width: columnWidth
         height: row1stHeight
         color: GC.tableShadeColor
-        text: ZTR["L3"]
+        text: Z.tr("L3")
         textColor: GC.colorUL3
         font.pixelSize: pixelSize
       }

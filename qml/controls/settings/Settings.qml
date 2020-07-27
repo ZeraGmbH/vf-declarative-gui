@@ -40,20 +40,20 @@ Item{
     Component{
         id: appTab
         TabButton {
-            text: ZTR["Application Settings"]
+            text: Z.tr("Application Settings")
         }
     }
     Component{
         id: devTab
         TabButton {
-            text: ZTR["Device settings"]
+            text: Z.tr("Device settings")
         }
     }
 
     Component{
         id: netTab
         TabButton {
-            text: ZTR["Network settings"]
+            text: Z.tr("Network settings")
         }
     }
 

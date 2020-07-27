@@ -70,7 +70,7 @@ CCMP.ModulePage {
       width: valueColumnWidth
       height: parent.height
       color: GC.tableShadeColor
-      text: ZTR["L1"]
+      text: Z.tr("L1")
       textColor: GC.colorUL1
       font.pixelSize: rowHeight*0.4
     }
@@ -78,7 +78,7 @@ CCMP.ModulePage {
       width: valueColumnWidth
       height: parent.height
       color: GC.tableShadeColor
-      text: ZTR["L2"]
+      text: Z.tr("L2")
       textColor: GC.colorUL2
       font.pixelSize: rowHeight*0.4
     }
@@ -86,7 +86,7 @@ CCMP.ModulePage {
       width: valueColumnWidth
       height: parent.height
       color: GC.tableShadeColor
-      text: ZTR["L3"]
+      text: Z.tr("L3")
       textColor: GC.colorUL3
       font.pixelSize: rowHeight*0.4
     }
@@ -179,7 +179,7 @@ CCMP.ModulePage {
       height: parent.height
       Label {
         id: labelMMode
-        text: ZTR["Measuring modes:"]
+        text: Z.tr("Measuring modes:")
         width: root.firstColumnWidth+root.valueColumnWidth-GC.standardTextHorizMargin
         anchors.left: parent.left
         anchors.leftMargin: GC.standardTextHorizMargin

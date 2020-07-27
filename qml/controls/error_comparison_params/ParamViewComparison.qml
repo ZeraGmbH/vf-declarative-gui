@@ -61,7 +61,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Reference input:"]
+        text: Z.tr("Reference input:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -146,7 +146,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Mode:"]
+        text: Z.tr("Mode:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -183,7 +183,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Device input:"]
+        text: Z.tr("Device input:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -218,7 +218,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["DUT constant:"]
+        text: Z.tr("DUT constant:")
         font.pointSize: root.pointSize
       }
 
@@ -273,7 +273,7 @@ Item {
           anchors.leftMargin: GC.standardTextHorizMargin
           width: parent.width*col1Width
           anchors.verticalCenter: parent.verticalCenter
-          text: ZTR["Energy:"]
+          text: Z.tr("Energy:")
           font.pointSize: root.pointSize
         }
 
@@ -381,7 +381,7 @@ Item {
           anchors.leftMargin: GC.standardTextHorizMargin
           width: parent.width*col1Width
           anchors.verticalCenter: parent.verticalCenter
-          text: ZTR["MRate:"]
+          text: Z.tr("MRate:")
           font.pointSize: root.pointSize
         }
 
@@ -416,7 +416,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Upper error margin:"]
+        text: Z.tr("Upper error margin:")
         font.pointSize: root.pointSize
       }
       ZLineEdit {
@@ -457,7 +457,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Lower error margin:"]
+        text: Z.tr("Lower error margin:")
         font.pointSize: root.pointSize
       }
       ZLineEdit {

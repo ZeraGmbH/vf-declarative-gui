@@ -84,7 +84,7 @@ Popup {
 
     Label {
       textFormat: Text.PlainText
-      text: ZTR["Database filename:"]
+      text: Z.tr("Database filename:")
       font.pointSize: 20
     }
 
@@ -121,12 +121,12 @@ Popup {
     }
 
     Button {
-      text: ZTR["Search"];
+      text: Z.tr("Search");
       enabled: searchProgressId === undefined && tfSearchPattern.text.length>0;
       onClicked: sendSearchRPC(tfSearchPattern.text+".db");
     }
     Button {
-      text: ZTR["Cancel"];
+      text: Z.tr("Cancel");
       enabled: searchProgressId !== undefined;
     }
   }
@@ -176,7 +176,7 @@ Popup {
         }
 
         Button {
-          text: ZTR["Select file"]
+          text: Z.tr("Select file")
           //padding: 0
           implicitHeight: rowHeight*1.5
           onClicked: {
@@ -195,7 +195,7 @@ Popup {
     Button {
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.verticalCenter: parent.verticalCenter
-      text: ZTR["Close"];
+      text: Z.tr("Close");
       onClicked: root.close();
       font.pointSize: root.rowHeight
     }

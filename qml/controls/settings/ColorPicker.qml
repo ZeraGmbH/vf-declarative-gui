@@ -142,7 +142,7 @@ Popup {
     }
     Button {
       id: acceptButton
-      text: ZTR["Accept"]
+      text: Z.tr("Accept")
       anchors.left: parent.left
       //anchors.rightMargin: parent.width - width - closeButton.width
       anchors.bottom: parent.bottom
@@ -154,7 +154,7 @@ Popup {
     }
     Button {
       id: closeButton
-      text: ZTR["Close"]
+      text: Z.tr("Close")
       anchors.right: parent.right
       anchors.bottom: parent.bottom
       onClicked: close()

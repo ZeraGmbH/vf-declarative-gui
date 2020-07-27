@@ -29,15 +29,15 @@ Popup {
   function substitutePlaceholders(t_text) {
     var retVal = t_text;
     var dateTime = new Date();
-    var customerID = customerdataEntity ? customerdataEntity.PAR_CustomerNumber : ZTR["[customer data is not available]"]
+    var customerID = customerdataEntity ? customerdataEntity.PAR_CustomerNumber : Z.tr("[customer data is not available]")
     var replacementModel = {
-      "$VIEW": ZTR[GC.currentViewName],
+      "$VIEW": Z.tr(GC.currentViewName),
       "$YEAR": Qt.formatDate(dateTime, "yyyy"),
       "$MONTH": Qt.formatDate(dateTime, "MM"),
       "$DAY": Qt.formatDate(dateTime, "dd"),
       "$TIME": Qt.formatDateTime(dateTime, "hh:mm"),
       "$SECONDS": Qt.formatDateTime(dateTime, "ss"),
-      "$CUSTOMER_ID" : customerID.length>0 ? customerID : ZTR["[customer id is not set]"]
+      "$CUSTOMER_ID" : customerID.length>0 ? customerID : Z.tr("[customer id is not set]")
     }
 
     for(var replaceIndex in replacementModel)
@@ -58,7 +58,7 @@ Popup {
     anchors.left: parent.left
     anchors.right: parent.right
     horizontalAlignment: Text.AlignHCenter
-    text: ZTR["Select record name"]
+    text: Z.tr("Select record name")
     font.pointSize: 12
   }
 
@@ -74,7 +74,7 @@ Popup {
       height: recordNamePopup.rowHeight
 
       Label {
-        text: ZTR["Current record name:"];
+        text: Z.tr("Current record name:");
         font.pointSize: recordNamePopup.pointSize
       }
 
@@ -105,7 +105,7 @@ Popup {
       height: recordNamePopup.rowHeight
 
       Label {
-        text: ZTR["Preset record name:"]
+        text: Z.tr("Preset record name:")
         font.pointSize: recordNamePopup.pointSize
       }
 
@@ -133,7 +133,7 @@ Popup {
       height: recordNamePopup.rowHeight
 
       Label {
-        text: ZTR["Custom record name:"];
+        text: Z.tr("Custom record name:");
         font.pointSize: recordNamePopup.pointSize
       }
 
@@ -251,7 +251,7 @@ Popup {
     anchors.right: parent.right
 
     Label {
-      text: ZTR["Preview:"];
+      text: Z.tr("Preview:");
       font.bold: true
       font.pointSize: 12
     }
@@ -269,7 +269,7 @@ Popup {
 
     Button {
       id: okButton
-      text: ZTR["OK"]
+      text: Z.tr("OK")
       enabled: intermediaryText !== "";
       Layout.minimumWidth: cancelButton.width
       onClicked: {
@@ -281,7 +281,7 @@ Popup {
     }
     Button {
       id: cancelButton
-      text: ZTR["Cancel"]
+      text: Z.tr("Cancel")
       Layout.minimumWidth: okButton.width
       onClicked: {
         customRecordNameTextField.discardInput();

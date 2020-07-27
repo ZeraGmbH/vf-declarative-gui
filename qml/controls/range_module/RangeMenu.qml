@@ -98,7 +98,7 @@ Item {
     anchors.margins: parent.width*0.02
 
     Label {
-      text: ZTR["Range automatic:"]
+      text: Z.tr("Range automatic:")
       y: grid.cellHeight*0.75
       height: grid.cellHeight*2
       width: grid.cellWidth*4
@@ -118,7 +118,7 @@ Item {
       id: overloadButton
       property int overload: root.rangeModule.PAR_Overload
 
-      text: ZTR["Overload"]
+      text: Z.tr("Overload")
       enabled: overload
       x: grid.cellWidth*16 - width
       height: grid.cellHeight * 2
@@ -149,7 +149,7 @@ Item {
       }
     }
     Label {
-      text: ZTR["Range grouping:"]
+      text: Z.tr("Range grouping:")
       y: grid.cellHeight*2.75
       height: grid.cellHeight*2
       width: grid.cellWidth*4
@@ -167,7 +167,7 @@ Item {
       controlPropertyName: "PAR_ChannelGrouping"
     }
     Label {
-      text: ZTR["Manual:"]
+      text: Z.tr("Manual:")
       font.pixelSize: Math.min(18, root.height/20)
       enabled: !autoMode.checked
       color: enabled ? Material.primaryTextColor : Material.hintTextColor

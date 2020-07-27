@@ -29,7 +29,7 @@ Item {
       font.pointSize: 8
       font.family: "Monospace"
       //wrapMode: Label.WordWrap
-      //text: String("<small>%1</small> <b>%2:</b> %3").arg(model.Time).arg(model.ModuleName).arg(ZTR[model.Error] !== undefined ? ZTR[model.Error] : model.Error);
+      //text: String("<small>%1</small> <b>%2:</b> %3").arg(model.Time).arg(model.ModuleName).arg(Z.tr(model.Error] !== undefined ? ZTR[model.Error) : model.Error);
       text: String("%1/%2/%3 %4 | host: %5 | priority: %6<br>
                     <b>%7</b>%8")
       .arg(logDate.getFullYear()).arg(("0"+logDate.getMonth()).slice(-2)).arg(("0"+logDate.getDay()).slice(-2)).arg(logDate.toTimeString()).arg(_HOSTNAME).arg(root.priorityTexts[PRIORITY])
