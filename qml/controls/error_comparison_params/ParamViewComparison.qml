@@ -84,6 +84,7 @@ Item {
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
       }
+
       VFControls.VFComboBox {
         arrayMode: true
         controlPropertyName: "PAR_MeasuringMode"
@@ -149,15 +150,13 @@ Item {
         text: Z.tr("Mode:")
         font.pointSize: root.pointSize
       }
+
       VFControls.VFComboBox {
         id: cbMode
-
         arrayMode: true
-
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Mode"
         model: validatorMode.Data
-
         x: parent.width*col1Width
         width: parent.width*col2Width - GC.standardMarginWithMin
 
@@ -191,7 +190,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DutInput"
-        model: validatorDutInput.Data
+        model: validatorDutInput.Data;
 
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -245,7 +244,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DUTConstUnit"
-        model: validatorDutConstUnit.Data
+        model: validatorDutConstUnit.Data;
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin

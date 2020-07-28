@@ -156,7 +156,7 @@ Item {
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
             }
             ZVisualComboBox {
-              model: burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data
+              model: Z.tr(burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data)
               imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
               property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);
               automaticIndexChange: true

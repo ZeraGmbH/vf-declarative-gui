@@ -81,7 +81,7 @@ Popup {
         VFControls.VFComboBox {
           arrayMode: true
           controlPropertyName: "PAR_MeasuringMode"
-          model: ModuleIntrospection.p1m4Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
+          model: ModuleIntrospection.p1m4Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data
           entity: VeinEntity.getEntity("POWER1Module4")
 
           contentRowHeight: height*0.8
