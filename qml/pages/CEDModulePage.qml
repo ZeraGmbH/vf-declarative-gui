@@ -6,7 +6,7 @@ import GlobalConfig 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 
 CCMP.ModulePage {
   id: ced_root
@@ -65,7 +65,7 @@ CCMP.ModulePage {
         width: columnWidth
         height: row1stHeight
         color: GC.tableShadeColor
-        text: ZTR["L1"]
+        text: Z.tr("L1")
         textColor: GC.colorUL1
         font.pixelSize: pixelSize
       }
@@ -73,7 +73,7 @@ CCMP.ModulePage {
         width: columnWidth
         height: row1stHeight
         color: GC.tableShadeColor
-        text: ZTR["L2"]
+        text: Z.tr("L2")
         textColor: GC.colorUL2
         font.pixelSize: pixelSize
       }
@@ -81,7 +81,7 @@ CCMP.ModulePage {
         width: columnWidth
         height: row1stHeight
         color: GC.tableShadeColor
-        text: ZTR["L3"]
+        text: Z.tr("L3")
         textColor: GC.colorUL3
         font.pixelSize: pixelSize
       }

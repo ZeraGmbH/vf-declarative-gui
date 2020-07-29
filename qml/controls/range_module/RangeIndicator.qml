@@ -4,7 +4,7 @@ import VeinEntity 1.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 
 Loader {
@@ -83,7 +83,7 @@ Loader {
 
         Label {
           anchors.centerIn: parent
-          font.family: "FontAwesome"
+          font.family: FA.old
           font.pixelSize: 18
           text: FA.fa_exclamation_triangle
 

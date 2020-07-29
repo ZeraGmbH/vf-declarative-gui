@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import ZeraTranslation  1.0
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 
 Item {
   id: root
@@ -22,7 +22,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["Serial number:"]
+        text: Z.tr("Serial number:")
       }
       Item {
         Layout.fillWidth: true
@@ -37,7 +37,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["Operating system version:"]
+        text: Z.tr("Operating system version:")
       }
       Item {
         Layout.fillWidth: true
@@ -52,7 +52,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["PCB server version:"]
+        text: Z.tr("PCB server version:")
       }
       Item {
         Layout.fillWidth: true
@@ -67,7 +67,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["DSP server version:"]
+        text: Z.tr("DSP server version:")
       }
       Item {
         Layout.fillWidth: true
@@ -82,7 +82,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["DSP firmware version:"]
+        text: Z.tr("DSP firmware version:")
       }
       Item {
         Layout.fillWidth: true
@@ -97,7 +97,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["FPGA firmware version:"]
+        text: Z.tr("FPGA firmware version:")
       }
       Item {
         Layout.fillWidth: true
@@ -112,7 +112,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["Microcontroller firmware version:"]
+        text: Z.tr("Microcontroller firmware version:")
       }
       Item {
         Layout.fillWidth: true
@@ -128,7 +128,7 @@ Item {
       Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
       Label {
         font.pointSize: 14
-        text: ZTR["Adjustment status:"]
+        text: Z.tr("Adjustment status:")
       }
       Item {
         Layout.fillWidth: true
@@ -143,7 +143,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["Adjustment checksum:"]
+        text: Z.tr("Adjustment checksum:")
       }
       Item {
         Layout.fillWidth: true
@@ -158,7 +158,7 @@ Item {
       height: root.rowHeight
       Label {
         font.pointSize: 14
-        text: ZTR["IP addresses:"]
+        text: Z.tr("IP addresses:")
       }
       Item {
         Layout.fillWidth: true

@@ -7,8 +7,9 @@ import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
 
 Item {
@@ -35,13 +36,13 @@ Item {
   Component {
     id: tabVoltage
     TabButton {
-      text: ZTR["Voltage Burden"]
+      text: Z.tr("Voltage Burden")
     }
   }
   Component {
     id: tabCurrent
     TabButton {
-      text: ZTR["Current Burden"]
+      text: Z.tr("Current Burden")
     }
   }
 
@@ -124,14 +125,14 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Nominal burden:"]
+            description.text: Z.tr("Nominal burden:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_NominalBurden"
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2]);
@@ -142,20 +143,20 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Nominal range:"]
+            description.text: Z.tr("Nominal range:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_NominalRange"
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
             }
-            CCMP.ZVisualComboBox {
-              model: burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data
+            ZVisualComboBox {
+              model: Z.tr(burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data)
               imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
               property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);
               automaticIndexChange: true
@@ -189,14 +190,14 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Wire crosssection:"]
+            description.text: Z.tr("Wire crosssection:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_WCrosssection"
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2]);
@@ -207,14 +208,14 @@ Item {
             height: page.rowHeight;
             width: page.width*0.9;
 
-            description.text: ZTR["Wire length:"]
+            description.text: Z.tr("Wire length:")
             description.width: page.width/4
             entity: page.burdenModule
             controlPropertyName: "PAR_WireLength"
             unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
             unit.width: page.rowHeight*1.5
 
-            validator: CCMP.ZDoubleValidator {
+            validator: ZDoubleValidator {
               bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
               top: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[1];
               decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2]);

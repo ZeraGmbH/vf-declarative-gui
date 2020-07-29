@@ -31,19 +31,19 @@ Item {
   Component {
     id: tabChart
     TabButton {
-      text: ZTR["Harmonic table"]
+      text: Z.tr("Harmonic table")
     }
   }
   Component {
     id: tabEnergy
     TabButton {
-      text: ZTR["Harmonic chart"]
+      text: Z.tr("Harmonic chart")
     }
   }
   Component {
     id: tabOsc
     TabButton {
-      text: ZTR["Oscilloscope plot"]
+      text: Z.tr("Oscilloscope plot")
     }
   }
 

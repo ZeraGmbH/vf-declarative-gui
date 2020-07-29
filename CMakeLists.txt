@@ -28,19 +28,21 @@ find_Package(VfQml REQUIRED )
 find_Package(VfHelpers REQUIRED )
 find_Package(ZVKeyboard REQUIRED)
 find_package(SortFilterProxyModelCmake REQUIRED)
+find_package(zerafa REQUIRED)
 find_Package(anmlib REQUIRED)
 find_Package(uivlib REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(zeratranslation REQUIRED)
+find_package(globalconfig REQUIRED)
+find_package(zeracomponents REQUIRED)
+find_package(qmlhelpers REQUIRED)
+find_package(zeraveincomponents REQUIRED)
+find_package(qwtcharts REQUIRED)
 
 
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
 
-#Check for 3rdParty dependencies
-##https://github.com/ZeraGmbH/JsonSettingsQML
-if(NOT EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/JsonSettingsQML/json-settings.pri") 
-    message(FATAL_ERROR "Dependency 3rdparty/JsonSettingsQML not found")
-endif()
 
 
 # All sources by type
@@ -57,10 +59,6 @@ file(GLOB_RECURSE APP_SOURCES
 file(GLOB APP_RESOURCES
     *.qrc
     )
-
-##include 3RDPARTY sources in seperate file
-include(${PROJECT_SOURCE_DIR}/3rdparty/include3rdParty.cmake)
-
 
 ##Sum up all properties
 set(SOURCES   ${APP_SOURCES} ${3RDPARTY_SOURCES}   )
@@ -107,9 +105,16 @@ target_link_libraries(vf-declarative-gui
     VeinMeta::VfQml
     VeinMeta::VfHelpers
     ZeraQml::ZVKeyboard
+    ZeraQml::zerafa
     ZeraQml::anmlib
     ZeraQml::uivlib
     ZeraQml::SortFilterProxyModelCmake
+    ZeraQml::zeratranslation
+    ZeraQml::globalconfig
+    ZeraQml::zeracomponents
+    ZeraQml::qmlhelpers
+    ZeraQml::zeraveincomponents
+    ZeraQml::qwtcharts
     #Other Libs
     ${QWT_LIBRARIES}
     ${glLib}

@@ -7,8 +7,8 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraVeinComponents 1.0 as VFControls
+import ZeraFa 1.0
 import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
 import "qrc:/qml/controls/error_comparison_params" as ParamViews
 
@@ -73,7 +73,7 @@ CCMP.ModulePage {
       height: root.height*0.1
       width: root.width
       Button {
-        text: ZTR["Start"]
+        text: Z.tr("Start")
         font.pixelSize: 20
         width: root.width/5
 
@@ -92,7 +92,7 @@ CCMP.ModulePage {
       }
 
       Button {
-        text: ZTR["Stop"]
+        text: Z.tr("Stop")
         font.pixelSize: 20
         width: root.width/5
 

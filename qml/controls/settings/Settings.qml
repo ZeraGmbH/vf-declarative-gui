@@ -9,8 +9,8 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraVeinComponents 1.0 as VFControls
+import ZeraFa 1.0
 
 import anmsettings 1.0
 
@@ -40,20 +40,20 @@ Item{
     Component{
         id: appTab
         TabButton {
-            text: ZTR["Application Settings"]
+            text: Z.tr("Application Settings")
         }
     }
     Component{
         id: devTab
         TabButton {
-            text: ZTR["Device settings"]
+            text: Z.tr("Device settings")
         }
     }
 
     Component{
         id: netTab
         TabButton {
-            text: ZTR["Network settings"]
+            text: Z.tr("Network settings")
         }
     }
 

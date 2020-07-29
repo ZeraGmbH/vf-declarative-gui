@@ -26,7 +26,7 @@ CCMP.ModulePage {
         Row {
           width: root.columnWidth*5.2
           height: root.rowHeight
-          readonly property bool isCurrent: Name === ZTR["kI"] || Name === ZTR["I"] || Name === ZTR["∠I"]
+          readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
           CCMP.GridItem {
             width: root.columnWidth*0.7
             height: root.rowHeight

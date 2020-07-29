@@ -6,8 +6,9 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 Item {
   id: root
@@ -97,7 +98,7 @@ Item {
     RowLayout {
       anchors.fill: parent
       Label {
-        text: ZTR["File name:"]
+        text: Z.tr("File name:")
       }
       Item {
         width: rowWidth/25
@@ -130,8 +131,8 @@ Item {
         Layout.fillWidth: true
         width: rowWidth/20
       }
-      CCMP.ZButton {
-        text: ZTR["OK"]
+      ZButton {
+        text: Z.tr("OK")
         width: newFileCancel.width
         enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
         //highlighted: true
@@ -139,9 +140,9 @@ Item {
           root.saveChanges()
         }
       }
-      CCMP.ZButton {
+      ZButton {
         id: newFileCancel
-        text: ZTR["Cancel"]
+        text: Z.tr("Cancel")
         onClicked: {
           addFilePopup.close()
         }
@@ -160,13 +161,13 @@ Item {
     onClosed: fileName="";
     Column {
       Label {
-        text: ZTR["Really delete file <b>'%1'</b>?"].arg(removeFilePopup.fileName)
+        text: Z.tr("Really delete file <b>'%1'</b>?").arg(removeFilePopup.fileName)
       }
       RowLayout {
         width: parent.width
 
         Button { ///todo: Qt 5.9 use DelayButton
-          text: ZTR["Accept"]
+          text: Z.tr("Accept")
           Material.accent: Material.color(Material.Red, Material.Shade500);
           highlighted: true
           onClicked: {
@@ -179,7 +180,7 @@ Item {
         }
 
         Button {
-          text: ZTR["Close"]
+          text: Z.tr("Close")
           onClicked: {
             removeFilePopup.close()
           }
@@ -203,7 +204,7 @@ Item {
       anchors.leftMargin: GC.standardTextHorizMargin
       anchors.top: parent.top
       height: root.rowHeight
-      text: ZTR["Customer data files:"]
+      text: Z.tr("Customer data files:")
       verticalAlignment: Text.AlignVCenter
       font.pixelSize: root.rowHeight/2
     }
@@ -254,7 +255,7 @@ Item {
           Label {
             id: activeIndicator
             width: indicatorWidth
-            font.family: "Fontawesome"
+            font.family: FA.old
             text: FA.fa_chevron_right
             opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
@@ -269,9 +270,9 @@ Item {
         }
       }
     }
-    CCMP.ZButton {
-      text: FA.icon(FA.fa_file)+ZTR["New"]
-      font.family: "FontAwesome"
+    ZButton {
+      text: FA.icon(FA.fa_file)+Z.tr("New")
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -284,9 +285,9 @@ Item {
         addFilePopup.open()
       }
     }
-    CCMP.ZButton {
-      text: FA.icon(FA.fa_edit)+ZTR["Edit"]
-      font.family: "FontAwesome"
+    ZButton {
+      text: FA.icon(FA.fa_edit)+Z.tr("Edit")
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -301,9 +302,9 @@ Item {
         switchToEditMode()
       }
     }
-    CCMP.ZButton {
-      text: FA.icon(FA.fa_trash)+ZTR["Delete"]
-      font.family: "FontAwesome"
+    ZButton {
+      text: FA.icon(FA.fa_trash)+Z.tr("Delete")
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -342,7 +343,7 @@ Item {
       anchors.leftMargin: GC.standardTextHorizMargin
       anchors.verticalCenter: parent.verticalCenter
       anchors.verticalCenterOffset: -parent.height * 0.25
-      text: ZTR["Filter:"]
+      text: Z.tr("Filter:")
       font.pixelSize: root.rowHeight/2
     }
     ComboBox {
@@ -357,14 +358,14 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       anchors.verticalCenterOffset: parent.height * 0.25 + rectFilter.comboTextVertOffset
 
-      displayText: ZTR[currentText]
+      displayText: Z.tr(currentText)
       flat: false
 
       ///@note qt 5.9 has a policy for scrollbars to be visible if required instead of the current "hiding if not scrolling" bullshit
       //...policy: ScrollBar.AsNeeded //or ScrollBar.AlwaysOn
       delegate: MenuItem {
         width: searchFieldSelector.popup.width
-        text: searchFieldSelector.textRole ? (Array.isArray(searchFieldSelector.model) ? ZTR[modelData[searchFieldSelector.textRole]] : ZTR[model[searchFieldSelector.textRole]]) : ZTR[modelData]
+        text: searchFieldSelector.textRole ? (Array.isArray(searchFieldSelector.model) ? Z.tr(modelData[searchFieldSelector.textRole]) : Z.tr(model[searchFieldSelector.textRole])) : Z.tr(modelData)
         Material.foreground: searchFieldSelector.currentIndex === index ? searchFieldSelector.popup.Material.accent : searchFieldSelector.popup.Material.foreground
         highlighted: searchFieldSelector.highlightedIndex === index
         hoverEnabled: searchFieldSelector.hoverEnabled
@@ -374,7 +375,7 @@ Item {
     // No ZLineEdit due to different RETURN/ESC/redBackground handling
     TextField {
       id: selectedSearchField
-      placeholderText: ZTR["Regex search"]
+      placeholderText: Z.tr("Regex search")
       selectByMouse: true
       anchors.left: searchFieldSelector.right
       anchors.leftMargin: GC.standardTextHorizMargin
@@ -399,9 +400,9 @@ Item {
       }
     }
 
-    CCMP.ZButton {
-      text: FA.icon(FA.fa_search)+ZTR["Search"]
-      font.family: "FontAwesome"
+    ZButton {
+      text: FA.icon(FA.fa_search)+Z.tr("Search")
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -417,10 +418,10 @@ Item {
       }
     }
 
-    CCMP.ZButton {
+    ZButton {
       id: buttonClearFilter
-      text: FA.icon(FA.fa_times) + ZTR["Clear"]
-      font.family: "FontAwesome"
+      text: FA.icon(FA.fa_times) + Z.tr("Clear")
+      font.family: FA.old
 
       anchors.right: parent.right
       width: root.buttonWidth
@@ -447,7 +448,7 @@ Item {
     }
     Button {
       id: buttonClose
-      text: ZTR["Close"]
+      text: Z.tr("Close")
       visible: !root.withOKButton
       onClicked: {
         cancel()
@@ -455,7 +456,7 @@ Item {
     }
     Button {
       id: buttonOK
-      text: ZTR["OK"]
+      text: Z.tr("OK")
       visible: root.withOKButton
       onClicked: {
         ok()
@@ -463,7 +464,7 @@ Item {
     }
     Button {
       id: buttonCancel
-      text: ZTR["Cancel"]
+      text: Z.tr("Cancel")
       visible: root.withOKButton
       onClicked: {
         cancel()

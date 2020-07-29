@@ -6,7 +6,8 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
 import ZeraTranslation  1.0
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 
 Popup {
@@ -148,9 +149,9 @@ Popup {
     }
   }
 
-  CCMP.ZLineEdit {
+  ZLineEdit {
     id: availSearchField
-    placeholderText: ZTR["Regex search"]
+    placeholderText: Z.tr("Regex search")
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: middleFrame.left
@@ -164,7 +165,7 @@ Popup {
     anchors.bottom: availSearchField.top
     anchors.horizontalCenter: availSearchField.horizontalCenter
     font.pointSize: 10
-    text: ZTR["Available for recording"]
+    text: Z.tr("Available for recording")
   }
 
   ListView {
@@ -202,9 +203,9 @@ Popup {
       }
     }
   }
-  CCMP.ZLineEdit {
+  ZLineEdit {
     id: selectedSearchField
-    placeholderText: ZTR["Regex search"]
+    placeholderText: Z.tr("Regex search")
     anchors.top: parent.top
     anchors.right: parent.right
     anchors.left: middleFrame.right
@@ -218,7 +219,7 @@ Popup {
     anchors.bottom: selectedSearchField.top
     anchors.horizontalCenter: selectedSearchField.horizontalCenter
     font.pointSize: 10
-    text: ZTR["Selected for recording"]
+    text: Z.tr("Selected for recording")
   }
   ListView {
     id: selectedView
@@ -267,7 +268,7 @@ Popup {
       anchors.fill: parent
 
       Label {
-        text: ZTR["Description:"]
+        text: Z.tr("Description:")
         font.bold: true
         anchors.left: parent.left
         anchors.right: parent.right
@@ -286,7 +287,7 @@ Popup {
         width: parent.width
       }
       Label {
-        text: ZTR["Unit:"]
+        text: Z.tr("Unit:")
         font.bold: true
         anchors.left: parent.left
         anchors.right: parent.right
@@ -313,7 +314,7 @@ Popup {
       anchors.bottom: parent.bottom
       anchors.horizontalCenter: parent.horizontalCenter
       text: FA.fa_long_arrow_right
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pixelSize: 32
       focusPolicy: Qt.NoFocus //prevent stealing the focus from search field
 
@@ -330,7 +331,7 @@ Popup {
       anchors.bottom: parent.bottom
       anchors.horizontalCenter: parent.horizontalCenter
       text: FA.fa_long_arrow_left
-      font.family: "FontAwesome"
+      font.family: FA.old
       font.pixelSize: 32
       focusPolicy: Qt.NoFocus //prevent stealing the focus from search field
 
@@ -352,7 +353,7 @@ Popup {
 
     Button {
       id: acceptButton
-      text: ZTR["Accept"]
+      text: Z.tr("Accept")
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom
@@ -380,7 +381,7 @@ Popup {
 
     Button {
       id: resetButton
-      text: ZTR["Cancel"]
+      text: Z.tr("Cancel")
       font.pixelSize: 20
       anchors.top: buttonContainer.top
       anchors.bottom: buttonContainer.bottom

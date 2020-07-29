@@ -59,7 +59,7 @@ Flickable {
       height: root.height/3
       width: root.width-16
       y: index*height
-      readonly property string strThdn: ZTR["THDN:"] + " "
+      readonly property string strThdn: Z.tr("THDN:") + " "
       Text {
         id: thdnTextU
         //index starts with 1

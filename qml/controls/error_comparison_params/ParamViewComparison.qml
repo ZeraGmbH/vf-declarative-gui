@@ -7,10 +7,11 @@ import QwtChart 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 import "qrc:/qml/helpers" as HELPERS
 
 Item {
@@ -60,7 +61,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Reference input:"]
+        text: Z.tr("Reference input:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -83,6 +84,7 @@ Item {
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
       }
+
       VFControls.VFComboBox {
         arrayMode: true
         controlPropertyName: "PAR_MeasuringMode"
@@ -145,18 +147,16 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Mode:"]
+        text: Z.tr("Mode:")
         font.pointSize: root.pointSize
       }
+
       VFControls.VFComboBox {
         id: cbMode
-
         arrayMode: true
-
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Mode"
         model: validatorMode.Data
-
         x: parent.width*col1Width
         width: parent.width*col2Width - GC.standardMarginWithMin
 
@@ -182,7 +182,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Device input:"]
+        text: Z.tr("Device input:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -190,7 +190,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DutInput"
-        model: validatorDutInput.Data
+        model: validatorDutInput.Data;
 
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -217,7 +217,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["DUT constant:"]
+        text: Z.tr("DUT constant:")
         font.pointSize: root.pointSize
       }
 
@@ -232,7 +232,7 @@ Item {
         anchors.bottom: parent.bottom
         pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
+        validator: ZDoubleValidator {
           bottom: validatorDutConstant.Data[0];
           top: validatorDutConstant.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(validatorDutConstant.Data[2]);
@@ -244,7 +244,7 @@ Item {
 
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_DUTConstUnit"
-        model: validatorDutConstUnit.Data
+        model: validatorDutConstUnit.Data;
 
         anchors.top: parent.top
         anchors.topMargin: GC.standardMargin
@@ -272,7 +272,7 @@ Item {
           anchors.leftMargin: GC.standardTextHorizMargin
           width: parent.width*col1Width
           anchors.verticalCenter: parent.verticalCenter
-          text: ZTR["Energy:"]
+          text: Z.tr("Energy:")
           font.pointSize: root.pointSize
         }
 
@@ -300,11 +300,11 @@ Item {
           // * create a copy validator
           // * adjust bottom/top/decimals by js
           // breaks property bindings
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             // Hmm - we need full reference for currentFactor here
             bottom: validatorEnergy.Data[0] / energyVal.currentFactor;
             top: validatorEnergy.Data[1] / energyVal.currentFactor;
-            decimals: GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / energyVal.currentFactor)
+            decimals: GC.ceilLog10Of1DividedByX(validCCMP.ZLineEditatorEnergy.Data[2] / energyVal.currentFactor)
           }
           // overrides for scale
           function doApplyInput(newText) {
@@ -332,7 +332,7 @@ Item {
             discardInput()
           }
         }
-        CCMP.ZUnitComboBox {
+        ZUnitComboBox {
           id: unitCombo
           currentIndex: GC.energyScaleSelection
           // entity base unit is kWh (maybe we add some magic later - for now use harcoding)
@@ -380,7 +380,7 @@ Item {
           anchors.leftMargin: GC.standardTextHorizMargin
           width: parent.width*col1Width
           anchors.verticalCenter: parent.verticalCenter
-          text: ZTR["MRate:"]
+          text: Z.tr("MRate:")
           font.pointSize: root.pointSize
         }
 
@@ -395,7 +395,7 @@ Item {
           anchors.bottom: parent.bottom
           pointSize: root.pointSize
 
-          validator: CCMP.ZDoubleValidator {
+          validator: ZDoubleValidator {
             bottom: validatorMrate.Data[0];
             top: validatorMrate.Data[1];
             decimals: GC.ceilLog10Of1DividedByX(validatorMrate.Data[2]);
@@ -415,10 +415,10 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Upper error margin:"]
+        text: Z.tr("Upper error margin:")
         font.pointSize: root.pointSize
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         id: upperLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -429,7 +429,7 @@ Item {
 
         text: GC.errorMarginUpperValue
 
-        validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
+        validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
           GC.setErrorMarginUpperValue(newText)
           return false
@@ -456,10 +456,10 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Lower error margin:"]
+        text: Z.tr("Lower error margin:")
         font.pointSize: root.pointSize
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         id: lowerLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -470,7 +470,7 @@ Item {
 
         text: GC.errorMarginLowerValue
 
-        validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
+        validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
           GC.setErrorMarginLowerValue(newText)
           return false

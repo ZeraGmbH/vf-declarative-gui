@@ -8,9 +8,10 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraVeinComponents 1.0 as VFControls
+import ZeraFa 1.0
 
 
 SettingsView {
@@ -45,14 +46,14 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Language:"]
+                    text: Z.tr("Language:")
                     font.pixelSize: 20
                     Layout.fillWidth: true
                 }
-                CCMP.ZVisualComboBox {
+                ZVisualComboBox {
                     id: localeCB
-                    model: ZTR["TRANSLATION_LOCALES"]
-                    imageModel: ZTR["TRANSLATION_FLAGS"]
+                    model: Z.tr("TRANSLATION_LOCALES")
+                    imageModel: Z.tr("TRANSLATION_FLAGS")
                     height: root.rowHeight-8
                     width: height*2.5
                     contentRowHeight: height*1.2
@@ -85,7 +86,7 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Display harmonic tables relative to the fundamental oscillation:"]
+                    text: Z.tr("Display harmonic tables relative to the fundamental oscillation:")
                     font.pixelSize: 20
 
                     Layout.fillWidth: true
@@ -111,12 +112,12 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Decimal places:"]
+                    text: Z.tr("Decimal places:")
                     font.pixelSize: 20
                     Layout.fillWidth: true
                 }
 
-                CCMP.ZSpinBox {
+                ZSpinBox {
                     id: actDecimalPlaces
                     text: GC.decimalPlaces
                     validator: IntValidator {
@@ -143,7 +144,7 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["System colors:"]
+                    text: Z.tr("System colors:")
                     font.pixelSize: 20
                 }
                 ListView {
@@ -186,7 +187,7 @@ SettingsView {
                     }
                 }
                 Button {
-                    font.family: "FontAwesome"
+                    font.family: FA.old
                     font.pointSize: 12
                     text: FA.fa_undo
                     onClicked: {
@@ -206,7 +207,7 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Show AUX phase values:"]
+                    text: Z.tr("Show AUX phase values:")
                     font.pixelSize: 20
 
                     Layout.fillWidth: true

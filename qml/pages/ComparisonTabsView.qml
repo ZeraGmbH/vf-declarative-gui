@@ -33,25 +33,25 @@ Item {
   Component {
     id: tabPulse
     TabButton {
-      text: ZTR["Meter test"]
+      text: Z.tr("Meter test")
     }
   }
   Component {
     id: tabPulseEnergy
     TabButton {
-      text: ZTR["Energy comparison"]
+      text: Z.tr("Energy comparison")
     }
   }
   Component {
     id: tabEnergy
     TabButton {
-      text: ZTR["Energy register"]
+      text: Z.tr("Energy register")
     }
   }
   Component {
     id: tabPower
     TabButton {
-      text: ZTR["Power register"]
+      text: Z.tr("Power register")
     }
   }
 

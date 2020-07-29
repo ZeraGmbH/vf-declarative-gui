@@ -5,8 +5,9 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 Item {
   id: dataEditor
@@ -75,11 +76,11 @@ Item {
       property string propName: propertyName;
       height: dataEditor.rowHeight*1.2
       Label {
-        text: ZTR[propName];
+        text: Z.tr(propName);
         Layout.minimumWidth: dataEditor.width / 4;
         height: dataEditor.rowHeight
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         text: customerData[propName];
         Layout.fillWidth: true;
         height: dataEditor.rowHeight*1.2;
@@ -95,7 +96,7 @@ Item {
     section.delegate: Label {
       height: dataEditor.rowHeight*1.5
       verticalAlignment: Text.AlignBottom
-      text: ZTR[section]
+      text: Z.tr(section)
       font.pointSize: 16
       font.bold: true
     }
@@ -123,7 +124,7 @@ Item {
     }
     Button {
       id: okButton
-      text: ZTR["OK"]
+      text: Z.tr("OK")
       Layout.minimumWidth: cancelButton.width
       onClicked: {
         ok()
@@ -131,7 +132,7 @@ Item {
     }
     Button {
       id: cancelButton
-      text: ZTR["Cancel"]
+      text: Z.tr("Cancel")
       Layout.minimumWidth: okButton.width
       onClicked: {
         cancel()

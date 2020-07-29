@@ -1,6 +1,6 @@
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
-#include "zeratranslation.h"
+#include <zeratranslation.h>
 #include <QStandardItemModel>
 #include <QHash>
 #include <QPoint>
@@ -227,10 +227,10 @@ public:
 
 class ZeraGlueLogicPrivate
 {
-  ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation) :
+  ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap) :
     m_qPtr(t_public),
     m_propertyMap(t_propertyMap),
-    m_translation(t_translation),
+    m_translation(ZeraTranslation::getInstance()),
     m_actValueData(new ActualValueModel(14, 1, m_qPtr)),
     m_burden1Data(new BurdenValueModel(7, 1, m_qPtr)),
     m_burden2Data(new BurdenValueModel(7, 1, m_qPtr)),
@@ -288,41 +288,41 @@ class ZeraGlueLogicPrivate
     using namespace CommonTable;
     //column names
     QModelIndex mIndex = m_actValueData->index(0, 0);
-    m_actValueData->setData(mIndex, m_translation->value("L1"), RoleIndexes::L1);
-    m_actValueData->setData(mIndex, m_translation->value("L2"), RoleIndexes::L2);
-    m_actValueData->setData(mIndex, m_translation->value("L3"), RoleIndexes::L3);
-    m_actValueData->setData(mIndex, m_translation->value("AUX"), RoleIndexes::AUX);
+    m_actValueData->setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
+    m_actValueData->setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
+    m_actValueData->setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
+    m_actValueData->setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
     m_actValueData->setData(mIndex, "Σ", RoleIndexes::SUM);
     m_actValueData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     //row names
     //mIndex = m_actValueData->index(0, 0); //none
     mIndex = m_actValueData->index(1, 0);
-    m_actValueData->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(2, 0);
-    m_actValueData->setData(mIndex, m_translation->value("UPP"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("UPP"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(3, 0);
-    m_actValueData->setData(mIndex, m_translation->value("∠U"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("∠U"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(4, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("kU"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(5, 0);
-    m_actValueData->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(6, 0);
-    m_actValueData->setData(mIndex, m_translation->value("∠I"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("∠I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(7, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("kI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(8, 0);
-    m_actValueData->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(9, 0);
-    m_actValueData->setData(mIndex, m_translation->value("λ"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(10, 0);
-    m_actValueData->setData(mIndex, m_translation->value("P"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("P"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(11, 0);
-    m_actValueData->setData(mIndex, m_translation->value("Q"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("Q"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(12, 0);
-    m_actValueData->setData(mIndex, m_translation->value("S"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("S"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(13, 0);
-    m_actValueData->setData(mIndex, m_translation->value("F"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
 
     //unit names
     mIndex = m_actValueData->index(1, 0);
@@ -443,23 +443,23 @@ class ZeraGlueLogicPrivate
   {
     using namespace CommonTable;
     QModelIndex mIndex = m_burden1Data->index(0, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
-    m_burden1Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
-    m_burden1Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("BRD1"), RoleIndexes::L1);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("BRD2"), RoleIndexes::L2);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("BRD3"), RoleIndexes::L3);
     m_burden1Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden1Data->index(1, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(2, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(3, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(4, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("Sb"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(5, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("cos(β)"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(6, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("Sn"), RoleIndexes::NAME);
 
     //unit names
     mIndex = m_burden1Data->index(1, 0);
@@ -477,23 +477,23 @@ class ZeraGlueLogicPrivate
 
 
     mIndex = m_burden2Data->index(0, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
-    m_burden2Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
-    m_burden2Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("BRD1"), RoleIndexes::L1);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("BRD2"), RoleIndexes::L2);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("BRD3"), RoleIndexes::L3);
     m_burden2Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden2Data->index(1, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(2, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(3, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(4, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("Sb"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(5, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("cos(β)"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(6, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("Sn"), RoleIndexes::NAME);
 
     //unit names
     mIndex = m_burden2Data->index(1, 0);
@@ -726,7 +726,7 @@ class ZeraGlueLogicPrivate
         {
           //dynamic translation
           m_dynamicMeasuringModeDescriptor.insert(valueCoordiates.y(), t_cmpData->newValue().toString()); //update dynamic reference table
-          const QString translatedMode = m_translation->value(t_cmpData->newValue().toString()).toString();
+          const QString translatedMode = m_translation->TrValue(t_cmpData->newValue().toString()).toString();
           Q_ASSERT(translatedMode.isEmpty() == false); //only triggers when the translation is missing in zeratranslation.cpp!
           // (%Mode) %Name
           const QString tmpValue = QString("(%1) %2").arg(translatedMode).arg(getAvmNameById(t_cmpData->entityId()));
@@ -960,80 +960,80 @@ class ZeraGlueLogicPrivate
     using namespace CommonTable;
     //actValue
     QModelIndex mIndex = m_actValueData->index(0, 0);
-    m_actValueData->setData(mIndex, m_translation->value("L1"), RoleIndexes::L1);
-    m_actValueData->setData(mIndex, m_translation->value("L2"), RoleIndexes::L2);
-    m_actValueData->setData(mIndex, m_translation->value("L3"), RoleIndexes::L3);
-    m_actValueData->setData(mIndex, m_translation->value("AUX"), RoleIndexes::AUX);
+    m_actValueData->setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
+    m_actValueData->setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
+    m_actValueData->setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
+    m_actValueData->setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
     m_actValueData->setData(mIndex, "Σ", RoleIndexes::SUM);
     m_actValueData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     //mIndex = m_actValueData->index(0, 0); //none
     mIndex = m_actValueData->index(1, 0);
-    m_actValueData->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(2, 0);
-    m_actValueData->setData(mIndex, m_translation->value("UPP"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("UPP"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(3, 0);
-    m_actValueData->setData(mIndex, m_translation->value("∠U"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("∠U"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(4, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kU"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("kU"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(5, 0);
-    m_actValueData->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(6, 0);
-    m_actValueData->setData(mIndex, m_translation->value("∠I"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("∠I"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(7, 0);
-    m_actValueData->setData(mIndex, m_translation->value("kI"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("kI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(8, 0);
-    m_actValueData->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(9, 0);
-    m_actValueData->setData(mIndex, m_translation->value("λ"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
     mIndex = m_actValueData->index(10, 0);
-    m_actValueData->setData(mIndex, QString("(%1) P").arg(m_translation->value(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, QString("(%1) P").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
     mIndex = m_actValueData->index(11, 0);
-    m_actValueData->setData(mIndex, QString("(%1) Q").arg(m_translation->value(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, QString("(%1) Q").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
     mIndex = m_actValueData->index(12, 0);
-    m_actValueData->setData(mIndex, QString("(%1) S").arg(m_translation->value(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, QString("(%1) S").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
     mIndex = m_actValueData->index(13, 0);
-    m_actValueData->setData(mIndex, m_translation->value("F"), RoleIndexes::NAME);
+    m_actValueData->setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
 
     //burden1
     mIndex = m_burden1Data->index(0, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
-    m_burden1Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
-    m_burden1Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("BRD1"), RoleIndexes::L1);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("BRD2"), RoleIndexes::L2);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("BRD3"), RoleIndexes::L3);
     m_burden1Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden1Data->index(1, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(2, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(3, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(4, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("Sb"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(5, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("cos(β)"), RoleIndexes::NAME);
     mIndex = m_burden1Data->index(6, 0);
-    m_burden1Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
+    m_burden1Data->setData(mIndex, m_translation->TrValue("Sn"), RoleIndexes::NAME);
 
     //burden2
     mIndex = m_burden2Data->index(0, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("BRD1"), RoleIndexes::L1);
-    m_burden2Data->setData(mIndex, m_translation->value("BRD2"), RoleIndexes::L2);
-    m_burden2Data->setData(mIndex, m_translation->value("BRD3"), RoleIndexes::L3);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("BRD1"), RoleIndexes::L1);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("BRD2"), RoleIndexes::L2);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("BRD3"), RoleIndexes::L3);
     m_burden2Data->setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = m_burden2Data->index(1, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("UPN"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(2, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("I"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(3, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("∠UI"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(4, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("Sb"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("Sb"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(5, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("cos(β)"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("cos(β)"), RoleIndexes::NAME);
     mIndex = m_burden2Data->index(6, 0);
-    m_burden2Data->setData(mIndex, m_translation->value("Sn"), RoleIndexes::NAME);
+    m_burden2Data->setData(mIndex, m_translation->TrValue("Sn"), RoleIndexes::NAME);
   }
 
   ZeraGlueLogic *m_qPtr;
@@ -1122,9 +1122,9 @@ class ZeraGlueLogicPrivate
   friend class ZeraGlueLogic;
 };
 
-ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, ZeraTranslation *t_translation, QObject *t_parent) :
+ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
   VeinEvent::EventSystem(t_parent),
-  m_dPtr(new ZeraGlueLogicPrivate(this, t_propertyMap, t_translation))
+  m_dPtr(new ZeraGlueLogicPrivate(this, t_propertyMap))
 {
 }
 

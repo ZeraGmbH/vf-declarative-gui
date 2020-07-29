@@ -6,8 +6,9 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 
 Column {
   id: root
@@ -74,7 +75,7 @@ Column {
         anchors.fill: parent
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["Integration time interval:"]
+          text: Z.tr("Integration time interval:")
         }
         Item {
           Layout.fillWidth: true
@@ -83,7 +84,7 @@ Column {
           height: root.rowHeight
           entity: timeList[0]
           controlPropertyName: "PAR_Interval"
-          validator: CCMP.ZDoubleValidator{
+          validator: ZDoubleValidator{
             bottom: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
             top: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
             decimals: GC.ceilLog10Of1DividedByX(timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
@@ -105,7 +106,7 @@ Column {
         }
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["seconds"];
+          text: Z.tr("seconds");
         }
       }
     }
@@ -119,7 +120,7 @@ Column {
         anchors.fill: parent
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["Integration period interval:"]
+          text: Z.tr("Integration period interval:")
         }
         Item {
           Layout.fillWidth: true
@@ -128,7 +129,7 @@ Column {
           height: root.rowHeight
           entity: periodList[0]
           controlPropertyName: "PAR_Interval"
-          validator: CCMP.ZDoubleValidator{
+          validator: ZDoubleValidator{
             bottom: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
             top: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
             decimals: GC.ceilLog10Of1DividedByX(periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
@@ -150,7 +151,7 @@ Column {
         }
         Label {
           font.pixelSize: Math.max(height/2, 20)
-          text: ZTR["periods"];
+          text: Z.tr("periods");
         }
       }
     }

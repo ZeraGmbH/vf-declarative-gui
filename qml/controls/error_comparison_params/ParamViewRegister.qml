@@ -7,10 +7,11 @@ import QwtChart 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 
 Item {
   id: root
@@ -57,7 +58,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width * col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Reference input:"]
+        text: Z.tr("Reference input:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -147,7 +148,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Mode:"]
+        text: Z.tr("Mode:")
         font.pointSize: root.pointSize
       }
       VFControls.VFComboBox {
@@ -158,7 +159,7 @@ Item {
         entity: logicalParent.errCalEntity
         controlPropertyName: "PAR_Targeted"
         entityIsIndex: true
-        model: [ZTR["Start/Stop"],ZTR["Duration"]]
+        model: [Z.tr("Start/Stop"),Z.tr("Duration")]
 
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -189,7 +190,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Duration:"]
+        text: Z.tr("Duration:")
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
@@ -203,7 +204,7 @@ Item {
         anchors.bottom: parent.bottom
         pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
+        validator: ZDoubleValidator {
           bottom: validatorMeasTime.Data[0];
           top: validatorMeasTime.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(validatorMeasTime.Data[2]);
@@ -230,7 +231,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -parent.height * 0.25
-        text: ZTR["Start value:"]
+        text: Z.tr("Start value:")
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
@@ -244,7 +245,7 @@ Item {
         height: parent.height * 0.5
         pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
+        validator: ZDoubleValidator {
           bottom: validatorT0Input.Data[0];
           top: validatorT0Input.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(validatorT0Input.Data[2]);
@@ -268,7 +269,7 @@ Item {
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: parent.height * 0.25
-        text: ZTR["End value:"]
+        text: Z.tr("End value:")
         font.pointSize: root.pointSize
       }
       VFControls.VFLineEdit {
@@ -282,7 +283,7 @@ Item {
         height: parent.height * 0.5
         pointSize: root.pointSize
 
-        validator: CCMP.ZDoubleValidator {
+        validator: ZDoubleValidator {
           bottom: validatorT1Input.Data[0];
           top: validatorT1Input.Data[1];
           decimals: GC.ceilLog10Of1DividedByX(validatorT1Input.Data[2]);
@@ -318,10 +319,10 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Upper error margin:"]
+        text: Z.tr("Upper error margin:")
         font.pointSize: root.pointSize
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         id: upperLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -332,7 +333,7 @@ Item {
 
         text: GC.errorMarginUpperValue
 
-        validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
+        validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
           GC.setErrorMarginUpperValue(newText)
           return false
@@ -359,10 +360,10 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         width: parent.width*col1Width
         anchors.verticalCenter: parent.verticalCenter
-        text: ZTR["Lower error margin:"]
+        text: Z.tr("Lower error margin:")
         font.pointSize: root.pointSize
       }
-      CCMP.ZLineEdit {
+      ZLineEdit {
         id: lowerLimitInput
         x: parent.width*col1Width
         width: parent.width*col2Width-GC.standardMarginWithMin
@@ -373,7 +374,7 @@ Item {
 
         text: GC.errorMarginLowerValue
 
-        validator: CCMP.ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
+        validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
         function doApplyInput(newText) {
           GC.setErrorMarginLowerValue(newText)
           return false

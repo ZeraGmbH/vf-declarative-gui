@@ -4,7 +4,7 @@ import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 
 /**
@@ -51,7 +51,7 @@ Item {
         mipmap: true
       }
       Label {
-        text: ZTR[name]
+        text: Z.tr(name)
         textFormat: Text.PlainText
         anchors.left: listImage.right
         anchors.leftMargin: 8

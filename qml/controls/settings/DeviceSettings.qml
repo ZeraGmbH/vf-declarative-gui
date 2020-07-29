@@ -9,8 +9,8 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
-import "qrc:/data/staticdata/FontAwesome.js" as FA
+import ZeraVeinComponents 1.0 as VFControls
+import ZeraFa 1.0
 
 
 
@@ -37,7 +37,7 @@ SettingsView {
         RowLayout {
             Label {
                 textFormat: Text.PlainText
-                text: ZTR["PLL channel automatic:"]
+                text: Z.tr("PLL channel automatic:")
                 font.pixelSize: 20
 
                 Layout.fillWidth: true
@@ -58,7 +58,7 @@ SettingsView {
 
             Label {
                 textFormat: Text.PlainText
-                text: ZTR["PLL channel:"]
+                text: Z.tr("PLL channel:")
                 font.pixelSize: 20
 
                 Layout.fillWidth: true
@@ -89,7 +89,7 @@ SettingsView {
 
             Label {
                 textFormat: Text.PlainText
-                text: ZTR["DFT reference channel:"]
+                text: Z.tr("DFT reference channel:")
                 font.pixelSize: 20
 
                 Layout.fillWidth: true
@@ -189,14 +189,14 @@ SettingsView {
                 anchors.rightMargin: 16
                 Label {
                     textFormat: Text.PlainText
-                    text: ZTR["Frequency input/output configuration:"];
+                    text: Z.tr("Frequency input/output configuration:");
                     font.pixelSize: 20
 
                     Layout.fillWidth: true
                 }
                 Button {
                     text: FA.fa_cogs
-                    font.family: "FontAwesome"
+                    font.family: FA.old
                     font.pixelSize: 20
                     implicitHeight: root.rowHeight
                     onClicked: fInOutPopup.item.open();

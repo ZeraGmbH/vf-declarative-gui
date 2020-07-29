@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
+import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 
 CCMP.ModulePage {
@@ -30,7 +31,7 @@ CCMP.ModulePage {
 
   property real topMargin: 0
 
-  CCMP.ZComboBox {
+  ZComboBox {
     id: viewModeSelector
     arrayMode: true
     model: ["VEC  UL  PN", "VEC  UL  △", "VEC  UL  ∠"]
@@ -48,7 +49,7 @@ CCMP.ModulePage {
     fontSize: Math.min(18, height/1.5, width/8);
   }
 
-  CCMP.ZComboBox {
+  ZComboBox {
     id: currentOnOffSelector
     arrayMode: true
     model: ["VEC  IL  ON", "VEC  IL  OFF"]
@@ -64,7 +65,7 @@ CCMP.ModulePage {
     readonly property bool displayCurrents: targetIndex===0
   }
 
-  CCMP.ZComboBox {
+  ZComboBox {
     id: dinIECSelector
     arrayMode: true
     model: ["DIN410", "IEC387"]

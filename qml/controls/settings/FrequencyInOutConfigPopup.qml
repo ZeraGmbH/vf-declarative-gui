@@ -6,7 +6,7 @@ import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import ZeraTranslation 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/vf-controls" as VFControls
+import ZeraVeinComponents 1.0 as VFControls
 
 Popup {
   id: root
@@ -58,7 +58,7 @@ Popup {
           Layout.alignment: Qt.AlignVCenter
           font.pixelSize: root.width/60
           fontSizeMode: Label.HorizontalFit
-          text: ZTR["Nominal frequency:"] + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(GC.locale) + "hz";
+          text: Z.tr("Nominal frequency:") + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(GC.locale) + "hz";
         }
 
         Item {
@@ -70,7 +70,7 @@ Popup {
           Layout.alignment: Qt.AlignVCenter
           font.pixelSize: root.width/60
           fontSizeMode: Label.HorizontalFit
-          text: ZTR["Frequency output constant:"] + " " + Number(VeinEntity.getEntity("POWER1Module4")[String("PAR_FOUTConstant%1").arg(index)]).toLocaleString(GC.locale);
+          text: Z.tr("Frequency output constant:") + " " + Number(VeinEntity.getEntity("POWER1Module4")[String("PAR_FOUTConstant%1").arg(index)]).toLocaleString(GC.locale);
         }
 
         Item {
@@ -81,7 +81,7 @@ Popup {
         VFControls.VFComboBox {
           arrayMode: true
           controlPropertyName: "PAR_MeasuringMode"
-          model: ModuleIntrospection.p1m4Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
+          model: ModuleIntrospection.p1m4Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data
           entity: VeinEntity.getEntity("POWER1Module4")
 
           contentRowHeight: height*0.8
@@ -98,7 +98,7 @@ Popup {
 
   Button {
     id: closeButton
-    text: ZTR["Close"]
+    text: Z.tr("Close")
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     onClicked: close()
