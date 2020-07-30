@@ -38,6 +38,7 @@ find_package(zeracomponents REQUIRED)
 find_package(qmlhelpers REQUIRED)
 find_package(zeraveincomponents REQUIRED)
 find_package(qwtcharts REQUIRED)
+find_package(JsonSettingsQml REQUIRED)
 
 
 ##enable useful warnings
@@ -115,6 +116,7 @@ target_link_libraries(vf-declarative-gui
     ZeraQml::qmlhelpers
     ZeraQml::zeraveincomponents
     ZeraQml::qwtcharts
+    ZeraQml::JsonSettingsQml
     #Other Libs
     ${QWT_LIBRARIES}
     ${glLib}
