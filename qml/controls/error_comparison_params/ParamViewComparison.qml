@@ -12,7 +12,7 @@ import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
 import ZeraFa 1.0
-import "qrc:/qml/helpers" as HELPERS
+import QmlHelpers 1.0 as HELPERS
 
 Item {
   id: root
