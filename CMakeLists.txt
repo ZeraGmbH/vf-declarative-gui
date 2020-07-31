@@ -105,6 +105,7 @@ target_link_libraries(vf-declarative-gui
     VeinMeta::VfTcp
     VeinMeta::VfQml
     VeinMeta::VfHelpers
+    "-Wl,--no-as-needed"
     ZeraQml::ZVKeyboard
     ZeraQml::zerafa
     ZeraQml::anmlib
@@ -117,6 +118,7 @@ target_link_libraries(vf-declarative-gui
     ZeraQml::zeraveincomponents
     ZeraQml::qwtcharts
     ZeraQml::JsonSettingsQml
+    "-Wl,--as-needed"
     #Other Libs
     ${QWT_LIBRARIES}
     ${glLib}
