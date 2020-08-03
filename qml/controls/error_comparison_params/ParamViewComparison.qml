@@ -304,7 +304,7 @@ Item {
             // Hmm - we need full reference for currentFactor here
             bottom: validatorEnergy.Data[0] / energyVal.currentFactor;
             top: validatorEnergy.Data[1] / energyVal.currentFactor;
-            decimals: GC.ceilLog10Of1DividedByX(validCCMP.ZLineEditatorEnergy.Data[2] / energyVal.currentFactor)
+            decimals: GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / energyVal.currentFactor)
           }
           // overrides for scale
           function doApplyInput(newText) {
