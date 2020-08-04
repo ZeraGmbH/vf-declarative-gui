@@ -383,7 +383,7 @@ Item {
   readonly property string localeName: settings.globalSettings.getOption("locale", "en_GB")
   readonly property var locale: Qt.locale(localeName)
   onLocaleNameChanged: {
-    ZTR.changeLanguage(localeName);
+    Z.changeLanguage(localeName);
   }
 
   function setLocale(newLocale) {
@@ -455,19 +455,19 @@ Item {
           strStatus = ""
           // see mt310s2d/com5003d / adjustment.h for flags definition
           if(status & 1) {
-              strStatus += ZTR["Not adjusted"]
+              strStatus += Z.tr("Not adjusted")
           }
           if(status & 2) {
               if(strStatus !== "") {
                   strStatus += " / "
               }
-              strStatus += ZTR["Wrong version"]
+              strStatus += Z.tr("Wrong version")
           }
           if(status & 4) {
               if(strStatus !== "") {
                   strStatus += " / "
               }
-              strStatus += ZTR["Wrong serial number"]
+              strStatus += Z.tr("Wrong serial number")
           }
       }
       return strStatus;
