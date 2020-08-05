@@ -7,8 +7,8 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
+import "qrc:/qml/controls" as CCMP
 
 Column {
   id: root

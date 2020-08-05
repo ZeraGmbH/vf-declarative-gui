@@ -5,10 +5,8 @@ import QtQuick.Layouts 1.3
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraFa 1.0
-
-
+import "qrc:/qml/controls" as CCMP
 
 RowLayout {
   id: root

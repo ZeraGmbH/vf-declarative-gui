@@ -7,8 +7,8 @@ import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
 import ZeraComponents 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraFa 1.0
+import "qrc:/qml/controls" as CCMP
 
 Item {
   id: root

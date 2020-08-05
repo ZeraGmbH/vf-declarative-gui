@@ -7,16 +7,12 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
-
-
+import "qrc:/qml/controls" as CCMP
 
 SettingsView {
     id: root
-
-
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: 48
 
@@ -29,8 +25,6 @@ SettingsView {
             height: root.height
         }
     }
-
-
     Component {
         id: swPllAutomatic
         RowLayout {
@@ -41,7 +35,6 @@ SettingsView {
 
                 Layout.fillWidth: true
             }
-
             VFControls.VFSwitch {
                 height: parent.height
                 entity: VeinEntity.getEntity("SampleModule1")
@@ -67,7 +60,6 @@ SettingsView {
             Item {
                 Layout.fillWidth: true
             }
-
             VFControls.VFComboBox {
                 arrayMode: true
                 entity: VeinEntity.getEntity("SampleModule1")
@@ -76,7 +68,6 @@ SettingsView {
                 centerVertical: true
                 implicitWidth: root.rowWidth/4
                 height: root.rowHeight-8
-
                 opacity: enabled ? 1.0 : 0.7
             }
         }
@@ -85,12 +76,10 @@ SettingsView {
     Component {
         id: cbDftChannel
         RowLayout {
-
             Label {
                 textFormat: Text.PlainText
                 text: Z.tr("DFT reference channel:")
                 font.pixelSize: 20
-
                 Layout.fillWidth: true
                 opacity: enabled ? 1.0 : 0.7
             }
@@ -107,17 +96,12 @@ SettingsView {
                 centerVertical: true
                 implicitWidth: root.rowWidth/4
                 height: root.rowHeight-8
-
                 opacity: enabled ? 1.0 : 0.7
             }
         }
     }
 
-
-
     model: VisualItemModel {
-
-
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
