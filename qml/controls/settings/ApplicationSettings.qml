@@ -3,15 +3,15 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.1
 import QtQuick.Controls.Material 2.0
-import QtQuick.VirtualKeyboard.Settings 2.2
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
+import ZeraLocale 1.0
+import "qrc:/qml/controls" as CCMP
 
 
 SettingsView {
@@ -59,7 +59,7 @@ SettingsView {
                     contentRowHeight: height*1.2
                     contentFlow: GridView.FlowTopToBottom
 
-                    property string intermediate: GC.localeName
+                    property string intermediate: ZLocale.localeName
                     onIntermediateChanged: {
                         if(model[currentIndex] !== intermediate) {
                             currentIndex = model.indexOf(intermediate);
@@ -67,9 +67,8 @@ SettingsView {
                     }
 
                     onSelectedTextChanged: {
-                        if(GC.localeName !== selectedText) {
-                            GC.setLocale(selectedText);
-                            VirtualKeyboardSettings.locale = selectedText
+                        if(ZLocale.localeName !== selectedText) {
+                            GC.setLocale(selectedText, true);
                         }
                     }
                 }

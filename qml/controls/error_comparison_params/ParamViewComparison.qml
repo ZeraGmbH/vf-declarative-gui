@@ -13,6 +13,7 @@ import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
 import ZeraFa 1.0
 import QmlHelpers 1.0
+import ZeraLocale 1.0
 
 Item {
   id: root
@@ -315,11 +316,11 @@ Item {
             // * we cannot use validator.decimals - it is updated too late
             // * multiple back and forth conversion to round value to digit (otherwise field remains red)
             var strVal = String(Number(fltVal.toFixed(GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))))
-            textField.text = strVal.replace(GC.locale.decimalPoint === "," ? "." : ",", GC.locale.decimalPoint)
+            textField.text = strVal.replace(ZLocale.getDecimalPoint() === "," ? "." : ",", ZLocale.getDecimalPoint())
           }
           function hasAlteredValue() {
             var expVal = Math.pow(10, GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))
-            var fieldVal = parseFloat(TextHelper.strToCLocale(textField.text, isNumeric, isDouble)) * expVal
+            var fieldVal = parseFloat(ZLocale.strToCLocale(textField.text, isNumeric, isDouble)) * expVal
             var textVal = parseFloat(text) * expVal / currentFactor
             return Math.abs(fieldVal-textVal) > 0.1
           }

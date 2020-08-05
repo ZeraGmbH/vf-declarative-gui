@@ -8,9 +8,10 @@ import QwtChart 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
+import ZeraLocale 1.0
+import "qrc:/qml/controls" as CCMP
 
 Rectangle {
   property real result;
@@ -61,7 +62,7 @@ Rectangle {
     margins.right:0
 
     localizeNumbers: true
-    locale: GC.locale
+    locale: ZLocale.getLocale()
 
     ValueAxis {
       id: xAxis
