@@ -8,12 +8,10 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
-
 import anmsettings 1.0
-
+import "qrc:/qml/controls" as CCMP
 import "qrc:/src/qml/"
 import "qrc:/src/qml/tree"
 import "qrc:/"

@@ -5,8 +5,8 @@ import VeinEntity 1.0
 import GlobalConfig 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
+import "qrc:/qml/controls" as CCMP
 
 CCMP.ModulePage {
   id: ced_root

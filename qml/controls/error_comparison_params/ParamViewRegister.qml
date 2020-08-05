@@ -8,10 +8,10 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
-import "qrc:/qml/controls/settings" as SettingsControls
 import ZeraFa 1.0
+import "qrc:/qml/controls/settings" as SettingsControls
+import "qrc:/qml/controls" as CCMP
 
 Item {
   id: root

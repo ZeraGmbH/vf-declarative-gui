@@ -6,9 +6,9 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
+import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
 import "qrc:/qml/controls/error_comparison_params" as ParamViews
 

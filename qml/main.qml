@@ -12,7 +12,6 @@ import GlobalConfig 1.0
 import ZeraSettings 1.0
 import ZeraFa 1.0
 
-
 import "qrc:/qml/pages" as Pages
 import "qrc:/qml/controls/" as CCMP
 

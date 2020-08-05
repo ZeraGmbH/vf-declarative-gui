@@ -8,8 +8,8 @@ import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
+import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/settings" as SettingsControls
 
 CCMP.ModulePage {
