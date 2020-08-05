@@ -12,7 +12,7 @@ import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
 import "qrc:/qml/controls/settings" as SettingsControls
 import ZeraFa 1.0
-import QmlHelpers 1.0 as HELPERS
+import QmlHelpers 1.0
 
 Item {
   id: root
@@ -276,10 +276,6 @@ Item {
           font.pointSize: root.pointSize
         }
 
-        // helper for strToCLocale
-        HELPERS.TextHelper {
-          id: tHelper
-        }
         VFControls.VFLineEdit {
           id: energyVal
           property alias currentFactor: unitCombo.currentFactor
@@ -323,7 +319,7 @@ Item {
           }
           function hasAlteredValue() {
             var expVal = Math.pow(10, GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))
-            var fieldVal = parseFloat(tHelper.strToCLocale(textField.text, isNumeric, isDouble)) * expVal
+            var fieldVal = parseFloat(TextHelper.strToCLocale(textField.text, isNumeric, isDouble)) * expVal
             var textVal = parseFloat(text) * expVal / currentFactor
             return Math.abs(fieldVal-textVal) > 0.1
           }
