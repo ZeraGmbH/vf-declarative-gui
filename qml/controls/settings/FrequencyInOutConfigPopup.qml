@@ -5,8 +5,9 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import ZeraTranslation 1.0
-import "qrc:/qml/controls" as CCMP
 import ZeraVeinComponents 1.0 as VFControls
+import ZeraLocale 1.0
+import "qrc:/qml/controls" as CCMP
 
 Popup {
   id: root
@@ -58,7 +59,7 @@ Popup {
           Layout.alignment: Qt.AlignVCenter
           font.pixelSize: root.width/60
           fontSizeMode: Label.HorizontalFit
-          text: Z.tr("Nominal frequency:") + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(GC.locale) + "hz";
+          text: Z.tr("Nominal frequency:") + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(ZLocale.getLocale()) + "hz";
         }
 
         Item {
@@ -70,7 +71,7 @@ Popup {
           Layout.alignment: Qt.AlignVCenter
           font.pixelSize: root.width/60
           fontSizeMode: Label.HorizontalFit
-          text: Z.tr("Frequency output constant:") + " " + Number(VeinEntity.getEntity("POWER1Module4")[String("PAR_FOUTConstant%1").arg(index)]).toLocaleString(GC.locale);
+          text: Z.tr("Frequency output constant:") + " " + Number(VeinEntity.getEntity("POWER1Module4")[String("PAR_FOUTConstant%1").arg(index)]).toLocaleString(ZLocale.getLocale());
         }
 
         Item {

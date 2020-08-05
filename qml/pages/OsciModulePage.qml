@@ -7,6 +7,7 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import ZeraGlueLogic 1.0
+import ZeraLocale 1.0
 import "qrc:/qml/controls" as CCMP
 
 Item {
@@ -94,7 +95,7 @@ Item {
         legend.width: 0
         legend.height: 0
         localizeNumbers: true
-        locale: GC.locale
+        locale: ZLocale.getLocale()
 
         ValueAxis {
           id: xAxis

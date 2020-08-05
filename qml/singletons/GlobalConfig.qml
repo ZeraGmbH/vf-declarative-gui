@@ -5,6 +5,8 @@ import ZeraSettings 1.0
 import ZeraTranslation 1.0
 import VeinEntity 1.0
 import ZeraComponentsConfig 1.0
+import ZeraLocale 1.0
+import QtQuick.VirtualKeyboard.Settings 2.2
 
 Item {
   id: globalConfig
@@ -380,21 +382,18 @@ Item {
 
 
   /////////////////////////////////////////////////////////////////////////////
-  // Locale settings
-
-  readonly property string localeName: settings.globalSettings.getOption("locale", "en_GB")
-  readonly property var locale: Qt.locale(localeName)
-  onLocaleNameChanged: {
-    Z.changeLanguage(localeName);
-  }
-
-  function setLocale(newLocale) {
-    settings.globalSettings.setOption("locale", newLocale);
+  // This is the central place to distitibute locale change
+  function setLocale(newLocaleStr, writeSettings) {
+      Z.changeLanguage(newLocaleStr);
+      VirtualKeyboardSettings.locale = newLocaleStr
+      ZLocale.localeName = newLocaleStr
+      if(writeSettings) {
+          settings.globalSettings.setOption("locale", newLocaleStr);
+      }
   }
 
   /////////////////////////////////////////////////////////////////////////////
   // Number <-> String conversion helpers
-
   function ceilLog10Of1DividedByX(realNumberX) {
     return Math.ceil(Math.log(1/realNumberX)/Math.LN10)
   }
@@ -407,9 +406,9 @@ Item {
     else
     {
       var dec = decimals ? decimals : decimalPlaces
-      var strNum = Number(num).toLocaleString(locale, 'f', dec)
+      var strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
       // remove group separators (this is ugly but don't get documented examples to fly here...)
-      var groupSepChar = locale.decimalPoint === "," ? "." : ","
+      var groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
       while(strNum.includes(groupSepChar)) {
         strNum = strNum.replace(groupSepChar, "")
       }
@@ -477,12 +476,15 @@ Item {
 
 
   /////////////////////////////////////////////////////////////////////////////
-  // ZeraComponents settings bindings
+  // Startup jobs
+  // * establish ZeraComponents settings bindings
+  // * distribute locale from settings
   Component.onCompleted: {
       // ZeraComponents
       ZCC.standardMargin = Qt.binding(function() { return globalConfig.standardMargin })
       ZCC.standardTextHorizMargin = Qt.binding(function() { return globalConfig.standardTextHorizMargin })
       ZCC.standardTextBottomMargin = Qt.binding(function() { return globalConfig.standardTextBottomMargin })
-
+      // locale
+      setLocale(settings.globalSettings.getOption("locale", "en_GB"), false)
   }
 }

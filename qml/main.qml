@@ -45,7 +45,6 @@ ApplicationWindow {
     currentSession = Qt.binding(function() {
       return VeinEntity.getEntity("_System").Session;
     })
-    VirtualKeyboardSettings.locale = GC.localeName
   }
 
   onCurrentSessionChanged: {
