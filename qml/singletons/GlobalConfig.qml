@@ -4,8 +4,10 @@ import ModuleIntrospection 1.0
 import ZeraSettings 1.0
 import ZeraTranslation 1.0
 import VeinEntity 1.0
+import ZeraComponentsConfig 1.0
 
 Item {
+  id: globalConfig
   /**
     * @b default configuration values and utility functions
     * @todo reimplement as QObject with Q_PROPERTY / Q_INVOKABLE to get QtCreator to code complete stuff...
@@ -471,5 +473,16 @@ Item {
           }
       }
       return strStatus;
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  // ZeraComponents settings bindings
+  Component.onCompleted: {
+      // ZeraComponents
+      ZCC.standardMargin = Qt.binding(function() { return globalConfig.standardMargin })
+      ZCC.standardTextHorizMargin = Qt.binding(function() { return globalConfig.standardTextHorizMargin })
+      ZCC.standardTextBottomMargin = Qt.binding(function() { return globalConfig.standardTextBottomMargin })
+
   }
 }
