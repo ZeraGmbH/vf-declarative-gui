@@ -74,9 +74,7 @@ Item {
         width: parent.width*col2Width - GC.standardMarginWithMin
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
 
         currentIndex: 0
         contentRowWidth: width
@@ -125,12 +123,10 @@ Item {
         }
 
         anchors.right: parent.right
-        width: parent.width*col3Width-GC.standardMargin
+        width: parent.width*col3Width
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
 
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
@@ -165,9 +161,7 @@ Item {
         width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
 
         currentIndex: 0
         contentRowWidth: width
@@ -257,7 +251,7 @@ Item {
           color: "transparent"
           border.color: Material.dividerColor
           height: 1
-          width: parent.width*(col1Width+col2Width) - GC.standardMargin
+          width: parent.width*(col1Width+col2Width)
           anchors.left: parent.left
           anchors.verticalCenter: parent.verticalCenter
       }
@@ -298,12 +292,11 @@ Item {
         controlPropertyName: "PAR_TXUNIT"
         model: validatorTxUnit.Data
 
-        height: parent.height - 2*GC.standardMargin
+        height: parent.height
         anchors.verticalCenter: parent.verticalCenter
         contentRowHeight: height*0.5*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
         anchors.right: parent.right
-        anchors.rightMargin: GC.standardMargin
         width: parent.width*col3Width
       }
     }
