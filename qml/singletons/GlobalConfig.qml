@@ -118,9 +118,7 @@ Item {
   /////////////////////////////////////////////////////////////////////////////
   // Common standard margins
 
-  readonly property real standardMargin: 0
-  readonly property real standardMarginMin: 1
-  readonly property real standardMarginWithMin: standardMargin > standardMarginMin ? standardMargin : standardMarginMin
+  readonly property real standardMarginWithMin: 1
   readonly property real standardTextHorizMargin: 8
   readonly property real standardTextBottomMargin: 8
   readonly property real standardComboContentScale: 1.2
@@ -481,7 +479,6 @@ Item {
   // * distribute locale from settings
   Component.onCompleted: {
       // ZeraComponents
-      ZCC.standardMargin = Qt.binding(function() { return globalConfig.standardMargin })
       ZCC.standardTextHorizMargin = Qt.binding(function() { return globalConfig.standardTextHorizMargin })
       ZCC.standardTextBottomMargin = Qt.binding(function() { return globalConfig.standardTextBottomMargin })
       // locale

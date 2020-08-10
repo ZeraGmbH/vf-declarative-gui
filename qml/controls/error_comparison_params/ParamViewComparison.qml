@@ -78,9 +78,7 @@ Item {
         width: parent.width*col2Width - GC.standardMarginWithMin
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
 
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
@@ -125,12 +123,10 @@ Item {
         }
 
         anchors.right: parent.right
-        width: parent.width*col3Width-GC.standardMargin
+        width: parent.width*col3Width
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
 
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
@@ -162,9 +158,7 @@ Item {
         width: parent.width*col2Width - GC.standardMarginWithMin
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
 
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
@@ -197,9 +191,7 @@ Item {
         width: parent.width*col2Width-GC.standardMarginWithMin
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
 
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
@@ -248,11 +240,9 @@ Item {
         model: validatorDutConstUnit.Data;
 
         anchors.top: parent.top
-        anchors.topMargin: GC.standardMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: GC.standardMargin
         anchors.right: parent.right
-        width: parent.width*col3Width-GC.standardMargin
+        width: parent.width*col3Width
 
         contentRowHeight: height*GC.standardComboContentScale
         contentFlow: GridView.FlowTopToBottom
@@ -347,11 +337,9 @@ Item {
             }
           }
           anchors.top: parent.top
-          anchors.topMargin: GC.standardMargin
           anchors.bottom: parent.bottom
-          anchors.bottomMargin: GC.standardMargin
           anchors.right: parent.right
-          width: parent.width*col3Width-GC.standardMargin
+          width: parent.width*col3Width
 
           contentRowHeight: height*GC.standardComboContentScale
           contentFlow: GridView.FlowTopToBottom
