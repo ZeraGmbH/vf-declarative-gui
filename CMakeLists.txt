@@ -32,7 +32,7 @@ find_package(zerafa REQUIRED)
 find_Package(anmlib REQUIRED)
 find_Package(uivlib REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(zeratranslation REQUIRED)
+find_package(ZeraTranslation REQUIRED)
 find_package(zeracomponents REQUIRED)
 find_package(qmlhelpers REQUIRED)
 find_package(zeraveincomponents REQUIRED)
@@ -110,7 +110,7 @@ target_link_libraries(vf-declarative-gui
     ZeraQml::anmlib
     ZeraQml::uivlib
     ZeraQml::SortFilterProxyModelCmake
-    ZeraQml::zeratranslation
+    ZeraTranslation::ZeraTranslation
     ZeraQml::zeracomponents
     ZeraQml::qmlhelpers
     ZeraQml::zeraveincomponents
