@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import ZeraTranslationbackend  1.0
+import ZeraTranslationBackend  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0 as VFControls

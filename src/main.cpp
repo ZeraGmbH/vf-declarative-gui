@@ -14,7 +14,7 @@
 #include <veinqmlwrapper.h>
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
-#include <zeratranslation.h>
+#include <zeratranslationplugin.h>
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 #include <zvkeyboard.h>
@@ -52,16 +52,16 @@ int main(int argc, char *argv[])
   bool loadedOnce = false;
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication app(argc, argv);
+
+  // dependencies
+  ZeraTranslationPlugin::registerQml();
+  // internal
   qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
   qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
   qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
 
   app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
-  ZeraTranslation *zeraTranslation = ZeraTranslation::getInstance();
-  //load defaults as there could be no language available
-  zeraTranslation->changeLanguage("C");
-  //ZeraTranslation::setStaticInstance(zeraTranslation);
   QmlFileIO::setStaticInstance(new QmlFileIO(&app));
 
   GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
