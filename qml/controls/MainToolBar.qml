@@ -20,10 +20,16 @@ ToolBar {
             measurementPaused = Qt.binding(function() {
                 return VeinEntity.getEntity("_System").ModulesPaused;
             });
+            if(VeinEntity.hasEntity("_LoggingSystem")) {
+                loggingActive = Qt.binding(function() {
+                    return VeinEntity.getEntity("_LoggingSystem").LoggingEnabled;
+                });
+            }
         }
     }
 
     property bool measurementPaused: false
+    property bool loggingActive: false
     property bool pageViewVisible: false
     property int layoutStackIdxBeforeLoggerSettings: -1
     property QtObject layoutStackObj
@@ -116,6 +122,17 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
             enabled: root.entityInitializationDone === true;
             visible: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
+            SequentialAnimation {
+                running: loggingActive
+                onRunningChanged: {
+                    if(!running) {
+                        logStartButton.opacity = 1.0
+                    }
+                }
+                loops: Animation.Infinite
+                NumberAnimation { target: logStartButton; property: "opacity"; to: 0.5; duration: 600 }
+                NumberAnimation { target: logStartButton; property: "opacity"; to: 1.0; duration: 600 }
+            }
 
             Loader { // menu requires vein initialized && logging system available
                 id: menuLoader
