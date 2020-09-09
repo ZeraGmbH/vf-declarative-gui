@@ -7,6 +7,7 @@ import VeinEntity 1.0
 import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/range_module" as RangeControls
+import "qrc:/qml/controls/logger" as LoggerControls
 
 ToolBar {
     id: root
@@ -22,9 +23,10 @@ ToolBar {
         }
     }
 
-    property bool measurementPaused: false;
-    property bool pageViewVisible: false;
-    property QtObject layoutStackObj;
+    property bool measurementPaused: false
+    property bool pageViewVisible: false
+    property int layoutStackIdxBeforeLoggerSettings: -1
+    property QtObject layoutStackObj
 
     background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
     //provide more contrast
@@ -114,9 +116,30 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
             enabled: root.entityInitializationDone === true;
             visible: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
+
+            Loader { // menu requires vein initialized && logging system available
+                id: menuLoader
+                sourceComponent: Component {
+                    LoggerControls.LoggerMenu {
+                        onLoggerSettingsMenu: {
+                            // show logger settings
+                            layoutStackIdxBeforeLoggerSettings = root.layoutStackObj.currentIndex
+                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                        }
+                    }
+                }
+                active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
+            }
+            property alias loggerMenu: menuLoader.item
             onClicked: {
-                //shows the logger
-                root.layoutStackObj.currentIndex=GC.layoutStackEnum.layoutLoggerIndex;
+                // are we already in settings and can remember where we were before
+                if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex &&
+                        layoutStackIdxBeforeLoggerSettings >= 0) {
+                    // go back where we were first
+                    root.layoutStackObj.currentIndex = layoutStackIdxBeforeLoggerSettings
+                }
+                // now it's fine to show our menu
+                loggerMenu.open()
             }
         }
         ToolButton {
