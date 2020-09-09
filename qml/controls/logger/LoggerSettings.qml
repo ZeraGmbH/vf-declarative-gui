@@ -94,10 +94,6 @@ SettingsControls.SettingsView {
         id: loggerDataSelection
         active: false
         sourceComponent: LoggerDatasetSelector {
-            width: root.width
-            height: root.height - (Qt.inputMethod.visible ? GC.vkeyboardHeight : 0)
-            //rowHeight: root.height / 10
-            closePolicy: Popup.NoAutoClose
             visible: true
             onClosed: loggerDataSelection.active = false;
         }

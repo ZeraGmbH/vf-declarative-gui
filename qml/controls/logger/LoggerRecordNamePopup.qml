@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.3
 import VeinEntity 1.0
@@ -10,6 +10,7 @@ import "qrc:/qml/controls" as CCMP
 
 Popup {
     id: recordNamePopup
+    parent: Overlay.overlay
     width: parent.width
     height: parent.height-GC.vkeyboardHeight
     modal: !Qt.inputMethod.visible
