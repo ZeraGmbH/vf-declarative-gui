@@ -10,7 +10,7 @@ import ZeraFa 1.0
 Item {
     id: root
     // external
-    property real pointSize: 14
+    property real pointSize: 16
     function open() {
         return menu.open()
     }
@@ -19,8 +19,8 @@ Item {
     property bool snapshotTrigger: false;
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property bool logEnabled: loggerEntity.LoggingEnabled
+    // Snapshot is implemented as logging enable on / off (we should rework this..)
     onLogEnabledChanged: {
-        // Snapshot is implemented as logging enable on / off (we should rework this..)
         if(logEnabled && snapshotTrigger) {
             snapshotTrigger = false;
             // causes (wrong?) warning about property loop so use the timer as workaround
@@ -41,6 +41,25 @@ Item {
         id: menu
         font.family: FA.old
         font.pointSize: root.pointSize
+        width: {
+            // adjust width to content. Stolen:
+            // https://martin.rpdev.net/2018/03/13/qt-quick-controls-2-automatically-set-the-width-of-menus.html
+            var result = 0;
+            var padding = 0;
+            for(var i = 0; i < count; ++i) {
+                var item = itemAt(i);
+                result = Math.max(item.contentItem.implicitWidth, result);
+                padding = Math.max(item.padding, padding);
+            }
+            return result + padding * 2;
+        }
+        MenuItem { // current record name
+            text: FA.icon(FA.fa_arrow_right) + (loggerEntity.recordName !== undefined ? loggerEntity.recordName : "")
+            onTriggered: {
+                recordNamePopup.visible = true;
+            }
+            enabled: loggerEntity.LoggingEnabled !== true
+        }
         MenuItem { // Snapshot
             text: FA.icon(FA.fa_camera) + Z.tr("Take snapshot")
             enabled: loggerEntity.LoggingEnabled === false &&
@@ -48,7 +67,7 @@ Item {
                      !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
             onTriggered: {
                 snapshotTrigger = true;
-                recordNamePopup.visible = true;
+                loggerEntity.LoggingEnabled = true
             }
         }
         MenuItem { // Start/Stop
@@ -58,7 +77,8 @@ Item {
                      !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined ))
             onTriggered: {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
-                    recordNamePopup.visible = true;
+                    snapshotTrigger = false;
+                    loggerEntity.LoggingEnabled = true
                 }
                 else { // Stop
                     loggerEntity.LoggingEnabled = false
@@ -77,15 +97,10 @@ Item {
     LoggerRecordNamePopup {
         id: recordNamePopup
         onSigAccepted: {
-            if(loggerEntity.LoggingEnabled !== true) {
-                loggerEntity.recordName = t_resultText;
-                loggerEntity.LoggingEnabled = true;
-            }
-        }
-        onSigCanceled: {
-            if(loggerEntity.LoggingEnabled !== true) {
-                snapshotTrigger = false;
-            }
+            loggerEntity.recordName = t_resultText;
+            // we did modify record name - re-open menu so user can
+            // start logging without further ado
+            menu.open()
         }
     }
 }
