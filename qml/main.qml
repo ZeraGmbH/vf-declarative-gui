@@ -25,9 +25,9 @@ import "qrc:/data/staticdata" as StaticData
 ApplicationWindow {
     id: displayWindow
 
-    //used to display the fps and other debug infos
+    // used to display the fps and other debug infos
     property bool debugBypass: false;
-    //used to notify about the com5003 meas/CED/REF session change
+    // used to notify about the com5003 meas/CED/REF session change
     property string currentSession;
     // for development: current resolution
     property int screenResolution: GC.screenResolution
@@ -377,8 +377,7 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         property bool textEntered: Qt.inputMethod.visible
-        // Hmm - what is this magic factor?
-        onHeightChanged: GC.vkeyboardHeight = height/1.17
+        onHeightChanged: GC.vkeyboardHeight = height
         opacity: 0
         NumberAnimation on opacity {
             id: keyboardAnimation

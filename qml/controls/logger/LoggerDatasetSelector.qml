@@ -1,10 +1,11 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import SortFilterProxyModel 0.2
+import GlobalConfig 1.0
 import ZeraTranslation  1.0
 import ZeraFa 1.0
 import ZeraComponents 1.0
@@ -12,6 +13,10 @@ import "qrc:/qml/controls" as CCMP
 
 Popup {
     id: root
+    parent: Overlay.overlay
+    width: parent.width
+    height: parent.height - (Qt.inputMethod.visible ? GC.vkeyboardHeight : 0)
+    closePolicy: Popup.NoAutoClose
 
     readonly property QtObject dataLogger: VeinEntity.getEntity("_LoggingSystem")
     readonly property var loggedComponents: VeinEntity.getEntity("_System").LoggedComponents
@@ -20,7 +25,6 @@ Popup {
                                         : (selectedView.currentItem !== undefined && selectedView.currentItem !== null
                                            ? selectedModel.get(filteredSelectedModel.mapToSource(selectedView.currentIndex))
                                            : undefined));
-    //property real rowHeight: 20
 
     function initModels() {
         availModel.clear();
@@ -141,10 +145,17 @@ Popup {
         }
     }
 
+    Label {
+        id: availLabel
+        anchors.top: parent.top
+        anchors.horizontalCenter: availSearchField.horizontalCenter
+        font.pointSize: 10
+        text: Z.tr("Available for recording")
+    }
     ZLineEdit {
         id: availSearchField
         placeholderText: Z.tr("Regex search")
-        anchors.top: parent.top
+        anchors.top: availLabel.bottom
         anchors.left: parent.left
         anchors.right: middleFrame.left
         anchors.leftMargin: 8
@@ -152,12 +163,6 @@ Popup {
         height: 40 // TODO auto scale
         enabled: availView.moving===false
         textField.horizontalAlignment: Text.AlignLeft
-    }
-    Label {
-        anchors.bottom: availSearchField.top
-        anchors.horizontalCenter: availSearchField.horizontalCenter
-        font.pointSize: 10
-        text: Z.tr("Available for recording")
     }
     ListView {
         id: availView
@@ -192,10 +197,17 @@ Popup {
             }
         }
     }
+    Label {
+        id: selectedLabel
+        anchors.top: parent.top
+        anchors.horizontalCenter: selectedSearchField.horizontalCenter
+        font.pointSize: 10
+        text: Z.tr("Selected for recording")
+    }
     ZLineEdit {
         id: selectedSearchField
         placeholderText: Z.tr("Regex search")
-        anchors.top: parent.top
+        anchors.top: selectedLabel.bottom
         anchors.right: parent.right
         anchors.left: middleFrame.right
         anchors.leftMargin: 8
@@ -203,12 +215,6 @@ Popup {
         height: 40 // TODO auto scale
         enabled: selectedView.moving===false
         textField.horizontalAlignment: Text.AlignLeft
-    }
-    Label {
-        anchors.bottom: selectedSearchField.top
-        anchors.horizontalCenter: selectedSearchField.horizontalCenter
-        font.pointSize: 10
-        text: Z.tr("Selected for recording")
     }
     ListView {
         id: selectedView
@@ -293,7 +299,6 @@ Popup {
                 width: parent.width
             }
         }
-
         Button {
             visible: availView.currentIndex !== -1;
             onVisibleChanged: focus=false;
@@ -335,7 +340,7 @@ Popup {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        height: root.height/10
+        height: Math.max(root.height/10, 40)
 
         Button {
             id: acceptButton
@@ -362,7 +367,6 @@ Popup {
                 root.close();
             }
         }
-
         Button {
             id: resetButton
             text: Z.tr("Cancel")
