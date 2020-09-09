@@ -18,36 +18,14 @@ import "qrc:/qml/controls/settings" as SettingsControls
 
 SettingsControls.SettingsView {
     id: root
-    viewAnchors.bottomMargin: buttonContainer.height
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
-    property bool snapshotTrigger: false;
-    readonly property bool logEnabled: loggerEntity.LoggingEnabled
 
     property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
 
     horizMargin: GC.standardTextHorizMargin
-    rowHeight: (height-footerHeight)/8
+    rowHeight: height/8
 
-    readonly property real footerHeight: height/10
     readonly property real fontScale: 0.3
-
-    onLogEnabledChanged: {
-        if(snapshotTrigger === true && logEnabled === true) {
-            snapshotTrigger = false;
-            //causes wrong warning about property loop so use the timer as workaround
-            //loggerEntity.LoggingEnabled = false;
-            propertyLoopAvoidingLoggingEnabledTimer.start();
-        }
-    }
-
-    Timer {
-        id: propertyLoopAvoidingLoggingEnabledTimer
-        interval: 0
-        repeat: false
-        onTriggered: {
-            loggerEntity.LoggingEnabled = false;
-        }
-    }
 
     function msToTime(t_mSeconds) {
         if(t_mSeconds === undefined) {
@@ -115,20 +93,6 @@ SettingsControls.SettingsView {
             width: root.width
             height: root.height
             visible: true
-        }
-    }
-    LoggerRecordNamePopup {
-        id: recordNamePopup
-        onSigAccepted: {
-            if(loggerEntity.LoggingEnabled !== true) {
-                loggerEntity.recordName = t_resultText;
-                loggerEntity.LoggingEnabled=true;
-            }
-        }
-        onSigCanceled: {
-            if(loggerEntity.LoggingEnabled !== true) {
-                snapshotTrigger = false;
-            }
         }
     }
     model: VisualItemModel {
@@ -381,59 +345,6 @@ SettingsControls.SettingsView {
                     implicitHeight: root.rowHeight
                     enabled: loggerEntity.LoggingEnabled === false
                     onClicked: customerDataEntry.active=true;
-                }
-            }
-        }
-    }
-    Item {
-        id: buttonContainer
-        height: root.footerHeight
-        width: root.width;
-        anchors.bottom: parent.bottom
-        visible: !customerDataEntry.active
-
-        Button {
-            id: startButton
-            text: Z.tr("Start")
-            font.pointSize: root.rowHeight*fontScale
-            anchors.top: buttonContainer.top
-            anchors.bottom: buttonContainer.bottom
-            anchors.leftMargin: GC.standardTextHorizMargin
-            width: root.rowWidth/4
-            enabled: loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true && !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
-            highlighted: true
-            onClicked: {
-                recordNamePopup.visible = true;
-            }
-        }
-        Button {
-            id: snapshotButton
-            text: Z.tr("Snapshot")
-            font.pointSize: root.rowHeight*fontScale
-            anchors.top: buttonContainer.top
-            anchors.bottom: buttonContainer.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: root.rowWidth/4
-            enabled: loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true && !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
-            onClicked: {
-                snapshotTrigger=true;
-                recordNamePopup.visible = true;
-            }
-        }
-        Button {
-            id: stopButton
-            text: Z.tr("Stop")
-            font.pointSize: root.rowHeight*fontScale
-            anchors.top: buttonContainer.top
-            anchors.bottom: buttonContainer.bottom
-            anchors.right: parent.right
-            anchors.rightMargin: GC.standardTextHorizMargin
-            width: root.rowWidth/4
-            enabled: loggerEntity.LoggingEnabled === true
-
-            onClicked: {
-                if(loggerEntity.LoggingEnabled !== false) {
-                    loggerEntity.LoggingEnabled=false
                 }
             }
         }
