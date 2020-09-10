@@ -12,12 +12,13 @@ Popup {
     id: recordNamePopup
     parent: Overlay.overlay
     width: parent.width
-    height: parent.height-GC.vkeyboardHeight
+    height: parent.height - GC.vkeyboardHeight
     modal: !Qt.inputMethod.visible
     closePolicy: Popup.NoAutoClose
 
-    readonly property real rowHeight: (height-captionLabel.height)/6
-    readonly property real pointSize: 10
+    readonly property real rowHeight: height/6.5
+    readonly property real fontScale: 0.3
+    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
 
     property QtObject customerdataEntity: VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
 
@@ -26,11 +27,13 @@ Popup {
 
     property string resultText: substitutePlaceholders(intermediaryText);
     property string intermediaryText: currentRecordNameLabel.text;
+    property bool customerIDSet: customerdataEntity ? customerdataEntity.PAR_DatasetIdentifier !=="" : false
 
     function substitutePlaceholders(t_text) {
         var retVal = t_text;
         var dateTime = new Date();
-        var customerID = customerdataEntity ? customerdataEntity.PAR_CustomerNumber : Z.tr("[customer data is not available]")
+        var customerID = customerdataEntity ? customerdataEntity.PAR_DatasetIdentifier : Z.tr("[customer data is not available]")
+        var customerNumber = customerdataEntity ? customerdataEntity.PAR_CustomerNumber : Z.tr("[customer data is not available]")
         var replacementModel = {
             "$VIEW": Z.tr(GC.currentViewName),
             "$YEAR": Qt.formatDate(dateTime, "yyyy"),
@@ -38,7 +41,8 @@ Popup {
             "$DAY": Qt.formatDate(dateTime, "dd"),
             "$TIME": Qt.formatDateTime(dateTime, "hh:mm"),
             "$SECONDS": Qt.formatDateTime(dateTime, "ss"),
-            "$CUSTOMER_ID" : customerID.length>0 ? customerID : Z.tr("[customer id is not set]")
+            "$CUST_ID" : customerID.length>0 ? customerID : Z.tr("[customer id is not set]"),
+            "$CUST_NUM" : customerID.length>0 ? customerNumber : Z.tr("[customer number is not set]")
         }
         for(var replaceIndex in replacementModel) {
             var tmpRegexp = new RegExp("\\"+replaceIndex, 'g') //the $ is escaped as \$
@@ -56,7 +60,7 @@ Popup {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         text: Z.tr("Select record name")
-        font.pointSize: 12
+        font.pointSize: recordNamePopup.pointSize
     }
     Column {
         id: selectionColumn
@@ -102,7 +106,7 @@ Popup {
             }
             Label {
                 id: presetRecordNameLabel
-                text: "$VIEW $YEAR/$MONTH/$DAY"
+                text: customerIDSet ? "$CUST_ID $YEAR/$MONTH/$DAY" : "$YEAR/$MONTH/$DAY"
                 Layout.fillWidth: true
                 font.pointSize: recordNamePopup.pointSize
                 horizontalAlignment: Text.AlignRight
@@ -126,7 +130,6 @@ Popup {
                 font.pointSize: recordNamePopup.pointSize
             }
             ZLineEdit {
-                //property alias pixelSize: textField.pixelSize
                 id: customRecordNameTextField
                 height: parent.height
                 text: presetRecordNameLabel.text
@@ -154,16 +157,25 @@ Popup {
             height: recordNamePopup.rowHeight
 
             Button {
-                text: "$VIEW"
+                text: "$CUST_ID"
+                visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
                 enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
                 onPressed: {
                     customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
                 }
             }
-            Item {
-                //spacer
-                width: 4;
+            Button {
+                text: "$CUST_NUM"
+                visible: VeinEntity.hasEntity("CustomerData")
+                focusPolicy: Qt.NoFocus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                onPressed: {
+                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                }
+            }
+            Item { // spacer
+                Layout.minimumWidth: 1
             }
             Button {
                 text: "$YEAR"
@@ -190,8 +202,8 @@ Popup {
                 }
             }
             Item {
-                //spacer
-                width: 4;
+                // spacer
+                Layout.minimumWidth: 1
             }
             Button {
                 text: "$TIME"
@@ -203,19 +215,6 @@ Popup {
             }
             Button {
                 text: "$SECONDS"
-                focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
-                onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
-                }
-            }
-            Item {
-                //spacer
-                width: 4;
-            }
-            Button {
-                text: "$CUSTOMER_ID"
-                visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
                 enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
                 onPressed: {
@@ -239,17 +238,17 @@ Popup {
         Label {
             text: Z.tr("Preview:");
             font.bold: true
-            font.pointSize: 12
+            font.pointSize: recordNamePopup.pointSize
         }
 
         Label {
             text: resultText
             horizontalAlignment: Text.AlignRight
-            font.pointSize: 12
+            font.pointSize: recordNamePopup.pointSize
             textFormat: Label.PlainText
         }
         Item {
-            //spacer
+            // spacer
             Layout.fillWidth: true
         }
         Button {
