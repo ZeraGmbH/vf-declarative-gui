@@ -12,11 +12,24 @@ Item {
     // external
     property real pointSize: 16
     function open() {
-        return menu.open()
+        // uncomment for tests
+        //loggerEntity.recordName = ""
+        // Support users: in case there is no database available:
+        // * do not show menu
+        // * open to settings immediately
+        if(loggerEntity.DatabaseReady !== true) {
+            loggerSettingsMenu()
+        }
+        else{
+            return menu.open()
+        }
     }
+    readonly property bool databaseReady: loggerEntity.DatabaseReady
+    readonly property bool recordSelected: loggerEntity.recordName !== undefined && loggerEntity.recordName !== ""
     signal loggerSettingsMenu()
     // internal
     property bool snapshotTrigger: false;
+    property bool startLoggingAfterRecordSelect: false
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property bool logEnabled: loggerEntity.LoggingEnabled
     // Snapshot is implemented as logging enable on / off (we should rework this..)
@@ -54,12 +67,24 @@ Item {
             return result + padding * 2;
         }
         MenuItem { // current record name
-            text: FA.icon(FA.fa_arrow_right) + (loggerEntity.recordName !== undefined ? loggerEntity.recordName : "")
+            text: {
+                // No database cannot happen here: We force move to settings in open()
+                var menuText = ""
+                if(!recordSelected) {
+                    menuText = Z.tr("<no record>")
+                }
+                else {
+                    menuText = loggerEntity.recordName
+                }
+                return FA.icon(FA.fa_arrow_right) + menuText
+            }
             onTriggered: {
+                startLoggingAfterRecordSelect = false
                 recordNamePopup.visible = true;
             }
             enabled: loggerEntity.LoggingEnabled !== true
         }
+        MenuSeparator { }
         MenuItem { // Snapshot
             text: FA.icon(FA.fa_camera) + Z.tr("Take snapshot")
             enabled: loggerEntity.LoggingEnabled === false &&
@@ -67,7 +92,13 @@ Item {
                      !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
             onTriggered: {
                 snapshotTrigger = true;
-                loggerEntity.LoggingEnabled = true
+                if(recordSelected) {
+                    loggerEntity.LoggingEnabled = true
+                }
+                else {
+                    startLoggingAfterRecordSelect = true
+                    recordNamePopup.visible = true;
+                }
             }
         }
         MenuItem { // Start/Stop
@@ -78,7 +109,13 @@ Item {
             onTriggered: {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
-                    loggerEntity.LoggingEnabled = true
+                    if(recordSelected) {
+                        loggerEntity.LoggingEnabled = true
+                    }
+                    else {
+                        startLoggingAfterRecordSelect = true
+                        recordNamePopup.visible = true;
+                    }
                 }
                 else { // Stop
                     loggerEntity.LoggingEnabled = false
@@ -98,9 +135,14 @@ Item {
         id: recordNamePopup
         onSigAccepted: {
             loggerEntity.recordName = t_resultText;
-            // we did modify record name - re-open menu so user can
-            // start logging without further ado
-            menu.open()
+            if(startLoggingAfterRecordSelect) {
+                loggerEntity.LoggingEnabled = true
+            }
+            else {
+                // we did modify record name - re-open menu so user can
+                // start logging without further ado
+                menu.open()
+            }
         }
     }
 }

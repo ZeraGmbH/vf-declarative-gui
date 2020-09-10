@@ -139,9 +139,11 @@ ToolBar {
                 sourceComponent: Component {
                     LoggerControls.LoggerMenu {
                         onLoggerSettingsMenu: {
-                            // show logger settings
-                            layoutStackIdxBeforeLoggerSettings = root.layoutStackObj.currentIndex
-                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                            // show logger settings (if not showed already)
+                            if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
+                                layoutStackIdxBeforeLoggerSettings = root.layoutStackObj.currentIndex
+                                root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                            }
                         }
                     }
                 }
@@ -149,11 +151,16 @@ ToolBar {
             }
             property alias loggerMenu: menuLoader.item
             onClicked: {
-                // are we already in settings and can remember where we were before
-                if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex &&
-                        layoutStackIdxBeforeLoggerSettings >= 0) {
-                    // go back where we were first
-                    root.layoutStackObj.currentIndex = layoutStackIdxBeforeLoggerSettings
+                // already in LoggerSettings?
+                if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex) {
+                    // in case user has not selected database, stay in LoggerSettings (=do nothing)
+                    if(!loggerMenu.databaseReady) {
+                        return
+                    }
+                    // we can remember where we were before -> go back there
+                    if(layoutStackIdxBeforeLoggerSettings >= 0) {
+                        root.layoutStackObj.currentIndex = layoutStackIdxBeforeLoggerSettings
+                    }
                 }
                 // now it's fine to show our menu
                 loggerMenu.open()
