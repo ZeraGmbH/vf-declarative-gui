@@ -50,6 +50,16 @@ Popup {
         }
         return retVal;
     }
+    function setCustomRecordName(textToSet) {
+        // all selected: replace
+        if(customRecordNameTextField.selectedText === customRecordNameTextField.text) {
+            customRecordNameTextField.text = textToSet
+        }
+        // otherwise: insert
+        else {
+            customRecordNameTextField.insert(customRecordNameTextField.cursorPosition, textToSet);
+        }
+    }
 
     ButtonGroup {
         id: presetSelectionGroup
@@ -106,7 +116,7 @@ Popup {
             }
             Label {
                 id: presetRecordNameLabel
-                text: customerIDSet ? "$CUST_ID $YEAR/$MONTH/$DAY" : "$YEAR/$MONTH/$DAY"
+                text: GC.loggerRecordnamePreset
                 Layout.fillWidth: true
                 font.pointSize: recordNamePopup.pointSize
                 horizontalAlignment: Text.AlignRight
@@ -129,25 +139,46 @@ Popup {
                 text: Z.tr("Custom record name:");
                 font.pointSize: recordNamePopup.pointSize
             }
-            ZLineEdit {
+            // No ZLineEdit due to special handling (Button insert / delete)
+            TextField {
                 id: customRecordNameTextField
-                height: parent.height
-                text: presetRecordNameLabel.text
-                pointSize: recordNamePopup.pointSize
-
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                textField.bottomPadding: 16
-                textField.anchors.rightMargin: 0
+                text: presetRecordNameLabel.text;
+                Layout.fillWidth: true;
+                bottomPadding: GC.standardTextBottomMargin
                 enabled: customRecordNameRadio.checked
-                changeOnFocusLost: false
+                inputMethodHints: Qt.ImhNoAutoUppercase
+                horizontalAlignment: Text.AlignRight
+                property string lastAccepted: presetRecordNameLabel.text
+                Keys.onEscapePressed: {
+                    customRecordNameTextField.text = customRecordNameTextField.lastAccepted
+                    focus = false
+                }
+                onAccepted: {
+                    customRecordNameTextField.lastAccepted = customRecordNameTextField.text
+                    focus = false
+                }
+                onFocusChanged: {
+                    if(focus) {
+                        selectAll()
+                    }
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "green"
+                    opacity: 0.2
+                    visible: customRecordNameRadio.checked &&
+                             customRecordNameTextField.lastAccepted != customRecordNameTextField.text
+                }
             }
+
             RadioButton {
                 id: customRecordNameRadio
                 ButtonGroup.group: presetSelectionGroup
                 onCheckedChanged: {
                     if(checked) {
-                        recordNamePopup.intermediaryText = Qt.binding(function(){ return customRecordNameTextField.textField.text; });
+                        recordNamePopup.intermediaryText = Qt.binding(function(){ return customRecordNameTextField.text; });
+                        customRecordNameTextField.focus = true
                     }
                 }
             }
@@ -160,18 +191,18 @@ Popup {
                 text: "$CUST_ID"
                 visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.focus
                 onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                    setCustomRecordName(text)
                 }
             }
             Button {
                 text: "$CUST_NUM"
                 visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.focus
                 onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                    setCustomRecordName(text)
                 }
             }
             Item { // spacer
@@ -180,25 +211,25 @@ Popup {
             Button {
                 text: "$YEAR"
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.focus
                 onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                    setCustomRecordName(text)
                 }
             }
             Button {
                 text: "$MONTH"
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.focus
                 onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                    setCustomRecordName(text)
                 }
             }
             Button {
                 text: "$DAY"
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.focus
                 onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                    setCustomRecordName(text)
                 }
             }
             Item {
@@ -208,21 +239,30 @@ Popup {
             Button {
                 text: "$TIME"
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.focus
                 onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                    setCustomRecordName(text)
                 }
             }
             Button {
                 text: "$SECONDS"
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.textField.focus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.focus
                 onPressed: {
-                    customRecordNameTextField.textField.insert(customRecordNameTextField.cursorPosition, text);
+                    setCustomRecordName(text)
                 }
             }
             Item {
+                // spacer
                 Layout.fillWidth: true
+            }
+            Button {
+                text: Z.tr("Preset")
+                focusPolicy: Qt.NoFocus
+                enabled: customRecordNameRadio.checked && customRecordNameTextField.text !== ""
+                onPressed: {
+                    GC.setLoggerRecordnamePreset(customRecordNameTextField.text)
+                }
             }
         }
     }
@@ -257,7 +297,7 @@ Popup {
             enabled: intermediaryText !== "";
             Layout.minimumWidth: cancelButton.width
             onClicked: {
-                customRecordNameTextField.applyInput()
+                customRecordNameTextField.lastAccepted = customRecordNameTextField.text
                 sigAccepted(substitutePlaceholders(intermediaryText)); //updates values date/time placeholders
                 recordNamePopup.close();
                 defaultRadioButton.checked = true;
@@ -268,7 +308,7 @@ Popup {
             text: Z.tr("Cancel")
             Layout.minimumWidth: okButton.width
             onClicked: {
-                customRecordNameTextField.discardInput();
+                customRecordNameTextField.text = customRecordNameTextField.lastAccepted
                 sigCanceled();
                 recordNamePopup.close();
                 defaultRadioButton.checked = true;

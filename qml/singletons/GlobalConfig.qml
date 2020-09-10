@@ -418,7 +418,12 @@ Item {
   // Misc settings / status
   readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
 
-  //not saved to settings
+  readonly property string loggerRecordnamePreset: settings.globalSettings.getOption("logger_recordname_preset", "$CUST_ID $YEAR/$MONTH/$DAY")
+  function setLoggerRecordnamePreset(presetRecordname) {
+    settings.globalSettings.setOption("logger_recordname_preset", presetRecordname);
+  }
+
+  // not saved to settings
   property string currentViewName: "";
   property string currentSelectedStoragePath: "/home/operator/logger"; //default
 
