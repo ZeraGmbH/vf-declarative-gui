@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 
 project(vf-declarative-gui LANGUAGES CXX C)
-set(PROJECT_VERSION "1.2.1")
+set(PROJECT_VERSION "1.2.2")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
