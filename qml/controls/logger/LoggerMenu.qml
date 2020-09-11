@@ -69,7 +69,7 @@ Item {
                 // No database cannot happen here: We force move to settings in open()
                 var menuText = ""
                 if(!recordSelected) {
-                    menuText = Z.tr("<no record>")
+                    menuText = Z.tr("-- no record --")
                 }
                 else {
                     menuText = loggerEntity.recordName
