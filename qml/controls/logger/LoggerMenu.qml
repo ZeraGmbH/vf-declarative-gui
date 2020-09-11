@@ -12,8 +12,6 @@ Item {
     // external
     property real pointSize: 16
     function open() {
-        // uncomment for tests
-        //loggerEntity.recordName = ""
         // Support users: in case there is no database available:
         // * do not show menu
         // * open to settings immediately

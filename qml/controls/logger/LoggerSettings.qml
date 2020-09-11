@@ -190,6 +190,7 @@ SettingsControls.SettingsView {
                     enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
                     onClicked: {
                         root.loggerEntity.DatabaseFile = root.completeDBPath
+                        root.loggerEntity.recordName = ""
                     }
                 }
                 Button {
@@ -200,6 +201,7 @@ SettingsControls.SettingsView {
                     enabled: root.loggerEntity.DatabaseFile.length > 0
                     onClicked: {
                         root.loggerEntity.DatabaseFile = "";
+                        root.loggerEntity.recordName = ""
                     }
                 }
             }
