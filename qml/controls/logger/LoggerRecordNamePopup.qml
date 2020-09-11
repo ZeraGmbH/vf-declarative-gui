@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
+import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 
 Popup {
@@ -116,7 +117,7 @@ Popup {
             }
             Label {
                 id: presetRecordNameLabel
-                text: GC.loggerRecordnamePreset
+                text: GC.loggerRecordnameDefault
                 Layout.fillWidth: true
                 font.pointSize: recordNamePopup.pointSize
                 horizontalAlignment: Text.AlignRight
@@ -142,19 +143,18 @@ Popup {
             // No ZLineEdit due to special handling (Button insert / delete)
             TextField {
                 id: customRecordNameTextField
-                text: presetRecordNameLabel.text;
+                text: GC.loggerRecordnameCustom;
                 Layout.fillWidth: true;
                 bottomPadding: GC.standardTextBottomMargin
                 enabled: customRecordNameRadio.checked
                 inputMethodHints: Qt.ImhNoAutoUppercase
                 horizontalAlignment: Text.AlignRight
-                property string lastAccepted: presetRecordNameLabel.text
                 Keys.onEscapePressed: {
-                    customRecordNameTextField.text = customRecordNameTextField.lastAccepted
+                    customRecordNameTextField.text = GC.loggerRecordnameCustom
                     focus = false
                 }
                 onAccepted: {
-                    customRecordNameTextField.lastAccepted = customRecordNameTextField.text
+                    GC.setLoggerRecordnameCustom(customRecordNameTextField.text)
                     focus = false
                 }
                 onFocusChanged: {
@@ -162,16 +162,14 @@ Popup {
                         selectAll()
                     }
                 }
-
                 Rectangle {
                     anchors.fill: parent
                     color: "green"
                     opacity: 0.2
                     visible: customRecordNameRadio.checked &&
-                             customRecordNameTextField.lastAccepted != customRecordNameTextField.text
+                             GC.loggerRecordnameCustom !== customRecordNameTextField.text
                 }
             }
-
             RadioButton {
                 id: customRecordNameRadio
                 ButtonGroup.group: presetSelectionGroup
@@ -256,12 +254,28 @@ Popup {
                 // spacer
                 Layout.fillWidth: true
             }
-            Button {
-                text: Z.tr("Preset")
+            Button { // make custom record name default
+                Layout.preferredWidth: height
+                font.family: FA.old
+                font.pointSize: recordNamePopup.pointSize
+                text: enabled ? FA.colorize(FA.fa_check, "lawngreen") : FA.fa_check
                 focusPolicy: Qt.NoFocus
-                enabled: customRecordNameRadio.checked && customRecordNameTextField.text !== ""
+                enabled: customRecordNameRadio.checked &&
+                         customRecordNameTextField.text !== "" &&
+                         customRecordNameTextField.text !== GC.loggerRecordnameDefault
                 onPressed: {
-                    GC.setLoggerRecordnamePreset(customRecordNameTextField.text)
+                    GC.setLoggerRecordnameDefault(customRecordNameTextField.text)
+                }
+            }
+            Button { // reset record default name to standard
+                Layout.preferredWidth: height
+                font.family: FA.old
+                font.pointSize: recordNamePopup.pointSize
+                text: FA.fa_undo
+                focusPolicy: Qt.NoFocus
+                enabled: GC.loggerRecordnameDefaultStandard !== GC.loggerRecordnameDefault
+                onPressed: {
+                    GC.setLoggerRecordnameDefault(GC.loggerRecordnameDefaultStandard)
                 }
             }
         }
@@ -297,7 +311,7 @@ Popup {
             enabled: intermediaryText !== "";
             Layout.minimumWidth: cancelButton.width
             onClicked: {
-                customRecordNameTextField.lastAccepted = customRecordNameTextField.text
+                GC.setLoggerRecordnameCustom(customRecordNameTextField.text)
                 sigAccepted(substitutePlaceholders(intermediaryText)); //updates values date/time placeholders
                 recordNamePopup.close();
                 defaultRadioButton.checked = true;
@@ -308,7 +322,7 @@ Popup {
             text: Z.tr("Cancel")
             Layout.minimumWidth: okButton.width
             onClicked: {
-                customRecordNameTextField.text = customRecordNameTextField.lastAccepted
+                customRecordNameTextField.text = GC.loggerRecordnameCustom
                 sigCanceled();
                 recordNamePopup.close();
                 defaultRadioButton.checked = true;
