@@ -84,7 +84,7 @@ Popup {
             height: recordNamePopup.rowHeight
 
             Label {
-                text: Z.tr("Current record name:");
+                text: Z.tr("Current name:");
                 font.pointSize: recordNamePopup.pointSize
             }
             Label {
@@ -111,7 +111,7 @@ Popup {
             height: recordNamePopup.rowHeight
 
             Label {
-                text: Z.tr("Preset record name:")
+                text: Z.tr("Default name:")
                 font.pointSize: recordNamePopup.pointSize
             }
             Label {
@@ -136,7 +136,7 @@ Popup {
             height: recordNamePopup.rowHeight
 
             Label {
-                text: Z.tr("Custom record name:");
+                text: Z.tr("Custom name:");
                 font.pointSize: recordNamePopup.pointSize
             }
             // No ZLineEdit due to special handling (Button insert / delete)
