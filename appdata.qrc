@@ -48,8 +48,8 @@
         <file>qml/pages/ErrorCalculatorModulePage.qml</file>
         <file>qml/pages/ErrorRegisterModulePage.qml</file>
         <file>qml/pages/ComparisonTabsView.qml</file>
-        <file>qml/pages/FftModulePage.qml</file>
-        <file>qml/pages/HarmonicPowerModulePage.qml</file>
+        <file>qml/pages/FftTabPage.qml</file>
+        <file>qml/pages/HarmonicPowerTabPage.qml</file>
         <file>qml/pages/OsciModulePage.qml</file>
         <file>qml/pages/PowerModulePage.qml</file>
         <file>qml/pages/RMS4PhasePage.qml</file>

@@ -8,104 +8,102 @@ import ModuleIntrospection 1.0
 import "qrc:/qml/pages" as Pages
 
 Item {
-  id: root
-  readonly property bool hasSEC1: ModuleIntrospection.hasDependentEntities(["SEC1Module1"])
-  readonly property bool hasSEC1_2: ModuleIntrospection.hasDependentEntities(["SEC1Module2"])
-  readonly property bool hasSEM1: ModuleIntrospection.hasDependentEntities(["SEM1Module1"])
-  readonly property bool hasSPM1: ModuleIntrospection.hasDependentEntities(["SPM1Module1"])
+    id: root
+    readonly property bool hasSEC1: ModuleIntrospection.hasDependentEntities(["SEC1Module1"])
+    readonly property bool hasSEC1_2: ModuleIntrospection.hasDependentEntities(["SEC1Module2"])
+    readonly property bool hasSEM1: ModuleIntrospection.hasDependentEntities(["SEM1Module1"])
+    readonly property bool hasSPM1: ModuleIntrospection.hasDependentEntities(["SPM1Module1"])
 
-  SwipeView {
-    id: swipeView
-    anchors.fill: parent
-    anchors.topMargin: comparisonTabsBar.height
-    currentIndex: comparisonTabsBar.currentIndex
-    spacing: 20
-  }
+    SwipeView {
+        id: swipeView
+        anchors.fill: parent
+        anchors.topMargin: comparisonTabsBar.height
+        currentIndex: comparisonTabsBar.currentIndex
+        spacing: 20
+    }
 
-  TabBar {
-    id: comparisonTabsBar
-    width: parent.width
-    currentIndex: swipeView.currentIndex
-    contentHeight: 32
-  }
+    TabBar {
+        id: comparisonTabsBar
+        width: parent.width
+        currentIndex: swipeView.currentIndex
+        contentHeight: 32
+    }
 
-  // TabButtons
-  Component {
-    id: tabPulse
-    TabButton {
-      text: Z.tr("Meter test")
+    // TabButtons
+    Component {
+        id: tabPulse
+        TabButton {
+            text: Z.tr("Meter test")
+        }
     }
-  }
-  Component {
-    id: tabPulseEnergy
-    TabButton {
-      text: Z.tr("Energy comparison")
+    Component {
+        id: tabPulseEnergy
+        TabButton {
+            text: Z.tr("Energy comparison")
+        }
     }
-  }
-  Component {
-    id: tabEnergy
-    TabButton {
-      text: Z.tr("Energy register")
+    Component {
+        id: tabEnergy
+        TabButton {
+            text: Z.tr("Energy register")
+        }
     }
-  }
-  Component {
-    id: tabPower
-    TabButton {
-      text: Z.tr("Power register")
+    Component {
+        id: tabPower
+        TabButton {
+            text: Z.tr("Power register")
+        }
     }
-  }
 
-  // Pages
-  Component {
-    id: pagePulse
-    Pages.ErrorCalculatorModulePage {
-      errCalEntity: VeinEntity.getEntity("SEC1Module1")
-      moduleIntrospection: ModuleIntrospection.sec1m1Introspection
-      validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
+    // Pages
+    Component {
+        id: pagePulse
+        Pages.ErrorCalculatorModulePage {
+            errCalEntity: VeinEntity.getEntity("SEC1Module1")
+            moduleIntrospection: ModuleIntrospection.sec1m1Introspection
+            validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
+        }
     }
-  }
-  Component {
-    id: pagePulseEnergy
-    Pages.ErrorCalculatorModulePage {
-      errCalEntity: VeinEntity.getEntity("SEC1Module2")
-      moduleIntrospection: ModuleIntrospection.sec1m2Introspection
-      validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
+    Component {
+        id: pagePulseEnergy
+        Pages.ErrorCalculatorModulePage {
+            errCalEntity: VeinEntity.getEntity("SEC1Module2")
+            moduleIntrospection: ModuleIntrospection.sec1m2Introspection
+            validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
+        }
     }
-  }
-  Component {
-    id: pageEnergy
-    Pages.ErrorRegisterModulePage {
-      errCalEntity: VeinEntity.getEntity("SEM1Module1")
-      moduleIntrospection: ModuleIntrospection.sem1Introspection
+    Component {
+        id: pageEnergy
+        Pages.ErrorRegisterModulePage {
+            errCalEntity: VeinEntity.getEntity("SEM1Module1")
+            moduleIntrospection: ModuleIntrospection.sem1Introspection
+        }
     }
-  }
-  Component {
-    id: pagePower
-    Pages.ErrorRegisterModulePage {
-      errCalEntity: VeinEntity.getEntity("SPM1Module1")
-      moduleIntrospection: ModuleIntrospection.spm1Introspection
+    Component {
+        id: pagePower
+        Pages.ErrorRegisterModulePage {
+            errCalEntity: VeinEntity.getEntity("SPM1Module1")
+            moduleIntrospection: ModuleIntrospection.spm1Introspection
+        }
     }
-  }
 
-  // create tabs/pages dynamic
-  Component.onCompleted: {
-    if(hasSEC1) {
-      comparisonTabsBar.addItem(tabPulse.createObject(comparisonTabsBar))
-      swipeView.addItem(pagePulse.createObject(swipeView))
+    // create tabs/pages dynamic
+    Component.onCompleted: {
+        if(hasSEC1) {
+            comparisonTabsBar.addItem(tabPulse.createObject(comparisonTabsBar))
+            swipeView.addItem(pagePulse.createObject(swipeView))
+        }
+        if(hasSEC1_2) {
+            comparisonTabsBar.addItem(tabPulseEnergy.createObject(comparisonTabsBar))
+            swipeView.addItem(pagePulseEnergy.createObject(swipeView))
+        }
+        if(hasSEM1) {
+            comparisonTabsBar.addItem(tabEnergy.createObject(comparisonTabsBar))
+            swipeView.addItem(pageEnergy.createObject(swipeView))
+        }
+        if(hasSPM1) {
+            comparisonTabsBar.addItem(tabPower.createObject(comparisonTabsBar))
+            swipeView.addItem(pagePower.createObject(swipeView))
+        }
     }
-    if(hasSEC1_2) {
-      comparisonTabsBar.addItem(tabPulseEnergy.createObject(comparisonTabsBar))
-      swipeView.addItem(pagePulseEnergy.createObject(swipeView))
-    }
-    if(hasSEM1) {
-      comparisonTabsBar.addItem(tabEnergy.createObject(comparisonTabsBar))
-      swipeView.addItem(pageEnergy.createObject(swipeView))
-    }
-    if(hasSPM1) {
-      comparisonTabsBar.addItem(tabPower.createObject(comparisonTabsBar))
-      swipeView.addItem(pagePower.createObject(swipeView))
-    }
-  }
 }
-
-
