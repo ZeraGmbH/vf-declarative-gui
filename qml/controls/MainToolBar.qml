@@ -31,7 +31,6 @@ ToolBar {
     property bool measurementPaused: false
     property bool loggingActive: false
     property bool pageViewVisible: false
-    property int layoutStackIdxBeforeLoggerSettings: -1
     property QtObject layoutStackObj
 
     background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
@@ -120,7 +119,9 @@ ToolBar {
             font.pointSize:  18
             text: FA.fa_download
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
-            enabled: root.entityInitializationDone === true;
+            enabled: root.entityInitializationDone === true &&
+                     (root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex ||
+                      root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutPageIndex);
             visible: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             SequentialAnimation {
                 running: loggingActive
@@ -141,7 +142,6 @@ ToolBar {
                         onLoggerSettingsMenu: {
                             // show logger settings (if not showed already)
                             if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
-                                layoutStackIdxBeforeLoggerSettings = root.layoutStackObj.currentIndex
                                 root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                             }
                         }
@@ -157,10 +157,8 @@ ToolBar {
                     if(!loggerMenu.databaseReady) {
                         return
                     }
-                    // we can remember where we were before -> go back there
-                    if(layoutStackIdxBeforeLoggerSettings >= 0) {
-                        root.layoutStackObj.currentIndex = layoutStackIdxBeforeLoggerSettings
-                    }
+                    // move back to pages to state out context clearly
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
                 }
                 // now it's fine to show our menu
                 loggerMenu.open()
