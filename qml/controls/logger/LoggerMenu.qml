@@ -23,14 +23,15 @@ Item {
         }
     }
     readonly property bool databaseReady: loggerEntity.DatabaseReady
-    readonly property bool recordSelected: loggerEntity.recordName !== undefined && loggerEntity.recordName !== ""
     signal loggerSettingsMenu()
     // internal
     property bool snapshotTrigger: false;
     property bool startLoggingAfterRecordSelect: false
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+
+    // Snapshot is implemented as logging enable on / off
+    // TODO: we MUST-MUST-MUST!!! rework this
     readonly property bool logEnabled: loggerEntity.LoggingEnabled
-    // Snapshot is implemented as logging enable on / off (we should rework this..)
     onLogEnabledChanged: {
         if(logEnabled && snapshotTrigger) {
             snapshotTrigger = false;
@@ -44,9 +45,27 @@ Item {
         interval: 0
         repeat: false
         onTriggered: {
-            loggerEntity.LoggingEnabled = false;
+            loggerEntity.LoggingEnabled = false
         }
     }
+    // Endof TODO
+
+    readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
+    property bool popupRecordnameAccepted: false
+    onRecordNameLoggerChanged: {
+        if(popupRecordnameAccepted) {
+            popupRecordnameAccepted = false
+            if(startLoggingAfterRecordSelect) {
+                loggerEntity.LoggingEnabled = true
+            }
+            else {
+                // we did modify record name - re-open menu so user can
+                // start logging without further ado
+                menu.open()
+            }
+        }
+    }
+
     // menu with logger operations
     Menu {
         id: menu
@@ -68,7 +87,7 @@ Item {
             text: {
                 // No database cannot happen here: We force move to settings in open()
                 var menuText = ""
-                if(!recordSelected) {
+                if(recordNameLogger === "") {
                     menuText = Z.tr("-- no record --")
                 }
                 else {
@@ -90,7 +109,7 @@ Item {
                      !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
             onTriggered: {
                 snapshotTrigger = true;
-                if(recordSelected) {
+                if(recordNameLogger !== "") {
                     loggerEntity.LoggingEnabled = true
                 }
                 else {
@@ -107,7 +126,7 @@ Item {
             onTriggered: {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
-                    if(recordSelected) {
+                    if(recordNameLogger !== "") {
                         loggerEntity.LoggingEnabled = true
                     }
                     else {
@@ -133,14 +152,10 @@ Item {
         id: recordNamePopup
         onSigAccepted: {
             loggerEntity.recordName = t_resultText;
-            if(startLoggingAfterRecordSelect) {
-                loggerEntity.LoggingEnabled = true
-            }
-            else {
-                // we did modify record name - re-open menu so user can
-                // start logging without further ado
-                menu.open()
-            }
+            // before continuing, we have to wait for recordname accepted
+            // otherwise at least snapshots won't be stored
+            // see onRecordNameLoggerChanged for further activities
+            popupRecordnameAccepted = true
         }
     }
 }
