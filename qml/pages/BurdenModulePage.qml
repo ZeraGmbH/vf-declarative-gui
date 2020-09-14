@@ -57,6 +57,16 @@ Item {
             readonly property int rowCount: settingsView.model.count + burdenValueView.model.rowCount();
             readonly property int rowHeight: Math.floor(height/rowCount)
             readonly property int columnWidth: width/4.2 //0.7 + 3 + 0.5
+            onIsVoltagePageChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = isVoltagePage ? "ZeraVoltageBurden" : "ZeraCurrentBurden"
+                }
+            }
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = isVoltagePage ? "ZeraVoltageBurden" : "ZeraCurrentBurden"
+                }
+            }
 
             ListView {
                 id: burdenValueView
@@ -66,7 +76,6 @@ Item {
                 anchors.top: parent.top
                 model: page.isVoltagePage ? ZGL.BurdenModelU : ZGL.BurdenModelI
                 boundsBehavior: Flickable.StopAtBounds
-
                 delegate: Component {
                     Row {
                         width: page.width

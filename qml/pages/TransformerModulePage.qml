@@ -19,6 +19,13 @@ CCMP.ModulePage {
     readonly property var transformerIntrospection: ModuleIntrospection.transformer1Introspection
     readonly property int rowHeight: Math.floor(height/12)
 
+    // We are:
+    // not part of swipe/tab combo
+    // loaded on demand (see main.qml / pageLoader.source)
+    Component.onCompleted: {
+        GC.currentViewName = "ZeraInstrumentTransformer"
+    }
+
     // could be replaced by a VisualItemModel
     Column {
         anchors.horizontalCenter: parent.horizontalCenter

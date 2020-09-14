@@ -40,11 +40,21 @@ Item {
     Component {
         id: pageTable
         Pages.HarmonicPowerTable {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraHarmonicPowerTable"
+                }
+            }
         }
     }
     Component {
         id: pageChart
         Pages.HarmonicPowerCharts {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraHarmonicPowerChart"
+                }
+            }
         }
     }
 

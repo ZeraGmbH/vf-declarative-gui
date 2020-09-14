@@ -429,6 +429,9 @@ Item {
 
     // not saved to settings
     property string currentViewName: "";
+    /*onCurrentViewNameChanged: { // uncomment for test
+        console.info(currentViewName)
+    }*/
     property string currentSelectedStoragePath: "/home/operator/logger"; //default
 
 

@@ -50,29 +50,31 @@ Item {
     // Pages
     Component {
         id: pageTable
-        Loader {
-            active: true
-            sourceComponent: Pages.FftTable {
+        Pages.FftTable {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraHarmonicTable"
+                }
             }
         }
     }
     Component {
         id: pageChart
-        Loader {
-            active: true
-            asynchronous: true
-            visible: status === Loader.Ready
-            sourceComponent: Pages.FftCharts {
+        Pages.FftCharts {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraHarmonicChart"
+                }
             }
         }
     }
     Component {
         id: pageOsc
-        Loader {
-            active: pageTable.status === Loader.Ready && pageChart.status === Loader.Ready
-            asynchronous: true
-            visible: status === Loader.Ready
-            sourceComponent: Osc.OsciModulePage {
+        Osc.OsciModulePage {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraCurveDisplay"
+                }
             }
         }
     }
