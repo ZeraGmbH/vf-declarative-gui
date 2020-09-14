@@ -18,8 +18,8 @@ Column {
     property var periodList;
     property var timeList;
 
-    property var periodIntrospection: ModuleIntrospection.introMap[periodList[0].EntityName];
-    property var timeIntrospection: ModuleIntrospection.introMap[timeList[0].EntityName];
+    property var periodIntrospection: ModuleIntrospection.introMap[(periodList.length ? periodList[0].EntityName : "")];
+    property var timeIntrospection: ModuleIntrospection.introMap[(timeList.length ? timeList[0].EntityName : "")];
 
     property bool hasPeriodEntries: false
 
