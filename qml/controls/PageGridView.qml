@@ -79,11 +79,6 @@ Item {
         anchors.topMargin: root.height/10
         anchors.bottomMargin: root.height/10
         clip: true
-        onCurrentItemChanged: {
-            //untranslated raw text
-            GC.currentViewName = currentItem.itemName;
-        }
-
         ScrollBar.horizontal: ScrollBar { policy: gridView.contentWidth>gridView.width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; }
 
         delegate: gridDelegate

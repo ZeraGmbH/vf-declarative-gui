@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import QtQuick.Controls.Material 2.0
 import ZeraTranslation  1.0
+import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import "qrc:/qml/pages" as Pages
 
@@ -54,22 +55,42 @@ Item {
     Component {
         id: pageTable
         Pages.ActualValuesPage {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraActualValues"
+                }
+            }
         }
     }
     Component {
         id: pageVector
         Pages.VectorModulePage {
             topMargin: 10
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraVectorDiagramm"
+                }
+            }
         }
     }
     Component {
         id: pagePower
         Pages.PowerModulePage {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraPowerValues"
+                }
+            }
         }
     }
     Component {
         id: pageRms
         Pages.RMS4PhasePage {
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraRMSValues"
+                }
+            }
         }
     }
 

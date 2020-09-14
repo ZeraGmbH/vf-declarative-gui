@@ -120,11 +120,6 @@ Item {
         highlightMoveDuration: 200
         currentIndex: GC.pageViewLastSelectedIndex
 
-        onCurrentItemChanged: {
-            //untranslated raw text
-            GC.currentViewName = currentItem.itemName;
-        }
-
         delegate: pageDelegate
         path: Path {
             startX: width/2;

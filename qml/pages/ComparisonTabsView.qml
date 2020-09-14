@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import ZeraTranslation  1.0
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
+import GlobalConfig 1.0
 import "qrc:/qml/pages" as Pages
 
 Item {
@@ -62,6 +63,11 @@ Item {
             errCalEntity: VeinEntity.getEntity("SEC1Module1")
             moduleIntrospection: ModuleIntrospection.sec1m1Introspection
             validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraMeterTest"
+                }
+            }
         }
     }
     Component {
@@ -70,6 +76,11 @@ Item {
             errCalEntity: VeinEntity.getEntity("SEC1Module2")
             moduleIntrospection: ModuleIntrospection.sec1m2Introspection
             validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraEnergyComparison"
+                }
+            }
         }
     }
     Component {
@@ -77,6 +88,11 @@ Item {
         Pages.ErrorRegisterModulePage {
             errCalEntity: VeinEntity.getEntity("SEM1Module1")
             moduleIntrospection: ModuleIntrospection.sem1Introspection
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraEnergyRegister"
+                }
+            }
         }
     }
     Component {
@@ -84,6 +100,11 @@ Item {
         Pages.ErrorRegisterModulePage {
             errCalEntity: VeinEntity.getEntity("SPM1Module1")
             moduleIntrospection: ModuleIntrospection.spm1Introspection
+            SwipeView.onIsCurrentItemChanged: {
+                if(SwipeView.isCurrentItem) {
+                    GC.currentViewName = "ZeraPowerRegister"
+                }
+            }
         }
     }
 
