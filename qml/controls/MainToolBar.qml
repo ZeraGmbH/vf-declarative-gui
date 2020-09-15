@@ -65,14 +65,22 @@ ToolBar {
             }
         }
         ToolButton {
+            id: rangeButton
             implicitHeight: parent.height
             implicitWidth: rangeIndicator.width
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutRangeIndex
             enabled: root.entityInitializationDone === true
             onClicked: {
-                //show range menu
                 if(rangeIndicator.active === true) {
-                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutRangeIndex;
+                    // Already in range view?
+                    if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutRangeIndex) {
+                        // move back to pages
+                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+                    }
+                    else {
+                        // show range menu
+                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutRangeIndex;
+                    }
                 }
             }
             RangeControls.RangeIndicator {
@@ -154,15 +162,13 @@ ToolBar {
             onClicked: {
                 // already in LoggerSettings?
                 if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex) {
-                    // in case user has not selected database, stay in LoggerSettings (=do nothing)
-                    if(!loggerMenu.databaseReady) {
-                        return
-                    }
-                    // move back to pages to state out context clearly
+                    // move back to pages
                     root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
                 }
-                // now it's fine to show our menu
-                loggerMenu.open()
+                else {
+                    // show our menu
+                    loggerMenu.open()
+                }
             }
         }
         ToolButton {
@@ -175,8 +181,15 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
             enabled: root.entityInitializationDone === true
             onClicked: {
-                //shows the settings
-                root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutSettingsIndex;
+                // already in Settings?
+                if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex) {
+                    // move back to pages
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+                }
+                else {
+                    // show settings
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutSettingsIndex;
+                }
             }
         }
         ToolButton {
@@ -186,12 +199,12 @@ ToolBar {
             font.family: FA.old
             font.pointSize:  18
             text: FA.fa_info_circle
-            highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex && GC.adjustmentStatusOk
+            highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
             Timer {
                 interval: 300
                 repeat: true
-                running: !GC.adjustmentStatusOk
+                running: !GC.adjustmentStatusOk && !infoButton.highlighted
                 onRunningChanged: {
                     if(!running) {
                         infoButton.opacity = 1
@@ -204,8 +217,15 @@ ToolBar {
                 }
             }
             onClicked: {
-                //shows the appinfo
-                root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutStatusIndex;
+                // Already in appinfo?
+                if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex) {
+                    // move back to pages
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+                }
+                else {
+                    // shows appinfo
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutStatusIndex
+                }
             }
         }
         /*
