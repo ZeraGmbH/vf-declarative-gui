@@ -10,6 +10,7 @@ import ZeraFa 1.0
 Loader {
     id: invisibleRoot
     active: false
+    property bool highlighted: false
     sourceComponent: Component {
         Item {
             id: root
@@ -118,6 +119,7 @@ Loader {
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
                         text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
+                        color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
                     }
                 }
             }
@@ -154,6 +156,7 @@ Loader {
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
                         text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
+                        color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
                     }
                 }
             }
