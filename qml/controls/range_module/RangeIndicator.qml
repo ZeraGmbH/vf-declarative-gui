@@ -8,167 +8,157 @@ import ZeraFa 1.0
 
 
 Loader {
-  id: invisibleRoot
-  active: false
-  sourceComponent: Component {
-    Item {
-      id: root
+    id: invisibleRoot
+    active: false
+    sourceComponent: Component {
+        Item {
+            id: root
 
-      readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-
-      //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
-      readonly property var upperChannels: {
-        var retVal = [];
-        for(var channelNum=0; channelNum<channelCount; ++channelNum)
-        {
-          var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
-          var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-          if(name.indexOf("REF") === 0) //equivalent of startsWith that is only available in Qt 5.9
-          {
-            if(channelNum<3)//REF1..REF3
-            {
-              retVal.push(channelNum);
+            readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+            // convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
+            readonly property var upperChannels: {
+                var retVal = [];
+                for(var channelNum=0; channelNum<channelCount; ++channelNum) {
+                    var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
+                    var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
+                    if(name.indexOf("REF") === 0) { // equivalent of startsWith that is only available in Qt 5.9
+                        if(channelNum<3) { // REF1..REF3
+                            retVal.push(channelNum);
+                        }
+                    }
+                    else if(unit === "V") { // UL1..UL3 +UAUX
+                        retVal.push(channelNum)
+                    }
+                }
+                return retVal;
             }
-          }
-          else if(unit === "V")//UL1..UL3 +UAUX
-          {
-            retVal.push(channelNum)
-          }
-        }
-        return retVal;
-      }
 
-      readonly property var lowerChannels: {
-        var retVal = [];
-        for(var channelNum=0; channelNum<channelCount; ++channelNum)
-        {
-          var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
-          var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-          if(name.indexOf("REF") === 0) //equivalent of startsWith that is only available in Qt 5.9
-          {
-            if(channelNum>=3)//REF4..REF6
-            {
-              retVal.push(channelNum);
+            readonly property var lowerChannels: {
+                var retVal = [];
+                for(var channelNum=0; channelNum<channelCount; ++channelNum) {
+                    var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
+                    var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
+                    if(name.indexOf("REF") === 0) { // equivalent of startsWith that is only available in Qt 5.9
+                        if(channelNum>=3) { // REF4..REF6
+                            retVal.push(channelNum);
+                        }
+                    }
+                    else if(unit === "A") { // IL1..IL3 +IAUX
+                        retVal.push(channelNum)
+                    }
+                }
+                return retVal;
             }
-          }
-          else if(unit === "A")//IL1..IL3 +IAUX
-          {
-            retVal.push(channelNum)
-          }
+
+            readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
+            property int contentWidth: root.width/(root.channelCount/2)*0.9
+            readonly property int rangeGrouping: rangeModule.PAR_ChannelGrouping
+
+            signal sigOverloadHintClicked();
+
+            width: invisibleRoot.width
+            height: invisibleRoot.height
+
+            Rectangle {
+                anchors.fill: parent
+                color: Material.background
+                opacity: 0.2
+            }
+
+            Item {
+                anchors.right: parent.right
+                anchors.rightMargin: -4
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: height*1.3
+
+                Label {
+                    anchors.centerIn: parent
+                    font.family: FA.old
+                    font.pixelSize: 18
+                    text: FA.fa_exclamation_triangle
+
+                    property bool overload: rangeModule.PAR_Overload === 1
+                    opacity: overload ? 1.0 : 0.2
+                    color:  overload ? Material.color(Material.Yellow) : Material.color(Material.Grey)
+                }
+            }
+
+            ListView {
+                id: voltageList
+                model: root.upperChannels
+                anchors.left: parent.left
+                anchors.leftMargin: root.contentWidth*0.1
+                anchors.right: parent.right
+                interactive: false
+
+                height: root.height/2
+
+                boundsBehavior: ListView.StopAtBounds
+                orientation: Qt.Horizontal
+                spacing: root.contentWidth*0.1
+
+                delegate: Item {
+                    width: root.contentWidth*0.9
+                    height: root.height/2
+                    Label {
+                        width: parent.width*0.5
+                        font.pixelSize: parent.height/1.3
+                        fontSizeMode: Label.HorizontalFit
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
+                        color: GC.getColorByIndex(modelData+1, rangeGrouping)
+                        font.bold: true
+                    }
+                    Label {
+                        width: parent.width*0.5
+                        anchors.right: parent.right
+                        horizontalAlignment: Label.AlignRight
+                        font.pixelSize: parent.height/1.3
+                        fontSizeMode: Label.HorizontalFit
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
+                    }
+                }
+            }
+            ListView {
+                model: root.lowerChannels
+                anchors.left: parent.left
+                anchors.leftMargin: root.contentWidth*0.1
+                anchors.right: parent.right
+                height: root.height/2
+                anchors.top: voltageList.bottom
+                interactive: false
+
+                boundsBehavior: ListView.StopAtBounds
+                orientation: Qt.Horizontal
+                spacing: root.contentWidth*0.1
+
+                delegate: Item {
+                    width: root.contentWidth*0.9
+                    height: root.height/2
+                    Label {
+                        width: parent.width*0.5
+                        font.pixelSize: parent.height/1.3
+                        fontSizeMode: Label.HorizontalFit
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
+                        color: GC.getColorByIndex(modelData+1, rangeGrouping)
+                        font.bold: true
+                    }
+                    Label {
+                        width: parent.width*0.5
+                        anchors.right: parent.right
+                        horizontalAlignment: Label.AlignRight
+                        font.pixelSize: parent.height/1.3
+                        fontSizeMode: Label.HorizontalFit
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
+                    }
+                }
+            }
         }
-        return retVal;
-      }
-
-      readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-      property int contentWidth: root.width/(root.channelCount/2)*0.9
-      readonly property int rangeGrouping: rangeModule.PAR_ChannelGrouping
-
-      signal sigOverloadHintClicked();
-
-      width: invisibleRoot.width
-      height: invisibleRoot.height
-
-      Rectangle {
-        anchors.fill: parent
-        color: Material.background
-        opacity: 0.2
-      }
-
-      Item {
-        anchors.right: parent.right
-        anchors.rightMargin: -4
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        width: height*1.3
-
-        Label {
-          anchors.centerIn: parent
-          font.family: FA.old
-          font.pixelSize: 18
-          text: FA.fa_exclamation_triangle
-
-          property bool overload: rangeModule.PAR_Overload === 1
-
-          opacity: overload ? 1.0 : 0.2
-          color:  overload ? Material.color(Material.Yellow) : Material.color(Material.Grey)
-        }
-      }
-
-      ListView {
-        id: voltageList
-        model: root.upperChannels
-        anchors.left: parent.left
-        anchors.leftMargin: root.contentWidth*0.1
-        anchors.right: parent.right
-        interactive: false
-
-        height: root.height/2
-
-        boundsBehavior: ListView.StopAtBounds
-        orientation: Qt.Horizontal
-        spacing: root.contentWidth*0.1
-
-        delegate: Item {
-          width: root.contentWidth*0.9
-          height: root.height/2
-          Label {
-            width: parent.width*0.5
-            font.pixelSize: parent.height/1.3
-            fontSizeMode: Label.HorizontalFit
-            anchors.verticalCenter: parent.verticalCenter
-            text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
-            color: GC.getColorByIndex(modelData+1, rangeGrouping)
-            font.bold: true
-          }
-          Label {
-            width: parent.width*0.5
-            anchors.right: parent.right
-            horizontalAlignment: Label.AlignRight
-            font.pixelSize: parent.height/1.3
-            fontSizeMode: Label.HorizontalFit
-            anchors.verticalCenter: parent.verticalCenter
-            text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
-          }
-        }
-      }
-      ListView {
-        model: root.lowerChannels
-        anchors.left: parent.left
-        anchors.leftMargin: root.contentWidth*0.1
-        anchors.right: parent.right
-        height: root.height/2
-        anchors.top: voltageList.bottom
-        interactive: false
-
-        boundsBehavior: ListView.StopAtBounds
-        orientation: Qt.Horizontal
-        spacing: root.contentWidth*0.1
-
-        delegate: Item {
-          width: root.contentWidth*0.9
-          height: root.height/2
-          Label {
-            width: parent.width*0.5
-            font.pixelSize: parent.height/1.3
-            fontSizeMode: Label.HorizontalFit
-            anchors.verticalCenter: parent.verticalCenter
-            text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
-            color: GC.getColorByIndex(modelData+1, rangeGrouping)
-            font.bold: true
-          }
-          Label {
-            width: parent.width*0.5
-            anchors.right: parent.right
-            horizontalAlignment: Label.AlignRight
-            font.pixelSize: parent.height/1.3
-            fontSizeMode: Label.HorizontalFit
-            anchors.verticalCenter: parent.verticalCenter
-            text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
-          }
-        }
-      }
     }
-  }
 }
 
 
