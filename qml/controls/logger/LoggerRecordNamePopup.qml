@@ -288,6 +288,7 @@ Popup {
         anchors.bottom: parent.bottom
 
         Label {
+            id: reviewLabel
             text: Z.tr("Preview:");
             font.bold: true
             font.pointSize: recordNamePopup.pointSize
@@ -298,9 +299,12 @@ Popup {
             horizontalAlignment: Text.AlignRight
             font.pointSize: recordNamePopup.pointSize
             textFormat: Label.PlainText
+            elide: Text.ElideRight
+            Layout.maximumWidth: selectionColumn.width - // Ugly: suggestions welcome...
+                                 reviewLabel.width - spacerItem.width - okButton.width - cancelButton.width
         }
         Item {
-            // spacer
+            id: spacerItem
             Layout.fillWidth: true
         }
         Button {
