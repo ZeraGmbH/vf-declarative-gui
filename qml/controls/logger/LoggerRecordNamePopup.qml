@@ -286,8 +286,6 @@ Popup {
         width: selectionColumn.width
         height: recordNamePopup.rowHeight
         anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
 
         Label {
             text: Z.tr("Preview:");
