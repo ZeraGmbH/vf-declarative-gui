@@ -80,6 +80,7 @@ ToolBar {
                 width: Math.ceil(root.width/1.8)
                 height: root.height
                 active: false
+                highlighted: rangeButton.highlighted
             }
         }
         ToolButton {
