@@ -190,7 +190,7 @@ ApplicationWindow {
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutRangeIndex
             }
             Loader {
-                sourceComponent: loggerCmp
+                sourceComponent: LoggerControls.LoggerSettingsStack { }
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutLoggerIndex
             }
             Loader {
@@ -283,10 +283,6 @@ ApplicationWindow {
         Component {
             id: statusCmp
             AppInfoControls.StatusView { errorDataModel: syslogModel }
-        }
-        Component {
-            id: loggerCmp
-            LoggerControls.LoggerSettings {}
         }
         Component {
             id: settingsCmp

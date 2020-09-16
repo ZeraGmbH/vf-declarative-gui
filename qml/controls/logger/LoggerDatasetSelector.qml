@@ -11,12 +11,8 @@ import ZeraFa 1.0
 import ZeraComponents 1.0
 import "qrc:/qml/controls" as CCMP
 
-Popup {
+Item {
     id: root
-    parent: Overlay.overlay
-    width: parent.width
-    height: parent.height - (Qt.inputMethod.visible ? GC.vkeyboardHeight : 0)
-    closePolicy: Popup.NoAutoClose
 
     readonly property QtObject dataLogger: VeinEntity.getEntity("_LoggingSystem")
     readonly property var loggedComponents: VeinEntity.getEntity("_System").LoggedComponents
@@ -364,7 +360,7 @@ Popup {
                     componentsToLog[tmpObj.entId] = tmpArray;
                 }
                 VeinEntity.getEntity("_System").LoggedComponents = componentsToLog;
-                root.close();
+                root.parent.showSettings()
             }
         }
         Button {
@@ -380,7 +376,7 @@ Popup {
                     availView.currentIndex=-1;
                     selectedView.currentIndex=-1;
                     initModels();
-                    root.close();
+                    root.parent.showSettings()
                 }
             }
         }
