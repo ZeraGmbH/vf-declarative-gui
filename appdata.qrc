@@ -31,6 +31,7 @@
         <file>qml/controls/logger/LoggerMenu.qml</file>
         <file>qml/controls/logger/LoggerRecordNamePopup.qml</file>
         <file>qml/controls/logger/LoggerSettings.qml</file>
+        <file>qml/controls/logger/LoggerSettingsStack.qml</file>
         <file>qml/controls/range_module/RangeIndicator.qml</file>
         <file>qml/controls/range_module/RangeMenu.qml</file>
         <file>qml/controls/range_module/RangePeak.qml</file>

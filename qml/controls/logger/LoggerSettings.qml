@@ -67,14 +67,6 @@ SettingsControls.SettingsView {
             }
         }
     }
-    Loader {
-        id: loggerDataSelection
-        active: false
-        sourceComponent: LoggerDatasetSelector {
-            visible: true
-            onClosed: loggerDataSelection.active = false;
-        }
-    }
     Connections {
         target: customerDataEntry.item
         onOk: {
@@ -258,7 +250,7 @@ SettingsControls.SettingsView {
                 font.pointSize: root.pointSize
                 implicitHeight: root.rowHeight
                 enabled: loggerEntity.LoggingEnabled === false
-                onClicked: loggerDataSelection.active=true;
+                onClicked: root.parent.showDataSetSelector()
             }
         }
         RowLayout {
