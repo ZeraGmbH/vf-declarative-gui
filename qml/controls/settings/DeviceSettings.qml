@@ -7,7 +7,7 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import ZeraVeinComponents 1.0 as VFControls
+import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 
@@ -35,7 +35,7 @@ SettingsView {
 
                 Layout.fillWidth: true
             }
-            VFControls.VFSwitch {
+            VFSwitch {
                 height: parent.height
                 entity: VeinEntity.getEntity("SampleModule1")
                 controlPropertyName: "PAR_PllAutomaticOnOff"
@@ -60,7 +60,7 @@ SettingsView {
             Item {
                 Layout.fillWidth: true
             }
-            VFControls.VFComboBox {
+            VFComboBox {
                 arrayMode: true
                 entity: VeinEntity.getEntity("SampleModule1")
                 controlPropertyName: "PAR_PllChannel"
@@ -88,7 +88,7 @@ SettingsView {
                 Layout.fillWidth: true
             }
 
-            VFControls.VFComboBox {
+            VFComboBox {
                 arrayMode: true
                 entity: VeinEntity.getEntity("DFTModule1")
                 controlPropertyName: "PAR_RefChannel"

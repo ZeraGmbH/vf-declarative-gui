@@ -8,7 +8,7 @@ import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
-import ZeraVeinComponents 1.0 as VFControls
+import ZeraVeinComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/settings" as SettingsControls
 
@@ -129,7 +129,7 @@ Item {
                 anchors.bottom: parent.bottom
 
                 model: VisualItemModel {
-                    VFControls.VFLineEdit {
+                    VFLineEdit {
                         id: parNominalBurden
                         height: page.rowHeight;
                         width: page.width*0.9;
@@ -147,7 +147,7 @@ Item {
                             decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2]);
                         }
                     }
-                    VFControls.VFLineEdit {
+                    VFLineEdit {
                         id: parNominalRange
                         height: page.rowHeight;
                         width: page.width*0.9;
@@ -190,7 +190,7 @@ Item {
                             }
                         }
                     }
-                    VFControls.VFLineEdit {
+                    VFLineEdit {
                         id: parWCrosssection
                         height: page.rowHeight;
                         width: page.width*0.9;
@@ -208,7 +208,7 @@ Item {
                             decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2]);
                         }
                     }
-                    VFControls.VFLineEdit {
+                    VFLineEdit {
                         id: parWireLength
                         height: page.rowHeight;
                         width: page.width*0.9;

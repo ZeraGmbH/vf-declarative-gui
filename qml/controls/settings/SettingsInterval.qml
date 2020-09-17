@@ -7,7 +7,7 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
-import ZeraVeinComponents 1.0 as VFControls
+import ZeraVeinComponents 1.0
 import "qrc:/qml/controls" as CCMP
 
 Column {
@@ -75,7 +75,7 @@ Column {
                 Item {
                     Layout.fillWidth: true
                 }
-                VFControls.VFSpinBox {
+                VFSpinBox {
                     height: root.rowHeight
                     entity: timeList[0]
                     controlPropertyName: "PAR_Interval"
@@ -118,7 +118,7 @@ Column {
                 Item {
                     Layout.fillWidth: true
                 }
-                VFControls.VFSpinBox {
+                VFSpinBox {
                     height: root.rowHeight
                     entity: periodList[0]
                     controlPropertyName: "PAR_Interval"
