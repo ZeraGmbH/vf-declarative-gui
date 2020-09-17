@@ -21,7 +21,7 @@ SettingsControls.SettingsView {
     property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
 
     horizMargin: GC.standardTextHorizMargin
-    rowHeight: height/8
+    rowHeight: parent.height/8
 
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
