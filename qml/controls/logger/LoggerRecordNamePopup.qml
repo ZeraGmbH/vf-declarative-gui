@@ -36,7 +36,6 @@ Popup {
         var customerID = customerdataEntity ? customerdataEntity.PAR_DatasetIdentifier : Z.tr("[customer data is not available]")
         var customerNumber = customerdataEntity ? customerdataEntity.PAR_CustomerNumber : Z.tr("[customer data is not available]")
         var replacementModel = {
-            "$VIEW": Z.tr(GC.currentViewName),
             "$YEAR": Qt.formatDate(dateTime, "yyyy"),
             "$MONTH": Qt.formatDate(dateTime, "MM"),
             "$DAY": Qt.formatDate(dateTime, "dd"),
