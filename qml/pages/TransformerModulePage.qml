@@ -8,7 +8,7 @@ import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
-import ZeraVeinComponents 1.0 as VFControls
+import ZeraVeinComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/settings" as SettingsControls
 
@@ -237,7 +237,7 @@ CCMP.ModulePage {
                 width: root.width
                 height: root.rowHeight
 
-                VFControls.VFLineEdit {
+                VFLineEdit {
                     id: parPrimClampPrim
                     description.text: Z.tr("Mp-Prim:")
                     description.width: root.width/10;
@@ -254,7 +254,7 @@ CCMP.ModulePage {
                         decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
                     }
                 }
-                VFControls.VFLineEdit {
+                VFLineEdit {
                     id: parPrimClampSec
                     anchors.right: parent.right
                     description.text: Z.tr("Mp-Sec:")
@@ -277,7 +277,7 @@ CCMP.ModulePage {
                 width: root.width
                 height: root.rowHeight
 
-                VFControls.VFLineEdit {
+                VFLineEdit {
                     id: parDutPrimary
                     description.text: Z.tr("X-Prim:")
                     description.width: root.width/10;
@@ -294,7 +294,7 @@ CCMP.ModulePage {
                         decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
                     }
                 }
-                VFControls.VFLineEdit {
+                VFLineEdit {
                     id: parDutSecondary
                     anchors.right: parent.right
                     description.text: Z.tr("X-Sec:")
@@ -317,7 +317,7 @@ CCMP.ModulePage {
                 width: root.width
                 height: root.rowHeight
 
-                VFControls.VFLineEdit {
+                VFLineEdit {
                     id: parSecClampPrim
                     description.text: Z.tr("Ms-Prim:")
                     description.width: root.width/10;
@@ -334,7 +334,7 @@ CCMP.ModulePage {
                         decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
                     }
                 }
-                VFControls.VFLineEdit {
+                VFLineEdit {
                     id: parSecClampSec
                     description.text: Z.tr("Ms-Sec:")
                     description.width: root.width/10;

@@ -417,16 +417,11 @@ Item {
     // Misc settings / status
     readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
 
-    readonly property string loggerRecordnameDefaultStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
-    readonly property string loggerRecordnameDefault: settings.globalSettings.getOption("logger_recordname_default", loggerRecordnameDefaultStandard)
-    function setLoggerRecordnameDefault(defaultRecordname) {
-        settings.globalSettings.setOption("logger_recordname_default", defaultRecordname);
+    readonly property string loggerRecordnameEnvStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
+    readonly property string loggerRecordnameEnv: settings.globalSettings.getOption("logger_recordname_env", loggerRecordnameEnvStandard)
+    function setLoggerRecordnameEnv(envRecordname) {
+        settings.globalSettings.setOption("logger_recordname_env", envRecordname);
     }
-    readonly property string loggerRecordnameCustom: settings.globalSettings.getOption("logger_recordname_custom", loggerRecordnameDefault)
-    function setLoggerRecordnameCustom(customRecordname) {
-        settings.globalSettings.setOption("logger_recordname_custom", customRecordname);
-    }
-
     // not saved to settings
     property string currentViewName: "";
     /*onCurrentViewNameChanged: { // uncomment for test

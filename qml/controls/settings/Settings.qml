@@ -8,7 +8,6 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import ZeraVeinComponents 1.0 as VFControls
 import ZeraFa 1.0
 import anmsettings 1.0
 import "qrc:/qml/controls" as CCMP
@@ -35,7 +34,8 @@ Item{
         contentHeight: 32
     }
 
-    Component{
+    // Tabs
+    Component {
         id: appTab
         TabButton {
             text: Z.tr("Application Settings")
@@ -47,7 +47,6 @@ Item{
             text: Z.tr("Device settings")
         }
     }
-
     Component{
         id: netTab
         TabButton {
@@ -55,41 +54,30 @@ Item{
         }
     }
 
-
-
+    // Views
     Component{
         id: appPage
-        ApplicationSettings{
-
-        }
+        ApplicationSettings { }
     }
 
     Component{
         id: devPage
-        DeviceSettings{
-
-        }
+        DeviceSettings{ }
     }
-
 
     Component{
-    id: netPage
-    NetworkManager{
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.margins: 0
-        onNotification: {
-           // notificationManager.notify(title,msg);
+        id: netPage
+        NetworkManager{
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: 0
+            onNotification: {
+               // notificationManager.notify(title,msg);
+            }
         }
     }
 
-    }
-
-
-
-
     Component.onCompleted: {
-
         settingsTabsBar.addItem(appTab.createObject(settingsTabsBar))
         swipeView.addItem(appPage.createObject(swipeView))
 
@@ -98,10 +86,5 @@ Item{
 
         settingsTabsBar.addItem(netTab.createObject(settingsTabsBar))
         swipeView.addItem(netPage.createObject(swipeView))
-
-
     }
-
-
-
 }

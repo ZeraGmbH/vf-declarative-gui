@@ -8,13 +8,11 @@ import ZeraTranslation  1.0
 import ZeraTranslationBackend  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
-import ZeraVeinComponents 1.0 as VFControls
+import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/customerdata" as CDataControls
 import "qrc:/qml/controls/settings" as SettingsControls
-
-
 
 SettingsControls.SettingsView {
     id: root
@@ -274,7 +272,7 @@ SettingsControls.SettingsView {
                 Layout.fillWidth: true
                 enabled: loggerEntity.ScheduledLoggingEnabled === true
             }
-            VFControls.VFLineEdit {
+            VFLineEdit {
                 id: durationField
 
                 // overrides
@@ -299,7 +297,7 @@ SettingsControls.SettingsView {
                 width: 280
                 enabled: loggerEntity.ScheduledLoggingEnabled === true
             }
-            VFControls.VFSwitch {
+            VFSwitch {
                 id: scheduledLogging
                 height: parent.height
                 entity: root.loggerEntity

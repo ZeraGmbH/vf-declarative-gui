@@ -21,169 +21,169 @@
 
 int main(int argc, char *argv[])
 {
-  //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
-  //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
+    //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
+    //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
 
-  // We need to pin virtual keyboard on - otherwise Qml complains for unknown
-  // Type 'InputPanel'
-  qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
+    // We need to pin virtual keyboard on - otherwise Qml complains for unknown
+    // Type 'InputPanel'
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
 
-  ZVKeyboard::setKeyboardLayoutEnvironment();
+    ZVKeyboard::setKeyboardLayoutEnvironment();
 
-  const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
+    const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
 
 #if QT_CONFIG(qml_debug)
-  QQmlDebuggingEnabler enabler;
+    QQmlDebuggingEnabler enabler;
 #endif
 
-  QLocale locale = QLocale("C");
-  locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
-  QLocale::setDefault(locale);
+    QLocale locale = QLocale("C");
+    locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
+    QLocale::setDefault(locale);
 
-  QStringList loggingFilters = QStringList() << QString("%1.debug=false").arg(VEIN_EVENT().categoryName()) <<
-                                                QString("%1.debug=false").arg(VEIN_NET_VERBOSE().categoryName()) <<
-                                                QString("%1.debug=false").arg(VEIN_NET_INTRO_VERBOSE().categoryName()) << //< Introspection logging is still enabled
-                                                QString("%1.debug=false").arg(VEIN_NET_TCP_VERBOSE().categoryName()) <<
-                                                QString("%1.debug=false").arg(VEIN_API_QML_INTROSPECTION().categoryName()) <<
-                                                QString("%1.debug=false").arg(VEIN_API_QML_VERBOSE().categoryName());// << "qt.qml.binding.removal.info=true"; //debug binding overrides
+    QStringList loggingFilters = QStringList() << QString("%1.debug=false").arg(VEIN_EVENT().categoryName()) <<
+                                                  QString("%1.debug=false").arg(VEIN_NET_VERBOSE().categoryName()) <<
+                                                  QString("%1.debug=false").arg(VEIN_NET_INTRO_VERBOSE().categoryName()) << //< Introspection logging is still enabled
+                                                  QString("%1.debug=false").arg(VEIN_NET_TCP_VERBOSE().categoryName()) <<
+                                                  QString("%1.debug=false").arg(VEIN_API_QML_INTROSPECTION().categoryName()) <<
+                                                  QString("%1.debug=false").arg(VEIN_API_QML_VERBOSE().categoryName());// << "qt.qml.binding.removal.info=true"; //debug binding overrides
 
-  QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
+    QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
 
-  bool loadedOnce = false;
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QApplication app(argc, argv);
+    bool loadedOnce = false;
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication app(argc, argv);
 
-  // dependencies
-  ZeraTranslationPlugin::registerQml();
-  // internal
-  qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
-  qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
-  qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
+    // dependencies
+    ZeraTranslationPlugin::registerQml();
+    // internal
+    qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
 
-  app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
+    app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
-  QmlFileIO::setStaticInstance(new QmlFileIO(&app));
+    QmlFileIO::setStaticInstance(new QmlFileIO(&app));
 
-  GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
-  GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
+    GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
+    GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
 
-  QQmlApplicationEngine engine;
-  QTimer networkWatchdog;
-  networkWatchdog.setInterval(3000);
-  networkWatchdog.setSingleShot(true);
+    QQmlApplicationEngine engine;
+    QTimer networkWatchdog;
+    networkWatchdog.setInterval(3000);
+    networkWatchdog.setSingleShot(true);
 
-  JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
-  globalSettingsFile->setAutoWriteBackEnabled(true);
+    JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
+    globalSettingsFile->setAutoWriteBackEnabled(true);
 
-  if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
-  {
-    const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-    const QString targetPath = QString("%1/settings.json").arg(standardPath);
-    QDir standardConfigDirectory;
-
-    if(!standardConfigDirectory.exists(standardPath))
+    if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
     {
-      standardConfigDirectory.mkdir(standardPath);
+        const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+        const QString targetPath = QString("%1/settings.json").arg(standardPath);
+        QDir standardConfigDirectory;
+
+        if(!standardConfigDirectory.exists(standardPath))
+        {
+            standardConfigDirectory.mkdir(standardPath);
+        }
+        //copy from qrc to standard dir
+        if(QFile::copy("://data/settings.json", targetPath))
+        {
+            qDebug("Deployed default settings file from: qrc://data/settings.json");
+            QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
+            globalSettingsFile->loadFromStandardLocation("settings.json");
+        }
     }
-    //copy from qrc to standard dir
-    if(QFile::copy("://data/settings.json", targetPath))
-    {
-      qDebug("Deployed default settings file from: qrc://data/settings.json");
-      QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
-      globalSettingsFile->loadFromStandardLocation("settings.json");
-    }
-  }
 
 #ifdef QT_DEBUG
-  engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
-#else
-  if(qgetenv("VF_GUI_DEBUG") == QByteArray("debug_enabled")) //enviroment variable override
-  {
     engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
-  }
-  else
-  {
-    engine.rootContext()->setContextProperty("BUILD_TYPE", "release");
-  }
+#else
+    if(qgetenv("VF_GUI_DEBUG") == QByteArray("debug_enabled")) //enviroment variable override
+    {
+        engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
+    }
+    else
+    {
+        engine.rootContext()->setContextProperty("BUILD_TYPE", "release");
+    }
 #endif //QT_DEBUG
 
 #ifdef Q_OS_ANDROID
-  engine.rootContext()->setContextProperty("OS_TYPE", "android");
+    engine.rootContext()->setContextProperty("OS_TYPE", "android");
 #else
-  engine.rootContext()->setContextProperty("OS_TYPE", "linux");
+    engine.rootContext()->setContextProperty("OS_TYPE", "linux");
 #endif //Q_OS_ANDROID
 
-  engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
-  engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
+    engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
+    engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
-  VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-  ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, &app);
-  VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
-  VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
-  VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
+    VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
+    ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, &app);
+    VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
+    VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
+    VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
 
-  VeinApiQml::VeinQml::setStaticInstance(qmlApi);
-  QList<VeinEvent::EventSystem*> subSystems;
+    VeinApiQml::VeinQml::setStaticInstance(qmlApi);
+    QList<VeinEvent::EventSystem*> subSystems;
 
-  QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
-    if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_LOADED && loadedOnce == false)
-    {
-      engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-      loadedOnce = true;
-    }
-    else if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
-    {
-      engine.quit();
-    }
-  });
+    QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
+        if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_LOADED && loadedOnce == false)
+        {
+            engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+            loadedOnce = true;
+        }
+        else if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
+        {
+            engine.quit();
+        }
+    });
 
-  QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigSendEvent, [&](QEvent *t_event){
-    if(t_event->type()==VeinNet::NetworkStatusEvent::getEventType())
-    {
-      //network not ready, try again in 3 seconds
-      qDebug() << "Network failed retrying network connection ...";
-      networkWatchdog.start(3000);
-    }
-  });
+    QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigSendEvent, [&](QEvent *t_event){
+        if(t_event->type()==VeinNet::NetworkStatusEvent::getEventType())
+        {
+            //network not ready, try again in 3 seconds
+            qDebug() << "Network failed retrying network connection ...";
+            networkWatchdog.start(3000);
+        }
+    });
 
-  netSystem->setOperationMode(VeinNet::NetworkSystem::VNOM_PASS_THROUGH);
+    netSystem->setOperationMode(VeinNet::NetworkSystem::VNOM_PASS_THROUGH);
 
-  subSystems.append(glueLogicSystem);
-  subSystems.append(netSystem);
-  subSystems.append(tcpSystem);
-  subSystems.append(qmlApi);
+    subSystems.append(glueLogicSystem);
+    subSystems.append(netSystem);
+    subSystems.append(tcpSystem);
+    subSystems.append(qmlApi);
 
-  evHandler->setSubsystems(subSystems);
+    evHandler->setSubsystems(subSystems);
 
-  QString netHost = "127.0.0.1";
-  quint16 netPort = 12000;
+    QString netHost = "127.0.0.1";
+    quint16 netPort = 12000;
 #ifdef Q_OS_ANDROID
-  ///@todo for android: code is needed to fetch a list of possible hosts via QtZeroConf service discovery
+    ///@todo for android: code is needed to fetch a list of possible hosts via QtZeroConf service discovery
 #endif //Q_OS_ANDROID
 
-  netHost = globalSettingsFile->getOption("modulemanagerIp", "127.0.0.1");
-  netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort", "12000").toUInt());
+    netHost = globalSettingsFile->getOption("modulemanagerIp", "127.0.0.1");
+    netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort", "12000").toUInt());
 
-  tcpSystem->connectToServer(netHost, netPort);
-
-  QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
     tcpSystem->connectToServer(netHost, netPort);
-  });
 
-  QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, [&]() {
-    qmlApi->entitySubscribeById(0);
-  });
+    QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
+        tcpSystem->connectToServer(netHost, netPort);
+    });
 
-  QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
-    engine.quit();
-    evHandler->clearSubsystems();
-    evHandler->deleteLater();
-    //the qmlengine will delete the qmlApi
-    subSystems.removeAll(qmlApi);
-    for(VeinEvent::EventSystem *toDelete : subSystems) {
-      toDelete->deleteLater();
-    }
-    subSystems.clear();
-  });
-  return app.exec();
+    QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, [&]() {
+        qmlApi->entitySubscribeById(0);
+    });
+
+    QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
+        engine.quit();
+        evHandler->clearSubsystems();
+        evHandler->deleteLater();
+        //the qmlengine will delete the qmlApi
+        subSystems.removeAll(qmlApi);
+        for(VeinEvent::EventSystem *toDelete : subSystems) {
+            toDelete->deleteLater();
+        }
+        subSystems.clear();
+    });
+    return app.exec();
 }
