@@ -190,6 +190,7 @@ ApplicationWindow {
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutRangeIndex
             }
             Loader {
+                id: loggerSettingsLoader
                 sourceComponent: LoggerControls.LoggerSettingsStack { }
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutLoggerIndex
             }
@@ -297,6 +298,7 @@ ApplicationWindow {
 
             entityInitializationDone: GC.entityInitializationDone;
             layoutStackObj: layoutStack
+            loggerSettingsStackObj: loggerSettingsLoader.item
         }
 
         ListModel {

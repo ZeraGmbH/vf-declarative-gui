@@ -8,4 +8,8 @@ StackLayout {
 
     function showDataSetSelector() { currentIndex = 1 }
     LoggerDatasetSelector { }
+
+    function showRecordNameSelector() { currentIndex = 2 }
+    LoggerRecordNameSelector { id: loggerRecordnameSelector }
+    property alias recordnameSelector: loggerRecordnameSelector // enable access to connect signal
 }

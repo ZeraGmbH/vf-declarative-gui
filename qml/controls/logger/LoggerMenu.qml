@@ -22,8 +22,10 @@ Item {
             return menu.open()
         }
     }
+
     readonly property bool databaseReady: loggerEntity.DatabaseReady
     signal loggerSettingsMenu()
+    signal loggerRecordsMenu(var loggerEntity)
     // internal
     property bool snapshotTrigger: false;
     property bool startLoggingAfterRecordSelect: false
@@ -51,20 +53,6 @@ Item {
     // Endof TODO
 
     readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
-    property bool popupRecordnameAccepted: false
-    onRecordNameLoggerChanged: {
-        if(popupRecordnameAccepted) {
-            popupRecordnameAccepted = false
-            if(startLoggingAfterRecordSelect) {
-                loggerEntity.LoggingEnabled = true
-            }
-            else {
-                // we did modify record name - re-open menu so user can
-                // start logging without further ado
-                menu.open()
-            }
-        }
-    }
 
     // menu with logger operations
     Menu {
@@ -97,7 +85,7 @@ Item {
             }
             onTriggered: {
                 startLoggingAfterRecordSelect = false
-                recordNamePopup.visible = true;
+                loggerRecordsMenu(loggerEntity)
             }
             enabled: loggerEntity.LoggingEnabled !== true
         }
@@ -114,7 +102,7 @@ Item {
                 }
                 else {
                     startLoggingAfterRecordSelect = true
-                    recordNamePopup.visible = true;
+                    loggerRecordsMenu(loggerEntity)
                 }
             }
         }
@@ -131,7 +119,7 @@ Item {
                     }
                     else {
                         startLoggingAfterRecordSelect = true
-                        recordNamePopup.visible = true;
+                        loggerRecordsMenu(loggerEntity)
                     }
                 }
                 else { // Stop
@@ -145,17 +133,6 @@ Item {
             onTriggered: {
                 loggerSettingsMenu()
             }
-        }
-    }
-    // database record setter popup
-    LoggerRecordNamePopup {
-        id: recordNamePopup
-        onSigAccepted: {
-            loggerEntity.recordName = t_resultText;
-            // before continuing, we have to wait for recordname accepted
-            // otherwise at least snapshots won't be stored
-            // see onRecordNameLoggerChanged for further activities
-            popupRecordnameAccepted = true
         }
     }
 }
