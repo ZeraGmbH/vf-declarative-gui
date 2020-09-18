@@ -417,11 +417,38 @@ Item {
     // Misc settings / status
     readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
 
-    readonly property string loggerRecordnameEnvStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
-    readonly property string loggerRecordnameEnv: settings.globalSettings.getOption("logger_recordname_env", loggerRecordnameEnvStandard)
-    function setLoggerRecordnameEnv(envRecordname) {
-        settings.globalSettings.setOption("logger_recordname_env", envRecordname);
+    // Logger default recordset name
+    readonly property string loggerRecordnameDefaultStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
+    readonly property string loggerRecordnameDefault: settings.globalSettings.getOption("logger_recordname_default", loggerRecordnameDefaultStandard)
+    function setLoggerRecordnameDefault(defaultRecordname) {
+        settings.globalSettings.setOption("logger_recordname_default", defaultRecordname);
     }
+    // Logger default recordset helpers
+    readonly property QtObject customerdataEntity: VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
+    function loggerRecordNameReplace(strRaw) {
+        var strRet = strRaw
+        var dateTime = new Date();
+        var customerID = customerdataEntity ? customerdataEntity.PAR_DatasetIdentifier : Z.tr("[customer data is not available]")
+        var customerNumber = customerdataEntity ? customerdataEntity.PAR_CustomerNumber : Z.tr("[customer data is not available]")
+        var replacementModel = {
+            "$YEAR": Qt.formatDate(dateTime, "yyyy"),
+            "$MONTH": Qt.formatDate(dateTime, "MM"),
+            "$DAY": Qt.formatDate(dateTime, "dd"),
+            "$TIME": Qt.formatDateTime(dateTime, "hh:mm"),
+            "$SECONDS": Qt.formatDateTime(dateTime, "ss"),
+            "$CUST_ID" : customerID.length>0 ? customerID : Z.tr("[customer id is not set]"),
+            "$CUST_NUM" : customerID.length>0 ? customerNumber : Z.tr("[customer number is not set]")
+        }
+        for(var replaceIndex in replacementModel) {
+            var tmpRegexp = new RegExp("\\"+replaceIndex, 'g') //the $ is escaped as \$
+            strRet = strRet.replace(tmpRegexp, replacementModel[replaceIndex]);
+        }
+        if(strRet.length > 255) {
+            strRet = strRet.substring(0, 255)
+        }
+        return strRet;
+    }
+
     // not saved to settings
     property string currentViewName: "";
     /*onCurrentViewNameChanged: { // uncomment for test

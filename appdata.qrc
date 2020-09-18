@@ -29,7 +29,8 @@
         <file>qml/controls/logger/LoggerDbLocationSelector.qml</file>
         <file>qml/controls/logger/LoggerDbSearchDialog.qml</file>
         <file>qml/controls/logger/LoggerMenu.qml</file>
-        <file>qml/controls/logger/LoggerRecordNamePopup.qml</file>
+        <file>qml/controls/logger/LoggerRecordNameDefaultPopup.qml</file>
+        <file>qml/controls/logger/LoggerRecordNameSelector.qml</file>
         <file>qml/controls/logger/LoggerSettings.qml</file>
         <file>qml/controls/logger/LoggerSettingsStack.qml</file>
         <file>qml/controls/range_module/RangeIndicator.qml</file>

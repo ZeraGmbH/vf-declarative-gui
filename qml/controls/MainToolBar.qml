@@ -30,8 +30,13 @@ ToolBar {
 
     property bool measurementPaused: false
     property bool loggingActive: false
-    property bool pageViewVisible: false
-    property QtObject layoutStackObj
+    property bool pageViewVisible: false     // PageView.visible is bound to pageViewVisible
+    property QtObject layoutStackObj         // bound to main.qml / layoutStack
+    property QtObject loggerSettingsStackObj // bound to LoggerSettingsStack
+
+    function goHomeToPages() {
+        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+    }
 
     background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
     //provide more contrast
@@ -55,12 +60,13 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
             enabled: root.entityInitializationDone === true
             onClicked: {
-                //shows the selection of available pages, or returns to the current page when in (range / settings / logger / appinfo) view
                 if(root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex) {
-                    root.pageViewVisible=true;
+                    // shows 'start menu ' (selection GUI for page-groups
+                    root.pageViewVisible = true;
                 }
                 else {
-                    root.layoutStackObj.currentIndex=GC.layoutStackEnum.layoutPageIndex;
+                    // returns to the current page when in (range / settings / logger / appinfo) view
+                    goHomeToPages()
                 }
             }
         }
@@ -74,8 +80,7 @@ ToolBar {
                 if(rangeIndicator.active === true) {
                     // Already in range view?
                     if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutRangeIndex) {
-                        // move back to pages
-                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+                        goHomeToPages()
                     }
                     else {
                         // show range menu
@@ -146,29 +151,31 @@ ToolBar {
 
             Loader { // menu requires vein initialized && logging system available
                 id: menuLoader
-                sourceComponent: Component {
-                    LoggerControls.LoggerMenu {
-                        onLoggerSettingsMenu: {
-                            // show logger settings (if not showed already)
-                            if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
-                                root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                            }
+                sourceComponent: LoggerControls.LoggerMenu {
+                    onLoggerSettingsMenu: {
+                        // show logger settings (if not showed already)
+                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
+                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         }
+                        loggerSettingsStackObj.showSettings()
+                    }
+                    onLoggerRecordsMenu: {
+                        // show logger settings (if not showed already)
+                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
+                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                        }
+                        loggerSettingsStackObj.showRecordNameSelector()
                     }
                 }
                 active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             }
-            property alias loggerMenu: menuLoader.item
             onClicked: {
                 // already in LoggerSettings?
                 if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex) {
-                    // move back to pages
-                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+                    goHomeToPages()
                 }
-                else {
-                    // show our menu
-                    loggerMenu.open()
-                }
+                // show our menu
+                menuLoader.item.open()
             }
         }
         ToolButton {
@@ -183,8 +190,7 @@ ToolBar {
             onClicked: {
                 // already in Settings?
                 if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex) {
-                    // move back to pages
-                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+                    goHomeToPages()
                 }
                 else {
                     // show settings
@@ -219,8 +225,7 @@ ToolBar {
             onClicked: {
                 // Already in appinfo?
                 if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex) {
-                    // move back to pages
-                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+                    goHomeToPages()
                 }
                 else {
                     // shows appinfo
