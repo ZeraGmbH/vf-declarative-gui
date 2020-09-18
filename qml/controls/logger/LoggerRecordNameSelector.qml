@@ -118,9 +118,9 @@ Item {
                 font.family: FA.old
                 font.pointSize: root.pointSize
                 focusPolicy: Qt.NoFocus
-                enabled: GC.loggerRecordNameReplace(GC.loggerRecordnameDefault) !== currentRecordName.textField.text
+                enabled: preview.text !== currentRecordName.textField.text
                 onPressed: {
-                    loggerEntity.recordName = GC.loggerRecordNameReplace(GC.loggerRecordnameDefault)
+                    loggerEntity.recordName = preview.text
                 }
             }
         }

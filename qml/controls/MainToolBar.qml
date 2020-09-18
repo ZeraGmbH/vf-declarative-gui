@@ -133,9 +133,7 @@ ToolBar {
             font.pointSize:  18
             text: FA.fa_download
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
-            enabled: root.entityInitializationDone === true &&
-                     (root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex ||
-                      root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutPageIndex);
+            enabled: root.entityInitializationDone === true
             visible: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             SequentialAnimation {
                 running: loggingActive
@@ -170,8 +168,8 @@ ToolBar {
                 active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             }
             onClicked: {
-                // already in LoggerSettings?
-                if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex) {
+                // are we somewhere but pages?
+                if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutPageIndex) {
                     goHomeToPages()
                 }
                 // show our menu
