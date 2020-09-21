@@ -19,6 +19,13 @@ CCMP.ModulePage {
 
     readonly property QtObject power2Module1: VeinEntity.getEntity("POWER2Module1")
 
+    // We are:
+    // not part of swipe/tab combo
+    // loaded on demand (see main.qml / pageLoader.source)
+    Component.onCompleted: {
+        GC.currentViewName = "ZeraCEDPower"
+    }
+
     function getProperty(index) {
         var retVal=String("");
         switch(index) {
