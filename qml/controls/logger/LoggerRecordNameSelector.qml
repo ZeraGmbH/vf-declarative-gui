@@ -61,7 +61,7 @@ Item {
                 height: root.rowHeight
                 // override ZLineEdit defaults
                 textField.anchors.rightMargin: 0
-                textField.topPadding: 0
+                textField.rightPadding: 10
                 textField.onFocusChanged: {
                     if(textField.focus) {
                         textField.selectAll()
@@ -128,6 +128,89 @@ Item {
             // vert. spacer
             width: selectionColumn.width
             height: root.rowHeight / 2
+        }
+        Label {
+            text: Z.tr("Select existing:");
+            font.pointSize: root.pointSize
+            visible: existingList.visible
+        }
+        RowLayout {
+            width: selectionColumn.width
+            Layout.fillHeight: true
+            ListView {
+                id: existingList
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                property string recordSelected
+                currentIndex: model ? model.indexOf(loggerEntity.recordName) : -1 // binding is broken onClicked
+                clip: true
+                property bool vBarVisible: existingList.contentHeight > existingList.height
+                visible: model.length !== 0
+                ScrollBar.vertical: ScrollBar {
+                    id: vBar
+                    anchors.right: parent.right
+                    width: 16
+                    orientation: Qt.Vertical
+                    policy: existingList.vBarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                }
+                // TODO
+                model:  {
+                    // Avoid empty entries
+                    var recordsArray = []
+                    loggerEntity.ExistingRecords.forEach(
+                        function(item, index, array) {
+                            if(item !== "") {
+                                recordsArray.push(item)
+                            }
+                        })
+                    return recordsArray
+                }
+
+                delegate: ItemDelegate {
+                    anchors.left: parent.left
+                    width: parent.width - (existingList.vBarVisible ? vBar.width : 0)
+                    height: root.rowHeight
+                    highlighted: ListView.isCurrentItem
+                    RowLayout {
+                        anchors.fill: parent
+                        Label {
+                            id: activeIndicator
+                            font.family: FA.old
+                            font.pointSize: root.pointSize
+                            horizontalAlignment: Text.AlignLeft
+                            text: FA.fa_chevron_right
+                            opacity: (modelData === loggerEntity.recordName) ? 1.0 : 0.0
+                            Layout.preferredWidth: root.pointSize
+                        }
+                        Label {
+                            font.pointSize: root.pointSize
+                            horizontalAlignment: Text.AlignLeft
+                            text: modelData
+                            Layout.fillWidth: true
+                        }
+                    }
+                    onClicked: {
+                        if(existingList.recordSelected !== modelData) {
+                            existingList.recordSelected = modelData
+                            existingList.currentIndex = index
+                        }
+                    }
+                }
+            }
+            Button {
+                id: makeExistingCurrentButton
+                text: enabled ? FA.colorize(FA.fa_check, "lawngreen") : FA.colorize(FA.fa_check, "grey")
+                Layout.preferredWidth: height
+                font.family: FA.old
+                font.pointSize: root.pointSize
+                focusPolicy: Qt.NoFocus
+                visible: existingList.visible
+                enabled: existingList.recordSelected !== "" &&
+                         currentRecordName.textField.text !== existingList.recordSelected
+                onPressed: {
+                    loggerEntity.recordName = existingList.recordSelected
+                }
+            }
         }
     }
 }
