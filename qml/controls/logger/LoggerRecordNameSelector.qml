@@ -37,7 +37,7 @@ Item {
         text: Z.tr("Select record name")
         font.pointSize: root.pointSize
     }
-    Column {
+    ColumnLayout {
         id: selectionColumn
         anchors.left: parent.left
         anchors.right: parent.right
@@ -84,7 +84,7 @@ Item {
             height: root.rowHeight
             Label {
                 id: defNameLabel
-                text: Z.tr("Default name:")
+                text: Z.tr("Set default name:")
                 font.pointSize: root.pointSize
             }
             Item {
@@ -98,7 +98,7 @@ Item {
                 elide: Text.ElideRight
                 Layout.maximumWidth: selectionColumn.width - // Ugly: suggestions welcome...
                                      selectionColumn.anchors.leftMargin - selectionColumn.anchors.rightMargin -
-                                     defNameLabel.width - defSettingsButton.width - defMakeCurrentButton.width
+                                     defNameLabel.width - defSettingsButton.width - makeDefaultCurrentButton.width
             }
             Button {
                 id: defSettingsButton
@@ -112,7 +112,7 @@ Item {
                 }
             }
             Button {
-                id: defMakeCurrentButton
+                id: makeDefaultCurrentButton
                 text: enabled ? FA.colorize(FA.fa_check, "lawngreen") : FA.colorize(FA.fa_check, "grey")
                 Layout.preferredWidth: height
                 font.family: FA.old
