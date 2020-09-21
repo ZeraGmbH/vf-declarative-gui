@@ -54,6 +54,19 @@ Item {
 
     readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
 
+    function setLoggingEnvironment() {
+        if(loggerEntity.availableContextList && loggerEntity.availableContextList.includes(GC.currentViewName)) {
+            // TODO: Once we have multiple contexts this needs rework
+            loggerEntity.currentContext = GC.currentViewName
+            var dateTime = new Date();
+            var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
+            loggerEntity.transactionName = transactionName
+        }
+        else {
+            console.warn("Cannot find context \"" + GC.currentViewName + "\" in available contexts!" )
+        }
+    }
+
     // menu with logger operations
     Menu {
         id: menu
@@ -98,6 +111,7 @@ Item {
             onTriggered: {
                 snapshotTrigger = true;
                 if(recordNameLogger !== "") {
+                    setLoggingEnvironment()
                     loggerEntity.LoggingEnabled = true
                 }
                 else {
@@ -115,6 +129,7 @@ Item {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
                     if(recordNameLogger !== "") {
+                        setLoggingEnvironment()
                         loggerEntity.LoggingEnabled = true
                     }
                     else {
