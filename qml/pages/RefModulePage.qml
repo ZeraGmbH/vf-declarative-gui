@@ -15,6 +15,13 @@ CCMP.ModulePage {
 
     readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
 
+    // We are:
+    // not part of swipe/tab combo
+    // loaded on demand (see main.qml / pageLoader.source)
+    Component.onCompleted: {
+        GC.currentViewName = "ZeraDCReference"
+    }
+
     Row {
         id: heardersRow
         anchors.horizontalCenter: parent.horizontalCenter
