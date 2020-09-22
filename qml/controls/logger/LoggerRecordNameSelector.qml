@@ -141,8 +141,7 @@ Item {
                 id: existingList
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                property string recordSelected
-                currentIndex: model ? model.indexOf(loggerEntity.recordName) : -1 // binding is broken onClicked
+                currentIndex: model ? model.indexOf(loggerEntity.recordName) : -1
                 clip: true
                 property bool vBarVisible: existingList.contentHeight > existingList.height
                 visible: model.length !== 0
@@ -153,7 +152,6 @@ Item {
                     orientation: Qt.Vertical
                     policy: existingList.vBarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
                 }
-                // TODO
                 model:  {
                     // Avoid empty entries
                     var recordsArray = []
@@ -190,25 +188,10 @@ Item {
                         }
                     }
                     onClicked: {
-                        if(existingList.recordSelected !== modelData) {
-                            existingList.recordSelected = modelData
-                            existingList.currentIndex = index
+                        if(loggerEntity.recordName !== modelData) {
+                            loggerEntity.recordName = modelData
                         }
                     }
-                }
-            }
-            Button {
-                id: makeExistingCurrentButton
-                text: enabled ? FA.colorize(FA.fa_check, "lawngreen") : FA.colorize(FA.fa_check, "grey")
-                Layout.preferredWidth: height
-                font.family: FA.old
-                font.pointSize: root.pointSize
-                focusPolicy: Qt.NoFocus
-                visible: existingList.visible
-                enabled: existingList.recordSelected !== "" &&
-                         currentRecordName.textField.text !== existingList.recordSelected
-                onPressed: {
-                    loggerEntity.recordName = existingList.recordSelected
                 }
             }
         }
