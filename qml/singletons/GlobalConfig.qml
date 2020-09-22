@@ -424,8 +424,8 @@ Item {
         settings.globalSettings.setOption("logger_recordname_default", defaultRecordname);
     }
     // Logger default recordset helpers
-    readonly property QtObject customerdataEntity: VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
     function loggerRecordNameReplace(strRaw) {
+        var customerdataEntity = VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
         var strRet = strRaw
         var dateTime = new Date();
         var customerID = customerdataEntity ? customerdataEntity.PAR_DatasetIdentifier : Z.tr("[customer data is not available]")
