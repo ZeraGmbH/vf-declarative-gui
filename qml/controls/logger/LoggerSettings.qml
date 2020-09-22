@@ -147,6 +147,7 @@ SettingsControls.SettingsView {
                     Layout.fillHeight: true
                     pointSize: root.pointSize
                     placeholderText: Z.tr("<directory name>/<filename>")
+                    textField.enabled: loggerEntity.LoggingEnabled === false
                     text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
                     validator: RegExpValidator {
                         regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
@@ -162,17 +163,17 @@ SettingsControls.SettingsView {
                     //spacer
                     width: GC.standardMarginWithMin
                 }
-                Button {
+                Button { // search database
                     font.family: FA.old
                     implicitHeight: root.rowHeight
                     font.pointSize: root.pointSize
                     text: FA.fa_search
-                    enabled: dbLocationSelector.storageList.length > 0
+                    enabled: dbLocationSelector.storageList.length > 0 && loggerEntity.LoggingEnabled === false
                     onClicked: {
                         loggerSearchPopup.active = true;
                     }
                 }
-                Button {
+                Button { // enable database
                     text: (enabled ? "<font color=\"lawngreen\">" : "<font color=\"grey\">") + FA.fa_check
                     font.family: FA.old
                     font.pointSize: root.pointSize
@@ -183,12 +184,12 @@ SettingsControls.SettingsView {
                         root.loggerEntity.recordName = ""
                     }
                 }
-                Button {
+                Button { // unmount database
                     text: (enabled ? "<font color=\"#EEff0000\">" : "<font color=\"grey\">") + FA.fa_eject  // darker red
                     font.family: FA.old
                     font.pointSize: root.pointSize
                     implicitHeight: root.rowHeight
-                    enabled: root.loggerEntity.DatabaseFile.length > 0
+                    enabled: root.loggerEntity.DatabaseFile.length > 0 && loggerEntity.LoggingEnabled === false
                     onClicked: {
                         root.loggerEntity.DatabaseFile = "";
                         root.loggerEntity.recordName = ""
