@@ -63,7 +63,10 @@ SettingsControls.SettingsView {
             visible: true
             onClosed: loggerSearchPopup.active = false;
             onFileSelected: {
-                root.loggerEntity.DatabaseFile = t_file;
+                if(root.loggerEntity.DatabaseFile !== t_file) {
+                    root.loggerEntity.recordName = ""
+                    root.loggerEntity.DatabaseFile = t_file;
+                }
             }
         }
     }
