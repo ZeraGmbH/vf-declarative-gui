@@ -161,7 +161,7 @@ Item {
                                 recordsArray.push(item)
                             }
                         })
-                    return recordsArray
+                    return recordsArray.sort()
                 }
 
                 delegate: ItemDelegate {
