@@ -121,7 +121,11 @@ Item {
             }
         }
         MenuItem { // Start/Stop
-            text: loggerEntity.LoggingEnabled === true ? FA.icon(FA.fa_stop) + Z.tr("Stop logging") : FA.icon(FA.fa_play) + Z.tr("Start logging")
+            text: loggerEntity.LoggingEnabled === true ?
+                      FA.icon(FA.fa_stop) + Z.tr("Stop logging") + (loggerEntity.ScheduledLoggingEnabled === true ?
+                      (" " + GC.msToTime(loggerEntity.ScheduledLoggingCountdown)) : "") :
+                      FA.icon(FA.fa_play) + Z.tr("Start logging")
+
             enabled: loggerEntity.DatabaseReady === true &&
                      (loggerEntity.LoggingEnabled === true ||
                      !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined ))
