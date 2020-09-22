@@ -291,16 +291,17 @@ SettingsControls.SettingsView {
                 height: root.rowHeight
                 pointSize: root.pointSize
                 width: 280
-                enabled: loggerEntity.ScheduledLoggingEnabled === true
+                enabled: loggerEntity.ScheduledLoggingEnabled === true && loggerEntity.LoggingEnabled === false
             }
             VFSwitch {
                 id: scheduledLogging
                 height: parent.height
                 entity: root.loggerEntity
+                enabled: loggerEntity.LoggingEnabled === false
                 controlPropertyName: "ScheduledLoggingEnabled"
             }
             Label {
-                visible: loggerEntity.LoggingEnabled === true
+                visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true
                 font.pointSize: root.pointSize
                 property string countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
                 height: root.rowHeight
