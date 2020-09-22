@@ -26,34 +26,6 @@ SettingsControls.SettingsView {
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
 
-    function msToTime(t_mSeconds) {
-        if(t_mSeconds === undefined) {
-            t_mSeconds = 0
-        }
-        var ms = t_mSeconds % 1000
-        t_mSeconds = (t_mSeconds - ms) / 1000
-        var secs = t_mSeconds % 60;
-        t_mSeconds = (t_mSeconds - secs) / 60
-        var mins = t_mSeconds % 60;
-        var hours = (t_mSeconds - mins) / 60;
-        return ("0"+hours).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
-    }
-    function timeToMs(t_time) {
-        var mSeconds = 0;
-        var timeData = [];
-
-        if((String(t_time).match(/:/g) || []).length === 2) {
-            timeData = t_time.split(':');
-            var hours = Number(timeData[0]);
-            mSeconds += hours * 3600000;
-            var minutes = Number(timeData[1]);
-            mSeconds += minutes * 60000;
-            var seconds = Number(timeData[2]);
-            mSeconds += seconds * 1000;
-        }
-        return Number(mSeconds);
-    }
-
     Loader {
         id: loggerSearchPopup
         active: false
@@ -273,12 +245,12 @@ SettingsControls.SettingsView {
 
                 // overrides
                 function doApplyInput(newText) {
-                    entity[controlPropertyName] = timeToMs(newText)
+                    entity[controlPropertyName] = GC.timeToMs(newText)
                     // wait to be applied
                     return false
                 }
                 function transformIncoming(t_incoming) {
-                    return msToTime(t_incoming);
+                    return GC.msToTime(t_incoming);
                 }
                 function hasValidInput() {
                     var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
@@ -303,7 +275,7 @@ SettingsControls.SettingsView {
             Label {
                 visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true
                 font.pointSize: root.pointSize
-                property string countDown: msToTime(loggerEntity.ScheduledLoggingCountdown);
+                property string countDown: GC.msToTime(loggerEntity.ScheduledLoggingCountdown);
                 height: root.rowHeight
                 text: countDown;
             }

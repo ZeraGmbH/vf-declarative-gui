@@ -240,6 +240,36 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
+    // Time helpers ms <-> string
+    function msToTime(t_mSeconds) {
+        if(t_mSeconds === undefined) {
+            t_mSeconds = 0
+        }
+        var ms = t_mSeconds % 1000
+        t_mSeconds = (t_mSeconds - ms) / 1000
+        var secs = t_mSeconds % 60;
+        t_mSeconds = (t_mSeconds - secs) / 60
+        var mins = t_mSeconds % 60;
+        var hours = (t_mSeconds - mins) / 60;
+        return ("0"+hours).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
+    }
+    function timeToMs(t_time) {
+        var mSeconds = 0;
+        var timeData = [];
+
+        if((String(t_time).match(/:/g) || []).length === 2) {
+            timeData = t_time.split(':');
+            var hours = Number(timeData[0]);
+            mSeconds += hours * 3600000;
+            var minutes = Number(timeData[1]);
+            mSeconds += minutes * 60000;
+            var seconds = Number(timeData[2]);
+            mSeconds += seconds * 1000;
+        }
+        return Number(mSeconds);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
     // Auto scale (+ helper functions)
 
     /* Settings/autoScaleLimit: A float number to set at which limit the value
