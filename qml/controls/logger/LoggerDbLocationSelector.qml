@@ -104,7 +104,7 @@ RowLayout {
         implicitWidth: root.width/2;
         height: root.rowHeight
         font.pointSize: root.pointSize
-        enabled: root.storageList.length > 0
+        enabled: root.storageList.length > 0 && loggerEntity.LoggingEnabled === false
         Layout.fillWidth: true
         Layout.fillHeight: true
 
@@ -115,8 +115,10 @@ RowLayout {
             }
         }
         onActivated: {
-            GC.currentSelectedStoragePath = storageList[index];
-            root.newIndexSelected(true);
+            if(GC.currentSelectedStoragePath !== storageList[index]) {
+                GC.currentSelectedStoragePath = storageList[index]
+                root.newIndexSelected(true);
+            }
         }
     }
     Button {
