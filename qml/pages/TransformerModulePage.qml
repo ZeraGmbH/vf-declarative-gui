@@ -23,7 +23,7 @@ CCMP.ModulePage {
     // not part of swipe/tab combo
     // loaded on demand (see main.qml / pageLoader.source)
     Component.onCompleted: {
-        GC.currentViewName = "ZeraInstrumentTransformer"
+        GC.currentGuiContext = GC.guiContextEnum.GUI_INSTRUMENT_TRANSFORMER
     }
 
     // could be replaced by a VisualItemModel

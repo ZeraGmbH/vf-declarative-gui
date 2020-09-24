@@ -23,7 +23,7 @@ CCMP.ModulePage {
     // not part of swipe/tab combo
     // loaded on demand (see main.qml / pageLoader.source)
     Component.onCompleted: {
-        GC.currentViewName = "ZeraCEDPower"
+        GC.currentGuiContext = GC.guiContextEnum.GUI_CED_POWER
     }
 
     function getProperty(index) {

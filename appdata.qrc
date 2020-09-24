@@ -25,6 +25,7 @@
         <file>qml/controls/fft_module/FftTable.qml</file>
         <file>qml/controls/harmonic_power_module/HarmonicPowerCharts.qml</file>
         <file>qml/controls/harmonic_power_module/HarmonicPowerTable.qml</file>
+        <file>qml/controls/logger/LoggerDataContextOverview.qml</file>
         <file>qml/controls/logger/LoggerDatasetSelector.qml</file>
         <file>qml/controls/logger/LoggerDbLocationSelector.qml</file>
         <file>qml/controls/logger/LoggerDbSearchDialog.qml</file>

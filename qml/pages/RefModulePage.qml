@@ -19,7 +19,7 @@ CCMP.ModulePage {
     // not part of swipe/tab combo
     // loaded on demand (see main.qml / pageLoader.source)
     Component.onCompleted: {
-        GC.currentViewName = "ZeraDCReference"
+        GC.currentGuiContext = GC.guiContextEnum.GUI_DC_REFERENCE
     }
 
     Row {

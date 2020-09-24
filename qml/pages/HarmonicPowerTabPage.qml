@@ -42,7 +42,7 @@ Item {
         Pages.HarmonicPowerTable {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraHarmonicPowerTable"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_TABLE
                 }
             }
         }
@@ -52,7 +52,7 @@ Item {
         Pages.HarmonicPowerCharts {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraHarmonicPowerChart"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_CHART
                 }
             }
         }

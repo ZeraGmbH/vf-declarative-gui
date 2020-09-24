@@ -26,6 +26,7 @@ Item {
     readonly property bool databaseReady: loggerEntity.DatabaseReady
     signal loggerSettingsMenu()
     signal loggerRecordsMenu(var loggerEntity)
+    signal loggerDataContextMenu()
     // internal
     property bool snapshotTrigger: false;
     property bool startLoggingAfterRecordSelect: false
@@ -55,15 +56,16 @@ Item {
     readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
 
     function setLoggingEnvironment() {
-        if(loggerEntity.availableContextList && loggerEntity.availableContextList.includes(GC.currentViewName)) {
+        var dbContext = GC.getDbContext(GC.currentGuiContext)
+        if(loggerEntity.availableContextList && loggerEntity.availableContextList.includes(dbContext)) {
             // TODO: Once we have multiple contexts this needs rework
-            loggerEntity.currentContext = GC.currentViewName
+            loggerEntity.currentContext = dbContext
             var dateTime = new Date();
             var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
             loggerEntity.transactionName = transactionName
         }
         else {
-            console.warn("Cannot find context \"" + GC.currentViewName + "\" in available contexts!" )
+            console.warn("Cannot find context \"" + dbContext + "\" in available contexts!" )
         }
     }
 
@@ -101,6 +103,12 @@ Item {
                 loggerRecordsMenu(loggerEntity)
             }
             enabled: loggerEntity.LoggingEnabled !== true
+        }
+        MenuItem { // data context
+            text: FA.icon(FA.fa_list) + GC.getDbContext(GC.currentGuiContext)
+            onTriggered: {
+                loggerDataContextMenu()
+            }
         }
         MenuSeparator { }
         MenuItem { // Snapshot

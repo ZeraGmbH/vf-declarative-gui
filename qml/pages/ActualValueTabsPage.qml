@@ -57,7 +57,7 @@ Item {
         Pages.ActualValuesPage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraActualValues"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_ACTUAL_VALUES
                 }
             }
         }
@@ -68,7 +68,7 @@ Item {
             topMargin: 10
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraVectorDiagramm"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_VECTOR_DIAGRAM
                 }
             }
         }
@@ -78,7 +78,7 @@ Item {
         Pages.PowerModulePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraPowerValues"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_VALUES
                 }
             }
         }
@@ -88,7 +88,7 @@ Item {
         Pages.RMS4PhasePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraRMSValues"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_RMS_VALUES
                 }
             }
         }

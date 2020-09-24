@@ -444,8 +444,85 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    // Misc settings / status
-    readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
+    // GUI context settings
+    readonly property var guiContextEnum: {
+        "GUI_ACTUAL_VALUES"             : { value: 0,  name: "ZeraGuiActualValues" },
+        "GUI_VECTOR_DIAGRAM"            : { value: 1,  name: "ZeraGuiVectorDiagramm" },
+        "GUI_POWER_VALUES"              : { value: 2,  name: "ZeraGuiPowerValues" },
+        "GUI_RMS_VALUES"                : { value: 3,  name: "ZeraGuiRMSValues" },
+
+        "GUI_HARMONIC_TABLE"            : { value: 4,  name: "ZeraGuiHarmonicTable" },
+        "GUI_HARMONIC_CHART"            : { value: 5,  name: "ZeraGuiHarmonicChart" },
+        "GUI_CURVE_DISPLAY"             : { value: 6,  name: "ZeraGuiCurveDisplay" },
+
+        "GUI_HARMONIC_POWER_TABLE"      : { value: 7,  name: "ZeraGuiHarmonicPowerTable" },
+        "GUI_HARMONIC_POWER_CHART"      : { value: 8,  name: "ZeraGuiHarmonicPowerChart" },
+
+        "GUI_METER_TEST"                : { value: 9,  name: "ZeraGuiMeterTest" },
+        "GUI_ENERGY_COMPARISON"         : { value: 10, name: "ZeraGuiEnergyComparison" },
+        "GUI_ENERGY_REGISTER"           : { value: 11, name: "ZeraGuiEnergyRegister" },
+        "GUI_POWER_REGISTER"            : { value: 12, name: "ZeraGuiPowerRegister" },
+
+        "GUI_VOLTAGE_BURDEN"            : { value: 13, name: "ZeraGuiVoltageBurden" },
+        "GUI_CURRENT_BURDEN"            : { value: 14, name: "ZeraGuiCurrentBurden" },
+
+        "GUI_INSTRUMENT_TRANSFORMER"    : { value: 15, name: "ZeraGuiInstrumentTransformer" },
+
+        "GUI_CED_POWER"                 : { value: 16, name: "ZeraGuiCEDPower" },
+        "GUI_DC_REFERENCE"              : { value: 17, name: "ZeraGuiDCReference" },
+    }
+
+    property var currentGuiContext
+    /*onCurrentGuiContextChanged: { // uncomment for test
+        console.info(currentGuiContext.name)
+    }*/
+    function getDefaultDbContext(guiContext) {
+        var dbContext = "unknown"
+        switch(guiContext) {
+        case guiContextEnum.GUI_ACTUAL_VALUES:
+        case guiContextEnum.GUI_VECTOR_DIAGRAM:
+        case guiContextEnum.GUI_POWER_VALUES:
+        case guiContextEnum.GUI_RMS_VALUES:
+        case guiContextEnum.GUI_CED_POWER:
+            dbContext = "ZeraActualValues"
+            break
+        case guiContextEnum.GUI_HARMONIC_TABLE:
+        case guiContextEnum.GUI_HARMONIC_CHART:
+        case guiContextEnum.GUI_HARMONIC_POWER_TABLE:
+        case guiContextEnum.GUI_HARMONIC_POWER_CHART:
+            dbContext = "ZeraHarmonics"
+            break
+        case guiContextEnum.GUI_CURVE_DISPLAY:
+            dbContext = "ZeraCurves"
+            break
+        case guiContextEnum.GUI_METER_TEST:
+        case guiContextEnum.GUI_ENERGY_COMPARISON:
+        case guiContextEnum.GUI_ENERGY_REGISTER:
+        case guiContextEnum.GUI_POWER_REGISTER:
+            dbContext = "ZeraComparison"
+            break
+        case guiContextEnum.GUI_VOLTAGE_BURDEN:
+        case guiContextEnum.GUI_CURRENT_BURDEN:
+            dbContext = "ZeraBurden"
+            break
+        case guiContextEnum.GUI_INSTRUMENT_TRANSFORMER:
+            dbContext = "ZeraTransformer"
+            break
+        case guiContextEnum.GUI_DC_REFERENCE:
+            dbContext = "ZeraDCReference"
+            break
+        }
+        return dbContext
+    }
+    function getDbContext(guiContext) {
+        if(guiContext !== undefined) {
+            return settings.globalSettings.getOption(guiContext.name, getDefaultDbContext(guiContext))
+        }
+        return ""
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // Logger settings
 
     // Logger default recordset name
     readonly property string loggerRecordnameDefaultStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
@@ -479,11 +556,11 @@ Item {
         return strRet;
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Misc settings / status
+
+    readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
     // not saved to settings
-    property string currentViewName: "";
-    /*onCurrentViewNameChanged: { // uncomment for test
-        console.info(currentViewName)
-    }*/
     property string currentSelectedStoragePath: "/home/operator/logger"; //default
 
 

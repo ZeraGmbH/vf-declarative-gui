@@ -65,7 +65,7 @@ Item {
             validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraMeterTest"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_METER_TEST
                 }
             }
         }
@@ -78,7 +78,7 @@ Item {
             validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraEnergyComparison"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_ENERGY_COMPARISON
                 }
             }
         }
@@ -90,7 +90,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.sem1Introspection
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraEnergyRegister"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_ENERGY_REGISTER
                 }
             }
         }
@@ -102,7 +102,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.spm1Introspection
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraPowerRegister"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_REGISTER
                 }
             }
         }
