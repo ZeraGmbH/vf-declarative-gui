@@ -53,7 +53,7 @@ Item {
         Pages.FftTable {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraHarmonicTable"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_TABLE
                 }
             }
         }
@@ -63,7 +63,7 @@ Item {
         Pages.FftCharts {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraHarmonicChart"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_CHART
                 }
             }
         }
@@ -73,7 +73,7 @@ Item {
         Osc.OsciModulePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
-                    GC.currentViewName = "ZeraCurveDisplay"
+                    GC.currentGuiContext = GC.guiContextEnum.GUI_CURVE_DISPLAY
                 }
             }
         }

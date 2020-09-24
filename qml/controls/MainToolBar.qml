@@ -164,6 +164,13 @@ ToolBar {
                         }
                         loggerSettingsStackObj.showRecordNameSelector()
                     }
+                    onLoggerDataContextMenu: {
+                        // show logger settings (if not showed already)
+                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
+                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                        }
+                        loggerSettingsStackObj.showDataContextSelector()
+                    }
                 }
                 active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             }

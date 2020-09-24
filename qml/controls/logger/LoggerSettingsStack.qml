@@ -12,4 +12,7 @@ StackLayout {
     function showRecordNameSelector() { currentIndex = 2 }
     LoggerRecordNameSelector { id: loggerRecordnameSelector }
     property alias recordnameSelector: loggerRecordnameSelector // enable access to connect signal
+
+    function showDataContextSelector() { currentIndex = 3 }
+    LoggerDataContextOverview { }
 }
