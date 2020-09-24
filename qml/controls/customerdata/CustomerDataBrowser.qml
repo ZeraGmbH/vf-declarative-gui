@@ -256,7 +256,7 @@ Item {
             id: activeIndicator
             width: indicatorWidth
             font.family: FA.old
-            text: FA.fa_chevron_right
+            text: FA.fa_check
             opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
             anchors.verticalCenter: parent.verticalCenter
           }
