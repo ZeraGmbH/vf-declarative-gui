@@ -176,9 +176,9 @@ Item {
                             font.family: FA.old
                             font.pointSize: root.pointSize
                             horizontalAlignment: Text.AlignLeft
-                            text: FA.fa_chevron_right
+                            text: FA.fa_check
                             opacity: (modelData === loggerEntity.recordName) ? 1.0 : 0.0
-                            Layout.preferredWidth: root.pointSize
+                            Layout.preferredWidth: root.pointSize * 1.5
                         }
                         Label {
                             font.pointSize: root.pointSize
