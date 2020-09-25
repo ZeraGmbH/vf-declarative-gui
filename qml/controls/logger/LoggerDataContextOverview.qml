@@ -17,6 +17,6 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         text: Z.tr("Select data context")
-        font.pointSize: root.pointSize
+        //font.pointSize: root.pointSize
     }
 }

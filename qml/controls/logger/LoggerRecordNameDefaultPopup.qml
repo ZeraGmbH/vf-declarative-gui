@@ -15,7 +15,6 @@ Popup {
     height: parent.height - GC.vkeyboardHeight
     modal: !Qt.inputMethod.visible
     closePolicy: Popup.NoAutoClose
-    focus: true
 
     readonly property real rowHeight: parent.height/4
     readonly property real fontScale: 0.1
@@ -31,8 +30,13 @@ Popup {
     }
 
     onAboutToShow: {
-        textFieldRecordNameDefault.selectAll()
+        // Do not bind by design
+        textFieldRecordNameDefault.text = GC.loggerRecordnameDefault
+        // Intended to be late so textFieldRecordNameDefault selects properly
+        root.focus = true
+        textFieldRecordNameDefault.focus = true
     }
+
     ColumnLayout {
         id: selectionColumn
         anchors.fill: parent
@@ -43,13 +47,11 @@ Popup {
             }
             TextField {
                 id: textFieldRecordNameDefault
-                text: GC.loggerRecordnameDefault
                 Layout.fillWidth: true;
                 bottomPadding: GC.standardTextBottomMargin
                 inputMethodHints: Qt.ImhNoAutoUppercase
                 horizontalAlignment: Text.AlignRight
                 font.pointSize: root.pointSize
-                focus: true
 
                 Keys.onEscapePressed: {
                     text = GC.loggerRecordnameDefault
@@ -98,7 +100,7 @@ Popup {
                             textFieldRecordNameDefault.text.substring(selEnd, textFieldRecordNameDefault.text.length)
                     textFieldRecordNameDefault.text = newText
                 }
-                // otherwise: insert at curesor position
+                // otherwise: insert at cursor position
                 else {
                     textFieldRecordNameDefault.insert(textFieldRecordNameDefault.cursorPosition, textToAdd);
                 }
@@ -109,7 +111,6 @@ Popup {
                 visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
-                enabled: textFieldRecordNameDefault.focus
                 onPressed: {
                     macroButtonsRow.addToRecordName(text)
                 }
@@ -119,7 +120,6 @@ Popup {
                 visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
-                enabled: textFieldRecordNameDefault.focus
                 onPressed: {
                     macroButtonsRow.addToRecordName(text)
                 }
@@ -132,7 +132,6 @@ Popup {
                 text: "$YEAR"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
-                enabled: textFieldRecordNameDefault.focus
                 onPressed: {
                     macroButtonsRow.addToRecordName(text)
                 }
@@ -141,7 +140,6 @@ Popup {
                 text: "$MONTH"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
-                enabled: textFieldRecordNameDefault.focus
                 onPressed: {
                     macroButtonsRow.addToRecordName(text)
                 }
@@ -150,7 +148,6 @@ Popup {
                 text: "$DAY"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
-                enabled: textFieldRecordNameDefault.focus
                 onPressed: {
                     macroButtonsRow.addToRecordName(text)
                 }
@@ -163,7 +160,6 @@ Popup {
                 text: "$TIME"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
-                enabled: textFieldRecordNameDefault.focus
                 onPressed: {
                     macroButtonsRow.addToRecordName(text)
                 }
@@ -172,7 +168,6 @@ Popup {
                 text: "$SECONDS"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
-                enabled: textFieldRecordNameDefault.focus
                 onPressed: {
                     macroButtonsRow.addToRecordName(text)
                 }
@@ -205,7 +200,6 @@ Popup {
                 font.pointSize: root.pointSize
                 onClicked: {
                     root.close()
-                    textFieldRecordNameDefault.text = GC.loggerRecordnameDefault
                 }
             }
             Button {
