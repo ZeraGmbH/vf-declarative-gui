@@ -35,14 +35,14 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         text: Z.tr("Select record name")
-        font.pointSize: root.pointSize
+        font.pointSize: root.pointSize * 1.5
     }
     ColumnLayout {
         id: selectionColumn
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.leftMargin: 10
+        anchors.rightMargin: GC.standardTextHorizMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
         anchors.bottom: parent.bottom
         RowLayout { // Current record
