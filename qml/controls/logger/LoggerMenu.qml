@@ -26,7 +26,6 @@ Item {
     readonly property bool databaseReady: loggerEntity.DatabaseReady
     signal loggerSettingsMenu()
     signal loggerRecordsMenu(var loggerEntity)
-    signal loggerDataContextMenu()
     // internal
     property bool snapshotTrigger: false;
     property bool startLoggingAfterRecordSelect: false
