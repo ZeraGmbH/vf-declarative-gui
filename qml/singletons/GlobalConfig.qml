@@ -476,49 +476,73 @@ Item {
     /*onCurrentGuiContextChanged: { // uncomment for test
         console.info(currentGuiContext.name)
     }*/
-    function getDefaultDbContext(guiContext) {
-        var dbContext = "unknown"
+
+    function getDefaultDbContentSet(guiContext) {
+        return getDefaultDbContentSetLists(guiContext)[0]
+    }
+    // return list of matching db
+    function getDefaultDbContentSetLists(guiContext) {
+        var dbContentSetList = []
         switch(guiContext) {
         case guiContextEnum.GUI_ACTUAL_VALUES:
         case guiContextEnum.GUI_VECTOR_DIAGRAM:
         case guiContextEnum.GUI_POWER_VALUES:
         case guiContextEnum.GUI_RMS_VALUES:
         case guiContextEnum.GUI_CED_POWER:
-            dbContext = "ZeraActualValues"
+            addDbContentSet(dbContentSetList, "ZeraActualValues")
+            addDbContentSet(dbContentSetList, "ZeraAll")
             break
         case guiContextEnum.GUI_HARMONIC_TABLE:
         case guiContextEnum.GUI_HARMONIC_CHART:
         case guiContextEnum.GUI_HARMONIC_POWER_TABLE:
         case guiContextEnum.GUI_HARMONIC_POWER_CHART:
-            dbContext = "ZeraHarmonics"
+            addDbContentSet(dbContentSetList, "ZeraHarmonics")
+            addDbContentSet(dbContentSetList, "ZeraAll")
             break
         case guiContextEnum.GUI_CURVE_DISPLAY:
-            dbContext = "ZeraCurves"
+            addDbContentSet(dbContentSetList, "ZeraCurves")
+            addDbContentSet(dbContentSetList, "ZeraAll")
             break
         case guiContextEnum.GUI_METER_TEST:
         case guiContextEnum.GUI_ENERGY_COMPARISON:
         case guiContextEnum.GUI_ENERGY_REGISTER:
         case guiContextEnum.GUI_POWER_REGISTER:
-            dbContext = "ZeraComparison"
+            addDbContentSet(dbContentSetList, "ZeraComparison")
+            addDbContentSet(dbContentSetList, "ZeraAll")
             break
         case guiContextEnum.GUI_VOLTAGE_BURDEN:
         case guiContextEnum.GUI_CURRENT_BURDEN:
-            dbContext = "ZeraBurden"
+            addDbContentSet(dbContentSetList, "ZeraBurden")
+            addDbContentSet(dbContentSetList, "ZeraAll")
             break
         case guiContextEnum.GUI_INSTRUMENT_TRANSFORMER:
-            dbContext = "ZeraTransformer"
+            addDbContentSet(dbContentSetList, "ZeraTransformer")
+            addDbContentSet(dbContentSetList, "ZeraAll")
             break
         case guiContextEnum.GUI_DC_REFERENCE:
-            dbContext = "ZeraDCReference"
+            addDbContentSet(dbContentSetList, "ZeraDCReference")
+            //addDbContentSet(dbContentSetList, "ZeraAll")
             break
         }
-        return dbContext
+        return dbContentSetList
     }
-    function getDbContext(guiContext) {
+    function getDbContentSet(guiContext) {
         if(guiContext !== undefined) {
-            return settings.globalSettings.getOption(guiContext.name, getDefaultDbContext(guiContext))
+            return settings.globalSettings.getOption(guiContext.name, getDefaultDbContentSet(guiContext))
         }
         return ""
+    }
+    function setDbContentSet(guiContext, newDBContentSet) {
+        if(guiContext !== undefined) {
+            settings.globalSettings.setOption(guiContext.name, newDBContentSet);
+        }
+    }
+    // internal helper: append available only db-content-set
+    function addDbContentSet(dbContentSetList, dbContentSet) {
+        var availableDBContentSets = VeinEntity.hasEntity("_LoggingSystem") ? VeinEntity.getEntity("_LoggingSystem").availableContentSets : []
+        if(availableDBContentSets.includes(dbContentSet)) {
+            dbContentSetList.push(dbContentSet)
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////

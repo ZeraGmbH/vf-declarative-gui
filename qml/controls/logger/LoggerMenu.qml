@@ -55,17 +55,21 @@ Item {
     readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
 
     function setLoggingEnvironment() {
-        var dbContext = GC.getDbContext(GC.currentGuiContext)
-        if(loggerEntity.availableContextList && loggerEntity.availableContextList.includes(dbContext)) {
-            // TODO: Once we have multiple contexts this needs rework
-            loggerEntity.currentContext = dbContext
+        var dbContentSet = GC.getDbContentSet(GC.currentGuiContext)
+        if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSet)) {
+            // TODO: Once we have user content sets in logger this needs rework
+            loggerEntity.currentContentSet = dbContentSet
             var dateTime = new Date();
             var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
             loggerEntity.transactionName = transactionName
         }
         else {
-            console.warn("Cannot find context \"" + dbContext + "\" in available contexts!" )
+            console.warn("Cannot find content set \"" + dbContentSet + "\" in available content sets!" )
         }
+    }
+
+    ButtonGroup{
+        id: radioMenuGroup
     }
 
     // menu with logger operations
@@ -85,7 +89,12 @@ Item {
             }
             return result + padding * 2;
         }
-        MenuItem { // current record name
+        // Under some conditions updating javascript arrays do not cause a binded
+        // property to update [1]. So to avoid surprises assign model for dynamic
+        // part of menu each time menu openes
+        // [1] https://github.com/schnitzeltony/dyn-menu-qml/blob/master/main.qml
+        onAboutToShow: { instantiator.model = GC.getDefaultDbContentSetLists(GC.currentGuiContext) }
+        MenuItem { // current record name (pos 0)
             text: {
                 // No database cannot happen here: We force move to settings in open()
                 var menuText = ""
@@ -103,11 +112,25 @@ Item {
             }
             enabled: loggerEntity.LoggingEnabled !== true
         }
-        MenuItem { // data context
-            text: FA.icon(FA.fa_list) + GC.getDbContext(GC.currentGuiContext)
-            onTriggered: {
-                loggerDataContextMenu()
+        MenuSeparator { } // (pos 1)
+        Instantiator { // dynamic part - injected before position 2
+            id: instantiator
+            delegate: MenuItem {
+                RadioButton {
+                    id: radioButon
+                    anchors.fill: parent
+                    text: Z.tr(modelData)
+                    ButtonGroup.group: radioMenuGroup
+                    checked: modelData === GC.getDbContentSet(GC.currentGuiContext)
+                    onToggled: {
+                        if(checked) {
+                            GC.setDbContentSet(GC.currentGuiContext, modelData)
+                        }
+                    }
+                }
             }
+            onObjectAdded: menu.insertItem(index + 2, object)
+            onObjectRemoved: menu.removeItem(object)
         }
         MenuSeparator { }
         MenuItem { // Snapshot
