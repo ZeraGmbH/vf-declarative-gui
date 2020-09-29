@@ -93,8 +93,8 @@ Item {
             }
             for(i = 0; i < instantiator.model.length; ++i) {
                 var radioTxt = Z.tr(instantiator.model[i])
-                var tetxWidth = fontMetrics.advanceWidth(radioTxt)
-                result = Math.max(tetxWidth, result);
+                var radioTextWidth = fontMetrics.advanceWidth(radioTxt)
+                result = Math.max(radioTextWidth, result);
                 padding = Math.max(fontMetrics.height+5, padding);
             }
             return result + padding * 2;
