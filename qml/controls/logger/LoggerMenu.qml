@@ -77,6 +77,10 @@ Item {
         id: menu
         font.family: FA.old
         font.pointSize: root.pointSize
+        FontMetrics {
+            id: fontMetrics
+            font: menu.font
+        }
         width: {
             // adjust width to content. Stolen:
             // https://martin.rpdev.net/2018/03/13/qt-quick-controls-2-automatically-set-the-width-of-menus.html
@@ -86,6 +90,12 @@ Item {
                 var item = itemAt(i);
                 result = Math.max(item.contentItem.implicitWidth, result);
                 padding = Math.max(item.padding, padding);
+            }
+            for(i = 0; i < instantiator.model.length; ++i) {
+                var radioTxt = Z.tr(instantiator.model[i])
+                var tetxWidth = fontMetrics.advanceWidth(radioTxt)
+                result = Math.max(tetxWidth, result);
+                padding = Math.max(fontMetrics.height+5, padding);
             }
             return result + padding * 2;
         }
