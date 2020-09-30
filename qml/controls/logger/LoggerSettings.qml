@@ -198,7 +198,6 @@ SettingsControls.SettingsView {
                 id: dbLocationSelector
                 height: root.rowHeight;
                 width: root.rowWidth;
-                rowHeight: root.rowHeight
                 pointSize: root.pointSize
                 onNewIndexSelected: {
                     if(byUser) {

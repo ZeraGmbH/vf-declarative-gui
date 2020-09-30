@@ -13,7 +13,6 @@ RowLayout {
     property alias currentIndex: dbLocationSelector.currentIndex
 
     property var storageList: [];
-    property int rowHeight;
     property int pointSize: 20;
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     property var listStorageTracer;
@@ -60,7 +59,6 @@ RowLayout {
     Label {
         textFormat: Text.PlainText
         text: Z.tr("DB location:")
-        height: rowHeight
         font.pointSize: root.pointSize
     }
     Item {
@@ -69,7 +67,6 @@ RowLayout {
     }
 
     Item {
-        height: root.rowHeight
         width: storageListIndicator.width
         visible: root.storageList.length === 0 && storageListIndicator.opacity === 0;
         Label {
@@ -79,19 +76,10 @@ RowLayout {
             font.pointSize: root.pointSize
             text: FA.fa_exclamation_triangle
             color: Material.color(Material.Yellow)
-
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -8
-                onClicked: console.log("tooltip")
-            }
         }
     }
     BusyIndicator {
         id: storageListIndicator
-
-        implicitHeight: root.rowHeight
-        implicitWidth: height
         opacity: root.listStorageTracer !== undefined
         Behavior on opacity {
             NumberAnimation { from: 1; duration: 1000; }
@@ -101,8 +89,6 @@ RowLayout {
     ComboBox {
         id: dbLocationSelector
         model: root.storageList;
-        implicitWidth: root.width/2;
-        height: root.rowHeight
         font.pointSize: root.pointSize
         enabled: root.storageList.length > 0 && loggerEntity.LoggingEnabled === false
         Layout.fillWidth: true
@@ -123,9 +109,9 @@ RowLayout {
     }
     Button {
         font.family: FA.old
-        height: root.rowHeight
         font.pointSize: root.pointSize
         text: FA.fa_refresh
+        Layout.fillHeight: true
         onClicked: {
             if(root.listStorageTracer === undefined) {
                 root.updateStorageList();
