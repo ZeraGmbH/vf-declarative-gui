@@ -126,6 +126,7 @@ Item {
         Instantiator { // dynamic part - injected before position 2
             id: instantiator
             delegate: MenuItem {
+                enabled: loggerEntity.LoggingEnabled !== true
                 RadioButton {
                     id: radioButon
                     anchors.fill: parent
