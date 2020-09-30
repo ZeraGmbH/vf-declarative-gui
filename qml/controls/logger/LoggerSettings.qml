@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.3
+import QtQml.Models 2.12
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -69,19 +70,18 @@ SettingsControls.SettingsView {
             visible: true
         }
     }
-    model: VisualItemModel {
-        Label {
-            text: Z.tr("Database Logging")
-            width: root.rowWidth;
-            horizontalAlignment: Text.AlignHCenter
-            font.pointSize: root.pointSize
-        }
-        Item {
-            height: root.rowHeight;
-            width: root.rowWidth;
-
+    model: ObjectModel {
+        Column {
+            spacing: root.rowHeight/4.5
+            Label {
+                text: Z.tr("Database Logging")
+                width: root.rowWidth;
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: root.pointSize
+            }
             RowLayout {
-                anchors.fill: parent
+                height: root.rowHeight;
+                width: root.rowWidth;
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("Logger status:")
@@ -106,14 +106,10 @@ SettingsControls.SettingsView {
                     visible: loggerEntity.LoggingEnabled
                 }
             }
-        }
-        Item {
-            enabled: dbLocationSelector.storageList.length > 0
-            height: root.rowHeight;
-            width: root.rowWidth;
-
             RowLayout {
-                anchors.fill: parent
+                enabled: dbLocationSelector.storageList.length > 0
+                height: root.rowHeight;
+                width: root.rowWidth;
 
                 Label {
                     textFormat: Text.PlainText
@@ -179,13 +175,10 @@ SettingsControls.SettingsView {
                     }
                 }
             }
-        }
-        Item {
-            height: root.rowHeight;
-            width: root.rowWidth;
-            visible: loggerEntity.DatabaseReady === true
             RowLayout {
-                anchors.fill: parent
+                height: root.rowHeight;
+                width: root.rowWidth;
+                visible: loggerEntity.DatabaseReady === true
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("DB size:")
@@ -201,14 +194,10 @@ SettingsControls.SettingsView {
                     font.pointSize: root.pointSize
                 }
             }
-        }
-        Item {
-            height: root.rowHeight;
-            width: root.rowWidth;
-
             LoggerDbLocationSelector {
                 id: dbLocationSelector
-                anchors.fill: parent
+                height: root.rowHeight;
+                width: root.rowWidth;
                 rowHeight: root.rowHeight
                 pointSize: root.pointSize
                 onNewIndexSelected: {
@@ -218,82 +207,60 @@ SettingsControls.SettingsView {
                     }
                 }
             }
-        }
-        RowLayout {
-            height: root.rowHeight;
-            width: root.rowWidth;
-            Label {
-                textFormat: Text.PlainText
-                text: Z.tr("Select recorded values:")
-                font.pointSize: root.pointSize
-                Layout.fillWidth: true
-            }
-            Button {
-                text: FA.fa_cogs
-                font.family: FA.old
-                font.pointSize: root.pointSize
-                implicitHeight: root.rowHeight
-                enabled: loggerEntity.LoggingEnabled === false
-                onClicked: root.parent.showDataSetSelector()
-            }
-        }
-        RowLayout {
-            opacity: enabled ? 1.0 : 0.7
-            height: root.rowHeight;
-            width: root.rowWidth;
-            Label {
-                textFormat: Text.PlainText
-                text: Z.tr("Logging Duration [hh:mm:ss]:")
-                font.pointSize: root.pointSize
-                Layout.fillWidth: true
-                enabled: loggerEntity.ScheduledLoggingEnabled === true
-            }
-            VFLineEdit {
-                id: durationField
-
-                // overrides
-                function doApplyInput(newText) {
-                    entity[controlPropertyName] = GC.timeToMs(newText)
-                    // wait to be applied
-                    return false
-                }
-                function transformIncoming(t_incoming) {
-                    return GC.msToTime(t_incoming);
-                }
-                function hasValidInput() {
-                    var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
-                    return regex.test(textField.text)
-                }
-
-                entity: root.loggerEntity
-                controlPropertyName: "ScheduledLoggingDuration"
-                inputMethodHints: Qt.ImhPreferNumbers
-                height: root.rowHeight
-                pointSize: root.pointSize
-                width: 280
-                enabled: loggerEntity.ScheduledLoggingEnabled === true && loggerEntity.LoggingEnabled === false
-            }
-            VFSwitch {
-                id: scheduledLogging
-                height: parent.height
-                entity: root.loggerEntity
-                enabled: loggerEntity.LoggingEnabled === false
-                controlPropertyName: "ScheduledLoggingEnabled"
-            }
-            Label {
-                visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true
-                font.pointSize: root.pointSize
-                property string countDown: GC.msToTime(loggerEntity.ScheduledLoggingCountdown);
-                height: root.rowHeight
-                text: countDown;
-            }
-        }
-        Item {
-            height: root.rowHeight
-            width: root.rowWidth;
             RowLayout {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                opacity: enabled ? 1.0 : 0.7
+                height: root.rowHeight;
+                width: root.rowWidth;
+                Label {
+                    textFormat: Text.PlainText
+                    text: Z.tr("Logging Duration [hh:mm:ss]:")
+                    font.pointSize: root.pointSize
+                    Layout.fillWidth: true
+                    enabled: loggerEntity.ScheduledLoggingEnabled === true
+                }
+                VFLineEdit {
+                    id: durationField
+
+                    // overrides
+                    function doApplyInput(newText) {
+                        entity[controlPropertyName] = GC.timeToMs(newText)
+                        // wait to be applied
+                        return false
+                    }
+                    function transformIncoming(t_incoming) {
+                        return GC.msToTime(t_incoming);
+                    }
+                    function hasValidInput() {
+                        var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
+                        return regex.test(textField.text)
+                    }
+
+                    entity: root.loggerEntity
+                    controlPropertyName: "ScheduledLoggingDuration"
+                    inputMethodHints: Qt.ImhPreferNumbers
+                    height: root.rowHeight
+                    pointSize: root.pointSize
+                    width: 280
+                    enabled: loggerEntity.ScheduledLoggingEnabled === true && loggerEntity.LoggingEnabled === false
+                }
+                VFSwitch {
+                    id: scheduledLogging
+                    height: parent.height
+                    entity: root.loggerEntity
+                    enabled: loggerEntity.LoggingEnabled === false
+                    controlPropertyName: "ScheduledLoggingEnabled"
+                }
+                Label {
+                    visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true
+                    font.pointSize: root.pointSize
+                    property string countDown: GC.msToTime(loggerEntity.ScheduledLoggingCountdown);
+                    height: root.rowHeight
+                    text: countDown;
+                }
+            }
+            RowLayout {
+                height: root.rowHeight
+                width: root.rowWidth;
                 visible: VeinEntity.hasEntity("CustomerData")
                 Label {
                     textFormat: Text.PlainText

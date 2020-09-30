@@ -9,6 +9,9 @@ import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 
+
+// This view has been removed. The code is still there for inpiration purpose
+
 Item {
     id: root
     readonly property real rowHeight: parent.height/12
