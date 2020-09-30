@@ -17,6 +17,14 @@ import "qrc:/qml/controls/settings" as SettingsControls
 SettingsControls.SettingsView {
     id: root
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+    readonly property string dbFileName: loggerEntity.DatabaseFile
+    onDbFileNameChanged: {
+        GC.setCurrDatabaseFileName(dbFileName)
+    }
+    readonly property string dbRecordName: loggerEntity.recordName
+    onDbRecordNameChanged: {
+        GC.setCurrDatabaseRecordName(dbRecordName)
+    }
 
     property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
 

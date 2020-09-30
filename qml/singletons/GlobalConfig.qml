@@ -546,13 +546,24 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
+    // Database persitance settings TODO: let vein handle this
+    property string currDatabaseFileName: settings.globalSettings.getOption("logger_db_filename", "")
+    function setCurrDatabaseFileName(databaseFileName) {
+        settings.globalSettings.setOption("logger_db_filename", databaseFileName)
+    }
+    property string currDatabaseRecordName: settings.globalSettings.getOption("logger_db_recordname", "")
+    function setCurrDatabaseRecordName(databaseRecordName) {
+        settings.globalSettings.setOption("logger_db_recordname", databaseRecordName)
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
     // Logger settings
 
     // Logger default recordset name
     readonly property string loggerRecordnameDefaultStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
     readonly property string loggerRecordnameDefault: settings.globalSettings.getOption("logger_recordname_default", loggerRecordnameDefaultStandard)
     function setLoggerRecordnameDefault(defaultRecordname) {
-        settings.globalSettings.setOption("logger_recordname_default", defaultRecordname);
+        settings.globalSettings.setOption("logger_recordname_default", defaultRecordname)
     }
     // Logger default recordset helpers
     function loggerRecordNameReplace(strRaw) {

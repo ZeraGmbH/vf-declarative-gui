@@ -16,7 +16,14 @@ Item {
         // * do not show menu
         // * open to settings immediately
         if(loggerEntity.DatabaseReady !== true) {
-            loggerSettingsMenu()
+            if(GC.currDatabaseFileName) {
+                loggerEntity.DatabaseFile = GC.currDatabaseFileName
+                loggerEntity.recordName = GC.currDatabaseRecordName
+                return menu.open()
+            }
+            else {
+                loggerSettingsMenu()
+            }
         }
         else{
             return menu.open()
