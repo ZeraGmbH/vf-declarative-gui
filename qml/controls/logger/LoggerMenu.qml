@@ -37,6 +37,52 @@ Item {
     property bool snapshotTrigger: false;
     property bool startLoggingAfterRecordSelect: false
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+    readonly property QtObject systemEntity: VeinEntity.getEntity("_System")
+
+    property int veinResponsesRequired: 0
+    function handleVeinRecordinfStartReply() {
+        if(veinResponsesRequired > 0) {
+            --veinResponsesRequired
+            if(veinResponsesRequired === 0) { // vein has accepted everything?
+                loggerEntity.LoggingEnabled = true
+            }
+        }
+    }
+
+    // Vein reports contentSet changed by change of LoggedComponents
+    readonly property var loggedComponents: systemEntity.LoggedComponents
+    onLoggedComponentsChanged: { handleVeinRecordinfStartReply() }
+
+    readonly property var vtransactionName: loggerEntity.transactionName
+    onVtransactionNameChanged: { handleVeinRecordinfStartReply() }
+
+    function startLogging() {
+        if(veinResponsesRequired === 0) {
+            var dbContentSet = GC.getDbContentSet(GC.currentGuiContext)
+            // TODO extend to array - user defined
+            if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSet)) {
+                if(loggerEntity.currentContentSet !== dbContentSet) {
+                    ++veinResponsesRequired
+                    loggerEntity.currentContentSet = dbContentSet
+                }
+                var dateTime = new Date();
+                var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
+
+                if(loggerEntity.transactionName !== transactionName) {
+                    ++veinResponsesRequired // due to odd implementation transaction fires twice
+                    ++veinResponsesRequired
+                    loggerEntity.transactionName = transactionName
+                }
+                if(veinResponsesRequired===0) {
+                    loggerEntity.LoggingEnabled = true
+                }
+            }
+            else {
+                console.warn("Cannot find content set \"" + dbContentSet + "\" in available content sets!" )
+            }
+        }
+    }
+
 
     // Snapshot is implemented as logging enable on / off
     // TODO: we MUST-MUST-MUST!!! rework this
@@ -44,7 +90,7 @@ Item {
     onLogEnabledChanged: {
         if(logEnabled && snapshotTrigger) {
             snapshotTrigger = false;
-            // causes (wrong?) warning about property loop so use the timer as workaround
+            // causes warning about property loop so use the timer as workaround
             //loggerEntity.LoggingEnabled = false;
             propertyLoopAvoidingLoggingEnabledTimer.start();
         }
@@ -61,19 +107,6 @@ Item {
 
     readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
 
-    function setLoggingEnvironment() {
-        var dbContentSet = GC.getDbContentSet(GC.currentGuiContext)
-        if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSet)) {
-            // TODO: Once we have user content sets in logger this needs rework
-            loggerEntity.currentContentSet = dbContentSet
-            var dateTime = new Date();
-            var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
-            loggerEntity.transactionName = transactionName
-        }
-        else {
-            console.warn("Cannot find content set \"" + dbContentSet + "\" in available content sets!" )
-        }
-    }
 
     ButtonGroup{
         id: radioMenuGroup
@@ -159,8 +192,7 @@ Item {
             onTriggered: {
                 snapshotTrigger = true;
                 if(recordNameLogger !== "") {
-                    setLoggingEnvironment()
-                    loggerEntity.LoggingEnabled = true
+                    startLogging()
                 }
                 else {
                     startLoggingAfterRecordSelect = true
@@ -181,8 +213,7 @@ Item {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
                     if(recordNameLogger !== "") {
-                        setLoggingEnvironment()
-                        loggerEntity.LoggingEnabled = true
+                        startLogging()
                     }
                     else {
                         startLoggingAfterRecordSelect = true
