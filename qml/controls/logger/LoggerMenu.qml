@@ -33,6 +33,7 @@ Item {
     readonly property bool databaseReady: loggerEntity.DatabaseReady
     signal loggerSettingsMenu()
     signal loggerRecordsMenu(var loggerEntity)
+    signal loggerCustomDataMenu()
     // internal
     property bool snapshotTrigger: false;
     property bool startLoggingAfterRecordSelect: false
@@ -179,7 +180,7 @@ Item {
                 enabled: loggerEntity.LoggingEnabled !== true
                 RadioButton {
                     anchors.fill: parent
-                    text: Z.tr(modelData)
+                    text: Z.tr("Menu" + modelData)
                     ButtonGroup.group: radioMenuGroup
                     checked: modelData === GC.getDbContentSet(GC.currentGuiContext)
                     onToggled: {
@@ -214,8 +215,8 @@ Item {
                     anchors.bottom: parent.bottom
                     anchors.rightMargin: GC.standardTextHorizMargin
                     onClicked: {
-                        // TODO
-                        console.info("Clicked")
+                        loggerCustomDataMenu()
+                        menu.close()
                     }
                 }
             }

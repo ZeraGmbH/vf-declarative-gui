@@ -445,7 +445,7 @@ Item {
 
     /////////////////////////////////////////////////////////////////////////////
     // GUI context settings
-    readonly property var guiContextEnum: {
+    readonly property var guiContextEnum: { // Note the sequence is used in some places
         "GUI_ACTUAL_VALUES"             : { value: 0,  name: "ZeraGuiActualValues" },
         "GUI_VECTOR_DIAGRAM"            : { value: 1,  name: "ZeraGuiVectorDiagramm" },
         "GUI_POWER_VALUES"              : { value: 2,  name: "ZeraGuiPowerValues" },
@@ -537,6 +537,15 @@ Item {
             settings.globalSettings.setOption(guiContext.name, newDBContentSet);
         }
     }
+    // custom contentSets
+    function getLoggerCustomContentSets() {
+        // We do not write default - user action is required
+        return settings.globalSettings.getOption("ZeraGuiCustomContentSet", "")
+    }
+    function setLoggerCustomContentSets(customContentSets) {
+        settings.globalSettings.setOption("ZeraGuiCustomContentSet", customContentSets)
+    }
+
     // internal helper: append available only db-content-set
     function addDbContentSet(dbContentSetList, dbContentSet) {
         var availableDBContentSets = VeinEntity.hasEntity("_LoggingSystem") ? VeinEntity.getEntity("_LoggingSystem").availableContentSets : []
@@ -546,7 +555,7 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    // Database persitance settings TODO: let vein handle this
+    // Database persistance settings TODO: let vein handle this
     property string currDatabaseFileName: settings.globalSettings.getOption("logger_db_filename", "")
     function setCurrDatabaseFileName(databaseFileName) {
         settings.globalSettings.setOption("logger_db_filename", databaseFileName)
