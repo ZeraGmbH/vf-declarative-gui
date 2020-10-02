@@ -126,17 +126,27 @@ Item {
             // https://martin.rpdev.net/2018/03/13/qt-quick-controls-2-automatically-set-the-width-of-menus.html
             var result = 0;
             var padding = 0;
+            // static menu entries
             for(var i = 0; i < count; ++i) {
                 var item = itemAt(i);
                 result = Math.max(item.contentItem.implicitWidth, result);
                 padding = Math.max(item.padding, padding);
             }
+            // dynamic menu entries
+            var radioTxt
+            var radioTextWidth
             for(i = 0; i < instantiator.model.length; ++i) {
-                var radioTxt = Z.tr(instantiator.model[i])
-                var radioTextWidth = fontMetrics.advanceWidth(radioTxt)
+                radioTxt = Z.tr(instantiator.model[i])
+                radioTextWidth = fontMetrics.advanceWidth(radioTxt)
                 result = Math.max(radioTextWidth, result);
                 padding = Math.max(fontMetrics.height+5, padding);
             }
+            // special menu entry
+            radioTxt = customDataSettingRadio.text
+            radioTextWidth = fontMetrics.advanceWidth(radioTxt)
+            result = Math.max(radioTextWidth + customDataSettingButton.width, result);
+            padding = Math.max(fontMetrics.height+5 + 2*customDataSettingButton.anchors.rightMargin, padding);
+
             return result + padding * 2;
         }
         // Under some conditions updating javascript arrays do not cause a binded
@@ -168,7 +178,6 @@ Item {
             delegate: MenuItem {
                 enabled: loggerEntity.LoggingEnabled !== true
                 RadioButton {
-                    id: radioButon
                     anchors.fill: parent
                     text: Z.tr(modelData)
                     ButtonGroup.group: radioMenuGroup
@@ -182,6 +191,34 @@ Item {
             }
             onObjectAdded: menu.insertItem(index + 2, object)
             onObjectRemoved: menu.removeItem(object)
+        }
+        MenuItem { // customer data
+            enabled: loggerEntity.LoggingEnabled !== true
+            RadioButton {
+                id: customDataSettingRadio
+                anchors.fill: parent
+                text: Z.tr("Custom data")
+                ButtonGroup.group: radioMenuGroup
+                //checked: modelData === GC.getDbContentSet(GC.currentGuiContext)
+                onToggled: {
+                    if(checked) {
+                        // TODO
+                        //GC.setDbContentSet(GC.currentGuiContext, modelData)
+                    }
+                }
+                Button {
+                    id: customDataSettingButton
+                    text: FA.fa_cogs
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.rightMargin: GC.standardTextHorizMargin
+                    onClicked: {
+                        // TODO
+                        console.info("Clicked")
+                    }
+                }
+            }
         }
         MenuSeparator { }
         MenuItem { // Snapshot
