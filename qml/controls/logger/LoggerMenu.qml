@@ -57,11 +57,28 @@ Item {
     readonly property var vtransactionName: loggerEntity.transactionName
     onVtransactionNameChanged: { handleVeinRecordinfStartReply() }
 
+    readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
+    readonly property string customContentSetName: "ZeraCustomContentSet"
+
     function startLogging() {
         if(veinResponsesRequired === 0) {
             var dbContentSet = GC.getDbContentSet(GC.currentGuiContext)
-            // TODO extend to array - user defined
-            if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSet)) {
+            // Translate custom
+            if(dbContentSet === customContentSetName) {
+                dbContentSet = GC.getLoggerCustomContentSets()
+            }
+            var contentSetsNotFound = ""
+            var dbContentSetArr = dbContentSet.split(',')
+            for(var currSet in dbContentSetArr) {
+                if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(currSet)) {
+                    if(contentSetsNotFound !== "") {
+                        contentSetsNotFound += ", "
+                    }
+                    contentSetsNotFound += currSet
+                }
+            }
+
+            if(contentSetsNotFound === "") {
                 if(loggerEntity.currentContentSet !== dbContentSet) {
                     ++veinResponsesRequired
                     loggerEntity.currentContentSet = dbContentSet
@@ -79,7 +96,7 @@ Item {
                 }
             }
             else {
-                console.warn("Cannot find content set \"" + dbContentSet + "\" in available content sets!" )
+                console.warn("Cannot find content set(s) \"" + contentSetsNotFound + "\" in available content sets!" )
             }
         }
     }
@@ -106,11 +123,25 @@ Item {
     }
     // Endof TODO
 
-    readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
-
-
     ButtonGroup{
         id: radioMenuGroup
+        property string customContentSets: GC.currentGuiContext !== undefined ? GC.getLoggerCustomContentSets() : ""
+        onCustomContentSetsChanged: {
+            if(GC.currentGuiContext !== undefined &&
+                    customDataSettingRadio.checked &&
+                    customContentSets === "") {
+                // Again: Althogh everything works fine QML detects a broperty loop...
+                propertyLoopAvoidingSetDefaultContentSet.start()
+            }
+        }
+    }
+    Timer {
+        id: propertyLoopAvoidingSetDefaultContentSet
+        interval: 0
+        repeat: false
+        onTriggered: {
+            GC.setDbContentSet(GC.currentGuiContext, GC.getDefaultDbContentSet(GC.currentGuiContext))
+        }
     }
 
     // menu with logger operations
@@ -200,24 +231,24 @@ Item {
                 anchors.fill: parent
                 text: Z.tr("Custom data")
                 ButtonGroup.group: radioMenuGroup
-                //checked: modelData === GC.getDbContentSet(GC.currentGuiContext)
+                enabled: GC.getLoggerCustomContentSets() !== ""
+                checked: GC.getDbContentSet(GC.currentGuiContext) === customContentSetName
                 onToggled: {
                     if(checked) {
-                        // TODO
-                        //GC.setDbContentSet(GC.currentGuiContext, modelData)
+                        GC.setDbContentSet(GC.currentGuiContext, customContentSetName)
                     }
                 }
-                Button {
-                    id: customDataSettingButton
-                    text: FA.fa_cogs
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.rightMargin: GC.standardTextHorizMargin
-                    onClicked: {
-                        loggerCustomDataMenu()
-                        menu.close()
-                    }
+            }
+            Button {
+                id: customDataSettingButton
+                text: FA.fa_cogs
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.rightMargin: GC.standardTextHorizMargin
+                onClicked: {
+                    loggerCustomDataMenu()
+                    menu.close()
                 }
             }
         }
