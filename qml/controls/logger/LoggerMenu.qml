@@ -126,12 +126,22 @@ Item {
     ButtonGroup{
         id: radioMenuGroup
         property string customContentSets: GC.currentGuiContext !== undefined ? GC.getLoggerCustomContentSets() : ""
+        property string contextSetToSet
         onCustomContentSetsChanged: {
-            if(GC.currentGuiContext !== undefined &&
-                    customDataSettingRadio.checked &&
-                    customContentSets === "") {
-                // Again: Althogh everything works fine QML detects a broperty loop...
-                propertyLoopAvoidingSetDefaultContentSet.start()
+            if(GC.currentGuiContext !== undefined) {
+                var actionRequired = false
+                if(customDataSettingRadio.checked && customContentSets === "") {
+                    actionRequired = true
+                    contextSetToSet = GC.getDefaultDbContentSet(GC.currentGuiContext)
+                }
+                else if(!customDataSettingRadio.checked && customContentSets !== "") {
+                    actionRequired = true
+                    contextSetToSet = customContentSetName
+                }
+                if(actionRequired) {
+                    // Again: Althogh everything works fine QML detects a property loop...
+                    propertyLoopAvoidingSetDefaultContentSet.start()
+                }
             }
         }
     }
@@ -140,7 +150,7 @@ Item {
         interval: 0
         repeat: false
         onTriggered: {
-            GC.setDbContentSet(GC.currentGuiContext, GC.getDefaultDbContentSet(GC.currentGuiContext))
+            GC.setDbContentSet(GC.currentGuiContext, radioMenuGroup.contextSetToSet)
         }
     }
 
