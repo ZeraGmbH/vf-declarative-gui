@@ -199,12 +199,6 @@ SettingsControls.SettingsView {
                 height: root.rowHeight;
                 width: root.rowWidth;
                 pointSize: root.pointSize
-                onNewIndexSelected: {
-                    if(byUser) {
-                        //the user switched the db storage location manually so unload the database
-                        root.loggerEntity.DatabaseFile = "";
-                    }
-                }
             }
             RowLayout {
                 opacity: enabled ? 1.0 : 0.7

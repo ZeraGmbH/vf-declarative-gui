@@ -13,8 +13,13 @@ RowLayout {
     property alias currentIndex: dbLocationSelector.currentIndex
 
     property var storageList: [];
+    property var storageListForDisplay: [];
     property int pointSize: 20;
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+    readonly property string databaseFileName: String(loggerEntity.DatabaseFile)
+    onDatabaseFileNameChanged: {
+        selectLocationCombo(false)
+    }
     property var listStorageTracer;
 
     signal newIndexSelected(bool byUser);
@@ -29,6 +34,23 @@ RowLayout {
             console.warn("Storage list update already in progress");
         }
     }
+    function selectLocationCombo(byUser) {
+        if(storageList.length>0) {
+            var selectedStorage = byUser ? "" : databaseFileName
+            if(selectedStorage.length === 0) {
+                selectedStorage = GC.currentSelectedStoragePath
+            }
+            for(var storageIdx in storageList) {
+                // set current index
+                if(selectedStorage.indexOf(storageList[storageIdx]) === 0) {
+                    GC.currentSelectedStoragePath = storageList[storageIdx]
+                    currentIndex = storageIdx
+                    newIndexSelected(byUser)
+                    break
+                }
+            }
+        }
+    }
 
     Connections {
         target: loggerEntity
@@ -37,21 +59,21 @@ RowLayout {
                 console.warn("RPC error:", t_resultData["RemoteProcedureData::errorMessage"]);
             }
             if(t_identifier === listStorageTracer) {
-                root.storageList = t_resultData["ZeraDBLogger::storageList"];
-                listStorageTracer = undefined;
-                if(storageList.length>0) {
-                    var selectedStorage = String(loggerEntity.DatabaseFile);
-                    if(selectedStorage.length === 0) {
-                        selectedStorage = GC.currentSelectedStoragePath;
+                listStorageTracer = undefined
+                storageList = t_resultData["ZeraDBLogger::storageList"]
+                var tmpStorageListForDisplay = storageList.slice()
+                for(var storageIdx in storageList) {
+                    // create more user friendly display content
+                    if(tmpStorageListForDisplay[storageIdx].startsWith("/home/operator/logger")) {
+                        tmpStorageListForDisplay[storageIdx] = tmpStorageListForDisplay[storageIdx].replace("/home/operator/logger", Z.tr("internal"))
                     }
-
-                    for(var storageIdx in storageList) {
-                        if(selectedStorage.indexOf(storageList[storageIdx]) === 0) {
-                            root.currentIndex = storageIdx;
-                            root.newIndexSelected(false);
-                        }
+                    else {
+                        tmpStorageListForDisplay[storageIdx] = Z.tr("external") + " (" + tmpStorageListForDisplay[storageIdx] + ")"
                     }
                 }
+                // Fill & select combo
+                storageListForDisplay = tmpStorageListForDisplay
+                selectLocationCombo(false)
             }
         }
     }
@@ -88,22 +110,17 @@ RowLayout {
     }
     ComboBox {
         id: dbLocationSelector
-        model: root.storageList;
+        model: root.storageListForDisplay
         font.pointSize: root.pointSize
         enabled: root.storageList.length > 0 && loggerEntity.LoggingEnabled === false
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        Connections {
-            target: GC
-            onCurrentSelectedStoragePathChanged: {
-                currentIndex = storageList.indexOf(GC.currentSelectedStoragePath);
-            }
-        }
         onActivated: {
             if(GC.currentSelectedStoragePath !== storageList[index]) {
                 GC.currentSelectedStoragePath = storageList[index]
-                root.newIndexSelected(true);
+                loggerEntity.DatabaseFile = ""
+                selectLocationCombo(true)
             }
         }
     }
