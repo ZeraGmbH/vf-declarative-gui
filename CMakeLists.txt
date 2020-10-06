@@ -122,7 +122,8 @@ target_link_libraries(vf-declarative-gui
     ${glLib}
     )
 
-target_compile_definitions(vf-declarative-gui PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+# add Qml-Debug for Debug build envirionemt only
+target_compile_definitions(vf-declarative-gui PRIVATE $<$<CONFIG:Debug>:QT_QML_DEBUG>)
 
 install(TARGETS vf-declarative-gui
     EXPORT vf-declarative-gui
