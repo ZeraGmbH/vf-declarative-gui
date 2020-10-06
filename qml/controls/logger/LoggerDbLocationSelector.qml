@@ -40,14 +40,30 @@ RowLayout {
             if(selectedStorage.length === 0) {
                 selectedStorage = GC.currentSelectedStoragePath
             }
+            // We must find string with max match: At least during debug
+            // /home and /home/superandy/temp caused touble selecting correct entry
+            var indexFound = -1
+            var maxMatch = 0
             for(var storageIdx in storageList) {
                 // set current index
-                if(selectedStorage.indexOf(storageList[storageIdx]) === 0) {
-                    GC.currentSelectedStoragePath = storageList[storageIdx]
-                    currentIndex = storageIdx
-                    newIndexSelected(byUser)
-                    break
+                var currStorage = storageList[storageIdx]
+                // check total match first for path from GC.currentSelectedStoragePath
+                if(currStorage === selectedStorage) {
+                    indexFound = storageIdx
+                    break;
                 }
+                // partial match for file name - keep best match
+                else if(selectedStorage.indexOf(currStorage) === 0) {
+                    if(currStorage.length > maxMatch) {
+                        maxMatch = currStorage.length
+                        indexFound = storageIdx
+                    }
+                }
+            }
+            if(indexFound > 0) {
+                GC.currentSelectedStoragePath = storageList[indexFound]
+                currentIndex = indexFound
+                newIndexSelected(byUser)
             }
         }
     }
