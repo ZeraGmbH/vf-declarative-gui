@@ -5,7 +5,6 @@
 #include <QIcon>
 #include <QStandardPaths>
 #include <QDir>
-#include <QQmlDebuggingEnabler>
 #include <ve_eventhandler.h>
 #include <vn_networksystem.h>
 #include <vn_tcpsystem.h>
@@ -31,10 +30,6 @@ int main(int argc, char *argv[])
     ZVKeyboard::setKeyboardLayoutEnvironment();
 
     const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
-
-#if QT_CONFIG(qml_debug)
-    QQmlDebuggingEnabler enabler;
-#endif
 
     QLocale locale = QLocale("C");
     locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
