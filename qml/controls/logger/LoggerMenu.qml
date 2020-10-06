@@ -50,7 +50,7 @@ Item {
         }
     }
 
-    // Vein reports contentSet changed by change of LoggedComponents
+    // Vein reports contentSets changed by change of LoggedComponents
     readonly property var loggedComponents: systemEntity.LoggedComponents
     onLoggedComponentsChanged: { handleVeinRecordinfStartReply() }
 
@@ -62,45 +62,47 @@ Item {
 
     function startLogging() {
         if(veinResponsesRequired === 0) {
-            var dbContentSet = GC.getDbContentSet(GC.currentGuiContext)
+            var strDbContentSets = GC.getDbContentSet(GC.currentGuiContext)
             // Translate custom
-            if(dbContentSet === customContentSetName) {
-                dbContentSet = GC.getLoggerCustomContentSets()
+            if(strDbContentSets === customContentSetName) {
+                strDbContentSets = GC.getLoggerCustomContentSets()
             }
-            var contentSetsNotFound = ""
-            var dbContentSetArr = dbContentSet.split(',')
-            for(var currSet in dbContentSetArr) {
-                if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(currSet)) {
-                    if(contentSetsNotFound !== "") {
-                        contentSetsNotFound += ", "
+            // Convert ',' setting to array / keep contextSets not available (currently) in strContentSetsNotFound
+            // for warning
+            var strContentSetsNotFound = ""
+            var dbContentSetArrWanted = strDbContentSets.split(',')
+            var dbContentSetToSetArr = []
+            for(var currSetIdx in dbContentSetArrWanted) {
+                if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSetArrWanted[currSetIdx])) {
+                    dbContentSetToSetArr.push(dbContentSetArrWanted[currSetIdx])
+                }
+                else {
+                    if(strContentSetsNotFound !== "") {
+                        strContentSetsNotFound += ", "
                     }
-                    contentSetsNotFound += currSet
+                    strContentSetsNotFound += dbContentSetArrWanted[currSet]
                 }
             }
-
-            if(contentSetsNotFound === "") {
-                if(loggerEntity.currentContentSet !== dbContentSet) {
-                    ++veinResponsesRequired
-                    loggerEntity.currentContentSet = dbContentSet
-                }
-                var dateTime = new Date();
-                var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
-
-                if(loggerEntity.transactionName !== transactionName) {
-                    ++veinResponsesRequired // due to odd implementation transaction fires twice
-                    ++veinResponsesRequired
-                    loggerEntity.transactionName = transactionName
-                }
-                if(veinResponsesRequired===0) {
-                    loggerEntity.LoggingEnabled = true
-                }
+            if(strContentSetsNotFound !== "") {
+                console.warn("Cannot find content set(s) \"" + strContentSetsNotFound + "\" in available content sets!" )
             }
-            else {
-                console.warn("Cannot find content set(s) \"" + contentSetsNotFound + "\" in available content sets!" )
+
+            if(JSON.stringify(loggerEntity.currentContentSets.sort()) !== JSON.stringify(dbContentSetToSetArr.sort())) {
+                ++veinResponsesRequired
+                loggerEntity.currentContentSets = dbContentSetToSetArr
+            }
+            var dateTime = new Date();
+            var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
+            if(loggerEntity.transactionName !== transactionName) {
+                ++veinResponsesRequired // due to odd implementation transaction fires twice
+                ++veinResponsesRequired
+                loggerEntity.transactionName = transactionName
+            }
+            if(veinResponsesRequired===0) {
+                loggerEntity.LoggingEnabled = true
             }
         }
     }
-
 
     // Snapshot is implemented as logging enable on / off
     // TODO: we MUST-MUST-MUST!!! rework this
