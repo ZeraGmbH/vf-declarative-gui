@@ -57,13 +57,18 @@ Item {
     readonly property var vtransactionName: loggerEntity.transactionName
     onVtransactionNameChanged: { handleVeinRecordinfStartReply() }
 
+    readonly property var vguiContext: loggerEntity.guiContext
+    onVguiContextChanged: { handleVeinRecordinfStartReply() }
+
     readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
     readonly property string customContentSetName: "ZeraCustomContentSet"
 
     function startLogging() {
+        // No logging active?
         if(veinResponsesRequired === 0) {
+            // contentSets: create & set if necessary
             var strDbContentSets = GC.getDbContentSet(GC.currentGuiContext)
-            // Translate custom
+            // Translate custom data to array of contentSets
             if(strDbContentSets === customContentSetName) {
                 strDbContentSets = GC.getLoggerCustomContentSets()
             }
@@ -86,11 +91,19 @@ Item {
             if(strContentSetsNotFound !== "") {
                 console.warn("Cannot find content set(s) \"" + strContentSetsNotFound + "\" in available content sets!" )
             }
-
             if(JSON.stringify(loggerEntity.currentContentSets.sort()) !== JSON.stringify(dbContentSetToSetArr.sort())) {
                 ++veinResponsesRequired
                 loggerEntity.currentContentSets = dbContentSetToSetArr
             }
+
+            // guiContext: create & set if necessary
+            var guiContext = GC.currentGuiContext.name
+            if(loggerEntity.guiContext !== guiContext) {
+                ++veinResponsesRequired
+                loggerEntity.guiContext = guiContext
+            }
+
+            // transactionName: create & set if necessary
             var dateTime = new Date();
             var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
             if(loggerEntity.transactionName !== transactionName) {
