@@ -22,18 +22,18 @@ Item {
     }
 
     function addToCustomDbContentSet(addContentSet) {
-        var contentSet = GC.getLoggerCustomContentSets().split(',').filter(n => n)
-        if(!contentSet.includes(addContentSet)) {
-            contentSet.push(addContentSet)
+        var contentSets = GC.getLoggerCustomContentSets().split(',').filter(n => n)
+        if(!contentSets.includes(addContentSet)) {
+            contentSets.push(addContentSet)
         }
-        GC.setLoggerCustomContentSets(contentSet.join(','))
+        GC.setLoggerCustomContentSets(contentSets.join(','))
     }
     function removeFromCustomDbContentSet(removeContentSet) {
-        var contentSet = GC.getLoggerCustomContentSets().split(',').filter(n => n)
-        if(contentSet.includes(removeContentSet)) {
-            contentSet = contentSet.filter(str => str !== removeContentSet)
+        var contentSets = GC.getLoggerCustomContentSets().split(',').filter(n => n)
+        if(contentSets.includes(removeContentSet)) {
+            contentSets = contentSets.filter(str => str !== removeContentSet)
         }
-        GC.setLoggerCustomContentSets(contentSet.join(','))
+        GC.setLoggerCustomContentSets(contentSets.join(','))
     }
     ColumnLayout {
         anchors.fill: parent
