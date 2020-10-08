@@ -18,7 +18,7 @@ Item {
         if(loggerEntity.DatabaseReady !== true) {
             if(GC.currDatabaseFileName) {
                 loggerEntity.DatabaseFile = GC.currDatabaseFileName
-                loggerEntity.sessionName = GC.currDatabaseRecordName
+                loggerEntity.sessionName = GC.currDatabaseSessionName
                 return menu.open()
             }
             else {
@@ -32,16 +32,16 @@ Item {
 
     readonly property bool databaseReady: loggerEntity.DatabaseReady
     signal loggerSettingsMenu()
-    signal loggerRecordsMenu(var loggerEntity)
+    signal loggerSessionsMenu(var loggerEntity)
     signal loggerCustomDataMenu()
     // internal
     property bool snapshotTrigger: false;
-    property bool startLoggingAfterRecordSelect: false
+    property bool startLoggingAfterSessionSelect: false
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject systemEntity: VeinEntity.getEntity("_System")
 
     property int veinResponsesRequired: 0
-    function handleVeinRecordinfStartReply() {
+    function handleVeinRecordingStartReply() {
         if(veinResponsesRequired > 0) {
             --veinResponsesRequired
             if(veinResponsesRequired === 0) { // vein has accepted everything?
@@ -52,15 +52,15 @@ Item {
 
     // Vein reports contentSets changed by change of LoggedComponents
     readonly property var loggedComponents: systemEntity.LoggedComponents
-    onLoggedComponentsChanged: { handleVeinRecordinfStartReply() }
+    onLoggedComponentsChanged: { handleVeinRecordingStartReply() }
 
     readonly property var vtransactionName: loggerEntity.transactionName
-    onVtransactionNameChanged: { handleVeinRecordinfStartReply() }
+    onVtransactionNameChanged: { handleVeinRecordingStartReply() }
 
     readonly property var vguiContext: loggerEntity.guiContext
-    onVguiContextChanged: { handleVeinRecordinfStartReply() }
+    onVguiContextChanged: { handleVeinRecordingStartReply() }
 
-    readonly property string recordNameLogger: loggerEntity.sessionName !== undefined ? loggerEntity.sessionName : ""
+    readonly property string sessionNameLogger: loggerEntity.sessionName !== undefined ? loggerEntity.sessionName : ""
     readonly property string customContentSetName: "ZeraCustomContentSet"
 
     function startLogging() {
@@ -211,12 +211,12 @@ Item {
         // part of menu each time menu openes
         // [1] https://github.com/schnitzeltony/dyn-menu-qml/blob/master/main.qml
         onAboutToShow: { instantiator.model = GC.getDefaultDbContentSetLists(GC.currentGuiContext) }
-        MenuItem { // current record name (pos 0)
+        MenuItem { // current session name (pos 0)
             text: {
                 // No database cannot happen here: We force move to settings in open()
                 var menuText = ""
-                if(recordNameLogger === "") {
-                    menuText = Z.tr("-- no record --")
+                if(sessionNameLogger === "") {
+                    menuText = Z.tr("-- no session --")
                 }
                 else {
                     menuText = loggerEntity.sessionName
@@ -224,8 +224,8 @@ Item {
                 return FA.icon(FA.fa_arrow_right) + menuText
             }
             onTriggered: {
-                startLoggingAfterRecordSelect = false
-                loggerRecordsMenu(loggerEntity)
+                startLoggingAfterSessionSelect = false
+                loggerSessionsMenu(loggerEntity)
             }
             enabled: loggerEntity.LoggingEnabled !== true
         }
@@ -285,12 +285,12 @@ Item {
                      !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
             onTriggered: {
                 snapshotTrigger = true;
-                if(recordNameLogger !== "") {
+                if(sessionNameLogger !== "") {
                     startLogging()
                 }
                 else {
-                    startLoggingAfterRecordSelect = true
-                    loggerRecordsMenu(loggerEntity)
+                    startLoggingAfterSessionSelect = true
+                    loggerSessionsMenu(loggerEntity)
                 }
             }
         }
@@ -306,12 +306,12 @@ Item {
             onTriggered: {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
-                    if(recordNameLogger !== "") {
+                    if(sessionNameLogger !== "") {
                         startLogging()
                     }
                     else {
-                        startLoggingAfterRecordSelect = true
-                        loggerRecordsMenu(loggerEntity)
+                        startLoggingAfterSessionSelect = true
+                        loggerSessionsMenu(loggerEntity)
                     }
                 }
                 else { // Stop

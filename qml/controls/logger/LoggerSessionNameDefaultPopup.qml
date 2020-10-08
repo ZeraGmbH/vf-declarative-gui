@@ -25,16 +25,16 @@ Popup {
         running: true
         repeat: true
         onTriggered: {
-            preview.text = GC.loggerRecordNameReplace(textFieldRecordNameDefault.text)
+            preview.text = GC.loggerSessionNameReplace(textFieldSessionNameDefault.text)
         }
     }
 
     onAboutToShow: {
         // Do not bind by design
-        textFieldRecordNameDefault.text = GC.loggerRecordnameDefault
-        // Intended to be late so textFieldRecordNameDefault selects properly
+        textFieldSessionNameDefault.text = GC.loggerSessionNameDefault
+        // Intended to be late so textFieldSessionNameDefault selects properly
         root.focus = true
-        textFieldRecordNameDefault.focus = true
+        textFieldSessionNameDefault.focus = true
     }
 
     ColumnLayout {
@@ -46,7 +46,7 @@ Popup {
                 font.pointSize: root.pointSize
             }
             TextField {
-                id: textFieldRecordNameDefault
+                id: textFieldSessionNameDefault
                 Layout.fillWidth: true;
                 bottomPadding: GC.standardTextBottomMargin
                 inputMethodHints: Qt.ImhNoAutoUppercase
@@ -54,7 +54,7 @@ Popup {
                 font.pointSize: root.pointSize
 
                 Keys.onEscapePressed: {
-                    text = GC.loggerRecordnameDefault
+                    text = GC.loggerSessionNameDefault
                     focus = false
                 }
                 onAccepted: {
@@ -80,7 +80,7 @@ Popup {
             }
             Label { // For sake of seconds text is set by timer
                 id: preview
-                text: GC.loggerRecordNameReplace(textFieldRecordNameDefault.text)
+                text: GC.loggerSessionNameReplace(textFieldSessionNameDefault.text)
                 horizontalAlignment: Text.AlignRight
                 font.pointSize: root.pointSize
                 elide: Text.ElideRight
@@ -90,19 +90,19 @@ Popup {
         }
         RowLayout { // macro buttons
             id: macroButtonsRow
-            function addToRecordName(textToAdd) {
-                var selStart = textFieldRecordNameDefault.selectionStart
-                var selEnd = textFieldRecordNameDefault.selectionEnd
+            function addToSessionName(textToAdd) {
+                var selStart = textFieldSessionNameDefault.selectionStart
+                var selEnd = textFieldSessionNameDefault.selectionEnd
                 // selected: replace
                 if(selEnd - selStart > 0) {
-                    var newText = textFieldRecordNameDefault.text.substring(0, selStart) +
+                    var newText = textFieldSessionNameDefault.text.substring(0, selStart) +
                             textToAdd +
-                            textFieldRecordNameDefault.text.substring(selEnd, textFieldRecordNameDefault.text.length)
-                    textFieldRecordNameDefault.text = newText
+                            textFieldSessionNameDefault.text.substring(selEnd, textFieldSessionNameDefault.text.length)
+                    textFieldSessionNameDefault.text = newText
                 }
                 // otherwise: insert at cursor position
                 else {
-                    textFieldRecordNameDefault.insert(textFieldRecordNameDefault.cursorPosition, textToAdd);
+                    textFieldSessionNameDefault.insert(textFieldSessionNameDefault.cursorPosition, textToAdd);
                 }
             }
 
@@ -112,7 +112,7 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
                 onPressed: {
-                    macroButtonsRow.addToRecordName(text)
+                    macroButtonsRow.addToSessionName(text)
                 }
             }
             Button {
@@ -121,7 +121,7 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
                 onPressed: {
-                    macroButtonsRow.addToRecordName(text)
+                    macroButtonsRow.addToSessionName(text)
                 }
             }
             Item { // spacer
@@ -133,7 +133,7 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
                 onPressed: {
-                    macroButtonsRow.addToRecordName(text)
+                    macroButtonsRow.addToSessionName(text)
                 }
             }
             Button {
@@ -141,7 +141,7 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
                 onPressed: {
-                    macroButtonsRow.addToRecordName(text)
+                    macroButtonsRow.addToSessionName(text)
                 }
             }
             Button {
@@ -149,7 +149,7 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
                 onPressed: {
-                    macroButtonsRow.addToRecordName(text)
+                    macroButtonsRow.addToSessionName(text)
                 }
             }
             Item {
@@ -161,7 +161,7 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
                 onPressed: {
-                    macroButtonsRow.addToRecordName(text)
+                    macroButtonsRow.addToSessionName(text)
                 }
             }
             Button {
@@ -169,22 +169,22 @@ Popup {
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
                 onPressed: {
-                    macroButtonsRow.addToRecordName(text)
+                    macroButtonsRow.addToSessionName(text)
                 }
             }
             Item {
                 // spacer
                 Layout.fillWidth: true
             }
-            Button { // reset default record name to standard
+            Button { // reset default session name to standard
                 Layout.preferredWidth: height
                 font.family: FA.old
                 font.pointSize: root.pointSize
                 text: FA.fa_undo
                 focusPolicy: Qt.NoFocus
-                enabled: textFieldRecordNameDefault.text !== GC.loggerRecordnameDefaultStandard
+                enabled: textFieldSessionNameDefault.text !== GC.loggerSessionNameDefaultStandard
                 onPressed: {
-                    textFieldRecordNameDefault.text = GC.loggerRecordnameDefaultStandard
+                    textFieldSessionNameDefault.text = GC.loggerSessionNameDefaultStandard
                 }
             }
         }
@@ -208,7 +208,7 @@ Popup {
                 font.pointSize: root.pointSize
                 Layout.minimumWidth: cancelButton.width
                 onClicked: {
-                    GC.setLoggerRecordnameDefault(textFieldRecordNameDefault.text)
+                    GC.setLoggerSessionNameDefault(textFieldSessionNameDefault.text)
                     root.close()
                 }
             }
