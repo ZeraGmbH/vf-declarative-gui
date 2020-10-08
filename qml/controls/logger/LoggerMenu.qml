@@ -18,7 +18,7 @@ Item {
         if(loggerEntity.DatabaseReady !== true) {
             if(GC.currDatabaseFileName) {
                 loggerEntity.DatabaseFile = GC.currDatabaseFileName
-                loggerEntity.recordName = GC.currDatabaseRecordName
+                loggerEntity.sessionName = GC.currDatabaseRecordName
                 return menu.open()
             }
             else {
@@ -60,7 +60,7 @@ Item {
     readonly property var vguiContext: loggerEntity.guiContext
     onVguiContextChanged: { handleVeinRecordinfStartReply() }
 
-    readonly property string recordNameLogger: loggerEntity.recordName !== undefined ? loggerEntity.recordName : ""
+    readonly property string recordNameLogger: loggerEntity.sessionName !== undefined ? loggerEntity.sessionName : ""
     readonly property string customContentSetName: "ZeraCustomContentSet"
 
     function startLogging() {
@@ -219,7 +219,7 @@ Item {
                     menuText = Z.tr("-- no record --")
                 }
                 else {
-                    menuText = loggerEntity.recordName
+                    menuText = loggerEntity.sessionName
                 }
                 return FA.icon(FA.fa_arrow_right) + menuText
             }

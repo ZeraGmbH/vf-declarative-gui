@@ -58,7 +58,7 @@ Item {
             VFLineEdit {
                 id: currentRecordName
                 entity: loggerEntity
-                controlPropertyName: "recordName"
+                controlPropertyName: "sessionName"
                 Layout.fillWidth: true
                 pointSize: root.pointSize
                 height: root.rowHeight
@@ -123,7 +123,7 @@ Item {
                 focusPolicy: Qt.NoFocus
                 enabled: preview.text !== currentRecordName.textField.text
                 onPressed: {
-                    loggerEntity.recordName = preview.text
+                    loggerEntity.sessionName = preview.text
                 }
             }
         }
@@ -144,7 +144,7 @@ Item {
                 id: existingList
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                currentIndex: model ? model.indexOf(loggerEntity.recordName) : -1
+                currentIndex: model ? model.indexOf(loggerEntity.sessionName) : -1
                 clip: true
                 property bool vBarVisible: existingList.contentHeight > existingList.height
                 visible: model.length !== 0
@@ -158,7 +158,7 @@ Item {
                 model:  {
                     // Avoid empty entries
                     var recordsArray = []
-                    loggerEntity.ExistingRecords.forEach(
+                    loggerEntity.ExistingSessions.forEach(
                         function(item, index, array) {
                             if(item !== "") {
                                 recordsArray.push(item)
@@ -180,7 +180,7 @@ Item {
                             font.pointSize: root.pointSize
                             horizontalAlignment: Text.AlignLeft
                             text: FA.fa_check
-                            opacity: (modelData === loggerEntity.recordName) ? 1.0 : 0.0
+                            opacity: (modelData === loggerEntity.sessionName) ? 1.0 : 0.0
                             Layout.preferredWidth: root.pointSize * 1.5
                         }
                         Label {
@@ -191,8 +191,8 @@ Item {
                         }
                     }
                     onClicked: {
-                        if(loggerEntity.recordName !== modelData) {
-                            loggerEntity.recordName = modelData
+                        if(loggerEntity.sessionName !== modelData) {
+                            loggerEntity.sessionName = modelData
                         }
                     }
                 }
