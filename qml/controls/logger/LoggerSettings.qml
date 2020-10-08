@@ -22,9 +22,9 @@ SettingsControls.SettingsView {
     onDbFileNameChanged: {
         GC.setCurrDatabaseFileName(dbFileName)
     }
-    readonly property string dbRecordName: loggerEntity.sessionName
-    onDbRecordNameChanged: {
-        GC.setCurrDatabaseRecordName(dbRecordName)
+    readonly property string dbSessionName: loggerEntity.sessionName
+    onDbSessionNameChanged: {
+        GC.setCurrDatabaseSessionName(dbSessionName)
     }
 
     property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";

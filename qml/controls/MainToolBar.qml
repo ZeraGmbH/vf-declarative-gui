@@ -157,12 +157,12 @@ ToolBar {
                         }
                         loggerSettingsStackObj.showSettings()
                     }
-                    onLoggerRecordsMenu: {
+                    onLoggerSessionsMenu: {
                         // show logger settings (if not showed already)
                         if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
                             root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         }
-                        loggerSettingsStackObj.showRecordNameSelector()
+                        loggerSettingsStackObj.showSessionNameSelector()
                     }
                     onLoggerCustomDataMenu: {
                         // show logger settings (if not showed already)

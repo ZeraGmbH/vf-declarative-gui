@@ -20,15 +20,15 @@ Item {
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
 
-    LoggerRecordNameDefaultPopup {
-        id: loggerRecordNameDefaultPopup
+    LoggerSessionNameDefaultPopup {
+        id: loggerSessionNameDefaultPopup
     }
     Timer {
         interval: 200
         running: true
         repeat: true
         onTriggered: {
-            preview.text = GC.loggerRecordNameReplace(GC.loggerRecordnameDefault)
+            preview.text = GC.loggerSessionNameReplace(GC.loggerSessionNameDefault)
         }
     }
 
@@ -37,7 +37,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
-        text: Z.tr("Select record name")
+        text: Z.tr("Select session name")
         font.pointSize: root.pointSize * 1.5
     }
     ColumnLayout {
@@ -48,7 +48,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
         anchors.bottom: parent.bottom
-        RowLayout { // Current record
+        RowLayout { // Current session
             width: selectionColumn.width
             height: root.rowHeight
             Label {
@@ -56,7 +56,7 @@ Item {
                 font.pointSize: root.pointSize
             }
             VFLineEdit {
-                id: currentRecordName
+                id: currentSessionName
                 entity: loggerEntity
                 controlPropertyName: "sessionName"
                 Layout.fillWidth: true
@@ -82,7 +82,7 @@ Item {
             width: selectionColumn.width
             height: root.rowHeight / 2
         }
-        RowLayout { // Default record
+        RowLayout { // Default session
             width: selectionColumn.width
             height: root.rowHeight
             Label {
@@ -111,7 +111,7 @@ Item {
                 font.pointSize: root.pointSize
                 focusPolicy: Qt.NoFocus
                 onPressed: {
-                    loggerRecordNameDefaultPopup.open()
+                    loggerSessionNameDefaultPopup.open()
                 }
             }
             Button {
@@ -121,7 +121,7 @@ Item {
                 font.family: FA.old
                 font.pointSize: root.pointSize
                 focusPolicy: Qt.NoFocus
-                enabled: preview.text !== currentRecordName.textField.text
+                enabled: preview.text !== currentSessionName.textField.text
                 onPressed: {
                     loggerEntity.sessionName = preview.text
                 }
@@ -157,14 +157,14 @@ Item {
                 }
                 model:  {
                     // Avoid empty entries
-                    var recordsArray = []
+                    var sessionsArray = []
                     loggerEntity.ExistingSessions.forEach(
                         function(item, index, array) {
                             if(item !== "") {
-                                recordsArray.push(item)
+                                sessionsArray.push(item)
                             }
                         })
-                    return recordsArray.sort()
+                    return sessionsArray.sort()
                 }
 
                 delegate: ItemDelegate {

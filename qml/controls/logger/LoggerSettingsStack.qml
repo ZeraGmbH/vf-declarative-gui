@@ -6,9 +6,8 @@ StackLayout {
     function showSettings() { currentIndex = 0 }
     LoggerSettings { }
 
-    function showRecordNameSelector() { currentIndex = 1 }
-    LoggerRecordNameSelector { id: loggerRecordnameSelector }
-    property alias recordnameSelector: loggerRecordnameSelector // enable access to connect signal
+    function showSessionNameSelector() { currentIndex = 1 }
+    LoggerSessionNameSelector { id: loggerSessionNameSelector }
 
     function showCustomDataSelector() { currentIndex = 2 }
     LoggerCustomDataSelector{ }

@@ -560,22 +560,22 @@ Item {
     function setCurrDatabaseFileName(databaseFileName) {
         settings.globalSettings.setOption("logger_db_filename", databaseFileName)
     }
-    property string currDatabaseRecordName: settings.globalSettings.getOption("logger_db_recordname", "")
-    function setCurrDatabaseRecordName(databaseRecordName) {
-        settings.globalSettings.setOption("logger_db_recordname", databaseRecordName)
+    property string currDatabaseSessionName: settings.globalSettings.getOption("logger_db_sessionname", "")
+    function setCurrDatabaseSessionName(databaseSessionName) {
+        settings.globalSettings.setOption("logger_db_sessionname", databaseSessionName)
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Logger settings
 
-    // Logger default recordset name
-    readonly property string loggerRecordnameDefaultStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
-    readonly property string loggerRecordnameDefault: settings.globalSettings.getOption("logger_recordname_default", loggerRecordnameDefaultStandard)
-    function setLoggerRecordnameDefault(defaultRecordname) {
-        settings.globalSettings.setOption("logger_recordname_default", defaultRecordname)
+    // Logger default session name
+    readonly property string loggerSessionNameDefaultStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
+    readonly property string loggerSessionNameDefault: settings.globalSettings.getOption("logger_sessionname_default", loggerSessionNameDefaultStandard)
+    function setLoggerSessionNameDefault(defaultSessionName) {
+        settings.globalSettings.setOption("logger_sessionname_default", defaultSessionName)
     }
-    // Logger default recordset helpers
-    function loggerRecordNameReplace(strRaw) {
+    // Logger default session name helpers
+    function loggerSessionNameReplace(strRaw) {
         var customerdataEntity = VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
         var strRet = strRaw
         var dateTime = new Date();
