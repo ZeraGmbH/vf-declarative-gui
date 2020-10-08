@@ -22,7 +22,7 @@ SettingsControls.SettingsView {
     onDbFileNameChanged: {
         GC.setCurrDatabaseFileName(dbFileName)
     }
-    readonly property string dbRecordName: loggerEntity.recordName
+    readonly property string dbRecordName: loggerEntity.sessionName
     onDbRecordNameChanged: {
         GC.setCurrDatabaseRecordName(dbRecordName)
     }
@@ -45,7 +45,7 @@ SettingsControls.SettingsView {
             onClosed: loggerSearchPopup.active = false;
             onFileSelected: {
                 if(root.loggerEntity.DatabaseFile !== t_file) {
-                    root.loggerEntity.recordName = ""
+                    root.loggerEntity.sessionName = ""
                     root.loggerEntity.DatabaseFile = t_file;
                 }
             }
@@ -160,7 +160,7 @@ SettingsControls.SettingsView {
                     enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
                     onClicked: {
                         root.loggerEntity.DatabaseFile = root.completeDBPath
-                        root.loggerEntity.recordName = ""
+                        root.loggerEntity.sessionName = ""
                     }
                 }
                 Button { // unmount database
@@ -171,7 +171,7 @@ SettingsControls.SettingsView {
                     enabled: root.loggerEntity.DatabaseFile.length > 0 && loggerEntity.LoggingEnabled === false
                     onClicked: {
                         root.loggerEntity.DatabaseFile = "";
-                        root.loggerEntity.recordName = ""
+                        root.loggerEntity.sessionName = ""
                     }
                 }
             }
