@@ -155,17 +155,7 @@ Item {
                     orientation: Qt.Vertical
                     policy: existingList.vBarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
                 }
-                model:  {
-                    // Avoid empty entries
-                    var sessionsArray = []
-                    loggerEntity.ExistingSessions.forEach(
-                        function(item, index, array) {
-                            if(item !== "") {
-                                sessionsArray.push(item)
-                            }
-                        })
-                    return sessionsArray.sort()
-                }
+                model: loggerEntity.ExistingSessions.sort()
 
                 delegate: ItemDelegate {
                     anchors.left: parent.left
