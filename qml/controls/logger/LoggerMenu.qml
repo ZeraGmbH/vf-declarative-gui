@@ -92,13 +92,14 @@ Item {
                 console.warn("Cannot find content set(s) \"" + strContentSetsNotFound + "\" in available content sets!" )
             }
             if(JSON.stringify(loggerEntity.currentContentSets.sort()) !== JSON.stringify(dbContentSetToSetArr.sort())) {
-                ++veinResponsesRequired
+                ++veinResponsesRequired // we listen to loggedComponents -> one event
                 loggerEntity.currentContentSets = dbContentSetToSetArr
             }
 
             // guiContext: create & set if necessary
             var guiContext = GC.currentGuiContext.name
             if(loggerEntity.guiContext !== guiContext) {
+                ++veinResponsesRequired // we get a locale and a remote event
                 ++veinResponsesRequired
                 loggerEntity.guiContext = guiContext
             }
@@ -107,7 +108,7 @@ Item {
             var dateTime = new Date();
             var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
             if(loggerEntity.transactionName !== transactionName) {
-                ++veinResponsesRequired // due to odd implementation transaction fires twice
+                ++veinResponsesRequired // we get a locale and a remote event
                 ++veinResponsesRequired
                 loggerEntity.transactionName = transactionName
             }
