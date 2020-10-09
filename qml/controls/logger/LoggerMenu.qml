@@ -16,7 +16,7 @@ Item {
         // * do not show menu
         // * open to settings immediately
         if(loggerEntity.DatabaseReady !== true) {
-            if(GC.currDatabaseFileName) {
+            if(loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName) {
                 loggerEntity.DatabaseFile = GC.currDatabaseFileName
                 loggerEntity.sessionName = GC.currDatabaseSessionName
                 return menu.open()
@@ -228,7 +228,8 @@ Item {
                 startLoggingAfterSessionSelect = false
                 loggerSessionsMenu(loggerEntity)
             }
-            enabled: loggerEntity.LoggingEnabled !== true
+            enabled: loggerEntity.LoggingEnabled !== true &&
+                     loggerEntity.DatabaseReady === true
         }
         MenuSeparator { } // (pos 1)
         Instantiator { // dynamic part - injected before position 2
