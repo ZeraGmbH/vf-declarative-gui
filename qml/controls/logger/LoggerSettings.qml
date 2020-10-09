@@ -45,7 +45,6 @@ SettingsControls.SettingsView {
             onClosed: loggerSearchPopup.active = false;
             onFileSelected: {
                 if(root.loggerEntity.DatabaseFile !== t_file) {
-                    root.loggerEntity.sessionName = ""
                     root.loggerEntity.DatabaseFile = t_file;
                 }
             }
@@ -160,7 +159,6 @@ SettingsControls.SettingsView {
                     enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
                     onClicked: {
                         root.loggerEntity.DatabaseFile = root.completeDBPath
-                        root.loggerEntity.sessionName = ""
                     }
                 }
                 Button { // unmount database
@@ -171,7 +169,6 @@ SettingsControls.SettingsView {
                     enabled: root.loggerEntity.DatabaseFile.length > 0 && loggerEntity.LoggingEnabled === false
                     onClicked: {
                         root.loggerEntity.DatabaseFile = "";
-                        root.loggerEntity.sessionName = ""
                     }
                 }
             }
