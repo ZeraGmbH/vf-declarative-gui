@@ -471,6 +471,11 @@ Item {
         "GUI_CED_POWER"                 : { value: 16, name: "ZeraGuiCEDPower" },
         "GUI_DC_REFERENCE"              : { value: 17, name: "ZeraGuiDCReference" },
     }
+    readonly property var contentTypeEnum: {
+        "CONTENT_TYPE_CONTEXT": 0,
+        "CONTENT_TYPE_ALL": 1,
+        "CONTENT_TYPE_CUSTOM": 2
+    }
 
     property var currentGuiContext
     /*onCurrentGuiContextChanged: { // uncomment for test
@@ -526,24 +531,37 @@ Item {
         }
         return dbContentSetList
     }
-    function getDbContentSet(guiContext) {
+    function dbContentSetsFromContext(guiContext) {
+        var contentSets = ""
         if(guiContext !== undefined) {
-            return settings.globalSettings.getOption(guiContext.name, getDefaultDbContentSet(guiContext))
+            switch(getLoggerContentType()) {
+            case contentTypeEnum.CONTENT_TYPE_CONTEXT:
+                contentSets = getDefaultDbContentSet(guiContext)
+                break;
+            case contentTypeEnum.CONTENT_TYPE_ALL:
+                contentSets = "ZeraAll"
+                break;
+            case contentTypeEnum.CONTENT_TYPE_CUSTOM:
+                contentSets = getLoggerCustomContentSets()
+                break;
+            }
         }
-        return ""
+        return contentSets
     }
-    function setDbContentSet(guiContext, newDBContentSet) {
-        if(guiContext !== undefined) {
-            settings.globalSettings.setOption(guiContext.name, newDBContentSet);
-        }
+    function getLoggerContentType() {
+        return parseInt(settings.globalSettings.getOption("logger_content_type", contentTypeEnum.CONTENT_TYPE_CONTEXT))
     }
+    function setLoggerContentType(contentType) {
+        settings.globalSettings.setOption("logger_content_type", contentType);
+    }
+
     // custom contentSets
     function getLoggerCustomContentSets() {
         // We do not write default - user action is required
-        return settings.globalSettings.getOption("ZeraGuiCustomContentSet", "")
+        return settings.globalSettings.getOption("logger_custom_content_sets", "")
     }
     function setLoggerCustomContentSets(customContentSets) {
-        settings.globalSettings.setOption("ZeraGuiCustomContentSet", customContentSets)
+        settings.globalSettings.setOption("logger_custom_content_sets", customContentSets)
     }
 
     // internal helper: append available only db-content-set
