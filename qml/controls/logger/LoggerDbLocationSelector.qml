@@ -60,7 +60,7 @@ RowLayout {
                     }
                 }
             }
-            if(indexFound > 0) {
+            if(indexFound >= 0) {
                 GC.currentSelectedStoragePath = storageList[indexFound]
                 currentIndex = indexFound
                 newIndexSelected(byUser)
