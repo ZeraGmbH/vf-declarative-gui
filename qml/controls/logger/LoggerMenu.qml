@@ -67,7 +67,7 @@ Item {
         // No logging active?
         if(veinResponsesRequired === 0) {
             // contentSets: create & set if necessary
-            var strDbContentSets = GC.getDbContentSet(GC.currentGuiContext)
+            var strDbContentSets = GC.dbContentSetsFromContext(GC.currentGuiContext)
             // Translate custom data to array of contentSets
             if(strDbContentSets === customContentSetName) {
                 strDbContentSets = GC.getLoggerCustomContentSets()
@@ -139,20 +139,27 @@ Item {
     }
     // Endof TODO
 
-    ButtonGroup{
+
+    ButtonGroup {
         id: radioMenuGroup
-        property string customContentSets: GC.currentGuiContext !== undefined ? GC.getLoggerCustomContentSets() : ""
-        property string contextSetToSet
+        property string customContentSets: GC.getLoggerCustomContentSets()
+        property int contentTypeRadioToSet
         onCustomContentSetsChanged: {
-            if(GC.currentGuiContext !== undefined) {
+            checkCustomPlausis(false)
+        }
+        function checkCustomPlausis(onOpenMenu) {
+            if(GC.currentGuiContext !== undefined) { // avoid initial fire
+                var isCustomDataSelected = GC.getLoggerContentType() === GC.contentTypeEnum.CONTENT_TYPE_CUSTOM
                 var actionRequired = false
-                if(customDataSettingRadio.checked && customContentSets === "") {
+                // Custom data selected but nothing selected: select fallback
+                if(isCustomDataSelected && customContentSets === "") {
                     actionRequired = true
-                    contextSetToSet = GC.getDefaultDbContentSet(GC.currentGuiContext)
+                    contentTypeRadioToSet = GC.contentTypeEnum.CONTENT_TYPE_CONTEXT
                 }
-                else if(!customDataSettingRadio.checked && customContentSets !== "") {
+                // Custom data was modified: select custom data menu
+                else if(!onOpenMenu && !isCustomDataSelected && customContentSets !== "") {
                     actionRequired = true
-                    contextSetToSet = customContentSetName
+                    contentTypeRadioToSet = GC.contentTypeEnum.CONTENT_TYPE_CUSTOM
                 }
                 if(actionRequired) {
                     // Again: Althogh everything works fine QML detects a property loop...
@@ -160,13 +167,38 @@ Item {
                 }
             }
         }
+        function checkRadiosFromSettings() {
+            var radioChecked = false
+            var radioContextSpecific
+            for(var idx=0; idx<buttons.length; ++idx) {
+                var radio = buttons[idx]
+                var contentTypeRadioToSet = radio.enumContentType
+                // all menus have a context specific entry - keep it as fallback
+                if(contentTypeRadioToSet === GC.contentTypeEnum.CONTENT_TYPE_CONTEXT) {
+                    radioContextSpecific = radio
+                }
+                if(contentTypeRadioToSet === GC.getLoggerContentType()) {
+                    radio.checked = true
+                    radioChecked = true
+                    break;
+                }
+            }
+            // in case current context does not have last selected
+            // menu entry: select fallback
+            if(!radioChecked && radioContextSpecific) {
+                radioContextSpecific.checked = true
+            }
+        }
+        onClicked: {
+            GC.setLoggerContentType(checkedButton.enumContentType)
+        }
     }
     Timer {
         id: propertyLoopAvoidingSetDefaultContentSet
         interval: 0
         repeat: false
         onTriggered: {
-            GC.setDbContentSet(GC.currentGuiContext, radioMenuGroup.contextSetToSet)
+            GC.setLoggerContentType(radioMenuGroup.contentTypeRadioToSet)
         }
     }
 
@@ -207,11 +239,15 @@ Item {
 
             return result + padding * 2;
         }
-        // Under some conditions updating javascript arrays do not cause a binded
-        // property to update [1]. So to avoid surprises assign model for dynamic
-        // part of menu each time menu openes
-        // [1] https://github.com/schnitzeltony/dyn-menu-qml/blob/master/main.qml
-        onAboutToShow: { instantiator.model = GC.getDefaultDbContentSetLists(GC.currentGuiContext) }
+        onAboutToShow: {
+            // Under some conditions updating javascript arrays do not cause a binded
+            // property to update [1]. So to avoid surprises assign model for dynamic
+            // part of menu each time menu openes
+            // [1] https://github.com/schnitzeltony/dyn-menu-qml/blob/master/main.qml
+            instantiator.model = GC.getDefaultDbContentSetLists(GC.currentGuiContext)
+
+            radioMenuGroup.checkRadiosFromSettings()
+        }
         MenuItem { // current session name (pos 0)
             text: {
                 // No database cannot happen here: We force move to settings in open()
@@ -232,39 +268,45 @@ Item {
                      loggerEntity.DatabaseReady === true
         }
         MenuSeparator { } // (pos 1)
-        Instantiator { // dynamic part - injected before position 2
+        Instantiator { // dynamic part (context/all) - injected before position 2
             id: instantiator
             delegate: MenuItem {
+                property alias radio: dynRadio
                 enabled: loggerEntity.LoggingEnabled !== true
                 RadioButton {
+                    id: dynRadio
                     anchors.fill: parent
-                    text: Z.tr("Menu" + modelData)
-                    ButtonGroup.group: radioMenuGroup
-                    checked: modelData === GC.getDbContentSet(GC.currentGuiContext)
-                    onToggled: {
-                        if(checked) {
-                            GC.setDbContentSet(GC.currentGuiContext, modelData)
-                        }
+                    readonly property int enumContentType: {
+                        var ret = (modelData == "ZeraAll" ?
+                                    GC.contentTypeEnum.CONTENT_TYPE_ALL :
+                                    GC.contentTypeEnum.CONTENT_TYPE_CONTEXT)
+                        return ret
                     }
+                    text: Z.tr("Menu" + modelData)
                 }
             }
-            onObjectAdded: menu.insertItem(index + 2, object)
-            onObjectRemoved: menu.removeItem(object)
+            onObjectAdded: {
+                menu.insertItem(index + 2, object)
+                radioMenuGroup.addButton(object.radio)
+            }
+            onObjectRemoved: {
+                menu.removeItem(object)
+                // we cannot use radios attached property ButtonGroup.group
+                // in dynamic menus: QML does not remove radio on remove so
+                // we have to keep track of radioMenuGroup members. See also
+                // onObjectAdded
+                radioMenuGroup.removeButton(object.radio)
+            }
         }
-        MenuItem { // customer data
+        MenuItem { // custom contents
             enabled: loggerEntity.LoggingEnabled !== true
             RadioButton {
                 id: customDataSettingRadio
                 anchors.fill: parent
+                property var enumContentType: GC.contentTypeEnum.CONTENT_TYPE_CUSTOM
                 text: Z.tr("Custom data")
                 ButtonGroup.group: radioMenuGroup
                 enabled: GC.getLoggerCustomContentSets() !== ""
-                checked: GC.getDbContentSet(GC.currentGuiContext) === customContentSetName
-                onToggled: {
-                    if(checked) {
-                        GC.setDbContentSet(GC.currentGuiContext, customContentSetName)
-                    }
-                }
             }
             Button {
                 id: customDataSettingButton
