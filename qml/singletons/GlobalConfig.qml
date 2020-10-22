@@ -496,6 +496,7 @@ Item {
         case guiContextEnum.GUI_CED_POWER:
             addDbContentSet(dbContentSetList, "ZeraActualValues")
             addDbContentSet(dbContentSetList, "ZeraAll")
+            addDbContentSet(dbContentSetList, "ZeraCustom")
             break
         case guiContextEnum.GUI_HARMONIC_TABLE:
         case guiContextEnum.GUI_HARMONIC_CHART:
@@ -503,10 +504,12 @@ Item {
         case guiContextEnum.GUI_HARMONIC_POWER_CHART:
             addDbContentSet(dbContentSetList, "ZeraHarmonics")
             addDbContentSet(dbContentSetList, "ZeraAll")
+            addDbContentSet(dbContentSetList, "ZeraCustom")
             break
         case guiContextEnum.GUI_CURVE_DISPLAY:
             addDbContentSet(dbContentSetList, "ZeraCurves")
             addDbContentSet(dbContentSetList, "ZeraAll")
+            addDbContentSet(dbContentSetList, "ZeraCustom")
             break
         case guiContextEnum.GUI_METER_TEST:
         case guiContextEnum.GUI_ENERGY_COMPARISON:
@@ -514,19 +517,22 @@ Item {
         case guiContextEnum.GUI_POWER_REGISTER:
             addDbContentSet(dbContentSetList, "ZeraComparison")
             addDbContentSet(dbContentSetList, "ZeraAll")
+            addDbContentSet(dbContentSetList, "ZeraCustom")
             break
         case guiContextEnum.GUI_VOLTAGE_BURDEN:
         case guiContextEnum.GUI_CURRENT_BURDEN:
             addDbContentSet(dbContentSetList, "ZeraBurden")
             addDbContentSet(dbContentSetList, "ZeraAll")
+            addDbContentSet(dbContentSetList, "ZeraCustom")
             break
         case guiContextEnum.GUI_INSTRUMENT_TRANSFORMER:
             addDbContentSet(dbContentSetList, "ZeraTransformer")
             addDbContentSet(dbContentSetList, "ZeraAll")
+            addDbContentSet(dbContentSetList, "ZeraCustom")
             break
         case guiContextEnum.GUI_DC_REFERENCE:
+            // For DC reference other values do not make sense
             addDbContentSet(dbContentSetList, "ZeraDCReference")
-            //addDbContentSet(dbContentSetList, "ZeraAll")
             break
         }
         return dbContentSetList
@@ -567,7 +573,7 @@ Item {
     // internal helper: append available only db-content-set
     function addDbContentSet(dbContentSetList, dbContentSet) {
         var availableDBContentSets = VeinEntity.hasEntity("_LoggingSystem") ? VeinEntity.getEntity("_LoggingSystem").availableContentSets : []
-        if(availableDBContentSets.includes(dbContentSet)) {
+        if(dbContentSet === "ZeraCustom" || availableDBContentSets.includes(dbContentSet)) {
             dbContentSetList.push(dbContentSet)
         }
     }
