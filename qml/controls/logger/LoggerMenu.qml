@@ -216,27 +216,22 @@ Item {
             // https://martin.rpdev.net/2018/03/13/qt-quick-controls-2-automatically-set-the-width-of-menus.html
             var result = 0;
             var padding = 0;
-            // static menu entries
+
+            // iterate menu items
             for(var i = 0; i < count; ++i) {
                 var item = itemAt(i);
-                result = Math.max(item.contentItem.implicitWidth, result);
-                padding = Math.max(item.padding, padding);
+                if("menuRadio" in item && "menuButton" in item) {
+                    var radioTxt = item.menuRadio.text
+                    var radioTextWidth = fontMetrics.advanceWidth(radioTxt)
+                    var menuButton = item.menuButton
+                    result = Math.max(result, radioTextWidth + (menuButton.visible ? menuButton.width : 0));
+                    padding = Math.max(padding, /*item.menuRadio.padding*/ 20 + (menuButton.visible ? 2*menuButton.anchors.rightMargin : 0));
+                }
+                else {
+                    result = Math.max(item.contentItem.implicitWidth, result);
+                    padding = Math.max(item.padding, padding);
+                }
             }
-            // dynamic menu entries
-            var radioTxt
-            var radioTextWidth
-            for(i = 0; i < instantiator.model.length; ++i) {
-                radioTxt = Z.tr(instantiator.model[i])
-                radioTextWidth = fontMetrics.advanceWidth(radioTxt)
-                result = Math.max(radioTextWidth, result);
-                padding = Math.max(fontMetrics.height+5, padding);
-            }
-            // special menu entry
-            radioTxt = customDataSettingRadio.text
-            radioTextWidth = fontMetrics.advanceWidth(radioTxt)
-            result = Math.max(radioTextWidth + customDataSettingButton.width, result);
-            padding = Math.max(fontMetrics.height+5 + 2*customDataSettingButton.anchors.rightMargin, padding);
-
             return result + padding * 2;
         }
         onAboutToShow: {
@@ -268,26 +263,68 @@ Item {
                      loggerEntity.DatabaseReady === true
         }
         MenuSeparator { } // (pos 1)
-        Instantiator { // dynamic part (context/all) - injected before position 2
+        Instantiator { // dynamic part (currently context/all/custom) - injected before position 2
             id: instantiator
             delegate: MenuItem {
-                property alias radio: dynRadio
+                property alias menuRadio: dynRadio
+                property alias menuButton: dynButton
                 enabled: loggerEntity.LoggingEnabled !== true
                 RadioButton {
                     id: dynRadio
                     anchors.fill: parent
+                    text: Z.tr("Menu" + modelData) // prepend 'Menu' for translation
                     readonly property int enumContentType: {
-                        var ret = (modelData == "ZeraAll" ?
-                                    GC.contentTypeEnum.CONTENT_TYPE_ALL :
-                                    GC.contentTypeEnum.CONTENT_TYPE_CONTEXT)
-                        return ret
+                        var contentType = GC.contentTypeEnum.CONTENT_TYPE_CONTEXT
+                        switch(modelData) {
+                        case "ZeraAll":
+                            contentType = GC.contentTypeEnum.CONTENT_TYPE_ALL
+                            break;
+                        case "ZeraCustom":
+                            contentType = GC.contentTypeEnum.CONTENT_TYPE_CUSTOM
+                            break;
+                        }
+                        return contentType
                     }
-                    text: Z.tr("Menu" + modelData)
+                    enabled: {
+                        var isEnabled = true
+                        switch(modelData) {
+                        case "ZeraCustom":
+                            isEnabled = GC.getLoggerCustomContentSets() !== ""
+                            break
+                        }
+                        return isEnabled
+                    }
+                }
+                Button {
+                    id: dynButton
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.rightMargin: GC.standardTextHorizMargin
+
+                    text: FA.fa_cogs
+                    visible: {
+                        var isVisible = false
+                        switch(modelData) {
+                        case "ZeraCustom":
+                            isVisible = true
+                            break
+                        }
+                        return isVisible
+                    }
+                    onClicked: {
+                        switch(modelData) {
+                        case "ZeraCustom":
+                            loggerCustomDataMenu()
+                            menu.close()
+                            break
+                        }
+                    }
                 }
             }
             onObjectAdded: {
                 menu.insertItem(index + 2, object)
-                radioMenuGroup.addButton(object.radio)
+                radioMenuGroup.addButton(object.menuRadio)
             }
             onObjectRemoved: {
                 menu.removeItem(object)
@@ -295,30 +332,7 @@ Item {
                 // in dynamic menus: QML does not remove radio on remove so
                 // we have to keep track of radioMenuGroup members. See also
                 // onObjectAdded
-                radioMenuGroup.removeButton(object.radio)
-            }
-        }
-        MenuItem { // custom contents
-            enabled: loggerEntity.LoggingEnabled !== true
-            RadioButton {
-                id: customDataSettingRadio
-                anchors.fill: parent
-                property var enumContentType: GC.contentTypeEnum.CONTENT_TYPE_CUSTOM
-                text: Z.tr("Custom data")
-                ButtonGroup.group: radioMenuGroup
-                enabled: GC.getLoggerCustomContentSets() !== ""
-            }
-            Button {
-                id: customDataSettingButton
-                text: FA.fa_cogs
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.rightMargin: GC.standardTextHorizMargin
-                onClicked: {
-                    loggerCustomDataMenu()
-                    menu.close()
-                }
+                radioMenuGroup.removeButton(object.menuRadio)
             }
         }
         MenuSeparator { }
