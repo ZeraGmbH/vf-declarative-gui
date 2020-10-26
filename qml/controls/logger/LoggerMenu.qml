@@ -222,10 +222,10 @@ Item {
                 var item = itemAt(i);
                 if("menuRadio" in item && "menuButton" in item) {
                     var radioTxt = item.menuRadio.text
-                    var radioTextWidth = fontMetrics.advanceWidth(radioTxt)
+                    var radioTextWidth = fontMetrics.height /*button*/ + fontMetrics.advanceWidth(radioTxt) /* text */
                     var menuButton = item.menuButton
                     result = Math.max(result, radioTextWidth + (menuButton.visible ? menuButton.width : 0));
-                    padding = Math.max(padding, /*item.menuRadio.padding*/ 20 + (menuButton.visible ? 2*menuButton.anchors.rightMargin : 0));
+                    padding = Math.max(padding, (menuButton.visible ? 2*menuButton.anchors.rightMargin : 0));
                 }
                 else {
                     result = Math.max(item.contentItem.implicitWidth, result);
