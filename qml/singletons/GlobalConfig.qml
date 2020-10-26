@@ -483,7 +483,8 @@ Item {
     }*/
 
     function getDefaultDbContentSet(guiContext) {
-        return getDefaultDbContentSetLists(guiContext)[0]
+        var contentSetLists = getDefaultDbContentSetLists(guiContext)
+        return contentSetLists.length > 0 ? contentSetLists[0] : ""
     }
     // return list of matching db
     function getDefaultDbContentSetLists(guiContext) {
@@ -494,41 +495,47 @@ Item {
         case guiContextEnum.GUI_POWER_VALUES:
         case guiContextEnum.GUI_RMS_VALUES:
         case guiContextEnum.GUI_CED_POWER:
-            addDbContentSet(dbContentSetList, "ZeraActualValues")
-            addDbContentSet(dbContentSetList, "ZeraAll")
-            addDbContentSet(dbContentSetList, "ZeraCustom")
+            if(addDbContentSet(dbContentSetList, "ZeraActualValues") /*mandatory*/) {
+                addDbContentSet(dbContentSetList, "ZeraAll")
+                addDbContentSet(dbContentSetList, "ZeraCustom")
+            }
             break
         case guiContextEnum.GUI_HARMONIC_TABLE:
         case guiContextEnum.GUI_HARMONIC_CHART:
         case guiContextEnum.GUI_HARMONIC_POWER_TABLE:
         case guiContextEnum.GUI_HARMONIC_POWER_CHART:
-            addDbContentSet(dbContentSetList, "ZeraHarmonics")
-            addDbContentSet(dbContentSetList, "ZeraAll")
-            addDbContentSet(dbContentSetList, "ZeraCustom")
+            if(addDbContentSet(dbContentSetList, "ZeraHarmonics") /*mandatory*/) {
+                addDbContentSet(dbContentSetList, "ZeraAll")
+                addDbContentSet(dbContentSetList, "ZeraCustom")
+            }
             break
         case guiContextEnum.GUI_CURVE_DISPLAY:
-            addDbContentSet(dbContentSetList, "ZeraCurves")
-            addDbContentSet(dbContentSetList, "ZeraAll")
-            addDbContentSet(dbContentSetList, "ZeraCustom")
+            if(addDbContentSet(dbContentSetList, "ZeraCurves") /*mandatory*/) {
+                addDbContentSet(dbContentSetList, "ZeraAll")
+                addDbContentSet(dbContentSetList, "ZeraCustom")
+            }
             break
         case guiContextEnum.GUI_METER_TEST:
         case guiContextEnum.GUI_ENERGY_COMPARISON:
         case guiContextEnum.GUI_ENERGY_REGISTER:
         case guiContextEnum.GUI_POWER_REGISTER:
-            addDbContentSet(dbContentSetList, "ZeraComparison")
-            addDbContentSet(dbContentSetList, "ZeraAll")
-            addDbContentSet(dbContentSetList, "ZeraCustom")
+            if(addDbContentSet(dbContentSetList, "ZeraComparison") /*mandatory*/) {
+                addDbContentSet(dbContentSetList, "ZeraAll")
+                addDbContentSet(dbContentSetList, "ZeraCustom")
+            }
             break
         case guiContextEnum.GUI_VOLTAGE_BURDEN:
         case guiContextEnum.GUI_CURRENT_BURDEN:
-            addDbContentSet(dbContentSetList, "ZeraBurden")
-            addDbContentSet(dbContentSetList, "ZeraAll")
-            addDbContentSet(dbContentSetList, "ZeraCustom")
+            if(addDbContentSet(dbContentSetList, "ZeraBurden") /*mandatory*/) {
+                addDbContentSet(dbContentSetList, "ZeraAll")
+                addDbContentSet(dbContentSetList, "ZeraCustom")
+            }
             break
         case guiContextEnum.GUI_INSTRUMENT_TRANSFORMER:
-            addDbContentSet(dbContentSetList, "ZeraTransformer")
-            addDbContentSet(dbContentSetList, "ZeraAll")
-            addDbContentSet(dbContentSetList, "ZeraCustom")
+            if(addDbContentSet(dbContentSetList, "ZeraTransformer") /*mandatory*/) {
+                addDbContentSet(dbContentSetList, "ZeraAll")
+                addDbContentSet(dbContentSetList, "ZeraCustom")
+            }
             break
         case guiContextEnum.GUI_DC_REFERENCE:
             // For DC reference other values do not make sense
@@ -572,10 +579,13 @@ Item {
 
     // internal helper: append available only db-content-set
     function addDbContentSet(dbContentSetList, dbContentSet) {
+        var added = false
         var availableDBContentSets = VeinEntity.hasEntity("_LoggingSystem") ? VeinEntity.getEntity("_LoggingSystem").availableContentSets : []
         if(dbContentSet === "ZeraCustom" || availableDBContentSets.includes(dbContentSet)) {
             dbContentSetList.push(dbContentSet)
+            added = true
         }
+        return added
     }
 
     /////////////////////////////////////////////////////////////////////////////
