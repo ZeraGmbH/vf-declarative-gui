@@ -38,8 +38,6 @@ Item {
     }
     ColumnLayout {
         anchors.fill: parent
-        anchors.leftMargin: parent.width / 6
-        anchors.rightMargin: parent.width / 6
         Label { // Header
             id: captionLabel
             Layout.fillWidth: true
@@ -53,10 +51,17 @@ Item {
             Layout.fillWidth: true
             model: availableSingleContentSets
             clip: true
+            ScrollBar.vertical: ScrollBar {
+                anchors.right: parent.right
+                width: scrollBarWidth
+                orientation: Qt.Vertical
+                policy: buttonList.contentHeight > buttonList.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            }
             delegate: Button {
                 id: selectionButton
                 text: Z.tr(modelData)
-                width: buttonList.width
+                width: buttonList.width * 2/3
+                x: buttonList.width / 6
                 font.pointSize: root.height > 0 ? (root.height / 30) : 10
                 height: root.height > 0 ? (root.height / 6.5) : 10
                 checkable: true
