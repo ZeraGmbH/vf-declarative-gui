@@ -13,9 +13,9 @@ Item {
     readonly property var availableSingleContentSets: {
         // We want to have our buttons sorted
         var contentSets = []
-        for(var guiContext in GC.guiContextEnum) {
-            var contentSet = GC.getDefaultDbContentSet(GC.guiContextEnum[guiContext])
-            if(!contentSets.includes(contentSet)) {
+        for(var guiContextEnumVal in GC.guiContextEnum) {
+            var contentSet = GC.getDefaultDbContentSet(GC.guiContextEnum[guiContextEnumVal])
+            if(contentSet !== "" && !contentSets.includes(contentSet)) {
                 contentSets.push(contentSet)
             }
         }
