@@ -53,7 +53,6 @@ Item {
             clip: true
             ScrollBar.vertical: ScrollBar {
                 anchors.right: parent.right
-                width: scrollBarWidth
                 orientation: Qt.Vertical
                 policy: buttonList.contentHeight > buttonList.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
