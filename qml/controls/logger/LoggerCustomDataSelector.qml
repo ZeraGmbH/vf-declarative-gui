@@ -50,11 +50,13 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             model: availableSingleContentSets
+            property bool vScrollbarVisible: buttonList.contentHeight > buttonList.height
+            boundsBehavior: vScrollbarVisible ? Flickable.DragAndOvershootBounds : Flickable.StopAtBounds
             clip: true
             ScrollBar.vertical: ScrollBar {
                 anchors.right: parent.right
                 orientation: Qt.Vertical
-                policy: buttonList.contentHeight > buttonList.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                policy: buttonList.vScrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
             delegate: Button {
                 id: selectionButton
