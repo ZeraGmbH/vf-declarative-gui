@@ -212,27 +212,32 @@ Item {
             font: menu.font
         }
         width: {
-            // adjust width to content. Stolen:
-            // https://martin.rpdev.net/2018/03/13/qt-quick-controls-2-automatically-set-the-width-of-menus.html
-            var result = 0;
-            var padding = 0;
-
+            var maxWidth = 0
             // iterate menu items
             for(var i = 0; i < count; ++i) {
                 var item = itemAt(i);
+                var linewidth
                 if("menuRadio" in item && "menuButton" in item) {
                     var radioTxt = item.menuRadio.text
                     var radioTextWidth = fontMetrics.height /*button*/ + fontMetrics.advanceWidth(radioTxt) /* text */
                     var menuButton = item.menuButton
-                    result = Math.max(result, radioTextWidth + (menuButton.visible ? menuButton.width : 0));
-                    padding = Math.max(padding, (menuButton.visible ? 2*menuButton.anchors.rightMargin : 0));
+                    linewidth =
+                            radioTextWidth + 2*item.padding +
+                            (menuButton.visible ? menuButton.width+GC.standardTextHorizMargin : 0)
+                }
+                else if("rightAlignedLabel" in item) {
+                    var lblTxt = item.rightAlignedLabel.text.replace(/<[^>]*>/g, '') // no HTML text
+                    var lblTextWidth = fontMetrics.advanceWidth(lblTxt)
+                    linewidth =
+                            item.contentItem.implicitWidth + 2*item.padding +
+                            lblTextWidth + GC.standardTextHorizMargin
                 }
                 else {
-                    result = Math.max(item.contentItem.implicitWidth, result);
-                    padding = Math.max(item.padding, padding);
+                    linewidth = item.contentItem.implicitWidth + 2*item.padding
                 }
+                maxWidth = Math.max(maxWidth, linewidth)
             }
-            return result + padding * 2;
+            return maxWidth
         }
         onAboutToShow: {
             // Under some conditions updating javascript arrays do not cause a binded
