@@ -379,7 +379,23 @@ Item {
         }
         MenuSeparator { }
         MenuItem { // Settings
+            property alias rightAlignedLabel: raLabel
             text: FA.icon(FA.fa_cogs) + Z.tr("Settings...")
+            Label {
+                id: raLabel
+                font: menu.font
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.rightMargin: GC.standardTextHorizMargin
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignRight
+                text: {
+                    var tmpArr = loggerEntity.DatabaseFile.split('/')
+                    var dbName = tmpArr[tmpArr.length-1].replace('.db', '')
+                    return FA.icon(FA.fa_database) + dbName
+                }
+            }
             onTriggered: {
                 loggerSettingsMenu()
             }
