@@ -239,7 +239,7 @@ Item {
             // property to update [1]. So to avoid surprises assign model for dynamic
             // part of menu each time menu openes
             // [1] https://github.com/schnitzeltony/dyn-menu-qml/blob/master/main.qml
-            instantiator.model = GC.getDefaultDbContentSetLists(GC.currentGuiContext)
+            instantiatorContentSelectorMenu.model = GC.getDefaultDbContentSetLists(GC.currentGuiContext)
 
             radioMenuGroup.checkRadiosFromSettings()
         }
@@ -264,7 +264,7 @@ Item {
         }
         MenuSeparator { } // (pos 1)
         Instantiator { // dynamic part (currently context/all/custom) - injected before position 2
-            id: instantiator
+            id: instantiatorContentSelectorMenu
             delegate: MenuItem {
                 property alias menuRadio: dynRadio
                 property alias menuButton: dynButton
