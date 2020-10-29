@@ -151,21 +151,18 @@ ToolBar {
                 id: menuLoader
                 sourceComponent: LoggerControls.LoggerMenu {
                     onLoggerSettingsMenu: {
-                        // show logger settings (if not showed already)
                         if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
                             root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         }
                         loggerSettingsStackObj.showSettings()
                     }
                     onLoggerSessionsMenu: {
-                        // show logger settings (if not showed already)
                         if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
                             root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         }
                         loggerSettingsStackObj.showSessionNameSelector()
                     }
                     onLoggerCustomDataMenu: {
-                        // show logger settings (if not showed already)
                         if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
                             root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         }
