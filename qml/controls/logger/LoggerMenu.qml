@@ -34,6 +34,7 @@ Item {
     signal loggerSettingsMenu()
     signal loggerSessionsMenu(var loggerEntity)
     signal loggerCustomDataMenu()
+    signal loggerExportMenu()
     // internal
     property bool snapshotTrigger: false;
     property bool startLoggingAfterSessionSelect: false
@@ -382,6 +383,14 @@ Item {
                 }
             }
         }
+        MenuSeparator { }
+        MenuItem {
+            text: FA.icon(FA.fa_save) + Z.tr("Export...")
+            onTriggered: {
+                loggerExportMenu()
+            }
+        }
+
         MenuSeparator { }
         MenuItem { // Settings
             property alias rightAlignedLabel: raLabel
