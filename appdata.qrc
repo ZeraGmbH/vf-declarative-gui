@@ -29,6 +29,7 @@
         <file>qml/controls/logger/LoggerDatasetSelector.qml</file>
         <file>qml/controls/logger/LoggerDbLocationSelector.qml</file>
         <file>qml/controls/logger/LoggerDbSearchDialog.qml</file>
+        <file>qml/controls/logger/LoggerExport.qml</file>
         <file>qml/controls/logger/LoggerMenu.qml</file>
         <file>qml/controls/logger/LoggerSessionNameDefaultPopup.qml</file>
         <file>qml/controls/logger/LoggerSessionNameSelector.qml</file>

@@ -168,6 +168,12 @@ ToolBar {
                         }
                         loggerSettingsStackObj.showCustomDataSelector()
                     }
+                    onLoggerExportMenu: {
+                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
+                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                        }
+                        loggerSettingsStackObj.showExportView()
+                    }
                 }
                 active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             }

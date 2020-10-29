@@ -11,4 +11,7 @@ StackLayout {
 
     function showCustomDataSelector() { currentIndex = 2 }
     LoggerCustomDataSelector{ }
+
+    function showExportView() { currentIndex = 3 }
+    LoggerExport{ }
 }
