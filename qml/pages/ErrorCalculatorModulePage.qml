@@ -20,6 +20,9 @@ CCMP.ModulePage {
     property var moduleIntrospection
     property alias validatorMrate: paramView.validatorMrate
     property alias validatorEnergy: paramView.validatorEnergy
+    property alias validatorUpperLimit: paramView.validatorUpperLimit
+    property alias validatorLowerLimit: paramView.validatorLowerLimit
+
     property int status: errCalEntity.ACT_Status
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
@@ -64,6 +67,8 @@ CCMP.ModulePage {
                 validatorDutInput: moduleIntrospection.ComponentInfo.PAR_DutInput.Validation
                 validatorDutConstant: moduleIntrospection.ComponentInfo.PAR_DutConstant.Validation
                 validatorDutConstUnit: moduleIntrospection.ComponentInfo.PAR_DUTConstUnit.Validation
+                validatorUpperLimit: moduleIntrospection.ComponentInfo.PAR_Uplimit.Validation
+                validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
 
                 width: parent.width*0.7
                 height: parent.height
