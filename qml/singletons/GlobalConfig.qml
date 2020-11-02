@@ -228,18 +228,6 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    // Error margins
-
-    readonly property real errorMarginUpperValue: parseFloat(settings.globalSettings.getOption("errorMarginUpperValue", "10.0"))
-    function setErrorMarginUpperValue(upperLimit) {
-        settings.globalSettings.setOption("errorMarginUpperValue", upperLimit);
-    }
-    readonly property real errorMarginLowerValue: parseFloat(settings.globalSettings.getOption("errorMarginLowerValue", "-10.0"))
-    function setErrorMarginLowerValue(lowerLimit) {
-        settings.globalSettings.setOption("errorMarginLowerValue", lowerLimit);
-    }
-
-    /////////////////////////////////////////////////////////////////////////////
     // Time helpers ms <-> string
     function msToTime(t_mSeconds) {
         if(t_mSeconds === undefined) {
