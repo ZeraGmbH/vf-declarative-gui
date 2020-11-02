@@ -68,6 +68,8 @@ CCMP.ModulePage {
                 result: root.errCalEntity.ACT_Result
                 width: parent.width*0.3
                 height: parent.height
+                maxValue: errCalEntity.PAR_Uplimit
+                minValue: errCalEntity.PAR_Lolimit
             }
         }
         Item {
