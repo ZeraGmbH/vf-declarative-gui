@@ -259,7 +259,7 @@ Item {
                 else {
                     menuText = loggerEntity.sessionName
                 }
-                return FA.icon(FA.fa_arrow_right) + menuText
+                return FA.icon(FA.fa_folder_open) + menuText
             }
             onTriggered: {
                 startLoggingAfterSessionSelect = false
