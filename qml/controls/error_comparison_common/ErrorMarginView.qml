@@ -17,11 +17,11 @@ Rectangle {
     onResultChanged: {
         refreshLineData();
     }
-    readonly property real maxValue: GC.errorMarginUpperValue
+    property real maxValue
     onMaxValueChanged: {
         refreshLineData();
     }
-    readonly property real minValue: GC.errorMarginLowerValue
+    property real minValue
     onMinValueChanged: {
         refreshLineData();
     }
