@@ -17,6 +17,7 @@ Rectangle {
     onResultChanged: {
         refreshLineData();
     }
+    property int rating
     property real maxValue
     onMaxValueChanged: {
         refreshLineData();
@@ -41,7 +42,7 @@ Rectangle {
     }
 
     border.color: Material.dividerColor
-    color: (minValue<=result && result<=maxValue) ? "transparent" : "#11FF0000";
+    color: rating !== 0 ? "transparent" : "#11FF0000";
 
     ChartView {
         z: parent.z-1

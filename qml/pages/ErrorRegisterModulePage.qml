@@ -70,6 +70,7 @@ CCMP.ModulePage {
                 height: parent.height
                 maxValue: errCalEntity.PAR_Uplimit
                 minValue: errCalEntity.PAR_Lolimit
+                rating: errCalEntity.ACT_Rating
             }
         }
         Item {
