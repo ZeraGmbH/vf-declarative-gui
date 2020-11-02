@@ -58,6 +58,8 @@ CCMP.ModulePage {
                 validatorT0Input: moduleIntrospection.ComponentInfo.PAR_T0Input.Validation
                 validatorT1Input: moduleIntrospection.ComponentInfo.PAR_T1input.Validation
                 validatorTxUnit: moduleIntrospection.ComponentInfo.PAR_TXUNIT.Validation
+                validatorUpperLimit: moduleIntrospection.ComponentInfo.PAR_Uplimit.Validation
+                validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
 
                 width: parent.width*0.7
                 height: parent.height

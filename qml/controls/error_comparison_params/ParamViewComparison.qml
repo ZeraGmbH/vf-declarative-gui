@@ -28,6 +28,9 @@ Item {
     property var validatorEnergy
     property var validatorMrate
 
+    property var validatorUpperLimit
+    property var validatorLowerLimit
+
     // hack to determine if we are in ced-session and have to use POWER2Module1
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
@@ -403,8 +406,9 @@ Item {
                 text: Z.tr("Upper error margin:")
                 font.pointSize: root.pointSize
             }
-            ZLineEdit {
-                id: upperLimitInput
+            VFLineEdit {
+                entity: logicalParent.errCalEntity
+                controlPropertyName: "PAR_Uplimit"
                 x: parent.width*col1Width
                 width: parent.width*col2Width-GC.standardMarginWithMin
 
@@ -412,12 +416,10 @@ Item {
                 anchors.bottom: parent.bottom
                 pointSize: root.pointSize
 
-                text: GC.errorMarginUpperValue
-
-                validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-                function doApplyInput(newText) {
-                    GC.setErrorMarginUpperValue(newText)
-                    return false
+                validator: ZDoubleValidator {
+                    bottom: validatorUpperLimit.Data[0];
+                    top: validatorUpperLimit.Data[1];
+                    decimals: GC.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]);
                 }
             }
             Label {
@@ -444,8 +446,9 @@ Item {
                 text: Z.tr("Lower error margin:")
                 font.pointSize: root.pointSize
             }
-            ZLineEdit {
-                id: lowerLimitInput
+            VFLineEdit {
+                entity: logicalParent.errCalEntity
+                controlPropertyName: "PAR_Lolimit"
                 x: parent.width*col1Width
                 width: parent.width*col2Width-GC.standardMarginWithMin
 
@@ -453,12 +456,10 @@ Item {
                 anchors.bottom: parent.bottom
                 pointSize: root.pointSize
 
-                text: GC.errorMarginLowerValue
-
-                validator: ZDoubleValidator {bottom: -100; top: 100; decimals: 3;}
-                function doApplyInput(newText) {
-                    GC.setErrorMarginLowerValue(newText)
-                    return false
+                validator: ZDoubleValidator {
+                    bottom: validatorLowerLimit.Data[0];
+                    top: validatorLowerLimit.Data[1];
+                    decimals: GC.ceilLog10Of1DividedByX(validatorLowerLimit.Data[2]);
                 }
             }
             Label {
