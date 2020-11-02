@@ -41,7 +41,7 @@ RowLayout {
                 selectedStorage = GC.currentSelectedStoragePath
             }
             // We must find string with max match: At least during debug
-            // /home and /home/superandy/temp caused touble selecting correct entry
+            // /home and /home/superandy/temp caused trouble selecting correct entry
             var indexFound = -1
             var maxMatch = 0
             for(var storageIdx in storageList) {
