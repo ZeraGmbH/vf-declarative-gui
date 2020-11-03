@@ -330,7 +330,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorUpperLimit.Data[0];
                     top: validatorUpperLimit.Data[1];
-                    decimals: GC.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]);
+                    decimals: Math.min(GC.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]), GC.decimalPlaces);
                 }
             }
             Label {
@@ -370,7 +370,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorLowerLimit.Data[0];
                     top: validatorLowerLimit.Data[1];
-                    decimals: GC.ceilLog10Of1DividedByX(validatorLowerLimit.Data[2]);
+                    decimals: Math.min(GC.ceilLog10Of1DividedByX(validatorLowerLimit.Data[2]), GC.decimalPlaces);
                 }
             }
             Label {
