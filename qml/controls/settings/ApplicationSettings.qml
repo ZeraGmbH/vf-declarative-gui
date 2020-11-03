@@ -110,7 +110,37 @@ SettingsView {
 
                 Label {
                     textFormat: Text.PlainText
-                    text: Z.tr("Decimal places:")
+                    text: Z.tr("Max decimals total:")
+                    font.pixelSize: 20
+                    Layout.fillWidth: true
+                }
+
+                ZSpinBox {
+                    id: actDecimalPlacesTotal
+                    text: GC.digitsTotal
+                    validator: IntValidator {
+                        bottom: 1
+                        top: 7
+                    }
+                    function doApplyInput(newText) {
+                        GC.setDigitsTotal(newText)
+                        return true
+                    }
+                }
+            }
+        }
+
+        Item {
+            height: root.rowHeight;
+            width: root.rowWidth;
+            RowLayout {
+                anchors.fill: parent
+                anchors.rightMargin: 0
+                anchors.leftMargin: 16
+
+                Label {
+                    textFormat: Text.PlainText
+                    text: Z.tr("Max places after the decimal point:")
                     font.pixelSize: 20
                     Layout.fillWidth: true
                 }
@@ -120,7 +150,7 @@ SettingsView {
                     text: GC.decimalPlaces
                     validator: IntValidator {
                         bottom: 1
-                        top: 6
+                        top: 7
                     }
                     function doApplyInput(newText) {
                         GC.setDecimalPlaces(newText)
