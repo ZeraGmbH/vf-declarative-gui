@@ -119,8 +119,8 @@ SettingsView {
                     id: actDecimalPlaces
                     text: GC.decimalPlaces
                     validator: IntValidator {
-                        bottom: 3
-                        top: 7
+                        bottom: 1
+                        top: 6
                     }
                     function doApplyInput(newText) {
                         GC.setDecimalPlaces(newText)

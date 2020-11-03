@@ -23,7 +23,12 @@ Item {
 
     property int pageViewLastSelectedIndex: 0;
 
-    readonly property int decimalPlaces: parseInt(settings.globalSettings.getOption("digits", "3"))
+    readonly property int digitsTotal: parseInt(settings.globalSettings.getOption("digitsTotal", "6"))
+    function setDigitsTotal(digits) {
+        settings.globalSettings.setOption("digitsTotal", digits);
+    }
+
+    readonly property int decimalPlaces: parseInt(settings.globalSettings.getOption("digits", "4"))
     function setDecimalPlaces(digits) {
         settings.globalSettings.setOption("digits", digits);
     }
@@ -415,18 +420,35 @@ Item {
         return Math.ceil(Math.log(1/realNumberX)/Math.LN10)
     }
 
-    function formatNumber(num, decimals) {
+    function removeDecimalGroupSeparators(strNum) {
+        // remove group separators (this is ugly but don't get documented examples to fly here...)
+        var groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
+        while(strNum.includes(groupSepChar)) {
+            strNum = strNum.replace(groupSepChar, "")
+        }
+        return strNum
+    }
+
+    function formatNumber(num, decimalPlacesSet /* optional!!! */) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
         }
         else {
-            var dec = decimals ? decimals : decimalPlaces
-            var strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
-            // remove group separators (this is ugly but don't get documented examples to fly here...)
-            var groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
-            while(strNum.includes(groupSepChar)) {
-                strNum = strNum.replace(groupSepChar, "")
+            var dec = decimalPlacesSet ? decimalPlacesSet : decimalPlaces
+            var leadDigits = Math.floor(Math.abs(num)).toString()
+            // leading zero is not a digit
+            if(leadDigits === '0') {
+                leadDigits  = ''
             }
+            var preDecimals = leadDigits.length
+            if(dec + preDecimals > digitsTotal) {
+                dec = digitsTotal - preDecimals
+                if(dec < 0) {
+                    dec = 0
+                }
+            }
+            var strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
+            strNum = removeDecimalGroupSeparators(strNum)
             return strNum
         }
     }
