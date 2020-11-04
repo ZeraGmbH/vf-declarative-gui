@@ -40,6 +40,7 @@ Item {
     property bool startLoggingAfterSessionSelect: false
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject systemEntity: VeinEntity.getEntity("_System")
+    readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
 
     property int veinResponsesRequired: 0
     function handleVeinRecordingStartReply() {
@@ -389,6 +390,7 @@ Item {
             onTriggered: {
                 loggerExportMenu()
             }
+            enabled: filesEntity.AutoMountedPaths.length !== 0
         }
 
         MenuSeparator { }
