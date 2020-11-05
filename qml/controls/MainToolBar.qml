@@ -178,12 +178,24 @@ ToolBar {
                 active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             }
             onClicked: {
-                // are we somewhere but pages?
-                if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutPageIndex) {
+                // we are already in logger settings
+                if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex) {
                     goHomeToPages()
+                    // seems we were presses in logger settings without database selected
+                    // let's assume user wants to get out of settings then and do not re.open
+                    // logger settings
+                    if(VeinEntity.getEntity("_LoggingSystem").DatabaseReady) {
+                        menuLoader.item.open()
+                    }
                 }
-                // show our menu
-                menuLoader.item.open()
+                else {
+                    // are we somewhere but pages?
+                    if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutPageIndex) {
+                        goHomeToPages()
+                    }
+                    // show our menu
+                    menuLoader.item.open()
+                }
             }
         }
         ToolButton {
