@@ -385,12 +385,14 @@ Item {
             }
         }
         MenuSeparator { }
-        MenuItem {
+        MenuItem { // Export
             text: FA.icon(FA.fa_save) + Z.tr("Export...")
             onTriggered: {
                 loggerExportMenu()
             }
-            enabled: filesEntity.AutoMountedPaths.length !== 0
+            enabled: filesEntity.AutoMountedPaths.length !== 0 &&
+                     loggerEntity.LoggingEnabled === false &&
+                     loggerEntity.DatabaseReady === true
         }
 
         MenuSeparator { }
