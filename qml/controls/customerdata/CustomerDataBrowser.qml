@@ -19,6 +19,8 @@ Item {
     // 'private' properties
     property var searchableProperties: [];
     property QtObject customerData: VeinEntity.getEntity("CustomerData")
+    readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
+    property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
     property var searchProgressId;
     property real rowHeight: height/11 // 11 lines total
     // Same as CustomerDataEntry 'Save' / 'Close'
@@ -85,7 +87,8 @@ Item {
         id: addFilePopup
         closePolicy: Popup.NoAutoClose
 
-        readonly property bool fileNameAlreadyExists: filenameField.text.length>0 && customerData.FileList !== undefined && customerData.FileList.indexOf(filenameField.text.toLowerCase()+".json") >= 0
+        readonly property bool fileNameAlreadyExists: filenameField.text.length>0 &&
+                                                      availableCustomerDataFiles.indexOf(filenameField.text.toLowerCase()+".json") >= 0
 
         onOpened: filenameField.forceActiveFocus()
         onClosed: filenameField.clear()
@@ -204,10 +207,10 @@ Item {
             anchors.fill: parent
             anchors.topMargin: root.rowHeight
             anchors.rightMargin: root.buttonWidth+GC.standardTextHorizMargin
-            model: searchResultData.count > 0 ? searchResultData : customerData.FileList
+            model: searchResultData.count > 0 ? searchResultData : availableCustomerDataFiles
             boundsBehavior: Flickable.StopAtBounds
             highlightFollowsCurrentItem: true
-            currentIndex: customerData.FileList ? customerData.FileList.indexOf(customerData.FileSelected) : 0
+            currentIndex: availableCustomerDataFiles.indexOf(customerData.FileSelected)
             clip: true
             ScrollIndicator.vertical: ScrollIndicator {
                 width: 8
