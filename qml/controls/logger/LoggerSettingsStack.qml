@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 StackLayout {
+    id: menuStackLayout
     function showSettings() { currentIndex = 0 }
     LoggerSettings { }
 
@@ -13,5 +14,7 @@ StackLayout {
     LoggerCustomDataSelector{ }
 
     function showExportView() { currentIndex = 3 }
-    LoggerExport{ }
+    LoggerExport {
+        menuStackLayout: menuStackLayout
+    }
 }
