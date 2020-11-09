@@ -39,7 +39,14 @@ find_package(zeraveincomponents REQUIRED)
 find_package(qwtcharts REQUIRED)
 find_package(JsonSettingsQml REQUIRED)
 
+##options
+option(ZERA_qmldebug "create qml debug folder" OFF)
 
+if(ZERA_qmldebug)
+    add_definitions(-DQML2_IMPORT_PATH="${CMAKE_INSTALL_PREFIX}/qml/")
+else()
+    add_definitions(-DQML2_IMPORT_PATH="qrc:/src/qml/")
+endif()
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
 
