@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material.impl 2.12
 import QtQuick.Layouts 1.3
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -37,6 +38,8 @@ RowLayout {
         // 3. Fill & select combo
         storageListForDisplay = tmpStorageListForDisplay
         selectLocationCombo(false)
+        // 4. Notify user
+        dbLocationSelector.notifyMountChange()
     }
 
     signal newIndexSelected(bool byUser);
@@ -91,11 +94,33 @@ RowLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
+        property bool ignoreFirstMoutChange: true
+        function notifyMountChange() {
+            if(!ignoreFirstMoutChange) {
+                comboRipple.active = true
+                comboRippleTimer.start()
+            }
+            ignoreFirstMoutChange = false
+        }
         onActivated: {
             if(GC.currentSelectedStoragePath !== storageList[index]) {
                 GC.currentSelectedStoragePath = storageList[index]
                 loggerEntity.DatabaseFile = ""
                 selectLocationCombo(true)
+            }
+        }
+        Ripple {
+            id: comboRipple
+            clipRadius: 2
+            anchors.fill: parent
+            anchor: dbLocationSelector
+            color: dbLocationSelector.Material.highlightedRippleColor // dbLocationSelector.Material.rippleColor
+        }
+        Timer {
+            id: comboRippleTimer
+            interval: 700
+            onTriggered: {
+                comboRipple.active = false
             }
         }
     }
