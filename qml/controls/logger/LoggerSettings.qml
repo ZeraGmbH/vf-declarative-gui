@@ -27,8 +27,6 @@ SettingsControls.SettingsView {
         GC.setCurrDatabaseSessionName(dbSessionName)
     }
 
-    property string completeDBPath: (dbLocationSelector.storageList.length > 0 && fileNameField.acceptableInput) ? dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/"+fileNameField.text+".db" : "";
-
     horizMargin: GC.standardTextHorizMargin
     rowHeight: parent.height/8
 
@@ -119,17 +117,34 @@ SettingsControls.SettingsView {
                     //spacer
                     width: 24
                 }
-                ZLineEdit {
+                VFLineEdit {
                     id: fileNameField
+                    entity: loggerEntity
+                    controlPropertyName: "DatabaseFile"
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     pointSize: root.pointSize
                     placeholderText: Z.tr("<filename>")
                     textField.enabled: loggerEntity.LoggingEnabled === false
-                    text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
                     validator: RegExpValidator {
                         // our target is windows most likely!
                         regExp: /^[a-z][_a-z0-9]*$/
+                    }
+                    // overrides
+                    function transformIncoming(t_incoming) {
+                        return t_incoming.replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "")
+                    }
+                    // overrides
+                    function doApplyInput(newText) {
+                        loggerEntity.DatabaseFile = dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/" + newText + ".db"
+                        // wait to be applied
+                        return false
+                    }
+                    function baseActiveFocusChange(actFocus) {
+                        if(!actFocus) {
+                            // avoid unwanted database creation
+                            discardInput()
+                        }
                     }
                 }
                 Label {
@@ -152,16 +167,6 @@ SettingsControls.SettingsView {
                         loggerSearchPopup.active = true;
                     }
                 }
-                Button { // enable database
-                    text: (enabled ? "<font color=\"lawngreen\">" : "<font color=\"grey\">") + FA.fa_check
-                    font.family: FA.old
-                    font.pointSize: root.pointSize
-                    implicitHeight: root.rowHeight
-                    enabled: fileNameField.acceptableInput && loggerEntity.DatabaseFile !== root.completeDBPath
-                    onClicked: {
-                        root.loggerEntity.DatabaseFile = root.completeDBPath
-                    }
-                }
                 Button { // unmount database
                     text: (enabled ? "<font color=\"#EEff0000\">" : "<font color=\"grey\">") + FA.fa_eject  // darker red
                     font.family: FA.old
@@ -169,7 +174,7 @@ SettingsControls.SettingsView {
                     implicitHeight: root.rowHeight
                     enabled: root.loggerEntity.DatabaseFile.length > 0 && loggerEntity.LoggingEnabled === false
                     onClicked: {
-                        root.loggerEntity.DatabaseFile = "";
+                        root.loggerEntity.DatabaseFile = ""
                     }
                 }
             }
