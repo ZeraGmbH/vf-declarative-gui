@@ -124,11 +124,12 @@ SettingsControls.SettingsView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     pointSize: root.pointSize
-                    placeholderText: Z.tr("<directory name>/<filename>")
+                    placeholderText: Z.tr("<filename>")
                     textField.enabled: loggerEntity.LoggingEnabled === false
                     text: String(root.loggerEntity.DatabaseFile).replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "");
                     validator: RegExpValidator {
-                        regExp: /[-_a-zA-Z0-9]+(\/[-_a-zA-Z0-9]+)*/
+                        // our target is windows most likely!
+                        regExp: /^[a-z][_a-z0-9]*$/
                     }
                 }
                 Label {
