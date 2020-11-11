@@ -128,8 +128,13 @@ Item {
                 font.pointSize: root.pointSize
                 model: mountedPaths // TODO: make human readable
                 onCurrentIndexChanged: {
-                    selectedMountPath = model[currentIndex]
-                    setOutputPath()
+                    if(model.length > 0) {
+                        selectedMountPath = model[currentIndex]
+                        setOutputPath()
+                    }
+                    else {
+                        selectedMountPath = ""
+                    }
                 }
             }
         }
