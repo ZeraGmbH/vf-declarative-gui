@@ -39,21 +39,15 @@ Item {
     property string exportType
     // make current output path commonly accessible / set by combo target drive
     property string selectedMountPath
-    // this is the filename for non vf-export export (=simple copying of database currently)
+    // keep storage file path on demand on user activities
     property string targetFilePath
 
-    // auto pass parameters to vf-export
-    onDatabaseNameChanged: {
-        exportEntity.PAR_InputPath = databaseName
-        exportEntity.PAR_Session = sessionName
-    }
-
-    // keep storage paths
+    // keep storage path
     function setOutputPath() {
         var storagePath = selectedMountPath + '/' + devicePath
         switch(exportType) {
         case "EXPORT_TYPE_MTVIS":
-            exportEntity.PAR_OutputPath = storagePath + "/mtvis/" + editExportName.text
+            targetFilePath = storagePath + "/mtvis/" + editExportName.text
             break
         case "EXPORT_TYPE_SQLITE":
             targetFilePath = storagePath + "/datbase/" + editExportName.text
