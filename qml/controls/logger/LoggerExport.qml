@@ -315,10 +315,11 @@ Item {
                 id: stateMtVisFinal
             }
             onFinished: {
-                // TODO
                 if(errorDescription === "") {
+                    menuStackLayout.pleaseCloseMe()
                 }
                 else {
+                    // TODO
                 }
             }
         }

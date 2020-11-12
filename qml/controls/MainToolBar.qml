@@ -174,6 +174,12 @@ ToolBar {
                         }
                         loggerSettingsStackObj.showExportView()
                     }
+                    Connections {
+                        target: loggerSettingsStackObj
+                        onPleaseCloseMe: {
+                            goHomeToPages()
+                        }
+                    }
                 }
                 active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             }
