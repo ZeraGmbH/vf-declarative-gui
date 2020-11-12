@@ -4,6 +4,9 @@ import QtQuick.Layouts 1.12
 
 StackLayout {
     id: menuStackLayout
+
+    signal pleaseCloseMe()
+
     function showSettings() { currentIndex = 0 }
     LoggerSettings { }
 
