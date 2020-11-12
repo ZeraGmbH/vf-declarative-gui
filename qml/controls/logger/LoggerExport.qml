@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
+import QtQml.StateMachine 1.12 as QMLSM // avoid any ambiguity with QtQuick's State item
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
@@ -25,10 +26,16 @@ Item {
     readonly property real contentWidth: visibleWidth * 3 / 4
 
     // vein entities
-    readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
-    property QtObject exportEntity: VeinEntity.getEntity("ExportModule")
-    property QtObject filesEntity: VeinEntity.getEntity("_Files")
-    property QtObject statusEntity: VeinEntity.getEntity("StatusModule1")
+    /* Note: we discussed a while on this:
+       Component _LoggingSystem.CustomerData contains the json filename the
+       session was created with. The component was created during exporter
+       implementation phase but it turned out later that it is useless here:
+       exporter takes customer data from static data stored. There is no reason
+       to touch CutomerData entity here. */
+    property QtObject exportEntity: VeinEntity.getEntity("ExportModule") // our export worker
+    readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem") // for databse/session...
+    readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // mounted sticks
+    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1") // for paths as zera-<devicetype>-<serno>
     // vein components for convenience
     readonly property string databaseName: loggerEntity ? loggerEntity.DatabaseFile : ""
     readonly property string sessionName: loggerEntity ? loggerEntity.sessionName : ""
@@ -215,16 +222,105 @@ Item {
         text: Z.tr("Export")
         font.pointSize: pointSize
         enabled: {
-            var _enabled = editExportName.hasValidInput()
+            var _enabled = editExportName.hasValidInput() && !stateMachineExport.running
             switch(exportType) {
             case "EXPORT_TYPE_MTVIS":
-                _enabled = _enabled && sessionName !== ""
+                _enabled = _enabled && sessionName !== "" && databaseName !== ""
                 break
             }
             return _enabled
         }
         onClicked: {
-            // TODO RPC-business
+            stateMachineExport.errorDescription = ""
+            switch(exportType) {
+            case "EXPORT_TYPE_MTVIS":
+                stateMachineExport.initialState = stateMtViscallRpcMtVisMainXml
+                stateMachineExport.running = true
+                break
+            case "EXPORT_TYPE_SQLITE":
+                // TODO
+                break
+            }
+
+        }
+        QMLSM.StateMachine {
+            id: stateMachineExport
+            initialState: stateMtVisFinal // we need a default..
+            // state machine helper stuff
+            signal exportNextState()
+            signal exportAbortState()
+            property bool errorOccured
+            property string errorDescription
+            // rpc helper functions and more
+            property var rpcIdMtVis;
+            function callRpcMtVis(engine, outputFilePath) {
+                // Although unlikely it can happen that we loose database /
+                // session / memory stick during the process (yes it is not a
+                // 100% solution but better than starting blindly)
+                var driveStillThere = mountedPaths.includes(selectedMountPath)
+                if(!rpcIdMtVis && sessionName !== "" && databaseName !== "" && driveStillThere) {
+                    rpcIdMtVis = exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_inputPath,QString p_outputPath,QString p_session)", {
+                                                       "p_session": sessionName,
+                                                       "p_inputPath": databaseName,
+                                                       "p_outputPath": outputFilePath,
+                                                       "p_engine": engine})
+
+                } else {
+                    errorDescription = Z.tr("Cannot export - drive removed?")
+                    exportAbortState()
+                }
+            }
+            Connections {
+                target: exportEntity
+                onSigRPCFinished: {
+                    if(t_identifier === stateMachineExport.rpcIdMtVis) {
+                        stateMachineExport.rpcIdMtVis = undefined
+                        if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
+                                t_resultData["RemoteProcedureData::Return"] === true) { // ok
+                            stateMachineExport.exportNextState()
+                        }
+                        else { // error
+                            errorDescription = Z.tr("Export failed - drive removed?")
+                            stateMachineExport.exportAbortState()
+                        }
+                    }
+                }
+            }
+            // MTVis states (linear to keep it simple)
+            QMLSM.State { // MTVis 1. call rpc for main.xml
+                id: stateMtViscallRpcMtVisMainXml
+                QMLSM.SignalTransition { targetState: stateMtViscallRpcMtVisResultXml; signal: stateMachineExport.exportNextState }
+                QMLSM.SignalTransition { targetState: stateMtVisError; signal: stateMachineExport.exportAbortState }
+                onEntered: { stateMachineExport.callRpcMtVis('zeraconverterengines.MTVisMain', targetFilePath + '/main.xml')  }
+            }
+            QMLSM.State { // MTVis 2. call rpc for result.xml
+                id: stateMtViscallRpcMtVisResultXml
+                QMLSM.SignalTransition { targetState: stateMtVisFinal; signal: stateMachineExport.exportNextState }
+                QMLSM.SignalTransition { targetState: stateMtVisError; signal: stateMachineExport.exportAbortState }
+                onEntered: { stateMachineExport.callRpcMtVis('zeraconverterengines.MTVisRes', targetFilePath + '/result.xml')  }
+            }
+
+            QMLSM.State { // Error state
+                id: stateMtVisError
+                QMLSM.SignalTransition {
+                    targetState: stateMtVisFinal
+                    signal: stateMachineExport.exportNextState
+                }
+                onEntered: {
+                    stateMachineExport.errorOccured = true
+                    stateMachineExport.exportNextState()
+                }
+            }
+            QMLSM.FinalState { // final state
+                id: stateMtVisFinal
+            }
+            onFinished: {
+                // TODO
+                if(errorDescription === "") {
+                }
+                else {
+                }
+            }
         }
     }
 }
