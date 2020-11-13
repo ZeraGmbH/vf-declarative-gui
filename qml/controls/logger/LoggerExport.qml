@@ -102,7 +102,7 @@ Item {
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
                 model: [
-                    { value: "EXPORT_TYPE_MTVIS",  label: Z.tr("MtVis XML") + (sessionName === "" ? "" : " (" + sessionName + ")") },
+                    { value: "EXPORT_TYPE_MTVIS",  label: Z.tr("MtVis XML") + (sessionName === "" ? "" : " (" +Z.tr("Session:") + " " + sessionName + ")") },
                     { value: "EXPORT_TYPE_SQLITE", label: Z.tr("SQLite DB (complete)") },
                 ]
                 textRole: "label"
