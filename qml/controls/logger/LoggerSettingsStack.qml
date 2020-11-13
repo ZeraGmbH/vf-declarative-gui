@@ -8,16 +8,30 @@ StackLayout {
     signal pleaseCloseMe()
 
     function showSettings() { currentIndex = 0 }
-    LoggerSettings { }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: LoggerSettings { }
+        active: menuStackLayout.currentIndex === 0
+    }
 
     function showSessionNameSelector() { currentIndex = 1 }
-    LoggerSessionNameSelector { id: loggerSessionNameSelector }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: LoggerSessionNameSelector { }
+        active: menuStackLayout.currentIndex === 1
+    }
 
     function showCustomDataSelector() { currentIndex = 2 }
-    LoggerCustomDataSelector{ }
-
-    function showExportView() { currentIndex = 3 }
-    LoggerExport {
-        menuStackLayout: menuStackLayout
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: LoggerCustomDataSelector{ }
+        active: menuStackLayout.currentIndex === 2
     }
+
+    // Under loader control LoggerExport cannot acces menuStackLayout - sighh
+    function showExportView() { currentIndex = 3 }
+    LoggerExport { menuStackLayout: menuStackLayout }
 }
