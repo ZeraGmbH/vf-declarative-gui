@@ -33,6 +33,7 @@
         <file>qml/controls/logger/LoggerMenu.qml</file>
         <file>qml/controls/logger/LoggerSessionNameDefaultPopup.qml</file>
         <file>qml/controls/logger/LoggerSessionNameSelector.qml</file>
+        <file>qml/controls/logger/LoggerSessionNew.qml</file>
         <file>qml/controls/logger/LoggerSettings.qml</file>
         <file>qml/controls/logger/LoggerSettingsStack.qml</file>
         <file>qml/controls/range_module/RangeIndicator.qml</file>
