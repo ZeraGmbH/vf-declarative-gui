@@ -33,5 +33,13 @@ StackLayout {
 
     // Under loader control LoggerExport cannot acces menuStackLayout - sighh
     function showExportView() { currentIndex = 3 }
-    LoggerExport { menuStackLayout: menuStackLayout }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: LoggerExport { id: loggerExport }
+        active: menuStackLayout.currentIndex === 3
+        onLoaded: {
+            item.menuStackLayout = menuStackLayout
+        }
+    }
 }
