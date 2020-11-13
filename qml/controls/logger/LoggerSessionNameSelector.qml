@@ -12,6 +12,9 @@ import ZeraFa 1.0
 
 Item {
     id: root
+    // we need a reference to menu stack layout to move around
+    property var menuStackLayout
+
     readonly property real rowHeight: parent.height/12
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
@@ -184,6 +187,12 @@ Item {
                         }
                     }
                 }
+            }
+        }
+        Button {
+            text: "+"
+            onClicked: {
+                menuStackLayout.showSessionNew()
             }
         }
     }

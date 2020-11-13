@@ -178,6 +178,9 @@ ToolBar {
                         target: loggerSettingsStackObj
                         onPleaseCloseMe: {
                             goHomeToPages()
+                            if(butOpenMenu) {
+                                 menuLoader.item.open()
+                            }
                         }
                     }
                 }

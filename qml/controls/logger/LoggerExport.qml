@@ -14,7 +14,7 @@ import ZeraFa 1.0
 Item {
     id: root
 
-    // we need a reference to menu stack layout to call showSessionNameSelector
+    // we need a reference to menu stack layout to move around
     property var menuStackLayout
 
     // layout calculations
@@ -359,7 +359,7 @@ Item {
             }
             onFinished: {
                 if(errorDescription === "") {
-                    menuStackLayout.pleaseCloseMe()
+                    menuStackLayout.pleaseCloseMe(false)
                 }
                 else {
                     // TODO
