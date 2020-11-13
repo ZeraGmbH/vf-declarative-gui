@@ -238,7 +238,8 @@ Item {
                 stateMachineExport.running = true
                 break
             case "EXPORT_TYPE_SQLITE":
-                // TODO
+                stateMachineExport.initialState = stateCopyFile
+                stateMachineExport.running = true
                 break
             }
 
@@ -253,6 +254,7 @@ Item {
             property string errorDescription
             // rpc helper functions and more
             property var rpcIdMtVis;
+            property var rpcIdCopyFile;
             function callRpcMtVis(engine, outputFilePath) {
                 // Although unlikely it can happen that we loose database /
                 // session / memory stick during the process (yes it is not a
@@ -265,11 +267,26 @@ Item {
                                                        "p_outputPath": outputFilePath,
                                                        "p_engine": engine})
 
-                } else {
+                }
+                else {
                     errorDescription = Z.tr("Cannot export - drive removed?")
                     exportAbortState()
                 }
             }
+            function callRpcFileCopy(source, dest) {
+                var driveStillThere = mountedPaths.includes(selectedMountPath)
+                if(!rpcIdCopyFile && databaseName !== "" && driveStillThere) {
+                    rpcIdCopyFile = filesEntity.invokeRPC("RPC_CopyFile(QString p_dest,bool p_overwrite,QString p_source)", {
+                                                       "p_source": source,
+                                                       "p_dest": dest,
+                                                       "p_overwrite": true })
+                }
+                else {
+                    errorDescription = Z.tr("Cannot export - drive removed?")
+                    exportAbortState()
+                }
+            }
+
             Connections {
                 target: exportEntity
                 onSigRPCFinished: {
@@ -286,22 +303,46 @@ Item {
                     }
                 }
             }
+            Connections {
+                target: filesEntity
+                onSigRPCFinished: {
+                    if(t_identifier === stateMachineExport.rpcIdCopyFile) {
+                        stateMachineExport.rpcIdCopyFile = undefined
+                        if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
+                                t_resultData["RemoteProcedureData::Return"] === true) { // ok
+                            stateMachineExport.exportNextState()
+                        }
+                        else { // error
+                            stateMachineExport.errorDescription = Z.tr("Copy failed - drive removed?")
+                            stateMachineExport.exportAbortState()
+                        }
+                    }
+                }
+            }
             // MTVis states (linear to keep it simple)
             QMLSM.State { // MTVis 1. call rpc for main.xml
                 id: stateMtViscallRpcMtVisMainXml
                 QMLSM.SignalTransition { targetState: stateMtViscallRpcMtVisResultXml; signal: stateMachineExport.exportNextState }
-                QMLSM.SignalTransition { targetState: stateMtVisError; signal: stateMachineExport.exportAbortState }
+                QMLSM.SignalTransition { targetState: stateError; signal: stateMachineExport.exportAbortState }
                 onEntered: { stateMachineExport.callRpcMtVis('zeraconverterengines.MTVisMain', targetFilePath + '/main.xml')  }
             }
             QMLSM.State { // MTVis 2. call rpc for result.xml
                 id: stateMtViscallRpcMtVisResultXml
                 QMLSM.SignalTransition { targetState: stateMtVisFinal; signal: stateMachineExport.exportNextState }
-                QMLSM.SignalTransition { targetState: stateMtVisError; signal: stateMachineExport.exportAbortState }
+                QMLSM.SignalTransition { targetState: stateError; signal: stateMachineExport.exportAbortState }
                 onEntered: { stateMachineExport.callRpcMtVis('zeraconverterengines.MTVisRes', targetFilePath + '/result.xml')  }
             }
 
+            // SQLite copy state
+            QMLSM.State { // call rpc to cpopy database
+                id: stateCopyFile
+                QMLSM.SignalTransition { targetState: stateMtVisFinal; signal: stateMachineExport.exportNextState }
+                QMLSM.SignalTransition { targetState: stateError; signal: stateMachineExport.exportAbortState }
+                onEntered: { stateMachineExport.callRpcFileCopy(databaseName, targetFilePath) }
+            }
+
             QMLSM.State { // Error state
-                id: stateMtVisError
+                id: stateError
                 QMLSM.SignalTransition {
                     targetState: stateMtVisFinal
                     signal: stateMachineExport.exportNextState
