@@ -57,7 +57,7 @@ Item {
             targetFilePath = storagePath + "/mtvis/" + editExportName.text
             break
         case "EXPORT_TYPE_SQLITE":
-            targetFilePath = storagePath + "/datbase/" + editExportName.text
+            targetFilePath = storagePath + "/database/" + editExportName.text
             break
         }
     }
