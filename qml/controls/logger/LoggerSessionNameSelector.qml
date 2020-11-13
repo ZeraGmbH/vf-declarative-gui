@@ -49,40 +49,6 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
         anchors.bottom: parent.bottom
-        RowLayout { // Current session
-            width: selectionColumn.width
-            height: root.rowHeight
-            Label {
-                text: Z.tr("Current name:");
-                font.pointSize: root.pointSize
-            }
-            VFLineEdit {
-                id: currentSessionName
-                entity: loggerEntity
-                controlPropertyName: "sessionName"
-                Layout.fillWidth: true
-                pointSize: root.pointSize
-                height: root.rowHeight
-                // override ZLineEdit defaults
-                textField.anchors.rightMargin: 0
-                textField.rightPadding: 10
-                textField.onFocusChanged: {
-                    if(textField.focus) {
-                        textField.selectAll()
-                    }
-                }
-                changeOnFocusLost: false
-                // override ZLineEdit/VFLineEdit functions
-                function hasValidInput() {
-                    return textField.text !== ""
-                }
-            }
-        }
-        Item {
-            // vert. spacer
-            width: selectionColumn.width
-            height: root.rowHeight / 2
-        }
         RowLayout { // Default session
             width: selectionColumn.width
             height: root.rowHeight
@@ -122,7 +88,7 @@ Item {
                 font.family: FA.old
                 font.pointSize: root.pointSize
                 focusPolicy: Qt.NoFocus
-                enabled: preview.text !== currentSessionName.textField.text
+                //enabled: preview.text !== currentSessionName.textField.text
                 onPressed: {
                     loggerEntity.sessionName = preview.text
                 }
