@@ -16,10 +16,24 @@ Item {
     property var menuStackLayout
 
     readonly property real rowHeight: parent.height/12
-    readonly property real fontScale: 0.3
+    readonly property real fontScale: 0.45
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real scrollWidth: 16
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+    property QtObject customerData: VeinEntity.getEntity("CustomerData")
+    readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
+    readonly property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
+
+    // for file listview & filter (TODO: Do we need that???)
+    ListModel {
+        id: searchResultData
+        // True if search for customer data files did not find matching
+        property bool noSearchResults: false;
+        // True if search for customer data files contains selected
+        property bool containsSelected: false
+    }
+
 
     Label { // Header
         id: captionLabel
@@ -30,19 +44,111 @@ Item {
         font.pointSize: root.pointSize * 1.5
     }
 
-
     ColumnLayout {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.rightMargin: GC.standardTextHorizMargin
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
+        anchors.topMargin: rowHeight/3
         anchors.bottom: parent.bottom
 
-
-        Item { // spacer
-            Layout.fillHeight: true
+        RowLayout {
+            height: rowHeight
+            Label {
+                height: rowHeight
+                text: Z.tr("Session name:")
+                font.pointSize: pointSize
+            }
+            ZLineEdit {
+                id: sessionNameField
+                height: rowHeight
+                Layout.fillWidth: true
+                function hasValidInput() {
+                    return textField.text !== "" && !loggerEntity.ExistingSessions.includes(textField.text)
+                }
+            }
+            Button {
+                height: rowHeight
+                text: "..."
+            }
         }
+        Item { Layout.preferredHeight: rowHeight / 2 } // spacer
+        RowLayout {
+            height: rowHeight
+            Label {
+                height: rowHeight
+                Layout.fillWidth: true
+                text: Z.tr("Select customer data:")
+                font.pointSize: pointSize
+            }
+            Button {
+                text: FA.fa_cogs
+                font.family: FA.old
+                font.pointSize: pointSize
+                height: rowHeight
+                onClicked: {
+
+                }
+            }
+        }
+
+        ListView {
+            id: customerDataList
+            Layout.fillHeight: true
+            width: parent.width
+            model: {
+                var arrayCustomers = [""]
+                var vfCustData = searchResultData.count > 0 ? searchResultData : availableCustomerDataFiles
+                arrayCustomers.push(...vfCustData)
+                return arrayCustomers
+            }
+            //highlightFollowsCurrentItem: true
+            currentIndex: model.indexOf(customerData.FileSelected)
+            clip: true
+            readonly property bool vBarVisible: contentHeight > height
+            ScrollBar.vertical: ScrollBar {
+                id: vBar
+                anchors.right: parent.right
+                width: scrollWidth
+                orientation: Qt.Vertical
+                policy: customerDataList.vBarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            }
+            delegate: ItemDelegate {
+                width: parent.width - (customerDataList.vBarVisible ? 8 : 0) //don't overlap with the ScrollIndicator
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    if(customerData.FileSelected !== modelData) {
+                        customerData.FileSelected = modelData
+                        if(searchResultData.count !== 0) {
+                            searchResultData.containsSelected = true
+                        }
+                    }
+                }
+                RowLayout {
+                    height: rowHeight
+                    Label {
+                        id: activeIndicator
+                        width: 24
+                        Layout.fillHeight: true
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: FA.old
+                        font.pointSize: pointSize
+                        text: FA.fa_check
+                        opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
+                    }
+                    Label {
+                        x: scrollWidth+GC.standardTextHorizMargin
+                        Layout.fillHeight: true
+                        verticalAlignment: Text.AlignVCenter
+                        font.pointSize: pointSize
+                        width: parent.width - /*buttonWidth -*/ 2*GC.standardTextHorizMargin
+                        text: modelData !== "" ? modelData : Z.tr("-- no customer --")
+                    }
+                }
+            }
+        }
+
         RowLayout { // Cancel / OK buttons
             id: cancelOKRow
             Item {
@@ -61,10 +167,11 @@ Item {
             Button {
                 id: okButton
                 text: Z.tr("OK")
+                enabled: sessionNameField.text !== ""
                 font.pointSize: root.pointSize
                 Layout.minimumWidth: cancelButton.width
                 onClicked: {
-                    // TODO
+                    loggerEntity.sessionName = sessionNameField.text
                     menuStackLayout.pleaseCloseMe(true)
                 }
             }
