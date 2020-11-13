@@ -158,37 +158,39 @@ Item {
                 pointSize: root.pointSize
                 textField.anchors.rightMargin: 0
                 property alias aliasExportType: root.exportType
+                property var regExCurr
                 validator: RegExpValidator {
+                    regExp: editExportName.regExCurr
+                }
+                onAliasExportTypeChanged: {
+                    // Note on regexes:
                     // our target is windows most likely so to avoid trouble:
                     // * allow lower case only - Windows is not case sensitive
                     // * start with a letter
                     // * for MTVis: do not allow '.' for paths
-                    property var regExMTVis: /^[a-z][_\-a-z0-9]*$/
-                    property var regExMTDB: /^[a-z][._\-a-z0-9]*$/
-                    regExp: {
-                        var regEx
-                        switch(exportType) {
-                        case "EXPORT_TYPE_MTVIS":
-                            regEx = regExMTVis
-                            break;
-                        case "EXPORT_TYPE_SQLITE":
-                            regEx = regExMTDB
-                            break;
-                        }
-                        return regEx
-                    }
-                }
-                onAliasExportTypeChanged: {
                     switch(exportType) {
                     case "EXPORT_TYPE_MTVIS":
+                        regExCurr = /\b[a-z0-9][_\-a-z0-9]*\b/
                         // suggest sessionName (yes we need to ask for overwrite e.g for the cause
                         // of multiple storining of same session name in multiple dbs)
-                        text = sessionName
+                        var sessionLow = sessionName.toLowerCase()
+                        var jRegEx =  RegExp(regExCurr, 'g')
+                        var match
+                        var str = ""
+                        // suggest only combinations od valid parts of session
+                        while ((match = jRegEx.exec(sessionLow))) {
+                            if(str !== "") {
+                                str += '_'
+                            }
+                            str += match[0]
+                        }
+                        text = str
                         readOnly = sessionName === ""
                         placeholderText = Z.tr("Name of export path")
                         break
                     case "EXPORT_TYPE_SQLITE":
-                        text = databaseName.substr(databaseName.lastIndexOf('/') + 1)
+                        regExCurr = /\b[a-z0-9][._\-a-z0-9]*\b/
+                        text = databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()
                         readOnly = true
                         placeholderText = ""
                         break
