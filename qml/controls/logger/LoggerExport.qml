@@ -222,7 +222,7 @@ Item {
         text: Z.tr("Export")
         font.pointSize: pointSize
         enabled: {
-            var _enabled = editExportName.hasValidInput() && !stateMachineExport.running
+            var _enabled = editExportName.hasValidInput() && !stateMachineExport.running && mountedPaths.length > 0
             switch(exportType) {
             case "EXPORT_TYPE_MTVIS":
                 _enabled = _enabled && sessionName !== "" && databaseName !== ""
