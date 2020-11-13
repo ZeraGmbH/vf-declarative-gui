@@ -31,7 +31,7 @@ Popup {
 
     onAboutToShow: {
         // Do not bind by design
-        textFieldSessionNameDefault.text = GC.loggerSessionNameDefault
+        textFieldSessionNameDefault.text = Z.tr("Session") + ' $YEAR/$MONTH/$DAY'
         // Intended to be late so textFieldSessionNameDefault selects properly
         root.focus = true
         textFieldSessionNameDefault.focus = true
@@ -170,21 +170,6 @@ Popup {
                 font.pointSize: root.pointSize
                 onPressed: {
                     macroButtonsRow.addToSessionName(text)
-                }
-            }
-            Item {
-                // spacer
-                Layout.fillWidth: true
-            }
-            Button { // reset default session name to standard
-                Layout.preferredWidth: height
-                font.family: FA.old
-                font.pointSize: root.pointSize
-                text: FA.fa_undo
-                focusPolicy: Qt.NoFocus
-                enabled: textFieldSessionNameDefault.text !== GC.loggerSessionNameDefaultStandard
-                onPressed: {
-                    textFieldSessionNameDefault.text = GC.loggerSessionNameDefaultStandard
                 }
             }
         }

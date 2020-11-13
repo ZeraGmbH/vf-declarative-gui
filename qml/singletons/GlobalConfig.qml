@@ -613,8 +613,7 @@ Item {
     // Logger settings
 
     // Logger default session name
-    readonly property string loggerSessionNameDefaultStandard: "$CUST_ID $YEAR/$MONTH/$DAY"
-    readonly property string loggerSessionNameDefault: settings.globalSettings.getOption("logger_sessionname_default", loggerSessionNameDefaultStandard)
+    readonly property string loggerSessionNameDefault: settings.globalSettings.getOption("logger_sessionname_default", Z.tr("Session") + ' $YEAR/$MONTH/$DAY')
     function setLoggerSessionNameDefault(defaultSessionName) {
         settings.globalSettings.setOption("logger_sessionname_default", defaultSessionName)
     }
