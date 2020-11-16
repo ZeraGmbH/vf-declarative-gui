@@ -612,12 +612,7 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // Logger settings
 
-    // Logger default session name
-    readonly property string loggerSessionNameDefault: settings.globalSettings.getOption("logger_sessionname_default", Z.tr("Session") + ' $YEAR/$MONTH/$DAY')
-    function setLoggerSessionNameDefault(defaultSessionName) {
-        settings.globalSettings.setOption("logger_sessionname_default", defaultSessionName)
-    }
-    // Logger default session name helpers
+    // Logger session name macro helpers
     function loggerSessionNameReplace(strRaw) {
         var customerdataEntity = VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData") : null
         var strRet = strRaw
