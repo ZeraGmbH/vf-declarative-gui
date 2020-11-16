@@ -262,22 +262,7 @@ SettingsControls.SettingsView {
                     textFormat: Text.PlainText
                     text: Z.tr("Manage customer data:")
                     font.pointSize: root.pointSize
-
                     Layout.fillWidth: true
-                    Label {
-                        readonly property string customerId: (VeinEntity.hasEntity("CustomerData") ? VeinEntity.getEntity("CustomerData").PAR_DatasetIdentifier : "");
-                        visible: customerId.length>0
-                        text: FA.icon(FA.fa_file_text)+customerId
-                        font.family: FA.old
-                        anchors.right: parent.right
-                        anchors.rightMargin: 10
-                        Rectangle {
-                            color: Material.dropShadowColor
-                            radius: 3
-                            anchors.fill: parent
-                            anchors.margins: -8
-                        }
-                    }
                 }
                 Button {
                     text: FA.fa_cogs
