@@ -66,9 +66,12 @@ Item {
 
         // keep everything in the buffer to not lose input data
         cacheBuffer: model.count * dataEditor.rowHeight*1.2 // delegate height
+        property bool vBarVisible: contentHeight > height
+
         delegate: RowLayout {
             property string propName: propertyName;
             height: dataEditor.rowHeight*1.2
+            width: dataEditor.width - (generalView.vBarVisible ? gvScrollBar.width : 0)
             Label {
                 text: Z.tr(propName);
                 Layout.minimumWidth: dataEditor.width / 4;
@@ -78,7 +81,6 @@ Item {
                 text: customerData[propName];
                 Layout.fillWidth: true;
                 height: dataEditor.rowHeight*1.2;
-                Layout.minimumWidth: dataEditor.width*3/4-gvScrollBar.width*1.5;
                 readOnly: !dataEditor.interactive;
                 onTextChanged: updateDataObject(propName, text);
                 textField.horizontalAlignment: Text.AlignLeft
@@ -97,11 +99,7 @@ Item {
 
         ScrollBar.vertical: ScrollBar {
             id: gvScrollBar
-            Component.onCompleted: {
-                if(QT_VERSION >= 0x050900) { //policy was added after 5.7
-                    policy = Qt.binding(function (){return generalView.contentHeight > generalView.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; });
-                }
-            }
+            policy: generalView.vBarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
     }
     RowLayout {
