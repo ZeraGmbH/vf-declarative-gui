@@ -18,11 +18,10 @@ Item {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
     property var searchProgressId;
-    property real rowHeight: height/11 // 11 lines total
-    // Same as CustomerDataEntry 'Save' / 'Close'
-    property real buttonWidth: width/4;
-    // Used by file-list and filter-combobox
-    property real indicatorWidth: 24
+
+    property real rowHeight: height/11
+    readonly property real fontScale: 0.35
+    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
 
     function saveChanges() {
         customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
@@ -137,115 +136,96 @@ Item {
     }
 
     // For rookies like me: here starts view we see by default
-    Item {
-        anchors.fill: parent
-        Label {
-            textFormat: Text.PlainText
-            anchors.left: parent.left
-            anchors.leftMargin: GC.standardTextHorizMargin
-            anchors.top: parent.top
-            height: root.rowHeight
-            text: Z.tr("Customer data files:")
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: root.rowHeight/2
-        }
-        ListView {
-            id: lvFileBrowser
-            anchors.fill: parent
-            anchors.topMargin: root.rowHeight
-            anchors.rightMargin: root.buttonWidth+GC.standardTextHorizMargin
-            model: availableCustomerDataFiles
-            highlightFollowsCurrentItem: true
-            currentIndex: availableCustomerDataFiles.indexOf(customerData.FileSelected)
-            clip: true
-            ScrollIndicator.vertical: ScrollIndicator {
-                width: 8
-                active: true
-                onActiveChanged: {
-                    if(active !== true) {
-                        active = true;
-                    }
+    Label { // Header
+        id: captionLabel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        horizontalAlignment: Text.AlignHCenter
+        text: Z.tr("Customer data files:")
+        font.pointSize: root.pointSize * 1.5
+    }
+    ListView {
+        id: lvFileBrowser
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.rightMargin: GC.standardTextHorizMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
+        anchors.top: captionLabel.bottom
+        anchors.topMargin: rowHeight / 2
+        anchors.bottom: buttonAdd.top
+        model: availableCustomerDataFiles
+        clip: true
+        ScrollIndicator.vertical: ScrollIndicator {
+            width: 8
+            active: true
+            onActiveChanged: {
+                if(active !== true) {
+                    active = true;
                 }
             }
-            delegate: ItemDelegate {
-                id: fileListDelegate
-                width: parent.width-8 //don't overlap with the ScrollIndicator
-                height: rowHeight
-                highlighted: ListView.isCurrentItem
-                onClicked: {
-                    if(customerData.FileSelected !== modelData) {
-                        customerData.FileSelected = modelData
-                    }
-                }
-                onDoubleClicked: {
-                    root.switchToEditMode()
-                }
-                Row {
-                    id: fileRow
-                    anchors.fill: parent
+        }
+        delegate: ItemDelegate {
+            id: fileListDelegate
+            width: parent.width-8 //don't overlap with the ScrollIndicator
+            height: rowHeight
+            RowLayout {
+                id: fileRow
+                anchors.fill: parent
+                Label {
                     anchors.leftMargin: GC.standardTextHorizMargin
-                    Label {
-                        id: activeIndicator
-                        width: indicatorWidth
-                        font.family: FA.old
-                        text: FA.fa_check
-                        opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
-                        anchors.verticalCenter: parent.verticalCenter
+                    text: modelData
+                    Layout.fillWidth: true
+                    font.pointSize: pointSize
+                }
+                Button {
+                    font.family: FA.old
+                    font.pointSize: pointSize * 1.25
+                    text: FA.fa_edit
+                    background: Rectangle {
+                        color: "transparent"
                     }
-                    Label {
-                        x: indicatorWidth+GC.standardTextHorizMargin
-                        width: parent.width - root.buttonWidth - 2*GC.standardTextHorizMargin
-                        text: modelData
-                        anchors.verticalCenter: parent.verticalCenter
+                    // Wait for customer data selected to be applied
+                    property string custDataSelected: customerData.FileSelected
+                    onCustDataSelectedChanged: {
+                        if(--changesExpected === 0) {
+                            switchToEditMode()
+                        }
+                    }
+                    property int changesExpected: 0
+                    onClicked: {
+                        // avoid muliple change
+                        if(changesExpected <= 0) {
+                            if(customerData.FileSelected !== modelData) {
+                                customerData.FileSelected = modelData
+                                changesExpected = 1
+                            }
+                            else {
+                                switchToEditMode()
+                            }
+                        }
+                    }
+                }
+                Button {
+                    font.family: FA.old
+                    font.pointSize: pointSize  * 1.25
+                    text: FA.fa_trash
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+                    onClicked: {
+                        removeFilePopup.fileName = modelData
+                        removeFilePopup.open()
                     }
                 }
             }
         }
-        ZButton {
-            text: FA.icon(FA.fa_file)+Z.tr("New")
-            font.family: FA.old
-            anchors.right: parent.right
-            width: root.buttonWidth
-            anchors.top: parent.top
-            anchors.topMargin: 1.5*rowHeight
-            height: rowHeight
-
-            onClicked: {
-                addFilePopup.open()
-            }
+    }
+    Button {
+        id: buttonAdd
+        text: "+"
+        anchors.bottom: parent.bottom
+        onClicked: {
+            addFilePopup.open()
         }
-        ZButton {
-            text: FA.icon(FA.fa_edit)+Z.tr("Edit")
-            font.family: FA.old
-            anchors.right: parent.right
-            width: root.buttonWidth
-            anchors.top: parent.top
-            anchors.topMargin: 4*rowHeight
-            height: rowHeight
-
-            enabled: customerData.FileSelected !== ""
-
-            onClicked: {
-                switchToEditMode()
-            }
-        }
-        ZButton {
-            text: FA.icon(FA.fa_trash)+Z.tr("Delete")
-            font.family: FA.old
-
-            anchors.right: parent.right
-            width: root.buttonWidth
-            anchors.top: parent.top
-            anchors.topMargin: 6.5*rowHeight
-            height: rowHeight
-
-            enabled: customerData.FileSelected !== ""
-
-            onClicked: {
-                removeFilePopup.fileName = lvFileBrowser.model[lvFileBrowser.currentIndex].toString();
-                removeFilePopup.open()
-            }
-        }
-
     }
 }
