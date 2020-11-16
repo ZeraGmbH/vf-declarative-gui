@@ -97,15 +97,34 @@ Item {
                 font.pointSize: pointSize
             }
             ComboBox {
+                id: exportTypeCombo
                 width: contentWidth
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
-                model: [
-                    { value: "EXPORT_TYPE_MTVIS",  label: Z.tr("MtVis XML") + (sessionName === "" ? "" : " (" +Z.tr("Session:") + " " + sessionName + ")") },
-                    { value: "EXPORT_TYPE_SQLITE", label: Z.tr("SQLite DB (complete)") },
-                ]
+                currentIndex: loggerEntity.ExistingSessions.length > 0 ? 0 : 1
+                model: {
+                    var comboList = []
+                    if(loggerEntity.ExistingSessions.length > 0) {
+                        comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: true, label: Z.tr("MtVis XML") + (sessionName === "" ? "" : " (" +Z.tr("Session:") + " " + sessionName + ")") })
+                    }
+                    else {
+                        comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: false, label: Z.tr("MtVis XML - requires stored sessions") })
+                    }
+                    comboList.push({ value: "EXPORT_TYPE_SQLITE", enabled: true, label: Z.tr("SQLite DB (complete)") })
+                    return comboList
+                }
+                // we need a customized delegate to support enable/disable (and
+                // to get default behaviour back it's more than just copying examples...)
+                delegate: ItemDelegate {
+                    width: exportTypeCombo.width
+                    text: highlighted ? "<font color='" + Material.accentColor + "'>" + modelData.label + "</font>" : modelData.label
+                    highlighted: modelData.value === exportTypeCombo.currentValue
+                    enabled: modelData.enabled
+                    font.pointSize: root.pointSize
+                }
                 textRole: "label"
+                valueRole: "value"
                 onCurrentIndexChanged: {
                     exportType = model[currentIndex].value // tried property binding but that did not work
                 }
