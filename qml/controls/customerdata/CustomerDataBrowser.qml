@@ -12,9 +12,6 @@ import ZeraFa 1.0
 Item {
     id: root
 
-    // 'public' properties
-    property bool withOKButton: false
-
     // 'private' properties
     property var searchableProperties: [];
     property QtObject customerData: VeinEntity.getEntity("CustomerData")

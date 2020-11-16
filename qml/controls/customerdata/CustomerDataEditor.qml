@@ -14,14 +14,12 @@ Item {
     anchors.fill: parent
     readonly property real rowHeight: parent.height / 15
 
-    property bool interactive: true
-
     Component.onCompleted: {
         initModel();
     }
 
     function updateDataObject(prop, text) {
-        if(interactive === true && editableDataObject !== undefined) {
+        if(editableDataObject !== undefined) {
             editableDataObject[prop] = text;
         }
     }
@@ -81,7 +79,6 @@ Item {
                 text: customerData[propName];
                 Layout.fillWidth: true;
                 height: dataEditor.rowHeight*1.2;
-                readOnly: !dataEditor.interactive;
                 onTextChanged: updateDataObject(propName, text);
                 textField.horizontalAlignment: Text.AlignLeft
             }

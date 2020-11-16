@@ -79,9 +79,7 @@ Rectangle {
         Loader {
             id: dataEditorLoader
             active: editActive
-            sourceComponent: CustomerDataEditor {
-                interactive: true
-            }
+            sourceComponent: CustomerDataEditor { }
             onLoaded: stackLayout.currentIndex = 1
         }
     }
