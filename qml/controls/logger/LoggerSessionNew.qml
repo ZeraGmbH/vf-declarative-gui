@@ -35,16 +35,6 @@ Item {
         }
     }
 
-    // for file listview & filter (TODO: Do we need that???)
-    ListModel {
-        id: searchResultData
-        // True if search for customer data files did not find matching
-        property bool noSearchResults: false;
-        // True if search for customer data files contains selected
-        property bool containsSelected: false
-    }
-
-
     Label { // Header
         id: captionLabel
         anchors.left: parent.left
@@ -112,7 +102,7 @@ Item {
             width: parent.width
             model: {
                 var arrayCustomers = [""]
-                var vfCustData = searchResultData.count > 0 ? searchResultData : availableCustomerDataFiles
+                var vfCustData = availableCustomerDataFiles
                 arrayCustomers.push(...vfCustData)
                 return arrayCustomers
             }
@@ -133,9 +123,6 @@ Item {
                 onClicked: {
                     if(customerData.FileSelected !== modelData) {
                         customerData.FileSelected = modelData
-                        if(searchResultData.count !== 0) {
-                            searchResultData.containsSelected = true
-                        }
                     }
                 }
                 RowLayout {
