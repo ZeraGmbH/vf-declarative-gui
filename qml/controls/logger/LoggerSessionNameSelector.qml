@@ -21,18 +21,6 @@ Item {
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
 
-    LoggerSessionNameDefaultPopup {
-        id: loggerSessionNameDefaultPopup
-    }
-    Timer {
-        interval: 200
-        running: true
-        repeat: true
-        onTriggered: {
-            preview.text = GC.loggerSessionNameReplace(GC.loggerSessionNameDefault)
-        }
-    }
-
     Label { // Header
         id: captionLabel
         anchors.left: parent.left
@@ -48,57 +36,8 @@ Item {
         anchors.rightMargin: GC.standardTextHorizMargin
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
+        anchors.topMargin: rowHeight / 2
         anchors.bottom: parent.bottom
-        RowLayout { // Default session
-            width: selectionColumn.width
-            height: root.rowHeight
-            Label {
-                id: defNameLabel
-                text: Z.tr("Set default name:")
-                font.pointSize: root.pointSize
-            }
-            Item {
-                // spacer
-                Layout.fillWidth: true
-            }
-            Label { // For sake of seconds text is set by timer
-                id: preview
-                font.pointSize: root.pointSize
-                horizontalAlignment: Text.AlignRight
-                elide: Text.ElideRight
-                Layout.maximumWidth: selectionColumn.width - // Ugly: suggestions welcome...
-                                     selectionColumn.anchors.leftMargin - selectionColumn.anchors.rightMargin -
-                                     defNameLabel.width - defSettingsButton.width - makeDefaultCurrentButton.width
-            }
-            Button {
-                id: defSettingsButton
-                text: FA.fa_cogs
-                Layout.preferredWidth: height
-                font.family: FA.old
-                font.pointSize: root.pointSize
-                focusPolicy: Qt.NoFocus
-                onPressed: {
-                    loggerSessionNameDefaultPopup.open()
-                }
-            }
-            Button {
-                id: makeDefaultCurrentButton
-                text: enabled ? FA.colorize(FA.fa_check, "lawngreen") : FA.colorize(FA.fa_check, "grey")
-                Layout.preferredWidth: height
-                font.family: FA.old
-                font.pointSize: root.pointSize
-                focusPolicy: Qt.NoFocus
-                //enabled: preview.text !== currentSessionName.textField.text
-                onPressed: {
-                    loggerEntity.sessionName = preview.text
-                }
-            }
-        }
-        Item {
-            // vert. spacer
-            width: selectionColumn.width
-            height: root.rowHeight / 2
-        }
         Label {
             text: Z.tr("Select existing:");
             font.pointSize: root.pointSize

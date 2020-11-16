@@ -25,6 +25,16 @@ Item {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     readonly property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
 
+    LoggerSessionNameWithMacrosPopup {
+        id: loggerSessionNameWithMacrosPopup
+    }
+    Connections {
+        target: loggerSessionNameWithMacrosPopup
+        onSessionNameSelected: {
+            sessionNameField.text = newSessionName
+        }
+    }
+
     // for file listview & filter (TODO: Do we need that???)
     ListModel {
         id: searchResultData
@@ -71,6 +81,9 @@ Item {
             Button {
                 height: rowHeight
                 text: "..."
+                onClicked: {
+                    loggerSessionNameWithMacrosPopup.open()
+                }
             }
         }
         Item { Layout.preferredHeight: rowHeight / 2 } // spacer

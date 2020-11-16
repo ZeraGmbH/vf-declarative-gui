@@ -20,21 +20,23 @@ Popup {
     readonly property real fontScale: 0.1
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
 
+    signal sessionNameSelected(string newSessionName)
+
     Timer {
         interval: 200
         running: true
         repeat: true
         onTriggered: {
-            preview.text = GC.loggerSessionNameReplace(textFieldSessionNameDefault.text)
+            preview.text = GC.loggerSessionNameReplace(textFieldSessionNameWithMacros.text)
         }
     }
 
     onAboutToShow: {
         // Do not bind by design
-        textFieldSessionNameDefault.text = Z.tr("Session") + ' $YEAR/$MONTH/$DAY'
-        // Intended to be late so textFieldSessionNameDefault selects properly
+        textFieldSessionNameWithMacros.text = Z.tr("Session") + ' $YEAR/$MONTH/$DAY'
+        // Intended to be late so textFieldSessionNameWithMacros selects properly
         root.focus = true
-        textFieldSessionNameDefault.focus = true
+        textFieldSessionNameWithMacros.focus = true
     }
 
     ColumnLayout {
@@ -46,7 +48,7 @@ Popup {
                 font.pointSize: root.pointSize
             }
             TextField {
-                id: textFieldSessionNameDefault
+                id: textFieldSessionNameWithMacros
                 Layout.fillWidth: true;
                 bottomPadding: GC.standardTextBottomMargin
                 inputMethodHints: Qt.ImhNoAutoUppercase
@@ -54,7 +56,6 @@ Popup {
                 font.pointSize: root.pointSize
 
                 Keys.onEscapePressed: {
-                    text = GC.loggerSessionNameDefault
                     focus = false
                 }
                 onAccepted: {
@@ -80,7 +81,7 @@ Popup {
             }
             Label { // For sake of seconds text is set by timer
                 id: preview
-                text: GC.loggerSessionNameReplace(textFieldSessionNameDefault.text)
+                text: GC.loggerSessionNameReplace(textFieldSessionNameWithMacros.text)
                 horizontalAlignment: Text.AlignRight
                 font.pointSize: root.pointSize
                 elide: Text.ElideRight
@@ -91,18 +92,18 @@ Popup {
         RowLayout { // macro buttons
             id: macroButtonsRow
             function addToSessionName(textToAdd) {
-                var selStart = textFieldSessionNameDefault.selectionStart
-                var selEnd = textFieldSessionNameDefault.selectionEnd
+                var selStart = textFieldSessionNameWithMacros.selectionStart
+                var selEnd = textFieldSessionNameWithMacros.selectionEnd
                 // selected: replace
                 if(selEnd - selStart > 0) {
-                    var newText = textFieldSessionNameDefault.text.substring(0, selStart) +
+                    var newText = textFieldSessionNameWithMacros.text.substring(0, selStart) +
                             textToAdd +
-                            textFieldSessionNameDefault.text.substring(selEnd, textFieldSessionNameDefault.text.length)
-                    textFieldSessionNameDefault.text = newText
+                            textFieldSessionNameWithMacros.text.substring(selEnd, textFieldSessionNameWithMacros.text.length)
+                    textFieldSessionNameWithMacros.text = newText
                 }
                 // otherwise: insert at cursor position
                 else {
-                    textFieldSessionNameDefault.insert(textFieldSessionNameDefault.cursorPosition, textToAdd);
+                    textFieldSessionNameWithMacros.insert(textFieldSessionNameWithMacros.cursorPosition, textToAdd);
                 }
             }
 
@@ -193,7 +194,7 @@ Popup {
                 font.pointSize: root.pointSize
                 Layout.minimumWidth: cancelButton.width
                 onClicked: {
-                    GC.setLoggerSessionNameDefault(textFieldSessionNameDefault.text)
+                    sessionNameSelected(GC.loggerSessionNameReplace(textFieldSessionNameWithMacros.text))
                     root.close()
                 }
             }

@@ -31,7 +31,7 @@
         <file>qml/controls/logger/LoggerDbSearchDialog.qml</file>
         <file>qml/controls/logger/LoggerExport.qml</file>
         <file>qml/controls/logger/LoggerMenu.qml</file>
-        <file>qml/controls/logger/LoggerSessionNameDefaultPopup.qml</file>
+        <file>qml/controls/logger/LoggerSessionNameWithMacrosPopup.qml</file>
         <file>qml/controls/logger/LoggerSessionNameSelector.qml</file>
         <file>qml/controls/logger/LoggerSessionNew.qml</file>
         <file>qml/controls/logger/LoggerSettings.qml</file>
