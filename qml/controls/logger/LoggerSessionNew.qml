@@ -167,7 +167,7 @@ Item {
             Button {
                 id: okButton
                 text: Z.tr("OK")
-                enabled: sessionNameField.text !== ""
+                enabled: sessionNameField.text !== "" && sessionNameField.hasValidInput()
                 font.pointSize: root.pointSize
                 Layout.minimumWidth: cancelButton.width
                 onClicked: {
