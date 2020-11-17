@@ -90,7 +90,7 @@ Item {
                 font.pointSize: pointSize
                 height: rowHeight
                 onClicked: {
-
+                    menuStackLayout.showCustomerDataBrowser()
                 }
             }
         }
