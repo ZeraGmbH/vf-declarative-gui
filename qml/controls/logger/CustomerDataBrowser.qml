@@ -112,6 +112,7 @@ Item {
                 font.pointSize: pointSize
                 onClicked: {
                     addFilePopup.close()
+                    menuStackLayout.pleaseCloseMe(false)
                 }
             }
             Button {
