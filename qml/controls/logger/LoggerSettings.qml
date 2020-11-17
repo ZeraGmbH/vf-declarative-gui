@@ -12,7 +12,6 @@ import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/qml/controls/customerdata" as CDataControls
 import "qrc:/qml/controls/settings" as SettingsControls
 
 SettingsControls.SettingsView {
@@ -61,7 +60,7 @@ SettingsControls.SettingsView {
     Loader {
         id: customerDataEntry
         active: false
-        sourceComponent: CDataControls.CustomerDataEntry {
+        sourceComponent: CustomerDataEntry {
             width: root.width
             height: root.height
             visible: true
