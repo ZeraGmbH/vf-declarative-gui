@@ -14,9 +14,6 @@
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
         <file>qml/controls/appinfo/Notifications.qml</file>
         <file>qml/controls/appinfo/StatusView.qml</file>
-        <file>qml/controls/customerdata/CustomerDataBrowser.qml</file>
-        <file>qml/controls/customerdata/CustomerDataEditor.qml</file>
-        <file>qml/controls/customerdata/CustomerDataEntry.qml</file>
         <file>qml/controls/error_comparison_common/ErrorMarginView.qml</file>
         <file>qml/controls/error_comparison_common/MeasurementView.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewComparison.qml</file>
@@ -25,6 +22,9 @@
         <file>qml/controls/fft_module/FftTable.qml</file>
         <file>qml/controls/harmonic_power_module/HarmonicPowerCharts.qml</file>
         <file>qml/controls/harmonic_power_module/HarmonicPowerTable.qml</file>
+        <file>qml/controls/logger/CustomerDataBrowser.qml</file>
+        <file>qml/controls/logger/CustomerDataEditor.qml</file>
+        <file>qml/controls/logger/CustomerDataEntry.qml</file>
         <file>qml/controls/logger/LoggerCustomDataSelector.qml</file>
         <file>qml/controls/logger/LoggerDatasetSelector.qml</file>
         <file>qml/controls/logger/LoggerDbLocationSelector.qml</file>
