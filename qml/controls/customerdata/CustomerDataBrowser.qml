@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -19,9 +19,10 @@ Item {
     property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
     property var searchProgressId;
 
-    property real rowHeight: height/11
+    property real rowHeight: height/8
     readonly property real fontScale: 0.35
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSizeHeader: pointSize * 1.25
 
     function saveChanges() {
         customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
@@ -36,6 +37,10 @@ Item {
 
     Popup {
         id: addFilePopup
+        parent: Overlay.overlay
+        width: parent.width
+        height: parent.height - GC.vkeyboardHeight
+        modal: !Qt.inputMethod.visible
         closePolicy: Popup.NoAutoClose
 
         readonly property bool fileNameAlreadyExists: filenameField.text.length>0 &&
@@ -43,22 +48,35 @@ Item {
 
         onOpened: filenameField.forceActiveFocus()
         onClosed: filenameField.clear()
+        Label { // Header
+            id: captionLabelNewPopup
+            anchors.left: parent.left
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignHCenter
+            text: Z.tr("Create Customer data file")
+            font.pointSize: pointSizeHeader
+        }
         RowLayout {
-            anchors.fill: parent
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: captionLabelNewPopup.bottom
+            anchors.bottom: buttonRowNew.top
             Label {
                 text: Z.tr("File name:")
-            }
-            Item {
-                width: rowWidth/25
+                font.pointSize: pointSize
+                height: rowHeight
             }
             // No ZLineEdit due to different RETURN/ESC/redBackground handling
             TextField {
                 id: filenameField
                 validator: RegExpValidator { regExp: /^[^.|"/`$!/\\<>:?~{}]+$/ }
-                implicitWidth: Math.min(Math.max(rowWidth/5, contentWidth), rowWidth/2)
+                font.pointSize: pointSize
+                height: rowHeight
                 bottomPadding: GC.standardTextBottomMargin
                 selectByMouse: true
                 inputMethodHints: Qt.ImhNoAutoUppercase
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignRight
                 Rectangle {
                     anchors.fill: parent
                     color: "red"
@@ -74,25 +92,33 @@ Item {
             }
             Label {
                 text: ".json"
+                font.pointSize: pointSize
+                height: rowHeight
             }
+        }
+        RowLayout {
+            id: buttonRowNew
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
             Item {
                 Layout.fillWidth: true
-                width: rowWidth/20
             }
-            ZButton {
-                text: Z.tr("OK")
-                width: newFileCancel.width
-                enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
-                //highlighted: true
-                onClicked: {
-                    root.saveChanges()
-                }
-            }
-            ZButton {
+            Button {
                 id: newFileCancel
                 text: Z.tr("Cancel")
+                font.pointSize: pointSize
                 onClicked: {
                     addFilePopup.close()
+                }
+            }
+            Button {
+                text: Z.tr("OK")
+                font.pointSize: pointSize
+                Layout.preferredWidth: newFileCancel.width
+                enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
+                onClicked: {
+                    root.saveChanges()
                 }
             }
         }
@@ -142,18 +168,18 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         text: Z.tr("Customer data files:")
-        font.pointSize: root.pointSize * 1.5
+        font.pointSize: pointSizeHeader
     }
     ListView {
         id: lvFileBrowser
+        model: availableCustomerDataFiles
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.rightMargin: GC.standardTextHorizMargin
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
         anchors.topMargin: rowHeight / 2
-        anchors.bottom: buttonAdd.top
-        model: availableCustomerDataFiles
+        anchors.bottom: buttonRow.top
         clip: true
         ScrollIndicator.vertical: ScrollIndicator {
             width: 8
@@ -178,6 +204,9 @@ Item {
                     font.pointSize: pointSize
                 }
                 Button {
+                    Layout.preferredWidth: rowHeight * 2
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                     font.family: FA.old
                     font.pointSize: pointSize * 1.25
                     text: FA.fa_edit
@@ -206,8 +235,11 @@ Item {
                     }
                 }
                 Button {
+                    Layout.preferredWidth: rowHeight * 2
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                     font.family: FA.old
-                    font.pointSize: pointSize  * 1.25
+                    font.pointSize: pointSize * 1.25
                     text: FA.fa_trash
                     background: Rectangle {
                         color: "transparent"
@@ -220,12 +252,34 @@ Item {
             }
         }
     }
-    Button {
-        id: buttonAdd
-        text: "+"
+    RowLayout {
+        id: buttonRow
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.rightMargin: GC.standardTextHorizMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
         anchors.bottom: parent.bottom
-        onClicked: {
-            addFilePopup.open()
+        Button {
+            text: "+"
+            onClicked: {
+                addFilePopup.open()
+            }
+        }
+        Item { Layout.fillWidth: true }
+        Button {
+            text: Z.tr("Import")
+            font.pointSize: pointSize
+            onClicked: {
+
+            }
+        }
+        Button {
+            text: Z.tr("Export")
+            font.pointSize: pointSize
+            onClicked: {
+
+            }
         }
     }
+
 }
