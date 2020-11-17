@@ -20,8 +20,8 @@ StackLayout {
     }
 
     function showSessionNameSelector() {
-        var loggerEntity = VeinEntity.getEntity("_LoggingSystem")
         // In case no sessions were created yet: Move to sessions new
+        var loggerEntity = VeinEntity.getEntity("_LoggingSystem")
         if(loggerEntity && loggerEntity.ExistingSessions.length === 0) {
             showSessionNew()
         }
@@ -77,6 +77,11 @@ StackLayout {
         active: menuStackLayout.currentIndex === 5
         onLoaded: {
             item.menuStackLayout = menuStackLayout
+            // In case no customer-data were created yet: open new-popup
+            var filesEntity = VeinEntity.getEntity("_Files")
+            if(filesEntity && filesEntity.AvailableCustomerData.length === 0) {
+                item.openNewCustomerDataPopup()
+            }
         }
     }
 
