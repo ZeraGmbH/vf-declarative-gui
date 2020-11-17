@@ -13,6 +13,10 @@ Item {
     id: root
     // we need a reference to menu stack layout to move around
     property var menuStackLayout
+    // allow my parent to open 'new' custioner data
+    function openNewCustomerDataPopup() {
+        addFilePopup.open()
+    }
 
     // 'private' properties
     property var searchableProperties: [];
