@@ -16,6 +16,9 @@ import "qrc:/qml/controls/settings" as SettingsControls
 
 SettingsControls.SettingsView {
     id: root
+    // we need a reference to menu stack layout to move around
+    property var menuStackLayout
+
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property string dbFileName: loggerEntity.DatabaseFile
     onDbFileNameChanged: {
@@ -45,25 +48,6 @@ SettingsControls.SettingsView {
                     root.loggerEntity.DatabaseFile = t_file;
                 }
             }
-        }
-    }
-    Connections {
-        target: customerDataEntry.item
-        onOk: {
-            // TODO: extra activity?
-            customerDataEntry.active=false;
-        }
-        onCancel: {
-            customerDataEntry.active=false;
-        }
-    }
-    Loader {
-        id: customerDataEntry
-        active: false
-        sourceComponent: CustomerDataEntry {
-            width: root.width
-            height: root.height
-            visible: true
         }
     }
     model: ObjectModel {
@@ -269,7 +253,7 @@ SettingsControls.SettingsView {
                     font.pointSize: root.pointSize
                     implicitHeight: root.rowHeight
                     enabled: loggerEntity.LoggingEnabled === false
-                    onClicked: customerDataEntry.active=true;
+                    onClicked: menuStackLayout.showCustomerDataBrowser()
                 }
             }
         }

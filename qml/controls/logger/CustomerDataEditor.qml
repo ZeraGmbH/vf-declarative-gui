@@ -11,6 +11,9 @@ import "qrc:/qml/controls" as CCMP
 
 Item {
     id: dataEditor
+    // we need a reference to menu stack layout to move around
+    property var menuStackLayout
+
     anchors.fill: parent
     readonly property real rowHeight: parent.height / 15
 
@@ -18,10 +21,27 @@ Item {
         initModel();
     }
 
+    readonly property QtObject customerData: VeinEntity.getEntity("CustomerData");
+
+    readonly property var generalProperties: ["PAR_DatasetIdentifier", "PAR_DatasetComment"];
+    readonly property var customerProperties: ["PAR_CustomerNumber", "PAR_CustomerFirstName", "PAR_CustomerLastName",
+        "PAR_CustomerCountry", "PAR_CustomerCity", "PAR_CustomerPostalCode", "PAR_CustomerStreet", "PAR_CustomerComment"];
+    readonly property var locationProperties: ["PAR_LocationNumber", "PAR_LocationFirstName", "PAR_LocationLastName",
+        "PAR_LocationCountry", "PAR_LocationCity", "PAR_LocationPostalCode", "PAR_LocationStreet", "PAR_LocationComment"];
+    readonly property var meterProperties: ["PAR_MeterFactoryNumber", "PAR_MeterManufacturer", "PAR_MeterOwner", "PAR_MeterComment"];
+    readonly property var powergridProperties: ["PAR_PowerGridOperator", "PAR_PowerGridSupplier", "PAR_PowerGridComment"];
+
+    property var editableDataObject: ({});
+
     function updateDataObject(prop, text) {
         if(editableDataObject !== undefined) {
             editableDataObject[prop] = text;
         }
+    }
+    readonly property string currentFile: customerData.FileSelected
+    onCurrentFileChanged: {
+        //data becomes irrelevant if the file switches
+        editableDataObject = ({});
     }
 
     function initModel() {
@@ -42,8 +62,15 @@ Item {
         }
     }
 
-    signal ok();
-    signal cancel();
+    function ok() {
+        for(var prop in editableDataObject) {
+            customerData[prop] = editableDataObject[prop];
+            menuStackLayout.showCustomerDataBrowser()
+        }
+    }
+    function cancel() {
+        menuStackLayout.showCustomerDataBrowser()
+    }
 
     ListModel {
         id: objModel

@@ -14,6 +14,9 @@ StackLayout {
         width: parent.width
         sourceComponent: LoggerSettings { }
         active: menuStackLayout.currentIndex === 0
+        onLoaded: {
+            item.menuStackLayout = menuStackLayout
+        }
     }
 
     function showSessionNameSelector() {
@@ -59,8 +62,30 @@ StackLayout {
     Loader {
         height: parent.height
         width: parent.width
-        sourceComponent: LoggerExport { id: loggerExport }
+        sourceComponent: LoggerExport { }
         active: menuStackLayout.currentIndex === 4
+        onLoaded: {
+            item.menuStackLayout = menuStackLayout
+        }
+    }
+
+    function showCustomerDataBrowser() { currentIndex = 5 }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: CustomerDataBrowser { }
+        active: menuStackLayout.currentIndex === 5
+        onLoaded: {
+            item.menuStackLayout = menuStackLayout
+        }
+    }
+
+    function showCustomerDataEditor() { currentIndex = 6 }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: CustomerDataEditor { }
+        active: menuStackLayout.currentIndex === 6
         onLoaded: {
             item.menuStackLayout = menuStackLayout
         }

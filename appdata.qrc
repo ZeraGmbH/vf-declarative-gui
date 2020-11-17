@@ -24,7 +24,6 @@
         <file>qml/controls/harmonic_power_module/HarmonicPowerTable.qml</file>
         <file>qml/controls/logger/CustomerDataBrowser.qml</file>
         <file>qml/controls/logger/CustomerDataEditor.qml</file>
-        <file>qml/controls/logger/CustomerDataEntry.qml</file>
         <file>qml/controls/logger/LoggerCustomDataSelector.qml</file>
         <file>qml/controls/logger/LoggerDatasetSelector.qml</file>
         <file>qml/controls/logger/LoggerDbLocationSelector.qml</file>
