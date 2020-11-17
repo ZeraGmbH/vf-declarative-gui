@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import VeinEntity 1.0
 
 StackLayout {
     id: menuStackLayout
@@ -15,7 +16,16 @@ StackLayout {
         active: menuStackLayout.currentIndex === 0
     }
 
-    function showSessionNameSelector() { currentIndex = 1 }
+    function showSessionNameSelector() {
+        var loggerEntity = VeinEntity.getEntity("_LoggingSystem")
+        // In case no sessions were created yet: Move to sessions new
+        if(loggerEntity && loggerEntity.ExistingSessions.length === 0) {
+            showSessionNew()
+        }
+        else {
+            currentIndex = 1
+        }
+    }
     Loader {
         height: parent.height
         width: parent.width
