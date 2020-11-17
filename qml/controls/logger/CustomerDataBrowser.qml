@@ -11,6 +11,8 @@ import ZeraFa 1.0
 
 Item {
     id: root
+    // we need a reference to menu stack layout to move around
+    property var menuStackLayout
 
     // 'private' properties
     property var searchableProperties: [];
@@ -28,12 +30,8 @@ Item {
         customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
         customerData.FileSelected = filenameField.text+".json"
         addFilePopup.close()
-        switchToEditMode();
+        menuStackLayout.showCustomerDataEditor()
     }
-
-    signal switchToEditMode();
-    signal ok();
-    signal cancel();
 
     Popup {
         id: addFilePopup
@@ -217,7 +215,7 @@ Item {
                     property string custDataSelected: customerData.FileSelected
                     onCustDataSelectedChanged: {
                         if(--changesExpected === 0) {
-                            switchToEditMode()
+                            menuStackLayout.showCustomerDataEditor()
                         }
                     }
                     property int changesExpected: 0
@@ -229,7 +227,7 @@ Item {
                                 changesExpected = 1
                             }
                             else {
-                                switchToEditMode()
+                                menuStackLayout.showCustomerDataEditor()
                             }
                         }
                     }
