@@ -76,7 +76,6 @@ Item {
                 }
             }
         }
-        Item { Layout.preferredHeight: rowHeight / 2 } // spacer
         RowLayout {
             height: rowHeight
             Label {
