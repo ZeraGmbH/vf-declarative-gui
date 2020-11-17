@@ -105,7 +105,6 @@ Item {
                 arrayCustomers.push(...vfCustData)
                 return arrayCustomers
             }
-            //highlightFollowsCurrentItem: true
             currentIndex: model.indexOf(customerData.FileSelected)
             clip: true
             readonly property bool vBarVisible: contentHeight > height
@@ -141,7 +140,7 @@ Item {
                         Layout.fillHeight: true
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: pointSize
-                        width: parent.width - /*buttonWidth -*/ 2*GC.standardTextHorizMargin
+                        width: parent.width - 2*GC.standardTextHorizMargin
                         text: modelData !== "" ? modelData : Z.tr("-- no customer --")
                     }
                 }
