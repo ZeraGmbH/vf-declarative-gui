@@ -160,8 +160,7 @@ Item {
                 text: Z.tr("Cancel")
                 font.pointSize: root.pointSize
                 onClicked: {
-                    // go back
-                    menuStackLayout.showSessionNameSelector()
+                    menuStackLayout.pleaseCloseMe(false)
                 }
             }
             Button {
