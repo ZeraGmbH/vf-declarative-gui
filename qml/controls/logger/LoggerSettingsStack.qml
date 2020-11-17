@@ -8,6 +8,23 @@ StackLayout {
 
     signal pleaseCloseMe(bool butOpenMenu)
 
+    // Some notes on auto-open views/popup that are intended to enhance
+    // user-experience. We have 3 cases currently:
+    //
+    // 1. In case user clicks logStartButton in MainToolBar.qml,
+    //    function open() in LoggerMenu.qml checks if a database is loaded.
+    //    If not show LoggerSettings instead of LoggerMenu. This ist strongly
+    //    coupled logStartButton.onClicked - that also makes some decisions
+    //    which main page to show. Yeah that is a bit of a spaghetti-hack it
+    //    was the only way to get the behaviour wanted without passing
+    //    MainToolBar's internals to LoggerMenu.
+    // 2. In case user wants to set-up sessions, showSessionNameSelector() (see
+    //    below) checks if there are sessions already available. If not it
+    //    passes over to showSessionNew() (see below either)
+    // 3. In case user wants to set up customer-data (call to
+    //    showCustomerDataBrowser() below), CustomerDataBrowser Loader /
+    //    onLoaded checks: if no customer available call openNewCustomerDataPopup()
+
     function showSettings() { currentIndex = 0 }
     Loader {
         height: parent.height
