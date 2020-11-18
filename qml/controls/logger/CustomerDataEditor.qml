@@ -65,8 +65,8 @@ Item {
     function ok() {
         for(var prop in editableDataObject) {
             customerData[prop] = editableDataObject[prop];
-            menuStackLayout.showCustomerDataBrowser()
         }
+        menuStackLayout.showCustomerDataBrowser()
     }
     function cancel() {
         menuStackLayout.pleaseCloseMe(false)
