@@ -33,7 +33,7 @@ Popup {
 
     onAboutToShow: {
         // Do not bind by design
-        textFieldSessionNameWithMacros.text = Z.tr("Session") + ' $YEAR/$MONTH/$DAY'
+        textFieldSessionNameWithMacros.text = Z.tr("Session ") + '$YEAR/$MONTH/$DAY'
         // Intended to be late so textFieldSessionNameWithMacros selects properly
         root.focus = true
         textFieldSessionNameWithMacros.focus = true
