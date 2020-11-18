@@ -221,7 +221,7 @@ Item {
                 }
             }
         }
-        Button { // Quick link to select session form here
+        Button { // Quick link to select session from here
             height: rowHeight
             visible: exportType === "EXPORT_TYPE_MTVIS" && sessionName === ""
             id: buttonSessionSelect

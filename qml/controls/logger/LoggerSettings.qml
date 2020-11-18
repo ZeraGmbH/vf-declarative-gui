@@ -107,7 +107,7 @@ SettingsControls.SettingsView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     pointSize: root.pointSize
-                    placeholderText: Z.tr("<filename>")
+                    placeholderText: Z.tr("filename")
                     textField.enabled: loggerEntity.LoggingEnabled === false
                     validator: RegExpValidator {
                         // our target is windows most likely!
