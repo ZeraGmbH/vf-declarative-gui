@@ -23,7 +23,7 @@ Item {
     property QtObject customerData: VeinEntity.getEntity("CustomerData")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
-    property var searchProgressId;
+    readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
 
     property real rowHeight: height/8
     readonly property real fontScale: 0.35
@@ -269,6 +269,21 @@ Item {
             }
         }
         Item { Layout.fillWidth: true }
+        ComboBox {
+            visible: mountedPaths.length > 1
+            Layout.preferredWidth: root.width / 3
+            Layout.fillHeight: true
+            font.pointSize: pointSize
+            model: mountedPaths // TODO: make human readable
+            onCurrentIndexChanged: {
+                if(model.length > 0) {
+                    selectedMountPath = model[currentIndex]
+                }
+                else {
+                    selectedMountPath = ""
+                }
+            }
+        }
         Button {
             text: Z.tr("Import")
             font.pointSize: pointSize
