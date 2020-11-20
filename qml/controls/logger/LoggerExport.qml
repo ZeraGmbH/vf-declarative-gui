@@ -290,7 +290,7 @@ Item {
 
                 }
                 else {
-                    errorDescription = Z.tr("Cannot export - drive removed?")
+                    stateMachineExport.errorDescription = Z.tr("Cannot export - drive removed?")
                     exportAbortState()
                 }
             }
@@ -303,7 +303,7 @@ Item {
                                                        "p_overwrite": true })
                 }
                 else {
-                    errorDescription = Z.tr("Cannot export - drive removed?")
+                    stateMachineExport.errorDescription = Z.tr("Cannot export - drive removed?")
                     exportAbortState()
                 }
             }
@@ -318,7 +318,7 @@ Item {
                             stateMachineExport.exportNextState()
                         }
                         else { // error
-                            errorDescription = Z.tr("Export failed - drive removed?")
+                            stateMachineExport.errorDescription = Z.tr("Export failed - drive removed?")
                             stateMachineExport.exportAbortState()
                         }
                     }
@@ -377,7 +377,7 @@ Item {
                 id: stateMtVisFinal
             }
             onFinished: {
-                if(errorDescription === "") {
+                if(stateMachineExport.errorDescription === "") {
                     menuStackLayout.pleaseCloseMe(false)
                 }
                 else {
