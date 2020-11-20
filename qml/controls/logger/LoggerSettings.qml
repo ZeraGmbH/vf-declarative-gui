@@ -87,7 +87,6 @@ SettingsControls.SettingsView {
                 }
             }
             RowLayout {
-                enabled: dbLocationSelector.storageList.length > 0
                 height: root.rowHeight;
                 width: root.rowWidth;
 
@@ -115,11 +114,11 @@ SettingsControls.SettingsView {
                     }
                     // overrides
                     function transformIncoming(t_incoming) {
-                        return t_incoming.replace(dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/", "").replace(".db", "")
+                        return t_incoming.replace(dbLocationSelector.currentPath+"/", "").replace(".db", "")
                     }
                     // overrides
                     function doApplyInput(newText) {
-                        loggerEntity.DatabaseFile = dbLocationSelector.storageList[dbLocationSelector.currentIndex]+"/" + newText + ".db"
+                        loggerEntity.DatabaseFile = dbLocationSelector.currentPath+"/" + newText + ".db"
                         // wait to be applied
                         return false
                     }
@@ -145,7 +144,7 @@ SettingsControls.SettingsView {
                     implicitHeight: root.rowHeight
                     font.pointSize: root.pointSize
                     text: FA.fa_search
-                    enabled: dbLocationSelector.storageList.length > 0 && loggerEntity.LoggingEnabled === false
+                    enabled: loggerEntity.LoggingEnabled === false
                     onClicked: {
                         loggerSearchPopup.active = true;
                     }
@@ -172,6 +171,7 @@ SettingsControls.SettingsView {
                     Layout.fillWidth: true
                 }
                 Label {
+                    // mountPoint is used to get FilesystemInfo -> TODO replace by _FILES.
                     readonly property string mountPoint: GC.currentSelectedStoragePath === "/home/operator/logger" ? "/" : GC.currentSelectedStoragePath;
                     readonly property double available: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemFree : NaN
                     readonly property double total: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemTotal : NaN

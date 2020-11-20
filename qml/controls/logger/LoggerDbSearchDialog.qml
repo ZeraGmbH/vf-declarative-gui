@@ -24,7 +24,7 @@ Popup {
             var searchPatternArray = (Array.isArray(searchPattern) ? searchPattern : [searchPattern]);
             searchResultData.clear();
             searchProgressId = loggerDB.invokeRPC("findDBFile(QString searchPath, QStringList searchPatternList)", {
-                                                      "searchPath": dbLocationSelector.storageList[dbLocationSelector.currentIndex],
+                                                      "searchPath": dbLocationSelector.currentPath,
                                                       "searchPatternList": searchPatternArray
                                                   })
         }
@@ -63,7 +63,7 @@ Popup {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        onNewIndexSelected: {
+        onCurrentPathChanged: {
             searchResultData.clear();
             sendSearchRPC(tfSearchPattern.text+".db");
         }
