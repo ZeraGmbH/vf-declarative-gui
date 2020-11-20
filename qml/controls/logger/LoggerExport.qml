@@ -4,7 +4,7 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import QtQml.StateMachine 1.12 as QMLSM // avoid any ambiguity with QtQuick's State item
 import VeinEntity 1.0
-import ZeraTranslation  1.0
+import ZeraTranslation 1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
@@ -39,28 +39,28 @@ Item {
     // vein components for convenience
     readonly property string databaseName: loggerEntity ? loggerEntity.DatabaseFile : ""
     readonly property string sessionName: loggerEntity ? loggerEntity.sessionName : ""
-    readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
+    readonly property alias mountedPaths: mountedDrivesCombo.mountedPaths
     readonly property var devicePath: statusEntity ? "zera-" + statusEntity.INF_DeviceType + '-' + statusEntity.PAR_SerialNr : "zera-undef"
 
     // make current export type commonly accessible / set by combo export type
     property string exportType
     // make current output path commonly accessible / set by combo target drive
-    property string selectedMountPath
+    readonly property alias selectedMountPath: mountedDrivesCombo.currentPath
     // keep storage file path on demand on user activities
-    property string targetFilePath
-
-    // keep storage path
-    function setOutputPath() {
+    property string targetFilePath : {
         var storagePath = selectedMountPath + '/' + devicePath
+        var fullPath = ""
         switch(exportType) {
         case "EXPORT_TYPE_MTVIS":
-            targetFilePath = storagePath + "/mtvis/" + editExportName.text
+            fullPath = storagePath + "/mtvis/" + editExportName.text
             break
         case "EXPORT_TYPE_SQLITE":
-            targetFilePath = storagePath + "/database/" + editExportName.text
+            fullPath = storagePath + "/database/" + editExportName.text
             break
         }
+        return fullPath
     }
+
 
     // 'enumerate' our export types
     readonly property var exportTypeEnum: {
@@ -119,7 +119,7 @@ Item {
                 delegate: ItemDelegate {
                     width: exportTypeCombo.width
                     text: highlighted ? "<font color='" + Material.accentColor + "'>" + modelData.label + "</font>" : modelData.label
-                    highlighted: modelData.value === exportTypeCombo.currentValue
+                    highlighted: modelData.value === exportTypeCombo.currentPath
                     enabled: modelData.enabled
                     font.pointSize: root.pointSize
                 }
@@ -141,21 +141,12 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 font.pointSize: pointSize
             }
-            ComboBox {
+            MountedDrivesCombo {
+                id: mountedDrivesCombo
                 width: contentWidth
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
-                model: mountedPaths // TODO: make human readable
-                onCurrentIndexChanged: {
-                    if(model.length > 0) {
-                        selectedMountPath = model[currentIndex]
-                        setOutputPath()
-                    }
-                    else {
-                        selectedMountPath = ""
-                    }
-                }
             }
         }
         Row { // Export Name
