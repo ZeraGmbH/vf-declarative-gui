@@ -35,6 +35,7 @@
         <file>qml/controls/logger/LoggerSessionNew.qml</file>
         <file>qml/controls/logger/LoggerSettings.qml</file>
         <file>qml/controls/logger/LoggerSettingsStack.qml</file>
+        <file>qml/controls/logger/MountedDrivesCombo.qml</file>
         <file>qml/controls/range_module/RangeIndicator.qml</file>
         <file>qml/controls/range_module/RangeMenu.qml</file>
         <file>qml/controls/range_module/RangePeak.qml</file>
