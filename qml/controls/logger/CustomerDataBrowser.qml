@@ -30,6 +30,9 @@ Item {
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
     readonly property real pointSizeHeader: pointSize * 1.25
 
+    // make current output path commonly accessible / set by combo target drive
+    readonly property alias selectedMountPath: mountedDrivesCombo.currentPath
+
     function saveChanges() {
         customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
         customerData.FileSelected = filenameField.text+".json"
@@ -269,20 +272,12 @@ Item {
             }
         }
         Item { Layout.fillWidth: true }
-        ComboBox {
+        MountedDrivesCombo {
+            id: mountedDrivesCombo
             visible: mountedPaths.length > 1
-            Layout.preferredWidth: root.width / 3
+            Layout.preferredWidth: contentMaxWidth
             Layout.fillHeight: true
             font.pointSize: pointSize
-            model: mountedPaths // TODO: make human readable
-            onCurrentIndexChanged: {
-                if(model.length > 0) {
-                    selectedMountPath = model[currentIndex]
-                }
-                else {
-                    selectedMountPath = ""
-                }
-            }
         }
         Button {
             text: Z.tr("Import")
