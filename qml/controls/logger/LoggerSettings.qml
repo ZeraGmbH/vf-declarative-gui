@@ -176,7 +176,7 @@ SettingsControls.SettingsView {
                     readonly property double available: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemFree : NaN
                     readonly property double total: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemTotal : NaN
                     readonly property double percentAvail: total > 0 ? (available/total * 100).toFixed(2) : 0.0;
-                    text:  Z.tr("<b>%1MB</b> (available <b>%2GB</b> of <b>%3GB</b> / %4%)").arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2)).arg(available.toFixed(2)).arg(total.toFixed(2)).arg(percentAvail);
+                    text:  Z.tr("<b>%1MB</b> (available <b>%2GB</b> / %3%)").arg((loggerEntity.DatabaseFileSize/Math.pow(1024, 2)).toFixed(2)).arg(available.toFixed(2)).arg(percentAvail);
                     font.pointSize: root.pointSize
                 }
             }
