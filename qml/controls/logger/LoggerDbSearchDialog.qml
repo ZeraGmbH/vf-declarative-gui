@@ -160,7 +160,7 @@ Popup {
                 anchors.rightMargin: 4
 
                 Label {
-                    text: modelData
+                    text: String(modelData).replace(dbLocationSelector.currentPath + "/", "")
                     Layout.alignment: Qt.AlignVCenter
                 }
                 Item {
