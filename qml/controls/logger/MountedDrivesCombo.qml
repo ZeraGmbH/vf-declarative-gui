@@ -186,12 +186,12 @@ ComboBox {
         if(!rpcIdGetDriveInfo) {
             currPathToCheck = modelIndexArrayToGetInfo.pop()
             var pathToGetInfo = nextModel[currPathToCheck].value
-            rpcIdGetDriveInfo = filesEntity.invokeRPC("RPC_GetDriveInfo(bool p_getDriveName,bool p_getMemAvail,bool p_getMemTotal,QString p_localeName,QString p_mountDir)", {
+            rpcIdGetDriveInfo = filesEntity.invokeRPC("RPC_GetDriveInfo(bool p_getDriveName,bool p_getMemFree,bool p_getMemTotal,QString p_localeName,QString p_mountDir)", {
                                                "p_mountDir": pathToGetInfo,
                                                "p_localeName": ZLocale.localeName,
                                                "p_getDriveName": true,
                                                "p_getMemTotal": true,
-                                               "p_getMemAvail": false})
+                                               "p_getMemFree": false})
         }
         else {
             ignorePendingRpc = true
