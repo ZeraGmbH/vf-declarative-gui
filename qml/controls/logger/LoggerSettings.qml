@@ -114,9 +114,9 @@ SettingsControls.SettingsView {
                     }
                     // overrides
                     function transformIncoming(t_incoming) {
-                        return t_incoming.replace(dbLocationSelector.currentPath+"/", "").replace(".db", "")
+                        // Since we do not allow subfolders, do a simple basename and remove .db
+                        return t_incoming.split('/').reverse()[0].replace(".db", "")
                     }
-                    // overrides
                     function doApplyInput(newText) {
                         loggerEntity.DatabaseFile = dbLocationSelector.currentPath+"/" + newText + ".db"
                         // wait to be applied
