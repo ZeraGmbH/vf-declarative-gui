@@ -282,6 +282,7 @@ Item {
         Button {
             text: Z.tr("Import")
             font.pointSize: pointSize
+            enabled: mountedPaths.length > 0
             onClicked: {
 
             }
@@ -289,6 +290,7 @@ Item {
         Button {
             text: Z.tr("Export")
             font.pointSize: pointSize
+            enabled: mountedPaths.length > 0
             onClicked: {
 
             }
