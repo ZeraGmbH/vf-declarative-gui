@@ -16,7 +16,7 @@ Item {
         // * do not show menu
         // * open to settings immediately
         if(loggerEntity.DatabaseReady !== true) {
-            if(loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName) {
+            if(loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName !== "") {
                 loggerEntity.DatabaseFile = GC.currDatabaseFileName
                 loggerEntity.sessionName = GC.currDatabaseSessionName
                 return menu.open()
