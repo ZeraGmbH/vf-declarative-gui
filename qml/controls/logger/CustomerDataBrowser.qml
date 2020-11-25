@@ -24,6 +24,9 @@ Item {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
     readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
+    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1") // for paths as zera-<devicetype>-<serno>
+    readonly property string devicePath: statusEntity ? "zera-" + statusEntity.INF_DeviceType + '-' + statusEntity.PAR_SerialNr : "zera-undef"
+    readonly property string stickImportExportPath: mountedDrivesCombo.currentPath + '/' + devicePath  + '/customerdata'
 
     property real rowHeight: height/8
     readonly property real fontScale: 0.35
@@ -279,10 +282,36 @@ Item {
             Layout.fillHeight: true
             font.pointSize: pointSize
         }
+        property var rpcIdCopyDirs
+        // RPC_CopyDirFiles handling
+        function callRpcCopyDirFiles(sourcePath, destPath) {
+            // Note: modelIndexArrayToGetInfo is assumed not empty
+            if(!buttonRow.rpcIdCopyDirs) {
+                buttonRow.rpcIdCopyDirs = filesEntity.invokeRPC("RPC_CopyDirFiles(bool p_cleanDestFirst,QString p_destDir,QStringList p_nameFilters,bool p_overwrite,QString p_sourceDir)", {
+                                                   "p_sourceDir": sourcePath,
+                                                   "p_destDir": destPath,
+                                                   "p_nameFilters": [ "*.json" ],
+                                                   "p_cleanDestFirst": true,
+                                                   "p_overwrite": false})
+            }
+        }
+        Connections {
+            target: filesEntity
+            onSigRPCFinished: {
+                if(t_identifier === buttonRow.rpcIdCopyDirs) {
+                    buttonRow.rpcIdCopyDirs = undefined
+                    // TODO error handling
+                    /*if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
+                            t_resultData["RemoteProcedureData::Return"] === true) { // ok
+                    }*/
+                }
+            }
+        }
+
         Button {
             text: Z.tr("Import")
             font.pointSize: pointSize
-            enabled: mountedPaths.length > 0
+            enabled: mountedPaths.length > 0 && !buttonRow.rpcIdCopyDirs
             onClicked: {
 
             }
@@ -290,9 +319,9 @@ Item {
         Button {
             text: Z.tr("Export")
             font.pointSize: pointSize
-            enabled: mountedPaths.length > 0
+            enabled: mountedPaths.length > 0 && !buttonRow.rpcIdCopyDirs
             onClicked: {
-
+                buttonRow.callRpcCopyDirFiles(filesEntity.CustomerDataLocalPath, stickImportExportPath)
             }
         }
     }
