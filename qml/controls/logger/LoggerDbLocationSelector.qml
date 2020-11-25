@@ -24,7 +24,6 @@ RowLayout {
         selectLocationCombo(false)
     }
     readonly property QtObject fileEntity: VeinEntity.getEntity("_Files")
-    readonly property string loggerLocalPath: fileEntity.LoggerLocalPath
 
     signal newIndexSelected();
 
