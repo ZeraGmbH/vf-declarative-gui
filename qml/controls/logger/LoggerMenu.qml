@@ -30,7 +30,6 @@ Item {
         }
     }
 
-    readonly property bool databaseReady: loggerEntity.DatabaseReady
     signal loggerSettingsMenu()
     signal loggerSessionsMenu(var loggerEntity)
     signal loggerCustomDataMenu()
