@@ -205,10 +205,6 @@ Item {
                         placeholderText = ""
                         break
                     }
-                    setOutputPath()
-                }
-                onTextChanged: {
-                    setOutputPath()
                 }
             }
         }
