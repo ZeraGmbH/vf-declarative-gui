@@ -18,7 +18,9 @@ Item {
         if(loggerEntity.DatabaseReady !== true) {
             if(loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName !== "") {
                 loggerEntity.DatabaseFile = GC.currDatabaseFileName
-                loggerEntity.sessionName = GC.currDatabaseSessionName
+                if(GC.currDatabaseSessionName !== "") {
+                    setSessionNameForPersitence = true
+                }
                 return menu.open()
             }
             else {
@@ -40,6 +42,14 @@ Item {
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject systemEntity: VeinEntity.getEntity("_System")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
+    property bool setSessionNameForPersitence: false
+    readonly property string databaseFile: loggerEntity.DatabaseFile
+    onDatabaseFileChanged: {
+        if(setSessionNameForPersitence && databaseFile !== "") {
+            setSessionNameForPersitence = false
+            loggerEntity.sessionName = GC.currDatabaseSessionName
+        }
+    }
 
     property int veinResponsesRequired: 0
     function handleVeinRecordingStartReply() {
