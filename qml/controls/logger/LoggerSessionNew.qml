@@ -169,6 +169,7 @@ Item {
                 Layout.minimumWidth: cancelButton.width
                 onClicked: {
                     loggerEntity.sessionName = sessionNameField.text
+                    GC.setCurrDatabaseSessionName(sessionNameField.text)
                     menuStackLayout.pleaseCloseMe(true)
                 }
             }
