@@ -35,6 +35,9 @@ Item {
 
     // make current output path commonly accessible / set by combo target drive
     readonly property alias selectedMountPath: mountedDrivesCombo.currentPath
+    onSelectedMountPathChanged: {
+        buttonRow.callRpcSearchCustomerImportPaths()
+    }
 
     function saveChanges() {
         customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })

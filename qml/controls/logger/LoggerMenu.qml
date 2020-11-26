@@ -49,6 +49,11 @@ Item {
             setSessionNameForPersitence = false
             loggerEntity.sessionName = GC.currDatabaseSessionName
         }
+        // if stored values don't work, don't try them again
+        else {
+            GC.setCurrDatabaseFileName("")
+            GC.setCurrDatabaseSessionName("")
+        }
     }
 
     property int veinResponsesRequired: 0

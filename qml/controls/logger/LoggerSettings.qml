@@ -24,10 +24,6 @@ SettingsControls.SettingsView {
     onDbFileNameChanged: {
         GC.setCurrDatabaseFileName(dbFileName)
     }
-    readonly property string dbSessionName: loggerEntity.sessionName
-    onDbSessionNameChanged: {
-        GC.setCurrDatabaseSessionName(dbSessionName)
-    }
 
     horizMargin: GC.standardTextHorizMargin
     rowHeight: parent.height/8
