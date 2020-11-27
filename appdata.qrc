@@ -26,7 +26,6 @@
         <file>qml/controls/logger/CustomerDataEditor.qml</file>
         <file>qml/controls/logger/CustomerDataNewPopup.qml</file>
         <file>qml/controls/logger/LoggerCustomDataSelector.qml</file>
-        <file>qml/controls/logger/LoggerDatasetSelector.qml</file>
         <file>qml/controls/logger/LoggerDbLocationSelector.qml</file>
         <file>qml/controls/logger/LoggerDbSearchDialog.qml</file>
         <file>qml/controls/logger/LoggerExport.qml</file>
