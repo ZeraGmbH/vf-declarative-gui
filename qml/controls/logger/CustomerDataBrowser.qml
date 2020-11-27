@@ -29,17 +29,65 @@ Item {
     readonly property string stickImportExportPath: mountedDrivesCombo.currentPath + '/' + devicePath  + '/customerdata'
 
     property real rowHeight: height/8
-    readonly property real fontScale: 0.35
+    readonly property real fontScale: 0.30
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
     readonly property real pointSizeHeader: pointSize * 1.25
 
     // make current output path commonly accessible / set by combo target drive
     readonly property alias selectedMountPath: mountedDrivesCombo.currentPath
     onSelectedMountPathChanged: {
-        buttonRow.callRpcSearchCustomerImportPaths()
+        callRpcSearchCustomerImportPaths()
     }
 
-    function saveChanges() {
+    // Import/export RPC business
+    property var rpcIdCopyDirs
+    property var rpcIdFindImportCustomertDataPaths
+    property var customerImportDirList: []
+    // RPC_CopyDirFiles handling
+    function callRpcCopyDirFiles(sourcePath, destPath, cleanDestPath, overwrite) {
+        // Note: modelIndexArrayToGetInfo is assumed not empty
+        if(!rpcIdCopyDirs) {
+            rpcIdCopyDirs = filesEntity.invokeRPC("RPC_CopyDirFiles(bool p_cleanDestFirst,QString p_destDir,QStringList p_nameFilters,bool p_overwrite,QString p_sourceDir)", {
+                                                  "p_sourceDir": sourcePath,
+                                                  "p_destDir": destPath,
+                                                  "p_nameFilters": [ "*.json" ],
+                                                  "p_cleanDestFirst": cleanDestPath,
+                                                  "p_overwrite": overwrite})
+        }
+    }
+    // RPC_FindFileSpecial handling
+    function callRpcSearchCustomerImportPaths() {
+        customerImportDirList = []
+        if(!rpcIdFindImportCustomertDataPaths) {
+            rpcIdFindImportCustomertDataPaths = filesEntity.invokeRPC("RPC_FindFileSpecial(QString p_baseDir,QStringList p_nameFilterList,bool p_returnMatchingDirsOnly)", {
+                                                                      "p_baseDir": selectedMountPath,
+                                                                      "p_nameFilterList": [ "zera-*-?????????", "customerdata", "*.json" ],
+                                                                      "p_returnMatchingDirsOnly": true})
+        }
+    }
+
+    Connections {
+        target: filesEntity
+        onSigRPCFinished: {
+            // TODO error handling
+            if(t_identifier === rpcIdCopyDirs) {
+                rpcIdCopyDirs = undefined
+                if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
+                        t_resultData["RemoteProcedureData::Return"] === true) { // ok
+                    if(importCustomerDataPopup.visible) {
+                        importCustomerDataPopup.close()
+                    }
+                }
+            }
+            else if(t_identifier === rpcIdFindImportCustomertDataPaths) {
+                if(t_resultData["RemoteProcedureData::resultCode"] === 0) {
+                    customerImportDirList = t_resultData["RemoteProcedureData::Return"]
+                }
+            }
+        }
+    }
+
+    function startAddCustomerData() {
         customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
         customerData.FileSelected = filenameField.text+".json"
         addFilePopup.close()
@@ -95,7 +143,7 @@ Item {
                     visible: addFilePopup.fileNameAlreadyExists
                 }
                 onAccepted: {
-                    root.saveChanges()
+                    root.startAddCustomerData()
                 }
                 Keys.onEscapePressed: {
                     addFilePopup.close()
@@ -130,7 +178,88 @@ Item {
                 Layout.preferredWidth: newFileCancel.width
                 enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
                 onClicked: {
-                    root.saveChanges()
+                    root.startAddCustomerData()
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: importCustomerDataPopup
+        anchors.centerIn: parent
+        width: parent.width * 9/10
+        modal: true
+        ColumnLayout {
+            anchors.fill: parent
+            Label { // header
+                text: Z.tr("Import customer data files")
+                font.pointSize: pointSizeHeader
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+            }
+            Item { Layout.preferredHeight: rowHeight/3 }
+            RowLayout { // device selection
+                Label {
+                    text: Z.tr("Device export found:")
+                    font.pointSize: pointSize
+                }
+                Item { Layout.preferredWidth: GC.standardTextHorizMargin }
+                ComboBox {
+                    id: deviceImportCombo
+                    font.pointSize: pointSize
+                    Layout.fillWidth: true
+                    model: {
+                        var myModel = []
+                        for(var modelLoop=0; modelLoop<customerImportDirList.length; ++modelLoop) {
+                            // * we can rely on no trailing dir separator
+                            // * format is: <some-leading-path>/zera-<dev-type>-<serno>/customerdata
+                            var currPath = customerImportDirList[modelLoop]
+                            var pathArray = currPath.split('/')
+                            if(pathArray.length>=2) {
+                                myModel.push(pathArray[pathArray.length-2])
+                            }
+                        }
+                        return myModel
+                    }
+                }
+            }
+            CheckBox {
+                id: importDeleteCheckbox
+                text: Z.tr("Delete current files first")
+                font.pointSize: pointSize * 2/3
+            }
+            CheckBox {
+                id: importOverwriteCheckbox
+                text: Z.tr("Overwrite current files with imported ones")
+                font.pointSize: pointSize * 2/3
+                enabled: !importDeleteCheckbox.checked
+            }
+            RowLayout { // Cancel/Ok buttons
+                Layout.fillWidth: true
+                Item {
+                    Layout.fillWidth: true
+                }
+                Button {
+                    id: importCancel
+                    text: Z.tr("Cancel")
+                    font.pointSize: pointSize
+                    onClicked: {
+                        importCustomerDataPopup.close()
+                    }
+                }
+                Button {
+                    text: Z.tr("OK")
+                    font.pointSize: pointSize
+                    Layout.preferredWidth: importCancel.width
+                    onClicked: {
+                        var sourcePath = customerImportDirList[deviceImportCombo.currentIndex]
+                        if(sourcePath !== "") {
+                            callRpcCopyDirFiles(sourcePath,
+                                                filesEntity.CustomerDataLocalPath,
+                                                importDeleteCheckbox.checked,
+                                                importOverwriteCheckbox.checked)
+                        }
+                    }
                 }
             }
         }
@@ -285,46 +414,20 @@ Item {
             Layout.fillHeight: true
             font.pointSize: pointSize
         }
-        property var rpcIdCopyDirs
-        // RPC_CopyDirFiles handling
-        function callRpcCopyDirFiles(sourcePath, destPath) {
-            // Note: modelIndexArrayToGetInfo is assumed not empty
-            if(!buttonRow.rpcIdCopyDirs) {
-                buttonRow.rpcIdCopyDirs = filesEntity.invokeRPC("RPC_CopyDirFiles(bool p_cleanDestFirst,QString p_destDir,QStringList p_nameFilters,bool p_overwrite,QString p_sourceDir)", {
-                                                   "p_sourceDir": sourcePath,
-                                                   "p_destDir": destPath,
-                                                   "p_nameFilters": [ "*.json" ],
-                                                   "p_cleanDestFirst": true,
-                                                   "p_overwrite": false})
-            }
-        }
-        Connections {
-            target: filesEntity
-            onSigRPCFinished: {
-                if(t_identifier === buttonRow.rpcIdCopyDirs) {
-                    buttonRow.rpcIdCopyDirs = undefined
-                    // TODO error handling
-                    /*if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
-                            t_resultData["RemoteProcedureData::Return"] === true) { // ok
-                    }*/
-                }
-            }
-        }
-
         Button {
             text: Z.tr("Import")
             font.pointSize: pointSize
-            enabled: mountedPaths.length > 0 && !buttonRow.rpcIdCopyDirs
+            enabled: mountedPaths.length > 0 && !rpcIdCopyDirs && customerImportDirList.length > 0
             onClicked: {
-
+                importCustomerDataPopup.open()
             }
         }
         Button {
             text: Z.tr("Export")
             font.pointSize: pointSize
-            enabled: mountedPaths.length > 0 && !buttonRow.rpcIdCopyDirs
+            enabled: mountedPaths.length > 0 && !rpcIdCopyDirs && availableCustomerDataFiles.length > 0
             onClicked: {
-                buttonRow.callRpcCopyDirFiles(filesEntity.CustomerDataLocalPath, stickImportExportPath)
+                callRpcCopyDirFiles(filesEntity.CustomerDataLocalPath, stickImportExportPath, true, false)
             }
         }
     }
