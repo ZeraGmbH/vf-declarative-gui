@@ -66,10 +66,10 @@ Item {
         for(var prop in editableDataObject) {
             customerData[prop] = editableDataObject[prop];
         }
-        menuStackLayout.showCustomerDataBrowser()
+        menuStackLayout.goBack()
     }
     function cancel() {
-        menuStackLayout.showCustomerDataBrowser()
+        menuStackLayout.goBack()
     }
 
     ListModel {
