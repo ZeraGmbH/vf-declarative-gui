@@ -10,7 +10,13 @@ import ZeraComponents 1.0
 import ZeraFa 1.0
 
 Popup {
-    // parent should have pointSize / pointSizeHeader / menuStackLayout properties!!
+    // dirty but parent must have the following root-item properties:
+    //
+    // availableCustomerDataFiles
+    // menuStackLayout
+    // pointSize
+    // pointSizeHeader
+    // rowHeight
 
     parent: Overlay.overlay
     width: parent.width
