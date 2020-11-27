@@ -15,9 +15,10 @@ Item {
     // we need a reference to menu stack layout to move around
     property var menuStackLayout
 
-    readonly property real rowHeight: parent.height/12
-    readonly property real fontScale: 0.45
+    property real rowHeight: height/8
+    readonly property real fontScale: 0.30
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSizeHeader: pointSize * 1.25
     readonly property real scrollWidth: 16
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
@@ -25,6 +26,9 @@ Item {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     readonly property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
 
+    CustomerDataNewPopup {
+        id: customerDataNewPopup
+    }
     LoggerSessionNameWithMacrosPopup {
         id: loggerSessionNameWithMacrosPopup
     }
@@ -83,6 +87,12 @@ Item {
                 Layout.fillWidth: true
                 text: Z.tr("Select customer data:")
                 font.pointSize: pointSize
+            }
+            Button {
+                text: "+"
+                onClicked: {
+                    customerDataNewPopup.open()
+                }
             }
             Button {
                 text: FA.fa_cogs
