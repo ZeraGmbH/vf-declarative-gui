@@ -83,100 +83,8 @@ Item {
         }
     }
 
-    function startAddCustomerData() {
-        customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
-        customerData.FileSelected = filenameField.text+".json"
-        addFilePopup.close()
-        menuStackLayout.showCustomerDataEditor()
-    }
-
-    Popup {
-        id: addFilePopup
-        parent: Overlay.overlay
-        width: parent.width
-        height: parent.height - GC.vkeyboardHeight
-        modal: !Qt.inputMethod.visible
-        closePolicy: Popup.NoAutoClose
-
-        readonly property bool fileNameAlreadyExists: filenameField.text.length>0 &&
-                                                      availableCustomerDataFiles.indexOf(filenameField.text.toLowerCase()+".json") >= 0
-
-        onOpened: filenameField.forceActiveFocus()
-        onClosed: filenameField.clear()
-        Label { // Header
-            id: captionLabelNewPopup
-            anchors.left: parent.left
-            anchors.right: parent.right
-            horizontalAlignment: Text.AlignHCenter
-            text: Z.tr("Create Customer data file")
-            font.pointSize: pointSizeHeader
-        }
-        RowLayout {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: captionLabelNewPopup.bottom
-            anchors.bottom: buttonRowNew.top
-            Label {
-                text: Z.tr("File name:")
-                font.pointSize: pointSize
-                height: rowHeight
-            }
-            // No ZLineEdit due to different RETURN/ESC/redBackground handling
-            TextField {
-                id: filenameField
-                validator: RegExpValidator { regExp: /^[^.|"/`$!/\\<>:?~{}]+$/ }
-                font.pointSize: pointSize
-                height: rowHeight
-                bottomPadding: GC.standardTextBottomMargin
-                selectByMouse: true
-                inputMethodHints: Qt.ImhNoAutoUppercase
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignRight
-                Rectangle {
-                    anchors.fill: parent
-                    color: "red"
-                    opacity: 0.3
-                    visible: addFilePopup.fileNameAlreadyExists
-                }
-                onAccepted: {
-                    root.startAddCustomerData()
-                }
-                Keys.onEscapePressed: {
-                    addFilePopup.close()
-                }
-            }
-            Label {
-                text: ".json"
-                font.pointSize: pointSize
-                height: rowHeight
-            }
-        }
-        RowLayout {
-            id: buttonRowNew
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            Item {
-                Layout.fillWidth: true
-            }
-            Button {
-                id: newFileCancel
-                text: Z.tr("Cancel")
-                font.pointSize: pointSize
-                onClicked: {
-                    addFilePopup.close()
-                }
-            }
-            Button {
-                text: Z.tr("OK")
-                font.pointSize: pointSize
-                Layout.preferredWidth: newFileCancel.width
-                enabled: filenameField.text.length>0 && addFilePopup.fileNameAlreadyExists === false
-                onClicked: {
-                    root.startAddCustomerData()
-                }
-            }
-        }
+    CustomerDataNewPopup {
+        id: customerDataNewPopup
     }
 
     Popup {
@@ -406,7 +314,7 @@ Item {
         Button {
             text: "+"
             onClicked: {
-                addFilePopup.open()
+                customerDataNewPopup.open()
             }
         }
         Item { Layout.fillWidth: true }
