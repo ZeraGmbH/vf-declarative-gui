@@ -138,14 +138,6 @@ Item {
             Layout.fillWidth: true
         }
         Button {
-            id: okButton
-            text: Z.tr("OK")
-            Layout.minimumWidth: cancelButton.width
-            onClicked: {
-                ok()
-            }
-        }
-        Button {
             id: cancelButton
             text: Z.tr("Cancel")
             Layout.minimumWidth: okButton.width
@@ -153,9 +145,13 @@ Item {
                 cancel()
             }
         }
-        Item {
-            // spacer
-            Layout.fillWidth: true
+        Button {
+            id: okButton
+            text: Z.tr("OK")
+            Layout.minimumWidth: cancelButton.width
+            onClicked: {
+                ok()
+            }
         }
     }
 }
