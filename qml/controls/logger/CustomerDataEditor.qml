@@ -69,7 +69,7 @@ Item {
         menuStackLayout.showCustomerDataBrowser()
     }
     function cancel() {
-        menuStackLayout.pleaseCloseMe(false)
+        menuStackLayout.showCustomerDataBrowser()
     }
 
     ListModel {
