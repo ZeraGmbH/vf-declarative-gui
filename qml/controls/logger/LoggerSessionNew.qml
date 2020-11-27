@@ -19,7 +19,6 @@ Item {
     readonly property real fontScale: 0.30
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
     readonly property real pointSizeHeader: pointSize * 1.25
-    readonly property real scrollWidth: 16
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     property QtObject customerData: VeinEntity.getEntity("CustomerData")
@@ -117,16 +116,17 @@ Item {
             }
             currentIndex: model.indexOf(customerData.FileSelected)
             clip: true
-            readonly property bool vBarVisible: contentHeight > height
-            ScrollBar.vertical: ScrollBar {
-                id: vBar
-                anchors.right: parent.right
-                width: scrollWidth
-                orientation: Qt.Vertical
-                policy: customerDataList.vBarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            ScrollIndicator.vertical: ScrollIndicator {
+                width: 8
+                active: true
+                onActiveChanged: {
+                    if(active !== true) {
+                        active = true;
+                    }
+                }
             }
             delegate: ItemDelegate {
-                width: parent.width - (customerDataList.vBarVisible ? 8 : 0) //don't overlap with the ScrollIndicator
+                width: parent.width -  (customerDataList.contentHeight > customerDataList.height ? 8 : 0) // don't overlap with the ScrollIndicator
                 highlighted: ListView.isCurrentItem
                 onClicked: {
                     if(customerData.FileSelected !== modelData) {
@@ -146,7 +146,7 @@ Item {
                         opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
                     }
                     Label {
-                        x: scrollWidth+GC.standardTextHorizMargin
+                        x: 24
                         Layout.fillHeight: true
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: pointSize
