@@ -262,35 +262,43 @@ Item {
 
     Popup {
         id: removeFilePopup
-
+        anchors.centerIn: parent
+        modal: true
         property string fileName;
 
-        x: parent.width/2 - width/2
-        modal: true
-        dim: true
-        onClosed: fileName="";
-        Column {
-            Label {
-                text: Z.tr("Really delete file <b>'%1'</b>?").arg(removeFilePopup.fileName)
+        ColumnLayout {
+            Label { // header
+                text: Z.tr("Delete customer data file")
+                color: "red"
+                font.pointSize: pointSizeHeader
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
             }
+            Item { Layout.preferredHeight: rowHeight/3 }
+            Label {
+                text: Z.tr("Please confirm that you want to delete <b>'%1'</b>").arg(removeFilePopup.fileName)
+                Layout.fillWidth: true
+                font.pointSize: pointSize
+            }
+            Item { Layout.preferredHeight: rowHeight/3 }
             RowLayout {
-                width: parent.width
-                Button { ///todo: Qt 5.9 use DelayButton
-                    text: Z.tr("Accept")
-                    Material.accent: Material.color(Material.Red, Material.Shade500);
-                    highlighted: true
+                Layout.fillWidth: true
+                Item { Layout.fillWidth: true }
+                Button {
+                    id: removeCancel
+                    text: Z.tr("Cancel")
+                    font.pointSize: pointSize
+                    onClicked: {
+                        removeFilePopup.close()
+                    }
+                }
+                Button {
+                    text: Z.tr("OK")
+                    font.pointSize: pointSize
+                    Layout.preferredWidth: removeCancel.width
                     onClicked: {
                         customerData.invokeRPC("customerDataRemove(QString fileName)", { "fileName": removeFilePopup.fileName });
                         removeFilePopup.close();
-                    }
-                }
-                Item {
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: Z.tr("Close")
-                    onClicked: {
-                        removeFilePopup.close()
                     }
                 }
             }
