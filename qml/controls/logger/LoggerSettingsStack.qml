@@ -22,7 +22,13 @@ StackLayout {
     //    below) checks if there are sessions already available. If not it
     //    passes over to showSessionNew() (see below either)
 
-    function showSettings() { currentIndex = 0 }
+
+    property int lastIndex
+    function goBack() {
+        currentIndex = lastIndex
+    }
+
+    function showSettings() { lastIndex=currentIndex; currentIndex = 0 }
     Loader {
         height: parent.height
         width: parent.width
@@ -34,6 +40,7 @@ StackLayout {
     }
 
     function showSessionNameSelector() {
+        lastIndex = currentIndex
         // In case no sessions were created yet: Move to sessions new
         var loggerEntity = VeinEntity.getEntity("_LoggingSystem")
         if(loggerEntity && loggerEntity.ExistingSessions.length === 0) {
@@ -53,7 +60,7 @@ StackLayout {
         }
     }
 
-    function showSessionNew() { currentIndex = 2 }
+    function showSessionNew() { lastIndex=currentIndex; currentIndex = 2 }
     Loader {
         height: parent.height
         width: parent.width
@@ -64,7 +71,7 @@ StackLayout {
         }
     }
 
-    function showCustomDataSelector() { currentIndex = 3 }
+    function showCustomDataSelector() { lastIndex=currentIndex; currentIndex = 3 }
     Loader {
         height: parent.height
         width: parent.width
@@ -72,7 +79,7 @@ StackLayout {
         active: menuStackLayout.currentIndex === 3
     }
 
-    function showExportView() { currentIndex = 4 }
+    function showExportView() { lastIndex=currentIndex; currentIndex = 4 }
     Loader {
         height: parent.height
         width: parent.width
@@ -83,7 +90,7 @@ StackLayout {
         }
     }
 
-    function showCustomerDataBrowser() { currentIndex = 5 }
+    function showCustomerDataBrowser() { lastIndex=currentIndex; currentIndex = 5 }
     Loader {
         height: parent.height
         width: parent.width
@@ -94,7 +101,7 @@ StackLayout {
         }
     }
 
-    function showCustomerDataEditor() { currentIndex = 6 }
+    function showCustomerDataEditor() { lastIndex=currentIndex; currentIndex = 6 }
     Loader {
         height: parent.height
         width: parent.width
