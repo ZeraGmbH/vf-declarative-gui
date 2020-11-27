@@ -21,9 +21,6 @@ StackLayout {
     // 2. In case user wants to set-up sessions, showSessionNameSelector() (see
     //    below) checks if there are sessions already available. If not it
     //    passes over to showSessionNew() (see below either)
-    // 3. In case user wants to set up customer-data (call to
-    //    showCustomerDataBrowser() below), CustomerDataBrowser Loader /
-    //    onLoaded checks: if no customer available call openNewCustomerDataPopup()
 
     function showSettings() { currentIndex = 0 }
     Loader {
@@ -94,11 +91,6 @@ StackLayout {
         active: menuStackLayout.currentIndex === 5
         onLoaded: {
             item.menuStackLayout = menuStackLayout
-            // In case no customer-data were created yet: open new-popup
-            var filesEntity = VeinEntity.getEntity("_Files")
-            if(filesEntity && filesEntity.AvailableCustomerData.length === 0) {
-                item.openNewCustomerDataPopup()
-            }
         }
     }
 
