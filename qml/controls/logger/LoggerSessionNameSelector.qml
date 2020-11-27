@@ -15,9 +15,10 @@ Item {
     // we need a reference to menu stack layout to move around
     property var menuStackLayout
 
-    readonly property real rowHeight: parent.height/8
-    readonly property real fontScale: 0.3
+    property real rowHeight: height/8
+    readonly property real fontScale: 0.30
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSizeHeader: pointSize * 1.25
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
 
@@ -27,7 +28,7 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         text: Z.tr("Select session name")
-        font.pointSize: root.pointSize * 1.5
+        font.pointSize: pointSizeHeader
     }
     ColumnLayout {
         id: selectionColumn
