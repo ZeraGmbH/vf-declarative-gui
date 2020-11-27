@@ -150,7 +150,7 @@ Popup {
         }
 
         delegate: ItemDelegate {
-            width: parent.width-8 //don't overlap with the ScrollIndicator
+            width: parent.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
             height: rowHeight*1.5
             readonly property bool isHighlighted: highlighted;
 

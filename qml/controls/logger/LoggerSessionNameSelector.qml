@@ -52,20 +52,20 @@ Item {
                 Layout.fillWidth: true
                 currentIndex: model ? model.indexOf(loggerEntity.sessionName) : -1
                 clip: true
-                property bool vBarVisible: existingList.contentHeight > existingList.height
-                visible: model.length !== 0
-                ScrollBar.vertical: ScrollBar {
-                    id: vBar
-                    anchors.right: parent.right
-                    width: 16
-                    orientation: Qt.Vertical
-                    policy: existingList.vBarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                ScrollIndicator.vertical: ScrollIndicator {
+                    width: 8
+                    active: true
+                    onActiveChanged: {
+                        if(active !== true) {
+                            active = true;
+                        }
+                    }
                 }
                 model: loggerEntity.ExistingSessions.sort()
 
                 delegate: ItemDelegate {
                     anchors.left: parent.left
-                    width: parent.width - (existingList.vBarVisible ? vBar.width : 0)
+                    width: parent.width - (existingList.contentHeight > existingList.height ? 8 : 0) //don't overlap with the ScrollIndicator
                     height: root.rowHeight
                     highlighted: ListView.isCurrentItem
                     RowLayout {
