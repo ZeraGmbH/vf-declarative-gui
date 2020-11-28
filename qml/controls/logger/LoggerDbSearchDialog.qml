@@ -130,7 +130,6 @@ Item {
             text: ".db";
             font.pointSize: pointSize
         }
-
         Button {
             text: Z.tr("Search");
             font.pointSize: pointSize
@@ -147,7 +146,6 @@ Item {
     ListModel {
         id: searchResultData
     }
-
     ListView {
         id: lvFileBrowser
         anchors.left: parent.left
@@ -156,7 +154,6 @@ Item {
         anchors.bottomMargin: root.bottomMargin
         anchors.top: controlsTopSearchBar.bottom
         model: searchResultData.count > 0 ? searchResultData : []
-        boundsBehavior: Flickable.StopAtBounds
         highlightFollowsCurrentItem: true
         clip: true
         ScrollIndicator.vertical: ScrollIndicator {
@@ -168,7 +165,6 @@ Item {
                 }
             }
         }
-
         delegate: ItemDelegate {
             width: parent.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
             readonly property bool isHighlighted: highlighted;

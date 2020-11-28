@@ -183,7 +183,6 @@ SettingsView {
                     orientation: ListView.Horizontal
                     layoutDirection: "RightToLeft"
                     spacing: 4
-                    boundsBehavior: Flickable.StopAtBounds
                     ScrollIndicator.horizontal: ScrollIndicator {
                         onActiveChanged: active = true;
                         active: true
