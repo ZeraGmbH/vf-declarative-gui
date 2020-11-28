@@ -21,6 +21,8 @@ Item {
     readonly property real rowHeight: parent.height > 0 ? parent.height/8 : 10
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale
+    readonly property real pointSizeHeader: pointSize * 1.25
+
     readonly property real visibleWidth: parent.width - 2*GC.standardTextHorizMargin
     readonly property real labelWidth: visibleWidth / 4
     readonly property real contentWidth: visibleWidth * 3 / 4
@@ -75,7 +77,7 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         text: Z.tr("Export stored data")
-        font.pointSize: pointSize * 1.5
+        font.pointSize: pointSizeHeader
         height: rowHeight
     }
     Column {
