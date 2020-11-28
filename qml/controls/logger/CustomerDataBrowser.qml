@@ -219,7 +219,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
-        text: Z.tr("Edit customer data")
+        text: Z.tr("Customer data files")
         font.pointSize: pointSizeHeader
     }
     ListView {
