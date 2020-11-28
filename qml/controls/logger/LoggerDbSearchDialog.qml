@@ -178,6 +178,15 @@ Item {
                 anchors.rightMargin: 4
 
                 Label {
+                    id: activeIndicator
+                    font.family: FA.old
+                    font.pointSize: root.pointSize
+                    horizontalAlignment: Text.AlignLeft
+                    text: FA.fa_check
+                    opacity: modelData === loggerEntity.DatabaseFile ? 1.0 : 0.0
+                    Layout.preferredWidth: root.pointSize * 1.5
+                }
+                Label {
                     text: {
                         var newText = String(modelData).replace(dbLocationSelector.currentPath, "")
                         if(newText.startsWith('/')) {
@@ -192,6 +201,8 @@ Item {
                     font.family: FA.old
                     font.pointSize: pointSize * 1.25
                     text: FA.fa_check_circle
+                    property bool isCurrent: modelData === loggerEntity.DatabaseFile
+                    opacity: isCurrent ? 0.0 : 1.0
                     background: Rectangle {
                         color: "transparent"
                     }
