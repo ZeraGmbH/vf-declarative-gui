@@ -10,7 +10,6 @@ import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 
 RowLayout {
-    id: root
     readonly property alias currentPath: drivesCombo.currentPath
     property int pointSize: 20;
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
@@ -45,7 +44,7 @@ RowLayout {
     Label {
         textFormat: Text.PlainText
         text: Z.tr("DB location:")
-        font.pointSize: root.pointSize
+        font.pointSize: pointSize
     }
     Item {
         //spacer
@@ -53,7 +52,7 @@ RowLayout {
     }
     MountedDrivesCombo {
         id: drivesCombo
-        font.pointSize: root.pointSize
+        font.pointSize: pointSize
         enabled: loggerEntity.LoggingEnabled === false
         Layout.fillWidth: true
         Layout.fillHeight: true
