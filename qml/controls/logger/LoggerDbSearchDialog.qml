@@ -5,25 +5,29 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
+import ZeraFa 1.0
 
-Popup {
+Item {
     id: root
-    closePolicy: Popup.NoAutoClose
-    modal: !Qt.inputMethod.visible
+
+    // we need a reference to menu stack layout to move around
+    property var menuStackLayout
+
+    property real rowHeight: height/8
+    readonly property real fontScale: 0.25
+    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSizeHeader: pointSize * 1.25
 
     property var searchProgressId;
     property bool noSearchResults: false;
-    readonly property QtObject loggerDB: VeinEntity.getEntity("_LoggingSystem")
-    property int rowHeight: Qt.inputMethod.visible ? height/10 : height/20;
-
-    signal fileSelected(string t_file);
+    readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
 
     function sendSearchRPC(searchPattern) {
         if(searchPattern !== undefined) {
             console.assert(searchProgressId === undefined, "Search already in progress.")
             var searchPatternArray = (Array.isArray(searchPattern) ? searchPattern : [searchPattern]);
             searchResultData.clear();
-            searchProgressId = loggerDB.invokeRPC("findDBFile(QString searchPath, QStringList searchPatternList)", {
+            searchProgressId = loggerEntity.invokeRPC("findDBFile(QString searchPath, QStringList searchPatternList)", {
                                                       "searchPath": dbLocationSelector.currentPath,
                                                       "searchPatternList": searchPatternArray
                                                   })
@@ -32,12 +36,12 @@ Popup {
 
     function cancelSearchRPC() {
         if(searchProgressId !== undefined) {
-            loggerDB.cancelRPCInvokation(searchProgressId);
+            loggerEntity.cancelRPCInvokation(searchProgressId);
         }
     }
 
     Connections {
-        target: loggerDB
+        target: loggerEntity
         onSigRPCFinished: {
             if(t_resultData["RemoteProcedureData::errorMessage"]) {
                 console.warn("RPC error:" << t_resultData["RemoteProcedureData::errorMessage"]);
@@ -58,11 +62,24 @@ Popup {
         }
     }
 
-    LoggerDbLocationSelector {
-        id: dbLocationSelector
-        anchors.top: parent.top
+    // and the visible items
+    Label { // Header
+        id: captionLabel
         anchors.left: parent.left
         anchors.right: parent.right
+        horizontalAlignment: Text.AlignHCenter
+        text: Z.tr("Databases")
+        font.pointSize: pointSizeHeader
+        height: rowHeight
+    }
+    LoggerDbLocationSelector {
+        id: dbLocationSelector
+        pointSize: root.pointSize // root is required here
+        anchors.top: captionLabel.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin:  GC.standardTextHorizMargin
+        anchors.rightMargin:  GC.standardTextHorizMargin
         onCurrentPathChanged: {
             searchResultData.clear();
             sendSearchRPC(tfSearchPattern.text+".db");
@@ -74,31 +91,31 @@ Popup {
         anchors.top: dbLocationSelector.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-
+        anchors.leftMargin:  GC.standardTextHorizMargin
+        anchors.rightMargin:  GC.standardTextHorizMargin
         Label {
             textFormat: Text.PlainText
             text: Z.tr("Database filename:")
-            font.pointSize: 20
+            font.pointSize: pointSize
         }
-
         BusyIndicator {
-            //spacer
-            width: 48
+            Layout.preferredWidth: (searchProgressId !== undefined) ? rowHeight / 2 : 0 // witdth == height
             opacity: 1.0 * (searchProgressId !== undefined)
         }
-
         // No ZLineEdit due to different RETURN/ESC/redBackground handling
         TextField {
             id: tfSearchPattern
             text: "*";
-            Layout.fillWidth: true;
+            font.pointSize: pointSize
+            horizontalAlignment: Text.AlignRight
+            Layout.fillWidth: true
             bottomPadding: GC.standardTextBottomMargin
             inputMethodHints: Qt.ImhNoAutoUppercase
             Keys.onEscapePressed: {
                 focus = false
             }
             onAccepted: {
-                sendSearchRPC(text+".db");
+                sendSearchRPC(text+".db")
                 focus = false
             }
             Rectangle {
@@ -108,18 +125,20 @@ Popup {
                 visible: root.noSearchResults === true
             }
         }
-
         Label {
             text: ".db";
+            font.pointSize: pointSize
         }
 
         Button {
             text: Z.tr("Search");
+            font.pointSize: pointSize
             enabled: searchProgressId === undefined && tfSearchPattern.text.length>0;
             onClicked: sendSearchRPC(tfSearchPattern.text+".db");
         }
         Button {
             text: Z.tr("Cancel");
+            font.pointSize: pointSize
             enabled: searchProgressId !== undefined;
         }
     }
@@ -151,7 +170,6 @@ Popup {
 
         delegate: ItemDelegate {
             width: parent.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
-            height: rowHeight*1.5
             readonly property bool isHighlighted: highlighted;
 
             RowLayout {
@@ -160,36 +178,40 @@ Popup {
                 anchors.rightMargin: 4
 
                 Label {
-                    text: String(modelData).replace(dbLocationSelector.currentPath + "/", "")
-                    Layout.alignment: Qt.AlignVCenter
-                }
-                Item {
+                    text: {
+                        var newText = String(modelData).replace(dbLocationSelector.currentPath, "")
+                        if(newText.startsWith('/')) {
+                            newText = newText.substring(1)
+                        }
+                        return newText
+                    }
+                    font.pointSize: pointSize
                     Layout.fillWidth: true
                 }
-
                 Button {
-                    text: Z.tr("Select file")
-                    //padding: 0
-                    implicitHeight: rowHeight*1.5
+                    font.family: FA.old
+                    font.pointSize: pointSize * 1.25
+                    text: FA.fa_check_circle
+                    background: Rectangle {
+                        color: "transparent"
+                    }
                     onClicked: {
-                        root.fileSelected(modelData);
-                        root.close();
+                        loggerEntity.DatabaseFile = modelData
+                        menuStackLayout.goBack()
                     }
                 }
             }
         }
     }
-    Item {
+    RowLayout {
         id: closeButtonContainer
         anchors.bottom: parent.bottom
-        height: root.rowHeight*2
         width: root.width
+        Item { Layout.fillWidth: true }
         Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
             text: Z.tr("Close");
-            onClicked: root.close();
-            font.pointSize: root.rowHeight
+            onClicked: menuStackLayout.goBack()
+            font.pointSize: pointSize
         }
     }
 }
