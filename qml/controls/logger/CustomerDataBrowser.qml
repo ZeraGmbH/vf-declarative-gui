@@ -177,7 +177,6 @@ Item {
         ColumnLayout {
             Label { // header
                 text: Z.tr("Delete customer data file")
-                color: "red"
                 font.pointSize: pointSizeHeader
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
@@ -201,7 +200,7 @@ Item {
                     }
                 }
                 Button {
-                    text: Z.tr("OK")
+                    text: "<font color='red'>" + Z.tr("OK") + "</font>"
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
                     onClicked: {
