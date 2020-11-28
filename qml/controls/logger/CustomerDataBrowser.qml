@@ -258,7 +258,6 @@ Item {
                 Button {
                     Layout.preferredWidth: rowHeight * 2
                     Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                     font.family: FA.old
                     font.pointSize: pointSize * 1.25
                     text: FA.fa_edit
@@ -289,7 +288,6 @@ Item {
                 Button {
                     Layout.preferredWidth: rowHeight * 2
                     Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                     font.family: FA.old
                     font.pointSize: pointSize * 1.25
                     text: FA.fa_trash
