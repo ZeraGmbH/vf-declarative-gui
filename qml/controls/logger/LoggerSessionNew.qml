@@ -16,7 +16,7 @@ Item {
     property var menuStackLayout
 
     property real rowHeight: height/8
-    readonly property real fontScale: 0.30
+    readonly property real fontScale: 0.25
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
     readonly property real pointSizeHeader: pointSize * 1.25
 
