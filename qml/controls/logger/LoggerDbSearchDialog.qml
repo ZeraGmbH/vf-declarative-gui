@@ -57,6 +57,7 @@ Item {
         }
         onSigRPCProgress: {
             if(t_identifier === searchProgressId) {
+                // TODO sort
                 searchResultData.append({"modelData":t_progressData["ZeraDBLogger::searchResultEntry"]});
             }
         }
