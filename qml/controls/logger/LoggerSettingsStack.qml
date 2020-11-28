@@ -22,10 +22,18 @@ StackLayout {
     //    below) checks if there are sessions already available. If not it
     //    passes over to showSessionNew() (see below either)
 
-
     property int lastIndex
     function goBack() {
-        currentIndex = lastIndex
+        if(lastIndex >= 0) {
+            currentIndex = lastIndex
+        }
+        else {
+            pleaseCloseMe(false)
+        }
+    }
+    Component.onCompleted: {
+        lastIndex = -1
+        currentIndex = -1
     }
 
     function showSettings() { lastIndex=currentIndex; currentIndex = 0 }
