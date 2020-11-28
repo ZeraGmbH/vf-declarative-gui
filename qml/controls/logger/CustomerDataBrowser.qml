@@ -76,6 +76,7 @@ Item {
                 }
             }
             else if(t_identifier === rpcIdFindImportCustomertDataPaths) {
+                rpcIdFindImportCustomertDataPaths = undefined
                 if(t_resultData["RemoteProcedureData::resultCode"] === 0) {
                     customerImportDirList = t_resultData["RemoteProcedureData::Return"]
                 }
