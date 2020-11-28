@@ -11,7 +11,7 @@ import "qrc:/qml/controls" as CCMP
 
 RowLayout {
     readonly property alias currentPath: drivesCombo.currentPath
-    property int pointSize: 20;
+    property real pointSize
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     readonly property string databaseFileName: String(loggerEntity.DatabaseFile)
