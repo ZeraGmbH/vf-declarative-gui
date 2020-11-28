@@ -47,6 +47,17 @@ StackLayout {
         }
     }
 
+    function showDbSearch() { lastIndex=currentIndex; currentIndex = 1 }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: LoggerDbSearchDialog { }
+        active: menuStackLayout.currentIndex === 1
+        onLoaded: {
+            item.menuStackLayout = menuStackLayout
+        }
+    }
+
     function showSessionNameSelector() {
         lastIndex = currentIndex
         // In case no sessions were created yet: Move to sessions new
@@ -55,66 +66,66 @@ StackLayout {
             showSessionNew()
         }
         else {
-            currentIndex = 1
+            currentIndex = 2
         }
     }
     Loader {
         height: parent.height
         width: parent.width
         sourceComponent: LoggerSessionNameSelector { }
-        active: menuStackLayout.currentIndex === 1
-        onLoaded: {
-            item.menuStackLayout = menuStackLayout
-        }
-    }
-
-    function showSessionNew() { lastIndex=currentIndex; currentIndex = 2 }
-    Loader {
-        height: parent.height
-        width: parent.width
-        sourceComponent: LoggerSessionNew{ }
         active: menuStackLayout.currentIndex === 2
         onLoaded: {
             item.menuStackLayout = menuStackLayout
         }
     }
 
-    function showCustomDataSelector() { lastIndex=currentIndex; currentIndex = 3 }
+    function showSessionNew() { lastIndex=currentIndex; currentIndex = 3 }
     Loader {
         height: parent.height
         width: parent.width
-        sourceComponent: LoggerCustomDataSelector{ }
+        sourceComponent: LoggerSessionNew{ }
         active: menuStackLayout.currentIndex === 3
-    }
-
-    function showExportView() { lastIndex=currentIndex; currentIndex = 4 }
-    Loader {
-        height: parent.height
-        width: parent.width
-        sourceComponent: LoggerExport { }
-        active: menuStackLayout.currentIndex === 4
         onLoaded: {
             item.menuStackLayout = menuStackLayout
         }
     }
 
-    function showCustomerDataBrowser() { lastIndex=currentIndex; currentIndex = 5 }
+    function showCustomDataSelector() { lastIndex=currentIndex; currentIndex = 4 }
     Loader {
         height: parent.height
         width: parent.width
-        sourceComponent: CustomerDataBrowser { }
+        sourceComponent: LoggerCustomDataSelector{ }
+        active: menuStackLayout.currentIndex === 4
+    }
+
+    function showExportView() { lastIndex=currentIndex; currentIndex = 5 }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: LoggerExport { }
         active: menuStackLayout.currentIndex === 5
         onLoaded: {
             item.menuStackLayout = menuStackLayout
         }
     }
 
-    function showCustomerDataEditor() { lastIndex=currentIndex; currentIndex = 6 }
+    function showCustomerDataBrowser() { lastIndex=currentIndex; currentIndex = 6 }
+    Loader {
+        height: parent.height
+        width: parent.width
+        sourceComponent: CustomerDataBrowser { }
+        active: menuStackLayout.currentIndex === 6
+        onLoaded: {
+            item.menuStackLayout = menuStackLayout
+        }
+    }
+
+    function showCustomerDataEditor() { lastIndex=currentIndex; currentIndex = 7 }
     Loader {
         height: parent.height
         width: parent.width
         sourceComponent: CustomerDataEditor { }
-        active: menuStackLayout.currentIndex === 6
+        active: menuStackLayout.currentIndex === 7
         onLoaded: {
             item.menuStackLayout = menuStackLayout
         }

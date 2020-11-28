@@ -31,21 +31,6 @@ SettingsControls.SettingsView {
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
 
-    Loader {
-        id: loggerSearchPopup
-        active: false
-        sourceComponent: LoggerDbSearchDialog {
-            width: root.width
-            height: Qt.inputMethod.visible ? root.height/2 : root.height
-            visible: true
-            onClosed: loggerSearchPopup.active = false;
-            onFileSelected: {
-                if(root.loggerEntity.DatabaseFile !== t_file) {
-                    root.loggerEntity.DatabaseFile = t_file;
-                }
-            }
-        }
-    }
     model: ObjectModel {
         Column {
             spacing: root.rowHeight/4.5
@@ -142,7 +127,7 @@ SettingsControls.SettingsView {
                     text: FA.fa_search
                     enabled: loggerEntity.LoggingEnabled === false
                     onClicked: {
-                        loggerSearchPopup.active = true;
+                        menuStackLayout.showDbSearch()
                     }
                 }
                 Button { // unmount database
