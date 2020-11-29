@@ -96,7 +96,7 @@ Item {
         ColumnLayout {
             anchors.fill: parent
             Label { // header
-                text: Z.tr("Import customer data files")
+                text: Z.tr("Import customer data")
                 font.pointSize: pointSizeHeader
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
@@ -104,7 +104,7 @@ Item {
             Item { Layout.preferredHeight: rowHeight/3 }
             RowLayout { // device selection
                 Label {
-                    text: Z.tr("Device export found:")
+                    text: Z.tr("Files found from device:")
                     font.pointSize: pointSize
                 }
                 Item { Layout.preferredWidth: GC.standardTextHorizMargin }
@@ -177,14 +177,14 @@ Item {
 
         ColumnLayout {
             Label { // header
-                text: Z.tr("Delete customer data file")
+                text: Z.tr("Confirmation")
                 font.pointSize: pointSizeHeader
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
             }
             Item { Layout.preferredHeight: rowHeight/3 }
             Label {
-                text: Z.tr("Please confirm that you want to delete <b>'%1'</b>").arg(removeFilePopup.fileName)
+                text: Z.tr("Delete <b>'%1'</b>?").arg(removeFilePopup.fileName)
                 Layout.fillWidth: true
                 font.pointSize: pointSize
             }
@@ -201,7 +201,7 @@ Item {
                     }
                 }
                 Button {
-                    text: "<font color='red'>" + Z.tr("OK") + "</font>"
+                    text: "<font color='red'>" + Z.tr("Delete") + "</font>"
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
                     onClicked: {
@@ -219,7 +219,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
-        text: Z.tr("Customer data files")
+        text: Z.tr("Customer data")
         font.pointSize: pointSizeHeader
     }
     ListView {

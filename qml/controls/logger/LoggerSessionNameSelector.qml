@@ -43,14 +43,14 @@ Item {
         }
         ColumnLayout {
             Label { // header
-                text: Z.tr("Delete session")
+                text: Z.tr("Confirmation")
                 font.pointSize: pointSizeHeader
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
             }
             Item { Layout.preferredHeight: rowHeight/3 }
             Label {
-                text: Z.tr("Please confirm that you want to delete session <b>'%1'</b>").arg(removeSessionPopup.sessionToDelete)
+                text: Z.tr("Delete session <b>'%1'</b>?").arg(removeSessionPopup.sessionToDelete)
                 Layout.fillWidth: true
                 font.pointSize: pointSize
             }
@@ -67,7 +67,7 @@ Item {
                     }
                 }
                 Button {
-                    text: "<font color='red'>" + Z.tr("OK") + "</font>"
+                    text: "<font color='red'>" + Z.tr("Delete") + "</font>"
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
                     onClicked: {
