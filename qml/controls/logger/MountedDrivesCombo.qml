@@ -9,8 +9,7 @@ import ZeraTranslation 1.0
 ComboBox {
     id: root
     // external interface
-    /* currentValue does not work even when forcing QtQuickControls 2.14 */
-    readonly property string currentPath: model.length ? model[currentIndex].value : ""
+    readonly property alias currentPath: privateKeeper.currentPath
     readonly property bool currentIsAutoMounted: model.length ? model[currentIndex].autoMount : false
     readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // can be overriden?
@@ -33,15 +32,33 @@ ComboBox {
         }
         updateModelsAndStartRPCs()
     }
+    Item {
+        id: privateKeeper
+        property string currentPath: "" // We want public currentPath readonly
+    }
+    property string unsetRequestedPath: ""
+    onCurrentIndexChanged: {
+        // we have to set currentPath once things stabilized
+        if(model.length && unsetRequestedPath === "") {
+            privateKeeper.currentPath = model[currentIndex].value
+        }
+    }
     function selectPath(pathToSelect) {
         if(model.length > 0) {
+            // forget previous select attempts
+            unsetRequestedPath = ""
             // here all paths are handled without trailing '/'
             if(pathToSelect.endsWith('/')) {
                 pathToSelect = pathToSelect.substring(0, pathToSelect.length-1)
             }
             for(var loopEntry=0; loopEntry<model.length; ++loopEntry) {
                 if(model[loopEntry].value === pathToSelect) {
-                    currentIndex = loopEntry
+                    if(currentIndex !== loopEntry) {
+                        currentIndex = loopEntry
+                    }
+                    else { // onCurrentIndexChanged won't fire
+                        privateKeeper.currentPath = model[currentIndex].value
+                    }
                     return true
                 }
             }
@@ -61,9 +78,6 @@ ComboBox {
         font: root.font
     }
 
-    property string unsetRequestedPath
-
-    valueRole: "value"
     textRole: "label"
 
     // model groups
@@ -107,9 +121,7 @@ ComboBox {
             }
         }
         else {
-            var tmpPath = unsetRequestedPath
-            unsetRequestedPath = ""
-            selectPath(tmpPath)
+            selectPath(unsetRequestedPath)
         }
     }
 
