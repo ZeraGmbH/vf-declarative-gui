@@ -21,6 +21,7 @@ Item {
     property var searchProgressId;
     property bool noSearchResults: false;
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+    readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
 
     function sendSearchRPC(searchPattern) {
         if(searchPattern !== undefined) {
@@ -33,13 +34,11 @@ Item {
                                                   })
         }
     }
-
     function cancelSearchRPC() {
         if(searchProgressId !== undefined) {
             loggerEntity.cancelRPCInvokation(searchProgressId);
         }
     }
-
     Connections {
         target: loggerEntity
         onSigRPCFinished: {
@@ -59,6 +58,83 @@ Item {
             if(t_identifier === searchProgressId) {
                 // TODO sort
                 searchResultData.append({"modelData":t_progressData["ZeraDBLogger::searchResultEntry"]});
+            }
+        }
+    }
+
+    property var deleteRpcId
+    function startDbDeleteRpc(removeDbName) {
+        // is it current db
+        if(removeDbName === loggerEntity.DatabaseFile) {
+            loggerEntity.DatabaseFile = ""
+            GC.setCurrDatabaseFileName("")
+            GC.setCurrDatabaseSessionName("")
+        }
+        if(!deleteRpcId) {
+            deleteRpcId = filesEntity.invokeRPC("RPC_DeleteFile(QString p_fullPathFile)", {
+                                                "p_fullPathFile": removeDbName })
+        }
+    }
+    Connections {
+        target: filesEntity
+        onSigRPCFinished: {
+            // TODO error handling
+            if(t_identifier === deleteRpcId) {
+                deleteRpcId = undefined
+                if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
+                        t_resultData["RemoteProcedureData::Return"] === true) { // ok
+                    // TODO update model without researching
+                    removeDbPopup.close();
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: removeDbPopup
+        anchors.centerIn: parent
+        modal: true
+        property string removeDbName;
+
+        ColumnLayout {
+            Label { // header
+                text: Z.tr("Confirmation")
+                font.pointSize: pointSizeHeader
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+            }
+            Item { Layout.preferredHeight: rowHeight/3 }
+            Label {
+                text: {
+                    var dbFileName = removeDbPopup.removeDbName.replace(dbLocationSelector.currentPath, "")
+                    if(dbFileName.startsWith('/')) {
+                        dbFileName = dbFileName.substring(1)
+                    }
+                    return Z.tr("Delete database <b>'%1'</b>?").arg(dbFileName)
+                }
+                Layout.fillWidth: true
+                font.pointSize: pointSize
+            }
+            Item { Layout.preferredHeight: rowHeight/3 }
+            RowLayout {
+                Layout.fillWidth: true
+                Item { Layout.fillWidth: true }
+                Button {
+                    id: removeCancel
+                    text: Z.tr("Cancel")
+                    font.pointSize: pointSize
+                    onClicked: {
+                        removeDbPopup.close()
+                    }
+                }
+                Button {
+                    text: "<font color='red'>" + Z.tr("Delete") + "</font>"
+                    font.pointSize: pointSize
+                    Layout.preferredWidth: removeCancel.width
+                    onClicked: {
+                        startDbDeleteRpc(removeDbPopup.removeDbName)
+                    }
+                }
             }
         }
     }
@@ -206,6 +282,23 @@ Item {
                     onClicked: {
                         loggerEntity.DatabaseFile = modelData
                         menuStackLayout.goBack()
+                    }
+                }
+                Button {
+                    Layout.preferredWidth: rowHeight * 2
+                    Layout.fillHeight: true
+                    font.family: FA.old
+                    font.pointSize: pointSize * 1.25
+                    text: FA.fa_trash
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+                    onClicked: {
+                        if(modelData === loggerEntity.DatabaseFile) {
+                            loggerEntity.DatabaseFile = ""
+                        }
+                        removeDbPopup.removeDbName = modelData
+                        removeDbPopup.open()
                     }
                 }
             }
