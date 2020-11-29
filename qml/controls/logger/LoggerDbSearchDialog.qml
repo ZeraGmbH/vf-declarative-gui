@@ -18,61 +18,33 @@ Item {
     readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
     readonly property real pointSizeHeader: pointSize * 1.25
 
-    property var searchProgressId;
+    property var searchRpcId;
     property bool noSearchResults: false;
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
 
-    function sendSearchRPC(searchPattern) {
-        if(searchPattern !== undefined) {
-            console.assert(searchProgressId === undefined, "Search already in progress.")
-            var searchPatternArray = (Array.isArray(searchPattern) ? searchPattern : [searchPattern]);
-            searchResultData.clear();
-            searchProgressId = loggerEntity.invokeRPC("findDBFile(QString searchPath, QStringList searchPatternList)", {
-                                                      "searchPath": dbLocationSelector.currentPath,
-                                                      "searchPatternList": searchPatternArray
-                                                  })
+    // RPC_FindFileSpecial handling
+    property var foundFiles: []
+    function startRpcSearch() {
+        if(!searchRpcId) {
+            searchRpcId = filesEntity.invokeRPC("RPC_FindFileSpecial(QString p_baseDir,QStringList p_nameFilterList,bool p_returnMatchingDirsOnly)", {
+                                                "p_baseDir": dbLocationSelector.currentPath,
+                                                "p_nameFilterList": [ "*.db" ],
+                                                "p_returnMatchingDirsOnly": false})
+        }
+        else {
+            console.warn("RPC_FindFileSpecial already running")
         }
     }
-    function cancelSearchRPC() {
-        if(searchProgressId !== undefined) {
-            loggerEntity.cancelRPCInvokation(searchProgressId);
-        }
-    }
-    Connections {
-        target: loggerEntity
-        onSigRPCFinished: {
-            if(t_resultData["RemoteProcedureData::errorMessage"]) {
-                console.warn("RPC error:" << t_resultData["RemoteProcedureData::errorMessage"]);
-            }
-
-            if(t_resultData["RemoteProcedureData::resultCode"] === 4) { //EINTR, the search was canceled
-                searchProgressId = undefined;
-            }
-            else if(t_identifier === searchProgressId) {
-                noSearchResults = searchResultData.count === 0
-                searchProgressId = undefined;
-            }
-        }
-        onSigRPCProgress: {
-            if(t_identifier === searchProgressId) {
-                // TODO sort
-                searchResultData.append({"modelData":t_progressData["ZeraDBLogger::searchResultEntry"]});
-            }
-        }
-    }
-
+    // RPC_FindFileSpecial handling
     property var deleteRpcId
     function startDbDeleteRpc(removeDbName) {
-        // is it current db
-        if(removeDbName === loggerEntity.DatabaseFile) {
-            loggerEntity.DatabaseFile = ""
-            GC.setCurrDatabaseFileName("")
-            GC.setCurrDatabaseSessionName("")
-        }
         if(!deleteRpcId) {
             deleteRpcId = filesEntity.invokeRPC("RPC_DeleteFile(QString p_fullPathFile)", {
                                                 "p_fullPathFile": removeDbName })
+        }
+        else {
+            console.warn("RPC_DeleteFile already running")
         }
     }
     Connections {
@@ -83,8 +55,20 @@ Item {
                 deleteRpcId = undefined
                 if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
                         t_resultData["RemoteProcedureData::Return"] === true) { // ok
-                    // TODO update model without researching
+                    // Update model without researching - we trust RPC
+                    var tmpfoundFiles = foundFiles // splice on foundFiles does not cause redraw
+                    var delIdx = tmpfoundFiles.indexOf(removeDbPopup.removeDbName)
+                    if(delIdx >= 0) {
+                        tmpfoundFiles.splice(delIdx, 1);
+                        foundFiles = tmpfoundFiles
+                    }
                     removeDbPopup.close();
+                }
+            }
+            if(t_identifier === searchRpcId) {
+                searchRpcId = undefined
+                if(t_resultData["RemoteProcedureData::resultCode"] === 0) {
+                    foundFiles = t_resultData["RemoteProcedureData::Return"]
                 }
             }
         }
@@ -132,6 +116,12 @@ Item {
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
                     onClicked: {
+                        // is it current db
+                        if(removeDbPopup.removeDbName === loggerEntity.DatabaseFile) {
+                            loggerEntity.DatabaseFile = ""
+                            GC.setCurrDatabaseFileName("")
+                            GC.setCurrDatabaseSessionName("")
+                        }
                         startDbDeleteRpc(removeDbPopup.removeDbName)
                     }
                 }
@@ -158,78 +148,20 @@ Item {
         anchors.leftMargin:  GC.standardTextHorizMargin
         anchors.rightMargin:  GC.standardTextHorizMargin
         onCurrentPathChanged: {
-            searchResultData.clear();
-            sendSearchRPC(tfSearchPattern.text+".db");
+            startRpcSearch()
         }
     }
 
-    RowLayout {
-        id: controlsTopSearchBar
-        anchors.top: dbLocationSelector.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin:  GC.standardTextHorizMargin
-        anchors.rightMargin:  GC.standardTextHorizMargin
-        Label {
-            textFormat: Text.PlainText
-            text: Z.tr("Database filename:")
-            font.pointSize: pointSize
-        }
-        BusyIndicator {
-            Layout.preferredWidth: (searchProgressId !== undefined) ? rowHeight / 2 : 0 // witdth == height
-            opacity: 1.0 * (searchProgressId !== undefined)
-        }
-        // No ZLineEdit due to different RETURN/ESC/redBackground handling
-        TextField {
-            id: tfSearchPattern
-            text: "*";
-            font.pointSize: pointSize
-            horizontalAlignment: Text.AlignRight
-            Layout.fillWidth: true
-            bottomPadding: GC.standardTextBottomMargin
-            inputMethodHints: Qt.ImhNoAutoUppercase
-            Keys.onEscapePressed: {
-                focus = false
-            }
-            onAccepted: {
-                sendSearchRPC(text+".db")
-                focus = false
-            }
-            Rectangle {
-                anchors.fill: parent
-                color: "red"
-                opacity: 0.2
-                visible: root.noSearchResults === true
-            }
-        }
-        Label {
-            text: ".db";
-            font.pointSize: pointSize
-        }
-        Button {
-            text: Z.tr("Search");
-            font.pointSize: pointSize
-            enabled: searchProgressId === undefined && tfSearchPattern.text.length>0;
-            onClicked: sendSearchRPC(tfSearchPattern.text+".db");
-        }
-        Button {
-            text: Z.tr("Cancel");
-            font.pointSize: pointSize
-            enabled: searchProgressId !== undefined;
-        }
-    }
-
-    ListModel {
-        id: searchResultData
-    }
     ListView {
         id: lvFileBrowser
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.leftMargin:  GC.standardTextHorizMargin
+        anchors.rightMargin:  GC.standardTextHorizMargin
         anchors.bottom: parent.bottom
         anchors.bottomMargin: root.bottomMargin
-        anchors.top: controlsTopSearchBar.bottom
-        model: searchResultData.count > 0 ? searchResultData : []
+        anchors.top: dbLocationSelector.bottom
+        model: foundFiles
         highlightFollowsCurrentItem: true
         clip: true
         ScrollIndicator.vertical: ScrollIndicator {
@@ -270,7 +202,7 @@ Item {
                     font.pointSize: pointSize
                     Layout.fillWidth: true
                 }
-                Button {
+                Button { // Make current
                     font.family: FA.old
                     font.pointSize: pointSize * 1.25
                     text: FA.fa_check_circle
@@ -281,10 +213,12 @@ Item {
                     }
                     onClicked: {
                         loggerEntity.DatabaseFile = modelData
-                        menuStackLayout.goBack()
+                        GC.setCurrDatabaseFileName(modelData)
+                        GC.setCurrDatabaseSessionName("")
+                        menuStackLayout.pleaseCloseMe(true)
                     }
                 }
-                Button {
+                Button { // delete
                     Layout.preferredWidth: rowHeight * 2
                     Layout.fillHeight: true
                     font.family: FA.old
@@ -294,9 +228,6 @@ Item {
                         color: "transparent"
                     }
                     onClicked: {
-                        if(modelData === loggerEntity.DatabaseFile) {
-                            loggerEntity.DatabaseFile = ""
-                        }
                         removeDbPopup.removeDbName = modelData
                         removeDbPopup.open()
                     }

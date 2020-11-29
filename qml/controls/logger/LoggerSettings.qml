@@ -20,10 +20,6 @@ SettingsControls.SettingsView {
     property var menuStackLayout
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
-    readonly property string dbFileName: loggerEntity.DatabaseFile
-    onDbFileNameChanged: {
-        GC.setCurrDatabaseFileName(dbFileName)
-    }
 
     horizMargin: GC.standardTextHorizMargin
     rowHeight: parent.height/8
@@ -99,7 +95,10 @@ SettingsControls.SettingsView {
                         return t_incoming.split('/').reverse()[0].replace(".db", "")
                     }
                     function doApplyInput(newText) {
-                        loggerEntity.DatabaseFile = dbLocationSelector.currentPath+"/" + newText + ".db"
+                        var newDBName = dbLocationSelector.currentPath+"/" + newText + ".db"
+                        loggerEntity.DatabaseFile = newDBName
+                        GC.setCurrDatabaseFileName(newDBName)
+                        GC.setCurrDatabaseSessionName("")
                         // wait to be applied
                         return false
                     }
@@ -137,7 +136,9 @@ SettingsControls.SettingsView {
                     implicitHeight: root.rowHeight
                     enabled: root.loggerEntity.DatabaseFile.length > 0 && loggerEntity.LoggingEnabled === false
                     onClicked: {
-                        root.loggerEntity.DatabaseFile = ""
+                        loggerEntity.DatabaseFile = ""
+                        GC.setCurrDatabaseFileName("")
+                        GC.setCurrDatabaseSessionName("")
                     }
                 }
             }
@@ -166,6 +167,14 @@ SettingsControls.SettingsView {
                 height: root.rowHeight;
                 width: root.rowWidth;
                 pointSize: root.pointSize
+                onCurrentPathChanged: {
+                    if(loggerEntity.DatabaseFile !== "" && !loggerEntity.DatabaseFile.includes(currentPath)) {
+                        loggerEntity.DatabaseFile = ""
+                        GC.setCurrDatabaseFileName("")
+                        GC.setCurrDatabaseSessionName("")
+                    }
+
+                }
             }
             RowLayout {
                 opacity: enabled ? 1.0 : 0.7

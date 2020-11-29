@@ -46,14 +46,9 @@ Item {
     readonly property string databaseFile: loggerEntity.DatabaseFile
     onDatabaseFileChanged: {
         if(setSessionNameForPersitence && databaseFile !== "") {
-            setSessionNameForPersitence = false
             loggerEntity.sessionName = GC.currDatabaseSessionName
         }
-        // if stored values don't work, don't try them again
-        else {
-            GC.setCurrDatabaseFileName("")
-            GC.setCurrDatabaseSessionName("")
-        }
+        setSessionNameForPersitence = false
     }
 
     property int veinResponsesRequired: 0
