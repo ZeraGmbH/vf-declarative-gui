@@ -20,6 +20,10 @@ ComboBox {
         extraPathModelAppend = []
     }
     function addExtraPath(pathDir, pathDirDisplay, prepend) {
+        // here all paths are handled without trailing '/'
+        if(pathDir.endsWith('/')) {
+            pathDir = pathDir.substring(0, pathDir.length-1)
+        }
         if(prepend) {
             extraPathModelPrepend.push( { value: pathDir, labelRaw: pathDirDisplay })
         }
@@ -30,6 +34,10 @@ ComboBox {
     }
     function selectPath(pathToSelect) {
         if(model.length > 0) {
+            // here all paths are handled without trailing '/'
+            if(pathToSelect.endsWith('/')) {
+                pathToSelect = pathToSelect.substring(0, pathToSelect.length-1)
+            }
             for(var loopEntry=0; loopEntry<model.length; ++loopEntry) {
                 if(model[loopEntry].value === pathToSelect) {
                     currentIndex = loopEntry
