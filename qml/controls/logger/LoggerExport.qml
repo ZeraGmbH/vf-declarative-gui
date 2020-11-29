@@ -37,12 +37,10 @@ Item {
     property QtObject exportEntity: VeinEntity.getEntity("ExportModule") // our export worker
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem") // for databse/session...
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // mounted sticks
-    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1") // for paths as zera-<devicetype>-<serno>
     // vein components for convenience
     readonly property string databaseName: loggerEntity ? loggerEntity.DatabaseFile : ""
     readonly property string sessionName: loggerEntity ? loggerEntity.sessionName : ""
     readonly property alias mountedPaths: mountedDrivesCombo.mountedPaths
-    readonly property var devicePath: statusEntity ? "zera-" + statusEntity.INF_DeviceType + '-' + statusEntity.PAR_SerialNr : "zera-undef"
 
     // make current export type commonly accessible / set by combo export type
     property string exportType
@@ -50,7 +48,7 @@ Item {
     readonly property alias selectedMountPath: mountedDrivesCombo.currentPath
     // keep storage file path on demand on user activities
     property string targetFilePath : {
-        var storagePath = selectedMountPath + '/' + devicePath
+        var storagePath = selectedMountPath + '/' + GC.deviceName
         var fullPath = ""
         switch(exportType) {
         case "EXPORT_TYPE_MTVIS":

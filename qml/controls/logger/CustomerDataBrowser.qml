@@ -20,9 +20,7 @@ Item {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
     readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
-    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1") // for paths as zera-<devicetype>-<serno>
-    readonly property string devicePath: statusEntity ? "zera-" + statusEntity.INF_DeviceType + '-' + statusEntity.PAR_SerialNr : "zera-undef"
-    readonly property string stickImportExportPath: mountedDrivesCombo.currentPath + '/' + devicePath  + '/customerdata'
+    readonly property string stickImportExportPath: mountedDrivesCombo.currentPath + '/' + GC.deviceName + '/customerdata'
 
     property real rowHeight: height/8
     readonly property real fontScale: 0.30
