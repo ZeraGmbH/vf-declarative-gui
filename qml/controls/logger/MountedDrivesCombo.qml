@@ -137,18 +137,6 @@ ComboBox {
     function updateModelsAndStartRPCs() {
         // prepare model transition
         oldModel = model
-        nextModel = []
-        var idx
-        for(idx=0; idx<extraPathModelPrepend; ++idx) {
-            nextModel.push(extraPathModelPrepend[idx])
-        }
-        for(idx=0; idx<mountedPathModel; ++idx) {
-            nextModel.push(mountedPathModel[idx])
-        }
-        for(idx=0; idx<extraPathModelAppend; ++idx) {
-            nextModel.push(extraPathModelAppend[idx])
-        }
-
         nextModel = [...extraPathModelPrepend, ...mountedPathModel, extraPathModelAppend]
         nextModel.pop()
 
