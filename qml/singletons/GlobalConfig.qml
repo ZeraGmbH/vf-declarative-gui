@@ -659,8 +659,12 @@ Item {
             adjustmentStatusText = Qt.binding(function() {
                 return VeinEntity.getEntity("StatusModule1").INF_Adjusted;
             });
+            var statusEntity = VeinEntity.getEntity("StatusModule1")
+            // this is static - no binding necessary
+            deviceName = "zera-" + statusEntity.INF_DeviceType + '-' + statusEntity.PAR_SerialNr
         }
     }
+    property string deviceName: "zera-undef"
 
     // adjustment status helpers
     property string adjustmentStatusText: "0"
