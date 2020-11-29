@@ -150,7 +150,7 @@ Item {
         id: lvFileBrowser
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: closeButtonContainer.top
+        anchors.bottom: parent.bottom
         anchors.bottomMargin: root.bottomMargin
         anchors.top: controlsTopSearchBar.bottom
         model: searchResultData.count > 0 ? searchResultData : []
@@ -209,17 +209,6 @@ Item {
                     }
                 }
             }
-        }
-    }
-    RowLayout {
-        id: closeButtonContainer
-        anchors.bottom: parent.bottom
-        width: root.width
-        Item { Layout.fillWidth: true }
-        Button {
-            text: Z.tr("Close");
-            onClicked: menuStackLayout.goBack()
-            font.pointSize: pointSize
         }
     }
 }
