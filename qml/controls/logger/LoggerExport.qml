@@ -54,10 +54,10 @@ Item {
         var fullPath = ""
         switch(exportType) {
         case "EXPORT_TYPE_MTVIS":
-            fullPath = storagePath + "/mtvis/" + editExportName.text
+            fullPath = storagePath + "/exported-mtvis/" + editExportName.text
             break
         case "EXPORT_TYPE_SQLITE":
-            fullPath = storagePath + "/database/" + editExportName.text
+            fullPath = storagePath + "/exported-database/" + editExportName.text
             break
         }
         return fullPath
