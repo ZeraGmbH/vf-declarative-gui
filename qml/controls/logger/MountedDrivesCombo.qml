@@ -9,9 +9,10 @@ import ZeraTranslation 1.0
 ComboBox {
     id: root
     // external interface
-    readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
     /* currentValue does not work even when forcing QtQuickControls 2.14 */
     readonly property string currentPath: model.length ? model[currentIndex].value : ""
+    readonly property bool currentIsAutoMounted: model.length ? model[currentIndex].autoMount : false
+    readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // can be overriden?
     // Depending on usage bind to Layout.minimumWidst or width
     property real contentMaxWidth: 0
@@ -25,10 +26,10 @@ ComboBox {
             pathDir = pathDir.substring(0, pathDir.length-1)
         }
         if(prepend) {
-            extraPathModelPrepend.push( { value: pathDir, labelRaw: pathDirDisplay })
+            extraPathModelPrepend.push( { value: pathDir, labelRaw: pathDirDisplay, autoMount: false })
         }
         else {
-            extraPathModelAppend.push( { value: pathDir, labelRaw: pathDirDisplay })
+            extraPathModelAppend.push( { value: pathDir, labelRaw: pathDirDisplay, autoMount: false })
         }
         updateModelsAndStartRPCs()
     }
@@ -166,7 +167,7 @@ ComboBox {
         mountedPathModel = []
         if(mountedPaths.length) {
             for(var loopMount=0; loopMount<mountedPaths.length; ++loopMount) {
-                mountedPathModel.push( { value: mountedPaths[loopMount], label: "" })
+                mountedPathModel.push( { value: mountedPaths[loopMount], label: "", autoMount: true })
             }
         }
 
