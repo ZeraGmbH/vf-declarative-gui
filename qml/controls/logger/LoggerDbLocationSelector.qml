@@ -10,7 +10,8 @@ import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
 
 RowLayout {
-    readonly property alias currentPath: drivesCombo.currentPath
+    id: root
+    property string currentPath
     property real pointSize
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
@@ -22,9 +23,14 @@ RowLayout {
     onDatabaseFileNameChanged: {
         selectLocationCombo(false)
     }
-    readonly property QtObject fileEntity: VeinEntity.getEntity("_Files")
+    onCurrentPathChanged: {
+        if(GC.currentSelectedStoragePath !== currentPath) {
+            GC.currentSelectedStoragePath = currentPath
+        }
+    }
 
-    signal newIndexSelected();
+    readonly property QtObject fileEntity: VeinEntity.getEntity("_Files")
+    readonly property string externalPathExtend: '/' + GC.deviceName + '/database'
 
     function selectLocationCombo(byUser) {
         var storagePath = ""
@@ -36,9 +42,10 @@ RowLayout {
         if(storagePath.length === 0) {
             storagePath = GC.currentSelectedStoragePath
         }
+        // we need to remove our externalPathExtend
+        storagePath = storagePath.replace(externalPathExtend, "")
         if(drivesCombo.selectPath(storagePath)) {
             GC.currentSelectedStoragePath = storagePath
-            newIndexSelected()
         }
     }
     Label {
@@ -56,13 +63,11 @@ RowLayout {
         enabled: loggerEntity.LoggingEnabled === false
         Layout.fillWidth: true
         Layout.fillHeight: true
-
-        onActivated: {
-            if(GC.currentSelectedStoragePath !== drivesCombo.currentPath) {
-                GC.currentSelectedStoragePath = drivesCombo.currentPath
-                loggerEntity.DatabaseFile = ""
-                selectLocationCombo(true)
-            }
+        onCurrentPathChanged: {
+            // we cannot use currentIsAutoMounted because nobody tells us what variable
+            // is upgraded first
+            var isAutomount = model.length ? model[currentIndex].autoMount : false
+            root.currentPath = isAutomount ? currentPath + externalPathExtend : currentPath
         }
     }
 }
