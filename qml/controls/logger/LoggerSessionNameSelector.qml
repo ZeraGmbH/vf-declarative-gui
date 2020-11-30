@@ -162,6 +162,7 @@ Item {
                     if(loggerEntity.sessionName !== modelData) {
                         loggerEntity.sessionName = modelData
                         GC.setCurrDatabaseSessionName(modelData)
+                        menuStackLayout.pleaseCloseMe(true)
                     }
                 }
             }
