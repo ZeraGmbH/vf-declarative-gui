@@ -9,6 +9,7 @@ import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
+import ZeraLocale 1.0
 
 
 Item {
@@ -269,11 +270,13 @@ Item {
                 // 100% solution but better than starting blindly)
                 var driveStillThere = mountedPaths.includes(selectedMountPath)
                 if(!rpcIdMtVis && sessionName !== "" && databaseName !== "" && driveStillThere) {
-                    rpcIdMtVis = exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_inputPath,QString p_outputPath,QString p_session)", {
-                                                       "p_session": sessionName,
-                                                       "p_inputPath": databaseName,
-                                                       "p_outputPath": outputFilePath,
-                                                       "p_engine": engine})
+                    var extraParams = "{'digits' : '%1', 'decimalPlaces' : '%2', 'local' : '%3'}".arg(GC.digitsTotal).arg(GC.decimalPlaces).arg(ZLocale.localeName)
+                    rpcIdMtVis = exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_inputPath,QString p_outputPath,QString p_parameters,QString p_session)", {
+                                                        "p_session": sessionName,
+                                                        "p_inputPath": databaseName,
+                                                        "p_outputPath": outputFilePath,
+                                                        "p_engine": engine,
+                                                        "p_parameters": extraParams})
 
                 }
                 else {
