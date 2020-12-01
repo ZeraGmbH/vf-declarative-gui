@@ -22,21 +22,24 @@ StackLayout {
     //    below) checks if there are sessions already available. If not it
     //    passes over to showSessionNew() (see below either)
 
-    property int lastIndex
+    property var lastIndexStack: []
     function goBack() {
-        if(lastIndex >= 0) {
-            currentIndex = lastIndex
+        if(lastIndexStack.length > 0 ) {
+            currentIndex = lastIndexStack.pop()
+            if(currentIndex < 0) {
+                pleaseCloseMe(false)
+            }
         }
         else {
             pleaseCloseMe(false)
         }
     }
     Component.onCompleted: {
-        lastIndex = -1
+        lastIndexStack = []
         currentIndex = -1
     }
 
-    function showSettings() { lastIndex=currentIndex; currentIndex = 0 }
+    function showSettings() { lastIndexStack.push(currentIndex); currentIndex = 0 }
     Loader {
         height: parent.height
         width: parent.width
@@ -47,7 +50,7 @@ StackLayout {
         }
     }
 
-    function showDbSearch() { lastIndex=currentIndex; currentIndex = 1 }
+    function showDbSearch() { lastIndexStack.push(currentIndex); currentIndex = 1 }
     Loader {
         height: parent.height
         width: parent.width
@@ -59,7 +62,7 @@ StackLayout {
     }
 
     function showSessionNameSelector() {
-        lastIndex = currentIndex
+        lastIndexStack.push(currentIndex)
         // In case no sessions were created yet: Move to sessions new
         var loggerEntity = VeinEntity.getEntity("_LoggingSystem")
         if(loggerEntity && loggerEntity.ExistingSessions.length === 0) {
@@ -79,7 +82,7 @@ StackLayout {
         }
     }
 
-    function showSessionNew() { lastIndex=currentIndex; currentIndex = 3 }
+    function showSessionNew() { lastIndexStack.push(currentIndex); currentIndex = 3 }
     Loader {
         height: parent.height
         width: parent.width
@@ -90,7 +93,7 @@ StackLayout {
         }
     }
 
-    function showCustomDataSelector() { lastIndex=currentIndex; currentIndex = 4 }
+    function showCustomDataSelector() { lastIndexStack.push(currentIndex); currentIndex = 4 }
     Loader {
         height: parent.height
         width: parent.width
@@ -98,7 +101,7 @@ StackLayout {
         active: menuStackLayout.currentIndex === 4
     }
 
-    function showExportView() { lastIndex=currentIndex; currentIndex = 5 }
+    function showExportView() { lastIndexStack.push(currentIndex); currentIndex = 5 }
     Loader {
         height: parent.height
         width: parent.width
@@ -109,7 +112,7 @@ StackLayout {
         }
     }
 
-    function showCustomerDataBrowser() { lastIndex=currentIndex; currentIndex = 6 }
+    function showCustomerDataBrowser() { lastIndexStack.push(currentIndex); currentIndex = 6 }
     Loader {
         height: parent.height
         width: parent.width
@@ -120,7 +123,7 @@ StackLayout {
         }
     }
 
-    function showCustomerDataEditor() { lastIndex=currentIndex; currentIndex = 7 }
+    function showCustomerDataEditor() { lastIndexStack.push(currentIndex); currentIndex = 7 }
     Loader {
         height: parent.height
         width: parent.width
