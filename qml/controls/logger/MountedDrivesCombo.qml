@@ -39,7 +39,7 @@ ComboBox {
     property string unsetRequestedPath: ""
     onCurrentIndexChanged: {
         // we have to set currentPath once things stabilized
-        if(model.length && unsetRequestedPath === "") {
+        if(!ignoreIndexChange && model.length) {
             privateKeeper.currentPath = model[currentIndex].value
         }
     }
@@ -95,33 +95,43 @@ ComboBox {
     property var oldModel: []
     property var nextModel: []
     model: [] // init valid type
+    property bool ignoreIndexChange: false
 
     // calc contentMaxWidth / nextModel -> model / (re)select
     function fillAndSelectCombo() {
         var maxWidth = 0
         var newIndex = -1
         var currModelEntry
+        var pathToSelect
+        if(unsetRequestedPath !== "") {
+            pathToSelect = unsetRequestedPath
+            unsetRequestedPath = ""
+        }
+        else {
+            pathToSelect = currentPath
+        }
         for(var idx=0; idx<nextModel.length; ++idx) {
             currModelEntry = nextModel[idx]
             maxWidth = Math.max(maxWidth, fontMetrics.advanceWidth(currModelEntry.label))
-            if(currModelEntry.value === currentPath ) {
+            if(currModelEntry.value === pathToSelect) {
                 newIndex = idx
             }
         }
         // do populate
         contentMaxWidth = maxWidth + 1.2*implicitHeight /* approx for button down */
+        // will we set index actively -> avoid multiple onCurrentIndexChanged
+        // by writing model (sets index to 0) + set index later
+        if(newIndex > 0) {
+            ignoreIndexChange = true
+        }
         model = nextModel
+        ignoreIndexChange = false
         // (re-)select entry
-        if(unsetRequestedPath === "") {
-            if(newIndex >= 0) {
-                currentIndex = newIndex
-            }
-            else {
-                currentIndex = 0
-            }
+        if(newIndex >= 0) {
+            currentIndex = newIndex
         }
         else {
-            selectPath(unsetRequestedPath)
+            currentIndex = 0
         }
     }
 
