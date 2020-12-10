@@ -44,9 +44,8 @@ RowLayout {
         }
         // we need to remove our externalPathExtend
         storagePath = storagePath.replace(externalPathExtend, "")
-        if(drivesCombo.selectPath(storagePath)) {
-            GC.currentSelectedStoragePath = storagePath
-        }
+        drivesCombo.selectPath(storagePath)
+        GC.currentSelectedStoragePath = storagePath
     }
     Label {
         textFormat: Text.PlainText
