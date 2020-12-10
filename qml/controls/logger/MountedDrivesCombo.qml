@@ -53,15 +53,11 @@ ComboBox {
             }
             for(var loopEntry=0; loopEntry<model.length; ++loopEntry) {
                 if(model[loopEntry].value === pathToSelect) {
-                    if(currentIndex !== loopEntry) {
-                        currentIndex = loopEntry
-                    }
-                    else { // onCurrentIndexChanged won't fire
-                        privateKeeper.currentPath = model[currentIndex].value
-                    }
-                    return true
+                    currentIndex = loopEntry
+                    break
                 }
             }
+            privateKeeper.currentPath = model[currentIndex].value
         }
         else {
             // due to unpredicatable sequence on setup due to property
@@ -69,7 +65,6 @@ ComboBox {
             // yet. So keep it for later use in fillAndSelectCombo
             unsetRequestedPath = pathToSelect
         }
-        return false
     }
 
     // internals
@@ -99,40 +94,20 @@ ComboBox {
 
     // calc contentMaxWidth / nextModel -> model / (re)select
     function fillAndSelectCombo() {
+        // calc combo's width
         var maxWidth = 0
-        var newIndex = -1
-        var currModelEntry
-        var pathToSelect
-        if(unsetRequestedPath !== "") {
-            pathToSelect = unsetRequestedPath
-            unsetRequestedPath = ""
-        }
-        else {
-            pathToSelect = currentPath
-        }
         for(var idx=0; idx<nextModel.length; ++idx) {
-            currModelEntry = nextModel[idx]
-            maxWidth = Math.max(maxWidth, fontMetrics.advanceWidth(currModelEntry.label))
-            if(currModelEntry.value === pathToSelect) {
-                newIndex = idx
-            }
+            maxWidth = Math.max(maxWidth, fontMetrics.advanceWidth(nextModel[idx].label))
         }
         // do populate
         contentMaxWidth = maxWidth + 1.2*implicitHeight /* approx for button down */
-        // will we set index actively -> avoid multiple onCurrentIndexChanged
-        // by writing model (sets index to 0) + set index later
-        if(newIndex > 0) {
-            ignoreIndexChange = true
-        }
+        ignoreIndexChange = true
         model = nextModel
         ignoreIndexChange = false
-        // (re-)select entry
-        if(newIndex >= 0) {
-            currentIndex = newIndex
-        }
-        else {
-            currentIndex = 0
-        }
+
+        // (re-)select current
+        var pathToSelect = unsetRequestedPath !== "" ? unsetRequestedPath : currentPath
+        selectPath(pathToSelect)
     }
 
     function checkAvailInfoAndKeepRpcsToCall() { // nextModel pre-populated
