@@ -154,7 +154,7 @@ SettingsControls.SettingsView {
                 }
                 Label {
                     // mountPoint is used to get FilesystemInfo -> TODO replace by _FILES.
-                    readonly property string mountPoint: GC.currentSelectedStoragePath === "/home/operator/logger" ? "/" : GC.currentSelectedStoragePath;
+                    readonly property string mountPoint: GC.currentSelectedStoragePath === "/home/operator/logger" ? "/" : dbLocationSelector.currentMountPath
                     readonly property double available: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemFree : NaN
                     readonly property double total: loggerEntity.FilesystemInfo[mountPoint] ? loggerEntity.FilesystemInfo[mountPoint].FilesystemTotal : NaN
                     readonly property double percentAvail: total > 0 ? (available/total * 100).toFixed(2) : 0.0;
