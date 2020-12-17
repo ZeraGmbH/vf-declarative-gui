@@ -600,6 +600,7 @@ Item {
 
     /////////////////////////////////////////////////////////////////////////////
     // Database persistance settings TODO: let vein handle this
+    property bool dbPersitenceDone: false
     property string currDatabaseFileName: settings.globalSettings.getOption("logger_db_filename", "")
     function setCurrDatabaseFileName(databaseFileName) {
         settings.globalSettings.setOption("logger_db_filename", databaseFileName)

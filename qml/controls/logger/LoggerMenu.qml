@@ -12,11 +12,13 @@ Item {
     // external
     property real pointSize: 16
     function open() {
+        var oldPersitenceDone = GC.dbPersitenceDone
+        GC.dbPersitenceDone = true
         // Support users: in case there is no database available:
         // * do not show menu
         // * open to settings immediately
         if(loggerEntity.DatabaseReady !== true) {
-            if(loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName !== "") {
+            if(!oldPersitenceDone && loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName !== "") {
                 loggerEntity.DatabaseFile = GC.currDatabaseFileName
                 if(GC.currDatabaseSessionName !== "") {
                     setSessionNameForPersitence = true
