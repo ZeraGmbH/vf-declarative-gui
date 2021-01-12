@@ -104,65 +104,69 @@ Item {
             font.pointSize: root.pointSize
             visible: existingList.visible
         }
-        ListView {
-            id: existingList
+        Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            currentIndex: model ? model.indexOf(loggerEntity.sessionName) : -1
-            clip: true
-            ScrollIndicator.vertical: ScrollIndicator {
-                width: 8
-                active: true
-                onActiveChanged: {
-                    if(active !== true) {
-                        active = true;
+            color: Material.dialogColor
+            ListView {
+                id: existingList
+                anchors.fill: parent
+                currentIndex: model ? model.indexOf(loggerEntity.sessionName) : -1
+                clip: true
+                ScrollIndicator.vertical: ScrollIndicator {
+                    width: 8
+                    active: true
+                    onActiveChanged: {
+                        if(active !== true) {
+                            active = true;
+                        }
                     }
                 }
-            }
-            model: loggerEntity.ExistingSessions.sort()
+                model: loggerEntity.ExistingSessions.sort()
 
-            delegate: ItemDelegate {
-                anchors.left: parent.left
-                width: parent.width - (existingList.contentHeight > existingList.height ? 8 : 0) //don't overlap with the ScrollIndicator
-                height: root.rowHeight
-                highlighted: ListView.isCurrentItem
-                RowLayout {
-                    anchors.fill: parent
-                    Label {
-                        id: activeIndicator
-                        font.family: FA.old
-                        font.pointSize: root.pointSize
-                        horizontalAlignment: Text.AlignLeft
-                        text: FA.fa_check
-                        opacity: (modelData === loggerEntity.sessionName) ? 1.0 : 0.0
-                        Layout.preferredWidth: root.pointSize * 1.5
-                    }
-                    Label {
-                        font.pointSize: root.pointSize
-                        horizontalAlignment: Text.AlignLeft
-                        text: modelData
-                        Layout.fillWidth: true
-                    }
-                    Button {
-                        Layout.preferredWidth: rowHeight * 2
-                        Layout.fillHeight: true
-                        font.family: FA.old
-                        font.pointSize: pointSize * 1.25
-                        text: FA.fa_trash
-                        background: Rectangle {
-                            color: "transparent"
+                delegate: ItemDelegate {
+                    anchors.left: parent.left
+                    width: parent.width - (existingList.contentHeight > existingList.height ? 8 : 0) //don't overlap with the ScrollIndicator
+                    height: root.rowHeight
+                    //highlighted: ListView.isCurrentItem
+                    RowLayout {
+                        anchors.fill: parent
+                        Label {
+                            id: activeIndicator
+                            font.family: FA.old
+                            font.pointSize: root.pointSize
+                            horizontalAlignment: Text.AlignLeft
+                            text: FA.fa_check
+                            opacity: (modelData === loggerEntity.sessionName) ? 1.0 : 0.0
+                            Layout.preferredWidth: root.pointSize * 1.5
                         }
-                        onClicked: {
-                            removeSessionPopup.sessionToDelete = modelData
-                            removeSessionPopup.open()
+                        Label {
+                            font.pointSize: root.pointSize
+                            horizontalAlignment: Text.AlignLeft
+                            text: modelData
+                            Layout.fillWidth: true
+                        }
+                        Button {
+                            Layout.preferredWidth: rowHeight * 2
+                            Layout.fillHeight: true
+                            font.family: FA.old
+                            font.pointSize: pointSize * 1.25
+                            text: FA.fa_trash
+                            background: Rectangle {
+                                color: "transparent"
+                            }
+                            onClicked: {
+                                removeSessionPopup.sessionToDelete = modelData
+                                removeSessionPopup.open()
+                            }
                         }
                     }
-                }
-                onClicked: {
-                    if(loggerEntity.sessionName !== modelData) {
-                        loggerEntity.sessionName = modelData
-                        GC.setCurrDatabaseSessionName(modelData)
-                        menuStackLayout.pleaseCloseMe(true)
+                    onClicked: {
+                        if(loggerEntity.sessionName !== modelData) {
+                            loggerEntity.sessionName = modelData
+                            GC.setCurrDatabaseSessionName(modelData)
+                            menuStackLayout.pleaseCloseMe(true)
+                        }
                     }
                 }
             }
@@ -172,6 +176,8 @@ Item {
         id: buttonAdd
         text: "+"
         anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: GC.standardTextHorizMargin
         onClicked: {
             menuStackLayout.showSessionNew()
         }
