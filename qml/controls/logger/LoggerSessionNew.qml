@@ -24,6 +24,17 @@ Item {
     property QtObject customerData: VeinEntity.getEntity("CustomerData")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     readonly property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
+    readonly property string currentCustomerFile: customerData.FileSelected
+    onCurrentCustomerFileChanged: {
+        selectorDelayHelper.restart() // immediate selection does not work
+    }
+    Timer {
+        id: selectorDelayHelper
+        interval: 300; repeat: false
+        onTriggered: {
+            customerDataList.currentIndex = availableCustomerDataFiles.indexOf(currentCustomerFile) + 1 // first entry is noc customer
+        }
+    }
 
     CustomerDataNewPopup {
         id: customerDataNewPopup
@@ -114,7 +125,6 @@ Item {
                 arrayCustomers.push(...vfCustData)
                 return arrayCustomers
             }
-            currentIndex: model.indexOf(customerData.FileSelected)
             clip: true
             ScrollIndicator.vertical: ScrollIndicator {
                 width: 8
