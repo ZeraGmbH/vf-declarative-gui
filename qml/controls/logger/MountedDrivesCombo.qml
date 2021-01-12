@@ -198,6 +198,7 @@ ComboBox {
                                 t_resultData["RemoteProcedureData::Return"].length : 0
                     var driveName = ""
                     var memTotal = ""
+                    var memFree = ""
                     if(resultStringCount) { // valid response -> extract info
                         for(var loopResult=0; loopResult<resultStringCount; ++loopResult) {
                             var partialInfo = t_resultData["RemoteProcedureData::Return"][loopResult]
@@ -206,6 +207,9 @@ ComboBox {
                             }
                             else if(partialInfo.startsWith("total:")) {
                                 memTotal = partialInfo.replace("total:", "").trim()
+                            }
+                            else if(partialInfo.startsWith("percent_free:")) {
+                                memFree = partialInfo.replace("percent_free:", "").trim()
                             }
                         }
                     }
@@ -219,13 +223,15 @@ ComboBox {
                             label = driveName
                         }
                     }
+                    if(label === "") {
+                        label = Z.tr("unnamed")
+                    }
+
                     if(memTotal !== "") {
-                        if(label !== "") {
-                            label += " / " + memTotal
-                        }
-                        else {
-                            label = Z.tr("unnamed") + " / " + memTotal
-                        }
+                        label += " / " + memTotal
+                    }
+                    if(memFree !== "") {
+                        label += " (" + memFree + " " + Z.tr("free") +")"
                     }
                     // set entry
                     if(label !== "") {
