@@ -9,8 +9,7 @@ Item {
     property VisualItemModel model;
     property int horizMargin: 0
     property real rowHeight: height/10
-    // hack to check scroll bar visibility
-    property int rowWidth: sView.width - horizMargin - (sView.atYBeginning && sView.atYEnd ? 0 : scroller.width)
+    property int rowWidth: sView.width - (sView.contentHeight > sView.height ? scroller.width : 0) // don't overlap with the ScrollIndicator
     property alias viewAnchors: sView.anchors
 
     ListView {
