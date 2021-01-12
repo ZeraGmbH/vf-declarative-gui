@@ -220,9 +220,8 @@ Item {
         text: Z.tr("Customer data")
         font.pointSize: pointSizeHeader
     }
-    ListView {
-        id: lvFileBrowser
-        model: availableCustomerDataFiles
+    Rectangle {
+        color: Material.dialogColor
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.rightMargin: GC.standardTextHorizMargin
@@ -230,71 +229,76 @@ Item {
         anchors.top: captionLabel.bottom
         anchors.topMargin: rowHeight / 2
         anchors.bottom: buttonRow.top
-        clip: true
-        ScrollIndicator.vertical: ScrollIndicator {
-            width: 8
-            active: true
-            onActiveChanged: {
-                if(active !== true) {
-                    active = true;
+        ListView {
+            id: lvFileBrowser
+            anchors.fill: parent
+            model: availableCustomerDataFiles
+            clip: true
+            ScrollIndicator.vertical: ScrollIndicator {
+                width: 8
+                active: true
+                onActiveChanged: {
+                    if(active !== true) {
+                        active = true;
+                    }
                 }
             }
-        }
-        delegate: ItemDelegate {
-            id: fileListDelegate
-            width: parent.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
-            height: rowHeight
-            RowLayout {
-                id: fileRow
-                anchors.fill: parent
-                Label {
+            delegate: ItemDelegate {
+                id: fileListDelegate
+                width: parent.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
+                height: rowHeight
+                RowLayout {
+                    id: fileRow
+                    anchors.fill: parent
                     anchors.leftMargin: GC.standardTextHorizMargin
-                    text: modelData
-                    Layout.fillWidth: true
-                    font.pointSize: pointSize
-                }
-                Button {
-                    Layout.preferredWidth: rowHeight * 2
-                    Layout.fillHeight: true
-                    font.family: FA.old
-                    font.pointSize: pointSize * 1.25
-                    text: FA.fa_edit
-                    background: Rectangle {
-                        color: "transparent"
+                    Label {
+                        text: modelData
+                        Layout.fillWidth: true
+                        font.pointSize: pointSize
                     }
-                    // Wait for customer data selected to be applied
-                    property string custDataSelected: customerData.FileSelected
-                    onCustDataSelectedChanged: {
-                        if(--changesExpected === 0) {
-                            menuStackLayout.showCustomerDataEditor()
+                    Button {
+                        Layout.preferredWidth: rowHeight * 2
+                        Layout.fillHeight: true
+                        font.family: FA.old
+                        font.pointSize: pointSize * 1.25
+                        text: FA.fa_edit
+                        background: Rectangle {
+                            color: "transparent"
                         }
-                    }
-                    property int changesExpected: 0
-                    onClicked: {
-                        // avoid muliple change
-                        if(changesExpected <= 0) {
-                            if(customerData.FileSelected !== modelData) {
-                                customerData.FileSelected = modelData
-                                changesExpected = 1
-                            }
-                            else {
+                        // Wait for customer data selected to be applied
+                        property string custDataSelected: customerData.FileSelected
+                        onCustDataSelectedChanged: {
+                            if(--changesExpected === 0) {
                                 menuStackLayout.showCustomerDataEditor()
                             }
                         }
+                        property int changesExpected: 0
+                        onClicked: {
+                            // avoid muliple change
+                            if(changesExpected <= 0) {
+                                if(customerData.FileSelected !== modelData) {
+                                    customerData.FileSelected = modelData
+                                    changesExpected = 1
+                                }
+                                else {
+                                    menuStackLayout.showCustomerDataEditor()
+                                }
+                            }
+                        }
                     }
-                }
-                Button {
-                    Layout.preferredWidth: rowHeight * 2
-                    Layout.fillHeight: true
-                    font.family: FA.old
-                    font.pointSize: pointSize * 1.25
-                    text: FA.fa_trash
-                    background: Rectangle {
-                        color: "transparent"
-                    }
-                    onClicked: {
-                        removeFilePopup.fileName = modelData
-                        removeFilePopup.open()
+                    Button {
+                        Layout.preferredWidth: rowHeight * 2
+                        Layout.fillHeight: true
+                        font.family: FA.old
+                        font.pointSize: pointSize * 1.25
+                        text: FA.fa_trash
+                        background: Rectangle {
+                            color: "transparent"
+                        }
+                        onClicked: {
+                            removeFilePopup.fileName = modelData
+                            removeFilePopup.open()
+                        }
                     }
                 }
             }
