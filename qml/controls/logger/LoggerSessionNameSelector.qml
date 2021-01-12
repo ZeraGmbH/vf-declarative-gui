@@ -21,6 +21,18 @@ Item {
     readonly property real pointSizeHeader: pointSize * 1.25
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+    readonly property var existingSessions: loggerEntity.ExistingSessions.sort()
+    readonly property string currentSessionName: loggerEntity.sessionName
+    onCurrentSessionNameChanged: {
+        selectorDelayHelper.restart() // immediate selection does not work
+    }
+    Timer {
+        id: selectorDelayHelper
+        interval: 300; repeat: false
+        onTriggered: {
+            existingList.currentIndex = existingSessions.indexOf(currentSessionName)
+        }
+    }
 
     Popup {
         id: removeSessionPopup
@@ -111,7 +123,6 @@ Item {
             ListView {
                 id: existingList
                 anchors.fill: parent
-                currentIndex: model ? model.indexOf(loggerEntity.sessionName) : -1
                 clip: true
                 ScrollIndicator.vertical: ScrollIndicator {
                     width: 8
@@ -122,7 +133,7 @@ Item {
                         }
                     }
                 }
-                model: loggerEntity.ExistingSessions.sort()
+                model: existingSessions
 
                 delegate: ItemDelegate {
                     anchors.left: parent.left
@@ -137,7 +148,7 @@ Item {
                             font.pointSize: root.pointSize
                             horizontalAlignment: Text.AlignLeft
                             text: FA.fa_check
-                            opacity: (modelData === loggerEntity.sessionName) ? 1.0 : 0.0
+                            opacity: (modelData === currentSessionName) ? 1.0 : 0.0
                             Layout.preferredWidth: root.pointSize * 1.5
                         }
                         Label {
