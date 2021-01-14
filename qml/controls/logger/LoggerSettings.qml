@@ -7,6 +7,7 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraTranslationBackend  1.0
+import ZeraLocale 1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
@@ -28,18 +29,42 @@ SettingsControls.SettingsView {
 
     readonly property bool fileNameAlreadyExists: filenameField.text.length>0 &&
                                                   foundFiles.indexOf(fullNewDbName()) >= 0
-    property var searchRpcId;
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property string currentDbFile: loggerEntity.DatabaseFile
     onCurrentDbFileChanged: {
         GC.setCurrDatabaseFileName(currentDbFile)
         GC.setCurrDatabaseSessionName("")
-        startRpcSearch()
+        selectorDelayHelper.restart()
     }
-    readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
+    Timer {
+        id: selectorDelayHelper
+        interval: 300; repeat: false
+        onTriggered: {
+            lvFileBrowser.currentIndex = foundFiles.indexOf(currentDbFile)
+        }
+    }
+    Timer {
+        id: currentDbSizePollTimer
+        interval: 1000; repeat: true
+        onTriggered: {
+            if(currentDbFile !== "") {
+                startRpcFileInfo(currentDbFile)
+            }
+            else {
+                stop()
+            }
+        }
+    }
+    // I love it...
+    property QtObject filesEntity: VeinEntity.getEntity("_Files")
 
-    // RPC_FindFileSpecial handling
-    property var foundFiles: []
+    ListModel { // entries synced to foundFiles
+        id: fileListModel
+    }
+
+    // RPC_FindFileSpecial caller++
+    property var searchRpcId;
+    property var foundFiles: [] // we full file names (and searching in ListModel is pain)
     function startRpcSearch() {
         if(dbLocationSelector.currentPath != "") { // startup: location selector might still be loading
             if(!searchRpcId) {
@@ -53,7 +78,18 @@ SettingsControls.SettingsView {
             }
         }
     }
-    // RPC_FindFileSpecial handling
+
+    // RPC_GetFileInfo caller++
+    property var fileInfoRpcIds: []
+    function startRpcFileInfo(fileName) {
+        var fileInfoRpcID = filesEntity.invokeRPC("RPC_GetFileInfo(QString p_fileName,QString p_localeName)", {
+                                                  "p_fileName": fileName,
+                                                  "p_localeName": ZLocale.localeName})
+        // we allow multiple calls at the same time - make things a lot easier
+        fileInfoRpcIds.push(fileInfoRpcID)
+    }
+
+    // RPC_FindFileSpecial caller++
     property var deleteRpcId
     function startDbDeleteRpc(removeDbName) {
         if(!deleteRpcId) {
@@ -69,43 +105,84 @@ SettingsControls.SettingsView {
             console.warn("RPC_DeleteFile already running")
         }
     }
+
+    // common helpers
     function fullNewDbName() {
         return dbLocationSelector.currentPath +'/'+ filenameField.text.toLowerCase()+".db"
     }
-
-    function startAddDb() {
-        loggerEntity.DatabaseFile = fullNewDbName()
-        newDbPopup.close()
+    function fileName(strFileWithPath) {
+        var strFile = strFileWithPath.replace(dbLocationSelector.currentPath, "")
+        if(strFile.startsWith('/')) {
+            strFile = strFile.substring(1)
+        }
+        return strFile
     }
 
+    // vf-files RPC responses
     Connections {
         target: filesEntity
         onSigRPCFinished: {
             // TODO error handling
+            var idxFound = -1
+            var fileIdx
             if(t_identifier === deleteRpcId) {
                 deleteRpcId = undefined
                 if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
                         t_resultData["RemoteProcedureData::Return"] === true) { // ok
                     // Update model without researching - we trust RPC
-                    var tmpfoundFiles = foundFiles // splice on foundFiles does not cause redraw
-                    var delIdx = tmpfoundFiles.indexOf(removeDbPopup.removeDbName)
+                    var delIdx = foundFiles.indexOf(removeDbPopup.removeDbName)
                     if(delIdx >= 0) {
-                        tmpfoundFiles.splice(delIdx, 1);
-                        foundFiles = tmpfoundFiles
+                        foundFiles.splice(delIdx, 1)
+                        fileListModel.remove(delIdx, 1)
                     }
+                    // we're done
                     removeDbPopup.close();
                 }
             }
-            if(t_identifier === searchRpcId) {
+            else if(t_identifier === searchRpcId) {
                 searchRpcId = undefined
                 if(t_resultData["RemoteProcedureData::resultCode"] === 0) {
                     foundFiles = t_resultData["RemoteProcedureData::Return"]
-                    lvFileBrowser.currentIndex = foundFiles.indexOf(currentDbFile)
+                    // start full search / init size-info
+                    fileListModel.clear()
+                    for(fileIdx=0; fileIdx<foundFiles.length; ++fileIdx ) {
+                        fileListModel.set(fileIdx, {"name" : fileName(foundFiles[fileIdx]), "size" : ""})
+                        // start get size (yes starting multiple RPCs makes things a lot easier)
+                        startRpcFileInfo(foundFiles[fileIdx])
+                    }
+                    selectorDelayHelper.restart()
+                }
+            }
+            else if((idxFound = fileInfoRpcIds.indexOf(t_identifier)) >= 0) {
+                fileInfoRpcIds.splice(idxFound, 1)
+                if(t_resultData["RemoteProcedureData::resultCode"] === 0) {
+                    // extract p_fileName / size info returned
+                    var paramFileName = ""
+                    var sizeStr = ""
+                    for(var loopResult=0; loopResult<t_resultData["RemoteProcedureData::Return"].length; ++loopResult) {
+                        var partialInfo = t_resultData["RemoteProcedureData::Return"][loopResult]
+                        if(partialInfo.startsWith("p_fileName:")) {
+                            paramFileName = partialInfo.replace("p_fileName:", "").trim()
+                        }
+                        else if(partialInfo.startsWith("size:")) {
+                            sizeStr = partialInfo.replace("size:", "").trim()
+                        }
+                    }
+                    // append file sizes to display
+                    fileIdx = foundFiles.indexOf(paramFileName)
+                    if(fileIdx >= 0 && sizeStr !== "") {
+                        fileListModel.set(fileIdx, {"name" : fileName(foundFiles[fileIdx]), "size" : sizeStr})
+                    }
+                    // on return of last size info / start size poll timer for current db
+                    if(fileInfoRpcIds.length === 0) {
+                        currentDbSizePollTimer.restart()
+                    }
                 }
             }
         }
     }
 
+    // New DB popup
     Popup {
         id: newDbPopup
         parent: Overlay.overlay
@@ -115,6 +192,11 @@ SettingsControls.SettingsView {
         closePolicy: Popup.NoAutoClose
         onOpened: filenameField.forceActiveFocus()
         onClosed: filenameField.clear()
+        function startAddDb() {
+            loggerEntity.DatabaseFile = fullNewDbName()
+            close()
+            startRpcSearch() // update db list (hmm - this might be racy...)
+        }
         Label { // Header
             id: captionLabelNewPopup
             anchors.left: parent.left
@@ -127,7 +209,7 @@ SettingsControls.SettingsView {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: captionLabelNewPopup.bottom
-            anchors.bottom: buttonRowNew.top
+            anchors.bottom: okCancelRow.top
             Label {
                 text: Z.tr("File name:")
                 font.pointSize: pointSize
@@ -151,7 +233,7 @@ SettingsControls.SettingsView {
                     visible: fileNameAlreadyExists
                 }
                 onAccepted: {
-                    startAddDb()
+                    newDbPopup.startAddDb()
                 }
                 Keys.onEscapePressed: {
                     newDbPopup.close()
@@ -164,7 +246,7 @@ SettingsControls.SettingsView {
             }
         }
         RowLayout {
-            id: buttonRowNew
+            id: okCancelRow
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -185,12 +267,13 @@ SettingsControls.SettingsView {
                 Layout.preferredWidth: newFileCancel.width
                 enabled: filenameField.text.length>0 && fileNameAlreadyExists === false
                 onClicked: {
-                    startAddDb()
+                    newDbPopup.startAddDb()
                 }
             }
         }
     }
 
+    // Delete DB confirmation popup
     Popup {
         id: removeDbPopup
         anchors.centerIn: parent
@@ -205,7 +288,7 @@ SettingsControls.SettingsView {
                 Layout.fillWidth: true
             }
             Item { Layout.preferredHeight: rowHeight/3 }
-            Label {
+            Label { // "do you really want to delete" text
                 text: {
                     var dbFileName = removeDbPopup.removeDbName.replace(dbLocationSelector.currentPath, "")
                     if(dbFileName.startsWith('/')) {
@@ -217,7 +300,7 @@ SettingsControls.SettingsView {
                 font.pointSize: pointSize
             }
             Item { Layout.preferredHeight: rowHeight/3 }
-            RowLayout {
+            RowLayout { // OK/Cancel (more or less)
                 Layout.fillWidth: true
                 Item { Layout.fillWidth: true }
                 Button {
@@ -240,16 +323,17 @@ SettingsControls.SettingsView {
         }
     }
 
+    // The SettingsView
     model: ObjectModel {
         Column {
             spacing: root.rowHeight / 20
-            Label {
+            Label { // Header
                 text: Z.tr("Database Logging")
                 width: root.rowWidth;
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: root.pointSizeHeader
             }
-            RowLayout {
+            RowLayout { // Statusline
                 height: root.rowHeight;
                 width: root.rowWidth;
                 Label {
@@ -276,7 +360,7 @@ SettingsControls.SettingsView {
                     visible: loggerEntity.LoggingEnabled
                 }
             }
-            LoggerDbLocationSelector {
+            LoggerDbLocationSelector { // stick(s)/local selector
                 id: dbLocationSelector
                 height: root.rowHeight;
                 width: root.rowWidth;
@@ -290,15 +374,15 @@ SettingsControls.SettingsView {
 
                 }
             }
-            Rectangle {
+            Rectangle { // List of databases
                 height: root.rowHeight * 4
                 width: root.rowWidth
                 color: Material.dialogColor
                 ListView {
                     id: lvFileBrowser
                     anchors.fill: parent
-                    model: foundFiles
                     clip: true
+                    model: fileListModel
                     ScrollIndicator.vertical: ScrollIndicator {
                         width: 8
                         active: true
@@ -311,7 +395,7 @@ SettingsControls.SettingsView {
                     delegate: ItemDelegate {
                         id: dbListDelegate
                         width: parent.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
-                        property bool isCurrentDb: modelData === currentDbFile
+                        property bool isCurrentDb: foundFiles[index] === currentDbFile
 
                         RowLayout {
                             anchors.fill: parent
@@ -329,12 +413,11 @@ SettingsControls.SettingsView {
                             }
                             Label { // db filename
                                 text: {
-                                    // basename
-                                    var newText = String(modelData).replace(dbLocationSelector.currentPath, "")
-                                    if(newText.startsWith('/')) {
-                                        newText = newText.substring(1)
+                                    var strDisplay = name
+                                    if(size !== "") {
+                                        strDisplay += " / " + size
                                     }
-                                    return newText
+                                    return strDisplay
                                 }
                                 font.pointSize: pointSize
                                 Layout.fillWidth: true
@@ -343,11 +426,12 @@ SettingsControls.SettingsView {
                                 font.family: FA.old
                                 font.pointSize: pointSize * 1.25
                                 text: dbListDelegate.isCurrentDb ? FA.fa_eject : FA.fa_check_circle
+                                enabled: loggerEntity.LoggingEnabled === false
                                 background: Rectangle {
                                     color: "transparent"
                                 }
                                 onClicked: {
-                                    var nextDb = dbListDelegate.isCurrentDb ? "" : modelData
+                                    var nextDb = dbListDelegate.isCurrentDb ? "" : foundFiles[index]
                                     loggerEntity.DatabaseFile = nextDb
                                 }
                             }
@@ -357,11 +441,12 @@ SettingsControls.SettingsView {
                                 font.family: FA.old
                                 font.pointSize: pointSize * 1.25
                                 text: FA.fa_trash
+                                enabled: foundFiles[index] !== currentDbFile || loggerEntity.LoggingEnabled === false
                                 background: Rectangle {
                                     color: "transparent"
                                 }
                                 onClicked: {
-                                    removeDbPopup.removeDbName = modelData
+                                    removeDbPopup.removeDbName = foundFiles[index]
                                     removeDbPopup.open()
                                 }
                             }
@@ -370,11 +455,12 @@ SettingsControls.SettingsView {
                 }
             }
 
-            RowLayout {
+            RowLayout { // add new button (only)
                 height: root.rowHeight;
                 width: root.rowWidth;
                 Button {
                     text: "+"
+                    enabled: loggerEntity.LoggingEnabled === false
                     onClicked: {
                         newDbPopup.open()
                     }
