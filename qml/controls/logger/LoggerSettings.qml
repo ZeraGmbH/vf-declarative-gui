@@ -31,10 +31,18 @@ SettingsControls.SettingsView {
                                                   foundFiles.indexOf(fullNewDbName()) >= 0
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property string currentDbFile: loggerEntity.DatabaseFile
+
+    property bool fetchOnDbSet: false
     onCurrentDbFileChanged: {
         GC.setCurrDatabaseFileName(currentDbFile)
         GC.setCurrDatabaseSessionName("")
-        selectorDelayHelper.restart()
+        if(fetchOnDbSet && currentDbFile !== "") {
+            fetchOnDbSet = false
+            startRpcSearch()
+        }
+        else {
+            selectorDelayHelper.restart()
+        }
     }
     Timer {
         id: selectorDelayHelper
@@ -194,8 +202,8 @@ SettingsControls.SettingsView {
         onClosed: filenameField.clear()
         function startAddDb() {
             loggerEntity.DatabaseFile = fullNewDbName()
+            fetchOnDbSet = true
             close()
-            startRpcSearch() // update db list (hmm - this might be racy...)
         }
         Label { // Header
             id: captionLabelNewPopup
