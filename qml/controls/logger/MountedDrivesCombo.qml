@@ -10,7 +10,6 @@ ComboBox {
     id: root
     // external interface
     readonly property alias currentPath: privateKeeper.currentPath
-    readonly property bool currentIsAutoMounted: model.length ? model[currentIndex].autoMount : false
     readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // can be overriden?
     // Depending on usage bind to Layout.minimumWidst or width

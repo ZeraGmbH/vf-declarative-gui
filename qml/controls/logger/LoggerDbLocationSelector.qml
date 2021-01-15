@@ -64,8 +64,6 @@ RowLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         onCurrentPathChanged: {
-            // we cannot use currentIsAutoMounted because nobody tells us what variable
-            // is upgraded first
             var isAutomount = model.length ? model[currentIndex].autoMount : false
             root.currentPath = isAutomount ? currentPath + externalPathExtend : currentPath
         }
