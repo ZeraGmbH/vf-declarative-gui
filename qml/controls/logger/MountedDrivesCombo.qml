@@ -93,6 +93,17 @@ ComboBox {
     property var nextModel: []
     textRole: "text"
 
+    Timer {
+        id: currentVolumeSizePollTimer
+        interval: 1000; repeat: true
+        onTriggered: {
+            if(currentPath !== "") {
+                var currentVolIdx = indexOfValue(nextModel, currentPath)
+                nextModel[currentVolIdx].rpcId = callRPCGetDriveInfo(currentPath)
+            }
+        }
+    }
+
     property int rpcReturnsTillFancyFlash: 0
     property bool ignoreIndexChange: false
 
@@ -240,6 +251,8 @@ ComboBox {
                 if(rpcReturnsTillFancyFlash > 0 && --rpcReturnsTillFancyFlash === 0) {
                     comboRipple.startFlash()
                 }
+                // start size poll
+                currentVolumeSizePollTimer.running = true
             }
         }
     }
