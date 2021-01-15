@@ -220,18 +220,19 @@ ComboBox {
                     }
                     // build label from info
                     var label = ""
-                    if(!nextModel[currPathToCheck].autoMount) { // fixed entry
+                    if(!nextModel[currPathToCheck].autoMount) {
                         label = nextModel[currPathToCheck].driveLabelFixed
-                    }
-                    else { // mount entry
-                        if(driveName !== "") {
+                        if(label === "") {
                             label = driveName
                         }
+                    }
+                    else {
+                        label = driveName
                     }
                     if(label === "") {
                         label = Z.tr("unnamed")
                     }
-
+                    // append size info
                     if(memTotal !== "") {
                         label += " / " + memTotal
                     }
@@ -239,13 +240,7 @@ ComboBox {
                         label += " (" + memFree + " " + Z.tr("free") +")"
                     }
                     // set entry
-                    if(label !== "") {
-                        nextModel[currPathToCheck].label = label
-                    }
-                    else {
-                        // fallback to paths to avoid empty combo entries
-                        nextModel[currPathToCheck].label = nextModel[currPathToCheck].value
-                    }
+                    nextModel[currPathToCheck].label = label
                 }
                 if(modelIndexArrayToGetInfo.length) { // more? -> start next
                     callInfoRpc()
