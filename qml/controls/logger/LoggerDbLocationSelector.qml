@@ -18,7 +18,7 @@ RowLayout {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     readonly property string databaseFileName: String(loggerEntity.DatabaseFile)
     Component.onCompleted: {
-        drivesCombo.addExtraPath(filesEntity.LoggerLocalPath, Z.tr("internal"), true)
+        drivesCombo.addFixedPath(filesEntity.LoggerLocalPath, Z.tr("internal"), true)
         selectLocationCombo(false)
     }
     onDatabaseFileNameChanged: {

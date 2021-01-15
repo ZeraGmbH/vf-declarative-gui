@@ -15,20 +15,20 @@ ComboBox {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // can be overriden?
     // Depending on usage bind to Layout.minimumWidst or width
     property real contentMaxWidth: 0
-    function resetExtraPaths() {
-        extraPathModelPrepend = []
-        extraPathModelAppend = []
+    function resetFixedPaths() {
+        fixedPathModelPrepend = []
+        fixedPathModelAppend = []
     }
-    function addExtraPath(pathDir, pathDirDisplay, prepend) {
+    function addFixedPath(pathDir, pathDirDisplay, prepend) {
         // here all paths are handled without trailing '/'
         if(pathDir.endsWith('/')) {
             pathDir = pathDir.substring(0, pathDir.length-1)
         }
         if(prepend) {
-            extraPathModelPrepend.push( { value: pathDir, labelRaw: pathDirDisplay, autoMount: false })
+            fixedPathModelPrepend.push( { value: pathDir, driveLabelFixed: pathDirDisplay, autoMount: false })
         }
         else {
-            extraPathModelAppend.push( { value: pathDir, labelRaw: pathDirDisplay, autoMount: false })
+            fixedPathModelAppend.push( { value: pathDir, driveLabelFixed: pathDirDisplay, autoMount: false })
         }
         updateModelsAndStartRPCs()
     }
@@ -76,9 +76,9 @@ ComboBox {
     textRole: "label"
 
     // model groups
-    property var extraPathModelPrepend: []
+    property var fixedPathModelPrepend: []
     property var mountedPathModel: []
-    property var extraPathModelAppend: []
+    property var fixedPathModelAppend: []
 
     // rpc helpers
     property var modelIndexArrayToGetInfo: []
@@ -89,6 +89,11 @@ ComboBox {
 
     property var oldModel: []
     property var nextModel: []
+    // combo's model with following properties
+    // * value: full path used for identification purpose
+    // * label: text displayed
+    // * driveLabelFixed: drive label displayed for fixed entries
+    // * autoMount: false: fixed path / true: set by mountedPaths (auto-mount)
     model: [] // init valid type
     property bool ignoreIndexChange: false
 
@@ -113,14 +118,14 @@ ComboBox {
     function checkAvailInfoAndKeepRpcsToCall() { // nextModel pre-populated
         modelIndexArrayToGetInfo = []
         for(var nextLoopIdx=0; nextLoopIdx<nextModel.length; ++nextLoopIdx) {
-            // extra entry
-            if("labelRaw" in nextModel[nextLoopIdx]) {
-                // were extra entries not yet set?
+            // fixed entry
+            if(!nextModel[nextLoopIdx].autoMount) {
+                // were fixed entries not yet set? TODO: this is VERY static
                 if(!( "label" in nextModel[nextLoopIdx]) ) {
                     modelIndexArrayToGetInfo.push(nextLoopIdx)
                 }
             }
-            // mount entry
+            // automount entry
             else {
                 var foundPathInOld = false
                 var loopMountDir = nextModel[nextLoopIdx]
@@ -132,7 +137,7 @@ ComboBox {
                         break
                     }
                 }
-                // mount entry is new - we no device info yet
+                // automount entry is new - we no device info yet
                 if(!foundPathInOld) {
                     modelIndexArrayToGetInfo.push(nextLoopIdx)
                 }
@@ -143,7 +148,7 @@ ComboBox {
     function updateModelsAndStartRPCs() {
         // prepare model transition
         oldModel = model
-        nextModel = [...extraPathModelPrepend, ...mountedPathModel, extraPathModelAppend]
+        nextModel = [...fixedPathModelPrepend, ...mountedPathModel, fixedPathModelAppend]
         nextModel.pop()
 
         checkAvailInfoAndKeepRpcsToCall()
@@ -215,8 +220,8 @@ ComboBox {
                     }
                     // build label from info
                     var label = ""
-                    if("labelRaw" in nextModel[currPathToCheck]) { // extra entry
-                        label = nextModel[currPathToCheck].labelRaw
+                    if(!nextModel[currPathToCheck].autoMount) { // fixed entry
+                        label = nextModel[currPathToCheck].driveLabelFixed
                     }
                     else { // mount entry
                         if(driveName !== "") {
