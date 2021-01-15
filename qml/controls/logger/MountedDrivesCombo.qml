@@ -87,14 +87,13 @@ ComboBox {
     property bool ignorePendingRpc: false
     property bool fancyFlashRequired: false
 
-    property var oldModel: []
-    property var nextModel: []
     // combo's model with following properties
     // * value: full path used for identification purpose
     // * label: text displayed
     // * driveLabelFixed: drive label displayed for fixed entries
     // * autoMount: false: fixed path / true: set by mountedPaths (auto-mount)
     model: [] // init valid type
+    property var nextModel: []
     property bool ignoreIndexChange: false
 
     // calc contentMaxWidth / nextModel -> model / (re)select
@@ -130,10 +129,10 @@ ComboBox {
                 var foundPathInOld = false
                 var loopMountDir = nextModel[nextLoopIdx]
                 // To avoid calling rpc more often than necessary, check whose device info we have already
-                for(var oldLoopIdx=0; oldLoopIdx<oldModel.length; ++oldLoopIdx) {
-                    if(loopMountDir === oldModel[oldLoopIdx].value) {
+                for(var oldLoopIdx=0; oldLoopIdx<model.length; ++oldLoopIdx) {
+                    if(loopMountDir === model[oldLoopIdx].value) {
                         foundPathInOld = true
-                        nextModel[nextLoopIdx].label = oldModel[oldLoopIdx].label
+                        nextModel[nextLoopIdx].label = model[oldLoopIdx].label
                         break
                     }
                 }
@@ -147,7 +146,6 @@ ComboBox {
 
     function updateModelsAndStartRPCs() {
         // prepare model transition
-        oldModel = model
         nextModel = [...fixedPathModelPrepend, ...mountedPathModel, fixedPathModelAppend]
         nextModel.pop()
 
