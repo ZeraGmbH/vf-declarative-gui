@@ -18,6 +18,7 @@ CCMP.ModulePage {
     property QtObject errCalEntity
     property var moduleIntrospection
     property int status: errCalEntity.ACT_Status
+    property string actualValue
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
 
@@ -42,7 +43,7 @@ CCMP.ModulePage {
             measurementResult: errCalEntity.ACT_Result
             progress: errCalEntity.PAR_Targeted ? errCalEntity.ACT_Time : 0
             progressTo: errCalEntity.PAR_Targeted ? errCalEntity.PAR_MeasTime : 1.0
-            actualValue: GC.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
+            actualValue: root.actualValue
             logicalParent: root
             height: root.height*0.2
             width: root.width
