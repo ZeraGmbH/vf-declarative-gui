@@ -286,7 +286,6 @@ Item {
                 }
             }
             VFComboBox {
-                enabled: logicalParent.canStartMeasurement
                 arrayMode: true
                 fontSize: 16
                 entity: logicalParent.errCalEntity
