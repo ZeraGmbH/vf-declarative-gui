@@ -91,8 +91,7 @@ Item {
                     if(statusNotify & logicalParent.statusHolder.ready) {
                         visible = true;
                     }
-                    else if(statusNotify === logicalParent.statusHolder.aborted ||
-                            statusNotify & logicalParent.statusHolder.started) {
+                    else if(statusNotify & logicalParent.statusHolder.started) {
                         visible = false;
                     }
                 }
