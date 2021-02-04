@@ -205,7 +205,6 @@ Item {
             border.color: Material.dividerColor
             height: root.rowHeight
             width: root.width
-            enabled: logicalParent.canStartMeasurement
 
             Label {
                 textFormat: Text.PlainText
