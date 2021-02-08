@@ -40,7 +40,7 @@ Item {
                 }
             }
             Item {
-                visible: logicalParent.status === logicalParent.statusHolder.armed
+                visible: logicalParent.status & logicalParent.statusHolder.armed
                 anchors.centerIn: parent
                 height: parent.height*0.8
                 width: root.width/7
@@ -117,7 +117,7 @@ Item {
             from: 0
             width: parent.width
             height: parent.height/20
-            indeterminate: logicalParent.status === logicalParent.statusHolder.armed
+            indeterminate: logicalParent.status & logicalParent.statusHolder.armed
             Label {
                 visible: logicalParent.status !== logicalParent.statusHolder.ready
                 textFormat: Text.PlainText
