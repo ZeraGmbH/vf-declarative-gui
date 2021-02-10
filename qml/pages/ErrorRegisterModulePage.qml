@@ -21,6 +21,7 @@ CCMP.ModulePage {
     property string actualValue
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
+    readonly property real pointSize: root.height / 30
 
     QtObject {
         id: stateEnum
@@ -79,7 +80,7 @@ CCMP.ModulePage {
             width: root.width
             Button {
                 text: Z.tr("Start")
-                font.pixelSize: 20
+                font.pointSize: pointSize
                 width: root.width/5
 
                 enabled: root.canStartMeasurement
@@ -97,7 +98,7 @@ CCMP.ModulePage {
 
             Button {
                 text: Z.tr("Stop")
-                font.pixelSize: 20
+                font.pointSize: pointSize
                 width: root.width/5
 
                 enabled: root.canStartMeasurement === false
