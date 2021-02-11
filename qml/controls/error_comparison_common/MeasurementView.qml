@@ -17,6 +17,7 @@ Item {
     property real measurementResult;
     property alias progress: actProgressBar.value
     property alias progressTo: actProgressBar.to
+    property string progressText: parseInt(progress / progressTo * 100)+"%"
     property string actualValue;
 
     Column {
@@ -126,7 +127,7 @@ Item {
                 anchors.right: parent.right
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 20
-                text: parseInt(actProgressBar.value / actProgressBar.to * 100)+"%"
+                text: root.progressText
             }
         }
     }
