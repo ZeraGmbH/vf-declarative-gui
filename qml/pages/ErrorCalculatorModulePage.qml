@@ -52,9 +52,26 @@ CCMP.ModulePage {
             width: root.width
             measurementResult: errCalEntity.ACT_Result
             progress: errCalEntity.ACT_Progress
+            function updateProgess() {
+                var text = parseInt(progress / progressTo * 100) + '%'
+                // Not ACT_MeasNum reflects completed we are interested in
+                // current -> +1
+                var curMeasNum = parseInt(errCalEntity.ACT_MeasNum) + 1
+                var measNimReq = errCalEntity.PAR_MeasCount
+                if(errCalEntity.PAR_Continuous === 1) {
+                    text += ' (' + curMeasNum + ')'
+                }
+                else if(measNimReq > 1){
+                    text += ' (' + curMeasNum + '/' + measNimReq + ')'
+                }
+                progressText = text
+            }
+            onProgressChanged: updateProgess()
             progressTo: 100
             readonly property real currEnergy: errCalEntity.PAR_Continuous === 1 ? errCalEntity.ACT_EnergyFinal : errCalEntity.ACT_Energy
             readonly property var scaledEnergyArr: GC.doAutoScale(currEnergy, moduleIntrospection.ComponentInfo.ACT_Energy.Unit)
+            readonly property int measNum: errCalEntity.ACT_MeasNum
+            onMeasNumChanged: updateProgess() // for fast measurements
             actualValue: GC.formatNumber(scaledEnergyArr[0]) + " " + scaledEnergyArr[1]
         }
         Row {
