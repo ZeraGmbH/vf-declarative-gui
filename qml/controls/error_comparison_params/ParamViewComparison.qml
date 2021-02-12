@@ -173,6 +173,10 @@ Item {
             border.color: Material.dividerColor
             height: root.rowHeight
             width: root.width
+            // Continouous is more or less a debug mode e.g for optical
+            // scanning head / nothing meant to report
+            // -> allow meter constant change while running
+            enabled: logicalParent.canStartMeasurement || logicalParent.errCalEntity.PAR_Continuous
 
             Label {
                 textFormat: Text.PlainText
