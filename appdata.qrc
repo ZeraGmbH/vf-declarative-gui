@@ -16,6 +16,7 @@
         <file>qml/controls/appinfo/StatusView.qml</file>
         <file>qml/controls/error_comparison_common/ErrorMarginView.qml</file>
         <file>qml/controls/error_comparison_common/MeasurementView.qml</file>
+        <file>qml/controls/error_comparison_common/MultipleErrorView.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewComparison.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewRegister.qml</file>
         <file>qml/controls/fft_module/FftCharts.qml</file>

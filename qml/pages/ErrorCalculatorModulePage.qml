@@ -27,7 +27,7 @@ CCMP.ModulePage {
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: root.height > 0 ? root.height / 31 : 10
-    readonly property bool canSwipeMultiple: multiSwipe.currentIndex !== 0 || errCalEntity.ACT_MulCount > 1
+    readonly property bool canSwipeMultiple: multiSwipe.currentIndex !== 0 || errCalEntity.ACT_MulCount > 0
 
     QtObject {
         id: stateEnum
@@ -96,11 +96,12 @@ CCMP.ModulePage {
                     validatorUpperLimit: moduleIntrospection.ComponentInfo.PAR_Uplimit.Validation
                     validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
                 }
-                ListView {
-
+                ErrorCommon.MultipleErrorView {
+                    jsonResults: JSON.parse(root.errCalEntity.ACT_MulResult)
+                    resultColumns: 4
+                    resultRows: 10
                 }
             }
-
             ErrorCommon.ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
                 width: parent.width*0.3
