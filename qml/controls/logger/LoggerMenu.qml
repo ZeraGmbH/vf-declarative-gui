@@ -298,7 +298,11 @@ Item {
                         }
                         return contentType
                     }
-                    enabled: {
+                    // Now that GC.getLoggerCustomContentSets() returns at least
+                    // the content matching GUI context we can enable
+                    // ZeraCustom radio always. Leave this commented - maybe we
+                    // need to disable a radio later for other reasons
+                    /*enabled: {
                         var isEnabled = true
                         switch(modelData) {
                         case "ZeraCustom":
@@ -306,7 +310,7 @@ Item {
                             break
                         }
                         return isEnabled
-                    }
+                    }*/
                 }
                 Button {
                     id: dynButton
