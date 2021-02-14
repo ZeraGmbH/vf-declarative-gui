@@ -579,9 +579,21 @@ Item {
     }
 
     // custom contentSets
-    function getLoggerCustomContentSets() {
+    function getLoggerCustomContentSets(addDefaultFormGui=true) {
         // We do not write default - user action is required
-        return settings.globalSettings.getOption("logger_custom_content_sets", "")
+        var contentSets = settings.globalSettings.getOption("logger_custom_content_sets", "")
+        if(addDefaultFormGui) {
+            var defaultGuiContentSet = getDefaultDbContentSet(currentGuiContext)
+            if(defaultGuiContentSet !== '' && !contentSets.includes(defaultGuiContentSet)) {
+                if(contentSets === '') {
+                    contentSets = defaultGuiContentSet
+                }
+                else {
+                    contentSets = defaultGuiContentSet + ',' + contentSets
+                }
+            }
+        }
+        return contentSets
     }
     function setLoggerCustomContentSets(customContentSets) {
         settings.globalSettings.setOption("logger_custom_content_sets", customContentSets)

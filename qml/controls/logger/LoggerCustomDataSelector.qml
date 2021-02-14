@@ -23,19 +23,24 @@ Item {
     }
 
     function addToCustomDbContentSet(addContentSet) {
-        var contentSets = GC.getLoggerCustomContentSets().split(',').filter(n => n)
+        // GC.getLoggerCustomContentSets(false): ensure that gui context
+        // default content does not sneak in
+        var contentSets = GC.getLoggerCustomContentSets(false).split(',').filter(n => n)
         if(!contentSets.includes(addContentSet)) {
             contentSets.push(addContentSet)
         }
         GC.setLoggerCustomContentSets(contentSets.join(','))
     }
     function removeFromCustomDbContentSet(removeContentSet) {
-        var contentSets = GC.getLoggerCustomContentSets().split(',').filter(n => n)
+        // GC.getLoggerCustomContentSets(false): ensure that gui context
+        // default content does not sneak in
+        var contentSets = GC.getLoggerCustomContentSets(false).split(',').filter(n => n)
         if(contentSets.includes(removeContentSet)) {
             contentSets = contentSets.filter(str => str !== removeContentSet)
         }
         GC.setLoggerCustomContentSets(contentSets.join(','))
     }
+
     ColumnLayout {
         anchors.fill: parent
         Label { // Header
@@ -60,7 +65,10 @@ Item {
             }
             delegate: Button {
                 id: selectionButton
-                text: Z.tr(modelData)
+                readonly property bool unchangable: modelData === GC.getDefaultDbContentSet(GC.currentGuiContext)
+                text: unchangable ?
+                          "<font color='" + selectionButton.Material.accentColor + "'>" + Z.tr(modelData) + "</font>" :
+                          Z.tr(modelData)
                 width: buttonList.width * 2/3
                 x: buttonList.width / 6
                 font.pointSize: root.height > 0 ? (root.height / 30) : 10
@@ -70,11 +78,14 @@ Item {
                     return GC.getLoggerCustomContentSets().includes(modelData)
                 }
                 onClicked: {
-                    if(checked) {
-                        addToCustomDbContentSet(modelData)
-                    }
-                    else {
-                        removeFromCustomDbContentSet(modelData)
+                    // ignore clicks on gui default content
+                    if(!unchangable) {
+                        if(checked) {
+                            addToCustomDbContentSet(modelData)
+                        }
+                        else {
+                            removeFromCustomDbContentSet(modelData)
+                        }
                     }
                 }
                 // The default Material colors for check-bar cannot be changed so re-implement
@@ -100,7 +111,9 @@ Item {
                         radius: 4
                         clip: true
                         visible: selectionButton.checkable && (!selectionButton.highlighted || selectionButton.flat)
-                        color: selectionButton.checked && selectionButton.enabled ? selectionButton.Material.accentColor : selectionButton.Material.buttonColor
+                        // ignore checked on gui default content
+                        color: (selectionButton.checked || selectionButton.unchangable) && selectionButton.enabled ?
+                                   selectionButton.Material.accentColor : selectionButton.Material.buttonColor
                     }
                     Ripple {
                         clipRadius: 2
