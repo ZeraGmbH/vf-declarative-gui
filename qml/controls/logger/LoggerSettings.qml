@@ -489,7 +489,6 @@ SettingsControls.SettingsView {
                     font.family: FA.old
                     font.pointSize: root.pointSize
                     implicitHeight: root.rowHeight
-                    enabled: loggerEntity.LoggingEnabled === false
                     onClicked: menuStackLayout.showCustomerDataBrowser()
                 }
             }
