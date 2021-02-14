@@ -4,6 +4,7 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraLocale 1.0 // for now - see removeDecimalGroupSeparators / formatNumber below
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
@@ -15,9 +16,11 @@ Rectangle {
     // module creating multiple json results.
     property var jsonResults
 
-    // settings, our parent has to take care of
+    // settings, our parent can override / bind
     property int resultColumns: 3
-    property int resultRows
+    property int resultRows: 10
+    property int digitsTotal: 6
+    property int decimalPlaces: 4
 
     // internals
     readonly property real rowHeight: height > 0 ? height / (resultRows + 3/* 2 lines + bar */) : 10
@@ -26,6 +29,43 @@ Rectangle {
     readonly property real margins: 8
 
     onJsonResultsChanged: resultList.recalcModel()
+
+    // Stolen - more or less from GlobalConfig.qml. We should find a more common
+    // place for this...
+    // Reasoning: By having these functions in here we can use property bindings
+    // for digitsTotal / decimalPlaces. Doing so is cool: In case they change
+    // all contents are updated and scroll position remains
+    function removeDecimalGroupSeparators(strNum) {
+        // remove group separators (this is ugly but don't get documented examples to fly here...)
+        var groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
+        while(strNum.includes(groupSepChar)) {
+            strNum = strNum.replace(groupSepChar, "")
+        }
+        return strNum
+    }
+    function formatNumber(num, _digitsTotal, _decimalPlaces) {
+        if(typeof num === "string") { //parsing strings as number is not desired
+            return num;
+        }
+        else {
+            var dec = _decimalPlaces
+            var leadDigits = Math.floor(Math.abs(num)).toString()
+            // leading zero is not a digit
+            if(leadDigits === '0') {
+                leadDigits  = ''
+            }
+            var preDecimals = leadDigits.length
+            if(dec + preDecimals > _digitsTotal) {
+                dec = _digitsTotal - preDecimals
+                if(dec < 0) {
+                    dec = 0
+                }
+            }
+            var strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
+            strNum = removeDecimalGroupSeparators(strNum)
+            return strNum
+        }
+    }
 
     Column {
         id: mainColumn
@@ -80,7 +120,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.mean === null ? '---' : GC.formatNumber(jsonResults.mean) + "%"
+                text: jsonResults.mean === null ? '---' : formatNumber(jsonResults.mean, digitsTotal, decimalPlaces) + "%"
                 font.pointSize: pointSize
             }
             Text {
@@ -89,7 +129,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN === null ? '---' : GC.formatNumber(jsonResults.stddevN) + "%"
+                text: jsonResults.stddevN === null ? '---' : formatNumber(jsonResults.stddevN, digitsTotal, decimalPlaces) + "%"
                 font.pointSize: pointSize
             }
             Text {
@@ -98,7 +138,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN1 === null ? '---' : GC.formatNumber(jsonResults.stddevN1) + "%"
+                text: jsonResults.stddevN1 === null ? '---' : formatNumber(jsonResults.stddevN1, digitsTotal, decimalPlaces) + "%"
                 font.pointSize: pointSize
             }
         }
@@ -148,7 +188,7 @@ Rectangle {
                     var currLine = (currBlock - currHorizBlock) * resultRows / resultColumns + currEntry % resultRows
                     //console.info(currEntry, currBlock, currSectionStr, currHorizBlock, currLine)
 
-                    var errVal = GC.formatNumber(resultArr[currEntry].V)
+                    var errVal = resultArr[currEntry].V
                     var errRating = resultArr[currEntry].R
                     if(resultModel.count-1 < currLine) { // add a line with one column
                         resultModel.append({section: currSectionStr, arrColumns: [{num: currEntry+1, val: errVal, rat: errRating}]})
@@ -184,7 +224,7 @@ Rectangle {
                             color: rat === 1 ? "black" : "red"
                         }
                         Text {
-                            text: val + "%"
+                            text: formatNumber(val, digitsTotal, decimalPlaces)  + "%"
                             font.pointSize: pointSize
                             width: mainColumn.width * 7.4 / (10*resultColumns)
                             color: numText.color
