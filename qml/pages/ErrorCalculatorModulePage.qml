@@ -98,12 +98,15 @@ CCMP.ModulePage {
                 }
                 ErrorCommon.MultipleErrorView {
                     jsonResults: JSON.parse(root.errCalEntity.ACT_MulResult)
+                    digitsTotal: GC.digitsTotal
+                    decimalPlaces: GC.decimalPlaces
                     resultColumns: 4
                     resultRows: 10
                 }
             }
             ErrorCommon.ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
+
                 width: parent.width*0.3
                 height: parent.height
                 maxValue: errCalEntity.PAR_Uplimit
