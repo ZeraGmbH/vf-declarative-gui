@@ -110,7 +110,25 @@ Rectangle {
 
             model: ListModel { id: resultModel }
             property int lastResultCount: 0
+            property bool needsScroll: false
+            property int currSection: 0
+            readonly property real sectionHeight: rowHeight * 0.25
+            onContentHeightChanged: {
+                if(needsScroll && contentHeight > height) {
+                    // Do not understand exactly why we need to divide section
+                    // size by 2 - anyway it works perfectly fine on all
+                    // resolutions
+                    contentY = contentHeight + (currSection*sectionHeight/2) - height
+                }
+                needsScroll = false
+            }
             function recalcModel() {
+                // keep positions
+                var isScrolledToEnd = false
+                if(height+contentY+rowHeight > contentHeight) {
+                    isScrolledToEnd = true
+                }
+
                 var resultArr = jsonResults.values
                 var newResultCount = resultArr.length
                 // we assume:
@@ -120,10 +138,11 @@ Rectangle {
                     resultModel.clear()
                     resultList.lastResultCount = 0
                 }
+                var linesAdded = 0
                 var sizeSection = resultRows * resultColumns
                 for (var currEntry = resultList.lastResultCount; currEntry < newResultCount; ++currEntry) {
                     var currBlock = Math.floor(currEntry / resultRows)
-                    var currSection = Math.floor(currEntry / sizeSection)
+                    currSection = Math.floor(currEntry / sizeSection)
                     var currSectionStr = String(currSection * sizeSection + 1) + '-' + String((currSection+1) * sizeSection)
                     var currHorizBlock = currBlock % resultColumns
                     var currLine = (currBlock - currHorizBlock) * resultRows / resultColumns + currEntry % resultRows
@@ -133,17 +152,19 @@ Rectangle {
                     var errRating = resultArr[currEntry].R
                     if(resultModel.count-1 < currLine) { // add a line with one column
                         resultModel.append({section: currSectionStr, arrColumns: [{num: currEntry+1, val: errVal, rat: errRating}]})
-                        var curLineTest = resultModel.get(currLine)
-                        //console.info("init", currEntry+1, JSON.stringify(curLineTest))
+                        ++linesAdded
+                        /*var curLineTest = resultModel.get(currLine)
+                        console.info("init", currEntry+1, JSON.stringify(curLineTest))*/
                     }
                     else { // add a column to an existing line
                         var curLine = resultModel.get(currLine)
                         curLine.arrColumns.append([{num: currEntry+1, val: errVal, rat: errRating}])
-                        var curLineTest1 = resultModel.get(currLine)
-                        //console.info("add", currEntry+1, JSON.stringify(curLineTest1))
+                        /*var curLineTest1 = resultModel.get(currLine)
+                        console.info("add", currEntry+1, JSON.stringify(curLineTest1))*/
                     }
                 }
                 resultList.lastResultCount = newResultCount
+                needsScroll = isScrolledToEnd && linesAdded > 0
             }
             delegate: Item {
                 width: parent.width
@@ -175,7 +196,7 @@ Rectangle {
             section.criteria: ViewSection.FullString
             section.labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
             section.delegate: Item {
-                height: rowHeight * 0.25
+                height: resultList.sectionHeight
                 width: parent.width
                 Rectangle { // line
                     color: "#FFE082" // Material.Amber
