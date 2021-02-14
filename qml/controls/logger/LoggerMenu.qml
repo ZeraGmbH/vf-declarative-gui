@@ -74,17 +74,12 @@ Item {
     onVguiContextChanged: { handleVeinRecordingStartReply() }
 
     readonly property string sessionNameLogger: loggerEntity.sessionName !== undefined ? loggerEntity.sessionName : ""
-    readonly property string customContentSetName: "ZeraCustomContentSet"
 
     function startLogging() {
         // No logging active?
         if(veinResponsesRequired === 0) {
             // contentSets: create & set if necessary
             var strDbContentSets = GC.dbContentSetsFromContext(GC.currentGuiContext)
-            // Translate custom data to array of contentSets
-            if(strDbContentSets === customContentSetName) {
-                strDbContentSets = GC.getLoggerCustomContentSets()
-            }
             // Convert ',' setting to array / keep contextSets not available (currently) in strContentSetsNotFound
             // for warning
             var strContentSetsNotFound = ""
