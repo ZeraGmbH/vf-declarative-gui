@@ -80,7 +80,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: GC.formatNumber(jsonResults.mean)
+                text: jsonResults.mean === null ? '---' : GC.formatNumber(jsonResults.mean) + "%"
                 font.pointSize: pointSize
             }
             Text {
@@ -89,7 +89,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: GC.formatNumber(jsonResults.stddevN)
+                text: jsonResults.stddevN === null ? '---' : GC.formatNumber(jsonResults.stddevN) + "%"
                 font.pointSize: pointSize
             }
             Text {
@@ -98,7 +98,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN1 === null ? '---' : GC.formatNumber(jsonResults.stddevN1)
+                text: jsonResults.stddevN1 === null ? '---' : GC.formatNumber(jsonResults.stddevN1) + "%"
                 font.pointSize: pointSize
             }
         }
@@ -159,13 +159,13 @@ Rectangle {
                             text: num + ":"
                             font.pointSize: pointSize
                             font.bold: true
-                            width: mainColumn.width * 3 / (10*resultColumns)
+                            width: mainColumn.width * 2.6 / (10*resultColumns)
                             color: rat === 1 ? "black" : "red"
                         }
                         Text {
-                            text: val
+                            text: val + "%"
                             font.pointSize: pointSize
-                            width: mainColumn.width * 7 / (10*resultColumns)
+                            width: mainColumn.width * 7.4 / (10*resultColumns)
                             color: numText.color
                         }
                     }
