@@ -163,7 +163,7 @@ Item {
             retVal = "#EEffffbb";
             break;
         case 6:
-            retVal = "#EE58acfa";
+            retVal = "#EE9ccefd";
             break;
         case 7:
             retVal = "#EEffffff";
