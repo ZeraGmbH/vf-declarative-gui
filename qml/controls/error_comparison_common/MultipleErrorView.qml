@@ -153,6 +153,11 @@ Rectangle {
             property bool needsScroll: false
             property int currSection: 0
             readonly property real sectionHeight: rowHeight * 0.25
+            onDraggingVerticallyChanged: {
+                if(draggingVertically) {
+                    needsScroll = false
+                }
+            }
             onContentHeightChanged: {
                 if(needsScroll && contentHeight > height) {
                     // Do not understand exactly why we need to divide section
@@ -160,15 +165,10 @@ Rectangle {
                     // resolutions
                     contentY = contentHeight + (currSection*sectionHeight/2) - height
                 }
-                needsScroll = false
             }
             function recalcModel() {
                 // keep positions
-                var isScrolledToEnd = false
-                if(height+contentY+rowHeight > contentHeight) {
-                    isScrolledToEnd = true
-                }
-
+                var isScrolledToEnd = atYEnd
                 var resultArr = jsonResults.values
                 var newResultCount = resultArr.length
                 // we assume:
@@ -204,7 +204,7 @@ Rectangle {
                     }
                 }
                 resultList.lastResultCount = newResultCount
-                needsScroll = isScrolledToEnd && linesAdded > 0
+                needsScroll |= isScrolledToEnd && linesAdded > 0
             }
             delegate: Item {
                 width: parent.width
