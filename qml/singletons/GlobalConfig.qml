@@ -611,6 +611,55 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
+    // Inform entities periodically, that they have a GUI currently visible
+    // Background: Entities not visible can e.g slow down their actualize timers
+    // to save processing time/energy
+    Timer {
+        id: topmostNotifier
+        repeat: true
+        triggeredOnStart: true
+
+        property string currentNotifyEntities
+
+        // internal
+        readonly property var guiContext: currentGuiContext
+        onGuiContextChanged: {
+            stop()
+            currentNotifyEntities = ""
+            switch(guiContext) {
+            case guiContextEnum.GUI_METER_TEST:
+                currentNotifyEntities = "SEC1Module1"
+                interval = 1000
+                break;
+            case guiContextEnum.GUI_ENERGY_COMPARISON:
+                currentNotifyEntities = "SEC1Module2"
+                interval = 1000
+                break;
+            case guiContextEnum.GUI_ENERGY_REGISTER:
+                currentNotifyEntities = "SEM1Module1"
+                interval = 1000
+                break;
+            case guiContextEnum.GUI_POWER_REGISTER:
+                currentNotifyEntities = "SPM1Module1"
+                interval = 1000
+                break;
+            }
+            if(currentNotifyEntities !== "") {
+                start()
+            }
+            //console.info("Notify:", currentNotifyEntities)
+        }
+        onTriggered: {
+            var entityNames = currentNotifyEntities.split(',')
+            for(var idx=0; idx<entityNames.length; ++idx) {
+                var entity = VeinEntity.getEntity(entityNames[idx])
+                ++entity.PAR_ClientActiveNotify
+            }
+        }
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////
     // Database persistance settings TODO: let vein handle this
     property bool dbPersitenceDone: false
     property string currDatabaseFileName: settings.globalSettings.getOption("logger_db_filename", "")
