@@ -69,6 +69,7 @@ Item {
                     width: parent.width*2
 
                     SequentialAnimation on x {
+                        running: logicalParent.status & logicalParent.statusHolder.started
                         loops: Animation.Infinite
                         NumberAnimation {
                             from: 0
