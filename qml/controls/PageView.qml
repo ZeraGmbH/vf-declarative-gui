@@ -33,7 +33,7 @@ Item {
 
   Rectangle {
     color: Material.backgroundColor
-    opacity: 0.7
+    opacity: 0.9
     anchors.fill: parent
   }
 
