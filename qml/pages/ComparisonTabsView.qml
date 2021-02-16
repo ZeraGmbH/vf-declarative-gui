@@ -6,7 +6,6 @@ import ZeraTranslation  1.0
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
-import "qrc:/qml/pages" as Pages
 
 Item {
     id: root
@@ -59,7 +58,7 @@ Item {
     // Pages
     Component {
         id: pagePulse
-        Pages.ErrorCalculatorModulePage {
+        ErrorCalculatorModulePage {
             errCalEntity: VeinEntity.getEntity("SEC1Module1")
             moduleIntrospection: ModuleIntrospection.sec1m1Introspection
             validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
@@ -72,7 +71,7 @@ Item {
     }
     Component {
         id: pagePulseEnergy
-        Pages.ErrorCalculatorModulePage {
+        ErrorCalculatorModulePage {
             errCalEntity: VeinEntity.getEntity("SEC1Module2")
             moduleIntrospection: ModuleIntrospection.sec1m2Introspection
             validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
@@ -85,7 +84,7 @@ Item {
     }
     Component {
         id: pageEnergy
-        Pages.ErrorRegisterModulePage {
+        ErrorRegisterModulePage {
             errCalEntity: VeinEntity.getEntity("SEM1Module1")
             moduleIntrospection: ModuleIntrospection.sem1Introspection
             actualValue: GC.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
@@ -98,7 +97,7 @@ Item {
     }
     Component {
         id: pagePower
-        Pages.ErrorRegisterModulePage {
+        ErrorRegisterModulePage {
             errCalEntity: VeinEntity.getEntity("SPM1Module1")
             moduleIntrospection: ModuleIntrospection.spm1Introspection
             actualValue: GC.formatNumber(errCalEntity.ACT_Power) + " " + moduleIntrospection.ComponentInfo.ACT_Power.Unit
