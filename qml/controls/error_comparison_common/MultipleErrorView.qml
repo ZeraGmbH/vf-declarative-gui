@@ -105,11 +105,11 @@ Rectangle {
                 text: Z.tr("Failed:")
                 font.pointSize: pointSize
                 font.bold: true
-                color: jsonResults.countFail > 0 ?
+                color: jsonResults.countFail + jsonResults.countUnfinish > 0 ?
                            "red" : "black"
             }
             Text {
-                text: jsonResults.countFail
+                text: jsonResults.countFail + jsonResults.countUnfinish
                 font.pointSize: pointSize
                 color: failLabel.color
             }
@@ -187,18 +187,22 @@ Rectangle {
                     var currHorizBlock = currBlock % resultColumns
                     var currLine = (currBlock - currHorizBlock) * resultRows / resultColumns + currEntry % resultRows
                     //console.info(currEntry, currBlock, currSectionStr, currHorizBlock, currLine)
-
                     var errVal = resultArr[currEntry].V
+                    var errValStr = ""
+                    if(errVal === null) {
+                        errVal = -100
+                        errValStr = "---"
+                    }
                     var errRating = resultArr[currEntry].R
                     if(resultModel.count-1 < currLine) { // add a line with one column
-                        resultModel.append({section: currSectionStr, arrColumns: [{num: currEntry+1, val: errVal, rat: errRating}]})
+                        resultModel.append({section: currSectionStr, arrColumns: [{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating}]})
                         ++linesAdded
                         /*var curLineTest = resultModel.get(currLine)
                         console.info("init", currEntry+1, JSON.stringify(curLineTest))*/
                     }
                     else { // add a column to an existing line
                         var curLine = resultModel.get(currLine)
-                        curLine.arrColumns.append([{num: currEntry+1, val: errVal, rat: errRating}])
+                        curLine.arrColumns.append([{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating}])
                         /*var curLineTest1 = resultModel.get(currLine)
                         console.info("add", currEntry+1, JSON.stringify(curLineTest1))*/
                     }
@@ -224,7 +228,7 @@ Rectangle {
                             color: rat === 1 ? "black" : "red"
                         }
                         Text {
-                            text: formatNumber(val, digitsTotal, decimalPlaces)  + "%"
+                            text: strval !== "" ? strval : formatNumber(val, digitsTotal, decimalPlaces)  + "%"
                             font.pointSize: pointSize
                             width: mainColumn.width * 7.4 / (10*resultColumns)
                             color: numText.color
