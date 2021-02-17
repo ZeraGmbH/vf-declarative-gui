@@ -394,6 +394,7 @@ Item {
             }
             VFLineEdit {
                 entity: logicalParent.errCalEntity
+                enabled: logicalParent.errCalEntity.PAR_Continuous === 0 && !logicalParent.errCalEntity.PAR_DutInput.includes("HK")
                 controlPropertyName: "PAR_MeasWait"
                 pointSize: root.pointSize
                 x: parent.width*col1Width + parent.width*col2Width/2
