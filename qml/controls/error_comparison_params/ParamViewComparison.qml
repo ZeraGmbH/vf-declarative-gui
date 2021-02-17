@@ -374,7 +374,7 @@ Item {
                 anchors.leftMargin: GC.standardTextHorizMargin
                 width: parent.width*col1Width
                 anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("Measurement count:")
+                text: Z.tr("Count / Pause:")
                 font.pointSize: root.pointSize
             }
             VFLineEdit {
@@ -382,7 +382,7 @@ Item {
                 controlPropertyName: "PAR_MeasCount"
                 pointSize: root.pointSize
                 x: parent.width*col1Width
-                width: parent.width*col2Width - GC.standardMarginWithMin
+                width: parent.width*col2Width/2 - GC.standardMarginWithMin
 
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -391,6 +391,29 @@ Item {
                     bottom: moduleIntrospection.ComponentInfo.PAR_MeasCount.Validation.Data[0]
                     top: moduleIntrospection.ComponentInfo.PAR_MeasCount.Validation.Data[1]
                 }
+            }
+            VFLineEdit {
+                entity: logicalParent.errCalEntity
+                controlPropertyName: "PAR_MeasWait"
+                pointSize: root.pointSize
+                x: parent.width*col1Width + parent.width*col2Width/2
+                width: parent.width*col2Width/2 - GC.standardMarginWithMin
+
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+
+                validator: IntValidator {
+                    bottom: moduleIntrospection.ComponentInfo.PAR_MeasWait.Validation.Data[0]
+                    top: moduleIntrospection.ComponentInfo.PAR_MeasWait.Validation.Data[1]
+                }
+            }
+            Label {
+                textFormat: Text.PlainText
+                anchors.right: parent.right
+                width: parent.width*col3Width - GC.standardTextHorizMargin
+                anchors.verticalCenter: parent.verticalCenter
+                text: "s"
+                font.pointSize: root.pointSize
             }
         }
         Rectangle {
