@@ -97,6 +97,7 @@ CCMP.ModulePage {
                     validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
                 }
                 ErrorCommon.MultipleErrorView {
+                    id: multipleErrorView
                     jsonResults: JSON.parse(root.errCalEntity.ACT_MulResult)
                     digitsTotal: GC.digitsTotal
                     decimalPlaces: GC.decimalPlaces
@@ -148,6 +149,8 @@ CCMP.ModulePage {
                         text: FA.fa_info_circle
                         highlighted: multiSwipe.currentIndex !== 0
                         Material.accent: Material.Amber
+                        Material.foreground: multipleErrorView.jsonResults.countPass === multipleErrorView.jsonResults.values.length ?
+                                                 Material.White : Material.Red
                         font.pointSize: pointSize * 1.5
                         visible: canSwipeMultiple
                         enabled: canSwipeMultiple
