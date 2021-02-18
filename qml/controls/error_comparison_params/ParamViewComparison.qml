@@ -378,12 +378,12 @@ Item {
                 font.pointSize: root.pointSize
             }
             VFLineEdit {
+                id: multiCount
                 entity: logicalParent.errCalEntity
                 controlPropertyName: "PAR_MeasCount"
                 pointSize: root.pointSize
                 x: parent.width*col1Width
-                width: parent.width*col2Width/2 - GC.standardMarginWithMin
-
+                width: parent.width*col2Width * 0.45 - GC.standardMarginWithMin
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
 
@@ -392,14 +392,22 @@ Item {
                     top: moduleIntrospection.ComponentInfo.PAR_MeasCount.Validation.Data[1]
                 }
             }
+            Label {
+                id: multiSeparator
+                text: "/"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: multiCount.right
+                width: parent.width*col2Width * (1 - 2 * 0.45) - GC.standardMarginWithMin
+                font.pointSize: root.pointSize
+                horizontalAlignment: Label.AlignHCenter
+            }
             VFLineEdit {
                 entity: logicalParent.errCalEntity
                 enabled: logicalParent.errCalEntity.PAR_Continuous === 0 && !logicalParent.errCalEntity.PAR_DutInput.includes("HK")
                 controlPropertyName: "PAR_MeasWait"
                 pointSize: root.pointSize
-                x: parent.width*col1Width + parent.width*col2Width/2
-                width: parent.width*col2Width/2 - GC.standardMarginWithMin
-
+                width: multiCount.width
+                anchors.left: multiSeparator.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
 
