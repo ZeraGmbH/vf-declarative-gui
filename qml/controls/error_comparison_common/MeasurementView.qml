@@ -84,6 +84,62 @@ Item {
                 }
             }
             Item {
+                id: waitAnimantion
+                visible: logicalParent.status & logicalParent.statusHolder.wait
+                anchors.centerIn: parent
+                height: parent.height * 0.5 *(1+animationValue)
+                width: root.width * 0.1
+                property real animationValue
+                property real pointSizeBase: height > 0 ? height * 0.5 : 5
+                Label {
+                    id: z1
+                    text: "Z"
+                    font.pointSize: waitAnimantion.pointSizeBase
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignBottom
+                }
+                Label {
+                    id: z2
+                    text: "Z"
+                    font.pointSize: waitAnimantion.pointSizeBase * 0.8
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    x: parent.width * (0.48 - waitAnimantion.animationValue*0.08)
+                    y: parent.height * (0.12 - waitAnimantion.animationValue*0.05)
+                }
+                Label {
+                    id: z3
+                    text: "Z"
+                    font.pointSize: waitAnimantion.pointSizeBase * 0.6
+                    anchors.right: parent.right
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignBottom
+                    anchors.top: parent.top
+                }
+                SequentialAnimation on animationValue {
+                    running: waitAnimantion.visible
+                    loops: Animation.Infinite
+                    NumberAnimation {
+                        from: 0
+                        to: 0.5
+                        duration: 600
+                    }
+                    NumberAnimation {
+                        duration: 700
+                    }
+                    NumberAnimation {
+                        from: 0.5
+                        to: 0
+                        duration: 1500
+                    }
+                    NumberAnimation {
+                        duration: 100
+                    }
+                }
+            }
+            Item {
                 height: parent.height
                 width: 3*root.width/7
                 anchors.right: parent.right

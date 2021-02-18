@@ -43,6 +43,8 @@ CCMP.ModulePage {
         readonly property int ready: 4
         ///measurement was aborted
         readonly property int aborted: 8
+        ///measurement waits
+        readonly property int wait: (1<<30)
     }
 
     Column {
