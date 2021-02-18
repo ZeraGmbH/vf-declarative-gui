@@ -402,6 +402,7 @@ Item {
                 horizontalAlignment: Label.AlignHCenter
             }
             VFLineEdit {
+                id: multiWait
                 entity: logicalParent.errCalEntity
                 enabled: logicalParent.errCalEntity.PAR_Continuous === 0 && !logicalParent.errCalEntity.PAR_DutInput.includes("HK")
                 controlPropertyName: "PAR_MeasWait"
@@ -417,7 +418,7 @@ Item {
                 }
             }
             Label {
-                textFormat: Text.PlainText
+                enabled: multiWait.enabled
                 anchors.right: parent.right
                 width: parent.width*col3Width - GC.standardTextHorizMargin
                 anchors.verticalCenter: parent.verticalCenter
