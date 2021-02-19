@@ -27,7 +27,7 @@ Item {
   property var burden1Introspection: VeinEntity.hasEntity("Burden1Module1") ? JSON.parse(VeinEntity.getEntity("Burden1Module1").INF_ModuleInterface) : 0
   property var burden2Introspection: VeinEntity.hasEntity("Burden1Module2") ? JSON.parse(VeinEntity.getEntity("Burden1Module2").INF_ModuleInterface) : 0
   property var transformer1Introspection: VeinEntity.hasEntity("Transformer1Module1") ? JSON.parse(VeinEntity.getEntity("Transformer1Module1").INF_ModuleInterface) : 0
-  property var customerdataIntrospection: VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0
+  //property var customerdataIntrospection: VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0
   property var introMap: ({});
 
   function reloadIntrospection() {
@@ -51,14 +51,14 @@ Item {
     burden1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("Burden1Module1") ? JSON.parse(VeinEntity.getEntity("Burden1Module1").INF_ModuleInterface) : 0; })
     burden2Introspection = Qt.binding(function() { return VeinEntity.hasEntity("Burden1Module2") ? JSON.parse(VeinEntity.getEntity("Burden1Module2").INF_ModuleInterface) : 0; })
     transformer1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("Transformer1Module1") ? JSON.parse(VeinEntity.getEntity("Transformer1Module1").INF_ModuleInterface) : 0; })
-    customerdataIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0; })
+//    customerdataIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0; })
     setMapping();
   }
 
   function setMapping() {
     var tmpMap = ({})
 
-    var allEntities = VeinEntity.getEntity("_System").Entities
+    var allEntities = VeinEntity.getEntity("_VEIN").Entities
     for(var i=0; i<allEntities.length; ++i)
     {
       var tmpEntity = VeinEntity.getEntityById(allEntities[i])

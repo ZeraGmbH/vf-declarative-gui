@@ -32,6 +32,8 @@ ApplicationWindow {
     // for development: current resolution
     property int screenResolution: GC.screenResolution
 
+    property var availableEntities;
+
     visible: true
     width: getScreenWidth()
     height: getScreenHeight()
@@ -40,31 +42,49 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: "#339966"
 
-    Component.onCompleted: {
-        currentSession = Qt.binding(function() {
-            return VeinEntity.getEntity("_System").Session;
-        })
-    }
+    onAvailableEntitiesChanged: {
+        if(displayWindow.availableEntities !== undefined){
 
-    onCurrentSessionChanged: {
-        var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
+            var tmpSubscribe=displayWindow.availableEntities;
 
-        var oldIdList = VeinEntity.getEntityList();
-        for(var oldIdIterator in oldIdList) {
-            VeinEntity.entityUnsubscribeById(oldIdList[oldIdIterator]);
-        }
+            var currentList=VeinEntity.getEntityList();
 
-        if(availableEntityIds !== undefined) {
-            availableEntityIds.push(0);
-        }
-        else {
-            availableEntityIds = [0];
-        }
+            var tmpId;
 
-        for(var newIdIterator in availableEntityIds) {
-            VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
+            // unsubscribe removed entities
+            for(tmpId in currentList){
+                if(!tmpSubscribe.includes(tmpSubscribe[tmpId])){
+                    VeinEntity.entityUnsubscribeById(tmpSubscribe[tmpId]);
+                }
+            }
+            // subscribe new entities
+            for(tmpId in tmpSubscribe){
+                if(!currentList.includes(tmpSubscribe[tmpId])){
+                    VeinEntity.entitySubscribeById(tmpSubscribe[tmpId]);
+                }
+            }
         }
     }
+
+
+
+    Connections {
+        target: VeinEntity
+        onSigEntityAvailable: {
+            var tmpEntity = VeinEntity.getEntity(t_entityName);
+            var tmpEntityId = tmpEntity.entityId()
+            if(tmpEntityId === 0){
+                if(tmpEntity.Entities !== undefined){
+                    displayWindow.availableEntities=Qt.binding(function(){
+                        return VeinEntity.getEntity("_VEIN")["Entities"];
+                    }
+                    );
+                }
+            }
+        }
+    }
+
+
     function getScreenWidth() {
         var width = Screen.desktopAvailableWidth
         if(BUILD_TYPE === "debug") {
@@ -100,10 +120,6 @@ ApplicationWindow {
         return height
     }
 
-    //  FontLoader {
-    //    //init fontawesome
-    //    source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
-    //  }
 
     Connections {
         target: VeinEntity
@@ -126,18 +142,6 @@ ApplicationWindow {
             }
         }
 
-        onSigEntityAvailable: {
-            var checkRequired = false;
-            var entId = VeinEntity.getEntity(t_entityName).entityId()
-            if(entId === 0) {
-                currentSession = Qt.binding(function() {
-                    return VeinEntity.getEntity("_System").Session;
-                });
-                pageView.sessionComponent = Qt.binding(function() {
-                    return currentSession;
-                });
-            }
-        }
     }
 
     Shortcut {
