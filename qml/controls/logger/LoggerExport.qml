@@ -271,11 +271,12 @@ Item {
                 var driveStillThere = mountedPaths.includes(selectedMountPath)
                 if(!rpcIdMtVis && sessionName !== "" && databaseName !== "" && driveStillThere) {
                     var extraParams = "{'digits' : '%1', 'decimalPlaces' : '%2', 'local' : '%3'}".arg(GC.digitsTotal).arg(GC.decimalPlaces).arg(ZLocale.localeName)
-                    rpcIdMtVis = exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_inputPath,QString p_outputPath,QString p_parameters,QString p_session)", {
+                    rpcIdMtVis = exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_filter,QString p_inputPath,QString p_outputPath,QString p_parameters,QString p_session)", {
                                                         "p_session": sessionName,
                                                         "p_inputPath": databaseName,
                                                         "p_outputPath": outputFilePath,
                                                         "p_engine": engine,
+                                                        "p_filter" : "Snapshot",
                                                         "p_parameters": extraParams})
 
                 }
