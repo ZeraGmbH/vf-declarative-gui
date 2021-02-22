@@ -152,29 +152,6 @@ Item {
         id: radioMenuGroup
         property string customContentSets: GC.getLoggerCustomContentSets()
         property int contentTypeRadioToSet
-        onCustomContentSetsChanged: {
-            checkCustomPlausis(false)
-        }
-        function checkCustomPlausis(onOpenMenu) {
-            if(GC.currentGuiContext !== undefined) { // avoid initial fire
-                var isCustomDataSelected = GC.getLoggerContentType() === GC.contentTypeEnum.CONTENT_TYPE_CUSTOM
-                var actionRequired = false
-                // Custom data selected but nothing selected: select fallback
-                if(isCustomDataSelected && customContentSets === "") {
-                    actionRequired = true
-                    contentTypeRadioToSet = GC.contentTypeEnum.CONTENT_TYPE_CONTEXT
-                }
-                // Custom data was modified: select custom data menu
-                else if(!onOpenMenu && !isCustomDataSelected && customContentSets !== "") {
-                    actionRequired = true
-                    contentTypeRadioToSet = GC.contentTypeEnum.CONTENT_TYPE_CUSTOM
-                }
-                if(actionRequired) {
-                    // Again: Althogh everything works fine QML detects a property loop...
-                    propertyLoopAvoidingSetDefaultContentSet.start()
-                }
-            }
-        }
         function checkRadiosFromSettings() {
             var radioChecked = false
             var radioContextSpecific
@@ -199,14 +176,6 @@ Item {
         }
         onClicked: {
             GC.setLoggerContentType(checkedButton.enumContentType)
-        }
-    }
-    Timer {
-        id: propertyLoopAvoidingSetDefaultContentSet
-        interval: 0
-        repeat: false
-        onTriggered: {
-            GC.setLoggerContentType(radioMenuGroup.contentTypeRadioToSet)
         }
     }
 
