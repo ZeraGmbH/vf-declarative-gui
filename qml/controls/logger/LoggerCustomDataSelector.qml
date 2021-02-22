@@ -65,6 +65,7 @@ Item {
             }
             delegate: Button {
                 id: selectionButton
+                // User cannot disable content for current context:
                 readonly property bool unchangable: modelData === GC.getDefaultDbContentSet(GC.currentGuiContext)
                 text: unchangable ?
                           "<font color='" + selectionButton.Material.accentColor + "'>" + Z.tr(modelData) + "</font>" :
