@@ -8,6 +8,7 @@ import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
+import "qrc:/qml/helpers" as HELPERS
 
 Item {
     id: root
@@ -30,53 +31,65 @@ Item {
     // make current output path commonly accessible / set by combo target drive
     readonly property alias selectedMountPath: mountedDrivesCombo.currentPath
     onSelectedMountPathChanged: {
-        callRpcSearchCustomerImportPaths()
+        tasksSearchCustomerImportPaths.startRun()
     }
 
     // Import/export RPC business
-    property var rpcIdCopyDirs
-    property var rpcIdFindImportCustomertDataPaths
     property var customerImportDirList: []
-    // RPC_CopyDirFiles handling
-    function callRpcCopyDirFiles(sourcePath, destPath, cleanDestPath, overwrite) {
-        // Note: modelIndexArrayToGetInfo is assumed not empty
-        if(!rpcIdCopyDirs) {
-            rpcIdCopyDirs = filesEntity.invokeRPC("RPC_CopyDirFiles(bool p_cleanDestFirst,QString p_destDir,QStringList p_nameFilters,bool p_overwrite,QString p_sourceDir)", {
-                                                  "p_sourceDir": sourcePath,
-                                                  "p_destDir": destPath,
-                                                  "p_nameFilters": [ "*.json" ],
-                                                  "p_cleanDestFirst": cleanDestPath,
-                                                  "p_overwrite": overwrite})
-        }
-    }
-    // RPC_FindFileSpecial handling
-    function callRpcSearchCustomerImportPaths() {
-        customerImportDirList = []
-        if(!rpcIdFindImportCustomertDataPaths) {
-            rpcIdFindImportCustomertDataPaths = filesEntity.invokeRPC("RPC_FindFileSpecial(QString p_baseDir,QStringList p_nameFilterList,bool p_returnMatchingDirsOnly)", {
-                                                                      "p_baseDir": selectedMountPath,
-                                                                      "p_nameFilterList": [ "zera-*-?????????", "customerdata", "*.json" ],
-                                                                      "p_returnMatchingDirsOnly": true})
-        }
-    }
 
-    Connections {
-        target: filesEntity
-        onSigRPCFinished: {
-            // TODO error handling
-            if(t_identifier === rpcIdCopyDirs) {
-                rpcIdCopyDirs = undefined
-                if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
-                        t_resultData["RemoteProcedureData::Return"] === true) { // ok
-                    if(importCustomerDataPopup.visible) {
-                        importCustomerDataPopup.close()
+    HELPERS.TaskList {
+        id: tasksSearchCustomerImportPaths
+        taskArray: [
+            { 'type': 'rpc',  // search paths
+              'callFunction': () => filesEntity.invokeRPC("RPC_FindFileSpecial(QString p_baseDir,QStringList p_nameFilterList,bool p_returnMatchingDirsOnly)", {
+                                                              "p_baseDir": selectedMountPath,
+                                                              "p_nameFilterList": [ "zera-*-?????????", "customerdata", "*.json" ],
+                                                              "p_returnMatchingDirsOnly": true}),
+              'notifyCallback': (t_resultData) => {
+                    let ok = t_resultData["RemoteProcedureData::resultCode"] === 0
+                    if(ok) {
+                        customerImportDirList = t_resultData["RemoteProcedureData::Return"]
                     }
-                }
+                    return true
+              },
+              'rpcTarget': filesEntity
             }
-            else if(t_identifier === rpcIdFindImportCustomertDataPaths) {
-                rpcIdFindImportCustomertDataPaths = undefined
-                if(t_resultData["RemoteProcedureData::resultCode"] === 0) {
-                    customerImportDirList = t_resultData["RemoteProcedureData::Return"]
+        ]
+    }
+    HELPERS.TaskList {
+        id: tasksExport
+        taskArray: [
+            { 'type': 'rpc',  // copy
+              'callFunction': () => filesEntity.invokeRPC("RPC_CopyDirFiles(bool p_cleanDestFirst,QString p_destDir,QStringList p_nameFilters,bool p_overwrite,QString p_sourceDir)", {
+                                                              "p_sourceDir": filesEntity.CustomerDataLocalPath,
+                                                              "p_destDir": stickImportExportPath,
+                                                              "p_nameFilters": [ "*.json" ],
+                                                              "p_cleanDestFirst": true,
+                                                              "p_overwrite": false}),
+              'rpcTarget': filesEntity
+            }
+        ]
+    }
+    HELPERS.TaskList {
+        id: tasksImport
+        taskArray: [
+            { 'type': 'rpc',  // copy
+              'callFunction': () => filesEntity.invokeRPC("RPC_CopyDirFiles(bool p_cleanDestFirst,QString p_destDir,QStringList p_nameFilters,bool p_overwrite,QString p_sourceDir)", {
+                                                              "p_sourceDir": customerImportDirList[deviceImportCombo.currentIndex],
+                                                              "p_destDir": filesEntity.CustomerDataLocalPath,
+                                                              "p_nameFilters": [ "*.json" ],
+                                                              "p_cleanDestFirst": importDeleteCheckbox.checked,
+                                                              "p_overwrite": importOverwriteCheckbox.checked}),
+              'rpcTarget': filesEntity
+            }
+        ]
+        Connections {
+            onDone: {
+                if(!error) {
+                    importCustomerDataPopup.close()
+                }
+                else {
+                    //TODO
                 }
             }
         }
@@ -154,12 +167,8 @@ Item {
                     font.pointSize: pointSize
                     Layout.preferredWidth: importCancel.width
                     onClicked: {
-                        var sourcePath = customerImportDirList[deviceImportCombo.currentIndex]
-                        if(sourcePath !== "") {
-                            callRpcCopyDirFiles(sourcePath,
-                                                filesEntity.CustomerDataLocalPath,
-                                                importDeleteCheckbox.checked,
-                                                importOverwriteCheckbox.checked)
+                        if(customerImportDirList[deviceImportCombo.currentIndex] !== "") {
+                            tasksImport.startRun()
                         }
                     }
                 }
@@ -328,7 +337,7 @@ Item {
         Button {
             text: Z.tr("Import")
             font.pointSize: pointSize
-            enabled: mountedPaths.length > 0 && !rpcIdCopyDirs && customerImportDirList.length > 0
+            enabled: mountedPaths.length > 0 && !tasksImport.running && customerImportDirList.length > 0
             onClicked: {
                 importCustomerDataPopup.open()
             }
@@ -336,9 +345,9 @@ Item {
         Button {
             text: Z.tr("Export")
             font.pointSize: pointSize
-            enabled: mountedPaths.length > 0 && !rpcIdCopyDirs && availableCustomerDataFiles.length > 0
+            enabled: mountedPaths.length > 0 && !tasksExport.running && availableCustomerDataFiles.length > 0
             onClicked: {
-                callRpcCopyDirFiles(filesEntity.CustomerDataLocalPath, stickImportExportPath, true, false)
+                tasksExport.startRun()
             }
         }
     }
