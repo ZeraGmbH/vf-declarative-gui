@@ -11,9 +11,10 @@ Item {
                 'rpcTarget': Target entity For rpc type only
         }
         Notes:
-        * callFunction: Blocking functions are expected to return true (success)/ false(errro)
-        * notifyCallback parameter: result: bool for blocking / rpc-result
-        * notifyCallback return: true continue / false stop
+        * callFunction: Blocking functions are expected to return true (success)/ false(error)
+        * notifyCallback: If not set use wise default
+        * notifyCallback: parameter: result: bool for blocking / rpc-result
+        * notifyCallback: return: true continue / false stop
     */
     property var taskArray: []
     function startRun() {
@@ -48,7 +49,16 @@ Item {
         Connections {
             onSigRPCFinished: {
                 if(t_identifier === _private.rpcId) {
-                    let cont = taskArray[_private.currentTaskNo].notifyCallback(t_resultData)
+                    let cont
+                    // no notifier callback set: use default matching most times
+                    if(taskArray[_private.currentTaskNo].notifyCallback === undefined) {
+                        // default
+                        cont =  t_resultData["RemoteProcedureData::resultCode"] === 0 &&
+                                t_resultData["RemoteProcedureData::Return"] === true
+                    }
+                    else {
+                        cont = taskArray[_private.currentTaskNo].notifyCallback(t_resultData)
+                    }
                     if(cont) {
                         timerNextHelper.start()
                     }
@@ -85,7 +95,13 @@ Item {
         switch(taskArray[_private.currentTaskNo].type) {
         case 'block':
             let ret = taskArray[_private.currentTaskNo].callFunction()
-            let cont = taskArray[_private.currentTaskNo].notifyCallback(ret)
+            let cont
+            if(taskArray[_private.currentTaskNo].notifyCallback === undefined) {
+                cont = ret // stop on error
+            }
+            else {
+                cont = taskArray[_private.currentTaskNo].notifyCallback(ret)
+            }
             if(cont) {
                 timerNextHelper.start()
             }
