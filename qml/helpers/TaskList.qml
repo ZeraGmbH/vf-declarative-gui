@@ -2,19 +2,29 @@ import QtQml 2.14
 import QtQuick 2.14
 
 Item {
-    /*  taskArray:
-        Array of
-        {
-                'type': 'block'/'rpc',
-                'callFunction': <pointer to call function>,
-                'notifyCallback: <pointer to notification callback)
-                'rpcTarget': Target entity For rpc type only
-        }
-        Notes:
-        * callFunction: Blocking functions are expected to return true (success)/ false(error)
-        * notifyCallback: If not set use wise default
-        * notifyCallback: parameter: result: bool for blocking / rpc-result
-        * notifyCallback: return: true continue / false stop
+    ///////////////////////////////////////////////////////////////////////////
+    // public interface
+
+    /* taskArray has to be set as a array of
+      {
+        'type': 'block'/'rpc',
+        'callFunction': <pointer to the function starting a task>,
+        'notifyCallback: <pointer to after-task notification/evaluation function>,
+        'rpcTarget': <target entity for (rpc type only / othewise ignored)>
+      }
+
+      Details on function callbacks:
+        callFunction:
+          * no parameter
+          * return value:
+		    * block: functions are expected to return true (ok) / false (error)
+            * rpc functions must return RPC ID
+        notifyCallback:
+          * if not set use wise default
+          * parameter:
+            * block: bool return of callFunction
+            * rpc: rpc-result: t_resultData
+          * return value bool: true continue next task / false stop with error
     */
     property var taskArray: []
     function startRun() {
@@ -25,7 +35,6 @@ Item {
         }
         else {
             console.error("Tasklist already running")
-            //stop(true)
         }
     }
     signal done(bool error)
@@ -33,8 +42,8 @@ Item {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // internals
-    Timer { // blocking: avoid stack overflow on many blocking tasks
+    // private internals
+    Timer { // blocking: avoid call-stack explosion on many blocking tasks
             // rpc: decouple RPC response from next task
         id: timerNextHelper
         interval: 0
@@ -63,7 +72,6 @@ Item {
                         timerNextHelper.start()
                     }
                     else {
-                        _private.running = false
                         stop(true)
                     }
                     _private.rpcId = undefined
@@ -106,7 +114,6 @@ Item {
                 timerNextHelper.start()
             }
             else {
-                _private.running = false
                 stop(ret)
             }
             break;
