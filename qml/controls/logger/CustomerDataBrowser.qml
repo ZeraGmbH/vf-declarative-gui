@@ -102,7 +102,7 @@ Item {
     Popup {
         id: importCustomerDataPopup
         anchors.centerIn: parent
-        width: parent.width * 9/10
+        width: parent.width
         modal: true
         ColumnLayout {
             anchors.fill: parent
@@ -142,11 +142,13 @@ Item {
                 id: importDeleteCheckbox
                 text: Z.tr("Delete current files first")
                 font.pointSize: pointSize * 2/3
+                Layout.fillWidth: true
             }
             CheckBox {
                 id: importOverwriteCheckbox
                 text: Z.tr("Overwrite current files with imported ones")
                 font.pointSize: pointSize * 2/3
+                Layout.fillWidth: true
                 enabled: !importDeleteCheckbox.checked
             }
             RowLayout { // Cancel/Ok buttons
