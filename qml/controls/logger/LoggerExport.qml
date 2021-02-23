@@ -74,20 +74,14 @@ Item {
     function dbAndDriveStillThere() {
         return databaseName !== "" && mountedPaths.includes(selectedMountPath) // db & drive still there
     }
-    function rpcResultOk(t_resultData) {
-        return t_resultData["RemoteProcedureData::resultCode"] === 0 &&
-                t_resultData["RemoteProcedureData::Return"] === true
-    }
 
     // Tasklists
     HELPERS.TaskList {
         id: tasksExportMtVis
         readonly property string extraParams: "{'digits' : '%1', 'decimalPlaces' : '%2', 'local' : '%3'}".arg(GC.digitsTotal).arg(GC.decimalPlaces).arg(ZLocale.localeName)
-        // Note on all notifyCallbacks: Stop on error
         taskArray: [
             { 'type': 'block', // check
-              'callFunction': () => dbAndDriveStillThere(),
-              'notifyCallback': (ok) => ok
+              'callFunction': () => dbAndDriveStillThere()
             },
             { 'type': 'rpc', // main.xml
               'callFunction': () => exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_filter,QString p_inputPath,QString p_outputPath,QString p_parameters,QString p_session)", {
@@ -97,7 +91,19 @@ Item {
                                                                "p_engine": 'zeraconverterengines.MTVisMain',
                                                                "p_filter" : "Snapshot",
                                                                "p_parameters": extraParams}),
-              'notifyCallback': (t_resultData) => rpcResultOk(t_resultData),
+              'rpcTarget': exportEntity
+            },
+            { 'type': 'block', // check
+              'callFunction': () => dbAndDriveStillThere()
+            },
+            { 'type': 'rpc',  // result.xml
+              'callFunction': () => exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_filter,QString p_inputPath,QString p_outputPath,QString p_parameters,QString p_session)", {
+                                                               "p_session": sessionName,
+                                                               "p_inputPath": databaseName,
+                                                               "p_outputPath": targetFilePath + '/result.xml',
+                                                               "p_engine": 'zeraconverterengines.MTVisRes',
+                                                               "p_filter" : "Snapshot",
+                                                               "p_parameters": extraParams}),
               'rpcTarget': exportEntity
             }
         ]
@@ -116,28 +122,15 @@ Item {
     }
     HELPERS.TaskList {
         id: tasksExportDb
-        // Note on all notifyCallbacks: Stop on error
         taskArray: [
             { 'type': 'block', // check
-              'callFunction': () => dbAndDriveStillThere(),
-              'notifyCallback': (ok) => ok
+              'callFunction': () => dbAndDriveStillThere()
             },
             { 'type': 'rpc',  // copy
               'callFunction': () => filesEntity.invokeRPC("RPC_CopyFile(QString p_dest,bool p_overwrite,QString p_source)", {
                                                               "p_source": databaseName,
                                                               "p_dest": targetFilePath,
                                                               "p_overwrite": true }),
-              'notifyCallback': (t_resultData) => rpcResultOk(t_resultData),
-              'rpcTarget': filesEntity
-            },
-            { 'type': 'block', // check
-              'callFunction': () => dbAndDriveStillThere(),
-              'notifyCallback': (ok) => ok
-            },
-            { 'type': 'rpc',  // fsync
-              'callFunction': () => filesEntity.invokeRPC("RPC_FSyncPath(QString p_fullPath)", {
-                                                              "p_fullPath": targetFilePath}),
-              'notifyCallback': (t_resultData) => rpcResultOk(t_resultData),
               'rpcTarget': filesEntity
             }
         ]
