@@ -11,8 +11,7 @@ import ZeraTranslation  1.0
 import ZeraFa 1.0
 import anmsettings 1.0
 import "qrc:/qml/controls" as CCMP
-import "qrc:/src/qml/"
-import "qrc:/src/qml/tree"
+import advancednetworkmanager 1.0
 import "qrc:/"
 
 Item{

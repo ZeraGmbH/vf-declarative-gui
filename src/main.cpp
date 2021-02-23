@@ -108,6 +108,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("OS_TYPE", "linux");
 #endif //Q_OS_ANDROID
 
+#ifdef QML2_IMPORT_PATH
+    engine.addImportPath(QML2_IMPORT_PATH);
+#endif
     engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
     engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
