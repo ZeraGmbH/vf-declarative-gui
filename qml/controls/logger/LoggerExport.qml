@@ -89,7 +89,8 @@ Item {
                                                                "p_inputPath": databaseName,
                                                                "p_outputPath": targetFilePath + '/main.xml',
                                                                "p_engine": 'zeraconverterengines.MTVisMain',
-                                                               "p_filter" : "Snapshot",
+                                                               /* This is a hack. We hope there is no transaction like: */
+                                                               "p_filter" : "NoTransactionsNecessaryForMainXml",
                                                                "p_parameters": extraParams}),
               'rpcTarget': exportEntity
             },
