@@ -154,8 +154,12 @@ ComboBox {
             rpcReturnsTillFancyFlash = addedMountPaths.length
         }
         else if(removedMountPaths.length > 0) {
+            // update current on empty
+            if(mountedPaths.length === 0) {
+                privateKeeper.currentPath = ""
+            }
             // no mounts added just removed (=no RPC responses) -> we finish here
-            if(isRemovedPathSelected) {
+            if(isRemovedPathSelected && nextModel.length > 0) {
                 // go back home
                 unsetRequestedPath = nextModel[0].value
             }
