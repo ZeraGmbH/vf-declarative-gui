@@ -106,6 +106,11 @@ Item {
                                                                "p_filter" : "Snapshot",
                                                                "p_parameters": extraParams}),
               'rpcTarget': exportEntity
+            },
+            { 'type': 'rpc',  // fsync
+              'callFunction': () => filesEntity.invokeRPC("RPC_FSyncPath(QString p_fullPath)", {
+                                                              "p_fullPath": targetFilePath}),
+              'rpcTarget': filesEntity
             }
         ]
         Connections {
@@ -132,6 +137,11 @@ Item {
                                                               "p_source": databaseName,
                                                               "p_dest": targetFilePath,
                                                               "p_overwrite": true }),
+              'rpcTarget': filesEntity
+            },
+            { 'type': 'rpc',  // fsync
+              'callFunction': () => filesEntity.invokeRPC("RPC_FSyncPath(QString p_fullPath)", {
+                                                              "p_fullPath": targetFilePath}),
               'rpcTarget': filesEntity
             }
         ]
