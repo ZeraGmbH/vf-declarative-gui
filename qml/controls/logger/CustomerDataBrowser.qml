@@ -67,6 +67,11 @@ Item {
                                                               "p_cleanDestFirst": true,
                                                               "p_overwrite": false}),
               'rpcTarget': filesEntity
+            },
+            { 'type': 'rpc',  // fsync
+              'callFunction': () => filesEntity.invokeRPC("RPC_FSyncPath(QString p_fullPath)", {
+                                                              "p_fullPath": stickImportExportPath}),
+              'rpcTarget': filesEntity
             }
         ]
     }
