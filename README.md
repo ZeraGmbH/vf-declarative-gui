@@ -16,6 +16,5 @@ The GUI is compatible with multiple Zera devices, android and desktop platforms 
 | Qt | http://code.qt.io/cgit/ |
 | Vein Framework | https://github.com/ZeraGmbH/vf-metaproject |
 | JsonSettingsQML | https://github.com/ZeraGmbH/JsonSettingsQML |
-| QNanoPainter | https://github.com/QUItCoding/qnanopainter |
 | QML SortFilterProxyModel | https://github.com/oKcerG/SortFilterProxyModel |
 | Qwt | http://qwt.sourceforge.net/ |
