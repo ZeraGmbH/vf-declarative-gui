@@ -11,7 +11,6 @@ Item {
     id: root
 
     readonly property int rowHeight: Math.floor(height/20)
-    property var errorDataModel: [];
 
     TabBar {
         id: informationSelector
@@ -48,13 +47,6 @@ Item {
             height: parent.height
             font.pixelSize: height/2
         }
-        TabButton {
-            id: errorLogButton
-            text: FA.icon(FA.fa_exclamation_triangle, GC.tmpStatusNewErrors ? Material.color(Material.Yellow) : "#44ffffff" )+Z.tr("Device log")
-            font.family: FA.old
-            height: parent.height
-            font.pixelSize: height/2
-        }
     }
 
     StackLayout {
@@ -70,18 +62,6 @@ Item {
         Loader {
             active: stackLayout.currentIndex === 1
             sourceComponent: LicenseInformation { }
-        }
-        Loader {
-            active: stackLayout.currentIndex === 2
-            sourceComponent: Notifications {
-                errorDataModel: root.errorDataModel
-            }
-            onActiveChanged: {
-                if(active === false) {
-                    GC.tmpStatusNewErrors = false;
-                }
-            }
-            Component.onDestruction: GC.tmpStatusNewErrors = false;
         }
     }
 }
