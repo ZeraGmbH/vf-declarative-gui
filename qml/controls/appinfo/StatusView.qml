@@ -10,13 +10,11 @@ import ZeraFa 1.0
 Item {
     id: root
 
-    readonly property int rowHeight: Math.floor(height/20)
-
     TabBar {
         id: informationSelector
         width: parent.width
-        height: root.rowHeight*1.5
-        currentIndex: 0
+        contentHeight: 32
+        currentIndex: GC.entityInitializationDone ? swipeView.currentIndex : 1
         TabButton {
             id: deviceStatusButton
             text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
@@ -49,18 +47,18 @@ Item {
         }
     }
 
-    StackLayout {
-        id: stackLayout
+    SwipeView {
+        id: swipeView
         anchors.fill: parent
-        anchors.topMargin: informationSelector.height + root.rowHeight/2
+        anchors.topMargin: informationSelector.height + GC.standardTextBottomMargin
         currentIndex: informationSelector.currentIndex
 
         Loader {
-            active: stackLayout.currentIndex === 0 && VeinEntity.hasEntity("StatusModule1")
+            active: swipeView.currentIndex === 0 && VeinEntity.hasEntity("StatusModule1")
             sourceComponent: DeviceInformation { }
         }
         Loader {
-            active: stackLayout.currentIndex === 1
+            active: swipeView.currentIndex === 1
             sourceComponent: LicenseInformation { }
         }
     }
