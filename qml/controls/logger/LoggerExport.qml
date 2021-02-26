@@ -271,7 +271,7 @@ Item {
                     // * for MTVis: do not allow '.' for paths
                     switch(exportType) {
                     case "EXPORT_TYPE_MTVIS":
-                        regExCurr = /\b[a-z0-9][_\-a-z0-9]*\b/
+                        regExCurr = /\b[_a-z0-9][_\-a-z0-9]*\b/
                         // suggest sessionName (yes we need to ask for overwrite e.g for the cause
                         // of multiple storining of same session name in multiple dbs)
                         var sessionLow = sessionName.toLowerCase()
@@ -290,7 +290,7 @@ Item {
                         placeholderText = Z.tr("Name of export path")
                         break
                     case "EXPORT_TYPE_SQLITE":
-                        regExCurr = /\b[a-z0-9][._\-a-z0-9]*\b/
+                        regExCurr = /\b[_a-z0-9][_\-a-z0-9]*.db\b/
                         text = databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()
                         readOnly = true
                         placeholderText = ""

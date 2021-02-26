@@ -58,7 +58,7 @@ Popup {
         // No ZLineEdit due to different RETURN/ESC/redBackground handling
         TextField {
             id: filenameField
-            validator: RegExpValidator { regExp: /^[^.|"/`$!/\\<>:?~{}]+$/ }
+            validator: RegExpValidator { regExp: /\b[_a-z0-9][_\-a-z0-9]*\b/ }
             font.pointSize: pointSize
             height: rowHeight
             bottomPadding: GC.standardTextBottomMargin
@@ -70,7 +70,7 @@ Popup {
                 anchors.fill: parent
                 color: "red"
                 opacity: 0.3
-                visible: fileNameAlreadyExists
+                visible: fileNameAlreadyExists || !filenameField.acceptableInput
             }
             onAccepted: {
                 startAddCustomerData()
@@ -105,7 +105,7 @@ Popup {
             text: Z.tr("OK")
             font.pointSize: pointSize
             Layout.preferredWidth: newFileCancel.width
-            enabled: filenameField.text.length>0 && fileNameAlreadyExists === false
+            enabled: filenameField.acceptableInput && fileNameAlreadyExists === false
             onClicked: {
                 startAddCustomerData()
             }
