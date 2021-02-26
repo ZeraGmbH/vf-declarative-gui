@@ -36,8 +36,10 @@ CCMP.ModulePage {
         arrayMode: true
         model: ["VEC  UL  PN", "VEC  UL  △", "VEC  UL  ∠"]
 
+        targetIndex: GC.vectorMode
         onTargetIndexChanged: {
             root.viewMode = targetIndex
+            GC.setVectorMode(targetIndex)
         }
 
         anchors.bottomMargin: 24
@@ -61,6 +63,10 @@ CCMP.ModulePage {
         height: root.height/10
         width: root.width/7
         fontSize: Math.min(18, height/1.5, width/8);
+        targetIndex: GC.vectorShowI ? 0 : 1
+        onTargetIndexChanged: {
+            GC.setVectorShowI(targetIndex == 0)
+        }
 
         readonly property bool displayCurrents: targetIndex===0
     }
@@ -79,6 +85,11 @@ CCMP.ModulePage {
         fontSize: Math.min(18, height/1.5, width/8);
         centerVertical: true
         centerVerticalOffset: height/2
+
+        targetIndex: GC.vectorIecMode
+        onTargetIndexChanged: {
+            GC.setVectorIecMode(targetIndex)
+        }
 
         property bool din410: targetIndex===0
     }
