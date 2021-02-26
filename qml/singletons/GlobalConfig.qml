@@ -70,6 +70,21 @@ Item {
         settings.globalSettings.setOption("fft_table_show_phase", setValue);
     }
 
+    readonly property bool vectorMode: parseInt(settings.globalSettings.getOption("vector_mode", "0"))
+    function setVectorMode(mode) {
+        settings.globalSettings.setOption("vector_mode", mode);
+    }
+    readonly property bool vectorShowI: parseInt(settings.globalSettings.getOption("vector_show_i", "1"))
+    function setVectorShowI(show) {
+        var setValue = show ? 1 : 0
+        settings.globalSettings.setOption("vector_show_i", setValue);
+    }
+    readonly property bool vectorIecMode: parseInt(settings.globalSettings.getOption("vector_iecmode", "0"))
+    function setVectorIecMode(mode) {
+        settings.globalSettings.setOption("vector_iecmode", mode);
+    }
+
+
     readonly property int energyScaleSelection: parseInt(settings.globalSettings.getOption("energy_scale_selection", "1")) // 1 -> kWh
     function setEnergyScaleSelection(selection) {
         settings.globalSettings.setOption("energy_scale_selection", selection);
