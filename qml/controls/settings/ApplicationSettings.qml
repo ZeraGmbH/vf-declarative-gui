@@ -183,6 +183,7 @@ SettingsView {
                     orientation: ListView.Horizontal
                     layoutDirection: "RightToLeft"
                     spacing: 4
+                    boundsBehavior: Flickable.OvershootBounds
                     ScrollIndicator.horizontal: ScrollIndicator {
                         onActiveChanged: active = true;
                         active: true
