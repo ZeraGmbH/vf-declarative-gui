@@ -193,7 +193,9 @@ CCMP.ModulePage {
 
         phiOrigin: root.phiOrigin
         labelPhiOffset: -10 * Math.PI/180
+        minVoltage: maxVoltage / 25.0
         maxVoltage: vData.getMaxOVRRejectionU()*Math.sqrt(2)
+        minCurrent: maxCurrent / 25.0
         maxCurrent: vData.getMaxOVRRejectionI()*Math.sqrt(2)
 
         circleColor: Material.frameColor;
