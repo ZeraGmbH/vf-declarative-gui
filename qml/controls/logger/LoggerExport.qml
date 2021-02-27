@@ -10,7 +10,7 @@ import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import ZeraLocale 1.0
 import "qrc:/qml/helpers" as HELPERS
-
+import "qrc:/qml/controls" as CCMP
 
 Item {
     id: root
@@ -61,7 +61,6 @@ Item {
         }
         return fullPath
     }
-    property string errorDescription
 
 
     // 'enumerate' our export types
@@ -73,6 +72,10 @@ Item {
     // common helpers for MTVis / db export
     function dbAndDriveStillThere() {
         return databaseName !== "" && mountedPaths.includes(selectedMountPath) // db & drive still there
+    }
+
+    CCMP.BitMoveWaitPopup {
+        id: waitPopup
     }
 
     // Tasklists
@@ -114,15 +117,12 @@ Item {
             }
         ]
         Connections {
-            target: tasksExportMtVis
             onDone: {
-                if(!error) {
-                    menuStackLayout.pleaseCloseMe(false)
-                }
-                else {
+                let errorDescription = ""
+                if(error) {
                     errorDescription = Z.tr("Export failed - drive removed?")
-                    //TODO
                 }
+                waitPopup.stopWait(errorDescription, () =>  menuStackLayout.pleaseCloseMe(false))
             }
         }
     }
@@ -146,15 +146,12 @@ Item {
             }
         ]
         Connections {
-            target: tasksExportDb
             onDone: {
-                if(!error) {
-                    menuStackLayout.pleaseCloseMe(false)
-                }
-                else {
+                let errorDescription = ""
+                if(error) {
                     errorDescription = Z.tr("Copy failed - drive removed?")
-                    //TODO
                 }
+                waitPopup.stopWait(errorDescription, () =>  menuStackLayout.pleaseCloseMe(false))
             }
         }
     }
@@ -336,9 +333,11 @@ Item {
         onClicked: {
             switch(exportType) {
             case "EXPORT_TYPE_MTVIS":
+                waitPopup.startWait(Z.tr("Exporting MTVis XML..."))
                 tasksExportMtVis.startRun()
                 break
             case "EXPORT_TYPE_SQLITE":
+                waitPopup.startWait(Z.tr("Exporting database..."))
                 tasksExportDb.startRun()
                 break
             }
