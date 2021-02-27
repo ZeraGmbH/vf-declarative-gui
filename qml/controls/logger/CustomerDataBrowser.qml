@@ -9,6 +9,7 @@ import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
 import "qrc:/qml/helpers" as HELPERS
+import "qrc:/qml/controls" as CCMP
 
 Item {
     id: root
@@ -56,6 +57,9 @@ Item {
             }
         ]
     }
+    CCMP.BitMoveWaitPopup {
+        id: waitPopup
+    }
     HELPERS.TaskList {
         id: tasksExport
         taskArray: [
@@ -74,6 +78,16 @@ Item {
               'rpcTarget': filesEntity
             }
         ]
+        Connections {
+            onDone: {
+                let errorDescription = ""
+                importCustomerDataPopup.close()
+                if(error) {
+                    errorDescription = Z.tr("Export failed - drive removed?")
+                }
+                waitPopup.stopWait(errorDescription, null)
+            }
+        }
     }
     HELPERS.TaskList {
         id: tasksImport
@@ -90,12 +104,12 @@ Item {
         ]
         Connections {
             onDone: {
-                if(!error) {
-                    importCustomerDataPopup.close()
+                let errorDescription = ""
+                importCustomerDataPopup.close()
+                if(error) {
+                    errorDescription = Z.tr("Import failed - drive removed?")
                 }
-                else {
-                    //TODO
-                }
+                waitPopup.stopWait(errorDescription, null)
             }
         }
     }
@@ -175,6 +189,7 @@ Item {
                     Layout.preferredWidth: importCancel.width
                     onClicked: {
                         if(customerImportDirList[deviceImportCombo.currentIndex] !== "") {
+                            waitPopup.startWait(Z.tr("Importing customer data..."))
                             tasksImport.startRun()
                         }
                     }
@@ -354,6 +369,7 @@ Item {
             font.pointSize: pointSize
             enabled: mountedPaths.length > 0 && !tasksExport.running && availableCustomerDataFiles.length > 0
             onClicked: {
+                waitPopup.startWait(Z.tr("Exporting customer data..."))
                 tasksExport.startRun()
             }
         }
