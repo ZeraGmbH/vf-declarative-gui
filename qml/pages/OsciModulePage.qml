@@ -126,7 +126,7 @@ Item {
 
                     min: -minMax
                     max: minMax
-                    tickCount: 3
+                    tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
                     minorGridLineColor: Material.dividerColor
                     gridLineColor: Material.frameColor
@@ -141,7 +141,7 @@ Item {
 
                     min: -minMax
                     max: minMax
-                    tickCount: 3
+                    tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
                     minorGridLineColor: Material.dividerColor
                     gridLineColor: Material.frameColor
