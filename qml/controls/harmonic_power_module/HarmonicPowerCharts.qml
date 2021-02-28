@@ -15,7 +15,7 @@ Flickable {
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
 
     contentWidth: width*2
-    boundsBehavior: Flickable.StopAtBounds
+    boundsBehavior: Flickable.OvershootBounds
     clip: true
 
     ScrollBar.horizontal: ScrollBar {
