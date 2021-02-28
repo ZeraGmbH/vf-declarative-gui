@@ -459,6 +459,12 @@ SettingsControls.SettingsView {
                                 }
                             }
                         }
+                        onClicked: {
+                            // just select current
+                            if(!dbListDelegate.isCurrentDb) {
+                                loggerEntity.DatabaseFile = foundFiles[index]
+                            }
+                        }
                     }
                 }
             }
