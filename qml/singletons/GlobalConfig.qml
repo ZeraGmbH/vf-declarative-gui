@@ -101,7 +101,8 @@ Item {
         "layoutRangeIndex": 1,
         "layoutLoggerIndex": 2,
         "layoutSettingsIndex": 3,
-        "layoutStatusIndex": 4
+        "layoutStatusIndex": 4,
+        "layoutSplashIndex": 5
     }
 
 

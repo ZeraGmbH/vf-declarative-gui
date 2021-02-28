@@ -96,5 +96,6 @@
         <file>staticdata/licenses/zera-opensource</file>
         <file>staticdata/resources/rms_values.png</file>
         <file>staticdata/resources/spinner.png</file>
+        <file>staticdata/resources/ZERA-old-school-large.png</file>
     </qresource>
 </RCC>
