@@ -42,7 +42,7 @@ Item {
     contentHeight: root.rowHeight*(hpwOrder+1)
     clip: true
     interactive: true
-    boundsBehavior: Flickable.StopAtBounds
+    boundsBehavior: Flickable.OvershootBounds
     flickableDirection: Flickable.VerticalFlick
 
     ScrollBar.vertical: vBar
@@ -111,7 +111,7 @@ Item {
       height: root.rowHeight*(hpwOrder+1)
 
       model: relativeView ? glueLogic.HPWRelativeTableModel : glueLogic.HPWTableModel
-      boundsBehavior: Flickable.StopAtBounds
+      boundsBehavior: Flickable.OvershootBounds
       cacheBuffer: root.hpwOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
       clip: true
 
