@@ -54,8 +54,27 @@ Item {
             policy: lvOsci.contentHeight > lvOsci.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
 
+        PinchArea {
+            id: pinchArea
+            anchors.fill: parent
+            property real pinchScale: 1.0
+            onPinchUpdated: {
+                // pinch.minimumScale / pinch.maximumScale do not work
+                // here so do the calculations necessary here
+                let scaleFactor = pinch.scale * pinch.previousScale
+                let newPinch = pinchArea.pinchScale * scaleFactor
+                if(newPinch > 3.0) {
+                    newPinch = 3.0
+                }
+                else if(newPinch < 1.0) {
+                    newPinch = 1.0
+                }
+                pinchArea.pinchScale = newPinch
+            }
+        }
+
         delegate: Item {
-            height: root.height/3
+            height: pinchArea.pinchScale * root.height/3
             width: root.plotWidth
             Label {
                 anchors.verticalCenter: parent.verticalCenter
