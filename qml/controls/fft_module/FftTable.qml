@@ -50,7 +50,7 @@ Item {
         contentHeight: root.rowHeight*(fftOrder+3)
         clip: true
         interactive: true
-        boundsBehavior: Flickable.StopAtBounds
+        boundsBehavior: Flickable.OvershootBounds
         flickableDirection: hasHorizScroll ? Flickable.HorizontalAndVerticalFlick : Flickable.VerticalFlick
 
         ScrollBar.horizontal: hBar
@@ -196,7 +196,7 @@ Item {
             height: root.rowHeight*(fftOrder+3)
 
             model: relativeView ? ZGL.FFTRelativeTableModel : ZGL.FFTTableModel
-            boundsBehavior: Flickable.StopAtBounds
+            boundsBehavior: Flickable.OvershootBounds
             cacheBuffer: root.fftOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
 
             clip: true

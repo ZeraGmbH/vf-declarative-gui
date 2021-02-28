@@ -46,7 +46,7 @@ Item {
     ListView {
         id: lvOsci
         anchors.fill: parent
-        boundsBehavior: Flickable.StopAtBounds
+        boundsBehavior: Flickable.OvershootBounds
         model: Math.ceil(channelCount/2)
         clip: true
 

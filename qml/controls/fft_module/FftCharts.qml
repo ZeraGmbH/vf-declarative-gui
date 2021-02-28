@@ -38,7 +38,7 @@ Flickable {
     }
 
     clip: true
-    boundsBehavior: Flickable.StopAtBounds
+    boundsBehavior: Flickable.OvershootBounds
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
     ScrollBar.vertical: ScrollBar {
         policy: root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
