@@ -130,8 +130,8 @@ Item {
 
                     minorGridLineColor: Material.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: Material.primaryTextColor
-                    color: Material.frameColor
+                    labelsColor: GC.getColorByIndex(leftChannels[index]+1)
+                    color: GC.getColorByIndex(leftChannels[index]+1)
                 }
                 ValueAxis {
                     id: yAxisRight
@@ -145,8 +145,8 @@ Item {
 
                     minorGridLineColor: Material.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: Material.primaryTextColor
-                    color: Material.frameColor
+                    labelsColor: GC.getColorByIndex(rightChannels[index]+1)
+                    color: GC.getColorByIndex(rightChannels[index]+1)
                 }
 
                 LineSeries {
