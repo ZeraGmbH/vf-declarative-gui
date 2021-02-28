@@ -14,7 +14,7 @@ Item {
         id: informationSelector
         width: parent.width
         contentHeight: 32
-        currentIndex: GC.entityInitializationDone ? swipeView.currentIndex : 1
+        currentIndex: swipeView.currentIndex
         TabButton {
             id: deviceStatusButton
             text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
