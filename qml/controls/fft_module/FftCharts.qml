@@ -39,15 +39,34 @@ Flickable {
 
     clip: true
     boundsBehavior: Flickable.StopAtBounds
-    contentHeight: height/3 * Math.ceil(fftCount/2)
+    contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
     ScrollBar.vertical: ScrollBar {
         policy: root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+    }
+
+    PinchArea {
+        id: pinchArea
+        anchors.fill: parent
+        property real pinchScale: 1.0
+        onPinchUpdated: {
+            // pinch.minimumScale / pinch.maximumScale do not work
+            // here so do the calculations necessary here
+            let scaleFactor = pinch.scale * pinch.previousScale
+            let newPinch = pinchArea.pinchScale * scaleFactor
+            if(newPinch > 3.0) {
+                newPinch = 3.0
+            }
+            else if(newPinch < 1.0) {
+                newPinch = 1.0
+            }
+            pinchArea.pinchScale = newPinch
+        }
     }
 
     Repeater {
         model: Math.ceil(fftCount/2)
         Item {
-            height: root.height/3
+            height: pinchArea.pinchScale * root.height/3
             width: root.width-16
             y: index*height
             readonly property string strThdn: Z.tr("THDN:") + " "
