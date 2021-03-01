@@ -84,6 +84,19 @@ Item {
         settings.globalSettings.setOption("vector_iecmode", mode);
     }
 
+    readonly property real osciPinchScale: Number(settings.globalSettings.getOption("osci_pinch_scale", "3"))
+    function setOsciPinchScale(scale) {
+        settings.globalSettings.setOption("osci_pinch_scale", scale);
+    }
+    readonly property real fftChartsPinchScale: Number(settings.globalSettings.getOption("fft_charts_pinch_scale", "3"))
+    function setFftChartsPinchScale(scale) {
+        settings.globalSettings.setOption("fft_charts_pinch_scale", scale);
+    }
+    readonly property real harmonicPowerChartPinchScale: Number(settings.globalSettings.getOption("harm_power_charts_pinch_scale", "3"))
+    function setHarmonicPowerChartPinchScale(scale) {
+        settings.globalSettings.setOption("harm_power_charts_pinch_scale", scale);
+    }
+
 
     readonly property int energyScaleSelection: parseInt(settings.globalSettings.getOption("energy_scale_selection", "1")) // 1 -> kWh
     function setEnergyScaleSelection(selection) {
