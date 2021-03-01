@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/main.qml</file>
+        <file>qml/controls/AnimationSlowBits.qml</file>
         <file>qml/controls/DebugRectangle.qml</file>
         <file>qml/controls/FpsItem.qml</file>
         <file>qml/controls/GridItem.qml</file>

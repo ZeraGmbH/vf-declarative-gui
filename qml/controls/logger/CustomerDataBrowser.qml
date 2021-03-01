@@ -59,6 +59,7 @@ Item {
     }
     CCMP.WaitTransaction {
         id: waitPopup
+        animationComponent: CCMP.AnimationSlowBits { }
     }
     HELPERS.TaskList {
         id: tasksExport
