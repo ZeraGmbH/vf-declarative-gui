@@ -19,6 +19,34 @@ Flickable {
     boundsBehavior: Flickable.OvershootBounds
     clip: true
 
+    /* With the introduction of vertical pinch/zoom we buyed a problem: As
+       soon as x is on start swiping out left to other view stopped working
+       most of the times. To get around we temporary unset HorizontalFlick
+       Yeah another hack and what happens if we get a neighbour view on the
+       right...
+       But for sake of usabiltiy we have to
+    */
+    Timer {
+        id: flickTimer
+        interval: 1000
+        repeat: false
+        onTriggered: {
+            // set back default
+            flickableDirection = Flickable.AutoFlickDirection
+        }
+    }
+    onMovementEnded: {
+        let defaultIsFine = true
+        if(contentHeight > height && atXBeginning) {
+            defaultIsFine = false
+            flickableDirection = Flickable.VerticalFlick
+            flickTimer.start()
+        }
+        if(defaultIsFine) {
+            flickableDirection = Flickable.AutoFlickDirection
+        }
+    }
+
     ScrollBar.horizontal: ScrollBar {
         parent: root.parent
         anchors.top: root.bottom
