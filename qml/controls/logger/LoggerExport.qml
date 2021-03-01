@@ -74,7 +74,7 @@ Item {
         return databaseName !== "" && mountedPaths.includes(selectedMountPath) // db & drive still there
     }
 
-    CCMP.BitMoveWaitPopup {
+    CCMP.WaitTransaction {
         id: waitPopup
     }
 

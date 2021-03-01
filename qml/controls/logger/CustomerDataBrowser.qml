@@ -57,7 +57,7 @@ Item {
             }
         ]
     }
-    CCMP.BitMoveWaitPopup {
+    CCMP.WaitTransaction {
         id: waitPopup
     }
     HELPERS.TaskList {
