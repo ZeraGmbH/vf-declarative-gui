@@ -15,29 +15,56 @@ Flickable {
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
 
     contentWidth: width*2
+    contentHeight: pinchArea.pinchScale * height
     boundsBehavior: Flickable.OvershootBounds
     clip: true
 
     ScrollBar.horizontal: ScrollBar {
-        id: hBar
-        anchors.bottom: root.bottom
+        parent: root.parent
+        anchors.top: root.bottom
         anchors.left: root.left
         anchors.right: root.right
-        orientation: Qt.Horizontal
-        height: 12
-        policy: root.contentWidth > root.width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        policy: ScrollBar.AlwaysOn
+    }
+    ScrollBar.vertical: ScrollBar {
+        // Did not get y reparenting to work - but this is good enough
+        /*parent: root.parent
+        anchors.left: root.right
+        anchors.top: root.top
+        anchors.bottom: root.bottom*/
+        policy: contentHeight > height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        width: 8
+    }
+
+    PinchArea {
+        id: pinchArea
+        anchors.fill: parent
+        property real pinchScale: 1.0
+        onPinchUpdated: {
+            // pinch.minimumScale / pinch.maximumScale do not work
+            // here so do the calculations necessary here
+            let scaleFactor = pinch.scale * pinch.previousScale
+            let newPinch = pinchArea.pinchScale * scaleFactor
+            if(newPinch > 3.0) {
+                newPinch = 3.0
+            }
+            else if(newPinch < 1.0) {
+                newPinch = 1.0
+            }
+            pinchArea.pinchScale = newPinch
+        }
     }
 
     Repeater {
         model: 3
         Item {
-            height: root.height/3 - 4
+            height: pinchArea.pinchScale * root.height/3
             width: root.width*2
             y: index*height
 
             HpwBarChart {
                 id: harmonicChart
-                height: root.height/3
+                height: parent.height
                 width: parent.width
 
                 color: Material.backgroundColor
