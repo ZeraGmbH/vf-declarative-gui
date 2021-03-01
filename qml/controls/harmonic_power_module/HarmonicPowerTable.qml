@@ -31,14 +31,15 @@ Item {
         anchors.bottom: fftFlickable.bottom
         orientation: Qt.Vertical
         policy: ScrollBar.AlwaysOn
+        width: 8
     }
 
     Flickable {
         id: fftFlickable
         anchors.fill: parent
         anchors.bottomMargin: parent.height%root.rowHeight
-        anchors.rightMargin: 16
-        contentWidth: root.columnWidth*(1+root.channelCount*2)-16
+        anchors.rightMargin: vBar.width
+        contentWidth: root.columnWidth*(1+root.channelCount*2)
         contentHeight: root.rowHeight*(hpwOrder+1)
         clip: true
         interactive: true
