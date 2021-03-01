@@ -121,7 +121,7 @@ Item {
             onDone: {
                 let errorDescription = ""
                 if(error) {
-                    errorDescription = Z.tr("Export failed - drive removed?")
+                    errorDescription = Z.tr("Export failed - drive full or removed?")
                 }
                 waitPopup.stopWait(errorDescription, () =>  menuStackLayout.pleaseCloseMe(false))
             }
@@ -150,7 +150,7 @@ Item {
             onDone: {
                 let errorDescription = ""
                 if(error) {
-                    errorDescription = Z.tr("Copy failed - drive removed?")
+                    errorDescription = Z.tr("Copy failed - drive full or removed?")
                 }
                 waitPopup.stopWait(errorDescription, () =>  menuStackLayout.pleaseCloseMe(false))
             }

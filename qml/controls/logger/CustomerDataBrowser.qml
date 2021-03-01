@@ -84,7 +84,7 @@ Item {
                 let errorDescription = ""
                 importCustomerDataPopup.close()
                 if(error) {
-                    errorDescription = Z.tr("Export failed - drive removed?")
+                    errorDescription = Z.tr("Export failed - drive full or removed?")
                 }
                 waitPopup.stopWait(errorDescription, null)
             }
