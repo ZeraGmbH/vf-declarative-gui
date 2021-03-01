@@ -24,6 +24,9 @@ Popup {
         if(errorTxt === '') {
             finishTimer.start()
         }
+        else {
+            root.opacity = 1.0
+        }
     }
 
     parent: Overlay.overlay
