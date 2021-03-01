@@ -57,7 +57,7 @@ Item {
         PinchArea {
             id: pinchArea
             anchors.fill: parent
-            property real pinchScale: 1.0
+            property real pinchScale: GC.osciPinchScale
             onPinchUpdated: {
                 // pinch.minimumScale / pinch.maximumScale do not work
                 // here so do the calculations necessary here
@@ -69,6 +69,7 @@ Item {
                 else if(newPinch < 1.0) {
                     newPinch = 1.0
                 }
+                GC.setOsciPinchScale(newPinch)
                 pinchArea.pinchScale = newPinch
             }
         }

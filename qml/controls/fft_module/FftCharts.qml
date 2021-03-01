@@ -47,7 +47,7 @@ Flickable {
     PinchArea {
         id: pinchArea
         anchors.fill: parent
-        property real pinchScale: 1.0
+        property real pinchScale: GC.fftChartsPinchScale
         onPinchUpdated: {
             // pinch.minimumScale / pinch.maximumScale do not work
             // here so do the calculations necessary here
@@ -59,6 +59,7 @@ Flickable {
             else if(newPinch < 1.0) {
                 newPinch = 1.0
             }
+            GC.setFftChartsPinchScale(newPinch)
             pinchArea.pinchScale = newPinch
         }
     }
