@@ -88,7 +88,7 @@ Popup {
         font.family: FA.old
         font.pointSize: pointSize * 5
         text: FA.fa_check
-        color: "lightgreen"
+        color: Material.accentColor
         visible: finishTimer.running && root.errorTxt === ''
     }
     Label { // error indicator
