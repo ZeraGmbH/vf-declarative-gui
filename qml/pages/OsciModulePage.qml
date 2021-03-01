@@ -14,7 +14,7 @@ Item {
     id: root
 
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
-    readonly property real plotWidth: width-16;
+    readonly property real plotWidth: width-8;
     readonly property int channelCount: GC.showAuxPhasesDecoupled ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : Math.min(6, ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount)
 
     //convention that channels are numbered by unit was broken, so do some $%!7 to get the right data
@@ -52,6 +52,7 @@ Item {
 
         ScrollBar.vertical: ScrollBar {
             policy: lvOsci.contentHeight > lvOsci.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            width: 8
         }
 
         PinchArea {
