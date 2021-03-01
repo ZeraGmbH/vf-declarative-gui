@@ -30,14 +30,15 @@ Item {
         anchors.bottom: fftFlickable.bottom
         orientation: Qt.Vertical
         policy: ScrollBar.AlwaysOn
+        width: 8
     }
     ScrollBar {
         id: hBar
         anchors.top: fftFlickable.bottom
         anchors.left: fftFlickable.left
-        anchors.leftMargin: root.columnWidth-16
         anchors.right: fftFlickable.right
         orientation: Qt.Horizontal
+        height: 8
         policy: hasHorizScroll ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
     }
 
@@ -45,7 +46,7 @@ Item {
         id: fftFlickable
         anchors.fill: parent
         anchors.bottomMargin: parent.height%root.rowHeight
-        anchors.rightMargin: 16
+        anchors.rightMargin: vBar.width
         contentWidth: lvHarmonics.width
         contentHeight: root.rowHeight*(fftOrder+3)
         clip: true
@@ -75,7 +76,7 @@ Item {
                 color: Material.backgroundColor //hide item below
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
-                width: root.columnWidth-16
+                width: root.columnWidth-vBar.width
                 height: root.rowHeight
             }
 
@@ -113,7 +114,7 @@ Item {
                 border.color: "#444" //disable border transparency
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
-                width: root.columnWidth-16
+                width: root.columnWidth-vBar.width
                 textAnchors.rightMargin: 2
                 height: root.rowHeight
                 color: GC.tableShadeColor
@@ -148,7 +149,7 @@ Item {
                 border.color: "#444" //disable border transparency
                 x: fftFlickable.contentX //keep item visible
                 z: 1
-                width: root.columnWidth-16
+                width: root.columnWidth-vBar.width
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: "n"
@@ -192,7 +193,7 @@ Item {
             id: lvHarmonics
             z: -1
             y: root.rowHeight*3
-            width: root.columnWidth*(GC.showFftTablePhase ? channelCount*2+1 : channelCount+1) - 16
+            width: root.columnWidth*(GC.showFftTablePhase ? channelCount*2+1 : channelCount+1) - vBar.width
             height: root.rowHeight*(fftOrder+3)
 
             model: relativeView ? ZGL.FFTRelativeTableModel : ZGL.FFTTableModel
@@ -237,7 +238,7 @@ Item {
                         border.color: "#444" //disable border transparency
                         x: fftFlickable.contentX //keep item visible
                         z: 1
-                        width: root.columnWidth-16
+                        width: root.columnWidth-vBar.width
                         height: root.rowHeight
                         color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
                         text: index

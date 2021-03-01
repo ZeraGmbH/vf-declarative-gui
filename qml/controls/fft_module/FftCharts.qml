@@ -42,6 +42,7 @@ Flickable {
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
     ScrollBar.vertical: ScrollBar {
         policy: root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        width: 8
     }
 
     PinchArea {
@@ -68,7 +69,7 @@ Flickable {
         model: Math.ceil(fftCount/2)
         Item {
             height: pinchArea.pinchScale * root.height/3
-            width: root.width-16
+            width: root.width-8
             y: index*height
             readonly property string strThdn: Z.tr("THDN:") + " "
             Text {
