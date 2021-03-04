@@ -166,6 +166,9 @@ ComboBox {
             fillAndSelectCombo()
             comboRipple.startFlash()
         }
+        else {
+            comboRipple.ignoreFirstMountChange = false
+        }
     }
 
     // indexOf kindof helpers - stolen from
