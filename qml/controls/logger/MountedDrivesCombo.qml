@@ -281,14 +281,5 @@ ComboBox {
             interval: 700
             onTriggered: { comboRipple.active = false }
         }
-        // hack to not ignore first stick inserted after we are up
-        Timer {
-            interval: 300
-            repeat: false
-            running: true
-            onTriggered: {
-                comboRipple.ignoreFirstMountChange = false
-            }
-        }
     }
 }
