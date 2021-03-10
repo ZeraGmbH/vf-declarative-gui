@@ -79,7 +79,9 @@ Column {
                     height: root.rowHeight
                     entity: timeList[0]
                     controlPropertyName: "PAR_Interval"
+                    stepSize: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2] * Math.pow(10, validatorTime.decimals)
                     validator: ZDoubleValidator{
+                        id: validatorTime
                         bottom: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
                         top: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
                         decimals: GC.ceilLog10Of1DividedByX(timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
@@ -123,6 +125,7 @@ Column {
                     entity: periodList[0]
                     controlPropertyName: "PAR_Interval"
                     validator: ZDoubleValidator{
+                        id: validatorPeriod
                         bottom: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
                         top: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
                         decimals: GC.ceilLog10Of1DividedByX(periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
