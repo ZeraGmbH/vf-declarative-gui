@@ -22,6 +22,7 @@ Item {
         id: actualValueTabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
+        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
         contentHeight: 32
     }
 
@@ -96,6 +97,7 @@ Item {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
+        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         actualValueTabsBar.addItem(tabTable.createObject(actualValueTabsBar))
         swipeView.addItem(pageTable.createObject(swipeView))
 
@@ -107,5 +109,8 @@ Item {
 
         actualValueTabsBar.addItem(tabRms.createObject(actualValueTabsBar))
         swipeView.addItem(pageRms.createObject(swipeView))
+
+        swipeView.currentIndex = lastTabSelected
+        swipeView.currentIndex = Qt.binding(() => actualValueTabsBar.currentIndex);
     }
 }

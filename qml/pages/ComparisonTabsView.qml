@@ -26,6 +26,7 @@ Item {
         id: comparisonTabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
+        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
         contentHeight: 32
     }
 
@@ -111,6 +112,7 @@ Item {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
+        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         if(hasSEC1) {
             comparisonTabsBar.addItem(tabPulse.createObject(comparisonTabsBar))
             swipeView.addItem(pagePulse.createObject(swipeView))
@@ -127,5 +129,8 @@ Item {
             comparisonTabsBar.addItem(tabPower.createObject(comparisonTabsBar))
             swipeView.addItem(pagePower.createObject(swipeView))
         }
+
+        swipeView.currentIndex = lastTabSelected
+        swipeView.currentIndex = Qt.binding(() => comparisonTabsBar.currentIndex);
     }
 }

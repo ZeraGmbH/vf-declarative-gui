@@ -36,7 +36,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    GC.pageViewLastSelectedIndex = index
+                    GC.setLastPageViewIndexSelected(index)
                     root.elementSelected({"elementIndex": index, "value": elementValue})
                 }
             }
@@ -82,6 +82,6 @@ Item {
         ScrollBar.horizontal: ScrollBar { policy: gridView.contentWidth>gridView.width ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff; }
 
         delegate: gridDelegate
-        currentIndex: GC.pageViewLastSelectedIndex
+        currentIndex: GC.lastPageViewIndexSelected
     }
 }

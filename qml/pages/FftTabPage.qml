@@ -25,6 +25,7 @@ Item {
         contentHeight: 32
         anchors.top: parent.top
         currentIndex: swipeView.currentIndex
+        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
     }
 
     // TabButtons
@@ -81,6 +82,7 @@ Item {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
+        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         if(hasFft)
         {
             harmonicsTabsBar.addItem(tabChart.createObject(harmonicsTabsBar))
@@ -94,5 +96,7 @@ Item {
             harmonicsTabsBar.addItem(tabOsc.createObject(harmonicsTabsBar))
             swipeView.addItem(pageOsc.createObject(swipeView))
         }
+        swipeView.currentIndex = lastTabSelected
+        swipeView.currentIndex = Qt.binding(() => harmonicsTabsBar.currentIndex);
     }
 }

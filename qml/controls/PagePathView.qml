@@ -76,7 +76,7 @@ Item {
                         if(wrapper.PathView.isCurrentItem &&
                            // prevents unexpected user activation of items while they move around
                            (pathView.offset - Math.floor(pathView.offset)) == 0) {
-                            GC.pageViewLastSelectedIndex = index
+                            GC.setLastPageViewIndexSelected(index)
                             root.elementSelected({"elementIndex": index, "value": elementValue})
                         }
                         else {
@@ -118,7 +118,7 @@ Item {
         enabled: visible
         anchors.fill: parent
         highlightMoveDuration: 200
-        currentIndex: GC.pageViewLastSelectedIndex
+        currentIndex: GC.lastPageViewIndexSelected
 
         delegate: pageDelegate
         path: Path {
