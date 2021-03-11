@@ -19,8 +19,6 @@ Item {
         id: settings
     }
 
-    property bool tmpStatusNewErrors: false; //replacement for static variable will not be saved in settings.json
-
     readonly property bool keepPagesPesistent: parseInt(settings.globalSettings.getOption("pagePersistent", "0"))
     function setKeepPagesPesistent(persistent) {
         settings.globalSettings.setOption("pagePersistent", persistent ? 1 : 0)
