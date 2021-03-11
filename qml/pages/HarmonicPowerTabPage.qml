@@ -20,6 +20,7 @@ Item {
         width: parent.width
         contentHeight: 32
         currentIndex: swipeView.currentIndex
+        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
     }
 
     // TabButtons
@@ -60,11 +61,14 @@ Item {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
-        // Tabs can be disabled e.g for licence or mdule enabled  - see ComparisonTabsView.qml
+        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         harmonicsTabsBar.addItem(tabChart.createObject(harmonicsTabsBar))
         swipeView.addItem(pageTable.createObject(swipeView))
 
         harmonicsTabsBar.addItem(tabEnergy.createObject(harmonicsTabsBar))
         swipeView.addItem(pageChart.createObject(swipeView))
+
+        swipeView.currentIndex = lastTabSelected
+        swipeView.currentIndex = Qt.binding(() => harmonicsTabsBar.currentIndex);
     }
 }

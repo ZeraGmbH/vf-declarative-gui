@@ -29,6 +29,7 @@ Item {
         id: tabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
+        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
         contentHeight: 32
     }
 
@@ -233,6 +234,7 @@ Item {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
+        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         if(hasVoltageBurden) {
             tabsBar.addItem(tabVoltage.createObject(tabsBar))
             swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : true}))
@@ -241,5 +243,7 @@ Item {
             tabsBar.addItem(tabCurrent.createObject(tabsBar))
             swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : false}))
         }
+        swipeView.currentIndex = lastTabSelected
+        swipeView.currentIndex = Qt.binding(() => tabsBar.currentIndex);
     }
 }

@@ -21,7 +21,39 @@ Item {
 
     property bool tmpStatusNewErrors: false; //replacement for static variable will not be saved in settings.json
 
-    property int pageViewLastSelectedIndex: 0;
+    readonly property bool keepPagesPesistent: parseInt(settings.globalSettings.getOption("pagePersistent", "0"))
+    function setKeepPagesPesistent(persistent) {
+        settings.globalSettings.setOption("pagePersistent", persistent ? 1 : 0)
+        if(persistent) {
+            // Avoid confusion switching on/off/on: Our page selectors might
+            // highlight the page not currently selected. So store once
+            setLastPageViewIndexSelected(lastPageViewIndexSelectedVolatile)
+        }
+    }
+
+    readonly property string sessionNamePrefix: VeinEntity.getEntity("_System").Session.replace(".json", "-")
+    property int lastPageViewIndexSelectedVolatile: 0
+    readonly property int lastPageViewIndexSelected: {
+        return keepPagesPesistent ?
+            parseInt(settings.globalSettings.getOption(sessionNamePrefix + "pageIndex", "0")) :
+            lastPageViewIndexSelectedVolatile
+    }
+    function setLastPageViewIndexSelected(index) {
+        lastPageViewIndexSelectedVolatile = index
+        if(keepPagesPesistent) {
+            settings.globalSettings.setOption(sessionNamePrefix + "pageIndex", index);
+        }
+    }
+    readonly property int lastTabSelected: {
+        return keepPagesPesistent ?
+            parseInt(settings.globalSettings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0")) :
+            0
+    }
+    function setLastTabSelected(tabNo) {
+        if(keepPagesPesistent) {
+            settings.globalSettings.setOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", tabNo)
+        }
+    }
 
     readonly property int digitsTotal: parseInt(settings.globalSettings.getOption("digitsTotal", "6"))
     function setDigitsTotal(digits) {

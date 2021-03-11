@@ -116,7 +116,7 @@ ApplicationWindow {
                 ModuleIntrospection.reloadIntrospection();
                 pageLoader.active = true;
                 controlsBar.rangeIndicatorDependenciesReady = true;
-                pageView.pageLoaderSource = pageView.model.get(0).elementValue;
+                pageView.pageLoaderSource = pageView.model.get(GC.lastPageViewIndexSelected).elementValue;
                 loadingScreen.close();
                 GC.entityInitializationDone = true;
             }
