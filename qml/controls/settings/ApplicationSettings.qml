@@ -81,6 +81,29 @@ SettingsView {
                 anchors.fill: parent
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
+                Label {
+                    textFormat: Text.PlainText
+                    text: Z.tr("Remember measurements viewed:")
+                    font.pixelSize: 20
+                    Layout.fillWidth: true
+                }
+                CheckBox {
+                    height: parent.height
+                    Component.onCompleted: checked = GC.keepPagesPesistent
+                    onCheckedChanged: {
+                        GC.setKeepPagesPesistent(checked);
+                    }
+                }
+            }
+        }
+
+        Item {
+            height: root.rowHeight;
+            width: root.rowWidth;
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 16
+                anchors.rightMargin: 16
 
                 Label {
                     textFormat: Text.PlainText
