@@ -28,7 +28,7 @@ CCMP.ModulePage {
 
     readonly property real pointSize: Math.min(18, height / 28)
     readonly property real horizMarign: 10
-    readonly property real comboWidth: width/5
+    readonly property real comboWidth: width/7.5
     readonly property real maxNominalFactor: 1.25
 
     property real topMargin: 0
@@ -117,6 +117,16 @@ CCMP.ModulePage {
     }
 
     Label {
+        id: circleIndicator
+        text: "⚆"
+        anchors.bottom: root.bottom;
+        anchors.bottomMargin: GC.standardTextBottomMargin
+        anchors.left: root.left
+        //anchors.leftMargin: horizMarign
+        font.pointSize: pointSize * 2
+        verticalAlignment: Label.AlignBottom
+    }
+    Label {
         id: voltageIndicator
         readonly property string valueStr: {
             if(lenMode.rangeLen && root.viewMode !== root.e_threePhaseView) {
@@ -130,12 +140,11 @@ CCMP.ModulePage {
             let valUnitArr = GC.doAutoScale(maxVoltage / (1000*maxNominalFactor * Math.sqrt(2)), "V")
             return GC.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
-        text: "◯ " + "<font color='" + GC.groupColorVoltage + "'>"+ "U: " + valueStr + " * √2" + "</font>"
+        text: "<font color='" + GC.groupColorVoltage + "'>"+ "U: " + valueStr + " * √2" + "</font>"
         anchors.bottom: currentIndicator.top
-        anchors.left: root.left
+        anchors.bottomMargin: GC.standardTextBottomMargin
+        anchors.left: circleIndicator.right
         anchors.leftMargin: horizMarign
-        height: root.height/10
-        width: root.width/7
         font.pointSize: pointSize / 1.25
     }
     Label {
@@ -148,19 +157,25 @@ CCMP.ModulePage {
             let valUnitArr = GC.doAutoScale(phasorDiagramm.maxCurrent / (1000 * maxNominalFactor * Math.sqrt(2)), "A")
             return GC.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
-        text: "◯ " + "<font color='" + GC.groupColorCurrent + "'>"+ "I: " + valueStr + " * √2" + "</font>"
+        text: "<font color='" + GC.groupColorCurrent + "'>"+ "I: " + valueStr + " * √2" + "</font>"
         anchors.bottom: root.bottom;
-        anchors.left: root.left
+        anchors.bottomMargin: GC.standardTextBottomMargin
+        anchors.left: circleIndicator.right
         anchors.leftMargin: horizMarign
-        height: root.height/10
-        width: root.width/7
         font.pointSize: pointSize / 1.25
     }
 
+    Label {
+        text: "➚"
+        anchors.right: viewModeSelector.left
+        anchors.verticalCenter: viewModeSelector.verticalCenter
+        anchors.rightMargin: GC.standardTextHorizMargin
+        font.pointSize: pointSize * 1.25
+    }
     ZComboBox {
         id: viewModeSelector
         arrayMode: true
-        model: ["➚ U  PN", "➚ U  △", "➚ U  ∠"]
+        model: ["U  PN", "U  △", "U  ∠"]
 
         targetIndex: GC.vectorMode
         onTargetIndexChanged: {
@@ -177,13 +192,20 @@ CCMP.ModulePage {
         fontSize: pointSize
     }
 
+    Label {
+        text: "➚"
+        anchors.right: currentOnOffSelector.left
+        anchors.verticalCenter: currentOnOffSelector.verticalCenter
+        anchors.rightMargin: GC.standardTextHorizMargin
+        font.pointSize: pointSize * 1.25
+    }
     ZComboBox {
         id: currentOnOffSelector
         arrayMode: true
-        model: ["➚ I  "+Z.tr("On"), "➚ I  "+Z.tr("Off")]
+        model: ["I  "+Z.tr("On"), "I  "+Z.tr("Off")]
 
         anchors.bottomMargin: 12
-        anchors.bottom: lenMode.top;
+        anchors.bottom: dinIECSelector.top;
         anchors.right: root.right
         anchors.rightMargin: horizMarign
         height: root.height/10
@@ -197,29 +219,20 @@ CCMP.ModulePage {
         readonly property bool displayCurrents: targetIndex===0
     }
 
-    ZComboBox {
-        id: lenMode
-        arrayMode: true
-        model: ["◯ "+Z.tr("Max. range"), "◯ "+Z.tr("Max. val")]
-
-        anchors.bottomMargin: 12
-        anchors.bottom: dinIECSelector.top
-        anchors.right: root.right
-        anchors.rightMargin: horizMarign
-        height: root.height/10
-        width: comboWidth
-        fontSize: pointSize
-
-        property bool rangeLen: targetIndex===0
+    Label {
+        text: "➚"
+        anchors.right: dinIECSelector.left
+        anchors.verticalCenter: dinIECSelector.verticalCenter
+        anchors.rightMargin: GC.standardTextHorizMargin
+        font.pointSize: pointSize * 1.25
     }
-
     ZComboBox {
         id: dinIECSelector
         arrayMode: true
         model: ["DIN410", "IEC387"]
 
-        //anchors.bottomMargin: 12
-        anchors.bottom: parent.bottom;
+        anchors.bottom: lenMode.top
+        anchors.bottomMargin: 12
         anchors.right: root.right
         anchors.rightMargin: horizMarign
         height: root.height/10
@@ -232,6 +245,35 @@ CCMP.ModulePage {
         }
 
         property bool din410: targetIndex===0
+    }
+
+    Label {
+        text: "⚆"
+        anchors.right: lenMode.left
+        anchors.verticalCenter: lenMode.verticalCenter
+        anchors.rightMargin: GC.standardTextHorizMargin
+        font.pointSize: pointSize * 1.1
+    }
+    ZComboBox {
+        id: lenMode
+        arrayMode: true
+        model: [Z.tr("Ranges"), Z.tr("Maximum")]
+
+        //anchors.bottomMargin: 12
+        anchors.bottom: parent.bottom;
+        anchors.right: root.right
+        anchors.rightMargin: horizMarign
+        height: root.height/10
+        width: comboWidth
+        fontSize: pointSize
+        centerVertical: true
+
+        targetIndex: GC.vectorCircleMode
+        onTargetIndexChanged: {
+            GC.setVectorCircleMode(targetIndex)
+        }
+
+        property bool rangeLen: targetIndex===0
     }
 
     PhasorDiagram {
