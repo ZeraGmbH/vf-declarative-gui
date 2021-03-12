@@ -19,7 +19,7 @@ Item {
         id: settings
     }
 
-    readonly property bool keepPagesPesistent: parseInt(settings.globalSettings.getOption("pagePersistent", "0"))
+    readonly property bool keepPagesPesistent: parseInt(settings.globalSettings.getOption("pagePersistent", "1"))
     function setKeepPagesPesistent(persistent) {
         settings.globalSettings.setOption("pagePersistent", persistent ? 1 : 0)
         if(persistent) {
