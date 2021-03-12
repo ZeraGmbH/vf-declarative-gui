@@ -6,6 +6,7 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
+import ZeraTranslation 1.0
 import "qrc:/qml/controls" as CCMP
 
 CCMP.ModulePage {
@@ -34,7 +35,7 @@ CCMP.ModulePage {
     ZComboBox {
         id: viewModeSelector
         arrayMode: true
-        model: ["VEC  UL  PN", "VEC  UL  △", "VEC  UL  ∠"]
+        model: ["U⭡ PN", "U⭡ △", "U⭡ ∠"]
 
         targetIndex: GC.vectorMode
         onTargetIndexChanged: {
@@ -54,7 +55,7 @@ CCMP.ModulePage {
     ZComboBox {
         id: currentOnOffSelector
         arrayMode: true
-        model: ["VEC  IL  ON", "VEC  IL  OFF"]
+        model: ["I⭡ "+Z.tr("ON"), "I⭡ "+Z.tr("OFF")]
 
         anchors.bottomMargin: 24
         anchors.bottom: dinIECSelector.top;
