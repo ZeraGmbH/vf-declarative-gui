@@ -35,7 +35,7 @@ CCMP.ModulePage {
     ZComboBox {
         id: viewModeSelector
         arrayMode: true
-        model: ["U⭡ PN", "U⭡ △", "U⭡ ∠"]
+        model: ["➚ U  PN", "➚ U  △", "➚ U  ∠"]
 
         targetIndex: GC.vectorMode
         onTargetIndexChanged: {
@@ -43,7 +43,7 @@ CCMP.ModulePage {
             GC.setVectorMode(targetIndex)
         }
 
-        anchors.bottomMargin: 24
+        anchors.bottomMargin: 12
         anchors.bottom: currentOnOffSelector.top;
         anchors.right: root.right
         anchors.rightMargin: 20
@@ -55,10 +55,10 @@ CCMP.ModulePage {
     ZComboBox {
         id: currentOnOffSelector
         arrayMode: true
-        model: ["I⭡ "+Z.tr("ON"), "I⭡ "+Z.tr("OFF")]
+        model: ["➚ I  "+Z.tr("On"), "➚ I  "+Z.tr("Off")]
 
-        anchors.bottomMargin: 24
-        anchors.bottom: dinIECSelector.top;
+        anchors.bottomMargin: 12
+        anchors.bottom: lenMode.top;
         anchors.right: root.right
         anchors.rightMargin: 20
         height: root.height/10
@@ -73,11 +73,29 @@ CCMP.ModulePage {
     }
 
     ZComboBox {
+        id: lenMode
+        arrayMode: true
+        model: ["◯ "+Z.tr("Range"), "◯ "+Z.tr("Max. val")]
+
+        anchors.bottomMargin: 12
+        anchors.bottom: dinIECSelector.top
+        anchors.right: root.right
+        anchors.rightMargin: 20
+        height: root.height/10
+        width: root.width/7
+        fontSize: Math.min(18, height/1.5, width/8);
+        centerVertical: true
+        centerVerticalOffset: height/2
+
+        property bool rangeLen: targetIndex===0
+    }
+
+    ZComboBox {
         id: dinIECSelector
         arrayMode: true
         model: ["DIN410", "IEC387"]
 
-        anchors.bottomMargin: 24
+        anchors.bottomMargin: 12
         anchors.bottom: parent.bottom;
         anchors.right: root.right
         anchors.rightMargin: 20
@@ -162,6 +180,27 @@ CCMP.ModulePage {
             retVal = Math.max(retVal, root.rangeInfo.INF_Channel6ActOVLREJ)
             return retVal
         }
+
+        function getMaxU() {
+            var vector = getVector(0)
+            vector = getVector(1)
+            vector = getVector(2)
+            var retVal = 0;
+            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(0)[0], 2) + Math.pow(getVector(0)[1], 2)))
+            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(1)[0], 2) + Math.pow(getVector(1)[1], 2)))
+            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(2)[0], 2) + Math.pow(getVector(2)[1], 2)))
+            return retVal
+        }
+        function getMaxI() {
+            var vector = getVector(3)
+            vector = getVector(4)
+            vector = getVector(5)
+            var retVal = 0;
+            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(3)[0], 2) + Math.pow(getVector(3)[1], 2)))
+            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(4)[0], 2) + Math.pow(getVector(4)[1], 2)))
+            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(5)[0], 2) + Math.pow(getVector(5)[1], 2)))
+            return retVal
+        }
     }
 
     PhasorDiagram {
@@ -194,12 +233,39 @@ CCMP.ModulePage {
 
         phiOrigin: root.phiOrigin
         minVoltage: maxVoltage / 25.0
-        maxVoltage: vData.getMaxOVRRejectionU()*Math.sqrt(2)
+        maxVoltage: {
+            let rangeMax = vData.getMaxOVRRejectionU()*Math.sqrt(2)
+            let max
+            if(lenMode.rangeLen) {
+                max = rangeMax
+            }
+            else {
+                max = vData.getMaxU() * 1.25
+                // avoid no load arrow dance
+                if(max < rangeMax / 10) {
+                    max = rangeMax
+                }
+            }
+            return max
+        }
         minCurrent: maxCurrent / 25.0
-        maxCurrent: vData.getMaxOVRRejectionI()*Math.sqrt(2)
-
+        maxCurrent: {
+            let rangeMax = vData.getMaxOVRRejectionI()*Math.sqrt(2)
+            let max
+            if(lenMode.rangeLen) {
+                max = rangeMax
+            }
+            else {
+                max = vData.getMaxI() * 1.25
+                // avoid no load arrow dance
+                if(max < rangeMax / 10) {
+                    max = rangeMax
+                }
+            }
+            return max
+        }
         circleColor: Material.frameColor;
-        circleValue: vData.getMaxRejectionU()*Math.sqrt(2);
+        circleValue: maxVoltage / 1.25
         circleVisible: true
 
         gridColor: Material.frameColor;
