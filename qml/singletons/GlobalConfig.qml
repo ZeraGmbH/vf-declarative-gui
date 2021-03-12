@@ -113,6 +113,10 @@ Item {
     function setVectorIecMode(mode) {
         settings.globalSettings.setOption("vector_iecmode", mode);
     }
+    readonly property bool vectorCircleMode: parseInt(settings.globalSettings.getOption("vector_circlecmode", "0"))
+    function setVectorCircleMode(mode) {
+        settings.globalSettings.setOption("vector_circlecmode", mode);
+    }
 
     readonly property real osciPinchScale: Number(settings.globalSettings.getOption("osci_pinch_scale", "3"))
     function setOsciPinchScale(scale) {
