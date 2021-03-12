@@ -493,7 +493,7 @@ Item {
             return num;
         }
         else {
-            var dec = decimalPlacesSet ? decimalPlacesSet : decimalPlaces
+            var dec = (decimalPlacesSet !== undefined) ? decimalPlacesSet : decimalPlaces
             var leadDigits = Math.floor(Math.abs(num)).toString()
             // leading zero is not a digit
             if(leadDigits === '0') {
