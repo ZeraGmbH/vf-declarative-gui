@@ -29,6 +29,7 @@ CCMP.ModulePage {
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
     readonly property real comboWidth: width/7.5
+    readonly property real comboMargin: 8
     readonly property real maxNominalFactor: 1.25
 
     property real topMargin: 0
@@ -185,7 +186,7 @@ CCMP.ModulePage {
             GC.setVectorMode(targetIndex)
         }
 
-        anchors.bottomMargin: 12
+        anchors.bottomMargin: comboMargin
         anchors.bottom: currentOnOffSelector.top;
         anchors.right: root.right
         anchors.rightMargin: horizMarign
@@ -206,7 +207,7 @@ CCMP.ModulePage {
         arrayMode: true
         model: ["I  "+Z.tr("On"), "I  "+Z.tr("Off")]
 
-        anchors.bottomMargin: 12
+        anchors.bottomMargin: comboMargin
         anchors.bottom: dinIECSelector.top;
         anchors.right: root.right
         anchors.rightMargin: horizMarign
@@ -234,7 +235,7 @@ CCMP.ModulePage {
         model: ["DIN410", "IEC387"]
 
         anchors.bottom: lenMode.top
-        anchors.bottomMargin: 12
+        anchors.bottomMargin: comboMargin
         anchors.right: root.right
         anchors.rightMargin: horizMarign
         height: root.height/10
@@ -264,7 +265,7 @@ CCMP.ModulePage {
         arrayMode: true
         model: [Z.tr("Ranges"), Z.tr("Maximum")]
 
-        //anchors.bottomMargin: 12
+        anchors.bottomMargin: 12
         anchors.bottom: parent.bottom;
         anchors.right: root.right
         anchors.rightMargin: horizMarign
