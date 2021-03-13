@@ -79,6 +79,10 @@
         <file>staticdata/resources/error_calc.png</file>
         <file>staticdata/resources/ref_values.png</file>
         <file>staticdata/resources/osci.png</file>
+        <file>staticdata/resources/radius.svg</file>
+        <file>staticdata/resources/radius.png</file>
+        <file>staticdata/resources/radius-large.svg</file>
+        <file>staticdata/resources/radius-large.png</file>
         <file>staticdata/resources/dft_values.png</file>
         <file>staticdata/resources/ced_power_values.png</file>
         <file>staticdata/resources/appicon.png</file>

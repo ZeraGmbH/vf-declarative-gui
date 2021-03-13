@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.14
 import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import QtQuick.Controls.Material 2.0
@@ -26,7 +26,7 @@ CCMP.ModulePage {
 
     property int referencePhaseMode: e_DIN;
 
-    readonly property real pointSize: Math.min(18, height / 28)
+    readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
     readonly property real comboWidth: width/7.5
     readonly property real maxNominalFactor: 1.25
@@ -116,15 +116,17 @@ CCMP.ModulePage {
         return retVal
     }
 
-    Label {
+    Image {
         id: circleIndicator
-        text: "⚆"
         anchors.bottom: root.bottom;
         anchors.bottomMargin: GC.standardTextBottomMargin
         anchors.left: root.left
-        //anchors.leftMargin: horizMarign
-        font.pointSize: pointSize * 2
-        verticalAlignment: Label.AlignBottom
+        anchors.leftMargin: horizMarign
+        source: "qrc:/data/staticdata/resources/radius-large.svg"
+        height: pointSize * 3
+        mipmap: true
+        antialiasing: true
+        fillMode: Image.PreserveAspectFit
     }
     Label {
         id: voltageIndicator
@@ -170,7 +172,7 @@ CCMP.ModulePage {
         anchors.right: viewModeSelector.left
         anchors.verticalCenter: viewModeSelector.verticalCenter
         anchors.rightMargin: GC.standardTextHorizMargin
-        font.pointSize: pointSize * 1.25
+        font.pointSize: pointSize * 1.5
     }
     ZComboBox {
         id: viewModeSelector
@@ -197,7 +199,7 @@ CCMP.ModulePage {
         anchors.right: currentOnOffSelector.left
         anchors.verticalCenter: currentOnOffSelector.verticalCenter
         anchors.rightMargin: GC.standardTextHorizMargin
-        font.pointSize: pointSize * 1.25
+        font.pointSize: pointSize * 1.5
     }
     ZComboBox {
         id: currentOnOffSelector
@@ -224,7 +226,7 @@ CCMP.ModulePage {
         anchors.right: dinIECSelector.left
         anchors.verticalCenter: dinIECSelector.verticalCenter
         anchors.rightMargin: GC.standardTextHorizMargin
-        font.pointSize: pointSize * 1.25
+        font.pointSize: pointSize * 1.5
     }
     ZComboBox {
         id: dinIECSelector
@@ -247,12 +249,15 @@ CCMP.ModulePage {
         property bool din410: targetIndex===0
     }
 
-    Label {
-        text: "⚆"
+    Image {
         anchors.right: lenMode.left
         anchors.verticalCenter: lenMode.verticalCenter
         anchors.rightMargin: GC.standardTextHorizMargin
-        font.pointSize: pointSize * 1.1
+        source: "qrc:/data/staticdata/resources/radius.svg"
+        height: pointSize * 1.75
+        mipmap: true
+        antialiasing: true
+        fillMode: Image.PreserveAspectFit
     }
     ZComboBox {
         id: lenMode
