@@ -79,26 +79,17 @@ Rectangle {
             width: parent.width
             // 1st line
             Text {
+                id: totalLabel
                 text: Z.tr("Count:")
-                font.pointSize: pointSize
-                font.bold: true
-            }
-            Text {
-                text: jsonResults.values.length
-                font.pointSize: pointSize
-            }
-            Text {
-                id: passLabel
-                text: Z.tr("Passed:")
                 font.pointSize: pointSize
                 font.bold: true
                 color: jsonResults.countPass > 0 && jsonResults.countPass === jsonResults.values.length ?
                            "darkgreen" : "black"
             }
             Text {
-                text: jsonResults.countPass
+                text: jsonResults.values.length
                 font.pointSize: pointSize
-                color: passLabel.color
+                color: totalLabel.color
             }
             Text {
                 id: failLabel
@@ -113,7 +104,6 @@ Rectangle {
                 font.pointSize: pointSize
                 color: failLabel.color
             }
-            // 2nd line
             Text {
                 text: Z.tr("Mean:")
                 font.pointSize: pointSize
@@ -121,6 +111,16 @@ Rectangle {
             }
             Text {
                 text: jsonResults.mean === null ? '---' : formatNumber(jsonResults.mean, digitsTotal, decimalPlaces) + "%"
+                font.pointSize: pointSize
+            }
+            // 2nd line
+            Text {
+                text: Z.tr("Range:")
+                font.pointSize: pointSize
+                font.bold: true
+            }
+            Text {
+                text: jsonResults.range === null ? '---' : formatNumber(jsonResults.range, digitsTotal, decimalPlaces) + "%"
                 font.pointSize: pointSize
             }
             Text {
