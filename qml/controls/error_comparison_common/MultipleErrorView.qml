@@ -76,6 +76,7 @@ Rectangle {
         // Header with statistics
         GridLayout {
             columns: 6
+            columnSpacing: 3
             width: parent.width
             // 1st line
             Text {
