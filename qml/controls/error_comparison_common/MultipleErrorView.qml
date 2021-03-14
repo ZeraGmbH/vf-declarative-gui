@@ -150,6 +150,8 @@ Rectangle {
 
             model: ListModel { id: resultModel }
             property int lastResultCount: 0
+            property int lastIdxMin: -1
+            property int lastIdxMax: -1
             property bool needsScroll: false
             property int currSection: 0
             readonly property real sectionHeight: rowHeight * 0.25
@@ -166,26 +168,45 @@ Rectangle {
                     contentY = contentHeight + (currSection*sectionHeight/2) - height
                 }
             }
+            function updateMinMax(entry) {
+                if(entry >= 0) {
+                    let block = Math.floor(entry / resultRows)
+                    let horizBlock = block % resultColumns
+                    let currLine = (block - horizBlock) * resultRows / resultColumns + entry % resultRows
+                    let lineContent = resultModel.get(currLine)
+                    let content = lineContent.arrColumns.get(horizBlock)
+                    content.minMax = entry === jsonResults.idxMin || entry === jsonResults.idxMax
+                }
+            }
             function recalcModel() {
                 // keep positions
                 let isScrolledToEnd = atYEnd
                 let resultArr = jsonResults.values
                 let newResultCount = resultArr.length
+                let newIdxMin = -1
+                let newIdxMax = -1
+
                 // we assume:
                 // * data is appended only and never touched after
                 // * if the number of results decreases we have to rebuild model
                 if(resultList.lastResultCount > newResultCount) {
                     resultModel.clear()
+                    resultList.lastIdxMin = -1
+                    resultList.lastIdxMax = -1
                     resultList.lastResultCount = 0
                 }
                 let linesAdded = 0
                 let sizeSection = resultRows * resultColumns
-                for (let currEntry = resultList.lastResultCount; currEntry < newResultCount; ++currEntry) {
-                    let currBlock = Math.floor(currEntry / resultRows)
+                let currEntry
+                for (currEntry = resultList.lastResultCount; currEntry < newResultCount; ++currEntry) {
                     currSection = Math.floor(currEntry / sizeSection)
                     let currSectionStr = String(currSection * sizeSection + 1) + '-' + String((currSection+1) * sizeSection)
+
+                    // TODO: same as updateMinMax calculations -> move to one common place
+                    let currBlock = Math.floor(currEntry / resultRows)
                     let currHorizBlock = currBlock % resultColumns
                     let currLine = (currBlock - currHorizBlock) * resultRows / resultColumns + currEntry % resultRows
+
                     //console.info(currEntry, currBlock, currSectionStr, currHorizBlock, currLine)
                     let errVal = resultArr[currEntry].V
                     let errValStr = ""
@@ -194,19 +215,42 @@ Rectangle {
                         errValStr = "---"
                     }
                     let errRating = resultArr[currEntry].R
+                    // handle new min/max positions
+                    let setMinMax = false
+                    if(jsonResults.idxMin === currEntry) {
+                        setMinMax = true
+                        newIdxMin = currEntry
+                    }
+                    if(jsonResults.idxMax === currEntry) {
+                        setMinMax = true
+                        newIdxMax = currEntry
+                    }
+                    // add to model
                     if(resultModel.count-1 < currLine) { // add a line with one column
-                        resultModel.append({section: currSectionStr, arrColumns: [{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating}]})
+                        resultModel.append({section: currSectionStr, arrColumns: [{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating, minMax: setMinMax}]})
                         ++linesAdded
                         /*let curLineTest = resultModel.get(currLine)
                         console.info("init", currEntry+1, JSON.stringify(curLineTest))*/
                     }
                     else { // add a column to an existing line
                         let curLine = resultModel.get(currLine)
-                        curLine.arrColumns.append([{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating}])
+                        curLine.arrColumns.append([{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating, minMax: setMinMax}])
                         /*let curLineTest1 = resultModel.get(currLine)
                         console.info("add", currEntry+1, JSON.stringify(curLineTest1))*/
                     }
                 }
+
+                // up to here we just appended new results. In case min/max
+                // positions have changed, update old positions
+                if(newIdxMin >= 0) {
+                    updateMinMax(lastIdxMin)
+                    lastIdxMin = newIdxMin
+                }
+                if(newIdxMax >= 0) {
+                    updateMinMax(lastIdxMax)
+                    lastIdxMax = newIdxMax
+                }
+
                 resultList.lastResultCount = newResultCount
                 needsScroll |= isScrolledToEnd && linesAdded > 0
             }
@@ -231,6 +275,7 @@ Rectangle {
                             text: strval !== "" ? strval : formatNumber(val, digitsTotal, decimalPlaces)  + "%"
                             font.pointSize: pointSize
                             width: mainColumn.width * 7.4 / (10*resultColumns)
+                            font.bold: minMax
                             color: numText.color
                         }
                     }
