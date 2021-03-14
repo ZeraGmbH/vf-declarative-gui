@@ -37,7 +37,7 @@ Rectangle {
     // all contents are updated and scroll position remains
     function removeDecimalGroupSeparators(strNum) {
         // remove group separators (this is ugly but don't get documented examples to fly here...)
-        var groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
+        let groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
         while(strNum.includes(groupSepChar)) {
             strNum = strNum.replace(groupSepChar, "")
         }
@@ -48,20 +48,20 @@ Rectangle {
             return num;
         }
         else {
-            var dec = _decimalPlaces
-            var leadDigits = Math.floor(Math.abs(num)).toString()
+            let dec = _decimalPlaces
+            let leadDigits = Math.floor(Math.abs(num)).toString()
             // leading zero is not a digit
             if(leadDigits === '0') {
                 leadDigits  = ''
             }
-            var preDecimals = leadDigits.length
+            let preDecimals = leadDigits.length
             if(dec + preDecimals > _digitsTotal) {
                 dec = _digitsTotal - preDecimals
                 if(dec < 0) {
                     dec = 0
                 }
             }
-            var strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
+            let strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
             strNum = removeDecimalGroupSeparators(strNum)
             return strNum
         }
@@ -168,9 +168,9 @@ Rectangle {
             }
             function recalcModel() {
                 // keep positions
-                var isScrolledToEnd = atYEnd
-                var resultArr = jsonResults.values
-                var newResultCount = resultArr.length
+                let isScrolledToEnd = atYEnd
+                let resultArr = jsonResults.values
+                let newResultCount = resultArr.length
                 // we assume:
                 // * data is appended only and never touched after
                 // * if the number of results decreases we have to rebuild model
@@ -178,32 +178,32 @@ Rectangle {
                     resultModel.clear()
                     resultList.lastResultCount = 0
                 }
-                var linesAdded = 0
-                var sizeSection = resultRows * resultColumns
-                for (var currEntry = resultList.lastResultCount; currEntry < newResultCount; ++currEntry) {
-                    var currBlock = Math.floor(currEntry / resultRows)
+                let linesAdded = 0
+                let sizeSection = resultRows * resultColumns
+                for (let currEntry = resultList.lastResultCount; currEntry < newResultCount; ++currEntry) {
+                    let currBlock = Math.floor(currEntry / resultRows)
                     currSection = Math.floor(currEntry / sizeSection)
-                    var currSectionStr = String(currSection * sizeSection + 1) + '-' + String((currSection+1) * sizeSection)
-                    var currHorizBlock = currBlock % resultColumns
-                    var currLine = (currBlock - currHorizBlock) * resultRows / resultColumns + currEntry % resultRows
+                    let currSectionStr = String(currSection * sizeSection + 1) + '-' + String((currSection+1) * sizeSection)
+                    let currHorizBlock = currBlock % resultColumns
+                    let currLine = (currBlock - currHorizBlock) * resultRows / resultColumns + currEntry % resultRows
                     //console.info(currEntry, currBlock, currSectionStr, currHorizBlock, currLine)
-                    var errVal = resultArr[currEntry].V
-                    var errValStr = ""
+                    let errVal = resultArr[currEntry].V
+                    let errValStr = ""
                     if(errVal === null) {
                         errVal = -100
                         errValStr = "---"
                     }
-                    var errRating = resultArr[currEntry].R
+                    let errRating = resultArr[currEntry].R
                     if(resultModel.count-1 < currLine) { // add a line with one column
                         resultModel.append({section: currSectionStr, arrColumns: [{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating}]})
                         ++linesAdded
-                        /*var curLineTest = resultModel.get(currLine)
+                        /*let curLineTest = resultModel.get(currLine)
                         console.info("init", currEntry+1, JSON.stringify(curLineTest))*/
                     }
                     else { // add a column to an existing line
-                        var curLine = resultModel.get(currLine)
+                        let curLine = resultModel.get(currLine)
                         curLine.arrColumns.append([{num: currEntry+1, val: errVal, strval: errValStr, rat: errRating}])
-                        /*var curLineTest1 = resultModel.get(currLine)
+                        /*let curLineTest1 = resultModel.get(currLine)
                         console.info("add", currEntry+1, JSON.stringify(curLineTest1))*/
                     }
                 }
