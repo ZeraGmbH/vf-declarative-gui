@@ -53,6 +53,28 @@ Item {
         }
     }
 
+    readonly property int lastSettingsTabSelected: {
+        return keepPagesPesistent ?
+            parseInt(settings.globalSettings.getOption("lastTabSettings", "0")) :
+            0
+    }
+    function setLastSettingsTabSelected(tabNo) {
+        if(keepPagesPesistent) {
+            settings.globalSettings.setOption("lastTabSettings", tabNo)
+        }
+    }
+
+    readonly property int lastInfoTabSelected: {
+        return keepPagesPesistent ?
+            parseInt(settings.globalSettings.getOption("lastTabInfo", "0")) :
+            0
+    }
+    function setLastInfoTabSelected(tabNo) {
+        if(keepPagesPesistent) {
+            settings.globalSettings.setOption("lastTabInfo", tabNo)
+        }
+    }
+
     readonly property int digitsTotal: parseInt(settings.globalSettings.getOption("digitsTotal", "6"))
     function setDigitsTotal(digits) {
         settings.globalSettings.setOption("digitsTotal", digits);

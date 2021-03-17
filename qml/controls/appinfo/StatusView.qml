@@ -15,6 +15,7 @@ Item {
         width: parent.width
         contentHeight: 32
         currentIndex: swipeView.currentIndex
+        onCurrentIndexChanged: GC.setLastInfoTabSelected(currentIndex)
         TabButton {
             id: deviceStatusButton
             text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
@@ -61,5 +62,9 @@ Item {
             active: swipeView.currentIndex === 1
             sourceComponent: LicenseInformation { }
         }
+    }
+    Component.onCompleted: {
+        swipeView.currentIndex = GC.lastInfoTabSelected
+        swipeView.currentIndex = Qt.binding(() => informationSelector.currentIndex);
     }
 }

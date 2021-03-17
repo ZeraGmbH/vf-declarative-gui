@@ -31,6 +31,7 @@ Item{
         id: settingsTabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
+        onCurrentIndexChanged: GC.setLastSettingsTabSelected(currentIndex)
         contentHeight: 32
     }
 
@@ -78,6 +79,7 @@ Item{
     }
 
     Component.onCompleted: {
+        let lastTabSelected = GC.lastSettingsTabSelected // keep - it is overwritten on page setup
         settingsTabsBar.addItem(appTab.createObject(settingsTabsBar))
         swipeView.addItem(appPage.createObject(swipeView))
 
@@ -86,5 +88,8 @@ Item{
 
         settingsTabsBar.addItem(netTab.createObject(settingsTabsBar))
         swipeView.addItem(netPage.createObject(swipeView))
+
+        swipeView.currentIndex = lastTabSelected
+        swipeView.currentIndex = Qt.binding(() => settingsTabsBar.currentIndex);
     }
 }
