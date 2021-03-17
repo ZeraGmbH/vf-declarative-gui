@@ -312,7 +312,8 @@ CCMP.ModulePage {
         vector6Label: getVectorName(5);
 
         phiOrigin: root.phiOrigin
-        minVoltage: maxVoltage / 25.0
+        property real minRelValueDisplayed: 0.05
+        minVoltage: maxVoltage * minRelValueDisplayed
         maxVoltage: {
             let rangeMax = root.maxOVRRejectionU*Math.sqrt(2)
             let max
@@ -322,13 +323,22 @@ CCMP.ModulePage {
             else {
                 max = root.maxU * maxNominalFactor / (root.viewMode === root.e_threePhaseView ? Math.sqrt(3) : 1)
                 // avoid no load arrow dance
-                if(max < rangeMax / 10) {
+                let allPhasaesOff = true
+                for(let phase = 0; phase < 3; ++phase) {
+                    let value = Math.sqrt(Math.pow(getVector(phase)[0],2) + Math.pow(getVector(phase)[1],2))
+                    let minValue = rangeMax*minRelValueDisplayed
+                    if(value > minValue) {
+                        allPhasaesOff = false
+                        break
+                    }
+                }
+                if(allPhasaesOff) {
                     max = rangeMax
                 }
             }
             return max
         }
-        minCurrent: maxCurrent / 25.0
+        minCurrent: maxCurrent * minRelValueDisplayed
         maxCurrent: {
             let rangeMax = root.maxOVRRejectionI*Math.sqrt(2)
             let max
@@ -338,7 +348,16 @@ CCMP.ModulePage {
             else {
                 max = root.maxI * maxNominalFactor
                 // avoid no load arrow dance
-                if(max < rangeMax / 10) {
+                let allPhasaesOff = true
+                for(let phase = 3; phase < 6; ++phase) {
+                    let value = Math.sqrt(Math.pow(getVector(phase)[0],2) + Math.pow(getVector(phase)[1],2))
+                    let minValue = rangeMax*minRelValueDisplayed
+                    if(value > minValue) {
+                        allPhasaesOff = false
+                        break
+                    }
+                }
+                if(allPhasaesOff) {
                     max = rangeMax
                 }
             }
