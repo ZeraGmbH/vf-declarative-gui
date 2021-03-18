@@ -326,7 +326,8 @@ CCMP.ModulePage {
                 let allPhasaesOff = true
                 for(let phase = 0; phase < 3; ++phase) {
                     let value = Math.sqrt(Math.pow(getVector(phase)[0],2) + Math.pow(getVector(phase)[1],2))
-                    let minValue = rangeMax*minRelValueDisplayed
+                    // we scale arrows so allow lower values
+                    let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
                     if(value > minValue) {
                         allPhasaesOff = false
                         break
@@ -351,7 +352,8 @@ CCMP.ModulePage {
                 let allPhasaesOff = true
                 for(let phase = 3; phase < 6; ++phase) {
                     let value = Math.sqrt(Math.pow(getVector(phase)[0],2) + Math.pow(getVector(phase)[1],2))
-                    let minValue = rangeMax*minRelValueDisplayed
+                    // we scale arrows so allow lower values
+                    let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
                     if(value > minValue) {
                         allPhasaesOff = false
                         break
