@@ -19,6 +19,8 @@ Item {
         id: settings
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Page persistency
     readonly property bool keepPagesPesistent: parseInt(settings.globalSettings.getOption("pagePersistent", "1"))
     function setKeepPagesPesistent(persistent) {
         settings.globalSettings.setOption("pagePersistent", persistent ? 1 : 0)
@@ -42,6 +44,7 @@ Item {
             settings.globalSettings.setOption(sessionNamePrefix + "pageIndex", index);
         }
     }
+
     readonly property int lastTabSelected: {
         return keepPagesPesistent ?
             parseInt(settings.globalSettings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0")) :
@@ -75,6 +78,8 @@ Item {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Digit settings
     readonly property int digitsTotal: parseInt(settings.globalSettings.getOption("digitsTotal", "6"))
     function setDigitsTotal(digits) {
         settings.globalSettings.setOption("digitsTotal", digits);
@@ -90,6 +95,8 @@ Item {
         var setValue = showAux ? 1 : 0
         settings.globalSettings.setOption("show_aux_phases", setValue);
     }
+
+    /////////////////////////////////////////////////////////////////////////////
     // we have to decouple change of showAuxPhases with a timer because of some
     // CPU intensive views: when the operator changes selection, it takes ages until
     // the checkbox in settings view is updated due to heavy load caused.
@@ -122,6 +129,8 @@ Item {
         settings.globalSettings.setOption("fft_table_show_phase", setValue);
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Vector settings
     readonly property bool vectorMode: parseInt(settings.globalSettings.getOption("vector_mode", "0"))
     function setVectorMode(mode) {
         settings.globalSettings.setOption("vector_mode", mode);
@@ -140,6 +149,8 @@ Item {
         settings.globalSettings.setOption("vector_circlecmode", mode);
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Pinch settings
     readonly property real osciPinchScale: Number(settings.globalSettings.getOption("osci_pinch_scale", "3"))
     function setOsciPinchScale(scale) {
         settings.globalSettings.setOption("osci_pinch_scale", scale);
