@@ -131,7 +131,7 @@ Item {
 
     /////////////////////////////////////////////////////////////////////////////
     // Vector settings
-    readonly property bool vectorMode: parseInt(settings.globalSettings.getOption("vector_mode", "0"))
+    readonly property int vectorMode: parseInt(settings.globalSettings.getOption("vector_mode", "0"))
     function setVectorMode(mode) {
         settings.globalSettings.setOption("vector_mode", mode);
     }
