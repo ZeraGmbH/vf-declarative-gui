@@ -82,8 +82,6 @@ Item {
                 contentRowWidth: width
                 contentRowHeight: height*GC.standardComboContentScale
                 contentFlow: GridView.FlowTopToBottom
-                centerVertical: true
-                centerVerticalOffset: height/2
 
             }
             VFComboBox {
@@ -166,11 +164,8 @@ Item {
                 anchors.bottom: parent.bottom
 
                 currentIndex: 0
-                contentRowWidth: width
                 contentRowHeight: height*GC.standardComboContentScale
                 contentFlow: GridView.FlowTopToBottom
-                centerVertical: true
-                centerVerticalOffset: height/2
             }
         }
         Rectangle {
