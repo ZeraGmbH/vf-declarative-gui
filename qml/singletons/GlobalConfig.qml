@@ -414,17 +414,17 @@ Item {
         else if(floatVal < 1e-3*autoScaleLimit) {
             exponent = -3
         }
-        else if(floatVal > 1e3*autoScaleLimit) {
-            exponent = 3
-        }
-        else if(floatVal > 1e6*autoScaleLimit) {
-            exponent = 6
+        else if(floatVal > 1e12*autoScaleLimit) {
+            exponent = 12
         }
         else if(floatVal > 1e9*autoScaleLimit) {
             exponent = 9
         }
-        else if(floatVal > 1e12*autoScaleLimit) {
-            exponent = 12
+        else if(floatVal > 1e6*autoScaleLimit) {
+            exponent = 6
+        }
+        else if(floatVal > 1e3*autoScaleLimit) {
+            exponent = 3
         }
         return exponent
     }
