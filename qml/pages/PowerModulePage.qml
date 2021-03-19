@@ -22,6 +22,7 @@ CCMP.ModulePage {
     readonly property QtObject power1Module1: VeinEntity.getEntity("POWER1Module1")
     readonly property QtObject power1Module2: VeinEntity.getEntity("POWER1Module2")
     readonly property QtObject power1Module3: VeinEntity.getEntity("POWER1Module3")
+    readonly property QtObject power1Module4: VeinEntity.getEntity("POWER1Module4")
 
     //the function exists because it is impossible to use scripted value in ListModel
     function getModule(index) {
@@ -35,6 +36,9 @@ CCMP.ModulePage {
             break;
         case 2:
             retVal = power1Module3;
+            break;
+        case 3:
+            retVal = power1Module4;
             break;
         }
         return retVal;
@@ -52,6 +56,9 @@ CCMP.ModulePage {
             break;
         case 2:
             retVal = ModuleIntrospection.p1m3Introspection;
+            break;
+        case 3:
+            retVal = ModuleIntrospection.p1m4Introspection;
             break;
         }
         return retVal
@@ -177,25 +184,26 @@ CCMP.ModulePage {
             id: measModeGrid
             width: parent.width
             height: parent.height
-            Label {
-                id: labelMMode
-                text: Z.tr("Measuring modes:")
-                width: root.firstColumnWidth+root.valueColumnWidth-GC.standardTextHorizMargin
-                anchors.left: parent.left
-                anchors.leftMargin: GC.standardTextHorizMargin
-                anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: parent.height*0.4
-            }
-
             Repeater {
-                model: 3
+                model: 4
                 Item {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    x: root.firstColumnWidth+root.valueColumnWidth*(index+1)
+                    x: root.firstColumnWidth+root.valueColumnWidth*(index)
                     width: root.valueColumnWidth
                     Label {
-                        text: (root.getMetadata(modelData).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> (P/Q/S)
+                        text: {
+                            switch(index) {
+                            case 0:
+                                return "P"
+                            case 1:
+                                return "P"
+                            case 2:
+                                return "Q"
+                            case 3:
+                                return "ext."
+                            }
+                        }
                         height: parent.height
                         anchors.right: measModeCombo.left
                         anchors.rightMargin: GC.standardTextHorizMargin
@@ -205,15 +213,16 @@ CCMP.ModulePage {
                     }
                     VFComboBox {
                         id: measModeCombo
-                        width: parent.width * 2 / 3
+                        width: parent.width * 0.55
                         height: parent.height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        centerVerticalOffset: -parent.height*(modelLength-1)
+                        centerVerticalOffset: -parent.height*(Math.min(modelLength-1, contentMaxRows-1))
                         arrayMode: true
                         entity: root.getModule(index)
                         controlPropertyName: "PAR_MeasuringMode"
                         model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
+                        contentMaxRows: 5
                         fontSize: height*0.4
                     }
                 }
