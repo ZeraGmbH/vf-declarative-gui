@@ -57,7 +57,7 @@ Popup {
                     Layout.alignment: Qt.AlignVCenter
                     font.pixelSize: root.width/60
                     fontSizeMode: Label.HorizontalFit
-                    text: Z.tr("Nominal frequency:") + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(ZLocale.getLocale()) + "hz";
+                    text: Z.tr("Nominal frequency:") + " " + Number(ModuleIntrospection.p1m4Introspection.ModuleInfo.NominalFrequency).toLocaleString(ZLocale.getLocale()) + "Hz";
                 }
 
                 Item {
