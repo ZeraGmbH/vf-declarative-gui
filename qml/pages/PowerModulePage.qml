@@ -18,27 +18,21 @@ CCMP.ModulePage {
     readonly property int valueColumnWidth: width*0.22
     readonly property int lastColumnWidth: width-firstColumnWidth-4*valueColumnWidth
 
-
-    readonly property QtObject power1Module1: VeinEntity.getEntity("POWER1Module1")
-    readonly property QtObject power1Module2: VeinEntity.getEntity("POWER1Module2")
-    readonly property QtObject power1Module3: VeinEntity.getEntity("POWER1Module3")
-    readonly property QtObject power1Module4: VeinEntity.getEntity("POWER1Module4")
-
     //the function exists because it is impossible to use scripted value in ListModel
     function getModule(index) {
         var retVal;
         switch(index) {
         case 0:
-            retVal = power1Module1;
+            retVal = VeinEntity.getEntity("POWER1Module1")
             break;
         case 1:
-            retVal = power1Module2;
+            retVal = VeinEntity.getEntity("POWER1Module2")
             break;
         case 2:
-            retVal = power1Module3;
+            retVal = VeinEntity.getEntity("POWER1Module3")
             break;
         case 3:
-            retVal = power1Module4;
+            retVal = VeinEntity.getEntity("POWER1Module4")
             break;
         }
         return retVal;
@@ -185,7 +179,7 @@ CCMP.ModulePage {
             width: parent.width
             height: parent.height
             Repeater {
-                model: 4
+                model: VeinEntity.hasEntity("POWER1Module4") ? 4 : 3
                 Item {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
