@@ -189,8 +189,8 @@ Item {
                     entity: root.rangeModule
                     controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
                     model: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
+                    contentMaxRows: 5
                     centerVertical: true
-                    centerVerticalOffset:  model.length>2 ? 0 : height
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
@@ -228,13 +228,8 @@ Item {
                     entity: root.rangeModule
                     controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
                     model: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
-
-                    contentMaxRows: model.length>4 ? (model.length>9 ? Math.min(model.length, 8) : Math.ceil(model.length/2)) : 0
-                    contentFlow: GridView.FlowTopToBottom
-                    contentRowHeight: height
-
+                    contentMaxRows: 5
                     centerVertical: true
-                    centerVerticalOffset: model.length>2 ? (model.length>9 ? -height*1.25 : 0 ) : height
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
