@@ -201,7 +201,7 @@ CCMP.ModulePage {
                             case 2:
                                 return "Q"
                             case 3:
-                                return "ext."
+                                return Z.tr("ext.")
                             }
                         }
                         height: parent.height
