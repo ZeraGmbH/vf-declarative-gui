@@ -213,17 +213,24 @@ CCMP.ModulePage {
                     }
                     VFComboBox {
                         id: measModeCombo
-                        width: parent.width * 0.55
+                        width: parent.width * 0.65
                         height: parent.height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        centerVerticalOffset: -parent.height*(Math.min(modelLength-1, contentMaxRows-1))
+                        centerVerticalOffset: -parent.height*(Math.min(modelLength-1, contentMaxRows-1)) -
+                                              headerItem.height
                         arrayMode: true
                         entity: root.getModule(index)
                         controlPropertyName: "PAR_MeasuringMode"
                         model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
                         contentMaxRows: 5
                         fontSize: height*0.4
+                        headerComponent: CCMP.MeasModeComboHeader {
+                            id: comboHeader
+                            visibleHeight: measModeCombo.height * 1.5
+                            entity: measModeCombo.entity
+                            entityIntrospection: getMetadata(index)
+                        }
                     }
                 }
             }
