@@ -191,9 +191,9 @@ CCMP.ModulePage {
                             case 0:
                                 return "P"
                             case 1:
-                                return "P"
-                            case 2:
                                 return "Q"
+                            case 2:
+                                return "S"
                             case 3:
                                 return Z.tr("ext.")
                             }
