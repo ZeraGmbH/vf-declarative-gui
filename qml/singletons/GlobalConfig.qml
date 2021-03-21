@@ -240,63 +240,93 @@ Item {
         return retVal
     }
 
-    function getDefaultColorByIndex(index) {
-        var retVal
-        switch(index) {
-        case 1:
-            retVal = "#EEff0000";
-            break;
-        case 2:
-            retVal = "#EEffff00";
-            break;
-        case 3:
-            retVal = "#EE0092ff";
-            break;
-        case 4:
-            retVal = "#EEff7755";
-            break;
-        case 5:
-            retVal = "#EEffffbb";
-            break;
-        case 6:
-            retVal = "#EE9ccefd";
-            break;
-        case 7:
-            retVal = "#EEffffff";
-            break;
-        case 8:
-            retVal = "#EEcccccc";
-            break;
-        }
-        return retVal
+    readonly property real defaultCurrentBrightness: 1.75
+    readonly property real currentBrightness: parseFloat(settings.globalSettings.getOption("currentBrightness", defaultCurrentBrightness))
+    function setCurrentBrigtness(brightness) {
+        settings.globalSettings.setOption("currentBrightness", brightness);
+    }
+    readonly property real defaultBlackBrightness: 1
+    readonly property real blackBrightness: parseFloat(settings.globalSettings.getOption("blackBrightness", defaultBlackBrightness))
+    function setBlackBrigtness(brightness) {
+        settings.globalSettings.setOption("blackBrightness", brightness);
+    }
+    function setDefaultBrighnesses() {
+        setCurrentBrigtness(defaultCurrentBrightness)
+        setBlackBrigtness(defaultBlackBrightness)
+    }
+
+    function colorCurrent(baseColor) {
+        return Qt.lighter(baseColor, currentBrightness)
+    }
+    function colorBlack(baseColor) {
+        return Qt.lighter(baseColor, blackBrightness)
+    }
+    readonly property var defaultColorTable: {
+        let baseBlue   = "#EE0092ff"
+        let baseBrown  = "#EE9b5523"
+        let baseGreen  = "#EE00C000"
+        let basePurple = "#EEE000E0"
+        let baseRed    = "#EEff0000"
+        let baseYellow = "#EEffff00"
+
+        let baseWhite  = "#ffffffff" // white is opposite
+        let baseWhite2 = "#EEA0A0A0"
+
+        let baseGrey   = "#EEB0B0B0"
+        let baseGrey2  = "#EEffffff"
+
+        let baseBlack  = "#EE080808"
+        let baseBlack2 = "#EE707070"
+
+        return [
+                    // sorting is odd (historical..): U1 / U2 / U3 / I1 /I2 / I3 / UAux / IAux
+                    // 0: International
+                    [ baseRed, baseYellow, baseBlue, colorCurrent(baseRed), colorCurrent(baseYellow), colorCurrent(baseBlue), colorBlack(baseBlack), colorCurrent(baseBlack2) ],
+                    // 1: Austria/Germany
+                    [ baseYellow, baseGreen, basePurple, colorCurrent(baseYellow), colorCurrent(baseGreen), colorCurrent(basePurple), baseWhite, colorCurrent(baseWhite2) ],
+                    // 2: France
+                    [ baseBrown, colorBlack(baseBlack), baseRed, colorCurrent(baseBrown), colorCurrent(baseBlack2), colorCurrent(baseRed), baseBlue, colorCurrent(baseBlue) ],
+                    // 3: Norway/Denmark
+                    [ colorBlack(baseBlack), baseBrown, baseGrey, colorCurrent(baseBlack2), colorCurrent(baseBrown), colorCurrent(baseGrey2), baseBlue, colorCurrent(baseBlue) ],
+                    // 4: Sweden
+                    [ baseBrown, colorBlack(baseBlack), baseWhite, colorCurrent(baseBrown), colorCurrent(baseBlack2), colorCurrent(baseWhite2), baseBlue, colorCurrent(baseBlue) ],
+                    // 5: China
+                    [ baseYellow, baseGreen, baseRed, colorCurrent(baseYellow), colorCurrent(baseGreen), colorCurrent(baseRed), colorBlack(baseBlack), colorCurrent(baseBlack2) ],
+                    // 6: Hongkong
+                    [ baseBrown, colorBlack(baseBlack), baseGrey, colorCurrent(baseBrown), colorCurrent(baseBlack2), colorCurrent(baseGrey2), baseBlue, colorCurrent(baseBlue) ],
+               ]
+    }
+
+    function getDefaultColorByIndex(index, defaultEntry) {
+        return defaultColorTable[defaultEntry][index-1]
     }
 
     function systemColorByIndex(index) {
-        return settings.globalSettings.getOption(getJsonColorNameByIndex(index), getDefaultColorByIndex(index))
+        return settings.globalSettings.getOption(getJsonColorNameByIndex(index), getDefaultColorByIndex(index, 0))
     }
 
     function setSystemColorByIndex(index, color) {
         settings.globalSettings.setOption(getJsonColorNameByIndex(index), color);
     }
 
-    function setSystemDefaultColors() {
+    function setSystemDefaultColors(defaultEntry) {
         var index
         for (index=1; index<=8; ++index) {
-            setSystemColorByIndex(index, getDefaultColorByIndex(index))
+            setSystemColorByIndex(index, getDefaultColorByIndex(index, defaultEntry))
         }
     }
 
-    readonly property color colorUL1: settings.globalSettings.getOption(getJsonColorNameByIndex(1), getDefaultColorByIndex(1))
-    readonly property color colorUL2: settings.globalSettings.getOption(getJsonColorNameByIndex(2), getDefaultColorByIndex(2))
-    readonly property color colorUL3: settings.globalSettings.getOption(getJsonColorNameByIndex(3), getDefaultColorByIndex(3))
-    readonly property color colorIL1: settings.globalSettings.getOption(getJsonColorNameByIndex(4), getDefaultColorByIndex(4))
-    readonly property color colorIL2: settings.globalSettings.getOption(getJsonColorNameByIndex(5), getDefaultColorByIndex(5))
-    readonly property color colorIL3: settings.globalSettings.getOption(getJsonColorNameByIndex(6), getDefaultColorByIndex(6))
-    readonly property color colorUAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(7), getDefaultColorByIndex(7))
-    readonly property color colorIAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(8), getDefaultColorByIndex(8))
+    readonly property color colorUL1: settings.globalSettings.getOption(getJsonColorNameByIndex(1), getDefaultColorByIndex(1, 0))
+    readonly property color colorUL2: settings.globalSettings.getOption(getJsonColorNameByIndex(2), getDefaultColorByIndex(2, 0))
+    readonly property color colorUL3: settings.globalSettings.getOption(getJsonColorNameByIndex(3), getDefaultColorByIndex(3, 0))
+    readonly property color colorIL1: settings.globalSettings.getOption(getJsonColorNameByIndex(4), getDefaultColorByIndex(4, 0))
+    readonly property color colorIL2: settings.globalSettings.getOption(getJsonColorNameByIndex(5), getDefaultColorByIndex(5, 0))
+    readonly property color colorIL3: settings.globalSettings.getOption(getJsonColorNameByIndex(6), getDefaultColorByIndex(6, 0))
+    readonly property color colorUAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(7), getDefaultColorByIndex(7, 0))
+    readonly property color colorIAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(8), getDefaultColorByIndex(8, 0))
 
     readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1", "lightskyblue")
-    readonly property color groupColorCurrent: settings.globalSettings.getOption("groupColor2", "lawngreen")
+    readonly property color groupColorCurrent: settings.globalSettings.getOption("groupcurrentColor", "lawngreen")
     readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3", "darkorange")
 
     readonly property color tableShadeColor: "#003040"
