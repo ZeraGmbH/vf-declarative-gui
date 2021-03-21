@@ -33,6 +33,125 @@ SettingsView {
         }
     }
 
+    Popup {
+        id: defaultColoursPopup
+        closePolicy: Popup.CloseOnPressOutside | Popup.CloseOnEscape
+        x: root.width * 5 / 10
+        y: 0 //root.height * 1 / 20
+        height: root.height - y
+        width: root.width - x
+
+        readonly property real sliderLabelWidth: width * 0.45
+        readonly property real sliderWidth: width * 0.35
+        readonly property real sliderRowHeight: height * 0.1
+        readonly property real labelPointSize: colourListView.height * 0.04
+        Row {
+            id: sliderRowBrightness
+            anchors.top: parent.top
+            anchors.left: parent.left
+            width: defaultColoursPopup.sliderLabelWidth+defaultColoursPopup.sliderWidth
+            height: defaultColoursPopup.sliderRowHeight
+            Label {
+                text: Z.tr("Brightness currents:")
+                anchors.verticalCenter: parent.verticalCenter
+                width: defaultColoursPopup.sliderLabelWidth
+                font.pointSize: defaultColoursPopup.labelPointSize
+            }
+            Slider {
+                anchors.verticalCenter: parent.verticalCenter
+                width: defaultColoursPopup.sliderWidth
+                from: 0.5
+                to: 1.9
+                value: GC.currentBrightness
+                onValueChanged: {
+                    GC.setCurrentBrigtness(value)
+                }
+            }
+        }
+        Row {
+            id: sliderRowBlack
+            anchors.top: sliderRowBrightness.bottom
+            anchors.left: parent.left
+            width: defaultColoursPopup.sliderLabelWidth+defaultColoursPopup.sliderWidth
+            height: defaultColoursPopup.sliderRowHeight
+            Label {
+                text: Z.tr("Brightness black:")
+                anchors.verticalCenter: parent.verticalCenter
+                width: defaultColoursPopup.sliderLabelWidth
+                font.pointSize: defaultColoursPopup.labelPointSize
+            }
+            Slider {
+                anchors.verticalCenter: parent.verticalCenter
+                width: defaultColoursPopup.sliderWidth
+                from: 1
+                to: 35
+                value: GC.blackBrightness
+                onValueChanged: {
+                    GC.setBlackBrigtness(value)
+                }
+            }
+        }
+        Button {
+            text: FA.fa_undo
+            font.family: FA.old
+            font.pointSize: defaultColoursPopup.labelPointSize
+            anchors.right: parent.right
+            width: defaultColoursPopup.width * 0.125
+            anchors.verticalCenter: sliderRowBrightness.bottom
+            onClicked: {
+                GC.setDefaultBrighnesses()
+            }
+        }
+        ListView {
+            id: colourListView
+            anchors.top: sliderRowBlack.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            spacing: 4
+            property int countColourThemes: GC.defaultColorTable.length
+            model: {
+                let defColorTable = GC.defaultColorTable
+                let phaseText, lineText
+                let retVal = []
+                for(let row=0; row<defColorTable.length; ++row) {
+                    for(let column=0; column<root.channelCount; column++) {
+                        let colorLead = "<font color='" + defColorTable[row][column] + "'>"
+                        var colorTrail = "</font>"
+                        phaseText = colorLead + ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${column+1}Range`].ChannelName + colorTrail
+                        if(column === 0) {
+                            lineText =  phaseText
+                        }
+                        else {
+                            lineText = lineText + "\t" + phaseText
+                        }
+                    }
+                    retVal[row] = lineText
+                }
+                return retVal
+            }
+            delegate: Rectangle {
+                width: colourListView.width
+                height: (colourListView.height - (colourListView.countColourThemes-1) * colourListView.spacing)/ colourListView.countColourThemes
+                radius: 4
+                color: Material.backgroundColor
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        GC.setSystemDefaultColors(index)
+                        defaultColoursPopup.close()
+                    }
+                }
+                Label {
+                    text: modelData
+                    font.pointSize: colourListView.height * 0.042
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+        }
+    }
+
     model: VisualItemModel {
         Item {
             height: root.rowHeight;
@@ -161,6 +280,7 @@ SettingsView {
         }
 
         Item {
+            id: colorRow
             visible: currentSession !== "com5003-ref-session.json" ///@todo replace hardcoded
             height: root.rowHeight;
             width: root.rowWidth;
@@ -215,11 +335,10 @@ SettingsView {
                     }
                 }
                 Button {
-                    font.family: FA.old
-                    font.pointSize: 12
-                    text: FA.fa_undo
+                    font.pointSize: root.rowHeight * 0.15
+                    text: "▼"
                     onClicked: {
-                        GC.setSystemDefaultColors()
+                        defaultColoursPopup.open()
                     }
                 }
             }
