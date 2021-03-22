@@ -19,6 +19,57 @@ SettingsView {
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: 48
 
+    Timer {
+        id: slowMachineSettingsHelper
+        /* Our target machine is terribly slow and some change of settings cause
+           a property change storm. To avoid repsponse times of several seconds
+           on in GUI, we keep the settings changes, start a timer and apply the
+           changes later. Doing so the GUI reponse is immediate.
+          */
+        interval: 500
+        repeat: false
+        function startAuxPhaseChange(showAux) {
+            nextShowAux = showAux
+            auxPhaseSetPending = true
+            restart()
+        }
+        function startAllColorChange(colorScheme) {
+            nextColorScheme = colorScheme
+            allColorChangePending = true
+            restart()
+        }
+        function getCurrentColor(index) {
+            if(!allColorChangePending) {
+                return GC.systemColorByIndex(index)
+            }
+            else {
+                return GC.getDefaultColorByIndex(index, nextColorScheme)
+            }
+        }
+
+        property bool auxPhaseSetPending: false
+        property bool allColorChangePending: false
+        property bool nextShowAux: GC.showAuxPhases
+        property int  nextColorScheme: value
+
+        function applyPendingChanges() {
+            if(auxPhaseSetPending) {
+                GC.setShowAuxPhases(nextShowAux);
+                auxPhaseSetPending = false
+            }
+            if(allColorChangePending) {
+                GC.setSystemDefaultColors(nextColorScheme)
+                allColorChangePending = false
+            }
+        }
+        onTriggered: {
+            applyPendingChanges()
+        }
+        Component.onDestruction: {
+            applyPendingChanges()
+        }
+    }
+
     ColorPicker {
         id: colorPicker
         // set at rButton.onClicked
@@ -138,7 +189,7 @@ SettingsView {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        GC.setSystemDefaultColors(index)
+                        slowMachineSettingsHelper.startAllColorChange(index)
                         defaultColoursPopup.close()
                     }
                 }
@@ -319,16 +370,16 @@ SettingsView {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
                             text: {
-                                var workingIndex = root.channelCount-index
-                                var colorLead = "<font color='" + GC.systemColorByIndex(workingIndex) + "'>"
-                                var colorTrail = "</font>"
+                                let workingIndex = root.channelCount-index
+                                let colorLead = "<font color='" + slowMachineSettingsHelper.getCurrentColor(workingIndex) + "'>"
+                                let colorTrail = "</font>"
                                 return colorLead + ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName + colorTrail
                             }
                             onClicked: {
                                 colorPicker.systemIndex = root.channelCount-index;
                                 /// @bug setting the the same value twice doesn't reset the sliders
                                 colorPicker.oldColor = "transparent";
-                                colorPicker.oldColor = GC.systemColorByIndex(colorPicker.systemIndex);
+                                colorPicker.oldColor = slowMachineSettingsHelper.getCurrentColor(colorPicker.systemIndex);
                                 colorPicker.open();
                             }
                         }
@@ -363,7 +414,7 @@ SettingsView {
                     height: parent.height
                     Component.onCompleted: checked = GC.showAuxPhases
                     onCheckedChanged: {
-                        GC.setShowAuxPhases(checked);
+                        slowMachineSettingsHelper.startAuxPhaseChange(checked)
                     }
                 }
             }
