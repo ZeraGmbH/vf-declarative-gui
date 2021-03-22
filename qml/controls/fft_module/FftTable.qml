@@ -205,33 +205,6 @@ Item {
             delegate: Component {
                 Row {
                     id: row
-                    readonly property int rowVisibleOffset: 0 // 0: full visible / 1: all visible (partial) / >1: not visible above/below
-                    readonly property int rowOffset: root.rowHeight * rowVisibleOffset
-                    function isRowVisible() {
-                        return row.y + row.rowOffset >= fftFlickable.contentY &&
-                                fftFlickable.contentY + root.rowHeight*(rowsDisplayedTotal-4) + rowOffset >= row.y
-                    }
-
-                    property bool updateRowContents: isRowVisible()
-                    readonly property bool movingVertically: vBar.active || fftFlickable.movingVertically
-                    /* We switch between two modes to get low CPU load on user idle and fast flicking:
-                       1. When user does not interact in FftTable we can reduce number of rows updated
-                          to those visible only. This also improves situations when FftTable is loaded but
-                          not visible.
-                       2. Scrolling/flicking causes high CPU load at isRowVisible so get back
-                          to update of all rows when user moves table vertically */
-                    onMovingVerticallyChanged: {
-                        if(movingVertically) {
-                            // we intend to break property binding here
-                            updateRowContents = true
-                        }
-                        else {
-                            updateRowContents = Qt.binding(function() {
-                                return isRowVisible()
-                            });
-                        }
-                    }
-
                     height: root.rowHeight
 
                     CCMP.GridItem {
@@ -248,7 +221,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : ""
-                        text: updateRowContents && AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1) + unit : text
+                        text: AmplitudeL1 !== undefined ? GC.formatNumber(AmplitudeL1) + unit : text
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
@@ -257,7 +230,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL1 !== undefined ? GC.formatNumber(VectorL1) : text
+                            text: VectorL1 !== undefined ? GC.formatNumber(VectorL1) : text
                             textColor: GC.colorUL1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -266,7 +239,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : ""
-                        text: updateRowContents && AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2) + unit : text
+                        text: AmplitudeL2 !== undefined ? GC.formatNumber(AmplitudeL2) + unit : text
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
@@ -275,7 +248,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL2 !== undefined ? GC.formatNumber(VectorL2) : text
+                            text: VectorL2 !== undefined ? GC.formatNumber(VectorL2) : text
                             textColor: GC.colorUL2
                             font.pixelSize: rowHeight*0.5
                         }
@@ -284,7 +257,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : ""
-                        text: updateRowContents && AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3) + unit : text
+                        text: AmplitudeL3 !== undefined ? GC.formatNumber(AmplitudeL3) + unit : text
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
@@ -293,7 +266,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL3 !== undefined ? GC.formatNumber(VectorL3) : text
+                            text: VectorL3 !== undefined ? GC.formatNumber(VectorL3) : text
                             textColor: GC.colorUL3
                             font.pixelSize: rowHeight*0.5
                         }
@@ -302,7 +275,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : ""
-                        text: updateRowContents && AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4) + unit : text
+                        text: AmplitudeL4 !== undefined ? GC.formatNumber(AmplitudeL4) + unit : text
                         textColor: GC.colorIL1
                         font.pixelSize: rowHeight*0.5
                     }
@@ -311,7 +284,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL4 !== undefined ? GC.formatNumber(VectorL4) : text
+                            text: VectorL4 !== undefined ? GC.formatNumber(VectorL4) : text
                             textColor: GC.colorIL1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -320,7 +293,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : ""
-                        text: updateRowContents && AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5) + unit : text
+                        text: AmplitudeL5 !== undefined ? GC.formatNumber(AmplitudeL5) + unit : text
                         textColor: GC.colorIL2
                         font.pixelSize: rowHeight*0.5
                     }
@@ -329,7 +302,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL5 !== undefined ? GC.formatNumber(VectorL5) : text
+                            text: VectorL5 !== undefined ? GC.formatNumber(VectorL5) : text
                             textColor: GC.colorIL2
                             font.pixelSize: rowHeight*0.5
                         }
@@ -338,7 +311,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : ""
-                        text: updateRowContents && AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6) + unit : text
+                        text: AmplitudeL6 !== undefined ? GC.formatNumber(AmplitudeL6) + unit : text
                         textColor: GC.colorIL3
                         font.pixelSize: rowHeight*0.5
                     }
@@ -347,7 +320,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL6 !== undefined ? GC.formatNumber(VectorL6) : text
+                            text: VectorL6 !== undefined ? GC.formatNumber(VectorL6) : text
                             textColor: GC.colorIL3
                             font.pixelSize: rowHeight*0.5
                         }
@@ -358,7 +331,7 @@ Item {
                             width: root.columnWidth
                             height: root.rowHeight
                             property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : ""
-                            text: updateRowContents && AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7) + unit : text
+                            text: AmplitudeL7 !== undefined ? GC.formatNumber(AmplitudeL7) + unit : text
                             textColor: GC.colorUAux1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -368,7 +341,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL7 !== undefined ? GC.formatNumber(VectorL7) : text
+                            text: VectorL7 !== undefined ? GC.formatNumber(VectorL7) : text
                             textColor: GC.colorUAux1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -379,7 +352,7 @@ Item {
                             width: root.columnWidth
                             height: root.rowHeight
                             property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : ""
-                            text: updateRowContents && AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8) + unit : text
+                            text: AmplitudeL8 !== undefined ? GC.formatNumber(AmplitudeL8) + unit : text
                             textColor: GC.colorIAux1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -389,7 +362,7 @@ Item {
                         sourceComponent: CCMP.GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: updateRowContents && VectorL8 !== undefined ? GC.formatNumber(VectorL8) : text
+                            text: VectorL8 !== undefined ? GC.formatNumber(VectorL8) : text
                             textColor: GC.colorIAux1
                             font.pixelSize: rowHeight*0.5
                         }
