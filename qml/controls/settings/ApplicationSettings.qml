@@ -46,11 +46,19 @@ SettingsView {
                 return GC.getDefaultColorByIndex(index, nextColorScheme)
             }
         }
+        function startShowFftTableAsRelativeChange(fftTableRelative) {
+            nextFftTableRelative = fftTableRelative
+            fftTableRelativePending = true
+            restart()
+        }
 
         property bool auxPhaseSetPending: false
         property bool allColorChangePending: false
+        property bool fftTableRelativePending: false
+
         property bool nextShowAux: false
         property int  nextColorScheme: 0
+        property bool nextFftTableRelative: false
 
         function applyPendingChanges() {
             if(auxPhaseSetPending) {
@@ -60,6 +68,10 @@ SettingsView {
             if(allColorChangePending) {
                 GC.setSystemDefaultColors(nextColorScheme)
                 allColorChangePending = false
+            }
+            if(fftTableRelativePending) {
+                GC.setShowFftTableAsRelative(nextFftTableRelative)
+                fftTableRelativePending = false
             }
         }
         onTriggered: {
@@ -264,7 +276,7 @@ SettingsView {
                     height: parent.height
                     Component.onCompleted: checked = GC.showFftTableAsRelative
                     onCheckedChanged: {
-                        GC.setShowFftTableAsRelative(checked);
+                        slowMachineSettingsHelper.startShowFftTableAsRelativeChange(checked)
                     }
                 }
             }
