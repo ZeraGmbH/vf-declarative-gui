@@ -43,12 +43,6 @@ Item {
         clip: true
 
         ScrollBar.horizontal: hBar
-        // The following dance is necessary to improve swiping into next tab
-        // when being zoomed by pinch
-        onMovementEnded: {
-            // re-enable atXEnd once we get right neighbour
-            helperMouseArea.enabled = hasVertScroll && atXBeginning // || atXEnd
-        }
 
         PinchArea {
             id: pinchArea
@@ -113,26 +107,6 @@ Item {
                     //titleLeftAxis: ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPW%1").arg(index+1)].ChannelName
                 }
             }
-        }
-    }
-    MouseArea {
-        id: helperMouseArea
-        anchors.fill: parent
-        anchors.rightMargin: hasVertScroll ? vBar.width : 0
-        anchors.bottomMargin: hBar.height
-        enabled: hasVertScroll
-        drag.axis: Drag.XAxis
-        property real oldXPos: 0
-        onPositionChanged: {
-            // can we swipe contents left?
-            if(mouse.x > oldXPos && fftFlickable.atXEnd) {
-                enabled = false
-            }
-            // can we swipe contents right?
-            if(mouse.x < oldXPos && fftFlickable.atXBeginning) {
-                enabled = false
-            }
-            oldXPos = mouse.x
         }
     }
 }
