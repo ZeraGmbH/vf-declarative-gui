@@ -49,6 +49,7 @@ Item {
         boundsBehavior: Flickable.OvershootBounds
         model: Math.ceil(channelCount/2)
         clip: true
+        snapMode: ListView.SnapToItem
 
         ScrollBar.vertical: ScrollBar {
             policy: lvOsci.contentHeight > lvOsci.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
