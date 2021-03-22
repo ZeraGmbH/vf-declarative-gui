@@ -16,7 +16,7 @@ SettingsView {
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: 48
 
-    Loader {
+    /*Loader {
         id: fInOutPopup
         active: VeinEntity.hasEntity("POWER1Module4")
 
@@ -24,7 +24,7 @@ SettingsView {
             width: root.width
             height: root.height
         }
-    }
+    }*/
     Component {
         id: swPllAutomatic
         RowLayout {
@@ -161,7 +161,7 @@ SettingsView {
                 x: 20
             }
         }
-        Item {
+        /*Item {
             height: root.rowHeight * visible; //do not waste space in the layout if not visible
             width: root.rowWidth;
             visible: VeinEntity.hasEntity("POWER1Module4")
@@ -185,7 +185,7 @@ SettingsView {
                     onClicked: fInOutPopup.item.open();
                 }
             }
-        }
+        }*/
 
 
 
