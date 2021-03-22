@@ -167,7 +167,8 @@ Item {
                         height: root.rowHeight
                         color: GC.tableShadeColor
                         border.color: "#444" //disable border transparency
-                        text: Z.tr("Amp") + (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+")");
+                        text: (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+"]");
+                        textHorizontalAlignment: Label.AlignHCenter
                         textColor: GC.getColorByIndex(index+1)
                         font.pixelSize: rowHeight*0.5
                         font.bold: true
