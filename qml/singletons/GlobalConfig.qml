@@ -39,7 +39,34 @@ Item {
         }
     }
 
-    readonly property string sessionNamePrefix: VeinEntity.getEntity("_System").Session.replace(".json", "-")
+
+
+
+    property string sessionNamePrefix: ""
+
+    Connections {
+        id: wSystem
+        target: VeinEntity
+        onSigEntityAvailable: {
+
+            if(VeinEntity.hasEntity("_System")){
+                wSystem.enabled = false
+                sessionNamePrefix=Qt.binding(function(){
+                    return  VeinEntity.getEntity("_System").Session.replace(".json", "-");
+                })
+
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
     property int lastPageViewIndexSelectedVolatile: 0
     property int lastPageViewIndexSelected: {
         return keepPagesPesistent ?
@@ -48,7 +75,7 @@ Item {
     }
     function setLastPageViewIndexSelected(index) {
         lastPageViewIndexSelectedVolatile = index
-        if(keepPagesPesistent) {
+        if(keepPagesPesistent && sessionNamePrefix !== "") {
             // change of page requires tab update
             if(lastPageViewIndexSelected !== index) {
                 lastPageViewIndexSelected = index
@@ -64,7 +91,7 @@ Item {
             0
     }
     function setLastTabSelected(tabNo) {
-        if(keepPagesPesistent) {
+        if(keepPagesPesistent && sessionNamePrefix !== "") {
             lastTabSelected = tabNo
             settings.globalSettings.setOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", tabNo)
         }
