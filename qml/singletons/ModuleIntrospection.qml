@@ -27,7 +27,7 @@ Item {
   property var burden1Introspection: VeinEntity.hasEntity("Burden1Module1") ? JSON.parse(VeinEntity.getEntity("Burden1Module1").INF_ModuleInterface) : 0
   property var burden2Introspection: VeinEntity.hasEntity("Burden1Module2") ? JSON.parse(VeinEntity.getEntity("Burden1Module2").INF_ModuleInterface) : 0
   property var transformer1Introspection: VeinEntity.hasEntity("Transformer1Module1") ? JSON.parse(VeinEntity.getEntity("Transformer1Module1").INF_ModuleInterface) : 0
-  //property var customerdataIntrospection: VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0
+//  property var customerdataIntrospection: VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0
   property var introMap: ({});
 
   function reloadIntrospection() {
