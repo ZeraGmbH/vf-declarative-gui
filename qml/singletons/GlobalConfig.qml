@@ -96,27 +96,6 @@ Item {
         settings.globalSettings.setOption("show_aux_phases", setValue);
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // we have to decouple change of showAuxPhases with a timer because of some
-    // CPU intensive views: when the operator changes selection, it takes ages until
-    // the checkbox in settings view is updated due to heavy load caused.
-    property bool showAuxPhasesDecoupled: showAuxPhases
-    onShowAuxPhasesChanged: {
-        decoupleTimer.start()
-    }
-    Timer {
-        id: decoupleTimer
-        interval: 500
-        // We must break binding on startup
-        Component.onCompleted: {
-            showAuxPhasesDecoupled = showAuxPhases
-        }
-        onTriggered: {
-            stop()
-            showAuxPhasesDecoupled = showAuxPhases
-        }
-    }
-
     readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative", "0"))
     function setShowFftTableAsRelative(isRelative) {
         var setValue = isRelative ? 1 : 0
