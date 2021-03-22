@@ -49,8 +49,8 @@ SettingsView {
 
         property bool auxPhaseSetPending: false
         property bool allColorChangePending: false
-        property bool nextShowAux: GC.showAuxPhases
-        property int  nextColorScheme: value
+        property bool nextShowAux: false
+        property int  nextColorScheme: 0
 
         function applyPendingChanges() {
             if(auxPhaseSetPending) {
