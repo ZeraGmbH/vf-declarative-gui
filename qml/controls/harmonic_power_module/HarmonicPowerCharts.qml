@@ -34,17 +34,15 @@ Item {
     }
 
     Flickable {
-        id: fftFlickable
+        id: fftFlickable // horiz scroll
         anchors.fill: parent
         anchors.bottomMargin: hBar.height
         anchors.rightMargin: hasVertScroll ? vBar.width : 0
         contentWidth: width*2
-        contentHeight: pinchArea.pinchScale * height
         boundsBehavior: Flickable.OvershootBounds
         clip: true
 
         ScrollBar.horizontal: hBar
-        ScrollBar.vertical: vBar
         // The following dance is necessary to improve swiping into next tab
         // when being zoomed by pinch
         onMovementEnded: {
@@ -72,9 +70,13 @@ Item {
             }
         }
 
-        Repeater {
+        ListView { // vert. scroll (ListView can scroll only one orientation)
             model: 3
-            Item {
+            anchors.fill: parent
+            contentHeight: pinchArea.pinchScale * height
+            ScrollBar.vertical: vBar
+            snapMode: ListView.SnapToItem
+            delegate: Item {
                 height: pinchArea.pinchScale * root.height/3
                 width: root.width*2
                 y: index*height
