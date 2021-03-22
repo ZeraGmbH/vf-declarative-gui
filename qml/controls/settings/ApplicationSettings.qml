@@ -26,11 +26,26 @@ SettingsView {
            on in GUI, we keep the settings changes, start a timer and apply the
            changes later. Doing so the GUI reponse is immediate.
           */
-        interval: 500
+        interval: 800
         repeat: false
         function startAuxPhaseChange(showAux) {
             nextShowAux = showAux
             auxPhaseSetPending = true
+            restart()
+        }
+        function startShowFftTableAsRelativeChange(fftTableRelative) {
+            nextFftTableRelative = fftTableRelative
+            fftTableRelativePending = true
+            restart()
+        }
+        function startDigitsTotalChange(digitsTotal) {
+            nextDigitsTotal = digitsTotal
+            digitsTotalPending = true
+            restart()
+        }
+        function startDecimalPlacesChange(decimalPlaces) {
+            nextDecimalPlaces = decimalPlaces
+            decimalPlacesPending = true
             restart()
         }
         function startAllColorChange(colorScheme) {
@@ -46,19 +61,18 @@ SettingsView {
                 return GC.getDefaultColorByIndex(index, nextColorScheme)
             }
         }
-        function startShowFftTableAsRelativeChange(fftTableRelative) {
-            nextFftTableRelative = fftTableRelative
-            fftTableRelativePending = true
-            restart()
-        }
 
         property bool auxPhaseSetPending: false
         property bool allColorChangePending: false
         property bool fftTableRelativePending: false
+        property bool digitsTotalPending: false
+        property bool decimalPlacesPending: false
 
         property bool nextShowAux: false
         property int  nextColorScheme: 0
         property bool nextFftTableRelative: false
+        property int  nextDigitsTotal: 0
+        property int  nextDecimalPlaces: 0
 
         function applyPendingChanges() {
             if(auxPhaseSetPending) {
@@ -72,6 +86,14 @@ SettingsView {
             if(fftTableRelativePending) {
                 GC.setShowFftTableAsRelative(nextFftTableRelative)
                 fftTableRelativePending = false
+            }
+            if(digitsTotalPending) {
+                GC.setDigitsTotal(nextDigitsTotal)
+                digitsTotalPending = false
+            }
+            if(decimalPlacesPending) {
+                GC.setDecimalPlaces(nextDecimalPlaces)
+                decimalPlacesPending = false
             }
         }
         onTriggered: {
@@ -299,13 +321,13 @@ SettingsView {
 
                 ZSpinBox {
                     id: actDecimalPlacesTotal
-                    text: GC.digitsTotal
+                    Component.onCompleted: text = GC.digitsTotal
                     validator: IntValidator {
                         bottom: 1
                         top: 7
                     }
                     function doApplyInput(newText) {
-                        GC.setDigitsTotal(newText)
+                        slowMachineSettingsHelper.startDigitsTotalChange(newText)
                         return true
                     }
                 }
@@ -329,13 +351,13 @@ SettingsView {
 
                 ZSpinBox {
                     id: actDecimalPlaces
-                    text: GC.decimalPlaces
+                    Component.onCompleted: text = GC.decimalPlaces
                     validator: IntValidator {
                         bottom: 1
                         top: 7
                     }
                     function doApplyInput(newText) {
-                        GC.setDecimalPlaces(newText)
+                        slowMachineSettingsHelper.startDecimalPlacesChange(newText)
                         return true
                     }
                 }
