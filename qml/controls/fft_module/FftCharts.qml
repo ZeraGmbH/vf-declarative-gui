@@ -8,7 +8,7 @@ import ModuleIntrospection 1.0
 import ZeraTranslation 1.0
 import "qrc:/qml/controls" as CCMP
 
-Flickable {
+ListView {
     id: root
 
     readonly property QtObject fftModule: VeinEntity.getEntity("FFTModule1")
@@ -38,6 +38,7 @@ Flickable {
     }
 
     clip: true
+    snapMode: ListView.SnapToItem
     boundsBehavior: Flickable.OvershootBounds
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
     ScrollBar.vertical: ScrollBar {
@@ -65,60 +66,58 @@ Flickable {
         }
     }
 
-    Repeater {
-        model: Math.ceil(fftCount/2)
-        Item {
-            height: pinchArea.pinchScale * root.height/3
-            width: root.width-8
-            y: index*height
-            readonly property string strThdn: Z.tr("THDN:") + " "
-            Text {
-                id: thdnTextU
-                //index starts with 1
-                readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
-                readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
-                text: strThdn + GC.formatNumber(thdnModule[componentName]) + unit
-                color: GC.systemColorByIndex(leftChannels[index]+1)
-            }
-            Text {
-                id: thdnTextI
-                //index starts with 1
-                readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
-                readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
-                text: strThdn + GC.formatNumber(thdnModule[componentName]) + unit
-                anchors.right: parent.right
-                anchors.rightMargin: 8
-                color: GC.systemColorByIndex(rightChannels[index]+1)
-            }
+    model: Math.ceil(fftCount/2)
+    delegate: Item {
+        height: pinchArea.pinchScale * root.height/3
+        width: root.width-8
+        y: index*height
+        readonly property string strThdn: Z.tr("THDN:") + " "
+        Text {
+            id: thdnTextU
+            //index starts with 1
+            readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
+            readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
+            text: strThdn + GC.formatNumber(thdnModule[componentName]) + unit
+            color: GC.systemColorByIndex(leftChannels[index]+1)
+        }
+        Text {
+            id: thdnTextI
+            //index starts with 1
+            readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
+            readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
+            text: strThdn + GC.formatNumber(thdnModule[componentName]) + unit
+            anchors.right: parent.right
+            anchors.rightMargin: 8
+            color: GC.systemColorByIndex(rightChannels[index]+1)
+        }
 
-            FftBarChart {
-                id: harmonicChart
-                anchors.fill: parent
-                anchors.topMargin: thdnTextU.height
+        FftBarChart {
+            id: harmonicChart
+            anchors.fill: parent
+            anchors.topMargin: thdnTextU.height
 
-                rightAxisEnabled: true
+            rightAxisEnabled: true
 
-                color: Material.backgroundColor
-                borderColor: Material.backgroundColor
-                legendEnabled: false
-                bottomLabelsEnabled: true
-                logScaleLeftAxis: false
-                logScaleRightAxis: false
-                colorLeftAxis: GC.systemColorByIndex(leftChannels[index]+1)
-                colorRightAxis: GC.systemColorByIndex(rightChannels[index]+1)
+            color: Material.backgroundColor
+            borderColor: Material.backgroundColor
+            legendEnabled: false
+            bottomLabelsEnabled: true
+            logScaleLeftAxis: false
+            logScaleRightAxis: false
+            colorLeftAxis: GC.systemColorByIndex(leftChannels[index]+1)
+            colorRightAxis: GC.systemColorByIndex(rightChannels[index]+1)
 
-                leftValue: fftModule[String("ACT_FFT%1").arg(leftChannels[index]+1)]
-                rightValue: fftModule[String("ACT_FFT%1").arg(rightChannels[index]+1)]
+            leftValue: fftModule[String("ACT_FFT%1").arg(leftChannels[index]+1)]
+            rightValue: fftModule[String("ACT_FFT%1").arg(rightChannels[index]+1)]
 
-                maxValueLeftAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(leftChannels[index]+1)] * 1.5
-                minValueLeftAxis: 0
-                maxValueRightAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(rightChannels[index]+1)] * 1.5
-                minValueRightAxis: 0
-                textColor: Material.primaryTextColor
+            maxValueLeftAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(leftChannels[index]+1)] * 1.5
+            minValueLeftAxis: 0
+            maxValueRightAxis: rangeModule[String("INF_Channel%1ActOVLREJ").arg(rightChannels[index]+1)] * 1.5
+            minValueRightAxis: 0
+            textColor: Material.primaryTextColor
 
-                titleLeftAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(leftChannels[index]+1)].ChannelName
-                titleRightAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(rightChannels[index]+1)].ChannelName
-            }
+            titleLeftAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(leftChannels[index]+1)].ChannelName
+            titleRightAxis: ModuleIntrospection.fftIntrospection.ComponentInfo[String("ACT_FFT%1").arg(rightChannels[index]+1)].ChannelName
         }
     }
 }
