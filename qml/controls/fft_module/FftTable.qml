@@ -12,7 +12,7 @@ Item {
     id: root
 
     readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
-    readonly property int channelCount: GC.showAuxPhasesDecoupled ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount, 6)
+    readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount, 6)
     readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
     readonly property int rowsDisplayedTotal: 14
     readonly property int rowHeight: Math.floor(height/rowsDisplayedTotal)
