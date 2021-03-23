@@ -111,6 +111,11 @@ Item {
         var strDbContentSets = GC.dbContentSetsFromContext(GC.currentGuiContext)
         var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
         var type = loggerEntity.ENUM_LogType["startStop"]
+        if(GC.scheduledLogging){
+            type = loggerEntity.ENUM_LogType["duration"]
+        }
+
+
         var guiContext = GC.currentGuiContext.name;
         var dbContentSetArrWanted = strDbContentSets.split(',');
         var dbContentSetToSetArr = [];
@@ -129,7 +134,7 @@ Item {
                                {
                                    "p_contentSets" : dbContentSetToSetArr,
                                    "p_guiContext": guiContext,
-                                   "p_duration" : 0,
+                                   "p_duration" : GC.loggingDuration,
                                    "p_logType" : type,
                                    "p_transaction" : transactionName
 

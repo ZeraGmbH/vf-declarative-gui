@@ -41,6 +41,8 @@ Item {
 
 
 
+    property real loggingDuration : 0;
+    property bool scheduledLogging : false;
 
     property string sessionNamePrefix: ""
 

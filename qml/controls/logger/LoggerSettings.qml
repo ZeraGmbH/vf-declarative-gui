@@ -508,16 +508,16 @@ SettingsControls.SettingsView {
                     text: Z.tr("Logging Duration [hh:mm:ss]:")
                     font.pointSize: root.pointSize
                     Layout.fillWidth: true
-                    enabled: loggerEntity.ScheduledLoggingEnabled === true
+                    enabled: scheduledLogging.checked
                 }
-                VFLineEdit {
+                ZLineEdit {
                     id: durationField
 
                     // overrides
                     function doApplyInput(newText) {
-                        entity[controlPropertyName] = FT.timeToMs(newText)
+                        FT.loggingDuration = FT.timeToMs(newText)
                         // wait to be applied
-                        return false
+                        return true
                     }
                     function transformIncoming(t_incoming) {
                         return FT.msToTime(t_incoming);
@@ -526,21 +526,21 @@ SettingsControls.SettingsView {
                         var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
                         return regex.test(textField.text)
                     }
-
-                    entity: root.loggerEntity
-                    controlPropertyName: "ScheduledLoggingDuration"
+                    text: GC.msToTime(GC.loggingDuration)
                     inputMethodHints: Qt.ImhPreferNumbers
                     height: root.rowHeight
                     pointSize: root.pointSize
                     width: 280
-                    enabled: loggerEntity.ScheduledLoggingEnabled === true && loggerEntity.LoggingEnabled === false
+                    enabled: scheduledLogging.checked && loggerEntity.LoggingEnabled === false
                 }
-                VFSwitch {
+                CheckBox {
                     id: scheduledLogging
                     height: parent.height
-                    entity: root.loggerEntity
                     enabled: loggerEntity.LoggingEnabled === false
-                    controlPropertyName: "ScheduledLoggingEnabled"
+                    onCheckStateChanged: {
+                        GC.scheduledLogging=checked
+                    }
+                    checked: GC.scheduledLogging
                 }
                 Label {
                     visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true
