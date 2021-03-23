@@ -76,55 +76,71 @@ Item {
 
     readonly property string sessionNameLogger: loggerEntity.sessionName !== undefined ? loggerEntity.sessionName : ""
 
-    function startLogging() {
-        // No logging active?
-        if(veinResponsesRequired === 0) {
-            // contentSets: create & set if necessary
-            var strDbContentSets = GC.dbContentSetsFromContext(GC.currentGuiContext)
-            // Convert ',' setting to array / keep contextSets not available (currently) in strContentSetsNotFound
-            // for warning
-            var strContentSetsNotFound = ""
-            var dbContentSetArrWanted = strDbContentSets.split(',')
-            var dbContentSetToSetArr = []
-            for(var currSetIdx in dbContentSetArrWanted) {
-                if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSetArrWanted[currSetIdx])) {
-                    dbContentSetToSetArr.push(dbContentSetArrWanted[currSetIdx])
+    function takeSnapshot(){
+        var dateTime = new Date();
+        var strDbContentSets = GC.dbContentSetsFromContext(GC.currentGuiContext)
+        var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
+        var type = loggerEntity.ENUM_LogType["snapshot"]
+        var guiContext = GC.currentGuiContext.name;
+        var dbContentSetArrWanted = strDbContentSets.split(',');
+        var dbContentSetToSetArr = [];
+        for(var currSetIdx in dbContentSetArrWanted) {
+            if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSetArrWanted[currSetIdx])) {
+                dbContentSetToSetArr.push(dbContentSetArrWanted[currSetIdx])
+            }
+            else {
+                if(strContentSetsNotFound !== "") {
+                    strContentSetsNotFound += ", "
                 }
-                else {
-                    if(strContentSetsNotFound !== "") {
-                        strContentSetsNotFound += ", "
-                    }
-                    strContentSetsNotFound += dbContentSetArrWanted[currSet]
-                }
-            }
-            if(strContentSetsNotFound !== "") {
-                console.warn("Cannot find content set(s) \"" + strContentSetsNotFound + "\" in available content sets!" )
-            }
-            if(JSON.stringify(loggerEntity.currentContentSets.sort()) !== JSON.stringify(dbContentSetToSetArr.sort())) {
-                ++veinResponsesRequired // we listen to loggedComponents -> one event
-                loggerEntity.currentContentSets = dbContentSetToSetArr
-            }
-
-            // guiContext: create & set if necessary
-            var guiContext = GC.currentGuiContext.name
-            if(loggerEntity.guiContext !== guiContext) {
-                ++veinResponsesRequired // we get a locale and a remote event
-                ++veinResponsesRequired
-                loggerEntity.guiContext = guiContext
-            }
-
-            // transactionName: create & set if necessary
-            var dateTime = new Date();
-            var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
-            if(loggerEntity.transactionName !== transactionName) {
-                ++veinResponsesRequired // we get a locale and a remote event
-                ++veinResponsesRequired
-                loggerEntity.transactionName = transactionName
-            }
-            if(veinResponsesRequired===0) {
-                loggerEntity.LoggingEnabled = true
+                strContentSetsNotFound += dbContentSetArrWanted[currSet]
             }
         }
+        loggerEntity.invokeRPC("RPC_startLogging(QStringList p_contentSets,float p_duration,QString p_guiContext,ENUM_LogType p_logType,QString p_transaction)",
+                               {
+                                   "p_contentSets" : dbContentSetToSetArr,
+                                   "p_guiContext": guiContext,
+                                   "p_duration" : 0,
+                                   "p_logType" : type,
+                                   "p_transaction" : transactionName
+
+                               });
+    }
+
+    function startLogging() {
+        var dateTime = new Date();
+        var strDbContentSets = GC.dbContentSetsFromContext(GC.currentGuiContext)
+        var transactionName = (snapshotTrigger ? "Snapshot" : "Recording") + "_" + Qt.formatDateTime(dateTime, "yyyy_MM_dd_hh_mm_ss")
+        var type = loggerEntity.ENUM_LogType["startStop"]
+        var guiContext = GC.currentGuiContext.name;
+        var dbContentSetArrWanted = strDbContentSets.split(',');
+        var dbContentSetToSetArr = [];
+        for(var currSetIdx in dbContentSetArrWanted) {
+            if(loggerEntity.availableContentSets && loggerEntity.availableContentSets.includes(dbContentSetArrWanted[currSetIdx])) {
+                dbContentSetToSetArr.push(dbContentSetArrWanted[currSetIdx])
+            }
+            else {
+                if(strContentSetsNotFound !== "") {
+                    strContentSetsNotFound += ", "
+                }
+                strContentSetsNotFound += dbContentSetArrWanted[currSet]
+            }
+        }
+        loggerEntity.invokeRPC("RPC_startLogging(QStringList p_contentSets,float p_duration,QString p_guiContext,ENUM_LogType p_logType,QString p_transaction)",
+                               {
+                                   "p_contentSets" : dbContentSetToSetArr,
+                                   "p_guiContext": guiContext,
+                                   "p_duration" : 0,
+                                   "p_logType" : type,
+                                   "p_transaction" : transactionName
+
+                               });
+    }
+
+    function stopLogging(){
+        loggerEntity.invokeRPC("RPC_stopLogging(QList<int> p_transaction)",
+                               {
+                                "p_transaction" : []
+                               });
     }
 
     // Snapshot is implemented as logging enable on / off
@@ -331,7 +347,7 @@ Item {
             onTriggered: {
                 snapshotTrigger = true;
                 if(sessionNameLogger !== "") {
-                    startLogging()
+                    takeSnapshot();
                 }
                 else {
                     startLoggingAfterSessionSelect = true
@@ -352,15 +368,15 @@ Item {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
                     if(sessionNameLogger !== "") {
-                        startLogging()
+                        startLogging();
                     }
                     else {
                         startLoggingAfterSessionSelect = true
-                        loggerSessionsMenu(loggerEntity)
+                        loggerSessionsMenu(loggerEntity);
                     }
                 }
                 else { // Stop
-                    loggerEntity.LoggingEnabled = false
+                    stopLogging();
                 }
             }
         }
