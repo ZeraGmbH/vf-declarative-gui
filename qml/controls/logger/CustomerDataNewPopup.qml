@@ -29,8 +29,7 @@ Popup {
 
     property QtObject customerData: VeinEntity.getEntity("CustomerData")
     function startAddCustomerData() {
-        customerData.invokeRPC("customerDataAdd(QString fileName)", { "fileName": filenameField.text+".json" })
-        customerData.FileSelected = filenameField.text+".json"
+        customerData.invokeRPC("RPC_Open(QString p_fileName)", { "p_fileName": filenameField.text+".json" })
         close()
         menuStackLayout.showCustomerDataEditor()
     }
@@ -107,6 +106,7 @@ Popup {
             Layout.preferredWidth: newFileCancel.width
             enabled: filenameField.acceptableInput && fileNameAlreadyExists === false
             onClicked: {
+                customerData.invokeRPC("RPC_Save()", {})
                 startAddCustomerData()
             }
         }
