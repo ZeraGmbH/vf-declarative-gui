@@ -143,13 +143,20 @@ SettingsView {
                 font.pointSize: defaultColoursPopup.labelPointSize
             }
             Slider {
+                id: sliderCurrent
                 anchors.verticalCenter: parent.verticalCenter
                 width: defaultColoursPopup.sliderWidth
                 from: 0.5
                 to: 1.9
-                value: GC.currentBrightness
+                property bool completed: false
+                Component.onCompleted: {
+                    value = GC.currentBrightness
+                    completed = true
+                }
                 onValueChanged: {
-                    GC.setCurrentBrigtness(value)
+                    if(completed) {
+                        GC.setCurrentBrigtness(value)
+                    }
                 }
             }
         }
@@ -166,13 +173,20 @@ SettingsView {
                 font.pointSize: defaultColoursPopup.labelPointSize
             }
             Slider {
+                id: sliderBlack
                 anchors.verticalCenter: parent.verticalCenter
                 width: defaultColoursPopup.sliderWidth
                 from: 1
                 to: 35
-                value: GC.blackBrightness
+                property bool completed: false
+                Component.onCompleted: {
+                    value = GC.blackBrightness
+                    completed = true
+                }
                 onValueChanged: {
-                    GC.setBlackBrigtness(value)
+                    if(completed) {
+                        GC.setBlackBrigtness(value)
+                    }
                 }
             }
         }
@@ -185,6 +199,8 @@ SettingsView {
             anchors.verticalCenter: sliderRowBrightness.bottom
             onClicked: {
                 GC.setDefaultBrighnesses()
+                sliderCurrent.value = GC.currentBrightness
+                sliderBlack.value = GC.blackBrightness
             }
         }
         ListView {
@@ -194,28 +210,11 @@ SettingsView {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             spacing: 4
-            property int countColourThemes: GC.defaultColorTable.length
-            model: {
-                let defColorTable = GC.defaultColorTable
-                let phaseText, lineText
-                let retVal = []
-                for(let row=0; row<defColorTable.length; ++row) {
-                    for(let column=0; column<root.channelCount; column++) {
-                        let colorLead = "<font color='" + defColorTable[row][column] + "'>"
-                        var colorTrail = "</font>"
-                        phaseText = colorLead + ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${column+1}Range`].ChannelName + colorTrail
-                        if(column === 0) {
-                            lineText =  phaseText
-                        }
-                        else {
-                            lineText = lineText + "\t" + phaseText
-                        }
-                    }
-                    retVal[row] = lineText
-                }
-                return retVal
-            }
+            readonly property int countColourThemes: GC.defaultColorTable.length
+            model: countColourThemes
             delegate: Rectangle {
+                id: lineDelegate
+                readonly property int row: index
                 width: colourListView.width
                 height: (colourListView.height - (colourListView.countColourThemes-1) * colourListView.spacing)/ colourListView.countColourThemes
                 radius: 4
@@ -227,11 +226,20 @@ SettingsView {
                         defaultColoursPopup.close()
                     }
                 }
-                Label {
-                    text: modelData
-                    font.pointSize: colourListView.height * 0.042
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 8
+                    Repeater {
+                        model: root.channelCount
+                        Label {
+                            Layout.fillHeight: true
+                            text: ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${index+1}Range`].ChannelName
+                            font.pointSize: colourListView.height * 0.040
+                            color: GC.defaultColorTable[lineDelegate.row][index]
+                            verticalAlignment: Text.AlignVCenter
+                            textFormat: Text.PlainText
+                        }
+                    }
                 }
             }
         }
