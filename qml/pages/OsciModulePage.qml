@@ -6,6 +6,7 @@ import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraGlueLogic 1.0
 import ZeraLocale 1.0
 import "qrc:/qml/controls" as CCMP
@@ -84,14 +85,14 @@ Item {
                 anchors.left: parent.left
                 rotation: -90
                 text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName;
-                color: GC.getColorByIndex(leftChannels[index]+1);
+                color: FT.getColorByIndex(leftChannels[index]+1);
             }
             Label {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 rotation: 90
                 text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName;
-                color: GC.getColorByIndex(rightChannels[index]+1);
+                color: FT.getColorByIndex(rightChannels[index]+1);
             }
             ChartView {
                 anchors.left: parent.left
@@ -133,8 +134,8 @@ Item {
 
                     minorGridLineColor: Material.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: GC.getColorByIndex(leftChannels[index]+1)
-                    color: GC.getColorByIndex(leftChannels[index]+1)
+                    labelsColor: FT.getColorByIndex(leftChannels[index]+1)
+                    color: FT.getColorByIndex(leftChannels[index]+1)
                 }
                 ValueAxis {
                     id: yAxisRight
@@ -148,15 +149,15 @@ Item {
 
                     minorGridLineColor: Material.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: GC.getColorByIndex(rightChannels[index]+1)
-                    color: GC.getColorByIndex(rightChannels[index]+1)
+                    labelsColor: FT.getColorByIndex(rightChannels[index]+1)
+                    color: FT.getColorByIndex(rightChannels[index]+1)
                 }
 
                 LineSeries {
                     id: leftSeries
                     axisX: xAxis
                     axisY: yAxisLeft
-                    color: GC.getColorByIndex(leftChannels[index]+1);
+                    color: FT.getColorByIndex(leftChannels[index]+1);
                     width: 2
                     useOpenGL: true
                 }
@@ -165,7 +166,7 @@ Item {
                     id: rightSeries
                     axisX: xAxis
                     axisYRight: yAxisRight
-                    color: GC.getColorByIndex(rightChannels[index]+1);
+                    color: FT.getColorByIndex(rightChannels[index]+1);
                     width: 2
                     useOpenGL: true
                 }

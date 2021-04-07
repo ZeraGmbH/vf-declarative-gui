@@ -95,7 +95,7 @@ Item {
 
                     titleLeftAxis: getTitleLabel();
                     bottomLabelsEnabled: true
-                    colorLeftAxis: GC.systemColorByIndex(index+1)
+                    colorLeftAxis: GC.currentColorTable[index]
 
                     pValueList: power3Module[String("ACT_HPP%1").arg(index+1)];
                     qValueList: power3Module[String("ACT_HPQ%1").arg(index+1)];

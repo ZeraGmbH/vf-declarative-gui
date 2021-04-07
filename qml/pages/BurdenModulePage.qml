@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
@@ -92,7 +93,7 @@ Item {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: L1!==undefined ? GC.formatNumber(L1) : ""
+                            text: L1!==undefined ? FT.formatNumber(L1) : ""
                             textColor: isVoltagePage ? GC.colorUL1 : GC.colorIL1
                             font.bold: index === 0
                         }
@@ -100,7 +101,7 @@ Item {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: L2!==undefined ? GC.formatNumber(L2) : ""
+                            text: L2!==undefined ? FT.formatNumber(L2) : ""
                             textColor: isVoltagePage ? GC.colorUL2 : GC.colorIL2
                             font.bold: index === 0
                         }
@@ -108,7 +109,7 @@ Item {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: L3!==undefined ? GC.formatNumber(L3) : ""
+                            text: L3!==undefined ? FT.formatNumber(L3) : ""
                             textColor: isVoltagePage ? GC.colorUL3 : GC.colorIL3
                             font.bold: index === 0
                         }
@@ -145,7 +146,7 @@ Item {
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[0];
                             top: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[1];
-                            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2]);
+                            decimals: FT.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[2]);
                         }
                     }
                     VFLineEdit {
@@ -163,7 +164,7 @@ Item {
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[0];
                             top: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[1];
-                            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
+                            decimals: FT.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
                         }
                         ZVisualComboBox {
                             anchors.left: parent.right
@@ -206,7 +207,7 @@ Item {
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[0];
                             top: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[1];
-                            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2]);
+                            decimals: FT.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[2]);
                         }
                     }
                     VFLineEdit {
@@ -224,7 +225,7 @@ Item {
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
                             top: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[1];
-                            decimals: GC.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2]);
+                            decimals: FT.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[2]);
                         }
                     }
                 }

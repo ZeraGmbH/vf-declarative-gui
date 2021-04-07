@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import QwtChart 1.0
 import ZeraTranslation  1.0
 
@@ -43,7 +44,7 @@ Item {
         //toFixed(2) because of visual screen flickering of bars, bug in Qwt?
         //Math.sqrt(2) because peak value are compared with rms rejection
         property real relativeValue: Number((100 * rangeModule["ACT_Channel"+(index+1)+"Peak"] / (Math.sqrt(2) * rangeModule["INF_Channel"+(index+1)+"ActREJ"])).toFixed(2))
-        color: GC.getColorByIndex(index+1, root.rangeGrouping)
+        color: FT.getColorByIndex(index+1, root.rangeGrouping)
         Component.onCompleted: {
           peakChart.peakBars.push(this);
           peakChart.peakBarsChanged();

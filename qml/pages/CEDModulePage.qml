@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import "qrc:/qml/controls" as CCMP
@@ -146,7 +147,7 @@ CCMP.ModulePage {
                         width: columnWidth
                         height: rowHeight
                         textColor: GC.colorUL1
-                        text: GC.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(1)]);
+                        text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(1)]);
                         font.pixelSize: pixelSize
                     }
                     CCMP.GridItem {
@@ -154,7 +155,7 @@ CCMP.ModulePage {
                         width: columnWidth
                         height: rowHeight
                         textColor: GC.colorUL2
-                        text: GC.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(2)]);
+                        text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(2)]);
                         font.pixelSize: pixelSize
                     }
                     CCMP.GridItem {
@@ -162,14 +163,14 @@ CCMP.ModulePage {
                         width: columnWidth
                         height: rowHeight
                         textColor: GC.colorUL3
-                        text: GC.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(3)]);
+                        text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(3)]);
                         font.pixelSize: pixelSize
                     }
                     CCMP.GridItem {
                         //pSum
                         width: columnWidth
                         height: rowHeight
-                        text: GC.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(4)]);
+                        text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(4)]);
                         font.pixelSize: pixelSize
                     }
                     CCMP.GridItem {

@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import QwtChart 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraTranslation 1.0
 import "qrc:/qml/controls" as CCMP
@@ -77,18 +78,18 @@ ListView {
             //index starts with 1
             readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
-            text: strThdn + GC.formatNumber(thdnModule[componentName]) + unit
-            color: GC.systemColorByIndex(leftChannels[index]+1)
+            text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
+            color: GC.currentColorTable[leftChannels[index]]
         }
         Text {
             id: thdnTextI
             //index starts with 1
             readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
-            text: strThdn + GC.formatNumber(thdnModule[componentName]) + unit
+            text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
             anchors.right: parent.right
             anchors.rightMargin: 8
-            color: GC.systemColorByIndex(rightChannels[index]+1)
+            color: GC.currentColorTable[rightChannels[index]]
         }
 
         FftBarChart {
@@ -104,8 +105,8 @@ ListView {
             bottomLabelsEnabled: true
             logScaleLeftAxis: false
             logScaleRightAxis: false
-            colorLeftAxis: GC.systemColorByIndex(leftChannels[index]+1)
-            colorRightAxis: GC.systemColorByIndex(rightChannels[index]+1)
+            colorLeftAxis: GC.currentColorTable[leftChannels[index]]
+            colorRightAxis: GC.currentColorTable[rightChannels[index]]
 
             leftValue: fftModule[String("ACT_FFT%1").arg(leftChannels[index]+1)]
             rightValue: fftModule[String("ACT_FFT%1").arg(rightChannels[index]+1)]

@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraFa 1.0
@@ -162,7 +163,7 @@ Item {
                 if(contentTypeRadioToSet === GC.contentTypeEnum.CONTENT_TYPE_CONTEXT) {
                     radioContextSpecific = radio
                 }
-                if(contentTypeRadioToSet === GC.getLoggerContentType()) {
+                if(contentTypeRadioToSet === GC.loggerContentType) {
                     radio.checked = true
                     radioChecked = true
                     break;
@@ -341,7 +342,7 @@ Item {
         MenuItem { // Start/Stop
             text: loggerEntity.LoggingEnabled === true ?
                       FA.icon(FA.fa_stop) + Z.tr("Stop logging") + (loggerEntity.ScheduledLoggingEnabled === true ?
-                      (" " + GC.msToTime(loggerEntity.ScheduledLoggingCountdown)) : "") :
+                      (" " + FT.msToTime(loggerEntity.ScheduledLoggingCountdown)) : "") :
                       FA.icon(FA.fa_play) + Z.tr("Start logging")
 
             enabled: loggerEntity.DatabaseReady === true &&

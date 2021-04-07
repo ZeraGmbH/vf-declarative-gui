@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 
 Rectangle {
@@ -42,7 +43,7 @@ Rectangle {
         Text {
             text: {
                 let nomFreq = Number(entityIntrospection.ModuleInfo.NominalFrequency)
-                let scaled = GC.doAutoScale(nomFreq, "Hz")
+                let scaled = FT.doAutoScale(nomFreq, "Hz")
                 return scaled[0]+scaled[1]
             }
             font.pointSize: pointSize
@@ -67,7 +68,7 @@ Rectangle {
                 else if(mode.includes("LS")) {
                     unit = "VA"
                 }
-                let scaled = GC.doAutoScale(meterConstant, `/k${unit}h`)
+                let scaled = FT.doAutoScale(meterConstant, `/k${unit}h`)
                 return Math.round(scaled[0]*1000)/1000+scaled[1]
             }
             font.pointSize: pointSize

@@ -8,6 +8,7 @@ import ZeraComponentsConfig 1.0
 import ZeraLocale 1.0
 import QtQuick.VirtualKeyboard.Settings 2.2
 
+
 Item {
     id: globalConfig
     /**
@@ -15,6 +16,12 @@ Item {
     * @todo reimplement as QObject with Q_PROPERTY / Q_INVOKABLE to get QtCreator to code complete stuff...
     */
 
+    /////////////////////////////////////////////////////////////////////////////
+    // The JSON settings item
+    //
+    // IMPORTANT: ensure to wrap each call to settings.globalSettings.getOption
+    // by a specific property to avoid cross property change activities: settings
+    // has just one single notification for ALL settings-entries
     ZeraGlobalSettings {
         id: settings
     }
@@ -90,12 +97,16 @@ Item {
         settings.globalSettings.setOption("digits", digits);
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Aux phases
     readonly property bool showAuxPhases: parseInt(settings.globalSettings.getOption("show_aux_phases", "0"))
     function setShowAuxPhases(showAux) {
         var setValue = showAux ? 1 : 0
         settings.globalSettings.setOption("show_aux_phases", setValue);
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // FFT specials
     readonly property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative", "0"))
     function setShowFftTableAsRelative(isRelative) {
         var setValue = isRelative ? 1 : 0
@@ -205,19 +216,15 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // Color settings...
 
-    function getJsonColorNameByIndex(index) {
-        var retVal
-        var availableSystems = ["colorUL1",     // 1
-                                "colorUL2",     // 2
-                                "colorUL3",     // 3
-                                "colorIL1",     // 4
-                                "colorIL2",     // 5
-                                "colorIL3",     // 6
-                                "colorUAux1",   // 7
-                                "colorIAux1"];  // 8
-        retVal = availableSystems[index-1]
-        return retVal
-    }
+    readonly property var arrayJsonColorNames:
+        ["colorUL1",     // 1
+        "colorUL2",     // 2
+        "colorUL3",     // 3
+        "colorIL1",     // 4
+        "colorIL2",     // 5
+        "colorIL3",     // 6
+        "colorUAux1",   // 7
+        "colorIAux1"]  // 8
 
     readonly property real defaultCurrentBrightness: 1.75
     readonly property real currentBrightness: parseFloat(settings.globalSettings.getOption("currentBrightness", defaultCurrentBrightness))
@@ -229,34 +236,44 @@ Item {
     function setBlackBrigtness(brightness) {
         settings.globalSettings.setOption("blackBrightness", brightness);
     }
-    function setDefaultBrighnesses() {
+    function restoreDefaultBrighnesses() {
         setCurrentBrigtness(defaultCurrentBrightness)
         setBlackBrigtness(defaultBlackBrightness)
     }
 
-    function colorCurrent(baseColor) {
-        return Qt.lighter(baseColor, currentBrightness)
+    readonly property string baseBlue:   "#EE0092ff"
+    readonly property string baseBrown:  "#EE9b5523"
+    readonly property string baseGreen:  "#EE00C000"
+    readonly property string basePurple: "#EEE000E0"
+    readonly property string baseRed:    "#EEff0000"
+    readonly property string baseYellow: "#EEffff00"
+
+    readonly property string baseWhite:  "#ffffffff" // white is opposite
+    readonly property string baseWhite2: "#EEA0A0A0"
+
+    readonly property string baseGrey:   "#EEB0B0B0"
+    readonly property string baseGrey2:  "#EEffffff"
+
+    readonly property string baseBlack:  "#EE080808"
+    readonly property string baseBlack2: "#EE707070"
+    readonly property var initialColorTable: {
+        function colorCurrent(baseColor) {
+            return Qt.lighter(baseColor, defaultCurrentBrightness)
+        }
+        function colorBlack(baseColor) {
+            return Qt.lighter(baseColor, defaultBlackBrightness)
+        }
+        // sorting is odd (historical..): U1 / U2 / U3 / I1 /I2 / I3 / UAux / IAux
+        // 0: International
+        return [ baseRed, baseYellow, baseBlue, colorCurrent(baseRed), colorCurrent(baseYellow), colorCurrent(baseBlue), colorBlack(baseBlack), colorCurrent(baseBlack2) ]
     }
-    function colorBlack(baseColor) {
-        return Qt.lighter(baseColor, blackBrightness)
-    }
-    readonly property var defaultColorTable: {
-        let baseBlue   = "#EE0092ff"
-        let baseBrown  = "#EE9b5523"
-        let baseGreen  = "#EE00C000"
-        let basePurple = "#EEE000E0"
-        let baseRed    = "#EEff0000"
-        let baseYellow = "#EEffff00"
-
-        let baseWhite  = "#ffffffff" // white is opposite
-        let baseWhite2 = "#EEA0A0A0"
-
-        let baseGrey   = "#EEB0B0B0"
-        let baseGrey2  = "#EEffffff"
-
-        let baseBlack  = "#EE080808"
-        let baseBlack2 = "#EE707070"
-
+    readonly property var defaultColorsTableArray: {
+        function colorCurrent(baseColor) {
+            return Qt.lighter(baseColor, currentBrightness)
+        }
+        function colorBlack(baseColor) {
+            return Qt.lighter(baseColor, blackBrightness)
+        }
         return [
                     // sorting is odd (historical..): U1 / U2 / U3 / I1 /I2 / I3 / UAux / IAux
                     // 0: International
@@ -276,33 +293,37 @@ Item {
                ]
     }
 
-    function getDefaultColorByIndex(index, defaultEntry) {
-        return defaultColorTable[defaultEntry][index-1]
-    }
-
-    function systemColorByIndex(index) {
-        return settings.globalSettings.getOption(getJsonColorNameByIndex(index), getDefaultColorByIndex(index, 0))
+    readonly property var currentColorTable: {
+        let colorTable = []
+        colorTable.push(colorUL1)
+        colorTable.push(colorUL2)
+        colorTable.push(colorUL3)
+        colorTable.push(colorIL1)
+        colorTable.push(colorIL2)
+        colorTable.push(colorIL3)
+        colorTable.push(colorUAux1)
+        colorTable.push(colorIAux1)
+        return colorTable
     }
 
     function setSystemColorByIndex(index, color) {
-        settings.globalSettings.setOption(getJsonColorNameByIndex(index), color);
+        settings.globalSettings.setOption(arrayJsonColorNames[index-1], color);
     }
 
     function setSystemDefaultColors(defaultEntry) {
-        var index
-        for (index=1; index<=8; ++index) {
-            setSystemColorByIndex(index, getDefaultColorByIndex(index, defaultEntry))
+        for(let index=0; index<initialColorTable.length; ++index) {
+            setSystemColorByIndex(index+1, defaultColorsTableArray[defaultEntry][index])
         }
     }
 
-    readonly property color colorUL1: settings.globalSettings.getOption(getJsonColorNameByIndex(1), getDefaultColorByIndex(1, 0))
-    readonly property color colorUL2: settings.globalSettings.getOption(getJsonColorNameByIndex(2), getDefaultColorByIndex(2, 0))
-    readonly property color colorUL3: settings.globalSettings.getOption(getJsonColorNameByIndex(3), getDefaultColorByIndex(3, 0))
-    readonly property color colorIL1: settings.globalSettings.getOption(getJsonColorNameByIndex(4), getDefaultColorByIndex(4, 0))
-    readonly property color colorIL2: settings.globalSettings.getOption(getJsonColorNameByIndex(5), getDefaultColorByIndex(5, 0))
-    readonly property color colorIL3: settings.globalSettings.getOption(getJsonColorNameByIndex(6), getDefaultColorByIndex(6, 0))
-    readonly property color colorUAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(7), getDefaultColorByIndex(7, 0))
-    readonly property color colorIAux1: settings.globalSettings.getOption(getJsonColorNameByIndex(8), getDefaultColorByIndex(8, 0))
+    readonly property color colorUL1: settings.globalSettings.getOption(arrayJsonColorNames[0], initialColorTable[0])
+    readonly property color colorUL2: settings.globalSettings.getOption(arrayJsonColorNames[1], initialColorTable[1])
+    readonly property color colorUL3: settings.globalSettings.getOption(arrayJsonColorNames[2], initialColorTable[2])
+    readonly property color colorIL1: settings.globalSettings.getOption(arrayJsonColorNames[3], initialColorTable[3])
+    readonly property color colorIL2: settings.globalSettings.getOption(arrayJsonColorNames[4], initialColorTable[4])
+    readonly property color colorIL3: settings.globalSettings.getOption(arrayJsonColorNames[5], initialColorTable[5])
+    readonly property color colorUAux1: settings.globalSettings.getOption(arrayJsonColorNames[6], initialColorTable[6])
+    readonly property color colorIAux1: settings.globalSettings.getOption(arrayJsonColorNames[7], initialColorTable[7])
 
     readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1", "lightskyblue")
     readonly property color groupColorCurrent: settings.globalSettings.getOption("groupcurrentColor", "lawngreen")
@@ -310,72 +331,14 @@ Item {
 
     readonly property color tableShadeColor: "#003040"
 
-    function getColorByIndex(rangIndex, grouping) {
-        var retVal;
-        if(grouping) {
-            var channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
-            var group1 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1;
-            var group2 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2;
-            var group3 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3;
-
-            if(group1 !== undefined && group1.indexOf(channelName)>-1) {
-                retVal = groupColorVoltage
-            }
-            else if(group2 !== undefined && group2.indexOf(channelName)>-1) {
-                retVal = groupColorCurrent
-            }
-            else if(group3 !== undefined && group3.indexOf(channelName)>-1) {
-                retVal = groupColorReference
-            }
-            else { //index is not in group
-                retVal = systemColorByIndex(rangIndex)
-            }
-        }
-        else {
-            retVal = systemColorByIndex(rangIndex)
-        }
-        return retVal;
-    }
-
     /////////////////////////////////////////////////////////////////////////////
-    // Time helpers ms <-> string
-    function msToTime(t_mSeconds) {
-        if(t_mSeconds === undefined) {
-            t_mSeconds = 0
-        }
-        var ms = t_mSeconds % 1000
-        t_mSeconds = (t_mSeconds - ms) / 1000
-        var secs = t_mSeconds % 60;
-        t_mSeconds = (t_mSeconds - secs) / 60
-        var mins = t_mSeconds % 60;
-        var hours = (t_mSeconds - mins) / 60;
-        return ("0"+hours).slice(-2) + ':' + ("0"+mins).slice(-2) + ':' + ("0"+secs).slice(-2);// + '.' + ("00"+ms).slice(-3);
-    }
-    function timeToMs(t_time) {
-        var mSeconds = 0;
-        var timeData = [];
-
-        if((String(t_time).match(/:/g) || []).length === 2) {
-            timeData = t_time.split(':');
-            var hours = Number(timeData[0]);
-            mSeconds += hours * 3600000;
-            var minutes = Number(timeData[1]);
-            mSeconds += minutes * 60000;
-            var seconds = Number(timeData[2]);
-            mSeconds += seconds * 1000;
-        }
-        return Number(mSeconds);
-    }
-
-    /////////////////////////////////////////////////////////////////////////////
-    // Auto scale (+ helper functions)
+    // Auto scale
 
     /* Settings/autoScaleLimit: A float number to set at which limit the value
      changes and unit is prefixed e.g for autoScaleLimit=1.2 value >= 1200 is
      changed to 1.2k */
 
     readonly property real autoScaleLimit: parseFloat(settings.globalSettings.getOption("auto_scale_limit", "1.0"))
-
     function setAutoScaleLimit(limit) {
         if(typeof limit === "string") {
             settings.globalSettings.setOption("auto_scale_limit", limit);
@@ -384,128 +347,7 @@ Item {
             settings.globalSettings.setOption("auto_scale_limit", formatNumber(limit, 3));
         }
     }
-    // Auto scale float value (num) / unit. Return value is an array [value,unit]
-    function doAutoScale(num, strUnit) {
-        // remove prefix (means calc base unit and value)
-        var baseUnitInfo = getExponentAndBaseUnitFromUnit(strUnit)
-        var baseValue = num * Math.pow(10, baseUnitInfo[0])
-        // calc scaled value and prefixed unit on base values
-        var autoScaleExponent = getAutoScaleExponent(baseValue)
-        var autoScalePrefix = getPrefixFromExponent(autoScaleExponent)
-        var autoScaleValue = baseValue * Math.pow(10, -autoScaleExponent)
-        var autoScaleUnit = autoScalePrefix+baseUnitInfo[1]
-        return [autoScaleValue, autoScaleUnit]
-    }
 
-    function getAutoScaleExponent(num) {
-        var floatVal = 0.0
-        if(typeof num === "string") {
-            floatVal = parseFloat(num)
-        }
-        else {
-            floatVal = num
-        }
-        floatVal = Math.abs(floatVal)
-        var exponent = 0
-        // a zero value does not get a prefix
-        if(floatVal < 1e-15*autoScaleLimit) {
-            exponent = 0
-        }
-        else if(floatVal < 1e-12*autoScaleLimit) {
-            exponent = -12
-        }
-        else if(floatVal < 1e-9*autoScaleLimit) {
-            exponent = -9
-        }
-        else if(floatVal < 1e-6*autoScaleLimit) {
-            exponent = -6
-        }
-        else if(floatVal < 1e-3*autoScaleLimit) {
-            exponent = -3
-        }
-        else if(floatVal > 1e12*autoScaleLimit) {
-            exponent = 12
-        }
-        else if(floatVal > 1e9*autoScaleLimit) {
-            exponent = 9
-        }
-        else if(floatVal > 1e6*autoScaleLimit) {
-            exponent = 6
-        }
-        else if(floatVal > 1e3*autoScaleLimit) {
-            exponent = 3
-        }
-        return exponent
-    }
-
-    function getPrefixFromExponent(exponent) {
-        var str = ""
-        switch(exponent) {
-        case -12:
-            str="p"
-            break
-        case -9:
-            str="n"
-            break
-        case -6:
-            str="µ"
-            break
-        case -3:
-            str="m"
-            break
-        case 3:
-            str="k"
-            break
-        case 6:
-            str="M"
-            break
-        case 9:
-            str="G"
-            break
-        case 12:
-            str="T"
-            break
-        }
-        return str
-    }
-
-    function getAutoScalePrefix(num) {
-        var exponent = getAutoScaleExponent(num)
-        return getPrefixFromExponent(exponent)
-    }
-
-    function getExponentAndBaseUnitFromUnit(strUnit) {
-        var strPrefix = strUnit.substring(0,1)
-        var exponent = 0
-        switch(strPrefix) {
-        case "p":
-            exponent = -12
-            break
-        case "n":
-            exponent = -9
-            break
-        case "µ":
-            exponent = -6
-            break
-        case "m":
-            exponent = -3
-            break
-        case "k":
-            exponent = 3
-            break
-        case "M":
-            exponent = 6
-            break
-        case "G":
-            exponent = 9
-            break
-        case "T":
-            exponent = 12
-            break
-        }
-        var strNewUnit = exponent === 0 ? strUnit : strUnit.substring(1)
-        return [exponent, strNewUnit]
-    }
 
 
     /////////////////////////////////////////////////////////////////////////////
@@ -520,46 +362,7 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    // Number <-> String conversion helpers
-    function ceilLog10Of1DividedByX(realNumberX) {
-        return Math.ceil(Math.log(1/realNumberX)/Math.LN10)
-    }
-
-    function removeDecimalGroupSeparators(strNum) {
-        // remove group separators (this is ugly but don't get documented examples to fly here...)
-        var groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
-        while(strNum.includes(groupSepChar)) {
-            strNum = strNum.replace(groupSepChar, "")
-        }
-        return strNum
-    }
-
-    function formatNumber(num, decimalPlacesSet /* optional!!! */) {
-        if(typeof num === "string") { //parsing strings as number is not desired
-            return num;
-        }
-        else {
-            var dec = (decimalPlacesSet !== undefined) ? decimalPlacesSet : decimalPlaces
-            var leadDigits = Math.floor(Math.abs(num)).toString()
-            // leading zero is not a digit
-            if(leadDigits === '0') {
-                leadDigits  = ''
-            }
-            var preDecimals = leadDigits.length
-            if(dec + preDecimals > digitsTotal) {
-                dec = digitsTotal - preDecimals
-                if(dec < 0) {
-                    dec = 0
-                }
-            }
-            var strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
-            strNum = removeDecimalGroupSeparators(strNum)
-            return strNum
-        }
-    }
-
-    /////////////////////////////////////////////////////////////////////////////
-    // GUI context settings
+    // GUI context settings (TODO replace getter functions?)
     readonly property var guiContextEnum: { // Note the sequence is used in some places
         "GUI_ACTUAL_VALUES"             : { value: 0,  name: "ZeraGuiActualValues" },
         "GUI_VECTOR_DIAGRAM"            : { value: 1,  name: "ZeraGuiVectorDiagramm" },
@@ -662,7 +465,7 @@ Item {
     function dbContentSetsFromContext(guiContext) {
         var contentSets = ""
         if(guiContext !== undefined) {
-            switch(getLoggerContentType()) {
+            switch(loggerContentType) {
             case contentTypeEnum.CONTENT_TYPE_CONTEXT:
                 contentSets = getDefaultDbContentSet(guiContext)
                 break;
@@ -676,17 +479,18 @@ Item {
         }
         return contentSets
     }
-    function getLoggerContentType() {
-        return parseInt(settings.globalSettings.getOption("logger_content_type", contentTypeEnum.CONTENT_TYPE_CONTEXT))
-    }
+    readonly property int loggerContentType: parseInt(settings.globalSettings.getOption("logger_content_type", contentTypeEnum.CONTENT_TYPE_CONTEXT))
     function setLoggerContentType(contentType) {
         settings.globalSettings.setOption("logger_content_type", contentType);
     }
 
     // custom contentSets
+    readonly property string loggerCustomContentSets: settings.globalSettings.getOption("logger_custom_content_sets", "")
+    function setLoggerCustomContentSets(customContentSets) {
+        settings.globalSettings.setOption("logger_custom_content_sets", customContentSets)
+    }
     function getLoggerCustomContentSets(addDefaultFormGui=true) {
-        // We do not write default - user action is required
-        var contentSets = settings.globalSettings.getOption("logger_custom_content_sets", "")
+        var contentSets = loggerCustomContentSets
         if(addDefaultFormGui) {
             var defaultGuiContentSet = getDefaultDbContentSet(currentGuiContext)
             if(defaultGuiContentSet !== '' && !contentSets.includes(defaultGuiContentSet)) {
@@ -699,9 +503,6 @@ Item {
             }
         }
         return contentSets
-    }
-    function setLoggerCustomContentSets(customContentSets) {
-        settings.globalSettings.setOption("logger_custom_content_sets", customContentSets)
     }
 
     // internal helper: append available only db-content-set

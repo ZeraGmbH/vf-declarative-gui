@@ -9,6 +9,7 @@ import ZeraTranslation  1.0
 import ZeraTranslationBackend  1.0
 import ZeraLocale 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
@@ -514,12 +515,12 @@ SettingsControls.SettingsView {
 
                     // overrides
                     function doApplyInput(newText) {
-                        entity[controlPropertyName] = GC.timeToMs(newText)
+                        entity[controlPropertyName] = FT.timeToMs(newText)
                         // wait to be applied
                         return false
                     }
                     function transformIncoming(t_incoming) {
-                        return GC.msToTime(t_incoming);
+                        return FT.msToTime(t_incoming);
                     }
                     function hasValidInput() {
                         var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
@@ -544,7 +545,7 @@ SettingsControls.SettingsView {
                 Label {
                     visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true
                     font.pointSize: root.pointSize
-                    property string countDown: GC.msToTime(loggerEntity.ScheduledLoggingCountdown);
+                    property string countDown: FT.msToTime(loggerEntity.ScheduledLoggingCountdown);
                     height: root.rowHeight
                     text: countDown;
                 }

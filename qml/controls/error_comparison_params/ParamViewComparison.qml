@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import QwtChart 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
@@ -202,7 +203,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorDutConstant.Data[0];
                     top: validatorDutConstant.Data[1];
-                    decimals: GC.ceilLog10Of1DividedByX(validatorDutConstant.Data[2]);
+                    decimals: FT.ceilLog10Of1DividedByX(validatorDutConstant.Data[2]);
                 }
             }
 
@@ -265,7 +266,7 @@ Item {
                         // Hmm - we need full reference for currentFactor here
                         bottom: validatorEnergy.Data[0] / energyVal.currentFactor;
                         top: validatorEnergy.Data[1] / energyVal.currentFactor;
-                        decimals: GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / energyVal.currentFactor)
+                        decimals: FT.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / energyVal.currentFactor)
                     }
                     // overrides for scale
                     function doApplyInput(newText) {
@@ -279,11 +280,11 @@ Item {
                         var fltVal = parseFloat(text) / currentFactor
                         // * we cannot use validator.decimals - it is updated too late
                         // * multiple back and forth conversion to round value to digit (otherwise field remains red)
-                        var strVal = String(Number(fltVal.toFixed(GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))))
+                        var strVal = String(Number(fltVal.toFixed(FT.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))))
                         textField.text = strVal.replace(ZLocale.getDecimalPoint() === "," ? "." : ",", ZLocale.getDecimalPoint())
                     }
                     function hasAlteredValue() {
-                        var expVal = Math.pow(10, GC.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))
+                        var expVal = Math.pow(10, FT.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))
                         var fieldVal = parseFloat(ZLocale.strToCLocale(textField.text, isNumeric, isDouble)) * expVal
                         var textVal = parseFloat(text) * expVal / currentFactor
                         return Math.abs(fieldVal-textVal) > 0.1
@@ -357,7 +358,7 @@ Item {
                     validator: ZDoubleValidator {
                         bottom: validatorMrate.Data[0];
                         top: validatorMrate.Data[1];
-                        decimals: GC.ceilLog10Of1DividedByX(validatorMrate.Data[2]);
+                        decimals: FT.ceilLog10Of1DividedByX(validatorMrate.Data[2]);
                     }
                 }
             }
@@ -455,7 +456,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorUpperLimit.Data[0];
                     top: validatorUpperLimit.Data[1];
-                    decimals: Math.min(GC.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]), GC.decimalPlaces);
+                    decimals: Math.min(FT.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]), GC.decimalPlaces);
                 }
             }
             Label {
@@ -496,7 +497,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorLowerLimit.Data[0];
                     top: validatorLowerLimit.Data[1];
-                    decimals: Math.min(GC.ceilLog10Of1DividedByX(validatorLowerLimit.Data[2]), GC.decimalPlaces);
+                    decimals: Math.min(FT.ceilLog10Of1DividedByX(validatorLowerLimit.Data[2]), GC.decimalPlaces);
                 }
             }
             Label {

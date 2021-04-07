@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraGlueLogic 1.0
 import SortFilterProxyModel 0.2
 import ModuleIntrospection 1.0
@@ -56,7 +57,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L1!==undefined ? GC.formatNumber(L1) : ""
+            text: L1!==undefined ? FT.formatNumber(L1) : ""
             textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
             font.pixelSize: root.pixelSize
           }
@@ -64,7 +65,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L2!==undefined ? GC.formatNumber(L2) : ""
+            text: L2!==undefined ? FT.formatNumber(L2) : ""
             textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
             font.pixelSize: root.pixelSize
           }
@@ -72,7 +73,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L3!==undefined ? GC.formatNumber(L3) : ""
+            text: L3!==undefined ? FT.formatNumber(L3) : ""
             textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
             font.pixelSize: root.pixelSize
           }
@@ -80,7 +81,7 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: AUX!==undefined ? GC.formatNumber(AUX) : ""
+            text: AUX!==undefined ? FT.formatNumber(AUX) : ""
             textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
             font.pixelSize: root.pixelSize
             visible: channelCount > 6
