@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import QtGraphicalEffects 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
 
@@ -75,7 +76,7 @@ Item {
                 }
             }
             else {
-                retVal = GC.systemColorByIndex(rangIndex)
+                retVal = GC.currentColorTable[rangIndex-1]
             }
             return retVal;
         }
@@ -178,7 +179,7 @@ Item {
                 width: grid.cellWidth*4
                 Label {
                     text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
-                    color: GC.getColorByIndex(modelData+1, root.groupingActive)
+                    color: FT.getColorByIndex(modelData+1, root.groupingActive)
                     anchors.bottom: parent.top
                     anchors.bottomMargin: -(parent.height/3)
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -217,7 +218,7 @@ Item {
                 width: grid.cellWidth*4
                 Label {
                     text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
-                    color: GC.getColorByIndex(modelData+1, root.groupingActive)
+                    color: FT.getColorByIndex(modelData+1, root.groupingActive)
                     anchors.bottom: parent.top
                     anchors.bottomMargin: -(parent.height/3)
                     anchors.horizontalCenter: parent.horizontalCenter

@@ -30,7 +30,7 @@ Rectangle {
 
     onJsonResultsChanged: resultList.recalcModel()
 
-    // Stolen - more or less from GlobalConfig.qml. We should find a more common
+    // Stolen - more or less from FunctionTools.qml. We should find a more common
     // place for this...
     // Reasoning: By having these functions in here we can use property bindings
     // for digitsTotal / decimalPlaces. Doing so is cool: In case they change

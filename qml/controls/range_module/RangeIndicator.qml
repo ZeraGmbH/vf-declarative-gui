@@ -4,6 +4,7 @@ import VeinEntity 1.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraFa 1.0
 
 
@@ -108,7 +109,7 @@ Loader {
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
                         text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
-                        color: GC.getColorByIndex(modelData+1, rangeGrouping)
+                        color: FT.getColorByIndex(modelData+1, rangeGrouping)
                         font.bold: true
                     }
                     Label {
@@ -145,7 +146,7 @@ Loader {
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
                         text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
-                        color: GC.getColorByIndex(modelData+1, rangeGrouping)
+                        color: FT.getColorByIndex(modelData+1, rangeGrouping)
                         font.bold: true
                     }
                     Label {

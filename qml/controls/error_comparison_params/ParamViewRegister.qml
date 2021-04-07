@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import QwtChart 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
@@ -198,7 +199,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorMeasTime.Data[0];
                     top: validatorMeasTime.Data[1];
-                    decimals: GC.ceilLog10Of1DividedByX(validatorMeasTime.Data[2]);
+                    decimals: FT.ceilLog10Of1DividedByX(validatorMeasTime.Data[2]);
                 }
             }
             Label {
@@ -239,7 +240,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorT0Input.Data[0];
                     top: validatorT0Input.Data[1];
-                    decimals: GC.ceilLog10Of1DividedByX(validatorT0Input.Data[2]);
+                    decimals: FT.ceilLog10Of1DividedByX(validatorT0Input.Data[2]);
                 }
 
             }
@@ -277,7 +278,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorT1Input.Data[0];
                     top: validatorT1Input.Data[1];
-                    decimals: GC.ceilLog10Of1DividedByX(validatorT1Input.Data[2]);
+                    decimals: FT.ceilLog10Of1DividedByX(validatorT1Input.Data[2]);
                 }
             }
             VFComboBox {
@@ -324,7 +325,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorUpperLimit.Data[0];
                     top: validatorUpperLimit.Data[1];
-                    decimals: Math.min(GC.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]), GC.decimalPlaces);
+                    decimals: Math.min(FT.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]), GC.decimalPlaces);
                 }
             }
             Label {
@@ -364,7 +365,7 @@ Item {
                 validator: ZDoubleValidator {
                     bottom: validatorLowerLimit.Data[0];
                     top: validatorLowerLimit.Data[1];
-                    decimals: Math.min(GC.ceilLog10Of1DividedByX(validatorLowerLimit.Data[2]), GC.decimalPlaces);
+                    decimals: Math.min(FT.ceilLog10Of1DividedByX(validatorLowerLimit.Data[2]), GC.decimalPlaces);
                 }
             }
             Label {

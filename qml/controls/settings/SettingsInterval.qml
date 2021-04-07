@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.2
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -84,7 +85,7 @@ Column {
                         id: validatorTime
                         bottom: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
                         top: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
-                        decimals: GC.ceilLog10Of1DividedByX(timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
+                        decimals: FT.ceilLog10Of1DividedByX(timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
                     }
                     // we have to override doApplyInput because integration time displays
                     // first entity's value but hast to change all in our list
@@ -128,7 +129,7 @@ Column {
                         id: validatorPeriod
                         bottom: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
                         top: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
-                        decimals: GC.ceilLog10Of1DividedByX(periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
+                        decimals: FT.ceilLog10Of1DividedByX(periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
                     }
                     // we have to override doApplyInput because integration period displays
                     // first entity's value but hast to change all in our list

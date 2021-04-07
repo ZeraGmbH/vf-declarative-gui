@@ -55,10 +55,10 @@ SettingsView {
         }
         function getCurrentColor(index) {
             if(!allColorChangePending) {
-                return GC.systemColorByIndex(index)
+                return GC.currentColorTable[index-1]
             }
             else {
-                return GC.getDefaultColorByIndex(index, nextColorScheme)
+                return GC.defaultColorsTableArray[nextColorScheme][index-1]
             }
         }
 
@@ -198,7 +198,7 @@ SettingsView {
             width: defaultColoursPopup.width * 0.125
             anchors.verticalCenter: sliderRowBrightness.bottom
             onClicked: {
-                GC.setDefaultBrighnesses()
+                GC.restoreDefaultBrighnesses()
                 sliderCurrent.value = GC.currentBrightness
                 sliderBlack.value = GC.blackBrightness
             }
@@ -210,7 +210,7 @@ SettingsView {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             spacing: 4
-            readonly property int countColourThemes: GC.defaultColorTable.length
+            readonly property int countColourThemes: GC.defaultColorsTableArray.length
             model: countColourThemes
             delegate: Rectangle {
                 id: lineDelegate
@@ -235,7 +235,7 @@ SettingsView {
                             Layout.fillHeight: true
                             text: ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${index+1}Range`].ChannelName
                             font.pointSize: colourListView.height * 0.040
-                            color: GC.defaultColorTable[lineDelegate.row][index]
+                            color: GC.defaultColorsTableArray[lineDelegate.row][index]
                             verticalAlignment: Text.AlignVCenter
                             textFormat: Text.PlainText
                         }

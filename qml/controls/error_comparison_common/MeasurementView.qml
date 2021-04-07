@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import QwtChart 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraFa 1.0
 import "qrc:/qml/controls" as CCMP
@@ -162,7 +163,7 @@ Item {
                     fontSizeMode: Text.HorizontalFit
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
-                    text: GC.formatNumber(measurementResult)+"%"
+                    text: FT.formatNumber(measurementResult)+"%"
                 }
             }
         }

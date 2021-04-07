@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
@@ -38,28 +39,28 @@ CCMP.ModulePage {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L1!==undefined ? GC.formatNumber(L1) : ""
+            text: L1!==undefined ? FT.formatNumber(L1) : ""
             textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L2!==undefined ? GC.formatNumber(L2) : ""
+            text: L2!==undefined ? FT.formatNumber(L2) : ""
             textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L3!==undefined ? GC.formatNumber(L3) : ""
+            text: L3!==undefined ? FT.formatNumber(L3) : ""
             textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
           }
           CCMP.GridItem {
             width: root.columnWidth
             height: root.rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: Sum ? GC.formatNumber(Sum) : ""
+            text: Sum ? FT.formatNumber(Sum) : ""
           }
           CCMP.GridItem {
             width: root.columnWidth/2

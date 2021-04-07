@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
@@ -140,8 +141,8 @@ CCMP.ModulePage {
                 maxVoltage *= Math.sqrt(3)
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = GC.doAutoScale(maxVoltage / (1000*maxNominalFactor * Math.sqrt(2)), "V")
-            return GC.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
+            let valUnitArr = FT.doAutoScale(maxVoltage / (1000*maxNominalFactor * Math.sqrt(2)), "V")
+            return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorVoltage + "'>"+ "U: " + valueStr + " * √2" + "</font>"
         anchors.bottom: currentIndicator.top
@@ -157,8 +158,8 @@ CCMP.ModulePage {
                 return maxIRange
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = GC.doAutoScale(phasorDiagramm.maxCurrent / (1000 * maxNominalFactor * Math.sqrt(2)), "A")
-            return GC.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
+            let valUnitArr = FT.doAutoScale(phasorDiagramm.maxCurrent / (1000 * maxNominalFactor * Math.sqrt(2)), "A")
+            return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorCurrent + "'>"+ "I: " + valueStr + " * √2" + "</font>"
         anchors.bottom: root.bottom;

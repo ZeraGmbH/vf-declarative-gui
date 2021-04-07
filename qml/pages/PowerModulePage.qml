@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
 import "qrc:/qml/controls" as CCMP
@@ -132,7 +133,7 @@ CCMP.ModulePage {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: GC.formatNumber(root.getModule(index).ACT_PQS1);
+                    text: FT.formatNumber(root.getModule(index).ACT_PQS1);
                     textColor: GC.colorUL1
                     font.pixelSize: height*0.4
                 }
@@ -140,7 +141,7 @@ CCMP.ModulePage {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: GC.formatNumber(root.getModule(index).ACT_PQS2);
+                    text: FT.formatNumber(root.getModule(index).ACT_PQS2);
                     textColor: GC.colorUL2
                     font.pixelSize: height*0.4
                 }
@@ -148,7 +149,7 @@ CCMP.ModulePage {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: GC.formatNumber(root.getModule(index).ACT_PQS3);
+                    text: FT.formatNumber(root.getModule(index).ACT_PQS3);
                     textColor: GC.colorUL3
                     font.pixelSize: height*0.4
                 }
@@ -156,7 +157,7 @@ CCMP.ModulePage {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: GC.formatNumber(root.getModule(index).ACT_PQS4);
+                    text: FT.formatNumber(root.getModule(index).ACT_PQS4);
                     font.pixelSize: height*0.4
                 }
                 CCMP.GridItem {

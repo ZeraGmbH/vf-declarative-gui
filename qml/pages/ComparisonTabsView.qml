@@ -6,6 +6,7 @@ import ZeraTranslation  1.0
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 
 Item {
     id: root
@@ -88,7 +89,7 @@ Item {
         ErrorRegisterModulePage {
             errCalEntity: VeinEntity.getEntity("SEM1Module1")
             moduleIntrospection: ModuleIntrospection.sem1Introspection
-            actualValue: GC.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
+            actualValue: FT.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ENERGY_REGISTER
@@ -101,7 +102,7 @@ Item {
         ErrorRegisterModulePage {
             errCalEntity: VeinEntity.getEntity("SPM1Module1")
             moduleIntrospection: ModuleIntrospection.spm1Introspection
-            actualValue: GC.formatNumber(errCalEntity.ACT_Power) + " " + moduleIntrospection.ComponentInfo.ACT_Power.Unit
+            actualValue: FT.formatNumber(errCalEntity.ACT_Power) + " " + moduleIntrospection.ComponentInfo.ACT_Power.Unit
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_REGISTER

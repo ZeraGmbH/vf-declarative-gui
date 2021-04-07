@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
@@ -70,7 +71,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(transformerModule.ACT_IXPrimary1)
+                text: FT.formatNumber(transformerModule.ACT_IXPrimary1)
             }
             CCMP.GridItem {
                 width: root.width*0.2
@@ -91,7 +92,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(transformerModule.ACT_INSecondary1)
+                text: FT.formatNumber(transformerModule.ACT_INSecondary1)
             }
             CCMP.GridItem {
                 width: root.width*0.2
@@ -112,7 +113,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(transformerModule.ACT_IXSecondary1)
+                text: FT.formatNumber(transformerModule.ACT_IXSecondary1)
             }
             CCMP.GridItem {
                 width: root.width*0.2
@@ -133,7 +134,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(transformerModule.ACT_Ratio1)
+                text: FT.formatNumber(transformerModule.ACT_Ratio1)
             }
             CCMP.GridRect {
                 width: root.width*0.2
@@ -153,7 +154,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(transformerModule.ACT_Error1)
+                text: FT.formatNumber(transformerModule.ACT_Error1)
             }
             CCMP.GridItem {
                 width: root.width*0.2
@@ -174,7 +175,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(transformerModule.ACT_Angle1)
+                text: FT.formatNumber(transformerModule.ACT_Angle1)
             }
             CCMP.GridItem {
                 width: root.width*0.2
@@ -195,7 +196,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(100 * transformerModule.ACT_Angle1 * Math.PI/180)
+                text: FT.formatNumber(100 * transformerModule.ACT_Angle1 * Math.PI/180)
             }
             CCMP.GridItem {
                 width: root.width*0.2
@@ -216,7 +217,7 @@ CCMP.ModulePage {
             CCMP.GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                text: GC.formatNumber(transformerModule.ACT_Angle1*60)
+                text: FT.formatNumber(transformerModule.ACT_Angle1*60)
             }
             CCMP.GridItem {
                 width: root.width*0.2
@@ -251,7 +252,7 @@ CCMP.ModulePage {
                     validator: ZDoubleValidator {
                         bottom: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[0];
                         top: transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[1];
-                        decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
+                        decimals: FT.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampPrim.controlPropertyName].Validation.Data[2]);
                     }
                 }
                 VFLineEdit {
@@ -269,7 +270,7 @@ CCMP.ModulePage {
                     validator: ZDoubleValidator {
                         bottom: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[0];
                         top: transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[1];
-                        decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
+                        decimals:  FT.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parPrimClampSec.controlPropertyName].Validation.Data[2]);
                     }
                 }
             }
@@ -291,7 +292,7 @@ CCMP.ModulePage {
                     validator: ZDoubleValidator {
                         bottom: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[0];
                         top: transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[1];
-                        decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
+                        decimals: FT.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutPrimary.controlPropertyName].Validation.Data[2]);
                     }
                 }
                 VFLineEdit {
@@ -309,7 +310,7 @@ CCMP.ModulePage {
                     validator: ZDoubleValidator {
                         bottom: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[0];
                         top: transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[1];
-                        decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
+                        decimals: FT.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parDutSecondary.controlPropertyName].Validation.Data[2]);
                     }
                 }
             }
@@ -331,7 +332,7 @@ CCMP.ModulePage {
                     validator: ZDoubleValidator {
                         bottom: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[0];
                         top: transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[1];
-                        decimals:  GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
+                        decimals:  FT.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampPrim.controlPropertyName].Validation.Data[2]);
                     }
                 }
                 VFLineEdit {
@@ -349,7 +350,7 @@ CCMP.ModulePage {
                     validator: ZDoubleValidator {
                         bottom: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[0];
                         top: transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[1];
-                        decimals: GC.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);
+                        decimals: FT.ceilLog10Of1DividedByX(transformerIntrospection.ComponentInfo[parSecClampSec.controlPropertyName].Validation.Data[2]);
                     }
                 }
             }

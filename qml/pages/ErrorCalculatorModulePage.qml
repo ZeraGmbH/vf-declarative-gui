@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
@@ -71,10 +72,10 @@ CCMP.ModulePage {
             onProgressChanged: updateProgess()
             progressTo: 100
             readonly property real currEnergy: errCalEntity.PAR_Continuous === 1 ? errCalEntity.ACT_EnergyFinal : errCalEntity.ACT_Energy
-            readonly property var scaledEnergyArr: GC.doAutoScale(currEnergy, moduleIntrospection.ComponentInfo.ACT_Energy.Unit)
+            readonly property var scaledEnergyArr: FT.doAutoScale(currEnergy, moduleIntrospection.ComponentInfo.ACT_Energy.Unit)
             readonly property int measNum: errCalEntity.ACT_MeasNum
             onMeasNumChanged: updateProgess() // for fast measurements
-            actualValue: GC.formatNumber(scaledEnergyArr[0]) + " " + scaledEnergyArr[1]
+            actualValue: FT.formatNumber(scaledEnergyArr[0]) + " " + scaledEnergyArr[1]
         }
         Row {
             height: root.height*0.7
