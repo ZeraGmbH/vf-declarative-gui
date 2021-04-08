@@ -40,29 +40,10 @@ Item {
         anchors.rightMargin: hasVertScroll ? vBar.width : 0
         contentWidth: width*2
         boundsBehavior: Flickable.OvershootBounds
+        flickableDirection: Flickable.HorizontalFlick
         clip: true
 
         ScrollBar.horizontal: hBar
-
-        PinchArea {
-            id: pinchArea
-            anchors.fill: parent
-            property real pinchScale: GC.harmonicPowerChartPinchScale
-            onPinchUpdated: {
-                // pinch.minimumScale / pinch.maximumScale do not work
-                // here so do the calculations necessary here
-                let scaleFactor = pinch.scale * pinch.previousScale
-                let newPinch = pinchArea.pinchScale * scaleFactor
-                if(newPinch > 3.0) {
-                    newPinch = 3.0
-                }
-                else if(newPinch < 1.0) {
-                    newPinch = 1.0
-                }
-                GC.setHarmonicPowerChartPinchScale(newPinch)
-                pinchArea.pinchScale = newPinch
-            }
-        }
 
         ListView { // vert. scroll (ListView can scroll only one orientation)
             model: 3
@@ -70,6 +51,26 @@ Item {
             contentHeight: pinchArea.pinchScale * height
             ScrollBar.vertical: vBar
             snapMode: ListView.SnapToItem
+            boundsBehavior: Flickable.OvershootBounds
+            PinchArea {
+                id: pinchArea
+                anchors.fill: parent
+                property real pinchScale: GC.harmonicPowerChartPinchScale
+                onPinchUpdated: {
+                    // pinch.minimumScale / pinch.maximumScale do not work
+                    // here so do the calculations necessary here
+                    let scaleFactor = pinch.scale * pinch.previousScale
+                    let newPinch = pinchArea.pinchScale * scaleFactor
+                    if(newPinch > 3.0) {
+                        newPinch = 3.0
+                    }
+                    else if(newPinch < 1.0) {
+                        newPinch = 1.0
+                    }
+                    GC.setHarmonicPowerChartPinchScale(newPinch)
+                    pinchArea.pinchScale = newPinch
+                }
+            }
             delegate: Item {
                 height: pinchArea.pinchScale * root.height/3
                 width: root.width*2
