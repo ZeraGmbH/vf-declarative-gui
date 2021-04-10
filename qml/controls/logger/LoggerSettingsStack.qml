@@ -88,6 +88,9 @@ StackLayout {
         width: parent.width
         sourceComponent: LoggerCustomDataSelector{ }
         active: menuStackLayout.currentIndex === 3
+        onLoaded: {
+            item.menuStackLayout = menuStackLayout
+        }
     }
 
     function showExportView() { lastIndexStack.push(currentIndex); currentIndex = 4 }

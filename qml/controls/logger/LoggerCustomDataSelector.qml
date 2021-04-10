@@ -10,6 +10,9 @@ import ZeraFa 1.0
 Item {
     id: root
 
+    // we need a reference to menu stack layout to move around
+    property var menuStackLayout
+
     readonly property var availableSingleContentSets: {
         // We want to have our buttons sorted
         var contentSets = []
@@ -41,6 +44,8 @@ Item {
         GC.setLoggerCustomContentSets(contentSets.join(','))
     }
 
+    readonly property real pointSize: height > 0 ? (height / 30) : 10
+
     ColumnLayout {
         anchors.fill: parent
         Label { // Header
@@ -70,9 +75,9 @@ Item {
                 text: unchangable ?
                           "<font color='" + selectionButton.Material.accentColor + "'>" + Z.tr(modelData) + "</font>" :
                           Z.tr(modelData)
-                width: buttonList.width * 2/3
-                x: buttonList.width / 6
-                font.pointSize: root.height > 0 ? (root.height / 30) : 10
+                width: buttonList.width * 3/5
+                x: (buttonList.width - width) / 2
+                font.pointSize: pointSize
                 height: root.height > 0 ? (root.height / 6.5) : 10
                 checkable: true
                 checked: {
@@ -127,6 +132,16 @@ Item {
                     }
                 }
             }
+        }
+    }
+    Button {
+        text: Z.tr("Back")
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        font.pointSize: pointSize
+        onClicked: {
+            menuStackLayout.pleaseCloseMe(true)
         }
     }
 }
