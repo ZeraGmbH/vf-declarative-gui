@@ -50,14 +50,17 @@ StackLayout {
         }
     }
 
-    function showSessionNameSelector() {
+    property bool sessionSelGoBackExport: false
+    function showSessionNameSelector(goBackExport) {
         lastIndexStack.push(currentIndex)
         // In case no sessions were created yet: Move to sessions new
         var loggerEntity = VeinEntity.getEntity("_LoggingSystem")
         if(loggerEntity && loggerEntity.ExistingSessions.length === 0) {
+            sessionSelGoBackExport = false
             showSessionNew()
         }
         else {
+            sessionSelGoBackExport = goBackExport
             currentIndex = 1
         }
     }
@@ -67,6 +70,7 @@ StackLayout {
         sourceComponent: LoggerSessionNameSelector { }
         active: menuStackLayout.currentIndex === 1
         onLoaded: {
+            item.goBackExport = sessionSelGoBackExport
             item.menuStackLayout = menuStackLayout
         }
     }

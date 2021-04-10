@@ -14,6 +14,8 @@ Item {
     id: root
     // we need a reference to menu stack layout to move around
     property var menuStackLayout
+    // how are we closing: true: go back to export view / false: show logger menu
+    property bool goBackExport: false
 
     property real rowHeight: height/8
     readonly property real fontScale: 0.30
@@ -110,7 +112,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
         anchors.topMargin: rowHeight / 2
-        anchors.bottom: buttonAdd.top
+        anchors.bottom: goBackExport ? parent.bottom : buttonAdd.top
         Label {
             text: Z.tr("Select existing:");
             font.pointSize: root.pointSize
@@ -176,6 +178,11 @@ Item {
                         if(loggerEntity.sessionName !== modelData) {
                             loggerEntity.sessionName = modelData
                             GC.setCurrDatabaseSessionName(modelData)
+                        }
+                        if(goBackExport) {
+                            menuStackLayout.showExportView()
+                        }
+                        else {
                             menuStackLayout.pleaseCloseMe(true)
                         }
                     }
@@ -185,6 +192,9 @@ Item {
     }
     Button {
         id: buttonAdd
+        // when coming from export it does not make sense to add a
+        // new (=empty) session and export it
+        visible: !goBackExport
         text: "+"
         anchors.bottom: parent.bottom
         anchors.left: parent.left

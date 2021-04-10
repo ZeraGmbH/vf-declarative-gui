@@ -160,7 +160,7 @@ ToolBar {
                         if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
                             root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         }
-                        loggerSettingsStackObj.showSessionNameSelector()
+                        loggerSettingsStackObj.showSessionNameSelector(false)
                     }
                     onLoggerCustomDataMenu: {
                         if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {

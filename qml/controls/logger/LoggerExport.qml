@@ -41,6 +41,7 @@ Item {
     // vein components for convenience
     readonly property string databaseName: loggerEntity ? loggerEntity.DatabaseFile : ""
     readonly property string sessionName: loggerEntity ? loggerEntity.sessionName : ""
+    onSessionNameChanged: editExportName.setExportNameDefault()
     readonly property alias mountedPaths: mountedDrivesCombo.mountedPaths
 
     // make current export type commonly accessible / set by combo export type
@@ -262,6 +263,10 @@ Item {
                     regExp: editExportName.regExCurr
                 }
                 onAliasExportTypeChanged: {
+                    setExportNameDefault()
+                }
+                // set default export name
+                function setExportNameDefault() {
                     // Note on regexes:
                     // our target is windows most likely so to avoid trouble:
                     // * allow lower case only - Windows is not case sensitive
@@ -272,10 +277,10 @@ Item {
                         regExCurr = /\b[_a-z0-9][_\-a-z0-9]*\b/
                         // suggest sessionName (yes we need to ask for overwrite e.g for the cause
                         // of multiple storining of same session name in multiple dbs)
-                        var sessionLow = sessionName.toLowerCase()
-                        var jRegEx =  RegExp(regExCurr, 'g')
-                        var match
-                        var str = ""
+                        let sessionLow = sessionName.toLowerCase()
+                        let jRegEx =  RegExp(regExCurr, 'g')
+                        let match
+                        let str = ""
                         // suggest only combinations od valid parts of session
                         while ((match = jRegEx.exec(sessionLow))) {
                             if(str !== "") {
@@ -306,7 +311,7 @@ Item {
             text: Z.tr("Please select a session first...")
             font.pointSize: pointSize
             onClicked: {
-                menuStackLayout.showSessionNameSelector()
+                menuStackLayout.showSessionNameSelector(true)
             }
         }
     }
