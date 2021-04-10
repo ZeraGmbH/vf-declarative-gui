@@ -212,6 +212,7 @@ SettingsView {
             spacing: 4
             readonly property int countColourThemes: GC.defaultColorsTableArray.length
             model: countColourThemes
+            interactive: false
             delegate: Rectangle {
                 id: lineDelegate
                 readonly property int row: index
