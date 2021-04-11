@@ -218,7 +218,7 @@ CCMP.ModulePage {
                         entity: root.getModule(index)
                         controlPropertyName: "PAR_MeasuringMode"
                         model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
-                        contentMaxRows: 5
+                        contentMaxRows: 6
                         fontSize: height*0.4
                         headerComponent: CCMP.MeasModeComboHeader {
                             id: comboHeader
