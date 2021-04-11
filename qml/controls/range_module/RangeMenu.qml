@@ -190,7 +190,6 @@ Item {
                     entity: root.rangeModule
                     controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
                     model: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
-                    contentMaxRows: 5
                     centerVertical: true
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
