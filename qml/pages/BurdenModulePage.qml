@@ -173,7 +173,6 @@ Item {
                             anchors.bottom: parent.bottom
                             width: page.width*0.09;
                             contentRowHeight: height*1.2
-                            contentFlow: GridView.FlowTopToBottom
 
                             model: Z.tr(burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data)
                             imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]

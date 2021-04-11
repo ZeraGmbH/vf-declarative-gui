@@ -85,7 +85,6 @@ Item {
                 anchors.bottom: parent.bottom
 
                 contentRowHeight: height*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
             }
 
             VFComboBox {
@@ -133,7 +132,6 @@ Item {
                 anchors.bottom: parent.bottom
 
                 contentRowHeight: height*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
             }
         }
         Rectangle {
@@ -166,7 +164,6 @@ Item {
                 anchors.bottom: parent.bottom
 
                 contentRowHeight: height*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
             }
         }
         Rectangle {
@@ -220,7 +217,6 @@ Item {
                 width: parent.width*col3Width
 
                 contentRowHeight: height*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
             }
         }
         Loader {
@@ -317,7 +313,6 @@ Item {
                     width: parent.width*col3Width
 
                     contentRowHeight: height*GC.standardComboContentScale
-                    contentFlow: GridView.FlowTopToBottom
                     onCurrentFactorChanged: {
                         // Hmm unitCombo does not fire onCurrentIndexChanged so use onCurrentFactorChanged...
                         GC.setEnergyScaleSelection(targetIndex)

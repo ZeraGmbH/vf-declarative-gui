@@ -80,9 +80,7 @@ Item {
                 anchors.bottom: parent.bottom
 
                 currentIndex: 0
-                contentRowWidth: width
                 contentRowHeight: height*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
 
             }
             VFComboBox {
@@ -130,7 +128,6 @@ Item {
                 anchors.bottom: parent.bottom
 
                 contentRowHeight: height*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
             }
         }
         Rectangle {
@@ -166,7 +163,6 @@ Item {
 
                 currentIndex: 0
                 contentRowHeight: height*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
             }
         }
         Rectangle {
@@ -292,7 +288,6 @@ Item {
                 height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
                 contentRowHeight: height*0.5*GC.standardComboContentScale
-                contentFlow: GridView.FlowTopToBottom
                 anchors.right: parent.right
                 width: parent.width*col3Width
             }

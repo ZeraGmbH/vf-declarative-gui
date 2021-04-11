@@ -270,7 +270,6 @@ SettingsView {
                     height: root.rowHeight-8
                     width: height*2.5
                     contentRowHeight: height*1.2
-                    contentFlow: GridView.FlowTopToBottom
 
                     property string intermediate: ZLocale.localeName
                     onIntermediateChanged: {

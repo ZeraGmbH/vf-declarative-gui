@@ -84,7 +84,6 @@ Popup {
                     entity: VeinEntity.getEntity("POWER1Module4")
 
                     contentRowHeight: height*0.8
-                    contentFlow: GridView.FlowTopToBottom
                     centerVertical: false
                     Layout.alignment: Qt.AlignVCenter
                     width: parent.width/6
