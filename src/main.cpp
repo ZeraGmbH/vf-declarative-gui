@@ -84,22 +84,30 @@ int main(int argc, char *argv[])
     JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
     globalSettingsFile->setAutoWriteBackEnabled(true);
 
-    if(globalSettingsFile->loadFromStandardLocation("settings.json") == false)
-    {
+    // Load settings
+    QString settingsFile = QStringLiteral("settings.json");
+    if(webGlServer) {
+        settingsFile = QStringLiteral("settings-remote.json");
+    }
+    if(globalSettingsFile->loadFromStandardLocation(settingsFile) == false) {
         const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-        const QString targetPath = QString("%1/settings.json").arg(standardPath);
+        const QString targetPath = QString("%1/%2").arg(standardPath).arg(settingsFile);
         QDir standardConfigDirectory;
 
-        if(!standardConfigDirectory.exists(standardPath))
-        {
+        if(!standardConfigDirectory.exists(standardPath)) {
             standardConfigDirectory.mkdir(standardPath);
         }
-        //copy from qrc to standard dir
-        if(QFile::copy("://data/settings.json", targetPath))
-        {
-            qDebug("Deployed default settings file from: qrc://data/settings.json");
+#ifndef QT_DEBUG
+        // copy from qrc to standard dir
+        const QString source = QStringLiteral("://data/settings.json");
+#else
+        // debugging does not work for standard (localhost) so copy the file from application
+        const QString source = QString("%1/%2").arg(standardPath).arg(QStringLiteral("settings.json"));
+#endif
+        if(QFile::copy(source, targetPath)) {
+            qInfo("Deployed default settings file from: qrc://data/settings.json");
             QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
-            globalSettingsFile->loadFromStandardLocation("settings.json");
+            globalSettingsFile->loadFromStandardLocation(settingsFile);
         }
     }
 
