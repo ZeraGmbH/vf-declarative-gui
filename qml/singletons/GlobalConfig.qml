@@ -607,8 +607,12 @@ Item {
         onTriggered: {
             var entityNames = currentNotifyEntities.split(',')
             for(var idx=0; idx<entityNames.length; ++idx) {
-                var entity = VeinEntity.getEntity(entityNames[idx])
-                ++entity.PAR_ClientActiveNotify
+                if(VeinEntity.hasEntity(entityNames[idx])) {
+                    var entity = VeinEntity.getEntity(entityNames[idx])
+                    if(entity.hasComponent(["PAR_ClientActiveNotify"])) {
+                        ++entity.PAR_ClientActiveNotify
+                    }
+                }
             }
         }
     }
