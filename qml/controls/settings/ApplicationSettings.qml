@@ -511,7 +511,7 @@ SettingsView {
                 Label {
                     id: labelRemotWeb
                     textFormat: Text.PlainText
-                    text: !ASWGL.running ? Z.tr("Remote web:") : Z.tr("Browser addresses:")
+                    text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Browser addresses:")
                     font.pixelSize: 20
 
                 }
