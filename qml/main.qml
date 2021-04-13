@@ -116,7 +116,11 @@ ApplicationWindow {
                 ModuleIntrospection.reloadIntrospection();
                 pageLoader.active = true;
                 controlsBar.rangeIndicatorDependenciesReady = true;
-                pageView.pageLoaderSource = pageView.model.get(GC.lastPageViewIndexSelected).elementValue;
+                let lastPageSelected = GC.lastPageViewIndexSelected
+                if(lastPageSelected >= pageView.model.count) {
+                    lastPageSelected = 0
+                }
+                pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
                 loadingScreen.close();
                 GC.entityInitializationDone = true;
             }
