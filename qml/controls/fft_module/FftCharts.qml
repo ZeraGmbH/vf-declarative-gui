@@ -44,6 +44,9 @@ ListView {
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
     ScrollBar.vertical: ScrollBar {
         policy: root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        snapMode: ScrollBar.SnapOnRelease
+        stepSize: 3 / (GC.fftChartsPinchScale * (root.count-1))
+        size: root.visibleArea.heightRatio
         width: 8
     }
 

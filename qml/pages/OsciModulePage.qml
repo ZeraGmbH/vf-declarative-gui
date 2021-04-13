@@ -55,6 +55,9 @@ Item {
         ScrollBar.vertical: ScrollBar {
             policy: lvOsci.contentHeight > lvOsci.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             width: 8
+            snapMode: ScrollBar.SnapOnRelease
+            stepSize: 3 / (GC.osciPinchScale*(lvOsci.count-1))
+            size: lvOsci.visibleArea.heightRatio
         }
 
         PinchArea {

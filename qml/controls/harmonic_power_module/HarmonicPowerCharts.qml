@@ -21,6 +21,9 @@ Item {
         anchors.bottom: parent.bottom
         orientation: Qt.Vertical
         width: 8
+        snapMode: ScrollBar.SnapOnRelease
+        stepSize: 3 / (GC.harmonicPowerChartPinchScale * (listView.count-1))
+        size: listView.visibleArea.heightRatio
         policy: hasVertScroll ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
     }
     ScrollBar {
@@ -46,6 +49,7 @@ Item {
         ScrollBar.horizontal: hBar
 
         ListView { // vert. scroll (ListView can scroll only one orientation)
+            id: listView
             model: 3
             anchors.fill: parent
             contentHeight: pinchArea.pinchScale * height
