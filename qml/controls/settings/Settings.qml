@@ -6,6 +6,7 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.VirtualKeyboard.Settings 2.2
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraFa 1.0
@@ -86,9 +87,10 @@ Item{
         settingsTabsBar.addItem(devTab.createObject(settingsTabsBar))
         swipeView.addItem(devPage.createObject(swipeView))
 
-        settingsTabsBar.addItem(netTab.createObject(settingsTabsBar))
-        swipeView.addItem(netPage.createObject(swipeView))
-
+        if(!ASWGL.isServer) {
+            settingsTabsBar.addItem(netTab.createObject(settingsTabsBar))
+            swipeView.addItem(netPage.createObject(swipeView))
+        }
         swipeView.currentIndex = lastTabSelected
         swipeView.currentIndex = Qt.binding(() => settingsTabsBar.currentIndex);
     }

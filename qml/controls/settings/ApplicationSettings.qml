@@ -5,10 +5,12 @@ import QtQml.Models 2.1
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
+import anmsettings 1.0
 import ZeraLocale 1.0
 import "qrc:/qml/controls" as CCMP
 
@@ -17,7 +19,7 @@ SettingsView {
     id: root
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-    rowHeight: 48
+    rowHeight: height/8.5
 
     Timer {
         id: slowMachineSettingsHelper
@@ -267,7 +269,7 @@ SettingsView {
                     id: localeCB
                     model: Z.tr("TRANSLATION_LOCALES")
                     imageModel: Z.tr("TRANSLATION_FLAGS")
-                    height: root.rowHeight-8
+                    height: root.rowHeight * 0.9
                     width: height*2.5
                     contentRowHeight: height*1.2
 
@@ -450,7 +452,6 @@ SettingsView {
                     textFormat: Text.PlainText
                     text: Z.tr("Show AUX phase values:")
                     font.pixelSize: 20
-
                     Layout.fillWidth: true
                 }
                 CheckBox {
@@ -458,6 +459,73 @@ SettingsView {
                     Component.onCompleted: checked = GC.showAuxPhases
                     onCheckedChanged: {
                         slowMachineSettingsHelper.startAuxPhaseChange(checked)
+                    }
+                }
+            }
+        }
+        Item {
+            height: root.rowHeight
+            width: root.rowWidth
+            visible: !ASWGL.isServer
+            Rectangle {
+                anchors.fill: parent
+                anchors.leftMargin: 24+labelRemotWeb.width
+                anchors.rightMargin: 24+webOnOff.width
+                anchors.topMargin: -root.rowHeight / 8
+                anchors.bottomMargin: -root.rowHeight / 8
+                visible: ASWGL.running
+                ListView {
+                    id: ipInfo
+                    anchors.fill: parent
+                    anchors.margins: root.rowHeight / 6
+                    width: parent.width
+                    boundsBehavior: Flickable.OvershootBounds
+                    spacing: root.rowHeight / 8
+                    model: InfoInterface { }
+                    delegate: RowLayout {
+                        Text {
+                            font.pointSize: root.rowHeight / 5.2
+                            text: ipv4 + ':' + ASWGL.port
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                        }
+                        Text {
+                            font.pointSize: root.rowHeight / 5.2
+                            text: Z.tr("or")
+                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                        }
+                        Text {
+                            font.pointSize: root.rowHeight / 5.2
+                            text: ipv6 + ':' + ASWGL.port
+                        }
+                    }
+                }
+            }
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 16
+                anchors.rightMargin: 16
+                Label {
+                    id: labelRemotWeb
+                    textFormat: Text.PlainText
+                    text: !ASWGL.running ? Z.tr("Remote web:") : Z.tr("Browser addresses:")
+                    font.pixelSize: 20
+
+                }
+                Item { Layout.fillWidth: true }
+                CheckBox {
+                    id: webOnOff
+                    height: parent.height
+                    checked: ASWGL.running
+                    onCheckedChanged: {
+                        if(!ASWGL.running) {
+                            ASWGL.applicationPath = "vf-declarative-gui"
+                            ASWGL.additionalParams = ["-w", "1"]
+                        }
+                        ASWGL.running = checked
                     }
                 }
             }
