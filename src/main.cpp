@@ -5,6 +5,7 @@
 #include <QIcon>
 #include <QStandardPaths>
 #include <QDir>
+#include <QCommandLineParser>
 #include <ve_eventhandler.h>
 #include <vn_networksystem.h>
 #include <vn_tcpsystem.h>
@@ -16,6 +17,7 @@
 #include <zeratranslationplugin.h>
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
+#include "qmlappstarterforwebgl.h"
 #include <zvkeyboard.h>
 
 int main(int argc, char *argv[])
@@ -55,6 +57,17 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/FunctionTools.qml"), "FunctionTools", 1, 0, "FT");
+
+    // WebGL server
+    QCommandLineParser parser;
+    QCommandLineOption webGlServerOption(QStringList() << "w" << "webgl-server", "1: Start as webGL server", "1/0");
+    webGlServerOption.setDefaultValue("0");
+    parser.addOption(webGlServerOption);
+    parser.process(app);
+    bool webGlServer = parser.isSet(webGlServerOption);
+    QmlAppStarterForWebGL *pWGLSingleon = QmlAppStarterForWebGL::getStaticInstance();
+    pWGLSingleon->setIsServer(webGlServer);
+    QmlAppStarterForWebGL::registerQMLSingleton();
 
     app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
