@@ -83,20 +83,6 @@ Item {
         delegate: Item {
             height: pinchArea.pinchScale * root.height/3
             width: root.plotWidth
-            Label {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                rotation: -90
-                text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName;
-                color: FT.getColorByIndex(leftChannels[index]+1);
-            }
-            Label {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                rotation: 90
-                text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName;
-                color: FT.getColorByIndex(rightChannels[index]+1);
-            }
             ChartView {
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -107,7 +93,7 @@ Item {
                 margins.bottom: 0
 
                 antialiasing: false
-                backgroundColor: "transparent"//Material.backgroundColor
+                backgroundColor: Material.backgroundColor
                 legend.visible:false
                 legend.width: 0
                 legend.height: 0
@@ -123,7 +109,6 @@ Item {
                     tickCount: 2
                     minorGridVisible: false
                     gridLineColor: Material.frameColor
-                    color: "transparent"
                 }
                 ValueAxis {
                     id: yAxisLeft
@@ -185,6 +170,20 @@ Item {
                     xRow: 0
                     yRow: 2
                 }
+            }
+            Label {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                rotation: -90
+                text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName;
+                color: FT.getColorByIndex(leftChannels[index]+1);
+            }
+            Label {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                rotation: 90
+                text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName;
+                color: FT.getColorByIndex(rightChannels[index]+1);
             }
         }
     }
