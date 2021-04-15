@@ -12,6 +12,7 @@ Item {
 
     SwipeView {
         id: swipeView
+        visible: initialized
         anchors.fill: parent
         anchors.topMargin: actualValueTabsBar.height
         currentIndex: actualValueTabsBar.currentIndex
@@ -22,7 +23,11 @@ Item {
         id: actualValueTabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
+        onCurrentIndexChanged: {
+            if(initialized) {
+                GC.setLastTabSelected(currentIndex)
+            }
+        }
         contentHeight: 32
     }
 
@@ -57,7 +62,7 @@ Item {
         id: pageTable
         Pages.ActualValuesPage {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ACTUAL_VALUES
                 }
             }
@@ -68,7 +73,7 @@ Item {
         Pages.VectorModulePage {
             topMargin: 10
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_VECTOR_DIAGRAM
                 }
             }
@@ -78,7 +83,7 @@ Item {
         id: pagePower
         Pages.PowerModulePage {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_VALUES
                 }
             }
@@ -88,7 +93,7 @@ Item {
         id: pageRms
         Pages.RMS4PhasePage {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_RMS_VALUES
                 }
             }
@@ -96,8 +101,16 @@ Item {
     }
 
     // create tabs/pages dynamic
+    property bool initialized: false
+    Timer {
+        id: initTimer
+        interval: 250
+        onTriggered: {
+            initialized = true
+        }
+    }
+
     Component.onCompleted: {
-        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         actualValueTabsBar.addItem(tabTable.createObject(actualValueTabsBar))
         swipeView.addItem(pageTable.createObject(swipeView))
 
@@ -110,7 +123,16 @@ Item {
         actualValueTabsBar.addItem(tabRms.createObject(actualValueTabsBar))
         swipeView.addItem(pageRms.createObject(swipeView))
 
-        swipeView.currentIndex = lastTabSelected
-        swipeView.currentIndex = Qt.binding(() => actualValueTabsBar.currentIndex);
+        let lastTabSelected = GC.lastTabSelected
+        if(lastTabSelected >= swipeView.count) {
+            lastTabSelected = 0
+        }
+        if(lastTabSelected) {
+            swipeView.setCurrentIndex(lastTabSelected)
+            initTimer.start()
+        }
+        else {
+            initialized = true
+        }
     }
 }
