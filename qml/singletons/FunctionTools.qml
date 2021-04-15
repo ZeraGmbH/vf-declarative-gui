@@ -193,7 +193,7 @@ Item {
 
     function removeDecimalGroupSeparators(strNum) {
         // remove group separators (this is ugly but don't get documented examples to fly here...)
-        var groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
+        var groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
         while(strNum.includes(groupSepChar)) {
             strNum = strNum.replace(groupSepChar, "")
         }
@@ -218,7 +218,7 @@ Item {
                     dec = 0
                 }
             }
-            var strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
+            var strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
             strNum = removeDecimalGroupSeparators(strNum)
             return strNum
         }

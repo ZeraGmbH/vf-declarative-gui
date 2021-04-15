@@ -98,7 +98,7 @@ Item {
                 legend.width: 0
                 legend.height: 0
                 localizeNumbers: true
-                locale: ZLocale.getLocale()
+                locale: ZLocale.locale
 
                 ValueAxis {
                     id: xAxis

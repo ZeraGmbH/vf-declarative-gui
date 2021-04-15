@@ -61,7 +61,7 @@ Rectangle {
         margins.right:0
 
         localizeNumbers: true
-        locale: ZLocale.getLocale()
+        locale: ZLocale.locale
 
         ValueAxis {
             id: xAxis

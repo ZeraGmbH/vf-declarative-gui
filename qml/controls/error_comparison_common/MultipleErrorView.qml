@@ -37,7 +37,7 @@ Rectangle {
     // all contents are updated and scroll position remains
     function removeDecimalGroupSeparators(strNum) {
         // remove group separators (this is ugly but don't get documented examples to fly here...)
-        let groupSepChar = ZLocale.getDecimalPoint() === "," ? "." : ","
+        let groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
         while(strNum.includes(groupSepChar)) {
             strNum = strNum.replace(groupSepChar, "")
         }
@@ -61,7 +61,7 @@ Rectangle {
                     dec = 0
                 }
             }
-            let strNum = Number(num).toLocaleString(ZLocale.getLocale(), 'f', dec)
+            let strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
             strNum = removeDecimalGroupSeparators(strNum)
             return strNum
         }
