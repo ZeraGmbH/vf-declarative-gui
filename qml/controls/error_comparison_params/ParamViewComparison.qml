@@ -276,7 +276,7 @@ Item {
                         // * we cannot use validator.decimals - it is updated too late
                         // * multiple back and forth conversion to round value to digit (otherwise field remains red)
                         var strVal = String(Number(fltVal.toFixed(FT.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))))
-                        textField.text = strVal.replace(ZLocale.getDecimalPoint() === "," ? "." : ",", ZLocale.getDecimalPoint())
+                        textField.text = strVal.replace(ZLocale.decimalPoint === "," ? "." : ",", ZLocale.decimalPoint)
                     }
                     function hasAlteredValue() {
                         var expVal = Math.pow(10, FT.ceilLog10Of1DividedByX(validatorEnergy.Data[2] / currentFactor))
