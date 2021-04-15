@@ -19,7 +19,7 @@ public:
     Q_PROPERTY(QStringList additionalParams READ additionalParams WRITE setAdditionalParams NOTIFY additionalParamsChanged)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(bool running READ running WRITE setRunning NOTIFY runningChanged)
-    Q_PROPERTY(bool isServer READ isServer WRITE setIsServer NOTIFY isServerChanged)
+    Q_PROPERTY(bool isServer READ isServer NOTIFY isServerChanged)
 
     QString applicationPath() const;
     void setApplicationPath(const QString& applicationPath);
