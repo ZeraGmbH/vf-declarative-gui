@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import QwtChart 1.0
+import AppStarterForWebGLSingleton 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
@@ -93,7 +93,7 @@ Rectangle {
             axisY: yAxisLeft
             color: (minValue<=result && result<=maxValue) ? "lawngreen" : "red";
             width: 3
-            //useOpenGL: true
+            useOpenGL: true
         }
         LineSeries {
             id: upperErrorMarginLine
@@ -102,6 +102,7 @@ Rectangle {
             color: "red";
             style: Qt.DashLine
             width: 1
+            useOpenGL: true
         }
         LineSeries {
             id: lowerErrorMarginLine
@@ -110,6 +111,7 @@ Rectangle {
             color: "red";
             style: Qt.DashLine
             width: 1
+            useOpenGL: true
         }
     }
 }
