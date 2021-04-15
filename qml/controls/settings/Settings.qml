@@ -22,6 +22,7 @@ Item{
 
     SwipeView {
         id: swipeView
+        visible: initialized
         anchors.fill: parent
         anchors.topMargin: settingsTabsBar.height
         currentIndex: settingsTabsBar.currentIndex
@@ -32,7 +33,11 @@ Item{
         id: settingsTabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: GC.setLastSettingsTabSelected(currentIndex)
+        onCurrentIndexChanged: {
+            if(initialized) {
+                GC.setLastSettingsTabSelected(currentIndex)
+            }
+        }
         contentHeight: 32
     }
 
@@ -79,8 +84,17 @@ Item{
         }
     }
 
+    // create tabs/pages dynamic
+    property bool initialized: false
+    Timer {
+        id: initTimer
+        interval: 250
+        onTriggered: {
+            initialized = true
+        }
+    }
+
     Component.onCompleted: {
-        let lastTabSelected = GC.lastSettingsTabSelected // keep - it is overwritten on page setup
         settingsTabsBar.addItem(appTab.createObject(settingsTabsBar))
         swipeView.addItem(appPage.createObject(swipeView))
 
@@ -91,7 +105,16 @@ Item{
             settingsTabsBar.addItem(netTab.createObject(settingsTabsBar))
             swipeView.addItem(netPage.createObject(swipeView))
         }
-        swipeView.currentIndex = lastTabSelected
-        swipeView.currentIndex = Qt.binding(() => settingsTabsBar.currentIndex);
+        let lastTabSelected = GC.lastSettingsTabSelected
+        if(lastTabSelected >= swipeView.count) {
+            lastTabSelected = 0
+        }
+        if(lastTabSelected) {
+            swipeView.setCurrentIndex(lastTabSelected)
+            initTimer.start()
+        }
+        else {
+            initialized = true
+        }
     }
 }
