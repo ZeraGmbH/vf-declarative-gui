@@ -20,6 +20,7 @@ Item {
 
     SwipeView {
         id: swipeView
+        visible: initialized
         anchors.fill: parent
         anchors.topMargin: tabsBar.height
         currentIndex: tabsBar.currentIndex
@@ -30,7 +31,11 @@ Item {
         id: tabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
+        onCurrentIndexChanged: {
+            if(initialized) {
+                GC.setLastTabSelected(currentIndex)
+            }
+        }
         contentHeight: 32
     }
 
@@ -60,12 +65,12 @@ Item {
             readonly property int rowHeight: Math.floor(height/rowCount)
             readonly property int columnWidth: width/4.2 //0.7 + 3 + 0.5
             onIsVoltagePageChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = isVoltagePage ? GC.guiContextEnum.GUI_VOLTAGE_BURDEN : GC.guiContextEnum.GUI_CURRENT_BURDEN
                 }
             }
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = isVoltagePage ? GC.guiContextEnum.GUI_VOLTAGE_BURDEN : GC.guiContextEnum.GUI_CURRENT_BURDEN
                 }
             }
@@ -233,8 +238,16 @@ Item {
     }
 
     // create tabs/pages dynamic
+    property bool initialized: false
+    Timer {
+        id: initTimer
+        interval: 250
+        onTriggered: {
+            initialized = true
+        }
+    }
+
     Component.onCompleted: {
-        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         if(hasVoltageBurden) {
             tabsBar.addItem(tabVoltage.createObject(tabsBar))
             swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : true}))
@@ -243,7 +256,16 @@ Item {
             tabsBar.addItem(tabCurrent.createObject(tabsBar))
             swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : false}))
         }
-        swipeView.currentIndex = lastTabSelected
-        swipeView.currentIndex = Qt.binding(() => tabsBar.currentIndex);
+        let lastTabSelected = GC.lastTabSelected
+        if(lastTabSelected >= swipeView.count) {
+            lastTabSelected = 0
+        }
+        if(lastTabSelected) {
+            swipeView.setCurrentIndex(lastTabSelected)
+            initTimer.start()
+        }
+        else {
+            initialized = true
+        }
     }
 }
