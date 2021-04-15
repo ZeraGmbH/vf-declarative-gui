@@ -9,6 +9,7 @@ Item {
 
     SwipeView {
         id: swipeView
+        visible: initialized
         anchors.fill: parent
         anchors.topMargin: harmonicsTabsBar.height
         currentIndex: harmonicsTabsBar.currentIndex
@@ -20,7 +21,11 @@ Item {
         width: parent.width
         contentHeight: 32
         currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
+        onCurrentIndexChanged: {
+            if(initialized) {
+                GC.setLastTabSelected(currentIndex)
+            }
+        }
     }
 
     // TabButtons
@@ -42,7 +47,7 @@ Item {
         id: pageTable
         Pages.HarmonicPowerTable {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_TABLE
                 }
             }
@@ -52,7 +57,7 @@ Item {
         id: pageChart
         Pages.HarmonicPowerCharts {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_CHART
                 }
             }
@@ -60,15 +65,32 @@ Item {
     }
 
     // create tabs/pages dynamic
+    property bool initialized: false
+    Timer {
+        id: initTimer
+        interval: 250
+        onTriggered: {
+            initialized = true
+        }
+    }
+
     Component.onCompleted: {
-        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         harmonicsTabsBar.addItem(tabChart.createObject(harmonicsTabsBar))
         swipeView.addItem(pageTable.createObject(swipeView))
 
         harmonicsTabsBar.addItem(tabEnergy.createObject(harmonicsTabsBar))
         swipeView.addItem(pageChart.createObject(swipeView))
 
-        swipeView.currentIndex = lastTabSelected
-        swipeView.currentIndex = Qt.binding(() => harmonicsTabsBar.currentIndex);
+        let lastTabSelected = GC.lastTabSelected
+        if(lastTabSelected >= swipeView.count) {
+            lastTabSelected = 0
+        }
+        if(lastTabSelected) {
+            swipeView.setCurrentIndex(lastTabSelected)
+            initTimer.start()
+        }
+        else {
+            initialized = true
+        }
     }
 }
