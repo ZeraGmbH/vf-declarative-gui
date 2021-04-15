@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import GlobalConfig 1.0
 import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.14
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import "qrc:/qml/controls/fft_module" as Pages
@@ -13,19 +14,23 @@ Item {
 
     SwipeView {
         id: swipeView
+        visible: initialized
         anchors.fill: parent
         anchors.topMargin: harmonicsTabsBar.height
         currentIndex: harmonicsTabsBar.currentIndex
         spacing: 20
     }
-
     TabBar {
         id: harmonicsTabsBar
         width: parent.width
         contentHeight: 32
         anchors.top: parent.top
         currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
+        onCurrentIndexChanged: {
+            if(initialized) {
+                GC.setLastTabSelected(currentIndex)
+            }
+        }
     }
 
     // TabButtons
@@ -53,7 +58,7 @@ Item {
         id: pageTable
         Pages.FftTable {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_TABLE
                 }
             }
@@ -63,7 +68,7 @@ Item {
         id: pageChart
         Pages.FftCharts {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_CHART
                 }
             }
@@ -73,7 +78,7 @@ Item {
         id: pageOsc
         Osc.OsciModulePage {
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_CURVE_DISPLAY
                 }
             }
@@ -81,8 +86,16 @@ Item {
     }
 
     // create tabs/pages dynamic
+    property bool initialized: false
+    Timer {
+        id: initTimer
+        interval: 250
+        onTriggered: {
+            initialized = true
+        }
+    }
+
     Component.onCompleted: {
-        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         if(hasFft)
         {
             harmonicsTabsBar.addItem(tabChart.createObject(harmonicsTabsBar))
@@ -96,7 +109,16 @@ Item {
             harmonicsTabsBar.addItem(tabOsc.createObject(harmonicsTabsBar))
             swipeView.addItem(pageOsc.createObject(swipeView))
         }
-        swipeView.currentIndex = lastTabSelected
-        swipeView.currentIndex = Qt.binding(() => harmonicsTabsBar.currentIndex);
+        let lastTabSelected = GC.lastTabSelected
+        if(lastTabSelected >= swipeView.count) {
+            lastTabSelected = 0
+        }
+        if(lastTabSelected) {
+            swipeView.setCurrentIndex(lastTabSelected)
+            initTimer.start()
+        }
+        else {
+            initialized = true
+        }
     }
 }
