@@ -15,10 +15,25 @@ public:
     static void registerQMLSingleton();
     static QmlAppStarterForWebGL *getStaticInstance(QQmlEngine *t_engine=nullptr, QJSEngine *t_scriptEngine=nullptr);
 
+    /**
+      @brief: set path to application. Since caller and server are identical/live in same path 'vf-declarative-gui' is good enough
+      */
     Q_PROPERTY(QString applicationPath READ applicationPath WRITE setApplicationPath NOTIFY applicationPathChanged)
+    /**
+      @brief: additional commandline params
+      */
     Q_PROPERTY(QStringList additionalParams READ additionalParams WRITE setAdditionalParams NOTIFY additionalParamsChanged)
+    /**
+      @brief: IP port for WebGL server - default 8080
+      */
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
+    /**
+      @brief: Getter/Setter property to start server and check if it is running
+      */
     Q_PROPERTY(bool running READ running WRITE setRunning NOTIFY runningChanged)
+    /**
+      @brief: QML-readonly property to allow adjustment Application/WebGL-server adjustments
+      */
     Q_PROPERTY(bool isServer READ isServer NOTIFY isServerChanged)
 
     QString applicationPath() const;
