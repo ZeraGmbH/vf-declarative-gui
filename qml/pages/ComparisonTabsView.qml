@@ -17,6 +17,7 @@ Item {
 
     SwipeView {
         id: swipeView
+        visible: initialized
         anchors.fill: parent
         anchors.topMargin: comparisonTabsBar.height
         currentIndex: comparisonTabsBar.currentIndex
@@ -27,7 +28,11 @@ Item {
         id: comparisonTabsBar
         width: parent.width
         currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: GC.setLastTabSelected(currentIndex)
+        onCurrentIndexChanged: {
+            if(initialized) {
+                GC.setLastTabSelected(currentIndex)
+            }
+        }
         contentHeight: 32
     }
 
@@ -65,7 +70,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.sec1m1Introspection
             validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_METER_TEST
                 }
             }
@@ -78,7 +83,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.sec1m2Introspection
             validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ENERGY_COMPARISON
                 }
             }
@@ -91,7 +96,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.sem1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ENERGY_REGISTER
                 }
             }
@@ -104,7 +109,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.spm1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Power) + " " + moduleIntrospection.ComponentInfo.ACT_Power.Unit
             SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
+                if(initialized && SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_REGISTER
                 }
             }
@@ -112,8 +117,16 @@ Item {
     }
 
     // create tabs/pages dynamic
+    property bool initialized: false
+    Timer {
+        id: initTimer
+        interval: 250
+        onTriggered: {
+            initialized = true
+        }
+    }
+
     Component.onCompleted: {
-        let lastTabSelected = GC.lastTabSelected // keep - it is overwritten on page setup
         if(hasSEC1) {
             comparisonTabsBar.addItem(tabPulse.createObject(comparisonTabsBar))
             swipeView.addItem(pagePulse.createObject(swipeView))
@@ -130,8 +143,16 @@ Item {
             comparisonTabsBar.addItem(tabPower.createObject(comparisonTabsBar))
             swipeView.addItem(pagePower.createObject(swipeView))
         }
-
-        swipeView.currentIndex = lastTabSelected
-        swipeView.currentIndex = Qt.binding(() => comparisonTabsBar.currentIndex);
+        let lastTabSelected = GC.lastTabSelected
+        if(lastTabSelected >= swipeView.count) {
+            lastTabSelected = 0
+        }
+        if(lastTabSelected) {
+            swipeView.setCurrentIndex(lastTabSelected)
+            initTimer.start()
+        }
+        else {
+            initialized = true
+        }
     }
 }
