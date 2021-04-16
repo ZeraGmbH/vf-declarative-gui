@@ -23,6 +23,7 @@ Item {
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
     readonly property string relativeUnit: relativeView ? " %" : "";
 
+    Keys.forwardTo: [fftFlickable]
     ScrollBar {
         z: 1
         id: vBar
@@ -47,6 +48,16 @@ Item {
         boundsBehavior: Flickable.OvershootBounds
         flickableDirection: Flickable.VerticalFlick
 
+        Keys.onUpPressed:  {
+            if(!atYBeginning) {
+                flick(0, Math.sqrt(rowHeight)*173.2)
+            }
+        }
+        Keys.onDownPressed: {
+            if(!atYEnd) {
+                flick(0, -Math.sqrt(rowHeight)*173.2)
+            }
+        }
         ScrollBar.vertical: vBar
 
         Row {
@@ -116,8 +127,6 @@ Item {
             boundsBehavior: Flickable.OvershootBounds
             cacheBuffer: root.hpwOrder*root.rowHeight //prevents visual issue with index counter using "x: fftFlickable.contentX"
             clip: true
-
-            //ScrollBar.vertical: vBar
 
             delegate: Component {
                 Row {
