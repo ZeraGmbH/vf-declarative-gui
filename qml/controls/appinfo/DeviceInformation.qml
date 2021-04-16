@@ -158,7 +158,7 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: 16
         anchors.rightMargin: 16
-        spacing: rowHeight/4
+        spacing: rowHeight/2
         model: statusModel
         boundsBehavior: Flickable.StopAtBounds
         ScrollBar.vertical: rightScrollbar
