@@ -192,19 +192,39 @@ ApplicationWindow {
             Loader {
                 sourceComponent: rangePeak
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutRangeIndex
+                onActiveChanged: {
+                    if(!active && pageLoader.item) {
+                        pageLoader.item.forceActiveFocus()
+                    }
+                }
             }
             Loader {
                 id: loggerSettingsLoader
                 sourceComponent: LoggerControls.LoggerSettingsStack { }
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutLoggerIndex
+                onActiveChanged: {
+                    if(!active && pageLoader.item) {
+                        pageLoader.item.forceActiveFocus()
+                    }
+                }
             }
             Loader {
                 sourceComponent: settingsCmp
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutSettingsIndex
+                onActiveChanged: {
+                    if(!active && pageLoader.item) {
+                        pageLoader.item.forceActiveFocus()
+                    }
+                }
             }
             Loader {
                 sourceComponent: statusCmp
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutStatusIndex
+                onActiveChanged: {
+                    if(!active && pageLoader.item) {
+                        pageLoader.item.forceActiveFocus()
+                    }
+                }
             }
             Loader {
                 sourceComponent: splashCmp
