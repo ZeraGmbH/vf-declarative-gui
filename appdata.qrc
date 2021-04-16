@@ -8,7 +8,6 @@
         <file>qml/controls/GridItem.qml</file>
         <file>qml/controls/GridRect.qml</file>
         <file>qml/controls/MeasModeComboHeader.qml</file>
-        <file>qml/controls/ModulePage.qml</file>
         <file>qml/controls/PagePathView.qml</file>
         <file>qml/controls/RotaryFieldIndicator.qml</file>
         <file>qml/controls/SwipeArea.qml</file>
