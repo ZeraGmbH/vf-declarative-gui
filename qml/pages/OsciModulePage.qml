@@ -43,6 +43,7 @@ Item {
         }
         return retVal;
     }
+    Keys.forwardTo: [lvOsci]
 
     ListView {
         id: lvOsci
