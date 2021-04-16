@@ -70,7 +70,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.sec1m1Introspection
             validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_METER_TEST
                 }
             }
@@ -83,7 +83,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.sec1m2Introspection
             validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ENERGY_COMPARISON
                 }
             }
@@ -96,7 +96,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.sem1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ENERGY_REGISTER
                 }
             }
@@ -109,7 +109,7 @@ Item {
             moduleIntrospection: ModuleIntrospection.spm1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Power) + " " + moduleIntrospection.ComponentInfo.ACT_Power.Unit
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_REGISTER
                 }
             }

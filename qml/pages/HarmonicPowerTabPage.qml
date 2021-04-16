@@ -47,7 +47,7 @@ Item {
         id: pageTable
         Pages.HarmonicPowerTable {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_TABLE
                 }
             }
@@ -57,7 +57,7 @@ Item {
         id: pageChart
         Pages.HarmonicPowerCharts {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_CHART
                 }
             }

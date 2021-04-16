@@ -62,7 +62,7 @@ Item {
         id: pageTable
         Pages.ActualValuesPage {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ACTUAL_VALUES
                 }
             }
@@ -73,7 +73,7 @@ Item {
         Pages.VectorModulePage {
             topMargin: 10
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_VECTOR_DIAGRAM
                 }
             }
@@ -83,7 +83,7 @@ Item {
         id: pagePower
         Pages.PowerModulePage {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_VALUES
                 }
             }
@@ -93,7 +93,7 @@ Item {
         id: pageRms
         Pages.RMS4PhasePage {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_RMS_VALUES
                 }
             }
