@@ -7,41 +7,8 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import "qrc:/qml/pages" as Pages
 
-Item {
+BaseTabPage {
     id: root
-
-    onInitializedChanged: forceActiveFocus()
-    Keys.onRightPressed: {
-        if(swipeView.currentIndex < swipeView.count-1) {
-            swipeView.setCurrentIndex(swipeView.currentIndex+1)
-        }
-    }
-    Keys.onLeftPressed: {
-        if(swipeView.currentIndex > 0) {
-            swipeView.setCurrentIndex(swipeView.currentIndex-1)
-        }
-    }
-
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors.fill: parent
-        anchors.topMargin: actualValueTabsBar.height
-        currentIndex: actualValueTabsBar.currentIndex
-        spacing: 20
-    }
-
-    TabBar {
-        id: actualValueTabsBar
-        width: parent.width
-        currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: {
-            if(initialized) {
-                GC.setLastTabSelected(currentIndex)
-            }
-        }
-        contentHeight: 32
-    }
 
     // TabButtons
     Component {
@@ -113,38 +80,19 @@ Item {
     }
 
     // create tabs/pages dynamic
-    property bool initialized: false
-    Timer {
-        id: initTimer
-        interval: 250
-        onTriggered: {
-            initialized = true
-        }
-    }
-
     Component.onCompleted: {
-        actualValueTabsBar.addItem(tabTable.createObject(actualValueTabsBar))
+        tabBar.addItem(tabTable.createObject(tabBar))
         swipeView.addItem(pageTable.createObject(swipeView))
 
-        actualValueTabsBar.addItem(tabVector.createObject(actualValueTabsBar))
+        tabBar.addItem(tabVector.createObject(tabBar))
         swipeView.addItem(pageVector.createObject(swipeView))
 
-        actualValueTabsBar.addItem(tabPower.createObject(actualValueTabsBar))
+        tabBar.addItem(tabPower.createObject(tabBar))
         swipeView.addItem(pagePower.createObject(swipeView))
 
-        actualValueTabsBar.addItem(tabRms.createObject(actualValueTabsBar))
+        tabBar.addItem(tabRms.createObject(tabBar))
         swipeView.addItem(pageRms.createObject(swipeView))
 
-        let lastTabSelected = GC.lastTabSelected
-        if(lastTabSelected >= swipeView.count) {
-            lastTabSelected = 0
-        }
-        if(lastTabSelected) {
-            swipeView.setCurrentIndex(lastTabSelected)
-            initTimer.start()
-        }
-        else {
-            initialized = true
-        }
+        finishInit()
     }
 }
