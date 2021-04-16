@@ -22,6 +22,8 @@ Item {
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
 
+    Keys.forwardTo: [fftFlickable]
+
     ScrollBar {
         z: 1
         id: vBar
@@ -63,6 +65,33 @@ Item {
         }
         onAtXEndChanged: {
             helperMouseArea.enabled = hasHorizScroll && atXEnd
+        }
+
+        Keys.onUpPressed:  {
+            if(!atYBeginning) {
+                flick(0, Math.sqrt(rowHeight)*173.2)
+            }
+        }
+        Keys.onDownPressed: {
+            if(!atYEnd) {
+                flick(0, -Math.sqrt(rowHeight)*173.2)
+            }
+        }
+        Keys.onLeftPressed: {
+            if(atXBeginning) {
+                event.accepted = false;
+            }
+            else {
+                flick(Math.sqrt(width)*30, 0)
+            }
+        }
+        Keys.onRightPressed: {
+            if(atXEnd) {
+                event.accepted = false
+            }
+            else {
+                flick(-Math.sqrt(width)*30, 0)
+            }
         }
 
         Row {
