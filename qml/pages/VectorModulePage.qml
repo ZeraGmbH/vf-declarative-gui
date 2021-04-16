@@ -8,9 +8,8 @@ import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
-import "qrc:/qml/controls" as CCMP
 
-CCMP.ModulePage {
+Item {
     id: root
 
     readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
