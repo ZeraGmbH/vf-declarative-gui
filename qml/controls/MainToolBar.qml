@@ -42,6 +42,8 @@ ToolBar {
     //provide more contrast
     Material.accent: Material.Amber
 
+    property real pointSize: parent.height > 0 ? parent.height * 0.038 : 18
+
     Component {
         id: rotaryFieldCmp
         CCMP.RotaryFieldIndicator {}
@@ -55,7 +57,7 @@ ToolBar {
             id: pageSelectorButton
             implicitHeight: parent.height
             font.family: FA.old
-            font.pointSize: 18
+            font.pointSize: pointSize
             text: FA.fa_columns
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
             enabled: root.entityInitializationDone === true
@@ -92,6 +94,7 @@ ToolBar {
                 id: rangeIndicator
                 width: Math.ceil(root.width/1.8)
                 height: root.height
+                pointSize: root.pointSize * 0.77
                 active: false
                 highlighted: rangeButton.highlighted
             }
@@ -116,7 +119,7 @@ ToolBar {
             id: pauseButton
             implicitHeight: parent.height
             font.family: FA.old
-            font.pointSize: 14
+            font.pointSize: pointSize * 0.77
             text: root.measurementPaused ? FA.fa_play : FA.fa_pause
             enabled: root.entityInitializationDone === true
             highlighted: root.measurementPaused
@@ -130,7 +133,7 @@ ToolBar {
             implicitHeight: parent.height
             implicitWidth: root.width/16
             font.family: FA.old
-            font.pointSize:  18
+            font.pointSize: pointSize
             text: FA.fa_download
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
             enabled: root.entityInitializationDone === true
@@ -212,7 +215,7 @@ ToolBar {
             implicitHeight: parent.height
             implicitWidth: root.width/16
             font.family: FA.old
-            font.pointSize:  18
+            font.pointSize: pointSize
             text: FA.fa_cogs
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
             enabled: root.entityInitializationDone === true
@@ -232,7 +235,7 @@ ToolBar {
             implicitHeight: parent.height
             implicitWidth: root.width/16
             font.family: FA.old
-            font.pointSize:  18
+            font.pointSize: pointSize
             text: FA.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
@@ -267,7 +270,7 @@ ToolBar {
     ToolButton {
       implicitHeight: parent.height
       font.family: FA.old
-      font.pointSize: 14
+      font.pointSize: pointSize * 0.77
       text: FA.icon(FA.fa_server) + Z.tr("Remotes")
       highlighted: root.currentLayoutIndex===layoutStackEnum.layout<...>Index
       visible: OS_TYPE==="android" || debugBypass

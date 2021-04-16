@@ -12,6 +12,7 @@ Loader {
     id: invisibleRoot
     active: false
     property bool highlighted: false
+    property real pointSize: 18
     sourceComponent: Component {
         Item {
             id: root
@@ -77,7 +78,7 @@ Loader {
                 Label {
                     anchors.centerIn: parent
                     font.family: FA.old
-                    font.pixelSize: 18
+                    font.pointSize: pointSize
                     text: FA.fa_exclamation_triangle
 
                     property bool overload: rangeModule.PAR_Overload === 1
