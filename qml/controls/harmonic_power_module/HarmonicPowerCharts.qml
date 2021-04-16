@@ -14,6 +14,7 @@ Item {
     readonly property QtObject power3Module: VeinEntity.getEntity("Power3Module1");
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
 
+    Keys.forwardTo: [fftFlickable]
     ScrollBar {
         id: vBar
         anchors.right: parent.right
@@ -47,6 +48,23 @@ Item {
         clip: true
 
         ScrollBar.horizontal: hBar
+
+        Keys.onLeftPressed: {
+            if(atXBeginning) {
+                event.accepted = false;
+            }
+            else {
+                flick(Math.sqrt(width)*55, 0)
+            }
+        }
+        Keys.onRightPressed: {
+            if(atXEnd) {
+                event.accepted = false
+            }
+            else {
+                flick(-Math.sqrt(width)*55, 0)
+            }
+        }
 
         ListView { // vert. scroll (ListView can scroll only one orientation)
             id: listView
