@@ -58,7 +58,7 @@ Item {
         id: pageTable
         Pages.FftTable {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_TABLE
                 }
             }
@@ -68,7 +68,7 @@ Item {
         id: pageChart
         Pages.FftCharts {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_CHART
                 }
             }
@@ -78,7 +78,7 @@ Item {
         id: pageOsc
         Osc.OsciModulePage {
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_CURVE_DISPLAY
                 }
             }

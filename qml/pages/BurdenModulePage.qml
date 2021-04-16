@@ -65,12 +65,12 @@ Item {
             readonly property int rowHeight: Math.floor(height/rowCount)
             readonly property int columnWidth: width/4.2 //0.7 + 3 + 0.5
             onIsVoltagePageChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = isVoltagePage ? GC.guiContextEnum.GUI_VOLTAGE_BURDEN : GC.guiContextEnum.GUI_CURRENT_BURDEN
                 }
             }
             SwipeView.onIsCurrentItemChanged: {
-                if(initialized && SwipeView.isCurrentItem) {
+                if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = isVoltagePage ? GC.guiContextEnum.GUI_VOLTAGE_BURDEN : GC.guiContextEnum.GUI_CURRENT_BURDEN
                 }
             }
