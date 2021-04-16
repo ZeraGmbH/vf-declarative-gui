@@ -13,43 +13,10 @@ import ZeraVeinComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/settings" as SettingsControls
 
-Item {
+BaseTabPage {
     id: root
     readonly property bool hasVoltageBurden: ModuleIntrospection.hasDependentEntities(["Burden1Module2"])
     readonly property bool hasCurrentBurden: ModuleIntrospection.hasDependentEntities(["Burden1Module1"])
-
-    onInitializedChanged: forceActiveFocus()
-    Keys.onRightPressed: {
-        if(swipeView.currentIndex < swipeView.count-1) {
-            swipeView.setCurrentIndex(swipeView.currentIndex+1)
-        }
-    }
-    Keys.onLeftPressed: {
-        if(swipeView.currentIndex > 0) {
-            swipeView.setCurrentIndex(swipeView.currentIndex-1)
-        }
-    }
-
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors.fill: parent
-        anchors.topMargin: tabsBar.height
-        currentIndex: tabsBar.currentIndex
-        spacing: 20
-    }
-
-    TabBar {
-        id: tabsBar
-        width: parent.width
-        currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: {
-            if(initialized) {
-                GC.setLastTabSelected(currentIndex)
-            }
-        }
-        contentHeight: 32
-    }
 
     // TabButtons
     Component {
@@ -250,34 +217,15 @@ Item {
     }
 
     // create tabs/pages dynamic
-    property bool initialized: false
-    Timer {
-        id: initTimer
-        interval: 250
-        onTriggered: {
-            initialized = true
-        }
-    }
-
     Component.onCompleted: {
         if(hasVoltageBurden) {
-            tabsBar.addItem(tabVoltage.createObject(tabsBar))
+            tabBar.addItem(tabVoltage.createObject(tabBar))
             swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : true}))
         }
         if(hasCurrentBurden) {
-            tabsBar.addItem(tabCurrent.createObject(tabsBar))
+            tabBar.addItem(tabCurrent.createObject(tabBar))
             swipeView.addItem(pageComponent.createObject(swipeView, {"isVoltagePage" : false}))
         }
-        let lastTabSelected = GC.lastTabSelected
-        if(lastTabSelected >= swipeView.count) {
-            lastTabSelected = 0
-        }
-        if(lastTabSelected) {
-            swipeView.setCurrentIndex(lastTabSelected)
-            initTimer.start()
-        }
-        else {
-            initialized = true
-        }
+        finishInit()
     }
 }
