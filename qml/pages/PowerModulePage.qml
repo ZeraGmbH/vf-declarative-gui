@@ -9,7 +9,7 @@ import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
 import "qrc:/qml/controls" as CCMP
 
-CCMP.ModulePage {
+Item {
     id: root
 
     readonly property int row1stHeight: Math.floor(height/8)
