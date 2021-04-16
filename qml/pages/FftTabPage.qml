@@ -4,6 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.14
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import AppStarterForWebGLSingleton 1.0
 import "qrc:/qml/controls/fft_module" as Pages
 import "qrc:/qml/pages" as Osc
 
@@ -96,16 +97,25 @@ Item {
     }
 
     Component.onCompleted: {
-        if(hasFft)
-        {
+        if(hasFft) {
             harmonicsTabsBar.addItem(tabChart.createObject(harmonicsTabsBar))
             swipeView.addItem(pageTable.createObject(swipeView))
 
             harmonicsTabsBar.addItem(tabEnergy.createObject(harmonicsTabsBar))
             swipeView.addItem(pageChart.createObject(swipeView))
         }
-        if(hasOsci)
-        {
+        /* OsciModulePage works properly only sometimes. It causes two possible
+           error situation on remote WebGL
+           1. The curve is drawn once but then the whole GUI freezes and the user
+              has to reconnect. After that 2. is the result
+           2. The curve is not drawn
+           We tried hard not to disable OsciModulePage:
+           * Disable useOpenGL for WebGL: This results in complete reddraw of
+             screen once new values are to be drawn
+           * OpneGL/OpenGLES: No change
+           * Different versions of Qt: No change
+          */
+        if(hasOsci && !ASWGL.isServer) {
             harmonicsTabsBar.addItem(tabOsc.createObject(harmonicsTabsBar))
             swipeView.addItem(pageOsc.createObject(swipeView))
         }
