@@ -6,7 +6,6 @@ import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
 import "qrc:/qml/controls/fft_module" as Pages
-import "qrc:/qml/pages" as Osc
 
 Item {
     id: root
@@ -77,7 +76,7 @@ Item {
     }
     Component {
         id: pageOsc
-        Osc.OsciModulePage {
+        OsciModulePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_CURVE_DISPLAY
