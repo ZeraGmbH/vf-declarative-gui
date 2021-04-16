@@ -6,42 +6,11 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraFa 1.0
+import "qrc:/qml/pages" as PAGES
 
-Item {
+PAGES.BaseTabPage {
     id: root
     readonly property bool hasStatus: VeinEntity.hasEntity("StatusModule1")
-
-    onInitializedChanged: forceActiveFocus()
-    Keys.onRightPressed: {
-        if(swipeView.currentIndex < swipeView.count-1) {
-            swipeView.setCurrentIndex(swipeView.currentIndex+1)
-        }
-    }
-    Keys.onLeftPressed: {
-        if(swipeView.currentIndex > 0) {
-            swipeView.setCurrentIndex(swipeView.currentIndex-1)
-        }
-    }
-
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors.fill: parent
-        anchors.topMargin: informationTabBar.height + 8
-        currentIndex: informationTabBar.currentIndex
-        spacing: 20
-    }
-    TabBar {
-        id: informationTabBar
-        width: parent.width
-        contentHeight: 32
-        currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: {
-            if(initialized) {
-                GC.setLastInfoTabSelected(currentIndex)
-            }
-        }
-    }
 
     // TabButtons
     Component {
@@ -87,33 +56,16 @@ Item {
 
 
     // create tabs/pages dynamic
-    property bool initialized: false
-    Timer {
-        id: initTimer
-        interval: 250
-        onTriggered: {
-            initialized = true
-        }
-    }
-
     Component.onCompleted: {
         if(hasStatus) {
-            informationTabBar.addItem(tabStatus.createObject(informationTabBar))
+            tabBar.addItem(tabStatus.createObject(tabBar))
             swipeView.addItem(pageStatus.createObject(swipeView))
         }
-        informationTabBar.addItem(tabLicense.createObject(informationTabBar))
+        tabBar.addItem(tabLicense.createObject(tabBar))
         swipeView.addItem(pageLicense.createObject(swipeView))
 
-        let lastTabSelected = GC.lastInfoTabSelected
-        if(lastTabSelected >= swipeView.count) {
-            lastTabSelected = 0
-        }
-        if(lastTabSelected) {
-            swipeView.setCurrentIndex(lastTabSelected)
-            initTimer.start()
-        }
-        else {
-            initialized = true
-        }
+        swipeView.anchors.topMargin = Qt.binding(() => tabBar.height + 8)
+
+        finishInit()
     }
 }
