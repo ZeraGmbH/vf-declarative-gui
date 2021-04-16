@@ -15,6 +15,18 @@ Item {
     readonly property bool hasSEM1: ModuleIntrospection.hasDependentEntities(["SEM1Module1"])
     readonly property bool hasSPM1: ModuleIntrospection.hasDependentEntities(["SPM1Module1"])
 
+    onInitializedChanged: forceActiveFocus()
+    Keys.onRightPressed: {
+        if(swipeView.currentIndex < swipeView.count-1) {
+            swipeView.setCurrentIndex(swipeView.currentIndex+1)
+        }
+    }
+    Keys.onLeftPressed: {
+        if(swipeView.currentIndex > 0) {
+            swipeView.setCurrentIndex(swipeView.currentIndex-1)
+        }
+    }
+
     SwipeView {
         id: swipeView
         visible: initialized

@@ -12,6 +12,18 @@ Item {
     readonly property bool hasFft: ModuleIntrospection.hasDependentEntities(["FFTModule1"])
     readonly property bool hasOsci: ModuleIntrospection.hasDependentEntities(["OSCIModule1"])
 
+    onInitializedChanged: forceActiveFocus()
+    Keys.onRightPressed: {
+        if(swipeView.currentIndex < swipeView.count-1) {
+            swipeView.setCurrentIndex(swipeView.currentIndex+1)
+        }
+    }
+    Keys.onLeftPressed: {
+        if(swipeView.currentIndex > 0) {
+            swipeView.setCurrentIndex(swipeView.currentIndex-1)
+        }
+    }
+
     SwipeView {
         id: swipeView
         visible: initialized

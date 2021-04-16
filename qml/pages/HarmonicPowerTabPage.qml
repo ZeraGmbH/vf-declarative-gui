@@ -7,6 +7,17 @@ import "qrc:/qml/controls/harmonic_power_module" as Pages
 Item {
     id: root
 
+    onInitializedChanged: forceActiveFocus()
+    Keys.onRightPressed: {
+        if(swipeView.currentIndex < swipeView.count-1) {
+            swipeView.setCurrentIndex(swipeView.currentIndex+1)
+        }
+    }
+    Keys.onLeftPressed: {
+        if(swipeView.currentIndex > 0) {
+            swipeView.setCurrentIndex(swipeView.currentIndex-1)
+        }
+    }
     SwipeView {
         id: swipeView
         visible: initialized

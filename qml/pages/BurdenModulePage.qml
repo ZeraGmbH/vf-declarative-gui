@@ -18,6 +18,18 @@ Item {
     readonly property bool hasVoltageBurden: ModuleIntrospection.hasDependentEntities(["Burden1Module2"])
     readonly property bool hasCurrentBurden: ModuleIntrospection.hasDependentEntities(["Burden1Module1"])
 
+    onInitializedChanged: forceActiveFocus()
+    Keys.onRightPressed: {
+        if(swipeView.currentIndex < swipeView.count-1) {
+            swipeView.setCurrentIndex(swipeView.currentIndex+1)
+        }
+    }
+    Keys.onLeftPressed: {
+        if(swipeView.currentIndex > 0) {
+            swipeView.setCurrentIndex(swipeView.currentIndex-1)
+        }
+    }
+
     SwipeView {
         id: swipeView
         visible: initialized
