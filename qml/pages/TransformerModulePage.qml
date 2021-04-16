@@ -13,7 +13,7 @@ import ZeraVeinComponents 1.0
 import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/settings" as SettingsControls
 
-CCMP.ModulePage {
+Item {
     id: root
 
     readonly property QtObject transformerModule: VeinEntity.getEntity("Transformer1Module1")
