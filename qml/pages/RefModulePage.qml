@@ -7,7 +7,7 @@ import FunctionTools 1.0
 import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
 
-CCMP.ModulePage {
+Item {
     id: root
 
     readonly property int rowHeight: Math.floor(height/8)
