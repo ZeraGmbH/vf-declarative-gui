@@ -76,15 +76,16 @@ Item {
             }
             ZLineEdit {
                 id: sessionNameField
-                height: rowHeight
+                height: rowHeight * 0.77
                 Layout.fillWidth: true
                 function hasValidInput() {
                     return textField.text !== "" && !loggerEntity.ExistingSessions.includes(textField.text)
                 }
             }
             Button {
-                height: rowHeight
                 text: "..."
+                font.pointSize: pointSize * 0.77
+                Layout.preferredWidth: rowHeight
                 onClicked: {
                     loggerSessionNameWithMacrosPopup.open()
                 }
@@ -100,6 +101,8 @@ Item {
             }
             Button {
                 text: "+"
+                font.pointSize: pointSize * 0.77
+                Layout.preferredWidth: rowHeight
                 onClicked: {
                     customerDataNewPopup.open()
                 }
@@ -107,8 +110,8 @@ Item {
             Button {
                 text: FA.fa_cogs
                 font.family: FA.old
-                font.pointSize: pointSize
-                height: rowHeight
+                font.pointSize: pointSize //* 0.8
+                Layout.preferredWidth: rowHeight
                 onClicked: {
                     menuStackLayout.showCustomerDataBrowser()
                 }
@@ -126,29 +129,25 @@ Item {
                 return arrayCustomers
             }
             clip: true
-            ScrollIndicator.vertical: ScrollIndicator {
+            ScrollBar.vertical: ScrollBar {
                 width: 8
-                active: true
-                onActiveChanged: {
-                    if(active !== true) {
-                        active = true;
-                    }
-                }
+                policy: customerDataList.contentHeight > customerDataList.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
             delegate: ItemDelegate {
                 width: parent.width -  (customerDataList.contentHeight > customerDataList.height ? 8 : 0) // don't overlap with the ScrollIndicator
+                height: rowHeight
                 highlighted: ListView.isCurrentItem
                 onClicked: {
                     if(customerData.FileSelected !== modelData) {
                         customerData.FileSelected = modelData
                     }
                 }
-                RowLayout {
-                    height: rowHeight
+                Row {
+                    anchors.fill: parent
                     Label {
                         id: activeIndicator
-                        width: 24
-                        Layout.fillHeight: true
+                        width: rowHeight / 2
+                        height: rowHeight
                         verticalAlignment: Text.AlignVCenter
                         font.family: FA.old
                         font.pointSize: pointSize
@@ -156,11 +155,9 @@ Item {
                         opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
                     }
                     Label {
-                        x: 24
-                        Layout.fillHeight: true
+                        height: rowHeight
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: pointSize
-                        width: parent.width - 2*GC.standardTextHorizMargin
                         text: modelData !== "" ? modelData : Z.tr("-- no customer --")
                     }
                 }
