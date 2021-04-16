@@ -332,6 +332,7 @@ SettingsView {
 
                 ZSpinBox {
                     id: actDecimalPlacesTotal
+                    height: 47
                     Component.onCompleted: text = GC.digitsTotal
                     validator: IntValidator {
                         bottom: 1
@@ -362,6 +363,7 @@ SettingsView {
 
                 ZSpinBox {
                     id: actDecimalPlaces
+                    height: 47
                     Component.onCompleted: text = GC.decimalPlaces
                     validator: IntValidator {
                         bottom: 1
