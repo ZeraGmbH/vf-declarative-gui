@@ -22,17 +22,13 @@ Item {
         }
     }
 
+    // pass focus to swipeView
+    onFocusChanged: {
+        if(focus) {
+            swipeView.forceActiveFocus()
+        }
+    }
     onInitializedChanged: forceActiveFocus()
-    Keys.onRightPressed: {
-        if(swipeView.currentIndex < swipeView.count-1) {
-            swipeView.setCurrentIndex(swipeView.currentIndex+1)
-        }
-    }
-    Keys.onLeftPressed: {
-        if(swipeView.currentIndex > 0) {
-            swipeView.setCurrentIndex(swipeView.currentIndex-1)
-        }
-    }
 
     SwipeView {
         id: swipeView
@@ -51,6 +47,7 @@ Item {
         onCurrentIndexChanged: {
             if(initialized) {
                 GC.setLastTabSelected(currentIndex)
+                swipeView.forceActiveFocus()
             }
         }
     }
