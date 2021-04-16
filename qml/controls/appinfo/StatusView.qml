@@ -9,62 +9,99 @@ import ZeraFa 1.0
 
 Item {
     id: root
+    readonly property bool hasStatus: VeinEntity.hasEntity("StatusModule1")
 
+    SwipeView {
+        id: swipeView
+        visible: initialized
+        anchors.fill: parent
+        anchors.topMargin: informationTabBar.height + 8
+        currentIndex: informationTabBar.currentIndex
+        spacing: 20
+    }
     TabBar {
-        id: informationSelector
+        id: informationTabBar
         width: parent.width
         contentHeight: 32
         currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: GC.setLastInfoTabSelected(currentIndex)
+        onCurrentIndexChanged: {
+            if(initialized) {
+                GC.setLastInfoTabSelected(currentIndex)
+            }
+        }
+    }
+
+    // TabButtons
+    Component {
+        id: tabStatus
         TabButton {
-            id: deviceStatusButton
-            text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
+            id: statusTabButton
             font.family: FA.old
-            height: parent.height
-            font.pixelSize: height/2
-            enabled: VeinEntity.hasEntity("StatusModule1")
+            text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
             Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
             Timer {
                 interval: 300
                 repeat: true
-                running: !GC.adjustmentStatusOk && !deviceStatusButton.checked
+                running: !GC.adjustmentStatusOk && !statusTabButton.checked
                 onRunningChanged: {
                     if(!running) {
-                        deviceStatusButton.opacity = 1
+                        statusTabButton.opacity = 1
                     }
                 }
                 property bool show: true
                 onTriggered: {
                     show = !show
-                    deviceStatusButton.opacity = show ? 1 : 0
+                    statusTabButton.opacity = show ? 1 : 0
                 }
             }
         }
+    }
+    Component {
+        id: tabLicense
         TabButton {
-            text: FA.icon("<b>§</b>")+Z.tr("License information")
-            font.family: FA.old
-            height: parent.height
-            font.pixelSize: height/2
+            text: "§"+Z.tr("License information")
         }
     }
 
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        anchors.topMargin: informationSelector.height + GC.standardTextBottomMargin
-        currentIndex: informationSelector.currentIndex
+    // Pages
+    Component {
+        id: pageStatus
+        DeviceInformation { }
+    }
+    Component {
+        id: pageLicense
+        LicenseInformation { }
+    }
 
-        Loader {
-            active: swipeView.currentIndex === 0 && VeinEntity.hasEntity("StatusModule1")
-            sourceComponent: DeviceInformation { }
-        }
-        Loader {
-            active: swipeView.currentIndex === 1
-            sourceComponent: LicenseInformation { }
+
+    // create tabs/pages dynamic
+    property bool initialized: false
+    Timer {
+        id: initTimer
+        interval: 250
+        onTriggered: {
+            initialized = true
         }
     }
+
     Component.onCompleted: {
-        swipeView.currentIndex = GC.lastInfoTabSelected
-        swipeView.currentIndex = Qt.binding(() => informationSelector.currentIndex);
+        if(hasStatus) {
+            informationTabBar.addItem(tabStatus.createObject(informationTabBar))
+            swipeView.addItem(pageStatus.createObject(swipeView))
+        }
+        informationTabBar.addItem(tabLicense.createObject(informationTabBar))
+        swipeView.addItem(pageLicense.createObject(swipeView))
+
+        let lastTabSelected = GC.lastInfoTabSelected
+        if(lastTabSelected >= swipeView.count) {
+            lastTabSelected = 0
+        }
+        if(lastTabSelected) {
+            swipeView.setCurrentIndex(lastTabSelected)
+            initTimer.start()
+        }
+        else {
+            initialized = true
+        }
     }
 }
