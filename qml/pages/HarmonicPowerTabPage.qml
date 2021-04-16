@@ -4,40 +4,8 @@ import QtQuick.Controls 2.4
 import ZeraTranslation  1.0
 import "qrc:/qml/controls/harmonic_power_module" as Pages
 
-Item {
+BaseTabPage {
     id: root
-
-    onInitializedChanged: forceActiveFocus()
-    Keys.onRightPressed: {
-        if(swipeView.currentIndex < swipeView.count-1) {
-            swipeView.setCurrentIndex(swipeView.currentIndex+1)
-        }
-    }
-    Keys.onLeftPressed: {
-        if(swipeView.currentIndex > 0) {
-            swipeView.setCurrentIndex(swipeView.currentIndex-1)
-        }
-    }
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors.fill: parent
-        anchors.topMargin: harmonicsTabsBar.height
-        currentIndex: harmonicsTabsBar.currentIndex
-        spacing: 20
-    }
-
-    TabBar {
-        id: harmonicsTabsBar
-        width: parent.width
-        contentHeight: 32
-        currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: {
-            if(initialized) {
-                GC.setLastTabSelected(currentIndex)
-            }
-        }
-    }
 
     // TabButtons
     Component {
@@ -76,32 +44,13 @@ Item {
     }
 
     // create tabs/pages dynamic
-    property bool initialized: false
-    Timer {
-        id: initTimer
-        interval: 250
-        onTriggered: {
-            initialized = true
-        }
-    }
-
     Component.onCompleted: {
-        harmonicsTabsBar.addItem(tabChart.createObject(harmonicsTabsBar))
+        tabBar.addItem(tabChart.createObject(tabBar))
         swipeView.addItem(pageTable.createObject(swipeView))
 
-        harmonicsTabsBar.addItem(tabEnergy.createObject(harmonicsTabsBar))
+        tabBar.addItem(tabEnergy.createObject(tabBar))
         swipeView.addItem(pageChart.createObject(swipeView))
 
-        let lastTabSelected = GC.lastTabSelected
-        if(lastTabSelected >= swipeView.count) {
-            lastTabSelected = 0
-        }
-        if(lastTabSelected) {
-            swipeView.setCurrentIndex(lastTabSelected)
-            initTimer.start()
-        }
-        else {
-            initialized = true
-        }
+        finishInit()
     }
 }
