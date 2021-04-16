@@ -8,45 +8,12 @@ import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 
-Item {
+BaseTabPage {
     id: root
     readonly property bool hasSEC1: ModuleIntrospection.hasDependentEntities(["SEC1Module1"])
     readonly property bool hasSEC1_2: ModuleIntrospection.hasDependentEntities(["SEC1Module2"])
     readonly property bool hasSEM1: ModuleIntrospection.hasDependentEntities(["SEM1Module1"])
     readonly property bool hasSPM1: ModuleIntrospection.hasDependentEntities(["SPM1Module1"])
-
-    onInitializedChanged: forceActiveFocus()
-    Keys.onRightPressed: {
-        if(swipeView.currentIndex < swipeView.count-1) {
-            swipeView.setCurrentIndex(swipeView.currentIndex+1)
-        }
-    }
-    Keys.onLeftPressed: {
-        if(swipeView.currentIndex > 0) {
-            swipeView.setCurrentIndex(swipeView.currentIndex-1)
-        }
-    }
-
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors.fill: parent
-        anchors.topMargin: comparisonTabsBar.height
-        currentIndex: comparisonTabsBar.currentIndex
-        spacing: 20
-    }
-
-    TabBar {
-        id: comparisonTabsBar
-        width: parent.width
-        currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: {
-            if(initialized) {
-                GC.setLastTabSelected(currentIndex)
-            }
-        }
-        contentHeight: 32
-    }
 
     // TabButtons
     Component {
@@ -129,42 +96,23 @@ Item {
     }
 
     // create tabs/pages dynamic
-    property bool initialized: false
-    Timer {
-        id: initTimer
-        interval: 250
-        onTriggered: {
-            initialized = true
-        }
-    }
-
     Component.onCompleted: {
         if(hasSEC1) {
-            comparisonTabsBar.addItem(tabPulse.createObject(comparisonTabsBar))
+            tabBar.addItem(tabPulse.createObject(tabBar))
             swipeView.addItem(pagePulse.createObject(swipeView))
         }
         if(hasSEC1_2) {
-            comparisonTabsBar.addItem(tabPulseEnergy.createObject(comparisonTabsBar))
+            tabBar.addItem(tabPulseEnergy.createObject(tabBar))
             swipeView.addItem(pagePulseEnergy.createObject(swipeView))
         }
         if(hasSEM1) {
-            comparisonTabsBar.addItem(tabEnergy.createObject(comparisonTabsBar))
+            tabBar.addItem(tabEnergy.createObject(tabBar))
             swipeView.addItem(pageEnergy.createObject(swipeView))
         }
         if(hasSPM1) {
-            comparisonTabsBar.addItem(tabPower.createObject(comparisonTabsBar))
+            tabBar.addItem(tabPower.createObject(tabBar))
             swipeView.addItem(pagePower.createObject(swipeView))
         }
-        let lastTabSelected = GC.lastTabSelected
-        if(lastTabSelected >= swipeView.count) {
-            lastTabSelected = 0
-        }
-        if(lastTabSelected) {
-            swipeView.setCurrentIndex(lastTabSelected)
-            initTimer.start()
-        }
-        else {
-            initialized = true
-        }
+        finishInit()
     }
 }
