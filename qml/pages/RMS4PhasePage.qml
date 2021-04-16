@@ -10,7 +10,7 @@ import ModuleIntrospection 1.0
 import ZeraTranslation  1.0
 import "qrc:/qml/controls" as CCMP
 
-CCMP.ModulePage {
+Item {
   id: root
 
   readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount : Math.min(ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount, 6)
