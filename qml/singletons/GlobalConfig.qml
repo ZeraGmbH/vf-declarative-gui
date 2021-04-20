@@ -40,9 +40,25 @@ Item {
     }
 
 
+    property int loggingDuration: {
+        return parseInt(settings.globalSettings.getOption("loggingDuration", "0"))
+    }
 
-    property real loggingDuration : 0;
-    property bool scheduledLogging : false;
+    function setLoggingDuration(p_loggingDuration) {
+            loggingDuration = p_loggingDuration
+            settings.globalSettings.setOption("loggingDuration", p_loggingDuration)
+    }
+    property bool scheduledLogging: {
+        return parseInt(settings.globalSettings.getOption("scheduledLogging", "0"))
+    }
+
+    function setScheduledLogging(p_scheduledLogging) {
+            scheduledLogging = p_scheduledLogging
+            var setValue = p_scheduledLogging ? 1 : 0
+            settings.globalSettings.setOption("scheduledLogging", setValue)
+    }
+
+
 
     property string sessionNamePrefix: ""
 

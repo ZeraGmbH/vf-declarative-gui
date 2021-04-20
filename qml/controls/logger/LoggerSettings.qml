@@ -515,7 +515,7 @@ SettingsControls.SettingsView {
 
                     // overrides
                     function doApplyInput(newText) {
-                        FT.loggingDuration = FT.timeToMs(newText)
+                        GC.setLoggingDuration(FT.timeToMs(newText))
                         // wait to be applied
                         return true
                     }
@@ -532,13 +532,14 @@ SettingsControls.SettingsView {
                     pointSize: root.pointSize
                     width: 280
                     enabled: scheduledLogging.checked && loggerEntity.LoggingEnabled === false
+
                 }
                 CheckBox {
                     id: scheduledLogging
                     height: parent.height
                     enabled: loggerEntity.LoggingEnabled === false
                     onCheckStateChanged: {
-                        GC.scheduledLogging=checked
+                        GC.setScheduledLogging(checked)
                     }
                     checked: GC.scheduledLogging
                 }
