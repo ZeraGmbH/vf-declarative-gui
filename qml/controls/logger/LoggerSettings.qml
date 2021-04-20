@@ -526,7 +526,7 @@ SettingsControls.SettingsView {
                         var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
                         return regex.test(textField.text)
                     }
-                    text: GC.msToTime(GC.loggingDuration)
+                    text: FT.msToTime(GC.loggingDuration)
                     inputMethodHints: Qt.ImhPreferNumbers
                     height: root.rowHeight
                     pointSize: root.pointSize
