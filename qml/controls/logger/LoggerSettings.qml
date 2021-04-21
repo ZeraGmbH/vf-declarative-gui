@@ -78,9 +78,9 @@ SettingsControls.SettingsView {
         if(dbLocationSelector.currentPath != "") { // startup: location selector might still be loading
             if(!searchRpcId) {
                 searchRpcId = filesEntity.invokeRPC("RPC_FindFileSpecial(QString p_baseDir,QStringList p_nameFilterList,bool p_returnMatchingDirsOnly)", {
-                                                    "p_baseDir": dbLocationSelector.currentPath,
-                                                    "p_nameFilterList": [ "*.db" ],
-                                                    "p_returnMatchingDirsOnly": false})
+                                                        "p_baseDir": dbLocationSelector.currentPath,
+                                                        "p_nameFilterList": [ "*.db" ],
+                                                        "p_returnMatchingDirsOnly": false})
             }
             else {
                 console.warn("RPC_FindFileSpecial already running")
@@ -92,8 +92,8 @@ SettingsControls.SettingsView {
     property var fileInfoRpcIds: []
     function startRpcFileInfo(fileName) {
         var fileInfoRpcID = filesEntity.invokeRPC("RPC_GetFileInfo(QString p_fileName,QString p_localeName)", {
-                                                  "p_fileName": fileName,
-                                                  "p_localeName": ZLocale.localeName})
+                                                      "p_fileName": fileName,
+                                                      "p_localeName": ZLocale.localeName})
         // we allow multiple calls at the same time - make things a lot easier
         fileInfoRpcIds.push(fileInfoRpcID)
     }
@@ -108,7 +108,7 @@ SettingsControls.SettingsView {
                 loggerEntity.DatabaseFile = ""
             }
             deleteRpcId = filesEntity.invokeRPC("RPC_DeleteFile(QString p_fullPathFile)", {
-                                                "p_fullPathFile": removeDbName })
+                                                    "p_fullPathFile": removeDbName })
         }
         else {
             console.warn("RPC_DeleteFile already running")

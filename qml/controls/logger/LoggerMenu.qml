@@ -155,19 +155,9 @@ Item {
         if(logEnabled && snapshotTrigger) {
             snapshotTrigger = false;
             // causes warning about property loop so use the timer as workaround
-            //loggerEntity.LoggingEnabled = false;
             propertyLoopAvoidingLoggingEnabledTimer.start();
         }
     }
-    Timer {
-        id: propertyLoopAvoidingLoggingEnabledTimer
-        interval: 0
-        repeat: false
-        onTriggered: {
-            loggerEntity.LoggingEnabled = false
-        }
-    }
-    // Endof TODO
 
 
     ButtonGroup {
@@ -348,7 +338,7 @@ Item {
             text: FA.icon(FA.fa_camera) + Z.tr("Take snapshot")
             enabled: loggerEntity.LoggingEnabled === false &&
                      loggerEntity.DatabaseReady === true &&
-                     !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
+                     !loggerEntity.ScheduledLoggingEnabled
             onTriggered: {
                 snapshotTrigger = true;
                 if(sessionNameLogger !== "") {
@@ -368,7 +358,7 @@ Item {
 
             enabled: loggerEntity.DatabaseReady === true &&
                      (loggerEntity.LoggingEnabled === true ||
-                     !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined ))
+                     !loggerEntity.ScheduledLoggingEnabled)
             onTriggered: {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
