@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
     QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
         if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_LOADED && loadedOnce == false)
         {
-            engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+
             loadedOnce = true;
         }
         else if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
@@ -188,6 +188,7 @@ int main(int argc, char *argv[])
     });
 
     QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, [&]() {
+        engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
         qmlApi->entitySubscribeById(0);
     });
 

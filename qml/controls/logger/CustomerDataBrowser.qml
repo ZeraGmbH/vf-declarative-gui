@@ -235,7 +235,15 @@ Item {
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
                     onClicked: {
-                        customerData.invokeRPC("customerDataRemove(QString fileName)", { "fileName": removeFilePopup.fileName });
+                        if(removeFilePopup.fileName === customerData.FileSelected){
+                            customerData.invokeRPC("RPC_Close(bool p_save)",{
+                                                       "p_save": false
+                                                   });
+                        }
+                        var fullFilePath=filesEntity.CustomerDataLocalPath+removeFilePopup.fileName
+                        filesEntity.invokeRPC("RPC_DeleteFile(QString p_fullPathFile)",{
+                                              "p_fullPathFile" : fullFilePath
+                                              });
                         removeFilePopup.close();
                     }
                 }
@@ -309,7 +317,9 @@ Item {
                             // avoid muliple change
                             if(changesExpected <= 0) {
                                 if(customerData.FileSelected !== modelData) {
-                                    customerData.FileSelected = modelData
+                                    customerData.invokeRPC("RPC_Open(QString p_fileName)",{
+                                                               "p_fileName": modelData
+                                                           });
                                     changesExpected = 1
                                 }
                                 else {

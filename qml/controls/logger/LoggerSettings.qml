@@ -78,9 +78,9 @@ SettingsControls.SettingsView {
         if(dbLocationSelector.currentPath != "") { // startup: location selector might still be loading
             if(!searchRpcId) {
                 searchRpcId = filesEntity.invokeRPC("RPC_FindFileSpecial(QString p_baseDir,QStringList p_nameFilterList,bool p_returnMatchingDirsOnly)", {
-                                                    "p_baseDir": dbLocationSelector.currentPath,
-                                                    "p_nameFilterList": [ "*.db" ],
-                                                    "p_returnMatchingDirsOnly": false})
+                                                        "p_baseDir": dbLocationSelector.currentPath,
+                                                        "p_nameFilterList": [ "*.db" ],
+                                                        "p_returnMatchingDirsOnly": false})
             }
             else {
                 console.warn("RPC_FindFileSpecial already running")
@@ -92,8 +92,8 @@ SettingsControls.SettingsView {
     property var fileInfoRpcIds: []
     function startRpcFileInfo(fileName) {
         var fileInfoRpcID = filesEntity.invokeRPC("RPC_GetFileInfo(QString p_fileName,QString p_localeName)", {
-                                                  "p_fileName": fileName,
-                                                  "p_localeName": ZLocale.localeName})
+                                                      "p_fileName": fileName,
+                                                      "p_localeName": ZLocale.localeName})
         // we allow multiple calls at the same time - make things a lot easier
         fileInfoRpcIds.push(fileInfoRpcID)
     }
@@ -108,7 +108,7 @@ SettingsControls.SettingsView {
                 loggerEntity.DatabaseFile = ""
             }
             deleteRpcId = filesEntity.invokeRPC("RPC_DeleteFile(QString p_fullPathFile)", {
-                                                "p_fullPathFile": removeDbName })
+                                                    "p_fullPathFile": removeDbName })
         }
         else {
             console.warn("RPC_DeleteFile already running")
@@ -508,16 +508,16 @@ SettingsControls.SettingsView {
                     text: Z.tr("Logging Duration [hh:mm:ss]:")
                     font.pointSize: root.pointSize
                     Layout.fillWidth: true
-                    enabled: loggerEntity.ScheduledLoggingEnabled === true
+                    enabled: scheduledLogging.checked
                 }
-                VFLineEdit {
+                ZLineEdit {
                     id: durationField
 
                     // overrides
                     function doApplyInput(newText) {
-                        entity[controlPropertyName] = FT.timeToMs(newText)
+                        GC.setLoggingDuration(FT.timeToMs(newText))
                         // wait to be applied
-                        return false
+                        return true
                     }
                     function transformIncoming(t_incoming) {
                         return FT.msToTime(t_incoming);
@@ -526,21 +526,22 @@ SettingsControls.SettingsView {
                         var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
                         return regex.test(textField.text)
                     }
-
-                    entity: root.loggerEntity
-                    controlPropertyName: "ScheduledLoggingDuration"
+                    text: FT.msToTime(GC.loggingDuration)
                     inputMethodHints: Qt.ImhPreferNumbers
                     height: root.rowHeight
                     pointSize: root.pointSize
                     width: 280
-                    enabled: loggerEntity.ScheduledLoggingEnabled === true && loggerEntity.LoggingEnabled === false
+                    enabled: scheduledLogging.checked && loggerEntity.LoggingEnabled === false
+
                 }
-                VFSwitch {
+                CheckBox {
                     id: scheduledLogging
                     height: parent.height
-                    entity: root.loggerEntity
                     enabled: loggerEntity.LoggingEnabled === false
-                    controlPropertyName: "ScheduledLoggingEnabled"
+                    onCheckStateChanged: {
+                        GC.setScheduledLogging(checked)
+                    }
+                    checked: GC.scheduledLogging
                 }
                 Label {
                     visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true

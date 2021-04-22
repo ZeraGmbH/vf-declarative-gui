@@ -32,6 +32,8 @@ ApplicationWindow {
     // for development: current resolution
     property int screenResolution: GC.screenResolution
 
+    property var availableEntities;
+
     visible: true
     width: getScreenWidth()
     height: getScreenHeight()
@@ -40,31 +42,49 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: "#339966"
 
-    Component.onCompleted: {
-        currentSession = Qt.binding(function() {
-            return VeinEntity.getEntity("_System").Session;
-        })
-    }
+    onAvailableEntitiesChanged: {
+        if(displayWindow.availableEntities !== undefined){
 
-    onCurrentSessionChanged: {
-        var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
+            var tmpSubscribe=displayWindow.availableEntities;
 
-        var oldIdList = VeinEntity.getEntityList();
-        for(var oldIdIterator in oldIdList) {
-            VeinEntity.entityUnsubscribeById(oldIdList[oldIdIterator]);
-        }
+            var currentList=VeinEntity.getEntityList();
 
-        if(availableEntityIds !== undefined) {
-            availableEntityIds.push(0);
-        }
-        else {
-            availableEntityIds = [0];
-        }
+            var tmpId;
 
-        for(var newIdIterator in availableEntityIds) {
-            VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
+            // unsubscribe removed entities
+            for(tmpId in currentList){
+                if(!tmpSubscribe.includes(tmpSubscribe[tmpId])){
+                    VeinEntity.entityUnsubscribeById(tmpSubscribe[tmpId]);
+                }
+            }
+            // subscribe new entities
+            for(tmpId in tmpSubscribe){
+                if(!currentList.includes(tmpSubscribe[tmpId])){
+                    VeinEntity.entitySubscribeById(tmpSubscribe[tmpId]);
+                }
+            }
         }
     }
+
+
+
+    Connections {
+        target: VeinEntity
+        onSigEntityAvailable: {
+            var tmpEntity = VeinEntity.getEntity(t_entityName);
+            var tmpEntityId = tmpEntity.entityId()
+            if(tmpEntityId === 0){
+                if(tmpEntity.Entities !== undefined){
+                    displayWindow.availableEntities=Qt.binding(function(){
+                        return VeinEntity.getEntity("_VEIN")["Entities"];
+                    }
+                    );
+                }
+            }
+        }
+    }
+
+
     function getScreenWidth() {
         var width = Screen.desktopAvailableWidth
         if(BUILD_TYPE === "debug") {
@@ -100,10 +120,6 @@ ApplicationWindow {
         return height
     }
 
-    //  FontLoader {
-    //    //init fontawesome
-    //    source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
-    //  }
 
     Connections {
         target: VeinEntity
@@ -126,18 +142,6 @@ ApplicationWindow {
             }
         }
 
-        onSigEntityAvailable: {
-            var checkRequired = false;
-            var entId = VeinEntity.getEntity(t_entityName).entityId()
-            if(entId === 0) {
-                currentSession = Qt.binding(function() {
-                    return VeinEntity.getEntity("_System").Session;
-                });
-                pageView.sessionComponent = Qt.binding(function() {
-                    return currentSession;
-                });
-            }
-        }
     }
 
     Shortcut {
@@ -293,28 +297,28 @@ ApplicationWindow {
             function initModel() {
                 clear()
                 controlsBar.rotaryFieldDependenciesReady = ModuleIntrospection.hasDependentEntities(["DFTModule1"]) && !ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"])
-                if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
                     append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"])) {
                     append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftTabPage.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["Power3Module1"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","Power3Module1"])) {
                     append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
                     append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {
                     append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["Transformer1Module1"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","Transformer1Module1"])) {
                     append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["POWER2Module1"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","POWER2Module1"])) {
                     append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["REFERENCEModule1", "DFTModule1"])) {
+                if(ModuleIntrospection.hasDependentEntities(["_System","REFERENCEModule1", "DFTModule1"])) {
                     append({name: "Reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"});
                 }
             }

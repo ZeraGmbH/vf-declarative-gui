@@ -28,7 +28,7 @@ Column {
     width: rowWidth
 
     Component.onCompleted: {
-        var allEntities = VeinEntity.getEntity("_System").Entities
+        var allEntities = VeinEntity.getEntity("_VEIN").Entities
         var tmpTimeList = [];
         var tmpPeriodList = [];
         for(var i=0; i<allEntities.length; ++i) {
