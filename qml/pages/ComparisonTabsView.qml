@@ -21,13 +21,42 @@ BaseTabPage {
     readonly property var sem1mod1Entity: hasSEM1 ? VeinEntity.getEntity("SEM1Module1") : null
     readonly property var spm1mod1Entity: hasSPM1 ? VeinEntity.getEntity("SPM1Module1") : null
 
+    function comparisonProgress(entity, show) {
+        let ret = ""
+        if(show) {
+            let progress = parseInt(entity.ACT_Progress)
+            let measCount = entity.PAR_MeasCount
+            if(measCount > 1) {
+                let measNum = entity.ACT_MeasNum + 1
+                if(entity.PAR_Continuous === 1) {
+                    ret = ` ${progress}% (${measNum})`
+                }
+                else {
+                    ret = ` ${progress}% (${measNum}/${measCount})`
+                }
+            }
+            else {
+                ret = ` ${progress}%`
+            }
+        }
+        return ret
+    }
+    function registerProgress(entity, show) {
+        let ret = ""
+        if(show) {
+            let progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
+            ret = ` ${progress}%`
+        }
+        return ret
+    }
+
     // TabButtons
     Component {
         id: tabPulse
         TabButton {
             id: tabButtonPulse
             readonly property bool running: sec1mod1Entity.PAR_StartStop === 1
-            text: Z.tr("Meter test")
+            text: Z.tr("Meter test") + comparisonProgress(sec1mod1Entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonPulse
                 running: tabButtonPulse.running && !tabButtonPulse.checked
@@ -39,7 +68,7 @@ BaseTabPage {
         TabButton {
             id: tabButtonPulseEnergy
             readonly property bool running: sec1mod2Entity.PAR_StartStop === 1
-            text: Z.tr("Energy comparison")
+            text: Z.tr("Energy comparison") + comparisonProgress(sec1mod2Entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonPulseEnergy
                 running: tabButtonPulseEnergy.running && !tabButtonPulseEnergy.checked
@@ -51,7 +80,7 @@ BaseTabPage {
         TabButton {
             id: tabButtonEnergy
             readonly property bool running: sem1mod1Entity.PAR_StartStop === 1
-            text: Z.tr("Energy register")
+            text: Z.tr("Energy register") + registerProgress(sem1mod1Entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonEnergy
                 running: tabButtonEnergy.running && !tabButtonEnergy.checked
@@ -63,7 +92,7 @@ BaseTabPage {
         TabButton {
             id: tabButtonPower
             readonly property bool running: spm1mod1Entity.PAR_StartStop === 1
-            text: Z.tr("Power register")
+            text: Z.tr("Power register") + registerProgress(spm1mod1Entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonPower
                 running: tabButtonPower.running && !tabButtonPower.checked
