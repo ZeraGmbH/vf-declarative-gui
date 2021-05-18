@@ -21,6 +21,8 @@ BaseTabPage {
     readonly property var sem1mod1Entity: hasSEM1 ? VeinEntity.getEntity("SEM1Module1") : null
     readonly property var spm1mod1Entity: hasSPM1 ? VeinEntity.getEntity("SPM1Module1") : null
 
+    readonly property int aborted: 8
+
     function comparisonProgress(entity, show) {
         let ret = ""
         if(show) {
@@ -58,6 +60,8 @@ BaseTabPage {
             readonly property var entity: sec1mod1Entity
             readonly property bool running: entity.PAR_StartStop === 1
             text: Z.tr("Meter test") + comparisonProgress(entity, running && !checked)
+            readonly property var jsonResults: JSON.parse(entity.ACT_MulResult)
+            Material.foreground: jsonResults.countPass === jsonResults.values.length ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPulse
                 running: tabButtonPulse.running && !tabButtonPulse.checked
@@ -71,6 +75,8 @@ BaseTabPage {
             readonly property var entity: sec1mod2Entity
             readonly property bool running: entity.PAR_StartStop === 1
             text: Z.tr("Energy comparison") + comparisonProgress(entity, running && !checked)
+            readonly property var jsonResults: JSON.parse(entity.ACT_MulResult)
+            Material.foreground: jsonResults.countPass === jsonResults.values.length ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPulseEnergy
                 running: tabButtonPulseEnergy.running && !tabButtonPulseEnergy.checked
@@ -83,7 +89,9 @@ BaseTabPage {
             id: tabButtonEnergy
             readonly property var entity: sem1mod1Entity
             readonly property bool running: entity.PAR_StartStop === 1
+            readonly property bool aborted: entity.ACT_Status & root.aborted
             text: Z.tr("Energy register") + registerProgress(entity, running && !checked)
+            Material.foreground: entity.ACT_Rating === 1 || running || aborted ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonEnergy
                 running: tabButtonEnergy.running && !tabButtonEnergy.checked
@@ -96,7 +104,9 @@ BaseTabPage {
             id: tabButtonPower
             readonly property var entity: spm1mod1Entity
             readonly property bool running: entity.PAR_StartStop === 1
+            readonly property bool aborted: entity.ACT_Status & root.aborted
             text: Z.tr("Power register") + registerProgress(entity, running && !checked)
+            Material.foreground: entity.ACT_Rating === 1 || running || aborted ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPower
                 running: tabButtonPower.running && !tabButtonPower.checked
