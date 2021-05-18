@@ -55,8 +55,9 @@ BaseTabPage {
         id: tabPulse
         TabButton {
             id: tabButtonPulse
-            readonly property bool running: sec1mod1Entity.PAR_StartStop === 1
-            text: Z.tr("Meter test") + comparisonProgress(sec1mod1Entity, running && !checked)
+            readonly property var entity: sec1mod1Entity
+            readonly property bool running: entity.PAR_StartStop === 1
+            text: Z.tr("Meter test") + comparisonProgress(entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonPulse
                 running: tabButtonPulse.running && !tabButtonPulse.checked
@@ -67,8 +68,9 @@ BaseTabPage {
         id: tabPulseEnergy
         TabButton {
             id: tabButtonPulseEnergy
-            readonly property bool running: sec1mod2Entity.PAR_StartStop === 1
-            text: Z.tr("Energy comparison") + comparisonProgress(sec1mod2Entity, running && !checked)
+            readonly property var entity: sec1mod2Entity
+            readonly property bool running: entity.PAR_StartStop === 1
+            text: Z.tr("Energy comparison") + comparisonProgress(entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonPulseEnergy
                 running: tabButtonPulseEnergy.running && !tabButtonPulseEnergy.checked
@@ -79,8 +81,9 @@ BaseTabPage {
         id: tabEnergy
         TabButton {
             id: tabButtonEnergy
-            readonly property bool running: sem1mod1Entity.PAR_StartStop === 1
-            text: Z.tr("Energy register") + registerProgress(sem1mod1Entity, running && !checked)
+            readonly property var entity: sem1mod1Entity
+            readonly property bool running: entity.PAR_StartStop === 1
+            text: Z.tr("Energy register") + registerProgress(entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonEnergy
                 running: tabButtonEnergy.running && !tabButtonEnergy.checked
@@ -91,8 +94,9 @@ BaseTabPage {
         id: tabPower
         TabButton {
             id: tabButtonPower
-            readonly property bool running: spm1mod1Entity.PAR_StartStop === 1
-            text: Z.tr("Power register") + registerProgress(spm1mod1Entity, running && !checked)
+            readonly property var entity: spm1mod1Entity
+            readonly property bool running: entity.PAR_StartStop === 1
+            text: Z.tr("Power register") + registerProgress(entity, running && !checked)
             ActivityAnimation {
                 targetItem: tabButtonPower
                 running: tabButtonPower.running && !tabButtonPower.checked
