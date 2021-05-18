@@ -7,6 +7,7 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
+import "../controls"
 
 BaseTabPage {
     id: root
@@ -15,29 +16,58 @@ BaseTabPage {
     readonly property bool hasSEM1: ModuleIntrospection.hasDependentEntities(["SEM1Module1"])
     readonly property bool hasSPM1: ModuleIntrospection.hasDependentEntities(["SPM1Module1"])
 
+    readonly property var sec1mod1Entity: hasSEC1 ? VeinEntity.getEntity("SEC1Module1") : null
+    readonly property var sec1mod2Entity: hasSEC1_2 ? VeinEntity.getEntity("SEC1Module2") : null
+    readonly property var sem1mod1Entity: hasSEM1 ? VeinEntity.getEntity("SEM1Module1") : null
+    readonly property var spm1mod1Entity: hasSPM1 ? VeinEntity.getEntity("SPM1Module1") : null
+
     // TabButtons
     Component {
         id: tabPulse
         TabButton {
+            id: tabButtonPulse
+            readonly property bool running: sec1mod1Entity.PAR_StartStop === 1
             text: Z.tr("Meter test")
+            ActivityAnimation {
+                targetItem: tabButtonPulse
+                running: tabButtonPulse.running && !tabButtonPulse.checked
+            }
         }
     }
     Component {
         id: tabPulseEnergy
         TabButton {
+            id: tabButtonPulseEnergy
+            readonly property bool running: sec1mod2Entity.PAR_StartStop === 1
             text: Z.tr("Energy comparison")
+            ActivityAnimation {
+                targetItem: tabButtonPulseEnergy
+                running: tabButtonPulseEnergy.running && !tabButtonPulseEnergy.checked
+            }
         }
     }
     Component {
         id: tabEnergy
         TabButton {
+            id: tabButtonEnergy
+            readonly property bool running: sem1mod1Entity.PAR_StartStop === 1
             text: Z.tr("Energy register")
+            ActivityAnimation {
+                targetItem: tabButtonEnergy
+                running: tabButtonEnergy.running && !tabButtonEnergy.checked
+            }
         }
     }
     Component {
         id: tabPower
         TabButton {
+            id: tabButtonPower
+            readonly property bool running: spm1mod1Entity.PAR_StartStop === 1
             text: Z.tr("Power register")
+            ActivityAnimation {
+                targetItem: tabButtonPower
+                running: tabButtonPower.running && !tabButtonPower.checked
+            }
         }
     }
 
@@ -45,7 +75,7 @@ BaseTabPage {
     Component {
         id: pagePulse
         ErrorCalculatorModulePage {
-            errCalEntity: VeinEntity.getEntity("SEC1Module1")
+            errCalEntity: sec1mod1Entity
             moduleIntrospection: ModuleIntrospection.sec1m1Introspection
             validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
             SwipeView.onIsCurrentItemChanged: {
@@ -58,7 +88,7 @@ BaseTabPage {
     Component {
         id: pagePulseEnergy
         ErrorCalculatorModulePage {
-            errCalEntity: VeinEntity.getEntity("SEC1Module2")
+            errCalEntity: sec1mod2Entity
             moduleIntrospection: ModuleIntrospection.sec1m2Introspection
             validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
             SwipeView.onIsCurrentItemChanged: {
@@ -71,7 +101,7 @@ BaseTabPage {
     Component {
         id: pageEnergy
         ErrorRegisterModulePage {
-            errCalEntity: VeinEntity.getEntity("SEM1Module1")
+            errCalEntity: sem1mod1Entity
             moduleIntrospection: ModuleIntrospection.sem1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
             SwipeView.onIsCurrentItemChanged: {
@@ -84,7 +114,7 @@ BaseTabPage {
     Component {
         id: pagePower
         ErrorRegisterModulePage {
-            errCalEntity: VeinEntity.getEntity("SPM1Module1")
+            errCalEntity: spm1mod1Entity
             moduleIntrospection: ModuleIntrospection.spm1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Power) + " " + moduleIntrospection.ComponentInfo.ACT_Power.Unit
             SwipeView.onIsCurrentItemChanged: {
