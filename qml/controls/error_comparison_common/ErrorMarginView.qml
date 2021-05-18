@@ -13,6 +13,8 @@ import ZeraLocale 1.0
 import "qrc:/qml/controls" as CCMP
 
 Rectangle {
+    property bool finished: false
+    property int measNum: 0
     property real result;
     onResultChanged: {
         refreshLineData();
@@ -42,7 +44,7 @@ Rectangle {
     }
 
     border.color: Material.dividerColor
-    color: rating !== 0 ? "transparent" : "#11FF0000";
+    color: rating === 1 || (measNum==0 && !finished) ? "transparent" : "#11FF0000";
 
     ChartView {
         z: parent.z-1
@@ -94,6 +96,7 @@ Rectangle {
             color: (minValue<=result && result<=maxValue) ? "lawngreen" : "red";
             width: 3
             useOpenGL: true
+            visible: measNum > 0 || finished
         }
         LineSeries {
             id: upperErrorMarginLine
