@@ -115,6 +115,8 @@ Item {
                 maxValue: errCalEntity.PAR_Uplimit
                 minValue: errCalEntity.PAR_Lolimit
                 rating: errCalEntity.ACT_Rating
+                measNum: errCalEntity.ACT_MeasNum
+                finished: errCalEntity.PAR_StartStop !== 1 && (errCalEntity.ACT_Status & stateEnum.aborted) === 0
             }
         }
         Item {
