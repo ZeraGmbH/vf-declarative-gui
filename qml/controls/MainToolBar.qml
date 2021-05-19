@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls/range_module" as RangeControls
+import "range_module"
 import "logger"
 
 ToolBar {
@@ -89,7 +89,7 @@ ToolBar {
                     }
                 }
             }
-            RangeControls.RangeIndicator {
+            RangeIndicator {
                 id: rangeIndicator
                 width: Math.ceil(root.width/1.8)
                 height: root.height

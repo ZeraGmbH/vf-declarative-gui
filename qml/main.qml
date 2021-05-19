@@ -15,7 +15,7 @@ import ZeraFa 1.0
 import "qrc:/qml/pages" as Pages
 import "controls"
 
-import "qrc:/qml/controls/range_module" as RangeControls
+import "controls/range_module"
 import "controls/logger"
 import "qrc:/qml/controls/appinfo" as AppInfoControls
 import "controls/settings"
@@ -238,7 +238,7 @@ ApplicationWindow {
         Component {
             id: rangePeak
             Item {
-                RangeControls.RangeMenu {
+                RangeMenu {
                     id: rangeMenu
                     anchors.fill: parent
                     anchors.leftMargin: 40
@@ -246,7 +246,7 @@ ApplicationWindow {
                     anchors.bottomMargin: 20
                     anchors.rightMargin: parent.width/2
                 }
-                RangeControls.RangePeak {
+                RangePeak {
                     anchors.fill: parent
                     anchors.rightMargin: 20
                     anchors.topMargin: 20
