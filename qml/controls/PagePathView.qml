@@ -21,26 +21,6 @@ Item {
     //negative for no element
     signal elementSelected(var elementValue)
 
-    function incrementElement() {
-        delayedOperation.command = pathView.incrementCurrentIndex
-        delayedOperation.start();
-    }
-
-    function decrementElement() {
-        delayedOperation.command = pathView.decrementCurrentIndex
-        delayedOperation.start();
-    }
-
-    Timer {
-        id: delayedOperation
-        property var command
-        interval: 50
-        repeat: false
-        onTriggered: {
-            command();
-        }
-    }
-
     Component {
         id: pageDelegate
 
