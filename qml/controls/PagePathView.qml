@@ -59,12 +59,7 @@ Item {
                             root.elementSelected({"elementIndex": index, "value": elementValue})
                         }
                         else {
-                            if(mapToItem(root, mouse.x, mouse.y).x<=root.width/2) {
-                                pathView.incrementCurrentIndex()
-                            }
-                            else {
-                                pathView.decrementCurrentIndex()
-                            }
+                            pathView.currentIndex = index
                         }
                     }
                 }
