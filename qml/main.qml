@@ -16,7 +16,7 @@ import "controls"
 
 import "controls/range_module"
 import "controls/logger"
-import "qrc:/qml/controls/appinfo" as AppInfoControls
+import "controls/appinfo"
 import "controls/settings"
 import "qrc:/qml/singletons" as Singletons
 import "qrc:/data/staticdata" as StaticData
@@ -257,7 +257,7 @@ ApplicationWindow {
 
         Component {
             id: statusCmp
-            AppInfoControls.StatusView {}
+            StatusView {}
         }
         Component {
             id: settingsCmp
