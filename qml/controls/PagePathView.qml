@@ -78,10 +78,22 @@ Item {
                         }
                         else {
                             pathView.currentIndex = index
+                            delayedCloseTimer.elementValue = elementValue
+                            delayedCloseTimer.start()
                         }
                     }
                 }
             }
+        }
+    }
+    Timer {
+        id: delayedCloseTimer
+        interval: pathView.highlightMoveDuration + 300
+        repeat: false
+        property var elementValue
+        onTriggered: {
+            GC.setLastPageViewIndexSelected(pathView.currentIndex)
+            elementSelected({"elementIndex": pathView.currentIndex, "value": elementValue})
         }
     }
 
