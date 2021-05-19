@@ -91,7 +91,7 @@ BaseTabPage {
             readonly property bool running: entity.PAR_StartStop === 1
             readonly property bool aborted: entity.ACT_Status & root.aborted
             text: Z.tr("Energy register") + registerProgress(entity, running && !checked)
-            Material.foreground: entity.ACT_Rating === 1 || running || aborted ? Material.White : Material.Red
+            Material.foreground: entity.ACT_Rating !== 0 || running || aborted ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonEnergy
                 running: tabButtonEnergy.running && !tabButtonEnergy.checked
@@ -106,7 +106,7 @@ BaseTabPage {
             readonly property bool running: entity.PAR_StartStop === 1
             readonly property bool aborted: entity.ACT_Status & root.aborted
             text: Z.tr("Power register") + registerProgress(entity, running && !checked)
-            Material.foreground: entity.ACT_Rating === 1 || running || aborted ? Material.White : Material.Red
+            Material.foreground: entity.ACT_Rating !== 0 || running || aborted ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPower
                 running: tabButtonPower.running && !tabButtonPower.checked

@@ -44,7 +44,7 @@ Rectangle {
     }
 
     border.color: Material.dividerColor
-    color: rating === 1 || (measNum==0 && !finished) ? "transparent" : "#11FF0000";
+    color: rating !== 0 || (measNum==0 && !finished) ? "transparent" : "#11FF0000";
 
     ChartView {
         z: parent.z-1
