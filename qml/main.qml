@@ -12,7 +12,6 @@ import GlobalConfig 1.0
 import ZeraSettings 1.0
 import ZeraFa 1.0
 
-import "qrc:/qml/pages" as Pages
 import "controls"
 
 import "controls/range_module"
@@ -230,8 +229,6 @@ ApplicationWindow {
                 sourceComponent: splashCmp
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutSplashIndex
             }
-            //Pages.RemoteSelection {...}
-            // ]
             ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
         }
 
