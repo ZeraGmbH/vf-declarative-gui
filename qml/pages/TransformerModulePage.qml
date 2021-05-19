@@ -11,7 +11,7 @@ import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import "../controls"
-import "qrc:/qml/controls/settings" as SettingsControls
+import "../controls/settings"
 
 Item {
     id: root
@@ -227,7 +227,7 @@ Item {
         }
     }
 
-    SettingsControls.SettingsView {
+    SettingsView {
         anchors.left: parent.left
         anchors.right: parent.right
         height: root.rowHeight * model.count

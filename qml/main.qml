@@ -18,7 +18,7 @@ import "controls"
 import "qrc:/qml/controls/range_module" as RangeControls
 import "qrc:/qml/controls/logger" as LoggerControls
 import "qrc:/qml/controls/appinfo" as AppInfoControls
-import "qrc:/qml/controls/settings" as SettingsControls
+import "controls/settings"
 import "qrc:/qml/singletons" as Singletons
 import "qrc:/data/staticdata" as StaticData
 
@@ -264,7 +264,7 @@ ApplicationWindow {
         }
         Component {
             id: settingsCmp
-            SettingsControls.Settings {}
+            Settings {}
         }
         Component {
             id: splashCmp
