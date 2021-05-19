@@ -10,7 +10,7 @@ import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import ZeraLocale 1.0
 import "qrc:/qml/helpers" as HELPERS
-import "qrc:/qml/controls" as CCMP
+import ".."
 
 Item {
     id: root
@@ -75,9 +75,9 @@ Item {
         return databaseName !== "" && mountedPaths.includes(selectedMountPath) // db & drive still there
     }
 
-    CCMP.WaitTransaction {
+    WaitTransaction {
         id: waitPopup
-        animationComponent: CCMP.AnimationSlowBits { }
+        animationComponent: AnimationSlowBits { }
     }
 
     // Tasklists

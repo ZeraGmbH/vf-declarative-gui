@@ -5,7 +5,6 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls" as CCMP
 
 /**
   * @b A selection of the available pages/views laid out in an elliptic path

@@ -12,7 +12,6 @@ import ZeraComponents 1.0
 import ZeraFa 1.0
 import anmsettings 1.0
 import ZeraLocale 1.0
-import "qrc:/qml/controls" as CCMP
 
 
 SettingsView {

@@ -7,7 +7,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
-import "qrc:/qml/controls" as CCMP
+import "../controls"
 
 Item {
     id: root
@@ -62,13 +62,13 @@ Item {
     Row {
         id: heardersRow
         height: root.row1stHeight
-        CCMP.GridRect {
+        GridRect {
             width: firstColumnWidth
             height: parent.height
             color: GC.tableShadeColor
             //spacer
         }
-        CCMP.GridItem {
+        GridItem {
             width: valueColumnWidth
             height: parent.height
             color: GC.tableShadeColor
@@ -76,7 +76,7 @@ Item {
             textColor: GC.colorUL1
             font.pixelSize: rowHeight*0.4
         }
-        CCMP.GridItem {
+        GridItem {
             width: valueColumnWidth
             height: parent.height
             color: GC.tableShadeColor
@@ -84,7 +84,7 @@ Item {
             textColor: GC.colorUL2
             font.pixelSize: rowHeight*0.4
         }
-        CCMP.GridItem {
+        GridItem {
             width: valueColumnWidth
             height: parent.height
             color: GC.tableShadeColor
@@ -92,14 +92,14 @@ Item {
             textColor: GC.colorUL3
             font.pixelSize: rowHeight*0.4
         }
-        CCMP.GridItem {
+        GridItem {
             width: valueColumnWidth
             height: parent.height
             color: GC.tableShadeColor
             text: "Σ"
             font.pixelSize: rowHeight*0.4
         }
-        CCMP.GridItem {
+        GridItem {
             width: lastColumnWidth
             height: parent.height
             color: GC.tableShadeColor
@@ -121,7 +121,7 @@ Item {
         delegate: Component {
             Row {
                 height: root.rowHeight
-                CCMP.GridItem {
+                GridItem {
                     width: firstColumnWidth
                     height: parent.height
                     color: GC.tableShadeColor
@@ -129,7 +129,7 @@ Item {
                     font.pixelSize: height*0.4
 
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
@@ -137,7 +137,7 @@ Item {
                     textColor: GC.colorUL1
                     font.pixelSize: height*0.4
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
@@ -145,7 +145,7 @@ Item {
                     textColor: GC.colorUL2
                     font.pixelSize: height*0.4
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
@@ -153,14 +153,14 @@ Item {
                     textColor: GC.colorUL3
                     font.pixelSize: height*0.4
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
                     text: FT.formatNumber(root.getModule(index).ACT_PQS4);
                     font.pixelSize: height*0.4
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: lastColumnWidth
                     height: parent.height
                     clip: true
@@ -175,7 +175,7 @@ Item {
         height: root.row1stHeight
         width: parent.width
         anchors.top: listView.bottom
-        CCMP.GridRect {
+        GridRect {
             id: measModeGrid
             width: parent.width
             height: parent.height
@@ -220,7 +220,7 @@ Item {
                         model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
                         contentMaxRows: 6
                         fontSize: height*0.4
-                        headerComponent: CCMP.MeasModeComboHeader {
+                        headerComponent: MeasModeComboHeader {
                             id: comboHeader
                             visibleHeight: measModeCombo.height * 1.5
                             entity: measModeCombo.entity

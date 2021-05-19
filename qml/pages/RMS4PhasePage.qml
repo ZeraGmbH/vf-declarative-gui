@@ -8,7 +8,7 @@ import ZeraGlueLogic 1.0
 import SortFilterProxyModel 0.2
 import ModuleIntrospection 1.0
 import ZeraTranslation  1.0
-import "qrc:/qml/controls" as CCMP
+import "../controls"
 
 Item {
   id: root
@@ -46,14 +46,14 @@ Item {
         Row {
           height: index === 0 ? root.row1stHeight : root.rowHeight
           readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
-          CCMP.GridItem {
+          GridItem {
             width: root.columnWidth1st
             height: parent.height
             color: GC.tableShadeColor
             text: Name!==undefined ? Name : ""
             font.pixelSize: root.pixelSize
           }
-          CCMP.GridItem {
+          GridItem {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
@@ -61,7 +61,7 @@ Item {
             textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
             font.pixelSize: root.pixelSize
           }
-          CCMP.GridItem {
+          GridItem {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
@@ -69,7 +69,7 @@ Item {
             textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
             font.pixelSize: root.pixelSize
           }
-          CCMP.GridItem {
+          GridItem {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
@@ -77,7 +77,7 @@ Item {
             textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
             font.pixelSize: root.pixelSize
           }
-          CCMP.GridItem {
+          GridItem {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
@@ -86,7 +86,7 @@ Item {
             font.pixelSize: root.pixelSize
             visible: channelCount > 6
           }
-          CCMP.GridItem {
+          GridItem {
             width: root.columnWidthLast
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor

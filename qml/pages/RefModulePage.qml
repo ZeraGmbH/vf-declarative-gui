@@ -5,7 +5,7 @@ import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
-import "qrc:/qml/controls" as CCMP
+import "../controls"
 
 Item {
     id: root
@@ -28,7 +28,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: root.top
         anchors.topMargin: root.height/2-rowHeight
-        CCMP.GridItem {
+        GridItem {
             width: wideRowWidth
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -36,7 +36,7 @@ Item {
             font.bold: true
             font.pixelSize: height*0.3
         }
-        CCMP.GridItem {
+        GridItem {
             width: wideRowWidth
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -44,7 +44,7 @@ Item {
             font.bold: true
             font.pixelSize: height*0.3
         }
-        CCMP.GridItem {
+        GridItem {
             width: wideRowWidth
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -52,7 +52,7 @@ Item {
             font.bold: true
             font.pixelSize: height*0.3
         }
-        CCMP.GridItem {
+        GridItem {
             width: wideRowWidth
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -60,7 +60,7 @@ Item {
             font.bold: true
             font.pixelSize: height*0.3
         }
-        CCMP.GridItem {
+        GridItem {
             width: wideRowWidth
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -68,7 +68,7 @@ Item {
             font.bold: true
             font.pixelSize: height*0.3
         }
-        CCMP.GridItem {
+        GridItem {
             width: wideRowWidth
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -76,7 +76,7 @@ Item {
             font.bold: true
             font.pixelSize: height*0.3
         }
-        CCMP.GridItem {
+        GridItem {
             width: basicRowWidth
             height: root.rowHeight
             color: GC.tableShadeColor
@@ -98,7 +98,7 @@ Item {
 
         delegate: Component {
             Row {
-                CCMP.GridItem {
+                GridItem {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
@@ -106,7 +106,7 @@ Item {
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
@@ -114,7 +114,7 @@ Item {
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
@@ -122,7 +122,7 @@ Item {
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
@@ -130,7 +130,7 @@ Item {
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
@@ -138,7 +138,7 @@ Item {
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
@@ -146,7 +146,7 @@ Item {
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
-                CCMP.GridItem {
+                GridItem {
                     width: basicRowWidth
                     height: root.rowHeight
                     text: "V"

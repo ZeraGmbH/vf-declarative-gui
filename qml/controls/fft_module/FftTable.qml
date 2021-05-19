@@ -7,7 +7,7 @@ import FunctionTools 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
-import "qrc:/qml/controls" as CCMP
+import ".."
 
 Item {
     id: root
@@ -112,7 +112,7 @@ Item {
 
             Repeater {
                 model: root.channelCount
-                delegate: CCMP.GridRect {
+                delegate: GridRect {
                     width: root.columnWidth*(GC.showFftTablePhase ? 2 : 1)
                     height: root.rowHeight
                     color: GC.tableShadeColor
@@ -140,7 +140,7 @@ Item {
             anchors.right: parent.right
             height: root.rowHeight
 
-            CCMP.GridItem {
+            GridItem {
                 border.color: "#444" //disable border transparency
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
@@ -155,7 +155,7 @@ Item {
 
             Repeater {
                 model: root.channelCount
-                CCMP.GridItem {
+                GridItem {
                     width: root.columnWidth* (GC.showFftTablePhase ? 2 : 1)
                     height: root.rowHeight
                     readonly property string componentName: String("ACT_THDN%1").arg(index+1);
@@ -175,7 +175,7 @@ Item {
             anchors.right: parent.right
             height: root.rowHeight
 
-            CCMP.GridItem {
+            GridItem {
                 border.color: "#444" //disable border transparency
                 x: fftFlickable.contentX //keep item visible
                 z: 1
@@ -192,7 +192,7 @@ Item {
                 delegate: Row {
                     width: root.columnWidth*(GC.showFftTablePhase ? 2 : 1)
                     height: root.rowHeight
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         color: GC.tableShadeColor
@@ -205,7 +205,7 @@ Item {
                     }
                     Loader {
                         active: GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             color: GC.tableShadeColor
@@ -238,7 +238,7 @@ Item {
                     id: row
                     height: root.rowHeight
 
-                    CCMP.GridItem {
+                    GridItem {
                         border.color: "#444" //disable border transparency
                         x: fftFlickable.contentX //keep item visible
                         z: 1
@@ -248,7 +248,7 @@ Item {
                         text: index
                         font.bold: true
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : ""
@@ -258,7 +258,7 @@ Item {
                     }
                     Loader {
                         active: GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL1 !== undefined ? FT.formatNumber(VectorL1) : text
@@ -266,7 +266,7 @@ Item {
                             font.pixelSize: rowHeight*0.5
                         }
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : ""
@@ -276,7 +276,7 @@ Item {
                     }
                     Loader {
                         active: GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL2 !== undefined ? FT.formatNumber(VectorL2) : text
@@ -284,7 +284,7 @@ Item {
                             font.pixelSize: rowHeight*0.5
                         }
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : ""
@@ -294,7 +294,7 @@ Item {
                     }
                     Loader {
                         active: GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL3 !== undefined ? FT.formatNumber(VectorL3) : text
@@ -302,7 +302,7 @@ Item {
                             font.pixelSize: rowHeight*0.5
                         }
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : ""
@@ -312,7 +312,7 @@ Item {
                     }
                     Loader {
                         active: GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL4 !== undefined ? FT.formatNumber(VectorL4) : text
@@ -320,7 +320,7 @@ Item {
                             font.pixelSize: rowHeight*0.5
                         }
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : ""
@@ -330,7 +330,7 @@ Item {
                     }
                     Loader {
                         active: GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL5 !== undefined ? FT.formatNumber(VectorL5) : text
@@ -338,7 +338,7 @@ Item {
                             font.pixelSize: rowHeight*0.5
                         }
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : ""
@@ -348,7 +348,7 @@ Item {
                     }
                     Loader {
                         active: GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL6 !== undefined ? FT.formatNumber(VectorL6) : text
@@ -358,7 +358,7 @@ Item {
                     }
                     Loader {
                         active: root.channelCount>6
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : ""
@@ -369,7 +369,7 @@ Item {
                     }
                     Loader {
                         active: root.channelCount>6 && GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL7 !== undefined ? FT.formatNumber(VectorL7) : text
@@ -379,7 +379,7 @@ Item {
                     }
                     Loader {
                         active: root.channelCount>7
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : ""
@@ -390,7 +390,7 @@ Item {
                     }
                     Loader {
                         active: root.channelCount>7 && GC.showFftTablePhase
-                        sourceComponent: CCMP.GridItem {
+                        sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
                             text: VectorL8 !== undefined ? FT.formatNumber(VectorL8) : text

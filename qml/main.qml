@@ -13,7 +13,7 @@ import ZeraSettings 1.0
 import ZeraFa 1.0
 
 import "qrc:/qml/pages" as Pages
-import "qrc:/qml/controls/" as CCMP
+import "controls"
 
 import "qrc:/qml/controls/range_module" as RangeControls
 import "qrc:/qml/controls/logger" as LoggerControls
@@ -276,7 +276,7 @@ ApplicationWindow {
             }
         }
 
-        CCMP.MainToolBar {
+        MainToolBar {
             id: controlsBar
             height: parent.height/16
             anchors.bottom: parent.bottom
@@ -320,7 +320,7 @@ ApplicationWindow {
             }
         }
 
-        CCMP.PageView {
+        PageView {
             id: pageView
             anchors.fill: parent
             ///@note do not break binding by setting visible directly
@@ -346,7 +346,7 @@ ApplicationWindow {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 32
             }
-            CCMP.FpsItem {
+            FpsItem {
                 anchors.left: windowSize.right
                 anchors.verticalCenter: parent.verticalCenter
             }

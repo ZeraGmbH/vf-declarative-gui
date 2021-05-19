@@ -9,7 +9,7 @@ import FunctionTools 1.0
 import ZeraGlueLogic 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
-import "qrc:/qml/controls" as CCMP
+import ".."
 
 Item {
     id: root
@@ -68,7 +68,7 @@ Item {
             z: 1
             height: root.rowHeight
 
-            CCMP.GridItem {
+            GridItem {
                 border.color: "#444" //disable border transparency
                 x: fftFlickable.contentX //keep item visible
                 z: 1
@@ -85,7 +85,7 @@ Item {
                 delegate: Row {
                     width: root.columnWidth*3
                     height: root.rowHeight
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         color: GC.tableShadeColor
@@ -94,7 +94,7 @@ Item {
                         textColor: FT.getColorByIndex(index+1)
                         font.bold: true
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         color: GC.tableShadeColor
@@ -103,7 +103,7 @@ Item {
                         textColor: FT.getColorByIndex(index+1)
                         font.bold: true
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         color: GC.tableShadeColor
@@ -132,7 +132,7 @@ Item {
                 Row {
                     height: root.rowHeight
 
-                    CCMP.GridItem {
+                    GridItem {
                         border.color: "#444" //disable border transparency
                         x: fftFlickable.contentX //keep item visible
                         z: 1
@@ -143,21 +143,21 @@ Item {
                         font.bold: true
                     }
                     //S1
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS1P !== undefined ? FT.formatNumber(PowerS1P) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP1.Unit : "")
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS1Q !== undefined ? FT.formatNumber(PowerS1Q) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ1.Unit : "")
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS1S !== undefined ? FT.formatNumber(PowerS1S) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS1.Unit : "")
@@ -165,21 +165,21 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     //S2
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS2P !== undefined ? FT.formatNumber(PowerS2P) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP2.Unit : "")
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS2Q !== undefined ? FT.formatNumber(PowerS2Q) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ2.Unit : "")
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS2S !== undefined ? FT.formatNumber(PowerS2S) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS2.Unit : "")
@@ -187,21 +187,21 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     //S3
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS3P !== undefined ? FT.formatNumber(PowerS3P) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP3.Unit : "")
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS3Q !== undefined ? FT.formatNumber(PowerS3Q) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ3.Unit : "")
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: (PowerS3S !== undefined ? FT.formatNumber(PowerS3S) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS3.Unit : "")

@@ -12,7 +12,6 @@ import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
-import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/settings" as SettingsControls
 
 Item {

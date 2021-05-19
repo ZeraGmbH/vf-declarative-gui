@@ -5,7 +5,6 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/controls/range_module" as RangeControls
 import "qrc:/qml/controls/logger" as LoggerControls
 
@@ -46,7 +45,7 @@ ToolBar {
 
     Component {
         id: rotaryFieldCmp
-        CCMP.RotaryFieldIndicator {}
+        RotaryFieldIndicator {}
     }
     RowLayout {
         anchors.fill: parent
@@ -266,7 +265,7 @@ ToolBar {
       text: FA.icon(FA.fa_server) + Z.tr("Remotes")
       highlighted: root.currentLayoutIndex===layoutStackEnum.layout<...>Index
       visible: OS_TYPE==="android" || debugBypass
-      CCMP.DebugRectangle {
+      DebugRectangle {
         anchors.fill: parent
         visible: debugBypass && OS_TYPE!=="android"
       }
