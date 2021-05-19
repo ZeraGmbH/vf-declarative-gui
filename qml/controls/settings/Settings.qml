@@ -11,13 +11,13 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraFa 1.0
 import anmsettings 1.0
-import "qrc:/qml/pages" as PAGES
+import "../../pages"
 
 // Networkmanager
 import "qrc:/src/qml/"
 import "qrc:/src/qml/tree"
 
-PAGES.BaseTabPage {
+BaseTabPage {
     id:tabroot
     anchors.fill: parent
 

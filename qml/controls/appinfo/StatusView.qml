@@ -6,9 +6,9 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraFa 1.0
-import "qrc:/qml/pages" as PAGES
+import "../../pages"
 
-PAGES.BaseTabPage {
+BaseTabPage {
     id: root
     readonly property bool hasStatus: VeinEntity.hasEntity("StatusModule1")
 
