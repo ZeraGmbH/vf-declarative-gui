@@ -114,7 +114,6 @@ Item {
         id: pathView
         model: root.model
         interactive: false
-        enabled: visible
         anchors.fill: parent
         highlightMoveDuration: 200
         currentIndex: GC.lastPageViewIndexSelected
