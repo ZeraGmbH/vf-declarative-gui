@@ -32,9 +32,27 @@ Item {
             z: -1/PathView.iconOpacity
             property string itemName: name
 
+            Label {
+                id: nameText
+                text: Z.tr(name)
+                textFormat: Text.PlainText
+                anchors.horizontalCenter: previewImage.horizontalCenter
+                anchors.top: parent.top
+                font.pointSize: root.height * 0.038
+                color: (wrapper.PathView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
+                opacity: 1
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.margins: -4
+                    radius: 4
+                    color: Material.backgroundColor
+                    z: parent.z-1
+                }
+            }
             Rectangle {
                 id: previewImage
-                anchors.centerIn: parent
+                anchors.top: nameText.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
                 border.color: Qt.darker(Material.frameColor, 1.3)
                 border.width: 3
                 width: 410*scaleFactor+4
@@ -56,30 +74,12 @@ Item {
                            // prevents unexpected user activation of items while they move around
                            (pathView.offset - Math.floor(pathView.offset)) == 0) {
                             GC.setLastPageViewIndexSelected(index)
-                            root.elementSelected({"elementIndex": index, "value": elementValue})
+                            elementSelected({"elementIndex": index, "value": elementValue})
                         }
                         else {
                             pathView.currentIndex = index
                         }
                     }
-                }
-            }
-            Label {
-                id: nameText
-                text: Z.tr(name)
-                textFormat: Text.PlainText
-                anchors.horizontalCenter: previewImage.horizontalCenter
-                anchors.bottom: previewImage.bottom
-                anchors.bottomMargin: -font.pointSize*2
-                font.pointSize: 16
-                color: (wrapper.PathView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.margins: -4
-                    radius: 4
-                    opacity: 0.8
-                    color: Material.dropShadowColor
-                    z: parent.z-1
                 }
             }
         }
@@ -90,21 +90,21 @@ Item {
         model: root.model
         interactive: false
         anchors.fill: parent
-        highlightMoveDuration: 200
+        highlightMoveDuration: 300
         currentIndex: GC.lastPageViewIndexSelected
 
         delegate: pageDelegate
         path: Path {
             startX: width/2;
-            startY: height/1.8
+            startY: height/1.7
 
             // describes an ellipse, the elements get scaled down and become more transparent the farther away they are from the current index on that ring
-            PathAttribute { name: "iconScale"; value: 1.0 }
+            PathAttribute { name: "iconScale"; value: 0.9 }
             PathAttribute { name: "iconOpacity"; value: 1.0 }
-            PathQuad { x: m_w/2; y: 200; controlX: -m_w*0.3; controlY: m_h/4+100 }
-            PathAttribute { name: "iconScale"; value: 0.4 }
-            PathAttribute { name: "iconOpacity"; value: 0.2 }
-            PathQuad { x: m_w/2; y: m_h/1.8; controlX: m_w*1.3; controlY: m_h/4+100 }
+            PathQuad { x: m_w/2; y: 20; controlX: -m_w*0.2; controlY: m_h/5 }
+            PathAttribute { name: "iconScale"; value: 0.6 }
+            PathAttribute { name: "iconOpacity"; value: 0.7 }
+            PathQuad { x: m_w/2; y: m_h/1.8; controlX: m_w*1.2; controlY: m_h/5 }
         }
     }
 }
