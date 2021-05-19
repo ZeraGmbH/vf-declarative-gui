@@ -16,7 +16,7 @@ import "qrc:/qml/pages" as Pages
 import "controls"
 
 import "qrc:/qml/controls/range_module" as RangeControls
-import "qrc:/qml/controls/logger" as LoggerControls
+import "controls/logger"
 import "qrc:/qml/controls/appinfo" as AppInfoControls
 import "controls/settings"
 import "qrc:/qml/singletons" as Singletons
@@ -200,7 +200,7 @@ ApplicationWindow {
             }
             Loader {
                 id: loggerSettingsLoader
-                sourceComponent: LoggerControls.LoggerSettingsStack { }
+                sourceComponent: LoggerSettingsStack { }
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutLoggerIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item) {

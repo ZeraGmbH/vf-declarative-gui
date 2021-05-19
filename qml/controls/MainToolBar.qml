@@ -6,7 +6,7 @@ import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
 import "qrc:/qml/controls/range_module" as RangeControls
-import "qrc:/qml/controls/logger" as LoggerControls
+import "logger"
 
 ToolBar {
     id: root
@@ -143,7 +143,7 @@ ToolBar {
             }
             Loader { // menu requires vein initialized && logging system available
                 id: menuLoader
-                sourceComponent: LoggerControls.LoggerMenu {
+                sourceComponent: LoggerMenu {
                     onLoggerSettingsMenu: {
                         if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
                             root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
