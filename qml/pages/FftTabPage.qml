@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.14
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
-import "qrc:/qml/controls/fft_module" as Pages
+import "../controls/fft_module"
 
 BaseTabPage {
     id: root
@@ -35,7 +35,7 @@ BaseTabPage {
     // Pages
     Component {
         id: pageTable
-        Pages.FftTable {
+        FftTable {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_TABLE
@@ -45,7 +45,7 @@ BaseTabPage {
     }
     Component {
         id: pageChart
-        Pages.FftCharts {
+        FftCharts {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_CHART

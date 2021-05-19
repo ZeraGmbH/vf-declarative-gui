@@ -5,7 +5,6 @@ import QtQuick.Controls.Material 2.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
-import "qrc:/qml/pages" as Pages
 
 BaseTabPage {
     id: root
@@ -39,7 +38,7 @@ BaseTabPage {
     // Pages
     Component {
         id: pageTable
-        Pages.ActualValuesPage {
+        ActualValuesPage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ACTUAL_VALUES
@@ -49,7 +48,7 @@ BaseTabPage {
     }
     Component {
         id: pageVector
-        Pages.VectorModulePage {
+        VectorModulePage {
             topMargin: 10
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
@@ -60,7 +59,7 @@ BaseTabPage {
     }
     Component {
         id: pagePower
-        Pages.PowerModulePage {
+        PowerModulePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_POWER_VALUES
@@ -70,7 +69,7 @@ BaseTabPage {
     }
     Component {
         id: pageRms
-        Pages.RMS4PhasePage {
+        RMS4PhasePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_RMS_VALUES

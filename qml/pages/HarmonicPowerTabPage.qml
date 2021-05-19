@@ -2,7 +2,7 @@ import QtQuick 2.0
 import GlobalConfig 1.0
 import QtQuick.Controls 2.4
 import ZeraTranslation  1.0
-import "qrc:/qml/controls/harmonic_power_module" as Pages
+import "../controls/harmonic_power_module"
 
 BaseTabPage {
     id: root
@@ -24,7 +24,7 @@ BaseTabPage {
     // Pages
     Component {
         id: pageTable
-        Pages.HarmonicPowerTable {
+        HarmonicPowerTable {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_TABLE
@@ -34,7 +34,7 @@ BaseTabPage {
     }
     Component {
         id: pageChart
-        Pages.HarmonicPowerCharts {
+        HarmonicPowerCharts {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_CHART
