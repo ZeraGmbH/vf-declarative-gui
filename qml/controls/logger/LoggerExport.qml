@@ -9,7 +9,7 @@ import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import ZeraLocale 1.0
-import "qrc:/qml/helpers" as HELPERS
+import "../../helpers"
 import ".."
 
 Item {
@@ -81,7 +81,7 @@ Item {
     }
 
     // Tasklists
-    HELPERS.TaskList {
+    TaskList {
         id: tasksExportMtVis
         readonly property string extraParams: "{'digits' : '%1', 'decimalPlaces' : '%2', 'local' : '%3'}".arg(GC.digitsTotal).arg(GC.decimalPlaces).arg(ZLocale.localeName)
         taskArray: [
@@ -128,7 +128,7 @@ Item {
             }
         }
     }
-    HELPERS.TaskList {
+    TaskList {
         id: tasksExportDb
         taskArray: [
             { 'type': 'block', // check

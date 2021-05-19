@@ -8,7 +8,7 @@ import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
-import "qrc:/qml/helpers" as HELPERS
+import "../../helpers"
 import ".."
 
 Item {
@@ -38,7 +38,7 @@ Item {
     // Import/export RPC business
     property var customerImportDirList: []
 
-    HELPERS.TaskList {
+    TaskList {
         id: tasksSearchCustomerImportPaths
         taskArray: [
             { 'type': 'rpc',  // search paths
@@ -61,7 +61,7 @@ Item {
         id: waitPopup
         animationComponent: AnimationSlowBits { }
     }
-    HELPERS.TaskList {
+    TaskList {
         id: tasksExport
         taskArray: [
             { 'type': 'rpc',  // copy
@@ -90,7 +90,7 @@ Item {
             }
         }
     }
-    HELPERS.TaskList {
+    TaskList {
         id: tasksImport
         taskArray: [
             { 'type': 'rpc',  // copy
