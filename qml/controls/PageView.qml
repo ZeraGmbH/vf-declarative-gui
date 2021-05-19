@@ -33,6 +33,13 @@ Item {
         color: Material.backgroundColor
         opacity: 0.9
         anchors.fill: parent
+        // Hack: PagePathView is not interactive. That causes mouse activities
+        // being performed in windows below and worst case open virtual keyboard
+        // to avoid that add a dummy MouseArea. Tried better places e.g PagePathView
+        // but that did not work
+        MouseArea {
+            anchors.fill: parent
+        }
     }
 
     Button {
