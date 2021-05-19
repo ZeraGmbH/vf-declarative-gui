@@ -7,7 +7,6 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraTranslation 1.0
-import "qrc:/qml/controls" as CCMP
 
 ListView {
     id: root

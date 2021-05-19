@@ -6,7 +6,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
-import "qrc:/qml/controls" as CCMP
+import "../controls"
 
 Item {
     id: ced_root
@@ -62,13 +62,13 @@ Item {
         anchors.fill: parent
         Row {
             id: heardersRow
-            CCMP.GridRect {
+            GridRect {
                 width: columnWidth1st
                 height: row1stHeight
                 color: GC.tableShadeColor
                 //spacer
             }
-            CCMP.GridItem {
+            GridItem {
                 width: columnWidth
                 height: row1stHeight
                 color: GC.tableShadeColor
@@ -76,7 +76,7 @@ Item {
                 textColor: GC.colorUL1
                 font.pixelSize: pixelSize
             }
-            CCMP.GridItem {
+            GridItem {
                 width: columnWidth
                 height: row1stHeight
                 color: GC.tableShadeColor
@@ -84,7 +84,7 @@ Item {
                 textColor: GC.colorUL2
                 font.pixelSize: pixelSize
             }
-            CCMP.GridItem {
+            GridItem {
                 width: columnWidth
                 height: row1stHeight
                 color: GC.tableShadeColor
@@ -92,7 +92,7 @@ Item {
                 textColor: GC.colorUL3
                 font.pixelSize: pixelSize
             }
-            CCMP.GridItem {
+            GridItem {
                 width: columnWidth
                 height: row1stHeight
                 color: GC.tableShadeColor
@@ -100,7 +100,7 @@ Item {
                 textColor: GC.colorUL3
                 font.pixelSize: pixelSize
             }
-            CCMP.GridItem {
+            GridItem {
                 width: columnWidthLast
                 height: row1stHeight
                 color: GC.tableShadeColor
@@ -120,7 +120,7 @@ Item {
 
             delegate: Component {
                 Row {
-                    CCMP.GridItem {
+                    GridItem {
                         //title
                         width: columnWidth1st
                         height: rowHeight
@@ -142,7 +142,7 @@ Item {
                             return retVal;
                         }
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         //l1
                         width: columnWidth
                         height: rowHeight
@@ -150,7 +150,7 @@ Item {
                         text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(1)]);
                         font.pixelSize: pixelSize
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         //l2
                         width: columnWidth
                         height: rowHeight
@@ -158,7 +158,7 @@ Item {
                         text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(2)]);
                         font.pixelSize: pixelSize
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         //l3
                         width: columnWidth
                         height: rowHeight
@@ -166,14 +166,14 @@ Item {
                         text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(3)]);
                         font.pixelSize: pixelSize
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         //pSum
                         width: columnWidth
                         height: rowHeight
                         text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(4)]);
                         font.pixelSize: pixelSize
                     }
-                    CCMP.GridItem {
+                    GridItem {
                         //unit
                         width: columnWidthLast
                         height: rowHeight

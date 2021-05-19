@@ -11,7 +11,6 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraFa 1.0
 import anmsettings 1.0
-import "qrc:/qml/controls" as CCMP
 import "qrc:/qml/pages" as PAGES
 
 // Networkmanager

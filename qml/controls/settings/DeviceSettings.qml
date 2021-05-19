@@ -9,7 +9,6 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls" as CCMP
 
 SettingsView {
     id: root

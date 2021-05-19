@@ -10,7 +10,7 @@ import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import "qrc:/qml/controls" as CCMP
+import "../controls"
 import "qrc:/qml/controls/settings" as SettingsControls
 
 BaseTabPage {
@@ -66,14 +66,14 @@ BaseTabPage {
                     Row {
                         width: page.width
                         height: page.rowHeight
-                        CCMP.GridItem {
+                        GridItem {
                             width: page.columnWidth*0.7
                             height: page.rowHeight
                             color: GC.tableShadeColor
                             text: Name!==undefined ? Name : ""
                             font.bold: true
                         }
-                        CCMP.GridItem {
+                        GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
@@ -81,7 +81,7 @@ BaseTabPage {
                             textColor: isVoltagePage ? GC.colorUL1 : GC.colorIL1
                             font.bold: index === 0
                         }
-                        CCMP.GridItem {
+                        GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
@@ -89,7 +89,7 @@ BaseTabPage {
                             textColor: isVoltagePage ? GC.colorUL2 : GC.colorIL2
                             font.bold: index === 0
                         }
-                        CCMP.GridItem {
+                        GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
@@ -97,7 +97,7 @@ BaseTabPage {
                             textColor: isVoltagePage ? GC.colorUL3 : GC.colorIL3
                             font.bold: index === 0
                         }
-                        CCMP.GridItem {
+                        GridItem {
                             width: page.columnWidth/2
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor

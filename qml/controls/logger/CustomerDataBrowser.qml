@@ -9,7 +9,7 @@ import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
 import "qrc:/qml/helpers" as HELPERS
-import "qrc:/qml/controls" as CCMP
+import ".."
 
 Item {
     id: root
@@ -57,9 +57,9 @@ Item {
             }
         ]
     }
-    CCMP.WaitTransaction {
+    WaitTransaction {
         id: waitPopup
-        animationComponent: CCMP.AnimationSlowBits { }
+        animationComponent: AnimationSlowBits { }
     }
     HELPERS.TaskList {
         id: tasksExport

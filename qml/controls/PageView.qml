@@ -6,7 +6,6 @@ import VeinEntity 1.0
 import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls" as CCMP
 
 Item {
     id: root
@@ -60,7 +59,7 @@ Item {
 
     Component {
         id: pageGridViewCmp
-        CCMP.PageGridView {
+        PageGridView {
             model: root.model
             onElementSelected: {
                 if(elementValue !== "")  {
@@ -72,7 +71,7 @@ Item {
 
     Component {
         id: pagePathViewCmp
-        CCMP.PagePathView {
+        PagePathView {
             model: root.model
             onElementSelected: {
                 if(elementValue !== "") {

@@ -10,7 +10,7 @@ import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import "qrc:/qml/controls" as CCMP
+import "../controls"
 import "qrc:/qml/controls/settings" as SettingsControls
 
 Item {
@@ -36,21 +36,21 @@ Item {
 
         //Header
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: ""
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: Z.tr("TR1")
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
@@ -61,19 +61,19 @@ Item {
 
         // transformer primary
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: Z.tr("X-Prim");
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(transformerModule.ACT_IXPrimary1)
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 text: transformerIntrospection.ComponentInfo.ACT_IXPrimary1.Unit;
@@ -82,19 +82,19 @@ Item {
 
         // n secondary
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: Z.tr("N-Sec");
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(transformerModule.ACT_INSecondary1)
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 text: transformerIntrospection.ComponentInfo.ACT_INSecondary1.Unit;
@@ -103,19 +103,19 @@ Item {
 
         //transformer secondary
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: Z.tr("X-Sec");
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(transformerModule.ACT_IXSecondary1)
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 text: transformerIntrospection.ComponentInfo.ACT_IXSecondary1.Unit;
@@ -124,19 +124,19 @@ Item {
 
         // Transformer Ratio
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: Z.tr("X-Ratio")
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(transformerModule.ACT_Ratio1)
             }
-            CCMP.GridRect {
+            GridRect {
                 width: root.width*0.2
                 height: root.rowHeight
             }
@@ -144,19 +144,19 @@ Item {
 
         // Transformer Error
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: "X-ε"
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(transformerModule.ACT_Error1)
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 text: root.transformerIntrospection.ComponentInfo.ACT_Error1.Unit;
@@ -165,19 +165,19 @@ Item {
 
         // Transformer angle in degree
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: "X-δ"
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(transformerModule.ACT_Angle1)
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 text: transformerIntrospection.ComponentInfo.ACT_Angle1.Unit;
@@ -186,19 +186,19 @@ Item {
 
         // Transformer angle in centirad
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: "X-δ"
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(100 * transformerModule.ACT_Angle1 * Math.PI/180)
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 text: Z.tr("crad");
@@ -207,19 +207,19 @@ Item {
 
         // Transformer angle in arcminutes
         Row {
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: "X-δ"
                 font.bold: true
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
                 text: FT.formatNumber(transformerModule.ACT_Angle1*60)
             }
-            CCMP.GridItem {
+            GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
                 text: Z.tr("arcmin");
