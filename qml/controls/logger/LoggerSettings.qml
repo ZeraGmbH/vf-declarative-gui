@@ -13,9 +13,9 @@ import FunctionTools 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls/settings" as SettingsControls
+import "../settings"
 
-SettingsControls.SettingsView {
+SettingsView {
     id: root
     // we need a reference to menu stack layout to move around
     property var menuStackLayout

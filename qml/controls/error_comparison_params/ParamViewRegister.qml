@@ -10,7 +10,7 @@ import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls/settings" as SettingsControls
+import "../settings"
 
 Item {
     id: root
@@ -40,7 +40,7 @@ Item {
     readonly property real col2Width: 6/20
     readonly property real col3Width: 4/20
 
-    SettingsControls.SettingsView {
+    SettingsView {
         anchors.fill: parent
         model: parameterModel
     }
