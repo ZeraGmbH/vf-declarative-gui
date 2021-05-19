@@ -28,9 +28,10 @@ BaseTabPage {
         if(show) {
             let progress = parseInt(entity.ACT_Progress)
             let measCount = entity.PAR_MeasCount
-            if(measCount > 1) {
+            let continuous = entity.PAR_Continuous === 1
+            if(measCount > 1 || continuous) {
                 let measNum = entity.ACT_MeasNum + 1
-                if(entity.PAR_Continuous === 1) {
+                if(continuous) {
                     ret = ` ${progress}% (${measNum})`
                 }
                 else {
