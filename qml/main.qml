@@ -18,8 +18,6 @@ import "controls/range_module"
 import "controls/logger"
 import "controls/appinfo"
 import "controls/settings"
-import "qrc:/qml/singletons" as Singletons
-import "qrc:/data/staticdata" as StaticData
 
 ApplicationWindow {
     id: displayWindow
