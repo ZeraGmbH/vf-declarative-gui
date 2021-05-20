@@ -292,7 +292,7 @@ ApplicationWindow {
                     append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
                 }
                 if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"])) {
-                    append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/harmonics.png", elementValue: "qrc:/qml/pages/FftTabPage.qml"});
+                    append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/FftTabPage.qml"});
                 }
                 if(ModuleIntrospection.hasDependentEntities(["Power3Module1"])) {
                     append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"});
