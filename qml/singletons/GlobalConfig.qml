@@ -4,6 +4,7 @@ import ModuleIntrospection 1.0
 import ZeraSettings 1.0
 import ZeraTranslation 1.0
 import VeinEntity 1.0
+import AppStarterForWebGLSingleton 1.0
 import ZeraComponentsConfig 1.0
 import ZeraLocale 1.0
 import QtQuick.VirtualKeyboard.Settings 2.2
@@ -212,7 +213,7 @@ Item {
         }
     }
 
-    property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view", "1"))
+    property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view", ASWGL.isServer ? "1" : "0"))
     function setPagesGridViewDisplay(isGridView) {
         pagesGridViewDisplay = isGridView
         settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0);
