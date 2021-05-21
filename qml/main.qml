@@ -14,6 +14,7 @@ import ZeraSettings 1.0
 import ZeraFa 1.0
 
 import "controls"
+import "helpers"
 
 import "controls/range_module"
 import "controls/logger"
@@ -287,24 +288,8 @@ ApplicationWindow {
         // ids of items.
 
         // running state items
-        Item {
-            id: errMeasActive
-            readonly property bool hasSEC1: GC.entityInitializationDone && VeinEntity.hasEntity("SEC1Module1")
-            readonly property bool hasSEC1_2: GC.entityInitializationDone && VeinEntity.hasEntity("SEC1Module2")
-            readonly property bool hasSEM1: GC.entityInitializationDone && VeinEntity.hasEntity("SEM1Module1")
-            readonly property bool hasSPM1: GC.entityInitializationDone && VeinEntity.hasEntity("SPM1Module1")
-
-            readonly property var sec1mod1Entity: hasSEC1 ? VeinEntity.getEntity("SEC1Module1") : null
-            readonly property var sec1mod2Entity: hasSEC1_2 ? VeinEntity.getEntity("SEC1Module2") : null
-            readonly property var sem1mod1Entity: hasSEM1 ? VeinEntity.getEntity("SEM1Module1") : null
-            readonly property var spm1mod1Entity: hasSPM1 ? VeinEntity.getEntity("SPM1Module1") : null
-
-            readonly property var sec1mod1Running: hasSEC1 && sec1mod1Entity.PAR_StartStop === 1
-            readonly property var sec1mod2Running: hasSEC1_2 && sec1mod2Entity.PAR_StartStop === 1
-            readonly property var sem1mod1Running: hasSEM1 && sem1mod1Entity.PAR_StartStop === 1
-            readonly property var spm1mod1Running: hasSPM1 && spm1mod1Entity.PAR_StartStop === 1
-
-            property bool oneRunning: sec1mod1Running || sec1mod2Running || sem1mod1Running || spm1mod1Running
+        EntityErrorMeasHelper {
+            id: errMeasHelper
         }
 
         ListModel {
@@ -336,7 +321,7 @@ ApplicationWindow {
                     if(!ASWGL.isServer) {
                         iconName = "qrc:/data/staticdata/resources/error_calc.png"
                     }
-                    append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasActive});
+                    append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                 }
                 if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {
                     if(!ASWGL.isServer) {

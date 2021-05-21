@@ -48,6 +48,7 @@
         <file>qml/controls/settings/DeviceSettings.qml</file>
         <file>qml/controls/settings/SettingsInterval.qml</file>
         <file>qml/controls/settings/SettingsView.qml</file>
+        <file>qml/helpers/EntityErrorMeasHelper.qml</file>
         <file>qml/helpers/TaskList.qml</file>
         <file>qml/pages/ActualValuesPage.qml</file>
         <file>qml/pages/ActualValueTabsPage.qml</file>
