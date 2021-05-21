@@ -50,6 +50,7 @@ Item {
                 mipmap: true
             }
             Label {
+                id: nameText
                 text: Z.tr(name)
                 textFormat: Text.PlainText
                 anchors.left: listImage.right
@@ -60,6 +61,10 @@ Item {
                 wrapMode: Label.Wrap
                 font.pointSize: 14
                 color: (gridView.currentItem === gridWrapper ? Material.accentColor : Material.primaryTextColor)
+                ActivityAnimation {
+                    targetItem: nameText
+                    running: typeof activeItem !== 'undefined' ? activeItem.oneRunning : false
+                }
             }
         }
     }
