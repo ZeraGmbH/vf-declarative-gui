@@ -63,7 +63,7 @@ Item {
                 color: (gridView.currentItem === gridWrapper ? Material.accentColor : Material.primaryTextColor)
                 ActivityAnimation {
                     targetItem: nameText
-                    running: typeof activeItem !== 'undefined' ? activeItem.oneRunning : false
+                    running: typeof activeItem !== 'undefined' ? activeItem.oneOrMoreRunning : false
                 }
             }
         }
