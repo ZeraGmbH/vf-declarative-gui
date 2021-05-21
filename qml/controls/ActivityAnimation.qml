@@ -2,7 +2,6 @@ import QtQuick 2.14
 
 SequentialAnimation {
     property var targetItem
-    running: !targetItem.checked
     onRunningChanged: {
         if(!running) {
             targetItem.opacity = 1.0
