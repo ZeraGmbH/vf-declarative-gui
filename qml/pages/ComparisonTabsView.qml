@@ -8,18 +8,14 @@ import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import "../controls"
+import "../helpers"
 
 BaseTabPage {
     id: root
-    readonly property bool hasSEC1: ModuleIntrospection.hasDependentEntities(["SEC1Module1"])
-    readonly property bool hasSEC1_2: ModuleIntrospection.hasDependentEntities(["SEC1Module2"])
-    readonly property bool hasSEM1: ModuleIntrospection.hasDependentEntities(["SEM1Module1"])
-    readonly property bool hasSPM1: ModuleIntrospection.hasDependentEntities(["SPM1Module1"])
 
-    readonly property var sec1mod1Entity: hasSEC1 ? VeinEntity.getEntity("SEC1Module1") : null
-    readonly property var sec1mod2Entity: hasSEC1_2 ? VeinEntity.getEntity("SEC1Module2") : null
-    readonly property var sem1mod1Entity: hasSEM1 ? VeinEntity.getEntity("SEM1Module1") : null
-    readonly property var spm1mod1Entity: hasSPM1 ? VeinEntity.getEntity("SPM1Module1") : null
+    EntityErrorMeasHelper {
+        id: errMeasHelper
+    }
 
     readonly property int aborted: (1<<3)
 
@@ -76,13 +72,12 @@ BaseTabPage {
         id: tabPulse
         TabButton {
             id: tabButtonPulse
-            readonly property var entity: sec1mod1Entity
-            readonly property bool running: entity.PAR_StartStop === 1
-            text: Z.tr("Meter test") + comparisonProgress(entity, running && !checked)
+            readonly property var entity: errMeasHelper.sec1mod1Entity
+            text: Z.tr("Meter test") + comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
             Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPulse
-                running: tabButtonPulse.running && !tabButtonPulse.checked
+                running: errMeasHelper.sec1mod1Running && !tabButtonPulse.checked
             }
         }
     }
@@ -90,13 +85,12 @@ BaseTabPage {
         id: tabPulseEnergy
         TabButton {
             id: tabButtonPulseEnergy
-            readonly property var entity: sec1mod2Entity
-            readonly property bool running: entity.PAR_StartStop === 1
-            text: Z.tr("Energy comparison") + comparisonProgress(entity, running && !checked)
+            readonly property var entity: errMeasHelper.sec1mod2Entity
+            text: Z.tr("Energy comparison") + comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
             Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPulseEnergy
-                running: tabButtonPulseEnergy.running && !tabButtonPulseEnergy.checked
+                running: errMeasHelper.sec1mod2Running && !tabButtonPulseEnergy.checked
             }
         }
     }
@@ -104,13 +98,12 @@ BaseTabPage {
         id: tabEnergy
         TabButton {
             id: tabButtonEnergy
-            readonly property var entity: sem1mod1Entity
-            readonly property bool running: entity.PAR_StartStop === 1
-            text: Z.tr("Energy register") + registerProgress(entity, running && !checked)
-            Material.foreground: registerPass(entity, running) ? Material.White : Material.Red
+            readonly property var entity: errMeasHelper.sem1mod1Entity
+            text: Z.tr("Energy register") + registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
+            Material.foreground: registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonEnergy
-                running: tabButtonEnergy.running && !tabButtonEnergy.checked
+                running: errMeasHelper.sem1mod1Running && !tabButtonEnergy.checked
             }
         }
     }
@@ -118,13 +111,12 @@ BaseTabPage {
         id: tabPower
         TabButton {
             id: tabButtonPower
-            readonly property var entity: spm1mod1Entity
-            readonly property bool running: entity.PAR_StartStop === 1
-            text: Z.tr("Power register") + registerProgress(entity, running && !checked)
-            Material.foreground: registerPass(entity, running) ? Material.White : Material.Red
+            readonly property var entity: errMeasHelper.spm1mod1Entity
+            text: Z.tr("Power register") + registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
+            Material.foreground: registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPower
-                running: tabButtonPower.running && !tabButtonPower.checked
+                running: errMeasHelper.spm1mod1Running && !tabButtonPower.checked
             }
         }
     }
@@ -133,7 +125,7 @@ BaseTabPage {
     Component {
         id: pagePulse
         ErrorCalculatorModulePage {
-            errCalEntity: sec1mod1Entity
+            errCalEntity: errMeasHelper.sec1mod1Entity
             moduleIntrospection: ModuleIntrospection.sec1m1Introspection
             validatorMrate: moduleIntrospection.ComponentInfo.PAR_MRate.Validation
             SwipeView.onIsCurrentItemChanged: {
@@ -146,7 +138,7 @@ BaseTabPage {
     Component {
         id: pagePulseEnergy
         ErrorCalculatorModulePage {
-            errCalEntity: sec1mod2Entity
+            errCalEntity: errMeasHelper.sec1mod2Entity
             moduleIntrospection: ModuleIntrospection.sec1m2Introspection
             validatorEnergy: moduleIntrospection.ComponentInfo.PAR_Energy.Validation
             SwipeView.onIsCurrentItemChanged: {
@@ -159,7 +151,7 @@ BaseTabPage {
     Component {
         id: pageEnergy
         ErrorRegisterModulePage {
-            errCalEntity: sem1mod1Entity
+            errCalEntity: errMeasHelper.sem1mod1Entity
             moduleIntrospection: ModuleIntrospection.sem1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Energy) + " " + moduleIntrospection.ComponentInfo.ACT_Energy.Unit
             SwipeView.onIsCurrentItemChanged: {
@@ -172,7 +164,7 @@ BaseTabPage {
     Component {
         id: pagePower
         ErrorRegisterModulePage {
-            errCalEntity: spm1mod1Entity
+            errCalEntity: errMeasHelper.spm1mod1Entity
             moduleIntrospection: ModuleIntrospection.spm1Introspection
             actualValue: FT.formatNumber(errCalEntity.ACT_Power) + " " + moduleIntrospection.ComponentInfo.ACT_Power.Unit
             SwipeView.onIsCurrentItemChanged: {
@@ -185,19 +177,19 @@ BaseTabPage {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
-        if(hasSEC1) {
+        if(errMeasHelper.hasSEC1) {
             tabBar.addItem(tabPulse.createObject(tabBar))
             swipeView.addItem(pagePulse.createObject(swipeView))
         }
-        if(hasSEC1_2) {
+        if(errMeasHelper.hasSEC1_2) {
             tabBar.addItem(tabPulseEnergy.createObject(tabBar))
             swipeView.addItem(pagePulseEnergy.createObject(swipeView))
         }
-        if(hasSEM1) {
+        if(errMeasHelper.hasSEM1) {
             tabBar.addItem(tabEnergy.createObject(tabBar))
             swipeView.addItem(pageEnergy.createObject(swipeView))
         }
-        if(hasSPM1) {
+        if(errMeasHelper.hasSPM1) {
             tabBar.addItem(tabPower.createObject(tabBar))
             swipeView.addItem(pagePower.createObject(swipeView))
         }
