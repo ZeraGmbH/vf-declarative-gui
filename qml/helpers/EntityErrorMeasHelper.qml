@@ -18,5 +18,5 @@ Item {
     readonly property var sem1mod1Running: hasSEM1 && sem1mod1Entity.PAR_StartStop === 1
     readonly property var spm1mod1Running: hasSPM1 && spm1mod1Entity.PAR_StartStop === 1
 
-    property bool oneRunning: sec1mod1Running || sec1mod2Running || sem1mod1Running || spm1mod1Running
+    property bool oneOrMoreRunning: sec1mod1Running || sec1mod2Running || sem1mod1Running || spm1mod1Running
 }
