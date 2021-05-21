@@ -283,6 +283,25 @@ ApplicationWindow {
             loggerSettingsStackObj: loggerSettingsLoader.item
         }
 
+        // Note: The only way to pass complex stuff ListModel below is to pass
+        // ids of items.
+
+        // running state items
+        Item {
+            id: errMeasActive
+            readonly property bool hasSEC1: GC.entityInitializationDone && VeinEntity.hasEntity("SEC1Module1")
+            readonly property bool hasSEC1_2: GC.entityInitializationDone && VeinEntity.hasEntity("SEC1Module2")
+            readonly property bool hasSEM1: GC.entityInitializationDone && VeinEntity.hasEntity("SEM1Module1")
+            readonly property bool hasSPM1: GC.entityInitializationDone && VeinEntity.hasEntity("SPM1Module1")
+
+            readonly property var sec1mod1Running: hasSEC1 && VeinEntity.getEntity("SEC1Module1").PAR_StartStop === 1
+            readonly property var sec1mod2Running: hasSEC1_2 && VeinEntity.getEntity("SEC1Module2").PAR_StartStop === 1
+            readonly property var sem1mod1Running: hasSEM1  && VeinEntity.getEntity("SEM1Module1").PAR_StartStop === 1
+            readonly property var spm1mod1Running: hasSPM1  && VeinEntity.getEntity("SPM1Module1").PAR_StartStop === 1
+
+            property bool oneRunning: sec1mod1Running || sec1mod2Running || sem1mod1Running || spm1mod1Running
+        }
+
         ListModel {
             id: dynamicPageModel
 
@@ -312,7 +331,7 @@ ApplicationWindow {
                     if(!ASWGL.isServer) {
                         iconName = "qrc:/data/staticdata/resources/error_calc.png"
                     }
-                    append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml"});
+                    append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasActive});
                 }
                 if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {
                     if(!ASWGL.isServer) {

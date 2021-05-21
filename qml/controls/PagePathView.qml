@@ -41,6 +41,10 @@ Item {
                 font.pointSize: root.height * 0.038
                 color: (wrapper.PathView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
                 opacity: 1
+                ActivityAnimation {
+                    targetItem: nameText
+                    running: typeof activeItem !== 'undefined' ? activeItem.oneRunning : false
+                }
                 Rectangle {
                     anchors.fill: parent
                     anchors.margins: -4
