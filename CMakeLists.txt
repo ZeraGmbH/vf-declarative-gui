@@ -19,7 +19,6 @@ find_package(Qt5 "5.12.0" COMPONENTS Core Widgets DBus Xml Quick QuickControls2 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(QWT REQUIRED Qt5Qwt6)
 
-
 find_Package(VfEvent REQUIRED )
 find_Package(VfComponent REQUIRED )
 find_Package(VfNet2 REQUIRED ) 
@@ -39,11 +38,8 @@ find_package(zeraveincomponents REQUIRED)
 find_package(qwtcharts REQUIRED)
 find_package(JsonSettingsQml REQUIRED)
 
-
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
-
-
 
 # All sources by type
 
@@ -56,23 +52,13 @@ file(GLOB_RECURSE APP_SOURCES
     src/*.cpp
     )
 
-file(GLOB APP_RESOURCES
-    *.qrc
-    )
-
-##Sum up all properties
-set(SOURCES   ${APP_SOURCES} ${3RDPARTY_SOURCES}   )
-set(HEADERS   ${APP_HEADERS} ${3RDPARTY_HEADERS}    )
-set(RESOURCES ${APP_RESOURCES} ${3RDPARTY_RESOURCES})
-
-
 # our application
 add_executable(vf-declarative-gui
-    ${SOURCES} ${HEADERS} ${RESOURCES}
+    ${APP_HEADERS}
+    ${APP_SOURCES}
     )
 
 # dependencies
-
 target_include_directories(vf-declarative-gui
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -86,7 +72,6 @@ if(${useGles})
 else()
     set(glLib ${OPENGL_LIBRARIES})
 endif()
-
 
 ## linking
 target_link_libraries(vf-declarative-gui
