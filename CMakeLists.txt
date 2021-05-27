@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.1)
 project(vf-declarative-gui LANGUAGES CXX C)
 set(PROJECT_VERSION "1.4.0")
 
+cmake_policy(SET CMP0071 NEW)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # cmake macros
@@ -12,8 +12,9 @@ include(FeatureSummary)
 
 #Required Packages
 
-##Qt5 libs
+##Qt5
 find_package(Qt5 "5.12.0" COMPONENTS Core Widgets DBus Xml Quick QuickControls2 Qml CONFIG REQUIRED COMPONENTS)
+find_package(Qt5QuickCompiler CONFIG REQUIRED)
 
 ##QWT libs
 find_package(PkgConfig REQUIRED)
@@ -52,10 +53,17 @@ file(GLOB_RECURSE APP_SOURCES
     src/*.cpp
     )
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    qt5_add_resources(APP_RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
+else()
+    qtquick_compiler_add_resources(APP_RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
+endif()
+
 # our application
 add_executable(vf-declarative-gui
     ${APP_HEADERS}
     ${APP_SOURCES}
+    ${APP_RESOURCES}
     )
 
 # dependencies
