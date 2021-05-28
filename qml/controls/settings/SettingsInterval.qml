@@ -124,6 +124,7 @@ Column {
                     height: root.rowHeight
                     entity: periodList[0]
                     controlPropertyName: "PAR_Interval"
+                    stepSize: 5
                     validator: ZDoubleValidator{
                         id: validatorPeriod
                         bottom: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
