@@ -20,6 +20,13 @@ import "qrc:/src/qml/tree"
 BaseTabPage {
     id:tabroot
     anchors.fill: parent
+    // Overrides
+    function getLastTabSelected() {
+        return GC.lastSettingsTabSelected
+    }
+    function setLastTabSelected(tabNo) {
+        GC.setLastSettingsTabSelected(tabNo)
+    }
 
     // Tabs
     Component {

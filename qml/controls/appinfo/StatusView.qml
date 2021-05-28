@@ -11,6 +11,13 @@ import "../../pages"
 BaseTabPage {
     id: root
     readonly property bool hasStatus: VeinEntity.hasEntity("StatusModule1")
+    // Overrides
+    function getLastTabSelected() {
+        return GC.lastInfoTabSelected
+    }
+    function setLastTabSelected(tabNo) {
+        GC.setLastInfoTabSelected(tabNo)
+    }
 
     // TabButtons
     Component {

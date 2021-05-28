@@ -7,9 +7,16 @@ Item {
     property alias swipeView: swipeView
     property alias tabBar: tabBar
     property alias initTimer: initTimer
-
+    // We default to what most views (measurement pages) do. Other type
+    // of views can override getLastTabSelected and setLastTabSelected
+    function getLastTabSelected() {
+        return GC.lastTabSelected
+    }
+    function setLastTabSelected(tabNo) {
+        GC.setLastTabSelected(tabNo)
+    }
     function finishInit() {
-        let lastTabSelected = GC.lastTabSelected
+        let lastTabSelected = getLastTabSelected()
         if(lastTabSelected >= swipeView.count) {
             lastTabSelected = 0
         }
@@ -46,7 +53,7 @@ Item {
         currentIndex: swipeView.currentIndex
         onCurrentIndexChanged: {
             if(initialized) {
-                GC.setLastTabSelected(currentIndex)
+                setLastTabSelected(currentIndex)
                 swipeView.forceActiveFocus()
             }
         }
