@@ -1,0 +1,27 @@
+name: Trigger pull request on vf-metaproject
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug
+        run: |
+          #export
+          echo "repo: ${{github.repository}}"
+          echo "sha: ${{github.sha}}"
+          echo "test ${{github.event.pull_request.head.ref}}"
+
+      - uses: convictional/trigger-workflow-and-wait@v1.4.0
+        with:
+          owner: ZeraGmbH
+          repo: vf-metaproject
+          workflow_file_name: submodule_pr.yml
+          inputs: '{"pr_repo": "${{github.repository}}", "pr_sha": "${{github.sha}}" }'
+          ref: master
+          github_token: ${{ secrets.G_TRIGGER_WORKFLOW }}
