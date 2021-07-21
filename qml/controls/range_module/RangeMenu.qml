@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import QtQuick.Controls.Material 2.0
@@ -8,12 +8,14 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
+import ZeraComponents 1.0
+import QtQml.Models 2.11
 
 Item {
     id: root
 
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-    readonly property bool groupingActive: groupingMode.checked
+    //    readonly property bool groupingActive: groupingMode.checked
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
     readonly property var upperChannels: {
@@ -52,132 +54,102 @@ Item {
     anchors.leftMargin: 300
     anchors.rightMargin: 300
 
-    Item {
-        id: grid
-
-        property real cellHeight: height/15
-        property real cellWidth: width/16
-
-        function getColorByIndex(rangIndex) {
-            var retVal;
-            if(autoMode.checked) {
-                retVal = "gray"
-            }
-            else if(groupingMode.checked) {
-                var channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
-                if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1.indexOf(channelName)>-1) {
-                    retVal = GC.groupColorVoltage
-                }
-                else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2.indexOf(channelName)>-1) {
-                    retVal = GC.groupColorCurrent
-                }
-                else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3.indexOf(channelName)>-1) {
-                    retVal = GC.groupColorReference
-                }
-            }
-            else {
-                retVal = GC.currentColorTable[rangIndex-1]
-            }
-            return retVal;
+    function getColorByIndex(rangIndex) {
+        var retVal;
+        if(autoMode.checked) {
+            retVal = "gray"
         }
-
-        anchors.fill: parent
-        anchors.margins: parent.width*0.02
-
-        Label {
-            text: Z.tr("Range automatic:")
-            y: grid.cellHeight*0.75
-            height: grid.cellHeight*2
-            width: grid.cellWidth*4
-            font.pixelSize: Math.min(18, root.height/20, width/6.5)
-            color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
-        }
-        VFSwitch {
-            id: autoMode
-            x: grid.cellWidth*5
-            height: grid.cellHeight*2
-            width: grid.cellWidth*4
-            entity: root.rangeModule
-            controlPropertyName: "PAR_RangeAutomatic"
-            enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
-        }
-        Button {
-            id: overloadButton
-            property int overload: root.rangeModule.PAR_Overload
-
-            text: Z.tr("Overload")
-            enabled: overload
-            x: grid.cellWidth*16 - width
-            height: grid.cellHeight * 2
-            width: grid.cellWidth * 4
-            font.pixelSize: Math.min(14, root.height/24, width/8)
-
-            onClicked: {
-                root.rangeModule.PAR_Overload = 0;
+        else if(groupingMode.checked) {
+            var channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
+            if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1.indexOf(channelName)>-1) {
+                retVal = GC.groupColorVoltage
             }
-
-            background: Rectangle {
-                implicitWidth: 64
-                implicitHeight: 48
-
-                // external vertical padding is 6 (to increase touch area)
-                y: 6
-                width: parent.width
-                height: parent.height - 12
-                radius: 2
-
-                color: overloadButton.overload ? "darkorange" : Material.switchDisabledHandleColor
-
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 400
-                    }
-                }
+            else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2.indexOf(channelName)>-1) {
+                retVal = GC.groupColorCurrent
+            }
+            else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3.indexOf(channelName)>-1) {
+                retVal = GC.groupColorReference
             }
         }
-        Label {
-            text: Z.tr("Range grouping:")
-            y: grid.cellHeight*2.75
-            height: grid.cellHeight*2
-            width: grid.cellWidth*4
-            font.pixelSize: Math.min(18, root.height/20, width/6.5)
-            color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
+        else {
+            retVal = GC.currentColorTable[rangIndex-1]
         }
-        VFSwitch {
-            id: groupingMode
-            y: grid.cellHeight*2
-            x: grid.cellWidth*5
-            height: grid.cellHeight*2
-            width: grid.cellWidth*4
-            entity: root.rangeModule
-            enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
-            controlPropertyName: "PAR_ChannelGrouping"
+        return retVal;
+    }
+
+
+
+
+
+
+
+
+
+
+    ObjectModel{
+        id: leftView
+        readonly property int labelWidth : root.width/4
+        readonly property int rowHeight : root.height/10
+        // this Item is not active yet. In development for ExtTrans
+        Item{
+            width: parent.width
+            height: leftView.rowHeight
+            Label {
+                text: Z.tr("Range automatic:")
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: Math.min(18, root.height/20)
+                color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
+                z: 10
+            }
+            VFSwitch {
+                id: autoMode
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                entity: root.rangeModule
+                controlPropertyName: "PAR_RangeAutomatic"
+                enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
+            }
+        }
+        Item{
+            width: parent.width
+            height: leftView.rowHeight
+            Label {
+                text: Z.tr("Range grouping:")
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: Math.min(18, root.height/20)
+                color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
+            }
+            VFSwitch {
+                id: groupingMode
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                entity: root.rangeModule
+                enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
+                controlPropertyName: "PAR_ChannelGrouping"
+            }
         }
         Label {
             text: Z.tr("Manual:")
             font.pixelSize: Math.min(18, root.height/20)
             enabled: !autoMode.checked
             color: enabled ? Material.primaryTextColor : Material.hintTextColor
-            y: grid.cellHeight*5
-            height: grid.cellHeight
-            width: grid.cellWidth*16
         }
-
         ListView {
+            id: uranges
+            width: parent.width
+            height: 1.4*leftView.rowHeight
             model: root.upperChannels
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: height*2
-            height: grid.cellHeight*3
             boundsBehavior: Flickable.StopAtBounds
 
             orientation: ListView.Horizontal
 
             delegate: Item {
-                height: grid.cellHeight*3
-                width: grid.cellWidth*4
+                height: parent.height
+                width: uranges.width/4
                 Label {
+                    id: urlabel
                     text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
                     color: FT.getColorByIndex(modelData+1, root.groupingActive)
                     anchors.bottom: parent.top
@@ -193,29 +165,28 @@ Item {
                     centerVertical: true
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: parent.height/3
+                    anchors.top: urlabel.bottom
                     width: parent.width*0.95
                     enabled: parent.enabled
-                    fontSize: Math.min(18, root.height/20, width/6)
+                    fontSize: Math.min(18, root.height/20,width/6)
                 }
             }
         }
+
         ListView {
+            id: iranges
+            width: parent.width
+            height: 1.4*leftView.rowHeight
             model: root.lowerChannels
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: height
-            height: grid.cellHeight*3
             boundsBehavior: Flickable.StopAtBounds
 
             orientation: ListView.Horizontal
 
             delegate: Item {
-                height: grid.cellHeight*3
-                width: grid.cellWidth*4
+                height: parent.height
+                width: iranges.width/4
                 Label {
+                    id: irlabel
                     text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
                     color: FT.getColorByIndex(modelData+1, root.groupingActive)
                     anchors.bottom: parent.top
@@ -232,13 +203,55 @@ Item {
                     centerVertical: true
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: parent.height/3
+                    anchors.top: irlabel.bottom
                     width: parent.width*0.95
                     enabled: parent.enabled
-                    fontSize: Math.min(18, root.height/20, width/6)
+                    fontSize: Math.min(18, root.height/20,width/6)
+                }//            anchors.top: iranges.bottom
+            }
+        }
+    }
+
+    ListView {
+        id: leftList
+        anchors.top: parent.top
+        anchors.bottom: overloadButton.top
+        anchors.left: parent.left
+        width: parent.width
+        spacing: 5
+        model: leftView
+    }
+
+    Button {
+        id: overloadButton
+        property int overload: root.rangeModule.PAR_Overload
+        anchors.bottom: parent.bottom
+        text: Z.tr("Overload")
+        enabled: overload
+        font.pixelSize: Math.min(14, root.height/24)
+
+        onClicked: {
+            root.rangeModule.PAR_Overload = 0;
+        }
+
+        background: Rectangle {
+            implicitWidth: 64
+            implicitHeight: 48
+
+            // external vertical padding is 6 (to increase touch area)
+            y: 6
+            width: parent.width
+            height: parent.height - 12
+            radius: 2
+
+            color: overloadButton.overload ? "darkorange" : Material.switchDisabledHandleColor
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: 400
                 }
             }
         }
     }
+
 }
