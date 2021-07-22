@@ -172,40 +172,6 @@ Item {
                 }
             }
         }
-        // this Item is not active yet. In development for ExtTrans
-        Item{
-            id: extU
-            width: iranges.width
-            height: leftView.rowHeight
-            visible: false
-            Label{
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("UExt:")
-                font.pixelSize: Math.min(18, root.height/20)
-            }
-
-            VFLineEdit {
-                id: uTrZ
-                width: parent.width/3
-                height: leftView.rowHeight
-                anchors.right: extUcheck.left
-                description.width: 0
-                pointSize: Math.min(24, root.height/30)
-                enabled: root.rangeModule.PAR_UPreScalingAct
-                entity: root.rangeModule
-                controlPropertyName: "PAR_UPreScaling"
-                validator: RegExpValidator{regExp: /^[1-9]{1,4}\/[1-9]{1,4}$/ }
-            }
-
-            VFSwitch{
-                id: extUcheck
-                entity: root.rangeModule
-                controlPropertyName: "PAR_UPreScalingEnabled"
-                anchors.right: parent.right
-
-            }
-        }
 
         ListView {
             id: iranges
@@ -244,41 +210,6 @@ Item {
                 }//            anchors.top: iranges.bottom
             }
         }
-
-        Item{
-            id: extI
-            width: iranges.width
-            height: leftView.rowHeight
-            visible: false
-            Label{
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("IExt:")
-                font.pixelSize: Math.min(18, root.height/20)
-            }
-
-            VFLineEdit {
-                id: iTrZ
-                width: parent.width/3
-                height: leftView.rowHeight
-                anchors.right: extIcheck.left
-                description.width: 0
-                pointSize: Math.min(24, root.height/30)
-                enabled: root.rangeModule.PAR_IPreScalingAct
-                entity: root.rangeModule
-                controlPropertyName: "PAR_IPreScaling"
-                validator: RegExpValidator{regExp: /^[1-9]{1,4}\/[1-9]{1,4}$/ }
-            }
-            VFSwitch{
-                id: extIcheck
-                anchors.right: parent.right
-                entity: root.rangeModule
-                controlPropertyName: "PAR_IPreScalingEnabled"
-            }
-        }
-
-
-
     }
 
     ListView {
