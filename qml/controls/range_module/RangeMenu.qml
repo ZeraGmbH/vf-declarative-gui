@@ -54,38 +54,6 @@ Item {
     anchors.leftMargin: 300
     anchors.rightMargin: 300
 
-    function getColorByIndex(rangIndex) {
-        var retVal;
-        if(autoMode.checked) {
-            retVal = "gray"
-        }
-        else if(groupingMode.checked) {
-            var channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
-            if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1.indexOf(channelName)>-1) {
-                retVal = GC.groupColorVoltage
-            }
-            else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2.indexOf(channelName)>-1) {
-                retVal = GC.groupColorCurrent
-            }
-            else if(ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3.indexOf(channelName)>-1) {
-                retVal = GC.groupColorReference
-            }
-        }
-        else {
-            retVal = GC.currentColorTable[rangIndex-1]
-        }
-        return retVal;
-    }
-
-
-
-
-
-
-
-
-
-
     ObjectModel{
         id: leftView
         readonly property int labelWidth : root.width/4
