@@ -81,7 +81,7 @@ Item {
             }
         }
         Item{
-            width: parent.width
+            width: leftList.width
             height: leftView.rowHeight
             Label {
                 text: Z.tr("Range grouping:")
@@ -107,7 +107,7 @@ Item {
         }
         ListView {
             id: uranges
-            width: parent.width
+            width: leftList.width
             height: 1.4*leftView.rowHeight
             model: root.upperChannels
             boundsBehavior: Flickable.StopAtBounds
@@ -144,7 +144,7 @@ Item {
 
         ListView {
             id: iranges
-            width: parent.width
+            width: leftList.width
             height: 1.4*leftView.rowHeight
             model: root.lowerChannels
             boundsBehavior: Flickable.StopAtBounds
