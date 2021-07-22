@@ -10,7 +10,8 @@ Item {
     id: root
 
     readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
-    readonly property int rowHeight: Math.floor(height/20)
+    readonly property real rowHeight: height / 20
+    readonly property real pointSize: rowHeight * 0.7
 
     property var dynVersions: []
     readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
@@ -50,14 +51,14 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("Serial number:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.PAR_SerialNr
             }
         }
@@ -65,14 +66,14 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("Operating system version:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.INF_ReleaseNr
             }
         }
@@ -80,14 +81,14 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("PCB server version:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.INF_PCBServerVersion
             }
         }
@@ -95,14 +96,14 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("DSP server version:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.INF_DSPServerVersion
             }
         }
@@ -110,14 +111,14 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("DSP firmware version:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.INF_DSPVersion
             }
         }
@@ -125,14 +126,14 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("FPGA firmware version:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.INF_FPGAVersion
             }
         }
@@ -140,14 +141,14 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("Microcontroller firmware version:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.INF_CTRLVersion
             }
         }
@@ -156,14 +157,14 @@ Item {
             height: root.rowHeight
             Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("Adjustment status:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: GC.adjustmentStatusDescription
             }
         }
@@ -171,19 +172,20 @@ Item {
             width: parent.width
             height: root.rowHeight
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: Z.tr("Adjustment checksum:")
             }
             Item {
                 Layout.fillWidth: true
             }
             Label {
-                font.pointSize: 14
+                font.pointSize: root.pointSize
                 text: statusEnt.INF_AdjChksum
             }
         }
         ColumnLayout {
             width: parent.width
+            spacing: rowHeight/2
             Repeater {
                 id: repeaterVersions
                 model: []
@@ -191,13 +193,13 @@ Item {
                     height: root.rowHeight
                     Label {
                         text: modelData[0] + ":"
-                        font.pointSize: 14
+                        font.pointSize: root.pointSize
                     }
                     Item {
                         Layout.fillWidth: true
                     }
                     Label {
-                        font.pointSize: 14
+                        font.pointSize: root.pointSize
                         text: modelData[1]
                     }
                 }
