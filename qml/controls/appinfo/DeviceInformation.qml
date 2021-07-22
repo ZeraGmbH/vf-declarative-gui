@@ -12,6 +12,37 @@ Item {
     readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
     readonly property int rowHeight: Math.floor(height/20)
 
+    property var dynVersions: []
+    readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
+    onHasCpuInfoChanged: {
+        if(hasCpuInfo) {
+            appendDynVersions(VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"])
+        }
+    }
+    function appendDynVersions(strJsonCpuInfo) {
+        // Vein/JSON version lookup fields:
+        // 1st: Text displayed in label
+        // 2nd: JSON input field name
+        let dynVersionLookup = [
+            [Z.tr("CPU-board number"),   "PartNumber"],
+            [Z.tr("CPU-board assembly"),  "Assembly"],
+            [Z.tr("CPU-board date"),    "Date"],
+        ];
+        // 1st: Text displayed in label
+        // 2nd: version
+        if(strJsonCpuInfo !== "") {
+            let jsonCpuInfo = JSON.parse(strJsonCpuInfo)
+            for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
+                let jsonVerName = dynVersionLookup[lookupItem][1]
+                if(jsonVerName in jsonCpuInfo) {
+                    let item = [dynVersionLookup[lookupItem][0], jsonCpuInfo[jsonVerName]]
+                    dynVersions.push(item)
+                }
+            }
+            repeaterVersions.model = dynVersions
+        }
+    }
+
     VisualItemModel {
         id: statusModel
 
@@ -149,6 +180,27 @@ Item {
             Label {
                 font.pointSize: 14
                 text: statusEnt.INF_AdjChksum
+            }
+        }
+        ColumnLayout {
+            width: parent.width
+            Repeater {
+                id: repeaterVersions
+                model: []
+                RowLayout {
+                    height: root.rowHeight
+                    Label {
+                        text: modelData[0] + ":"
+                        font.pointSize: 14
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    Label {
+                        font.pointSize: 14
+                        text: modelData[1]
+                    }
+                }
             }
         }
     }
