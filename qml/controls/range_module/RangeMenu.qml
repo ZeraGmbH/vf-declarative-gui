@@ -15,8 +15,9 @@ Item {
     id: root
 
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-    //    readonly property bool groupingActive: groupingMode.checked
+    readonly property bool groupingActive: groupingMode.checked
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+
     //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
     readonly property var upperChannels: {
         var retVal = [];
