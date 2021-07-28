@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Window 2.0
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 import QtQuick.VirtualKeyboard 2.4
@@ -23,6 +23,7 @@ import "controls/settings"
 
 ApplicationWindow {
     id: displayWindow
+
 
     // used to display the fps and other debug infos
     property bool debugBypass: false;
@@ -385,9 +386,12 @@ ApplicationWindow {
 
     InputPanel {
         id: inputPanel
+        parent: Overlay.overlay
+        z:100
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
         property bool textEntered: Qt.inputMethod.visible
         onHeightChanged: GC.vkeyboardHeight = height
         opacity: 0
@@ -404,12 +408,27 @@ ApplicationWindow {
                 }
             }
         }
+        // keyboard is an Overlay child. Overlay is shifted if keyboard is over textelement.
+        // Animation shifts keyboard in opposite direction of Overlay to keep absolute position static.
+        NumberAnimation on anchors.bottomMargin {
+            duration: 300
+            id: keyboardAnimation2
+        }
+
         onTextEnteredChanged: {
             var rectInput = Qt.inputMethod.anchorRectangle
             if(inputPanel.textEntered) {
                 if(GC.showVirtualKeyboard) {
                     if(rectInput.bottom > inputPanel.y) {
+                        // shift flickable (normal elements)
                         flickableAnimation.to = rectInput.bottom - inputPanel.y + 10
+                        // shift overlay (Popup)
+                        overlayAnimation.to = -(rectInput.bottom - inputPanel.y + 10)
+                        // shift keyboard (keep static)
+                        keyboardAnimation2.to = -(rectInput.bottom - inputPanel.y + 10)
+
+                        overlayAnimation.start()
+                        keyboardAnimation2.start()
                         flickableAnimation.start()
                     }
                     keyboardAnimation.to = 1
@@ -419,7 +438,12 @@ ApplicationWindow {
             }
             else {
                 if(flickable.contentY !== 0) {
+                    // shift everything back
+                    overlayAnimation.to = 0
+                    keyboardAnimation2.to = 0
                     flickableAnimation.to = 0
+                    overlayAnimation.start()
+                    keyboardAnimation2.start()
                     flickableAnimation.start()
                 }
                 keyboardAnimation.to = 0
@@ -427,6 +451,12 @@ ApplicationWindow {
                 keyboardAnimation.start()
             }
         }
+    }
+
+    // Overlay animation. Shift overlay if textfield is under keyboard (for popups)
+    NumberAnimation on Overlay.overlay.y {
+        duration: 300
+        id: overlayAnimation
     }
 
     Popup {
