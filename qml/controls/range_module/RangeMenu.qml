@@ -146,7 +146,7 @@ Item {
             id: extU
             width: iranges.width
             height: leftView.rowHeight
-            visible: false
+            visible: true
             Label{
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
@@ -154,26 +154,53 @@ Item {
                 font.pixelSize: Math.min(18, root.height/20)
             }
 
-            VFLineEdit {
+            ZLineEdit {
                 id: uTrZ
                 width: parent.width/3
                 height: leftView.rowHeight
-                anchors.right: extUcheck.left
+                anchors.right: sqrtComb.left
                 description.width: 0
                 pointSize: Math.min(24, Math.max(1,root.height/30))
-                enabled: root.rangeModule.PAR_UPreScalingEnabled
-                entity: root.rangeModule
-                controlPropertyName: "PAR_UPreScaling"
+                text: rangeModule["PAR_PreScalingGroupe0"].split("*")[0]
                 validator: RegExpValidator{regExp: /^[1-9]{1,4}\/[1-9]{1,4}$/ }
+                function doApplyInput(newText) {
+                    rangeModule["PAR_PreScalingGroupe0"]=newText+sqrtComb.currentText
+                }
             }
+
+            ZVisualComboBox {
+                id: sqrtComb
+                height: leftView.rowHeight
+                width:70
+                anchors.right: extUcheck.left
+
+                model: ["","*(sqrt(3))","*(1/sqrt(3))"]
+                imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
+                automaticIndexChange: true
+                currentIndex:{
+                    if(rangeModule["PAR_PreScalingGroupe0"].includes("(1/sqrt(3))")){
+                        return 2;
+                    }else if(rangeModule["PAR_PreScalingGroupe0"].includes("(sqrt(3))")){
+                        return 1;
+                    }
+
+                    return 0;
+                }
+                onSelectedTextChanged: {
+                    rangeModule["PAR_PreScalingGroupe0"]=uTrZ.text+selectedText
+                }
+            }
+
 
             VFSwitch{
                 id: extUcheck
                 entity: root.rangeModule
-                controlPropertyName: "PAR_UPreScalingEnabled"
+                controlPropertyName: "PAR_PreScalingEnabledGroupe0"
                 anchors.right: parent.right
 
             }
+
+
         }
 
         ListView {
@@ -218,7 +245,7 @@ Item {
             id: extI
             width: iranges.width
             height: leftView.rowHeight
-            visible: false
+            visible: true
             Label{
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
@@ -231,18 +258,18 @@ Item {
                 width: parent.width/3
                 height: leftView.rowHeight
                 anchors.right: extIcheck.left
+                anchors.rightMargin: 70
                 description.width: 0
                 pointSize: Math.min(24, Math.max(1,root.height/30))
-                enabled: root.rangeModule.PAR_IPreScalingEnabled
                 entity: root.rangeModule
-                controlPropertyName: "PAR_IPreScaling"
-                validator: RegExpValidator{regExp: /^[1-9]{1,4}\/[1-9]{1,4}$/ }
+                controlPropertyName: "PAR_PreScalingGroupe1"
+                validator: RegExpValidator{regExp: /^[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}$/ }
             }
             VFSwitch{
                 id: extIcheck
                 anchors.right: parent.right
                 entity: root.rangeModule
-                controlPropertyName: "PAR_IPreScalingEnabled"
+                controlPropertyName: "PAR_PreScalingEnabledGroupe1"
             }
         }
 
