@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -13,6 +13,7 @@ import ZeraFa 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
 import "../settings"
+import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
 
 Item {
     id: root
@@ -175,6 +176,7 @@ Item {
             enabled: logicalParent.canStartMeasurement || logicalParent.errCalEntity.PAR_Continuous
 
             Label {
+                id: meterConstLabel
                 textFormat: Text.PlainText
                 anchors.left: parent.left
                 anchors.leftMargin: GC.standardTextHorizMargin
@@ -183,6 +185,33 @@ Item {
                 text: Z.tr("DUT constant:")
                 font.pointSize: root.pointSize
             }
+
+            Button{
+                id: popButton
+                //font.family: FA.old
+                text: FA.icon(FA.fa_cogs)
+                anchors.right: meterConstLabel.right
+                anchors.verticalCenter: meterConstLabel.verticalCenter
+                font.pointSize: pointSize
+                anchors.rightMargin: 10
+                onPressed: {
+                    meterConstSettings.open()
+                }
+            }
+
+            ErrorCommon.MeterConstantSettings {
+                 id: meterConstSettings
+                 parent: Overlay.overlay
+                 width: parent.width
+                 height: parent.height
+                 modal: false
+                 focus: true
+                 visible: false
+                 closePolicy: Popup.NoAutoClose
+                 z: 1
+             }
+
+
 
             VFLineEdit {
                 entity: logicalParent.errCalEntity
