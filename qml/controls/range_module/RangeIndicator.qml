@@ -5,7 +5,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
-import ZeraFa 1.0
+import ZeraFa 1.1
 
 
 Loader {
@@ -77,13 +77,21 @@ Loader {
 
                 Label {
                     anchors.centerIn: parent
-                    font.family: FA.old
+                    font.family: FA.regular
                     font.pointSize: pointSize
-                    text: FA.fa_exclamation_triangle
-
+                    text: {
+                        if(overload){
+                            return FA.icons.fa_exclamation_triangle;
+                        }else if(preScale){
+                            return FA.icons.fa_percent;
+                        }else{
+                            return FA.icons.fa_exclamation_triangle;
+                        }
+                    }
                     property bool overload: rangeModule.PAR_Overload === 1
-                    opacity: overload ? 1.0 : 0.2
-                    color:  overload ? Material.color(Material.Yellow) : Material.color(Material.Grey)
+                    property bool preScale: rangeModule.PAR_PreScalingEnabledGroupe0 || rangeModule.PAR_PreScalingEnabledGroupe1
+                    opacity: (overload || preScale) ? 1.0 : 0.2
+                    color:  (overload || preScale) ? Material.color(Material.Yellow) : Material.color(Material.Grey)
                 }
             }
 
