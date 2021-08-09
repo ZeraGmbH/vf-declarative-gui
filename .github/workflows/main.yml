@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
         with:
-          name: bhamacher/vf-metaproject
+          name:  ZeraGmbH/vf-helpers 
       - name: Build
         run: |
           mkdir -p "$HOME/build"
