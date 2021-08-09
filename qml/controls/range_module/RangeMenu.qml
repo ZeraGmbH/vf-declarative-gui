@@ -161,10 +161,10 @@ Item {
                 anchors.right: sqrtComb.left
                 description.width: 0
                 pointSize: Math.min(24, Math.max(1,root.height/30))
-                text: rangeModule["PAR_PreScalingGroupe0"].split("*")[0]
+                text: rangeModule["PAR_PreScalingGroup0"].split("*")[0]
                 validator: RegExpValidator{regExp: /^[1-9]{1,4}\/[1-9]{1,4}$/ }
                 function doApplyInput(newText) {
-                    rangeModule["PAR_PreScalingGroupe0"]=newText+sqrtComb.currentText
+                    rangeModule["PAR_PreScalingGroup0"]=newText+sqrtComb.currentText
                 }
             }
 
@@ -178,16 +178,16 @@ Item {
                 imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
                 automaticIndexChange: true
                 currentIndex:{
-                    if(rangeModule["PAR_PreScalingGroupe0"].includes("(1/sqrt(3))")){
+                    if(rangeModule["PAR_PreScalingGroup0"].includes("(1/sqrt(3))")){
                         return 2;
-                    }else if(rangeModule["PAR_PreScalingGroupe0"].includes("(sqrt(3))")){
+                    }else if(rangeModule["PAR_PreScalingGroup0"].includes("(sqrt(3))")){
                         return 1;
                     }
 
                     return 0;
                 }
                 onSelectedTextChanged: {
-                    rangeModule["PAR_PreScalingGroupe0"]=uTrZ.text+selectedText
+                    rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+selectedText
                 }
             }
 
@@ -195,7 +195,7 @@ Item {
             VFSwitch{
                 id: extUcheck
                 entity: root.rangeModule
-                controlPropertyName: "PAR_PreScalingEnabledGroupe0"
+                controlPropertyName: "PAR_PreScalingEnabledGroup0"
                 anchors.right: parent.right
 
             }
@@ -262,14 +262,14 @@ Item {
                 description.width: 0
                 pointSize: Math.min(24, Math.max(1,root.height/30))
                 entity: root.rangeModule
-                controlPropertyName: "PAR_PreScalingGroupe1"
+                controlPropertyName: "PAR_PreScalingGroup1"
                 validator: RegExpValidator{regExp: /^[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}$/ }
             }
             VFSwitch{
                 id: extIcheck
                 anchors.right: parent.right
                 entity: root.rangeModule
-                controlPropertyName: "PAR_PreScalingEnabledGroupe1"
+                controlPropertyName: "PAR_PreScalingEnabledGroup1"
             }
         }
 
