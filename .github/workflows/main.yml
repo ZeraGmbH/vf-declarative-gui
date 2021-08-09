@@ -1,0 +1,48 @@
+name: CI
+# TODO:
+# * deploy install artefacts
+# * common actions?
+# * hardened buildflags
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  CLAZY_CHECKS: "level1"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    continue-on-error: true
+
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    container:
+      image: schnitzeltony/fedora-qt5:32
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          name: bhamacher/vf-metaproject
+      - name: Build
+        run: |
+          mkdir -p "$HOME/build"
+          cd "$HOME/build"
+          # clang specifics
+          if [ "${{ matrix.compiler }}" == "clang" ]; then
+            export CC=clang
+            #export CXX=clang++
+            export CXX=clazy
+          fi
+          # configure
+          cmake $GITHUB_WORKSPACE \
+            -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
+            -DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
+            -DCMAKE_INSTALL_SYSCONFDIR="$HOME/install/etc" \
+            -DfirstBuild=ON
+          # compile / install
+          make -j $(getconf _NPROCESSORS_ONLN)
