@@ -194,6 +194,13 @@ Item {
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 font.pointSize: pointSize
                 anchors.rightMargin: 10
+                Material.foreground: {
+                    if(logicalParent.errCalEntity["PAR_DutTypeMeasurePoint"] === "CsIsUs"){
+                        return "white";
+                    }else{
+                        return Material.color(Material.Amber) // show settings are not default
+                    }
+                }
                 onPressed: {
                     meterConstSettings.open()
                 }
