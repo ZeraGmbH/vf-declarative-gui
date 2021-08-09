@@ -89,7 +89,7 @@ Loader {
                         }
                     }
                     property bool overload: rangeModule.PAR_Overload === 1
-                    property bool preScale: rangeModule.PAR_PreScalingEnabledGroupe0 || rangeModule.PAR_PreScalingEnabledGroupe1
+                    property bool preScale: rangeModule.PAR_PreScalingEnabledGroup0 || rangeModule.PAR_PreScalingEnabledGroup1
                     opacity: (overload || preScale) ? 1.0 : 0.2
                     color:  (overload || preScale) ? Material.color(Material.Yellow) : Material.color(Material.Grey)
                 }
