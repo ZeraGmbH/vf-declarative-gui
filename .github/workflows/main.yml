@@ -31,45 +31,47 @@ jobs:
           submodules: recursive
       - name: BuildBase
         run: |
-          mkdir -p "$HOME/build"
-          cd "$HOME/build"
+          echo $HOME
+         # mkdir -p "$HOME/build"
+         # cd "$HOME/build"
           # clang specifics
-          if [ "${{ matrix.compiler }}" == "clang" ]; then
-            export CC=clang
+         # if [ "${{ matrix.compiler }}" == "clang" ]; then
+          #  export CC=clang
             #export CXX=clang++
-            export CXX=clazy
-          fi
+           # export CXX=clazy
+          #fi
           # configure
-          cmake $GITHUB_WORKSPACE \
-            -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
-            -DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
-            -DCMAKE_INSTALL_SYSCONFDIR="$HOME/install/etc" \
-            -DfirstBuild=ON
+          #cmake $GITHUB_WORKSPACE \
+           # -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
+            #-DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
+            #-DCMAKE_INSTALL_SYSCONFDIR="$HOME/install/etc" \
+            #-DfirstBuild=ON
           # compile / install
-          make -j $(getconf _NPROCESSORS_ONLN)
+          #make -j $(getconf _NPROCESSORS_ONLN)
       - uses: actions/checkout@master
         with:
           submodules: recursive
       - name: Build
         run: |
-          mkdir -p "$HOME/build"
-          cd "$HOME/build"
-          # clang specifics
-          if [ "${{ matrix.compiler }}" == "clang" ]; then
-            export CC=clang
+          echo $HOME
+          #mkdir -p "$HOME/build"
+          #cd "$HOME/build"
+          ## clang specifics
+          #if [ "${{ matrix.compiler }}" == "clang" ]; then
+           # export CC=clang
             #export CXX=clang++
-            export CXX=clazy
-          fi
+           # export CXX=clazy
+          #fi
           # configure
-          cmake $GITHUB_WORKSPACE \
-            -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
-            -DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
-            -DCMAKE_INSTALL_SYSCONFDIR="$HOME/install/etc" \
-            -DfirstBuild=ON
+          #cmake $GITHUB_WORKSPACE \
+          #  -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
+           # -DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
+           # -DCMAKE_INSTALL_SYSCONFDIR="$HOME/install/etc" \
+           # -DfirstBuild=ON
           # compile / install
-          make -j $(getconf _NPROCESSORS_ONLN)
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: vf-declarative-gui
-          path: /__w/vf-declarative-gui/vf-declarative-gui/build/vf-declarative-gui
+          # make -j $(getconf _NPROCESSORS_ONLN)
+    #  - name: Upload a Build Artifact
+    #    uses: actions/upload-artifact@v2.2.4
+    #    with:
+    #      name: vf-declarative-gui
+    #      path: /__w/vf-declarative-gui/vf-declarative-gui/build/vf-declarative-gui
