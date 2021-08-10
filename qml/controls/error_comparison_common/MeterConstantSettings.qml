@@ -134,23 +134,6 @@ Popup {
                         width: Math.min(parent.width-itrLabel.width,parent.width/2)
                         height: 2*propertieModel.rowHeight
                         ZLineEdit {
-                            id: iTrZ
-                            width: parent.width - comboBoxWidth
-                            height: propertieModel.rowHeight
-                            anchors.right: parent.right
-                            anchors.rightMargin: comboBoxWidth
-                            pointSize: root.pointSize
-                            description.width: 50
-                            description.text: "Sec:"
-                            text: secEntity["PAR_DutConstantIScaleNum"]
-                            unit.text: "A"
-                            validator: IntValidator{}
-                            function doApplyInput(newText) {
-                                secEntity["PAR_DutConstantIScaleNum"]=newText
-                            }
-                        }
-
-                        ZLineEdit {
                             id: iTrN
                             width: parent.width - comboBoxWidth
                             height: propertieModel.rowHeight
@@ -161,8 +144,25 @@ Popup {
                             description.text: "Prim:"
                             text: secEntity["PAR_DutConstantIScaleDenom"]
                             unit.text: "A"
+                            validator: IntValidator{}
                             function doApplyInput(newText) {
                                 secEntity["PAR_DutConstantIScaleDenom"]=newText
+                            }
+                        }
+
+                        ZLineEdit {
+                            id: iTrZ
+                            width: parent.width - comboBoxWidth
+                            height: propertieModel.rowHeight
+                            anchors.right: parent.right
+                            anchors.rightMargin: comboBoxWidth
+                            pointSize: root.pointSize
+                            description.width: 50
+                            description.text: "Sec:"
+                            text: secEntity["PAR_DutConstantIScaleNum"]
+                            unit.text: "A"
+                            function doApplyInput(newText) {
+                                secEntity["PAR_DutConstantIScaleNum"]=newText
                             }
                         }
 
@@ -184,46 +184,6 @@ Popup {
                         anchors.right: parent.right
                         width:  Math.min(parent.width-utrLabel.width,parent.width/2)
                         height: 2*propertieModel.rowHeight
-                        Item{
-                            height: propertieModel.rowHeight
-                            width: parent.width
-                            ZLineEdit {
-                                id: uTrZ
-                                width: parent.width-uZComb.width
-                                height: propertieModel.rowHeight
-                                anchors.right: uZComb.left
-                                pointSize: root.pointSize
-                                description.width: 50
-                                description.text: "Sec:"
-                                text: secEntity["PAR_DutConstantUScaleNum"].replace("/sqrt(3)","")
-                                unit.text: "V"
-                                validator: RegExpValidator{ regExp: /^[1-9][0-9]*$/ }
-                                function doApplyInput(newText) {
-                                    secEntity["PAR_DutConstantUScaleNum"]=newText+uZComb.currentText
-                                }
-                            }
-                            ZVisualComboBox{
-                                id: uZComb
-                                height: propertieModel.rowHeight
-                                anchors.right: parent.right
-                                width: comboBoxWidth
-                                contentRowHeight: height*1.2
-                                model: ["","/sqrt(3)"]
-                                imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
-                                automaticIndexChange: true
-                                popup.z: 1
-                                currentIndex:{
-                                    if(secEntity.PAR_DutConstantUScaleNum.includes("/sqrt(3)")){
-                                        return 1;
-                                    }
-                                    return 0;
-                                }
-                                onSelectedTextChanged: {
-                                    secEntity["PAR_DutConstantUScaleNum"]=uTrZ.text+selectedText
-                                }
-                            }
-                        }
-
 
                         Item{
                             height: propertieModel.rowHeight
@@ -264,6 +224,48 @@ Popup {
                                 }
                             }
                         }
+
+
+                        Item{
+                            height: propertieModel.rowHeight
+                            width: parent.width
+                            ZLineEdit {
+                                id: uTrZ
+                                width: parent.width-uZComb.width
+                                height: propertieModel.rowHeight
+                                anchors.right: uZComb.left
+                                pointSize: root.pointSize
+                                description.width: 50
+                                description.text: "Sec:"
+                                text: secEntity["PAR_DutConstantUScaleNum"].replace("/sqrt(3)","")
+                                unit.text: "V"
+                                validator: RegExpValidator{ regExp: /^[1-9][0-9]*$/ }
+                                function doApplyInput(newText) {
+                                    secEntity["PAR_DutConstantUScaleNum"]=newText+uZComb.currentText
+                                }
+                            }
+                            ZVisualComboBox{
+                                id: uZComb
+                                height: propertieModel.rowHeight
+                                anchors.right: parent.right
+                                width: comboBoxWidth
+                                contentRowHeight: height*1.2
+                                model: ["","/sqrt(3)"]
+                                imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
+                                automaticIndexChange: true
+                                popup.z: 1
+                                currentIndex:{
+                                    if(secEntity.PAR_DutConstantUScaleNum.includes("/sqrt(3)")){
+                                        return 1;
+                                    }
+                                    return 0;
+                                }
+                                onSelectedTextChanged: {
+                                    secEntity["PAR_DutConstantUScaleNum"]=uTrZ.text+selectedText
+                                }
+                            }
+                        }
+
                     }
 
                 }
