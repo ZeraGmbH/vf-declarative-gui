@@ -32,6 +32,7 @@ jobs:
       - name: BuildBase
         run: |
           echo $HOME
+          echo $GITHUB_WORKSPACE
          # mkdir -p "$HOME/build"
          # cd "$HOME/build"
           # clang specifics
@@ -54,9 +55,10 @@ jobs:
       - name: Build
         run: |
           echo $HOME
+          echo $GITHUB_WORKSPACE
           #mkdir -p "$HOME/build"
           #cd "$HOME/build"
-          ## clang specifics
+          #clang specifics
           #if [ "${{ matrix.compiler }}" == "clang" ]; then
            # export CC=clang
             #export CXX=clang++
