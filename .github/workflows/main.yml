@@ -53,6 +53,7 @@ jobs:
       - name: Build
         run: |
           mkdir -p "$HOME/build"
+          pwd
           cd "$HOME/build"
           # clang specifics
           if [ "${{ matrix.compiler }}" == "clang" ]; then
