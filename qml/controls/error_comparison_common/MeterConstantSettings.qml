@@ -133,6 +133,8 @@ Popup {
                         anchors.right: parent.right
                         width: Math.min(parent.width-itrLabel.width,parent.width/2)
                         height: 2*propertieModel.rowHeight
+
+
                         ZLineEdit {
                             id: iTrN
                             width: parent.width - comboBoxWidth
@@ -161,6 +163,7 @@ Popup {
                             description.text: "Sec:"
                             text: secEntity["PAR_DutConstantIScaleNum"]
                             unit.text: "A"
+                            validator: IntValidator{}
                             function doApplyInput(newText) {
                                 secEntity["PAR_DutConstantIScaleNum"]=newText
                             }
@@ -198,7 +201,7 @@ Popup {
                                 description.text: "Prim:"
                                 text:secEntity["PAR_DutConstantUScaleDenom"].replace("/sqrt(3)","")
                                 unit.text: "V"
-                                validator: RegExpValidator{ regExp: /^[1-9][0-9]*$/ }
+                                validator: IntValidator{}
                                 function doApplyInput(newText) {
                                     secEntity["PAR_DutConstantUScaleDenom"]=newText+uNComb.currentText
                                 }
@@ -239,7 +242,7 @@ Popup {
                                 description.text: "Sec:"
                                 text: secEntity["PAR_DutConstantUScaleNum"].replace("/sqrt(3)","")
                                 unit.text: "V"
-                                validator: RegExpValidator{ regExp: /^[1-9][0-9]*$/ }
+                                validator: IntValidator{}
                                 function doApplyInput(newText) {
                                     secEntity["PAR_DutConstantUScaleNum"]=newText+uZComb.currentText
                                 }

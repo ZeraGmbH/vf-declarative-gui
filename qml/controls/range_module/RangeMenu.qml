@@ -162,7 +162,7 @@ Item {
                 description.width: 0
                 pointSize: Math.min(24, Math.max(1,root.height/30))
                 text: rangeModule["PAR_PreScalingGroup0"].split("*")[0]
-                validator: RegExpValidator{regExp: /^[1-9]{1,4}\/[1-9]{1,4}$/ }
+                validator: RegExpValidator{regExp: /^[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}$/ }
                 function doApplyInput(newText) {
                     rangeModule["PAR_PreScalingGroup0"]=newText+sqrtComb.currentText
                 }
