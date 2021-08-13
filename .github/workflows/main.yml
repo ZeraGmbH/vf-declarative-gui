@@ -67,7 +67,7 @@ jobs:
             #export CXX=clang++
            # export CXX=clazy
           #fi
-           configure
+          # configure
           cmake $GITHUB_WORKSPACE \
            -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
            -DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
