@@ -81,4 +81,4 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: vf-declarative-gui
-          path: $HOME/targetbuild/vf-declarative-gui
+          path: /github/home/targetbuild/vf-declarative-gui
