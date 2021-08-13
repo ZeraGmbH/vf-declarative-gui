@@ -33,8 +33,9 @@ jobs:
         run: |
           echo $HOME
           echo $GITHUB_WORKSPACE
-         # mkdir -p "$HOME/build"
-         # cd "$HOME/build"
+          cd $HOME
+          mkdir -p "$HOME/basebuild"
+          cd "$HOME/basebuild"
           # clang specifics
          # if [ "${{ matrix.compiler }}" == "clang" ]; then
           #  export CC=clang
@@ -56,8 +57,10 @@ jobs:
         run: |
           echo $HOME
           echo $GITHUB_WORKSPACE
-          #mkdir -p "$HOME/build"
-          #cd "$HOME/build"
+          cd $HOME
+          mkdir -p "$HOME/targetbuild"
+          ls $HOME
+          cd "$HOME/targetbuild"
           #clang specifics
           #if [ "${{ matrix.compiler }}" == "clang" ]; then
            # export CC=clang
