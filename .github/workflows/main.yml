@@ -75,6 +75,8 @@ jobs:
            -DfirstBuild=ON
           # compile / install
            make -j $(getconf _NPROCESSORS_ONLN)
+           pwd
+           ls 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
