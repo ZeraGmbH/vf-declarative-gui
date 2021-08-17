@@ -25,17 +25,17 @@ jobs:
     container:
       image: schnitzeltony/fedora-qt5:32
     steps:
-      - uses: actions/checkout@master
-        with:
-          repository: ZeraGmbH/vf-metaproject
-          submodules: recursive
-      - name: BuildBase
-        run: |
-          echo $HOME
-          echo $GITHUB_WORKSPACE
-          cd $HOME
-          mkdir -p "$HOME/basebuild"
-          cd "$HOME/basebuild"
+      #- uses: actions/checkout@master
+      #  with:
+      #    repository: ZeraGmbH/vf-metaproject
+      #    submodules: recursive
+      #- name: BuildBase
+      #  run: |
+      #    echo $HOME
+      #    echo $GITHUB_WORKSPACE
+      #    cd $HOME
+      #    mkdir -p "$HOME/basebuild"
+      #    cd "$HOME/basebuild"
           # clang specifics
           # if [ "${{ matrix.compiler }}" == "clang" ]; then
           #  export CC=clang
