@@ -43,13 +43,23 @@ jobs:
            # export CXX=clazy
           #fi
           # configure
-          cmake $GITHUB_WORKSPACE \
-            -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
-            -DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
-            -DCMAKE_INSTALL_SYSCONFDIR="$HOME/install/etc" \
-            -DfirstBuild=ON
+          #cmake $GITHUB_WORKSPACE \
+          #  -DCMAKE_PREFIX_PATH="$HOME/install/usr;/usr" \
+          #  -DCMAKE_INSTALL_PREFIX:PATH="$HOME/install/usr" \
+          #  -DCMAKE_INSTALL_SYSCONFDIR="$HOME/install/etc" \
+          #  -DfirstBuild=ON
           # compile / install
-          make -j $(getconf _NPROCESSORS_ONLN)
+          #make -j $(getconf _NPROCESSORS_ONLN)
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          repo: bhamacher/vf-metaproject
+          name: buildroot
+          workflow: main.yml
+          branch: master
+          check_artifacts:  false
+          path: /github/home/install/
+          
       - uses: actions/checkout@master
         with:
           submodules: recursive
