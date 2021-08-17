@@ -86,7 +86,7 @@ jobs:
           # compile / install
            make -j $(getconf _NPROCESSORS_ONLN)
            pwd
-           ls /home/github/install/usr/
+           ls $HOME/install/usr
            ls 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
