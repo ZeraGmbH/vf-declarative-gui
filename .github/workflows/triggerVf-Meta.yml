@@ -1,0 +1,17 @@
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - uses: convictional/trigger-workflow-and-wait@v1.4.0
+        with:
+          owner: bhamacher
+          repo: vf-metaproject
+          workflow_file_name: updateSubmodule.yml
+          inputs: '{"submodule" : "${{github.repository}}"}'
