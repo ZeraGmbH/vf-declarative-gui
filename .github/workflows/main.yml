@@ -4,9 +4,6 @@ name: CI
 # * common actions?
 # * hardened buildflags
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
