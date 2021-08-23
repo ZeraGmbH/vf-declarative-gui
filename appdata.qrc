@@ -75,6 +75,8 @@
         <file>qml/controls/error_comparison_common/MeterConstantSettings.qml</file>
     </qresource>
     <qresource prefix="/data">
+        <file>staticdata/resources/MeterPrim.gif</file>
+        <file>staticdata/resources/MeterSec.gif</file>
         <file>staticdata/resources/Ready.svg</file>
         <file>staticdata/resources/Armed.svg</file>
         <file>staticdata/resources/power.png</file>
@@ -107,6 +109,5 @@
         <file>staticdata/resources/rms_values.png</file>
         <file>staticdata/resources/spinner.png</file>
         <file>staticdata/resources/ZERA-old-school-large.png</file>
-        <file>staticdata/resources/transMeterIllustration.jpg</file>
     </qresource>
 </RCC>
