@@ -335,7 +335,7 @@ Popup {
                 width: parent.width/4
                 spacing: 20
                 Label{
-                    text: Z.tr("Measurement Point")
+                    text: Z.tr("Testing Point")
                     font.pointSize: Math.min(24, Math.max(1,root.height/30))
                 }
 
