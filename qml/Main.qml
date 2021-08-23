@@ -239,18 +239,10 @@ ApplicationWindow {
                 RangeMenu {
                     id: rangeMenu
                     anchors.fill: parent
-                    anchors.leftMargin: 40
-                    anchors.topMargin: 20
-                    anchors.bottomMargin: 20
-                    anchors.rightMargin: parent.width/2
-                }
-                RangePeak {
-                    anchors.fill: parent
-                    anchors.rightMargin: 20
-                    anchors.topMargin: 20
-                    anchors.bottomMargin: 20
-                    anchors.leftMargin: parent.width/2+50
-                    rangeGrouping: rangeMenu.groupingActive
+                    anchors.leftMargin: 10
+                    anchors.topMargin: 10
+                    anchors.bottomMargin: 10
+//                    anchors.rightMargin: parent.width
                 }
             }
         }

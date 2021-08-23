@@ -84,13 +84,5 @@ Item {
     onActivated: {
       GC.setRangePeakVisualisation(index);
     }
-
-    Label {
-      text: Z.tr("Scale visualisation:")
-      anchors.right: parent.left
-      anchors.rightMargin: 8
-      font.pointSize: 14
-      anchors.verticalCenter: parent.verticalCenter
-    }
   }
 }
