@@ -63,7 +63,7 @@ Popup {
                         width: 50
                         anchors.bottom: parent.bottom
                         anchors.right: csEdit.left
-                        model: ["CP", "CS"]
+                        model: ["PRIM", "SEC"]
                         arrayMode: true
                         popup.z: 1
                         focus: true
@@ -79,10 +79,10 @@ Popup {
                         }
 
                         onSelectedTextChanged: {
-                            if(selectedText === "CP"){
+                            if(selectedText === "PRIM"){
                                 secEntity["PAR_DutTypeMeasurePoint"]=secEntity["PAR_DutTypeMeasurePoint"].replace("Cs", "Cp")
                             }
-                            if(selectedText === "CS"){
+                            if(selectedText === "SEC"){
                                 secEntity["PAR_DutTypeMeasurePoint"]=secEntity["PAR_DutTypeMeasurePoint"].replace("Cp", "Cs")
                             }
 
