@@ -148,15 +148,36 @@ Item {
 
             ZLineEdit {
                 id: uTrZ
-                width: parent.width/3
+                width: parent.width/4
+                height: leftView.rowHeight
+                anchors.right: udiv.left
+                description.width: 0
+                pointSize: Math.min(24, Math.max(1,root.height/30))
+                text: rangeModule["PAR_PreScalingGroup0"].split("*")[0].split("/")[0]
+                validator: IntValidator{bottom: 1; top: 999999 }
+                function doApplyInput(newText) {
+                    rangeModule["PAR_PreScalingGroup0"]=newText+"/"+uTrN.text+sqrtComb.currentText
+                }
+            }
+            Label{
+                id: udiv
+                anchors.right: uTrN.left
+                anchors.verticalCenter: parent.verticalCenter
+                text: "/"
+                font.pointSize: Math.min(24, Math.max(1,root.height/30))
+            }
+
+            ZLineEdit {
+                id: uTrN
+                width: parent.width/4
                 height: leftView.rowHeight
                 anchors.right: sqrtComb.left
                 description.width: 0
                 pointSize: Math.min(24, Math.max(1,root.height/30))
-                text: rangeModule["PAR_PreScalingGroup0"].split("*")[0]
-                validator: RegExpValidator{regExp: /^[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}$/ }
+                text: rangeModule["PAR_PreScalingGroup0"].split("*")[0].split("/")[1]
+                validator: IntValidator{bottom: 1; top: 999999 }
                 function doApplyInput(newText) {
-                    rangeModule["PAR_PreScalingGroup0"]=newText+sqrtComb.currentText
+                    rangeModule["PAR_PreScalingGroup0"]=rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+"/"+newText+sqrtComb.currentText
                 }
             }
 
@@ -179,7 +200,7 @@ Item {
                     return 0;
                 }
                 onSelectedTextChanged: {
-                    rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+selectedText
+                    rangeModule["PAR_PreScalingGroup0"]=rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+"/"+uTrN.text+selectedText
                 }
             }
 
@@ -249,17 +270,40 @@ Item {
                 font.pixelSize: Math.min(18, root.height/20)
             }
 
-            VFLineEdit {
+            ZLineEdit {
                 id: iTrZ
-                width: parent.width/3
+                width: parent.width/4
+                height: leftView.rowHeight
+                anchors.right: idiv.left
+                description.width: 0
+                pointSize: Math.min(24, Math.max(1,root.height/30))
+                text: rangeModule["PAR_PreScalingGroup1"].split("*")[0].split("/")[0]
+                validator: IntValidator{bottom: 1; top: 999999 }
+                function doApplyInput(newText) {
+                    rangeModule["PAR_PreScalingGroup1"]=newText+"/"+iTrN.text
+                }
+              }
+            Label{
+                id: idiv
+                anchors.right: iTrN.left
+                anchors.verticalCenter: parent.verticalCenter
+                text: "/"
+                font.pointSize: Math.min(24, Math.max(1,root.height/30))
+            }
+
+            ZLineEdit {
+                id: iTrN
+                width: parent.width/4
                 height: leftView.rowHeight
                 anchors.right: extIcheck.left
                 anchors.rightMargin: 70
                 description.width: 0
                 pointSize: Math.min(24, Math.max(1,root.height/30))
-                entity: root.rangeModule
-                controlPropertyName: "PAR_PreScalingGroup1"
-                validator: RegExpValidator{regExp: /^[1-9][0-9]{0,4}\/[1-9][0-9]{0,4}$/ }
+                text: rangeModule["PAR_PreScalingGroup1"].split("*")[0].split("/")[1]
+                validator: IntValidator{bottom: 1; top: 999999 }
+                function doApplyInput(newText) {
+                    rangeModule["PAR_PreScalingGroup1"]=iTrZ.text+"/"+newText
+                }
             }
             VFSwitch{
                 id: extIcheck
