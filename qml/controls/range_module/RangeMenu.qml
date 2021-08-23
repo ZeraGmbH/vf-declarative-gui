@@ -52,9 +52,6 @@ Item {
         return retVal;
     }
 
-    anchors.leftMargin: 300
-    anchors.rightMargin: 300
-
     ObjectModel{
         id: leftView
         readonly property int labelWidth : root.width/4
@@ -99,12 +96,7 @@ Item {
                 controlPropertyName: "PAR_ChannelGrouping"
             }
         }
-        Label {
-            text: Z.tr("Manual:")
-            font.pixelSize: Math.min(18, root.height/20)
-            enabled: !autoMode.checked
-            color: enabled ? Material.primaryTextColor : Material.hintTextColor
-        }
+
         ListView {
             id: uranges
             width: leftList.width
@@ -202,7 +194,11 @@ Item {
 
 
         }
-
+        Item {
+            id: spacer
+            height: leftView.rowHeight/2
+            width: leftList.width
+        }
         ListView {
             id: iranges
             width: leftList.width
@@ -237,7 +233,7 @@ Item {
                     width: parent.width*0.95
                     enabled: parent.enabled
                     fontSize: Math.min(18, root.height/20,width/6)
-                }//            anchors.top: iranges.bottom
+                }
             }
         }
 
@@ -278,17 +274,27 @@ Item {
     ListView {
         id: leftList
         anchors.top: parent.top
-        anchors.bottom: overloadButton.top
+        anchors.bottom: parent.bottom
         anchors.left: parent.left
-        width: parent.width
-        spacing: 5
+        width: parent.width*9/16
+        spacing: 10
         model: leftView
     }
+
+
+
+    Item{
+        id:rightview
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width: parent.width*7/16-10
 
     Button {
         id: overloadButton
         property int overload: root.rangeModule.PAR_Overload
-        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        anchors.horizontalCenter: rangbar.horizontalCenter
         text: Z.tr("Overload")
         enabled: overload
         font.pixelSize: Math.min(14, root.height/24)
@@ -316,5 +322,20 @@ Item {
             }
         }
     }
+
+
+
+    RangePeak {
+        id: rangbar
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.top: overloadButton.bottom
+        anchors.margins: 20
+        rangeGrouping: root.groupingActive
+    }
+    }
+
+
 
 }
