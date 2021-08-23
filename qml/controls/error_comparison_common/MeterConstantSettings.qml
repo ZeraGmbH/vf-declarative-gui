@@ -55,12 +55,13 @@ Popup {
                         anchors.verticalCenter: parent.verticalCenter
                         font.pointSize: root.pointSize
                         text: Z.tr("Meter Constant:")
+                        width: parent.width/3
                     }
 
                     ZComboBox{
                         id: cpcs
                         height: propertieModel.rowHeight
-                        width: 50
+                        width: comboBoxWidth
                         anchors.bottom: parent.bottom
                         anchors.right: csEdit.left
                         model: ["PRIM", "SEC"]
@@ -93,7 +94,7 @@ Popup {
                         id: csEdit
                         entity: secEntity
                         controlPropertyName: "PAR_DutConstant"
-                        width: Math.min(parent.width-cpcslabel.width,parent.width/2)-comboBoxWidth-cpcs.width
+                        width: parent.width-cpcslabel.width-30-comboBoxWidth-cpcs.width
                         height: propertieModel.rowHeight
                         anchors.right: parent.right
                         anchors.rightMargin: comboBoxWidth
@@ -128,10 +129,11 @@ Popup {
                         anchors.left: parent.left
                         font.pointSize: root.pointSize
                         text: Z.tr("I Transformer:")
+                        width: parent.width/3
                     }
                     Column{
                         anchors.right: parent.right
-                        width: Math.min(parent.width-itrLabel.width,parent.width/2)
+                        width: parent.width-itrLabel.width-30
                         height: 2*propertieModel.rowHeight
 
 
@@ -142,7 +144,7 @@ Popup {
                             anchors.right: parent.right
                             anchors.rightMargin: comboBoxWidth
                             pointSize: root.pointSize
-                            description.width: 50
+                            description.width: comboBoxWidth
                             description.text: "Prim:"
                             text: secEntity["PAR_DutConstantIScaleDenom"]
                             unit.text: "A"
@@ -159,7 +161,7 @@ Popup {
                             anchors.right: parent.right
                             anchors.rightMargin: comboBoxWidth
                             pointSize: root.pointSize
-                            description.width: 50
+                            description.width: comboBoxWidth
                             description.text: "Sec:"
                             text: secEntity["PAR_DutConstantIScaleNum"]
                             unit.text: "A"
@@ -178,14 +180,14 @@ Popup {
                     Label{
                         id: utrLabel
                         anchors.left: parent.left
-                        //                anchors.bottom: parent.bottom
                         font.pointSize: root.pointSize
                         text: Z.tr("U Transformer:")
+                        width: parent.width/3
                     }
                     Column{
                         id: utrCol
                         anchors.right: parent.right
-                        width:  Math.min(parent.width-utrLabel.width,parent.width/2)
+                        width:  parent.width-utrLabel.width-30
                         height: 2*propertieModel.rowHeight
 
                         Item{
@@ -197,7 +199,7 @@ Popup {
                                 height: propertieModel.rowHeight
                                 anchors.right: uNComb.left
                                 pointSize: root.pointSize
-                                description.width: 50
+                                description.width: comboBoxWidth
                                 description.text: "Prim:"
                                 text:secEntity["PAR_DutConstantUScaleDenom"].replace("/sqrt(3)","")
                                 unit.text: "V"
@@ -238,7 +240,7 @@ Popup {
                                 height: propertieModel.rowHeight
                                 anchors.right: uZComb.left
                                 pointSize: root.pointSize
-                                description.width: 50
+                                description.width: comboBoxWidth
                                 description.text: "Sec:"
                                 text: secEntity["PAR_DutConstantUScaleNum"].replace("/sqrt(3)","")
                                 unit.text: "V"
@@ -282,7 +284,7 @@ Popup {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: 2*parent.width/3
+                width: 11*parent.width/18
                 spacing: 5
                 model: propertieModel
 
@@ -290,16 +292,23 @@ Popup {
 
             Rectangle{
                 id: circImageBorder
-                width: circImage.width-5
-                height: circImage.height-5
+                //cutting white image borders
+                width: circImage.width*0.93
+                height: circImage.height*0.98
                 anchors.right: parent.right
-                Image {
+                Image  {
                     id: circImage
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.PreserveAspectFit
-                    width: page1.width/4
-                    source: "qrc:/data/staticdata/resources/transMeterIllustration.jpg"
+                    width: 7*page1.width/18
+                    source: {
+                        if(secEntity["PAR_DutTypeMeasurePoint"].includes("Ip")){
+                            return "qrc:/data/staticdata/resources/MeterPrim.gif";
+                        }else{
+                            return "qrc:/data/staticdata/resources/MeterSec.gif";
+                        }
+                    }
                 }
                 clip: true
             }
@@ -324,15 +333,17 @@ Popup {
                 anchors.top: circImageBorder.bottom
                 anchors.bottom: parent.bottom
                 width: parent.width/4
-                spacing: 0
+                spacing: 20
                 Label{
                     text: Z.tr("Measurement Point")
+                    font.pointSize: Math.min(24, Math.max(1,root.height/30))
                 }
 
                 RadioButton {
                     id: radSecondary
                     checked: true
                     text: "Is Us"
+                    font.pointSize: Math.min(24, Math.max(1,root.height/30))
                     height: parent.height/6
                     ButtonGroup.group: modeGroupe
                     onClicked: {
@@ -342,6 +353,7 @@ Popup {
                 RadioButton {
                     id: radPrimary
                     text: "Ip Up"
+                    font.pointSize: Math.min(24, Math.max(1,root.height/30))
                     height: parent.height/6
                     ButtonGroup.group: modeGroupe
                     onClicked: {
