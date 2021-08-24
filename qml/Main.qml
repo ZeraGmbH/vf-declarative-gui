@@ -310,11 +310,13 @@ ApplicationWindow {
                     }
                     append({name: "Harmonic power values", icon: iconName, elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"});
                 }
-                if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/error_calc.png"
+                if(!String(currentSession).includes('ref-session')) {
+                    if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
+                        if(!ASWGL.isServer) {
+                            iconName = "qrc:/data/staticdata/resources/error_calc.png"
+                        }
+                        append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                     }
-                    append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                 }
                 if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {
                     if(!ASWGL.isServer) {
