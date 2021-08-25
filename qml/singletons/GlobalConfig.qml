@@ -592,6 +592,7 @@ Item {
             currentNotifyEntities = ""
             switch(guiContext) {
             case guiContextEnum.GUI_METER_TEST:
+            case guiContextEnum.GUI_QUARTZ_REFERENCE:
                 currentNotifyEntities = "SEC1Module1"
                 interval = 1000
                 break;
