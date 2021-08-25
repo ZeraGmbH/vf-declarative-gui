@@ -21,6 +21,7 @@ Rectangle {
     property int resultRows: 10
     property int digitsTotal: 6
     property int decimalPlaces: 4
+    property string resultUnit: '%'
 
     // internals
     readonly property real rowHeight: height > 0 ? height / (resultRows + 3/* 2 lines + bar */) : 10
@@ -111,7 +112,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.mean === null ? '---' : formatNumber(jsonResults.mean, digitsTotal, decimalPlaces) + "%"
+                text: jsonResults.mean === null ? '---' : formatNumber(jsonResults.mean, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             // 2nd line
@@ -121,7 +122,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.range === null ? '---' : formatNumber(jsonResults.range, digitsTotal, decimalPlaces) + "%"
+                text: jsonResults.range === null ? '---' : formatNumber(jsonResults.range, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             Text {
@@ -130,7 +131,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN === null ? '---' : formatNumber(jsonResults.stddevN, digitsTotal, decimalPlaces) + "%"
+                text: jsonResults.stddevN === null ? '---' : formatNumber(jsonResults.stddevN, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             Text {
@@ -139,7 +140,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN1 === null ? '---' : formatNumber(jsonResults.stddevN1, digitsTotal, decimalPlaces) + "%"
+                text: jsonResults.stddevN1 === null ? '---' : formatNumber(jsonResults.stddevN1, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
         }
@@ -273,7 +274,7 @@ Rectangle {
                             color: rat === 1 ? "black" : "red"
                         }
                         Text {
-                            text: strval !== "" ? strval : formatNumber(val, digitsTotal, decimalPlaces)  + "%"
+                            text: strval !== "" ? strval : formatNumber(val, digitsTotal, decimalPlaces) + resultUnit
                             font.pointSize: pointSize
                             width: mainColumn.width * 7.4 / (10*resultColumns)
                             font.bold: minMax

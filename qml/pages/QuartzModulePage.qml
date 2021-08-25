@@ -54,6 +54,7 @@ Item {
             height: root.height*0.2
             width: root.width
             measurementResult: errCalEntity.ACT_Result
+            resultUnit: errCalEntity.PAR_ResultUnit
             progress: errCalEntity.ACT_Progress
             function updateProgess() {
                 var text = parseInt(progress / progressTo * 100) + '%'
@@ -98,6 +99,7 @@ Item {
                     jsonResults: JSON.parse(root.errCalEntity.ACT_MulResult)
                     digitsTotal: GC.digitsTotal
                     decimalPlaces: GC.decimalPlaces
+                    resultUnit: errCalEntity.PAR_ResultUnit
                     resultColumns: 4
                     resultRows: 10
                 }
