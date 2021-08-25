@@ -323,7 +323,7 @@ ApplicationWindow {
                         if(!ASWGL.isServer) {
                             iconName = "qrc:/data/staticdata/resources/error_calc.png"
                         }
-                        append({name: "Quartz reference measurment", icon: iconName, elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
+                        append({name: "Quartz reference measurement", icon: iconName, elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
                     }
                 }
                 if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {
