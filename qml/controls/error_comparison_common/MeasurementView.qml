@@ -14,6 +14,7 @@ Item {
     // holds the state data
     property QtObject logicalParent;
     property real measurementResult;
+    property string resultUnit: '%'
     property alias progress: actProgressBar.value
     property alias progressTo: actProgressBar.to
     property string progressText: parseInt(progress / progressTo * 100)+"%"
@@ -161,7 +162,7 @@ Item {
                     fontSizeMode: Text.HorizontalFit
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
-                    text: FT.formatNumber(measurementResult)+"%"
+                    text: FT.formatNumber(measurementResult) + resultUnit
                 }
             }
         }

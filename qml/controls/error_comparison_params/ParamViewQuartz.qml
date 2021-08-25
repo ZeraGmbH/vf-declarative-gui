@@ -213,7 +213,7 @@ Item {
                 anchors.right: parent.right
                 width: parent.width*col3Width - GC.standardTextHorizMargin
                 anchors.verticalCenter: parent.verticalCenter
-                text: "%"
+                text: logicalParent.errCalEntity.PAR_ResultUnit
                 font.pointSize: root.pointSize
             }
         }
@@ -254,7 +254,7 @@ Item {
                 anchors.right: parent.right
                 width: parent.width*col3Width - GC.standardTextHorizMargin
                 anchors.verticalCenter: parent.verticalCenter
-                text: "%"
+                text: logicalParent.errCalEntity.PAR_ResultUnit
                 font.pointSize: root.pointSize
             }
         }
