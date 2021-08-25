@@ -62,6 +62,7 @@
         <file>qml/pages/HarmonicPowerTabPage.qml</file>
         <file>qml/pages/OsciModulePage.qml</file>
         <file>qml/pages/PowerModulePage.qml</file>
+        <file>qml/pages/QuartzModulePage.qml</file>
         <file>qml/pages/RMS4PhasePage.qml</file>
         <file>qml/pages/RefModulePage.qml</file>
         <file>qml/pages/TransformerModulePage.qml</file>

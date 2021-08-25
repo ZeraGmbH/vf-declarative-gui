@@ -436,6 +436,7 @@ Item {
 
         "GUI_CED_POWER"                 : { value: 16, name: "ZeraGuiCEDPower" },
         "GUI_DC_REFERENCE"              : { value: 17, name: "ZeraGuiDCReference" },
+        "GUI_QUARTZ_REFERENCE"          : { value: 18, name: "ZeraGuiQuartzReference" },
     }
     readonly property var contentTypeEnum: {
         "CONTENT_TYPE_CONTEXT": 0,
@@ -503,9 +504,16 @@ Item {
                 addDbContentSet(dbContentSetList, "ZeraCustom")
             }
             break
+        // Although DC/quartz reference reside in same session,
+        // they are orthogonal and simultaneous operation is most
+        // unlikely. So do not offer content set All/Custom for them.
+        // As side-effect, the MTVis export should be happy about
+        // this decision...
         case guiContextEnum.GUI_DC_REFERENCE:
-            // For DC reference other values do not make sense
             addDbContentSet(dbContentSetList, "ZeraDCReference")
+            break
+        case guiContextEnum.GUI_QUARTZ_REFERENCE:
+            addDbContentSet(dbContentSetList, "ZeraQuartzReference")
             break
         }
         return dbContentSetList
