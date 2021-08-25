@@ -80,7 +80,7 @@ Item {
 
             SwipeView {
                 id: multiSwipe
-                width: parent.width*0.7
+                width: parent.width*0.8
                 height: parent.height
                 interactive: false
                 orientation: Qt.Vertical
@@ -105,7 +105,7 @@ Item {
             ErrorCommon.ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
 
-                width: parent.width*0.3
+                width: parent.width*0.2
                 height: parent.height
                 maxValue: errCalEntity.PAR_Uplimit
                 minValue: errCalEntity.PAR_Lolimit
