@@ -27,72 +27,50 @@ Item {
         id: settings
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Page persistency
-    property bool keepPagesPesistent: parseInt(settings.globalSettings.getOption("pagePersistent", "1"))
-    function setKeepPagesPesistent(persistent) {
-        keepPagesPesistent = persistent
-        settings.globalSettings.setOption("pagePersistent", persistent ? 1 : 0)
-        if(persistent) {
-            // Avoid confusion switching on/off/on: Our page selectors might
-            // highlight the page not currently selected. So store once
-            setLastPageViewIndexSelected(lastPageViewIndexSelectedVolatile)
-        }
+    property string currentSession
+    onCurrentSessionChanged: {
+        lastPageViewIndexSelectedVolatile = -1
+        lastTabSelectedVolatile = -1
     }
-
-    readonly property string sessionNamePrefix: VeinEntity.getEntity("_System").Session.replace(".json", "-")
+    readonly property string sessionNamePrefix: currentSession.replace(".json", "-")
     property int lastPageViewIndexSelectedVolatile: 0
     property int lastPageViewIndexSelected: {
-        return keepPagesPesistent ?
-            parseInt(settings.globalSettings.getOption(sessionNamePrefix + "pageIndex", "0")) :
-            lastPageViewIndexSelectedVolatile
+        let index = lastPageViewIndexSelectedVolatile
+        if(currentSession !== "") {
+            index = parseInt(settings.globalSettings.getOption(sessionNamePrefix + "pageIndex", "0"))
+        }
+        return index
     }
     function setLastPageViewIndexSelected(index) {
-        lastPageViewIndexSelectedVolatile = index
-        if(keepPagesPesistent) {
-            // change of page requires tab update
-            if(lastPageViewIndexSelected !== index) {
-                lastPageViewIndexSelected = index
-                lastTabSelected = parseInt(settings.globalSettings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0"))
-            }
+        if(currentSession !== "") {
             settings.globalSettings.setOption(sessionNamePrefix + "pageIndex", index);
         }
+        lastPageViewIndexSelectedVolatile = index
     }
 
+    property int lastTabSelectedVolatile: 0
     property int lastTabSelected: {
-        return keepPagesPesistent ?
-            parseInt(settings.globalSettings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0")) :
-            0
+        let tab = lastTabSelectedVolatile
+        if(currentSession !== "") {
+            tab = parseInt(settings.globalSettings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0"))
+        }
+        return tab
     }
     function setLastTabSelected(tabNo) {
-        if(keepPagesPesistent) {
-            lastTabSelected = tabNo
-            settings.globalSettings.setOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", tabNo)
-        }
+        settings.globalSettings.setOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", tabNo)
+        lastTabSelectedVolatile = tabNo
     }
 
-    property int lastSettingsTabSelected: {
-        return keepPagesPesistent ?
-            parseInt(settings.globalSettings.getOption("lastTabSettings", "0")) :
-            0
-    }
+    property int lastSettingsTabSelected: parseInt(settings.globalSettings.getOption("lastTabSettings", "0"))
     function setLastSettingsTabSelected(tabNo) {
-        if(keepPagesPesistent) {
-            lastSettingsTabSelected = tabNo
-            settings.globalSettings.setOption("lastTabSettings", tabNo)
-        }
+        lastSettingsTabSelected = tabNo
+        settings.globalSettings.setOption("lastTabSettings", tabNo)
     }
 
-    property int lastInfoTabSelected: {
-        return keepPagesPesistent ?
-            parseInt(settings.globalSettings.getOption("lastTabInfo", "0")) :
-            0
-    }
+    property int lastInfoTabSelected: parseInt(settings.globalSettings.getOption("lastTabInfo", "0"))
     function setLastInfoTabSelected(tabNo) {
-        if(keepPagesPesistent) {
-            lastInfoTabSelected = tabNo
-            settings.globalSettings.setOption("lastTabInfo", tabNo)
-        }
+        lastInfoTabSelected = tabNo
+        settings.globalSettings.setOption("lastTabInfo", tabNo)
     }
 
     /////////////////////////////////////////////////////////////////////////////
