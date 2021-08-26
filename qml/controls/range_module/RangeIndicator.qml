@@ -24,7 +24,7 @@ Loader {
                 for(var channelNum=0; channelNum<channelCount; ++channelNum) {
                     var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
                     var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-                    if(name.indexOf("REF") === 0) { // equivalent of startsWith that is only available in Qt 5.9
+                    if(name.startsWith("REF")) {
                         if(channelNum<3) { // REF1..REF3
                             retVal.push(channelNum);
                         }
@@ -41,7 +41,7 @@ Loader {
                 for(var channelNum=0; channelNum<channelCount; ++channelNum) {
                     var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
                     var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
-                    if(name.indexOf("REF") === 0) { // equivalent of startsWith that is only available in Qt 5.9
+                    if(name.startsWith("REF")) {
                         if(channelNum>=3) { // REF4..REF6
                             retVal.push(channelNum);
                         }
