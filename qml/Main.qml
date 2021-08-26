@@ -348,7 +348,7 @@ ApplicationWindow {
                     if(!ASWGL.isServer) {
                         iconName = "qrc:/data/staticdata/resources/ref_values.png"
                     }
-                    append({name: "Reference values", icon: iconName, elementValue: "qrc:/qml/pages/RefModulePage.qml"});
+                    append({name: "DC reference values", icon: iconName, elementValue: "qrc:/qml/pages/RefModulePage.qml"});
                 }
             }
         }
