@@ -331,6 +331,8 @@ Item {
                     arrEntries: {
                         switch(cbRefInput.currentText) {
                         case "P":
+                        case "+P":
+                        case "-P":
                             return [["Wh","kWh","MWh"],[1e-3,1e0,1e3]]
                         case "Q":
                             return [["VArh","kVArh","MVArh"],[1e-3,1e0,1e3]]
