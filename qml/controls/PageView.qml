@@ -110,7 +110,7 @@ Item {
         anchors.top: root.top
         anchors.left: root.left
         height: root.height/10
-        width: root.width/3
+        width: root.width/2.8
         color: Material.dropShadowColor
         visible: sessionSelector.model.length > 1
 
@@ -119,21 +119,23 @@ Item {
 
             property QtObject systemEntity;
             property string intermediate
+            property var arrDisplayStrings: [Z.tr("Default"), Z.tr("Changing energy direction"), Z.tr("Reference")]
+            property var arrJSONDetectStrings: ["meas-session.json", "ced-session.json", "ref-session.json"]
+            property var arrJSONFileNames: []
 
             anchors.fill: parent
             arrayMode: true
             onIntermediateChanged: {
-                var tmpIndex = model.indexOf(intermediate)
-                if(tmpIndex !== undefined && sessionSelector.currentIndex !== tmpIndex) {
+                let tmpIndex = arrJSONFileNames.indexOf(intermediate)
+                if(tmpIndex >= 0) {
                     sessionSelector.currentIndex = tmpIndex
                 }
             }
 
             onSelectedTextChanged: {
                 var tmpIndex = model.indexOf(selectedText)
-                //console.assert(tmpIndex >= 0 && tmpIndex < model.length)
                 if(systemEntity && systemEntity.SessionsAvailable) {
-                    systemEntity.Session = systemEntity.SessionsAvailable[tmpIndex];
+                    systemEntity.Session = arrJSONFileNames[tmpIndex];
                 }
                 root.sessionChanged()
             }
@@ -141,14 +143,27 @@ Item {
             model: {
                 var retVal = [];
                 if(systemEntity && systemEntity.SessionsAvailable) {
-                    for(var sessionIndex in systemEntity.SessionsAvailable) {
-                        retVal.push(systemEntity.SessionsAvailable[sessionIndex]);
+                    arrJSONFileNames = []
+                    for(let sessionIndex in systemEntity.SessionsAvailable) {
+                        let sessionFile = systemEntity.SessionsAvailable[sessionIndex]
+                        arrJSONFileNames.push(sessionFile)
+                        let replaced = false
+                        for(let arrIdx=0; arrIdx<arrDisplayStrings.length; ++arrIdx) {
+                            if(sessionFile.endsWith(arrJSONDetectStrings[arrIdx])) {
+                                retVal.push(arrDisplayStrings[arrIdx])
+                                replaced = true
+                                break;
+                            }
+                        }
+                        if(!replaced) {
+                            retVal.push(sessionFile)
+                        }
                     }
                 }
                 else {
-                    retVal = ["Default session", "Reference session", "CED session"]; //fallback
+                    retVal = ["Unsupprted"] //fallback
                 }
-                return retVal;
+                return retVal
             }
 
             Connections {
