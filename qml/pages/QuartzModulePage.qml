@@ -144,7 +144,7 @@ Item {
                 height: parent.height
                 Item { // invisible button has zero width :(
                     height: parent.height
-                    width: parent.height
+                    width: root.width * 0.09
                     ToolButton {
                         anchors.fill: parent
                         text: FA.fa_info_circle
@@ -163,7 +163,6 @@ Item {
                         }
                     }
                 }
-                Item { width: root.width * 0.015; height: parent.height  }
                 CheckBox {
                     text: Z.tr("continuous")
                     font.pointSize: pointSize
