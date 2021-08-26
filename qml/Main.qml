@@ -44,6 +44,9 @@ ApplicationWindow {
         currentSession = Qt.binding(function() {
             return VeinEntity.getEntity("_System").Session;
         })
+        GC.currentSession = Qt.binding(function() {
+            return currentSession
+        });
     }
 
     onCurrentSessionChanged: {
@@ -122,7 +125,8 @@ ApplicationWindow {
                 }
                 pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
                 loadingScreen.close();
-                GC.entityInitializationDone = true;
+                GC.entityInitializationDone = true
+                controlsBar.pageViewVisible = false
             }
         }
 
@@ -132,6 +136,9 @@ ApplicationWindow {
             if(entId === 0) {
                 currentSession = Qt.binding(function() {
                     return VeinEntity.getEntity("_System").Session;
+                });
+                GC.currentSession = Qt.binding(function() {
+                    return currentSession;
                 });
                 pageView.sessionComponent = Qt.binding(function() {
                     return currentSession;
