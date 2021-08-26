@@ -52,6 +52,18 @@ Item {
         return retVal;
     }
 
+    readonly property bool referenceRanges: {
+        let ref = false
+        for(var channelNum=0; channelNum<channelCount; ++channelNum) {
+            let name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
+            if(name.startsWith("REF")) {
+                ref = true
+                break
+            }
+        }
+        return ref
+    }
+
     ObjectModel{
         id: leftView
         readonly property int labelWidth : root.width/4
@@ -133,12 +145,12 @@ Item {
                 }
             }
         }
-        // this Item is not active yet. In development for ExtTrans
-        Item{
+
+        Item {
             id: extU
             width: iranges.width
-            height: leftView.rowHeight
-            visible: true
+            height: !referenceRanges ? leftView.rowHeight : 0
+            visible: !referenceRanges
             Label{
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
@@ -258,11 +270,11 @@ Item {
             }
         }
 
-        Item{
+        Item {
             id: extI
             width: iranges.width
-            height: leftView.rowHeight
-            visible: true
+            height: !referenceRanges ? leftView.rowHeight : 0
+            visible: !referenceRanges
             Label{
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
