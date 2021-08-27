@@ -85,7 +85,7 @@ Popup {
     Label {
         id: header
         anchors.horizontalCenter: parent.horizontalCenter
-        y: parent.height / 4
+        y: parent.height / 5 - height
         font.pointSize: pointSize
     }
     Label { // finish OK indicator
@@ -119,7 +119,7 @@ Popup {
     }
     Button {
         anchors.horizontalCenter: parent.horizontalCenter
-        y: parent.height * 3 / 4
+        y: parent.height * 4 / 5
         width: root.width * 0.25
         text: Z.tr("Close")
         font.pointSize: pointSize
