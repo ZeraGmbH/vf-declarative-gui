@@ -8,20 +8,22 @@ Popup {
     id: root
     property alias animationComponent: animationLoader.sourceComponent
     function startWait(strDisplay) {
-        root.errorTxt = ""
+        root.warningTxtArr = []
+        root.errorTxtArr = []
         header.text = strDisplay
         open()
         fadeInAnimation.start()
         animationLoader.visible = false
         longRunAnimationSTartTimer.start()
     }
-    function stopWait(errorTxt, fpOnFinish) {
-        root.errorTxt = errorTxt
+    function stopWait(warningTxtArr, errorTxtArr, fpOnFinish) {
+        root.warningTxtArr = warningTxtArr
+        root.errorTxtArr = errorTxtArr
         root.fpOnFinish = fpOnFinish
         fadeInAnimation.stop()
         longRunAnimationSTartTimer.stop()
         animationLoader.active = false
-        if(errorTxt === '') {
+        if(errorTxtArr.length === 0 && warningTxtArr.length === 0) {
             finishTimer.start()
         }
         else {
@@ -39,7 +41,8 @@ Popup {
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale
 
-    property string errorTxt: ''
+    property var warningTxtArr: []
+    property var errorTxtArr: []
     property var fpOnFinish: null
 
     NumberAnimation {
@@ -92,15 +95,19 @@ Popup {
         font.pointSize: pointSize * 5
         text: FA.fa_check
         color: Material.accentColor
-        visible: finishTimer.running && root.errorTxt === ''
+        visible: finishTimer.running && root.warningTxtArr.length === 0 && root.errorTxtArr.length === 0
     }
-    Label { // error indicator
+    Label { // warning/error indicator
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         font.pointSize: pointSize
-        text: root.errorTxt
-        Material.foreground: Material.Red
-        visible: root.errorTxt !== ''
+        text: {
+            let colorTxt = ''
+            root.warningTxtArr.forEach(txt => colorTxt += (colorTxt !== '' ? '<br>' : '' ) + '<font color=\"yellow\">' + txt + '</font>')
+            root.errorTxtArr.forEach(txt => colorTxt += (colorTxt !== '' ? '<br>' : '' ) + '<font color=\"red\">' + txt + '</font>')
+            return colorTxt
+        }
+        visible: root.warningTxtArr.length + root.errorTxtArr.length > 0
     }
     Loader {
         id: animationLoader
@@ -115,7 +122,7 @@ Popup {
         y: parent.height * 3 / 4
         text: Z.tr("Close")
         font.pointSize: pointSize
-        visible: root.errorTxt !== ''
+        visible: root.warningTxtArr.length > 0 || root.errorTxtArr.length > 0
         onClicked: close()
     }
 }
