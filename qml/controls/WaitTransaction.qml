@@ -120,6 +120,7 @@ Popup {
     Button {
         anchors.horizontalCenter: parent.horizontalCenter
         y: parent.height * 3 / 4
+        width: root.width * 0.25
         text: Z.tr("Close")
         font.pointSize: pointSize
         visible: root.warningTxtArr.length > 0 || root.errorTxtArr.length > 0
