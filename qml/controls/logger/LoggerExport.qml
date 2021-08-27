@@ -166,7 +166,13 @@ Item {
                                                                /* This is a hack. We hope there is no transaction like: */
                                                                "p_filter" : "NoTransactionsNecessaryForMainXml",
                                                                "p_parameters": extraParams}),
-              'rpcTarget': exportEntity
+              'rpcTarget': exportEntity,
+              'notifyCallback': (t_resultData) => {
+                  let objFlags = {flags: 0}
+                  let ok = callbackMTVisExport('main.xml', t_resultData, objFlags)
+                  objMainXmlFlagsReturned = objFlags
+                  return ok
+              }
             },
             { 'type': 'block', // check
               'callFunction': () => dbAndDriveStillThere()
@@ -179,7 +185,13 @@ Item {
                                                                "p_engine": 'zeraconverterengines.MTVisRes',
                                                                "p_filter" : "Snapshot",
                                                                "p_parameters": extraParams}),
-              'rpcTarget': exportEntity
+              'rpcTarget': exportEntity,
+              'notifyCallback': (t_resultData) => {
+                  let objFlags = {flags: 0}
+                  let ok = callbackMTVisExport('result.xml', t_resultData, objFlags)
+                  objResultXmlFlagsReturned = objFlags
+                  return ok
+              }
             },
             { 'type': 'rpc',  // fsync
               'callFunction': () => filesEntity.invokeRPC("RPC_FSyncPath(QString p_fullPath)", {
@@ -189,11 +201,7 @@ Item {
         ]
         Connections {
             onDone: {
-                let errorDescription = ""
-                if(error) {
-                    errorDescription = Z.tr("Export failed - drive full or removed?")
-                }
-                waitPopup.stopWait(errorDescription, () =>  menuStackLayout.pleaseCloseMe(false))
+                waitPopup.stopWait(warnings, errors, () =>  menuStackLayout.pleaseCloseMe(false))
             }
         }
     }
@@ -218,11 +226,11 @@ Item {
         ]
         Connections {
             onDone: {
-                let errorDescription = ""
+                let errorDescriptionArr = []
                 if(error) {
-                    errorDescription = Z.tr("Copy failed - drive full or removed?")
+                    errorDescriptionArr.push(Z.tr("Copy failed - drive full or removed?"))
                 }
-                waitPopup.stopWait(errorDescription, () =>  menuStackLayout.pleaseCloseMe(false))
+                waitPopup.stopWait([], errorDescriptionArr, () =>  menuStackLayout.pleaseCloseMe(false))
             }
         }
     }
@@ -406,6 +414,8 @@ Item {
         }
 
         onClicked: {
+            warnings = []
+            errors = []
             switch(exportType) {
             case "EXPORT_TYPE_MTVIS":
                 waitPopup.startWait(Z.tr("Exporting MTVis XML..."))
