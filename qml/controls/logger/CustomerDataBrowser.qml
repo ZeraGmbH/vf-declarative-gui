@@ -81,12 +81,12 @@ Item {
         ]
         Connections {
             onDone: {
-                let errorDescription = ""
                 importCustomerDataPopup.close()
+                let errorDescriptionArr = []
                 if(error) {
-                    errorDescription = Z.tr("Export failed - drive full or removed?")
+                    errorDescriptionArr.push(Z.tr("Copy failed - drive full or removed?"))
                 }
-                waitPopup.stopWait(errorDescription, null)
+                waitPopup.stopWait([], errorDescriptionArr, null)
             }
         }
     }
@@ -105,12 +105,12 @@ Item {
         ]
         Connections {
             onDone: {
-                let errorDescription = ""
                 importCustomerDataPopup.close()
+                let errorDescriptionArr = []
                 if(error) {
-                    errorDescription = Z.tr("Import failed - drive removed?")
+                    errorDescriptionArr.push(Z.tr("Import failed - drive removed?"))
                 }
-                waitPopup.stopWait(errorDescription, null)
+                waitPopup.stopWait([], errorDescriptionArr, null)
             }
         }
     }
