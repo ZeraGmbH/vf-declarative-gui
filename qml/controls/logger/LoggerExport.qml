@@ -80,6 +80,75 @@ Item {
         animationComponent: AnimationSlowBits { }
     }
 
+    property var objMainXmlFlagsReturned
+    property var objResultXmlFlagsReturned
+    property var warnings: []
+    property var errors: []
+
+    function msgHelper(targetArr, xmlFileName, message) {
+        targetArr.push(xmlFileName + ' / ' + message)
+    }
+    function callbackMTVisExport(xmlFileName, t_resultData, objFlags) {
+        let cont = true
+        if(t_resultData["RemoteProcedureData::resultCode"] === 0) {
+            // Flags descriptions taken from https://github.com/ZeraGmbH/python-converter#readme
+            objFlags.flags = t_resultData["RemoteProcedureData::Return"]
+
+            // Errors
+            if(objFlags.flags & ((1<<0) | (1<<16))) {
+                // let's treat user-script errors as warning for now
+                msgHelper(warnings, xmlFileName, Z.tr('Userscript'))
+            }
+            if(objFlags.flags & (1<<1)) {
+                msgHelper(errors, xmlFileName, Z.tr('Open input database'))
+            }
+            if(objFlags.flags & (1<<2)) {
+                msgHelper(errors, xmlFileName, Z.tr('Open output database'))
+            }
+            if(objFlags.flags & (1<<3)) {
+                msgHelper(errors, xmlFileName, Z.tr('Database read'))
+            }
+            if(objFlags.flags & (1<<4)) {
+                msgHelper(errors, xmlFileName, Z.tr('Manipulate set'))
+            }
+            if(objFlags.flags & (1<<5)) {
+                msgHelper(errors, xmlFileName, Z.tr('Write output database'))
+            }
+
+            // let's treat unused errors as warning for now
+            if(objFlags.flags & (1<<6)) {
+                msgHelper(warnings, xmlFileName, Z.tr('Un- defined/used bit6'))
+            }
+            if(objFlags.flags & (1<<7)) {
+                msgHelper(warnings, xmlFileName, Z.tr('Un- defined/used bit7'))
+            }
+
+            // Warnings
+            if(objFlags.flags & (1<<8)) {
+                msgHelper(warnings, xmlFileName, Z.tr('Input database close'))
+            }
+            if(objFlags.flags & (1<<9)) {
+                msgHelper(warnings, xmlFileName, Z.tr('Invalid parameter syntax'))
+            }
+            if(objFlags.flags & (1<<10)) {
+                msgHelper(warnings, xmlFileName, Z.tr('Session empty or does not exist'))
+            }
+            if(objFlags.flags & (1<<17)) {
+                msgHelper(warnings, xmlFileName, Z.tr('One or more transactions not exported'))
+            }
+
+            // Reject further tasks in case of error
+            if(errors.length > 0) {
+                cont = false
+            }
+        }
+        else {
+            errors.push(xmlFileName + ': ' + Z.tr('RPC error'))
+            cont = false;
+        }
+        return cont
+    }
+
     // Tasklists
     TaskList {
         id: tasksExportMtVis
