@@ -103,8 +103,10 @@ Popup {
         font.pointSize: pointSize
         text: {
             let colorTxt = ''
-            root.warningTxtArr.forEach(txt => colorTxt += (colorTxt !== '' ? '<br>' : '' ) + '<font color=\"yellow\">' + txt + '</font>')
-            root.errorTxtArr.forEach(txt => colorTxt += (colorTxt !== '' ? '<br>' : '' ) + '<font color=\"red\">' + txt + '</font>')
+            root.warningTxtArr.forEach(txt =>
+                colorTxt += (colorTxt !== '' ? '<br>' : '' ) + '<font color=\"yellow\">' + Z.tr('Warning:') +' ' + txt + '</font>')
+            root.errorTxtArr.forEach(txt =>
+                colorTxt += (colorTxt !== '' ? '<br>' : '' ) + '<font color=\"red\">' + Z.tr('Error:') + ' ' + txt + '</font>')
             return colorTxt
         }
         visible: root.warningTxtArr.length + root.errorTxtArr.length > 0
