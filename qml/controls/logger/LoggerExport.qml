@@ -132,11 +132,13 @@ Item {
             if(objFlags.flags & (1<<10)) {
                 msgHelper(warnings, xmlFileName, Z.tr('Session empty or does not exist'))
             }
-            if(objFlags.flags & (1<<17) ) {
-                msgHelper(warnings, xmlFileName, Z.tr('One or more transactions not exported'))
-            }
-            if(objFlags.flags & (1<<18)) {
-                msgHelper(warnings, xmlFileName, Z.tr('One or more transactions of unknown type'))
+            if(xmlFileName === 'result.xml'){
+                if(objFlags.flags & (1<<17) ) {
+                    msgHelper(warnings, xmlFileName, Z.tr('One or more transactions not exported'))
+                }
+                if(objFlags.flags & (1<<18)) {
+                    msgHelper(warnings, xmlFileName, Z.tr('One or more transactions of unknown type'))
+                }
             }
 
             // Reject further tasks in case of error
