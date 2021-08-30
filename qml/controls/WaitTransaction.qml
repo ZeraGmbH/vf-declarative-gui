@@ -101,6 +101,7 @@ Popup {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         font.pointSize: pointSize
+        width: parent.width
         text: {
             let colorTxt = ''
             root.warningTxtArr.forEach(txt =>
@@ -109,6 +110,7 @@ Popup {
                 colorTxt += (colorTxt !== '' ? '<br>' : '' ) + '<font color=\"red\">' + Z.tr('Error:') + ' ' + txt + '</font>')
             return colorTxt
         }
+        wrapMode: Text.Wrap
         visible: root.warningTxtArr.length + root.errorTxtArr.length > 0
     }
     Loader {
