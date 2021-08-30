@@ -96,8 +96,7 @@ Item {
 
             // Errors
             if(objFlags.flags & ((1<<0) | (1<<16))) {
-                // let's treat user-script errors as warning for now
-                msgHelper(warnings, xmlFileName, Z.tr('Userscript'))
+                msgHelper(errors, xmlFileName, Z.tr('Userscript'))
             }
             if(objFlags.flags & (1<<1)) {
                 msgHelper(errors, xmlFileName, Z.tr('Open input database'))
