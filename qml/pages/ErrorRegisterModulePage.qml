@@ -7,8 +7,8 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
-import "qrc:/qml/controls/error_comparison_params" as ParamViews
+import "../controls/error_comparison_common"
+import "../controls/error_comparison_params"
 
 Item {
     id: root
@@ -39,7 +39,7 @@ Item {
     }
 
     Column {
-        ErrorCommon.MeasurementView {
+        MeasurementView {
             measurementResult: errCalEntity.ACT_Result
             progress: errCalEntity.PAR_Targeted ? errCalEntity.ACT_Time : 0
             progressTo: errCalEntity.PAR_Targeted ? errCalEntity.PAR_MeasTime : 1.0
@@ -52,7 +52,7 @@ Item {
             height: root.height*0.7
             width: root.width
 
-            ParamViews.ParamViewRegister {
+            ParamViewRegister {
                 logicalParent: root
                 validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
                 validatorMeasTime: moduleIntrospection.ComponentInfo.PAR_MeasTime.Validation
@@ -65,7 +65,7 @@ Item {
                 width: parent.width*0.8
                 height: parent.height
             }
-            ErrorCommon.ErrorMarginView {
+            ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
                 width: parent.width*0.2
                 height: parent.height

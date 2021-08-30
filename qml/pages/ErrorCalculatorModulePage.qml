@@ -9,8 +9,9 @@ import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
-import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
-import "qrc:/qml/controls/error_comparison_params" as ParamViews
+
+import "../controls/error_comparison_common"
+import "../controls/error_comparison_params"
 
 Item {
     id: root
@@ -48,7 +49,7 @@ Item {
     }
 
     Column {
-        ErrorCommon.MeasurementView {
+        MeasurementView {
             logicalParent: root
             height: root.height*0.2
             width: root.width
@@ -87,7 +88,7 @@ Item {
                 interactive: false
                 orientation: Qt.Vertical
                 clip: true
-                ParamViews.ParamViewComparison {
+                ParamViewComparison {
                     id: paramView
                     logicalParent: root
                     validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
@@ -98,7 +99,7 @@ Item {
                     validatorUpperLimit: moduleIntrospection.ComponentInfo.PAR_Uplimit.Validation
                     validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
                 }
-                ErrorCommon.MultipleErrorView {
+                MultipleErrorView {
                     id: multipleErrorView
                     jsonResults: JSON.parse(root.errCalEntity.ACT_MulResult)
                     digitsTotal: GC.digitsTotal
@@ -107,7 +108,7 @@ Item {
                     resultRows: 10
                 }
             }
-            ErrorCommon.ErrorMarginView {
+            ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
 
                 width: parent.width*0.2

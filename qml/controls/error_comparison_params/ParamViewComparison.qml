@@ -13,7 +13,7 @@ import ZeraFa 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
 import "../settings"
-import "qrc:/qml/controls/error_comparison_common" as ErrorCommon
+import "../error_comparison_common"
 
 Item {
     id: root
@@ -206,7 +206,7 @@ Item {
                 }
             }
 
-            ErrorCommon.MeterConstantSettings {
+            MeterConstantSettings {
                  id: meterConstSettings
                  parent: Overlay.overlay
                  width: parent.width
