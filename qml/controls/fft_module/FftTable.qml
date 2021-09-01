@@ -210,7 +210,7 @@ Item {
                             height: root.rowHeight
                             color: GC.tableShadeColor
                             border.color: "#444" //disable border transparency
-                            text: Z.tr("Phase") + " [°)"
+                            text: Z.tr("Phase") + " [°]"
                             textColor: FT.getColorByIndex(index+1)
                             font.pixelSize: rowHeight*0.5
                             font.bold: true
