@@ -129,10 +129,10 @@ Item {
             if(objFlags.flags & (1<<9)) {
                 msgHelper(warnings, xmlFileName, Z.tr('Invalid parameter syntax'))
             }
-            if(objFlags.flags & (1<<10)) {
-                msgHelper(warnings, xmlFileName, Z.tr('Session empty or does not exist'))
-            }
-            if(xmlFileName === 'result.xml'){
+            if(xmlFileName === 'result.xml') {
+                if(objFlags.flags & (1<<10)) {
+                    msgHelper(warnings, xmlFileName, Z.tr('Session empty or does not exist'))
+                }
                 if(objFlags.flags & (1<<17) ) {
                     msgHelper(warnings, xmlFileName, Z.tr('Transaction(s) not exported'))
                 }
