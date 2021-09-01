@@ -134,10 +134,10 @@ Item {
             }
             if(xmlFileName === 'result.xml'){
                 if(objFlags.flags & (1<<17) ) {
-                    msgHelper(warnings, xmlFileName, Z.tr('One or more transactions not exported'))
+                    msgHelper(warnings, xmlFileName, Z.tr('Transaction(s) not exported'))
                 }
                 if(objFlags.flags & (1<<18)) {
-                    msgHelper(warnings, xmlFileName, Z.tr('One or more transactions of unknown type'))
+                    msgHelper(warnings, xmlFileName, Z.tr('Unknown transaction type(s)'))
                 }
             }
 
