@@ -24,7 +24,14 @@ Item {
         }
         return contentSets
     }
-
+    // Let's assume a user changing custom content wants to
+    // use custom content
+    function makeCustomContentDefault() {
+        let availableContents = GC.getDefaultDbContentSetLists(GC.currentGuiContext)
+        if(GC.getDefaultDbContentSetLists(GC.currentGuiContext).includes('ZeraCustom')) {
+            GC.setLoggerContentType(GC.contentTypeEnum.CONTENT_TYPE_CUSTOM)
+        }
+    }
     function addToCustomDbContentSet(addContentSet) {
         // GC.getLoggerCustomContentSets(false): ensure that gui context
         // default content does not sneak in
@@ -33,6 +40,7 @@ Item {
             contentSets.push(addContentSet)
         }
         GC.setLoggerCustomContentSets(contentSets.join(','))
+        makeCustomContentDefault()
     }
     function removeFromCustomDbContentSet(removeContentSet) {
         // GC.getLoggerCustomContentSets(false): ensure that gui context
@@ -42,6 +50,7 @@ Item {
             contentSets = contentSets.filter(str => str !== removeContentSet)
         }
         GC.setLoggerCustomContentSets(contentSets.join(','))
+        makeCustomContentDefault()
     }
 
     readonly property real pointSize: height > 0 ? (height / 30) : 10
