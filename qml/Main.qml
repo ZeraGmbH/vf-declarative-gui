@@ -123,7 +123,9 @@ ApplicationWindow {
                 if(lastPageSelected >= pageView.model.count) {
                     lastPageSelected = 0
                 }
-                pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
+                if(pageView.model.length) {
+                    pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
+                }
                 loadingScreen.close();
                 GC.entityInitializationDone = true
                 controlsBar.pageViewVisible = false
