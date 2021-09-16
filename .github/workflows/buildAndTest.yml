@@ -1,3 +1,4 @@
+name: build and unittest
 on:
   pull_request:
     branches:
