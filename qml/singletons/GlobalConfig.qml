@@ -415,6 +415,7 @@ Item {
         "GUI_CED_POWER"                 : { value: 16, name: "ZeraGuiCEDPower" },
         "GUI_DC_REFERENCE"              : { value: 17, name: "ZeraGuiDCReference" },
         "GUI_QUARTZ_REFERENCE"          : { value: 18, name: "ZeraGuiQuartzReference" },
+        "GUI_SOURCE_CONTROL"            : { value: 19, name: "ZeraGuiSourceControl" },
     }
     readonly property var contentTypeEnum: {
         "CONTENT_TYPE_CONTEXT": 0,
@@ -492,6 +493,12 @@ Item {
             break
         case guiContextEnum.GUI_QUARTZ_REFERENCE:
             addDbContentSet(dbContentSetList, "ZeraQuartzReference")
+            break
+        case guiContextEnum.GUI_SOURCE_CONTROL:
+            if(addDbContentSet(dbContentSetList, "ZeraSourceControl") /*mandatory*/) {
+                addDbContentSet(dbContentSetList, "ZeraAll")
+                addDbContentSet(dbContentSetList, "ZeraCustom")
+            }
             break
         }
         return dbContentSetList

@@ -335,6 +335,10 @@ ApplicationWindow {
                         if(pageView.model.count) {
                             pageView.pageLoaderSource = pageView.model.get(0).elementValue
                         }
+                        else {
+                            pageView.pageLoaderSource = ""
+                        }
+
                         GC.setLastPageViewIndexSelected(0)
                     }
                 }
