@@ -331,6 +331,12 @@ ApplicationWindow {
                 // remove view?
                 else if(countActiveSources === 0 && sourceViewPosition >= 0) {
                     remove(sourceViewPosition)
+                    if(GC.lastPageViewIndexSelected === sourceViewPosition) {
+                        if(pageView.model.count) {
+                            pageView.pageLoaderSource = pageView.model.get(0).elementValue
+                        }
+                        GC.setLastPageViewIndexSelected(0)
+                    }
                 }
             }
             onCountActiveSourcesChanged: {
