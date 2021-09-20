@@ -117,14 +117,8 @@ ApplicationWindow {
 
                 console.log("Loaded session: ", currentSession);
                 ModuleIntrospection.reloadIntrospection();
-                // rescue dyn sources bindings over session change
-                dynamicPageModel.countMaxSources = Qt.binding(function() {
-                    if(ModuleIntrospection.hasDependentEntities(["SourceModule1"])) {
-                        return VeinEntity.getEntity("SourceModule1").ACT_MaxSources
-                    } else {
-                        return 0
-                    }
-                });
+
+                // rescue dyn sources binding over session change
                 dynamicPageModel.countActiveSources = Qt.binding(function() {
                     if(ModuleIntrospection.hasDependentEntities(["SourceModule1"])) {
                         return VeinEntity.getEntity("SourceModule1").ACT_CountSources
@@ -313,12 +307,34 @@ ApplicationWindow {
         ListModel {
             id: dynamicPageModel
             property int countActiveSources: 0
-            property int countMaxSources: 0
-            onCountMaxSourcesChanged: {
-                console.warn("Max sources:", countMaxSources)
+            function updateSourceView() {
+                let sourceViewQml = "qrc:/qml/pages/SourceModuleTabPage.qml"
+                // search source view currently added
+                let sourceViewPosition = -1
+                if(count > 0) {
+                    for(let viewNum=count-1; viewNum>=0; --viewNum) {
+                        let view = get(viewNum)
+                        if(view.elementValue === sourceViewQml) {
+                            sourceViewPosition = viewNum
+                            break;
+                        }
+                    }
+                }
+                // add view?
+                if(countActiveSources > 0 && sourceViewPosition === -1) {
+                    let iconName = ""
+                    if(!ASWGL.isServer) {
+                        iconName = "qrc:/data/staticdata/resources/act_values.png"
+                    }
+                    append({name: "Source control", icon: iconName, elementValue: sourceViewQml});
+                }
+                // remove view?
+                else if(countActiveSources === 0 && sourceViewPosition >= 0) {
+                    remove(sourceViewPosition)
+                }
             }
             onCountActiveSourcesChanged: {
-                console.warn("Active sources:", countActiveSources)
+                updateSourceView()
             }
 
             function initModel() {
