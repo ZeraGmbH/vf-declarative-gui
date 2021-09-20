@@ -13,6 +13,10 @@ import ZeraVeinComponents 1.0
 import "../controls"
 import "../controls/settings"
 
+// TEMP to be removed
+import "../controls/harmonic_power_module"
+
+
 BaseTabPage {
     id: root
 
@@ -28,17 +32,13 @@ BaseTabPage {
     // Page - multi instance
     Component {
         id: pageSource
-        Label {
-            text: "Source..."
-        }
-
-        /*Item {
-            /*SwipeView.onIsCurrentItemChanged: {
+        HarmonicPowerTable {
+            SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_SOURCE_CONTROL
                 }
             }
-        }*/
+        }
     }
 
     // create tabs/pages dynamic
@@ -47,7 +47,6 @@ BaseTabPage {
     property var lastSlotItemsTab: []
     property var lastSlotItemsPage: []
     onCountAvtiveSourcesChanged: {
-        console.warn("active: ", countAvtiveSources)
         for(let sourceNum=0; sourceNum<maxCountSources; ++sourceNum) {
             // prefill object keeper on 1st call
             while(lastSlotItemsTab.length <= sourceNum) {
@@ -73,6 +72,9 @@ BaseTabPage {
                 lastSlotItemsPage[sourceNum] = undefined
             }
         }
+    }
+    Component.onCompleted: {
+        finishInit()
     }
 }
 
