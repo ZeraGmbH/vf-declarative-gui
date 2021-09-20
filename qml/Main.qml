@@ -117,6 +117,22 @@ ApplicationWindow {
 
                 console.log("Loaded session: ", currentSession);
                 ModuleIntrospection.reloadIntrospection();
+                // rescue dyn sources bindings over session change
+                dynamicPageModel.countMaxSources = Qt.binding(function() {
+                    if(ModuleIntrospection.hasDependentEntities(["SourceModule1"])) {
+                        return VeinEntity.getEntity("SourceModule1").ACT_MaxSources
+                    } else {
+                        return 0
+                    }
+                });
+                dynamicPageModel.countActiveSources = Qt.binding(function() {
+                    if(ModuleIntrospection.hasDependentEntities(["SourceModule1"])) {
+                        return VeinEntity.getEntity("SourceModule1").ACT_CountSources
+                    } else {
+                        return 0
+                    }
+                });
+
                 pageLoader.active = true;
                 controlsBar.rangeIndicatorDependenciesReady = true;
                 let lastPageSelected = GC.lastPageViewIndexSelected
@@ -296,6 +312,14 @@ ApplicationWindow {
 
         ListModel {
             id: dynamicPageModel
+            property int countActiveSources: 0
+            property int countMaxSources: 0
+            onCountMaxSourcesChanged: {
+                console.warn("Max sources:", countMaxSources)
+            }
+            onCountActiveSourcesChanged: {
+                console.warn("Active sources:", countActiveSources)
+            }
 
             function initModel() {
                 clear()
