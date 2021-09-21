@@ -26,7 +26,8 @@ BaseTabPage {
     Component {
         id: tabSource
         TabButton {
-            text: "Tabtext"
+            property var jsonSourceInfo
+            text: jsonSourceInfo.Name
         }
     }
     // Page - multi instance
@@ -57,7 +58,9 @@ BaseTabPage {
             let slotIsOn = (sourceModule[componentName] !== "")
             // create?
             if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
-                lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar)
+                let bindingJsonDeviceInfo = Qt.binding(() => JSON.parse(sourceModule[componentName]))
+
+                lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceInfo" : bindingJsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
 
                 lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView)
