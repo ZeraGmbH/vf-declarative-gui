@@ -21,36 +21,65 @@ Item {
         let retJson = jsonSourceInfoRaw
         let supportsHarmonics = false
         let supportsHarmonicsU = false
-        let supportsHarmonicsI = false
-        for(let phaseU=1; phaseU<=jsonSourceInfoRaw.CountUPhases; ++phaseU) {
+        let maxUValue = 0.0
+        let uiCount = 0;
+        if(jsonSourceInfoRaw.UPhaseMax > 0) {
+            uiCount++
+        }
+        if(jsonSourceInfoRaw.IPhaseMax > 0) {
+            uiCount++
+        }
+        for(let phaseU=1; phaseU<=jsonSourceInfoRaw.UPhaseMax; ++phaseU) {
             let phaseNameU = String("U%1").arg(phaseU)
-            if(jsonSourceInfoRaw[phaseNameU].sameAs) {
-                let refPhaseU = jsonSourceInfoRaw[phaseNameU].sameAs
-                retJson[phaseNameU] = jsonSourceInfoRaw[refPhaseU]
-            }
-            if(jsonSourceInfoRaw[phaseNameU].supportsHarmonics) {
-                supportsHarmonics = true
-                supportsHarmonicsU = true
+            if(jsonSourceInfoRaw[phaseNameU]) {
+                if(jsonSourceInfoRaw[phaseNameU].sameAs) {
+                    let refPhaseU = jsonSourceInfoRaw[phaseNameU].sameAs
+                    retJson[phaseNameU] = jsonSourceInfoRaw[refPhaseU]
+                }
+                if(jsonSourceInfoRaw[phaseNameU].supportsHarmonics) {
+                    supportsHarmonics = true
+                    supportsHarmonicsU = true
+                }
+                if(jsonSourceInfoRaw[phaseNameU].maxVal > maxUValue) {
+                    maxUValue = jsonSourceInfoRaw[phaseNameU].maxVal
+                }
             }
         }
-        for(let phaseI=1; phaseI<=jsonSourceInfoRaw.CountIPhases; ++phaseI) {
+        let supportsHarmonicsI = false
+        let maxIValue = 0.0
+        for(let phaseI=1; phaseI<=jsonSourceInfoRaw.IPhaseMax; ++phaseI) {
             let phaseNameI = String("I%1").arg(phaseI)
-            if(jsonSourceInfoRaw[phaseNameI].sameAs) {
-                let refPhaseI = jsonSourceInfoRaw[phaseNameI].sameAs
-                retJson[phaseNameI] = jsonSourceInfoRaw[refPhaseI]
+            if(jsonSourceInfoRaw[phaseNameI]) {
+                if(jsonSourceInfoRaw[phaseNameI].sameAs) {
+                    let refPhaseI = jsonSourceInfoRaw[phaseNameI].sameAs
+                    retJson[phaseNameI] = jsonSourceInfoRaw[refPhaseI]
+                }
                 if(jsonSourceInfoRaw[phaseNameI].supportsHarmonics) {
                     supportsHarmonics = true
                     supportsHarmonicsI = true
+                }
+                if(jsonSourceInfoRaw[phaseNameI].maxVal > maxIValue) {
+                    maxIValue = jsonSourceInfoRaw[phaseNameI].maxVal
                 }
             }
         }
         retJson['supportsHarmonics'] = supportsHarmonics
         retJson['supportsHarmonicsU'] = supportsHarmonicsU
         retJson['supportsHarmonicsI'] = supportsHarmonicsI
+
+        retJson['uiCount'] = uiCount
+
+        retJson['maxValU'] = maxUValue
+        retJson['maxValI'] = maxIValue
         return retJson
     }
+    // convenient properties
+    readonly property int linesU: (jsonSourceInfo && jsonSourceInfo.UPhaseMax) ? (jsonSourceInfo.supportsHarmonicsU ? 4: 3) : 0
+    readonly property int linesI: (jsonSourceInfo && jsonSourceInfo.IPhaseMax) ? (jsonSourceInfo.supportsHarmonicsI ? 4: 3) : 0
+    readonly property int linesTotal: 1 + linesU + linesI
 
     readonly property real pointSize: height > 0 ? height / 30 : 10
+    readonly property real headerPointSize: pointSize * 2
     readonly property real comboFontSize: pointSize * 1.25
     readonly property real widthRightArea: width * 0.4
     readonly property real widthLeftArea: width * 0.05
@@ -67,13 +96,106 @@ Item {
         border.color: Material.dividerColor
         color: Material.backgroundColor
     }
-    Rectangle {  // value table
+    Item {  // value table
+        id: valueRectangle
         anchors.left: extraButtonRect.right
         anchors.right: rightColumn.left
         anchors.top: parent.top
         anchors.bottom: onOffRect.top
-        border.color: Material.dividerColor
-        color: Material.backgroundColor
+        readonly property real headerColumnWidth: valueRectangle.width * 0.08
+        readonly property bool keepHeight: linesTotal >= 1+4
+        readonly property real lineHeight: keepHeight ? height / linesTotal : 0.5 *  height / linesTotal
+        readonly property real topMargin: keepHeight ? 0 : height / 4
+        Column {
+            id: headerColumnUI
+            anchors.top: parent.top
+            anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left // TODO header columns
+            width: valueRectangle.headerColumnWidth
+            Rectangle { // U
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: jsonSourceInfo.UPhaseMax ? (jsonSourceInfo.supportsHarmonicsU ? 4 : 3) * valueRectangle.lineHeight : 0
+                visible: jsonSourceInfo.UPhaseMax > 0
+                border.color: Material.dividerColor
+                color: Material.backgroundColor
+                Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pointSize: headerPointSize
+                    text: "U"
+                }
+            }
+            Rectangle { // I
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: jsonSourceInfo.IPhaseMax ? (jsonSourceInfo.supportsHarmonicsI ? 4 : 3) * valueRectangle.lineHeight : 0
+                visible: jsonSourceInfo.IPhaseMax > 0
+                border.color: Material.dividerColor
+                color: Material.backgroundColor
+                Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pointSize: headerPointSize
+                    text: "I"
+                }
+            }
+        }
+        Column {
+            id: headerColumnInfo
+            anchors.top: parent.top
+            anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
+            anchors.bottom: parent.bottom
+            anchors.left: headerColumnUI.right
+            width: valueRectangle.headerColumnWidth
+            Repeater {
+                model: linesTotal-1 // no horizontal  header
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: valueRectangle.lineHeight
+                    border.color: Material.dividerColor
+                    color: Material.backgroundColor
+                }
+            }
+        }
+        Column {
+            id: headerColumnValues
+            anchors.top: parent.top
+            anchors.topMargin: valueRectangle.topMargin
+            anchors.bottom: parent.bottom
+            anchors.left: headerColumnInfo.right
+            anchors.right: headerColumnUnit.left
+            Repeater {
+                model: linesTotal
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: valueRectangle.lineHeight
+                    border.color: Material.dividerColor
+                    color: Material.backgroundColor
+                }
+            }
+        }
+        Column {
+            id: headerColumnUnit
+            anchors.top: parent.top
+            anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            width: valueRectangle.headerColumnWidth
+            Repeater {
+                model: linesTotal-1 // no horizontal  header
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: valueRectangle.lineHeight
+                    border.color: Material.dividerColor
+                    color: Material.backgroundColor
+                }
+            }
+        }
     }
     Rectangle {
         id: onOffRect
@@ -106,9 +228,6 @@ Item {
             font.pointSize: root.pointSize * 0.9
         }
     }
-
-
-
 
     Column {
         id: rightColumn
