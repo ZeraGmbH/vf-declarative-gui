@@ -18,7 +18,62 @@ Item {
     property var jsonSourceInfo
 
     readonly property real pointSize: height > 0 ? height / 30 : 10
+    readonly property real comboFontSize: pointSize * 1.25
     readonly property real widthRightArea: width * 0.4
+    readonly property real widthLeftArea: width * 0.05
+
+    property real angleLineHeight: (parent.height - phasorDiagramm.height) / 3
+    Rectangle { // extra buttons
+        id: extraButtonRect
+        anchors.left: parent.left
+        width: 0//widthLeftArea
+        anchors.top: parent.top
+        anchors.bottom: onOffRect.top
+        border.color: Material.dividerColor
+        color: Material.backgroundColor
+    }
+    Rectangle {  // value table
+        anchors.left: extraButtonRect.right
+        anchors.right: rightColumn.left
+        anchors.top: parent.top
+        anchors.bottom: onOffRect.top
+        border.color: Material.dividerColor
+        color: Material.backgroundColor
+    }
+    Rectangle {
+        id: onOffRect
+        anchors.left: parent.left
+        anchors.right: rightColumn.left
+        height: angleLineHeight
+        anchors.bottom: parent.bottom
+        border.color: Material.dividerColor
+        color: Material.backgroundColor
+        Button {
+            text: Z.tr("On")
+            width: angleButtonRow.buttonWidth * 2
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.leftMargin: widthLeftArea
+            topInset: 0
+            bottomInset: 0
+            font.pointSize: root.pointSize * 0.9
+        }
+        Button {
+            text: Z.tr("Off")
+            width: angleButtonRow.buttonWidth * 2
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            anchors.rightMargin: widthLeftArea
+            topInset: 0
+            bottomInset: 0
+            font.pointSize: root.pointSize * 0.9
+        }
+    }
+
+
+
 
     Column {
         id: rightColumn
@@ -29,9 +84,9 @@ Item {
 
         Rectangle {
             id: vectorFrame
-            border.color: Material.dividerColor
             width: parent.width
             height: width * 0.8
+            border.color: Material.dividerColor
             color: Material.backgroundColor
             PhasorDiagram {
                 anchors.fill: parent
@@ -67,22 +122,23 @@ Item {
                 vector6Label: "IL3"
             }
         }
-        property real angleLineHeight: (parent.height - phasorDiagramm.height) / 3
         Rectangle {
             border.color: Material.dividerColor
             width: parent.width
-            height: rightColumn.angleLineHeight
+            height: angleLineHeight
             color: Material.backgroundColor
             Row {
                 id: angleButtonRow
                 readonly property int buttonWidth: parent.width / 4
                 width: parent.width
-                height: rightColumn.angleLineHeight
+                height: angleLineHeight
                 anchors.top: parent.top
                 Button {
                     width: angleButtonRow.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    topInset: 0
+                    bottomInset: 0
                     font.pointSize: root.pointSize * 0.9
                     text: "0°"
                 }
@@ -90,6 +146,8 @@ Item {
                     width: angleButtonRow.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    topInset: 0
+                    bottomInset: 0
                     font.pointSize: root.pointSize * 0.9
                     text: "180°"
                 }
@@ -97,6 +155,8 @@ Item {
                     width: angleButtonRow.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    topInset: 0
+                    bottomInset: 0
                     font.pointSize: root.pointSize * 0.9
                     text: "+15°"
                 }
@@ -104,6 +164,8 @@ Item {
                     width: angleButtonRow.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    topInset: 0
+                    bottomInset: 0
                     font.pointSize: root.pointSize * 0.9
                     text: "-15°"
                 }
@@ -112,11 +174,11 @@ Item {
         Rectangle { // P/Q + cos/sin + quadrant row
             border.color: Material.dividerColor
             width: parent.width
-            height: rightColumn.angleLineHeight
+            height: angleLineHeight
             color: Material.backgroundColor
             RowLayout {
                 width: parent.width
-                height: rightColumn.angleLineHeight
+                height: angleLineHeight
                 anchors.bottom: parent.bottom
                 Item {
                     Layout.fillHeight: true
@@ -124,10 +186,8 @@ Item {
                     ZComboBox {
                         id: comboPQ
                         anchors.fill: parent
-                        anchors.topMargin: parent.height * 0.08
-                        anchors.bottomMargin: parent.height * 0.08
                         arrayMode: true
-                        fontSize: root.pointSize * 1.2
+                        fontSize: comboFontSize
                         centerVertical: true
                         model: ['P', 'Q']
                     }
@@ -154,12 +214,11 @@ Item {
                 Item {
                     Layout.fillHeight: true
                     Layout.preferredWidth: angleButtonRow.buttonWidth * 0.75
+                    Layout.rightMargin: 2 // have no idea why it paints over parent's border
                     ZComboBox {
                         anchors.fill: parent
-                        anchors.topMargin: parent.height * 0.08
-                        anchors.bottomMargin: parent.height * 0.08
                         arrayMode: true
-                        fontSize: root.pointSize * 1.2
+                        fontSize: comboFontSize
                         centerVertical: true
                         model: ['1', '2', '3', '4']
                     }
@@ -169,11 +228,11 @@ Item {
         Rectangle { // frequency row
             border.color: Material.dividerColor
             width: parent.width
-            height: rightColumn.angleLineHeight
+            height: angleLineHeight
             color: Material.backgroundColor
             RowLayout {
                 width: parent.width
-                height: rightColumn.angleLineHeight
+                height: angleLineHeight
                 anchors.bottom: parent.bottom
                 Label {
                     font.pointSize: pointSize
@@ -197,14 +256,13 @@ Item {
                 Item {
                     Layout.fillHeight: true
                     Layout.preferredWidth: angleButtonRow.buttonWidth * 0.75
+                    Layout.rightMargin: 2 // have no idea why it paints over parent's border
                     ZComboBox {
                         anchors.fill: parent
-                        anchors.topMargin: parent.height * 0.08
-                        anchors.bottomMargin: parent.height * 0.08
                         arrayMode: true
-                        fontSize: root.pointSize * 1.2
+                        fontSize: comboFontSize
                         centerVertical: true
-                        model: ['var', 'sync']
+                        model: ['var', 'syn']
                     }
                 }
             }
