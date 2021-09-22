@@ -59,7 +59,7 @@ BaseTabPage {
                 lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceInfo" : bindingJsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
 
-                lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {"jsonSourceInfo" : bindingJsonDeviceInfo})
+                lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {"jsonSourceInfoRaw" : bindingJsonDeviceInfo})
                 swipeView.addItem(lastSlotItemsPage[sourceNum])
             }
             // destroy?
