@@ -66,6 +66,7 @@
         <file>qml/pages/QuartzModulePage.qml</file>
         <file>qml/pages/RMS4PhasePage.qml</file>
         <file>qml/pages/RefModulePage.qml</file>
+        <file>qml/pages/SourceModulePage.qml</file>
         <file>qml/pages/SourceModuleTabPage.qml</file>
         <file>qml/pages/TransformerModulePage.qml</file>
         <file>qml/pages/VectorModulePage.qml</file>

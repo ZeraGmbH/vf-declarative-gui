@@ -13,10 +13,6 @@ import ZeraVeinComponents 1.0
 import "../controls"
 import "../controls/settings"
 
-// TEMP to be removed
-import "../controls/harmonic_power_module"
-
-
 BaseTabPage {
     id: root
 
@@ -33,7 +29,7 @@ BaseTabPage {
     // Page - multi instance
     Component {
         id: pageSource
-        HarmonicPowerTable {
+        SourceModulePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_SOURCE_CONTROL
@@ -63,7 +59,7 @@ BaseTabPage {
                 lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceInfo" : bindingJsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
 
-                lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView)
+                lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {"jsonSourceInfo" : bindingJsonDeviceInfo})
                 swipeView.addItem(lastSlotItemsPage[sourceNum])
             }
             // destroy?
