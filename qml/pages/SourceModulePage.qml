@@ -15,7 +15,40 @@ Item {
     clip: true
 
     // set by our tab-page
-    property var jsonSourceInfo
+    property var jsonSourceInfoRaw
+    // convenient JSON to simplify code below
+    readonly property var jsonSourceInfo: {
+        let retJson = jsonSourceInfoRaw
+        let supportsHarmonics = false
+        let supportsHarmonicsU = false
+        let supportsHarmonicsI = false
+        for(let phaseU=1; phaseU<=jsonSourceInfoRaw.CountUPhases; ++phaseU) {
+            let phaseNameU = String("U%1").arg(phaseU)
+            if(jsonSourceInfoRaw[phaseNameU].sameAs) {
+                let refPhaseU = jsonSourceInfoRaw[phaseNameU].sameAs
+                retJson[phaseNameU] = jsonSourceInfoRaw[refPhaseU]
+            }
+            if(jsonSourceInfoRaw[phaseNameU].supportsHarmonics) {
+                supportsHarmonics = true
+                supportsHarmonicsU = true
+            }
+        }
+        for(let phaseI=1; phaseI<=jsonSourceInfoRaw.CountIPhases; ++phaseI) {
+            let phaseNameI = String("I%1").arg(phaseI)
+            if(jsonSourceInfoRaw[phaseNameI].sameAs) {
+                let refPhaseI = jsonSourceInfoRaw[phaseNameI].sameAs
+                retJson[phaseNameI] = jsonSourceInfoRaw[refPhaseI]
+                if(jsonSourceInfoRaw[phaseNameI].supportsHarmonics) {
+                    supportsHarmonics = true
+                    supportsHarmonicsI = true
+                }
+            }
+        }
+        retJson['supportsHarmonics'] = supportsHarmonics
+        retJson['supportsHarmonicsU'] = supportsHarmonicsU
+        retJson['supportsHarmonicsI'] = supportsHarmonicsI
+        return retJson
+    }
 
     readonly property real pointSize: height > 0 ? height / 30 : 10
     readonly property real comboFontSize: pointSize * 1.25
@@ -26,7 +59,9 @@ Item {
     Rectangle { // extra buttons
         id: extraButtonRect
         anchors.left: parent.left
-        width: 0//widthLeftArea
+        // argh - we do not have yet https://tc39.es/proposal-optional-chaining/
+        // as 'jsonSourceInfo?.supportsHarmonics'
+        width: (jsonSourceInfo && jsonSourceInfo.supportsHarmonics) ? widthLeftArea : 0
         anchors.top: parent.top
         anchors.bottom: onOffRect.top
         border.color: Material.dividerColor
