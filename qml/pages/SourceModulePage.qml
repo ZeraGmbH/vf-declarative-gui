@@ -16,6 +16,7 @@ Item {
 
     // set by our tab-page
     property var jsonSourceInfoRaw
+
     // convenient JSON to simplify code below
     readonly property var jsonSourceInfo: {
         let retJson = jsonSourceInfoRaw
@@ -45,6 +46,7 @@ Item {
                         let refPhase = jsonSourceInfoRaw[phaseName].sameAs
                         retJson[phaseName] = jsonSourceInfoRaw[refPhase]
                     }
+
                     if(jsonSourceInfoRaw[phaseName].supportsHarmonics) {
                         retJson['supportsHarmonics'] = true
                         retJson['supportsHarmonics'+strUI] = true
@@ -119,7 +121,7 @@ Item {
         readonly property bool keepHeight: linesTotal >= 1+4
         readonly property real lineHeight: keepHeight ? height / linesTotal : 0.5 *  height / linesTotal
         readonly property real topMargin: keepHeight ? 0 : height / 4
-        Column {
+        Column { // U/I header
             id: headerColumnUI
             anchors.top: parent.top
             anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
@@ -155,7 +157,7 @@ Item {
                 }
             }
         }
-        Column {
+        Column { // symbols for RMS / angle / value / onOff
             id: headerColumnInfo
             anchors.top: parent.top
             anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
@@ -170,10 +172,33 @@ Item {
                     height: valueRectangle.lineHeight
                     border.color: Material.dividerColor
                     color: Material.backgroundColor
+                    Label {
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pointSize: headerPointSize * 0.8
+                        font.family: FA.old
+                        text: {
+                            let unitLine = getLineInUnit(index)
+                            switch(unitLine) {
+                            case 0:
+                                return '↗'
+                                //return FA.fa_arrow_alt_circle_up
+                            case 1:
+                                return '∠'
+                            case 2:
+                                return FA.fa_check
+                            case 3:
+                                // we need an upgrade...
+                                return FA.fa_chart_bar
+                            default:
+                                return '?'
+                            }
+                        }
+                    }
                 }
             }
         }
-        Column {
+        Column { // 1st line header / other entry lines
             id: headerColumnHeaderAnValues
             anchors.top: parent.top
             anchors.topMargin: valueRectangle.topMargin
