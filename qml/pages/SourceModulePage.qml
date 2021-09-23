@@ -65,14 +65,21 @@ Item {
             let phaseRequired = retJson['U'+String(phase)] !== undefined || retJson['I'+String(phase)] !== undefined
             if(phaseRequired) {
                 let phaseNameDisplay = 'L' + String(phase)
+                let colorIndexU = phase-1
+                let colorIndexI = phase-1 + 3
                 if(phase > 3) {
+                    colorIndexU = 7
+                    colorIndexI = 8
                     if(maxPhaseAll > 4) {
                         phaseNameDisplay = 'AUX' + String(phase-maxPhaseAll)
                     } else {
                         phaseNameDisplay = 'AUX'
                     }
                 }
-                columInfo.push({'phaseNum': phase, 'phaseNameDisplay': phaseNameDisplay})
+                columInfo.push({'phaseNum': phase,
+                                   'phaseNameDisplay': phaseNameDisplay,
+                                   'colorIndexU': colorIndexU,
+                                   'colorIndexI': colorIndexI})
             }
         }
 
@@ -85,7 +92,7 @@ Item {
     readonly property int linesTotal: 1 + linesU + linesI
 
     readonly property real pointSize: height > 0 ? height / 30 : 10
-    readonly property real headerPointSize: pointSize * 2
+    readonly property real headerPointSize: pointSize * 1.5
     readonly property real comboFontSize: pointSize * 1.25
     readonly property real widthRightArea: width * 0.4
     readonly property real widthLeftArea: width * 0.05
@@ -156,7 +163,7 @@ Item {
             anchors.left: headerColumnUI.right
             width: valueRectangle.headerColumnWidth
             Repeater {
-                model: linesTotal-1 // no horizontal  header
+                model: linesTotal-1 // no horizontal header
                 Rectangle {
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -167,14 +174,40 @@ Item {
             }
         }
         Column {
-            id: headerColumnValues
+            id: headerColumnHeaderAnValues
             anchors.top: parent.top
             anchors.topMargin: valueRectangle.topMargin
             anchors.bottom: parent.bottom
             anchors.left: headerColumnInfo.right
             anchors.right: headerColumnUnit.left
+            property real columnWidth: jsonSourceInfo ? width / jsonSourceInfo.columnInfo.length : 0
+            // Header line
+            Row {
+                id: headerRow
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: valueRectangle.lineHeight
+                Repeater {
+                    model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        border.color: Material.dividerColor
+                        color: Material.backgroundColor
+                        width: headerColumnHeaderAnValues.columnWidth
+                        Label {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.pointSize: headerPointSize
+                            text: modelData.phaseNameDisplay
+                            color: GC.currentColorTable[modelData.colorIndexU]
+                        }
+                    }
+                }
+            }
+
             Repeater {
-                model: linesTotal
+                model: linesTotal-1 // horizontal header is created above
                 Rectangle {
                     anchors.left: parent.left
                     anchors.right: parent.right
