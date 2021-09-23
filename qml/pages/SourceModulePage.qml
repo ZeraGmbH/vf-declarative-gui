@@ -19,58 +19,64 @@ Item {
     // convenient JSON to simplify code below
     readonly property var jsonSourceInfo: {
         let retJson = jsonSourceInfoRaw
-        let supportsHarmonics = false
-        let supportsHarmonicsU = false
-        let maxUValue = 0.0
-        let uiCount = 0;
-        if(jsonSourceInfoRaw.UPhaseMax > 0) {
-            uiCount++
-        }
-        if(jsonSourceInfoRaw.IPhaseMax > 0) {
-            uiCount++
-        }
-        for(let phaseU=1; phaseU<=jsonSourceInfoRaw.UPhaseMax; ++phaseU) {
-            let phaseNameU = String("U%1").arg(phaseU)
-            if(jsonSourceInfoRaw[phaseNameU]) {
-                if(jsonSourceInfoRaw[phaseNameU].sameAs) {
-                    let refPhaseU = jsonSourceInfoRaw[phaseNameU].sameAs
-                    retJson[phaseNameU] = jsonSourceInfoRaw[refPhaseU]
-                }
-                if(jsonSourceInfoRaw[phaseNameU].supportsHarmonics) {
-                    supportsHarmonics = true
-                    supportsHarmonicsU = true
-                }
-                if(jsonSourceInfoRaw[phaseNameU].maxVal > maxUValue) {
-                    maxUValue = jsonSourceInfoRaw[phaseNameU].maxVal
-                }
-            }
-        }
-        let supportsHarmonicsI = false
-        let maxIValue = 0.0
-        for(let phaseI=1; phaseI<=jsonSourceInfoRaw.IPhaseMax; ++phaseI) {
-            let phaseNameI = String("I%1").arg(phaseI)
-            if(jsonSourceInfoRaw[phaseNameI]) {
-                if(jsonSourceInfoRaw[phaseNameI].sameAs) {
-                    let refPhaseI = jsonSourceInfoRaw[phaseNameI].sameAs
-                    retJson[phaseNameI] = jsonSourceInfoRaw[refPhaseI]
-                }
-                if(jsonSourceInfoRaw[phaseNameI].supportsHarmonics) {
-                    supportsHarmonics = true
-                    supportsHarmonicsI = true
-                }
-                if(jsonSourceInfoRaw[phaseNameI].maxVal > maxIValue) {
-                    maxIValue = jsonSourceInfoRaw[phaseNameI].maxVal
-                }
-            }
-        }
-        retJson['supportsHarmonics'] = supportsHarmonics
-        retJson['supportsHarmonicsU'] = supportsHarmonicsU
-        retJson['supportsHarmonicsI'] = supportsHarmonicsI
 
+        retJson['maxValU'] = 0.0
+        retJson['maxValI'] = 0.0
+        let uiCount = 0
+        let arrUI = ['U', 'I']
+
+        // * apply 'sameAs'
+        // * calc U/I max values
+        // * U/I/global harmonic support
+
+        // using array's forEach and arrow function causes qt-creator
+        // freaking out on indentation. So loop the old-school way
+        for(let numUI=0; numUI<arrUI.length; ++numUI) {
+            let strUI = arrUI[numUI]
+            let maxPhaseNum = jsonSourceInfoRaw[strUI + 'PhaseMax']
+            if(maxPhaseNum > 0) {
+                uiCount++
+            }
+
+            for(var phase=1; phase<=maxPhaseNum; ++phase) {
+                let phaseName = strUI + String(phase)
+                if(jsonSourceInfoRaw[phaseName]) {
+                    if(jsonSourceInfoRaw[phaseName].sameAs) {
+                        let refPhase = jsonSourceInfoRaw[phaseName].sameAs
+                        retJson[phaseName] = jsonSourceInfoRaw[refPhase]
+                    }
+                    if(jsonSourceInfoRaw[phaseName].supportsHarmonics) {
+                        retJson['supportsHarmonics'] = true
+                        retJson['supportsHarmonics'+strUI] = true
+                    }
+                    if(jsonSourceInfoRaw[phaseName].maxVal > retJson['maxVal'+strUI]) {
+                        retJson['maxVal'+strUI] = jsonSourceInfoRaw[phaseName].maxVal
+                    }
+                }
+            }
+        }
         retJson['uiCount'] = uiCount
 
-        retJson['maxValU'] = maxUValue
-        retJson['maxValI'] = maxIValue
+        // check which colums we have to display
+        let columInfo = []
+        let maxPhaseAll = Math.max(jsonSourceInfoRaw['UPhaseMax'],
+                                   jsonSourceInfoRaw['IPhaseMax'])
+        for(phase=1; phase<=maxPhaseAll; ++phase) {
+            let phaseRequired = retJson['U'+String(phase)] !== undefined || retJson['I'+String(phase)] !== undefined
+            if(phaseRequired) {
+                let phaseNameDisplay = 'L' + String(phase)
+                if(phase > 3) {
+                    if(maxPhaseAll > 4) {
+                        phaseNameDisplay = 'AUX' + String(phase-maxPhaseAll)
+                    } else {
+                        phaseNameDisplay = 'AUX'
+                    }
+                }
+                columInfo.push({'phaseNum': phase, 'phaseNameDisplay': phaseNameDisplay})
+            }
+        }
+
+        retJson['columnInfo'] = columInfo
         return retJson
     }
     // convenient properties
