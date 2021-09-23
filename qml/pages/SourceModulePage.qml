@@ -84,15 +84,21 @@ Item {
                                    'colorIndexI': colorIndexI})
             }
         }
-
         retJson['columnInfo'] = columInfo
+
         return retJson
     }
     // convenient properties
     readonly property int linesU: (jsonSourceInfo && jsonSourceInfo.UPhaseMax) ? (jsonSourceInfo.supportsHarmonicsU ? 4: 3) : 0
     readonly property int linesI: (jsonSourceInfo && jsonSourceInfo.IPhaseMax) ? (jsonSourceInfo.supportsHarmonicsI ? 4: 3) : 0
     readonly property int linesTotal: 1 + linesU + linesI
-
+    function getLineInUnit(line) {
+        let unitLine = line
+        if(unitLine >= linesU) {
+            unitLine -= linesU
+        }
+        return unitLine
+    }
     readonly property real pointSize: height > 0 ? height / 30 : 10
     readonly property real headerPointSize: pointSize * 1.5
     readonly property real comboFontSize: pointSize * 1.25
@@ -230,15 +236,25 @@ Item {
                     }
                 }
             }
-
-            Repeater {
-                model: linesTotal-1 // horizontal header is created above
-                Rectangle {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: valueRectangle.lineHeight
-                    border.color: Material.dividerColor
-                    color: Material.backgroundColor
+            // Data entry lines
+            Column {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                Repeater { // lines
+                    model: linesTotal-1 // horizontal header is created above
+                    Row {
+                        height: valueRectangle.lineHeight
+                        Repeater { // colums
+                            model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
+                            Rectangle {
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                border.color: Material.dividerColor
+                                color: Material.backgroundColor
+                                width: headerColumnHeaderAnValues.columnWidth
+                            }
+                        }
+                    }
                 }
             }
         }
