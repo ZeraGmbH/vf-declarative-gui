@@ -122,17 +122,24 @@ Item {
         Column { // U/I header
             id: headerColumnUI
             anchors.top: parent.top
-            anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
+            anchors.topMargin: valueRectangle.topMargin
             anchors.bottom: parent.bottom
-            anchors.left: parent.left // TODO header columns
+            anchors.left: parent.left
             width: valueRectangle.headerColumnWidth
+            Rectangle { // empty topmost
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: valueRectangle.lineHeight
+                border.color: Material.dividerColor
+                color: GC.tableShadeColor
+            }
             Rectangle { // U
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: jsonSourceInfo.UPhaseMax ? (jsonSourceInfo.supportsHarmonicsU ? 4 : 3) * valueRectangle.lineHeight : 0
                 visible: jsonSourceInfo.UPhaseMax > 0
                 border.color: Material.dividerColor
-                color: Material.backgroundColor
+                color: GC.tableShadeColor
                 Label {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -146,7 +153,7 @@ Item {
                 height: jsonSourceInfo.IPhaseMax ? (jsonSourceInfo.supportsHarmonicsI ? 4 : 3) * valueRectangle.lineHeight : 0
                 visible: jsonSourceInfo.IPhaseMax > 0
                 border.color: Material.dividerColor
-                color: Material.backgroundColor
+                color: GC.tableShadeColor
                 Label {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -175,15 +182,32 @@ Item {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         border.color: Material.dividerColor
-                        color: Material.backgroundColor
+                        color: GC.tableShadeColor
                         width: headerColumnHeaderAnValues.columnWidth
                         Label {
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.fill: parent
+                            anchors.rightMargin: GC.standardTextHorizMargin
+                            horizontalAlignment: Label.AlignRight
+                            verticalAlignment: Label.AlignVCenter
                             font.pointSize: headerPointSize
                             text: modelData.phaseNameDisplay
                             color: GC.currentColorTable[modelData.colorIndexU]
                         }
+                    }
+                }
+                Rectangle {
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    width: valueRectangle.headerColumnWidth
+                    border.color: Material.dividerColor
+                    color: GC.tableShadeColor
+                    Label {
+                        anchors.fill: parent
+                        anchors.rightMargin: GC.standardTextHorizMargin
+                        horizontalAlignment: Label.AlignRight
+                        verticalAlignment: Label.AlignVCenter
+                        font.pointSize: headerPointSize
+                        text: '[]'
                     }
                 }
             }
