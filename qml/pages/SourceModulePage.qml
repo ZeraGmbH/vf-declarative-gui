@@ -273,7 +273,6 @@ Item {
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -327,10 +326,11 @@ Item {
         color: Material.backgroundColor
         Button {
             text: Z.tr("On")
-            width: angleButtonRow.buttonWidth * 1.5
+            width: angleButtonRow.buttonWidth
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
+            anchors.leftMargin: valueRectangle.headerColumnWidth
             topInset: 0
             bottomInset: 0
             font.pointSize: root.pointSize * 0.9
@@ -344,10 +344,11 @@ Item {
         }
         Button {
             text: Z.tr("Off")
-            width: angleButtonRow.buttonWidth * 1.5
+            width: angleButtonRow.buttonWidth
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: parent.right
+            anchors.rightMargin: valueRectangle.headerColumnWidth
             topInset: 0
             bottomInset: 0
             font.pointSize: root.pointSize * 0.9
