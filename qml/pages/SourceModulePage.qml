@@ -99,6 +99,9 @@ Item {
         }
         return unitLine
     }
+    function isVoltageLine(line) {
+        return linesU > 0 && line < linesU
+    }
     readonly property real pointSize: height > 0 ? height / 30 : 10
     readonly property real headerPointSize: pointSize * 1.5
     readonly property real comboFontSize: pointSize * 1.25
@@ -273,6 +276,24 @@ Item {
                     height: valueRectangle.lineHeight
                     border.color: Material.dividerColor
                     color: Material.backgroundColor
+                    Label {
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pointSize: headerPointSize * 0.8
+                        font.family: FA.old
+                        text: {
+                            let unitLine = getLineInUnit(index)
+                            let isVoltage = isVoltageLine(index)
+                            switch(unitLine) {
+                            case 0:
+                                return isVoltage ? 'V' : 'A'
+                            case 1:
+                                return '°'
+                            default:
+                                return ''
+                            }
+                        }
+                    }
                 }
             }
         }
