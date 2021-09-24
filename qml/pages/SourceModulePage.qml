@@ -287,22 +287,28 @@ Item {
         color: Material.backgroundColor
         Button {
             text: Z.tr("On")
-            width: angleButtonRow.buttonWidth * 2
+            width: angleButtonRow.buttonWidth * 1.5
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            anchors.leftMargin: widthLeftArea
             topInset: 0
             bottomInset: 0
             font.pointSize: root.pointSize * 0.9
         }
+        CheckBox {
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: Z.tr("symmetric")
+            font.pointSize: root.pointSize * 0.9
+        }
         Button {
             text: Z.tr("Off")
-            width: angleButtonRow.buttonWidth * 2
+            width: angleButtonRow.buttonWidth * 1.5
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: parent.right
-            anchors.rightMargin: widthLeftArea
             topInset: 0
             bottomInset: 0
             font.pointSize: root.pointSize * 0.9
