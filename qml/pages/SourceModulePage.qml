@@ -244,46 +244,51 @@ Item {
                                 }
                                 Component {
                                     id: phaseValueTextComponent
-                                    ZLineEdit {
+                                    Item {
                                         anchors.fill: parent
-                                        pointSize: valueRectangle.lineHeight * 0.3
-                                        textField.color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
-                                        text: valueText
-                                        readonly property var validatorInfo: {
-                                            let uiPrefix = isVoltageLine(rowIndex) ? 'U' : 'I'
-                                            let uiPhase = uiPrefix + String(columnIndex+1)
-                                            let minVal, maxVal, minStepVal = 0.0
-                                            switch(getLineInUnit(rowIndex)) {
-                                            case 0: // Ampitude
-                                                minVal = jsonSourceInfo[uiPhase].minVal
-                                                maxVal = jsonSourceInfo[uiPhase].maxVal
-                                                minStepVal = jsonSourceInfo[uiPhase].minStepVal
-                                                break
-                                            case 1: // Angle
-                                                minStepVal = jsonSourceInfo[uiPhase].minStepValAngle
-                                                minVal = -360.0 + minStepVal
-                                                maxVal = 360.0 - minStepVal
-                                                break
+                                        ZLineEdit {
+                                            id: valueEdit
+                                            anchors.fill: parent
+                                            pointSize: valueRectangle.lineHeight * 0.3
+                                            enabled: !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3)
+                                            visible: enabled
+                                            textField.color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
+                                            text: valueText
+                                            readonly property var validatorInfo: {
+                                                let uiPrefix = isVoltageLine(rowIndex) ? 'U' : 'I'
+                                                let uiPhase = uiPrefix + String(columnIndex+1)
+                                                let minVal, maxVal, minStepVal = 0.0
+                                                switch(getLineInUnit(rowIndex)) {
+                                                case 0: // Ampitude
+                                                    minVal = jsonSourceInfo[uiPhase].minVal
+                                                    maxVal = jsonSourceInfo[uiPhase].maxVal
+                                                    minStepVal = jsonSourceInfo[uiPhase].minStepVal
+                                                    break
+                                                case 1: // Angle
+                                                    minStepVal = jsonSourceInfo[uiPhase].minStepValAngle
+                                                    minVal = -360.0 + minStepVal
+                                                    maxVal = 360.0 - minStepVal
+                                                    break
+                                                }
+                                                return { 'minVal': minVal, 'maxVal': maxVal, 'minStepVal': minStepVal}
                                             }
-                                            return { 'minVal': minVal, 'maxVal': maxVal, 'minStepVal': minStepVal}
+                                            validator: ZDoubleValidator {
+                                                bottom: valueEdit.validatorInfo.minVal
+                                                top: valueEdit.validatorInfo.maxVal
+                                                decimals: FT.ceilLog10Of1DividedByX(valueEdit.validatorInfo.minStepVal)
+                                            }
                                         }
-                                        validator: ZDoubleValidator {
-                                            bottom: validatorInfo.minVal
-                                            top: validatorInfo.maxVal
-                                            decimals: FT.ceilLog10Of1DividedByX(validatorInfo.minStepVal)
+                                        // A bit of a hack to make underline disappear for disabled ZLineEdit
+                                        Label {
+                                            visible: !valueEdit.visible
+                                            anchors.fill: parent
+                                            anchors.rightMargin: GC.standardTextHorizMargin
+                                            font.pointSize: valueRectangle.lineHeight * 0.3
+                                            horizontalAlignment: Label.AlignRight
+                                            verticalAlignment: Label.AlignVCenter
+                                            color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
+                                            text: valueEdit.textField.text
                                         }
-                                    }
-                                }
-                                Component {
-                                    id: phaseValueTextComponentDisabled
-                                    Label {
-                                        anchors.fill: parent
-                                        anchors.rightMargin: GC.standardTextHorizMargin
-                                        font.pointSize: valueRectangle.lineHeight * 0.3
-                                        horizontalAlignment: Label.AlignRight
-                                        verticalAlignment: Label.AlignVCenter
-                                        color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
-                                        text: valueText
                                     }
                                 }
                                 Component {
@@ -309,11 +314,7 @@ Item {
                                     sourceComponent: {
                                         switch(getLineInUnit(rowIndex)) {
                                         default:
-                                            let enabled = !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3)
-                                            if(enabled)
-                                                return phaseValueTextComponent
-                                            else
-                                                return phaseValueTextComponentDisabled
+                                            return phaseValueTextComponent
                                         case 2:
                                             return phaseCheckBoxComponent
                                         case 3:
