@@ -198,7 +198,8 @@ Item {
                                 return FA.fa_check
                             case 3:
                                 // we need an upgrade...
-                                return FA.fa_chart_bar
+                                //return FA.fa_chart_bar
+                                return ''
                             default:
                                 return '?'
                             }
@@ -317,8 +318,6 @@ Item {
             font.pointSize: root.pointSize * 0.9
         }
         CheckBox {
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             text: Z.tr("symmetric")
