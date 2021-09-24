@@ -70,8 +70,8 @@ Item {
                 let colorIndexU = phase-1
                 let colorIndexI = phase-1 + 3
                 if(phase > 3) {
-                    colorIndexU = 7
-                    colorIndexI = 8
+                    colorIndexU = 6 // zero based
+                    colorIndexI = 7
                     if(maxPhaseAll > 4) {
                         phaseNameDisplay = 'AUX' + String(phase-maxPhaseAll)
                     } else {
