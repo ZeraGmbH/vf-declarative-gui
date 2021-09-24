@@ -233,10 +233,11 @@ Item {
             Column {
                 anchors.left: parent.left
                 anchors.right: parent.right
-                Repeater { // lines
+                Repeater { // rows
                     model: linesTotal-1 // horizontal header is created above
                     Row {
                         height: valueRectangle.lineHeight
+                        readonly property int rowIndex: index
                         Repeater { // colums
                             model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
                             Rectangle {
@@ -245,6 +246,47 @@ Item {
                                 border.color: Material.dividerColor
                                 color: Material.backgroundColor
                                 width: headerColumnHeaderAnValues.columnWidth
+                                readonly property int columnIndex: index
+                                Component {
+                                    id: phaseValueTextComponent
+                                    ZLineEdit {
+                                        anchors.fill: parent
+                                        pointSize: valueRectangle.lineHeight * 0.3
+                                        textField.color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
+                                    }
+                                }
+                                Component {
+                                    id: phaseCheckBoxComponent
+                                    CheckBox {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                    }
+                                }
+                                Component {
+                                    id: phaseComboHarmonics
+                                    ZComboBox {
+                                        anchors.fill: parent
+                                        arrayMode: true
+                                        fontSize: valueRectangle.lineHeight * 0.4
+                                        centerVertical: true
+                                        model: ['---']
+                                        textColor: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
+                                    }
+                                }
+                                Loader {
+                                    anchors.fill: parent
+                                    sourceComponent: {
+                                        switch(getLineInUnit(rowIndex)) {
+                                        default:
+                                            return phaseValueTextComponent
+                                        case 2:
+                                            return phaseCheckBoxComponent
+                                        case 3:
+                                            return phaseComboHarmonics
+                                        }
+                                    }
+                                }
+
                             }
                         }
                     }
