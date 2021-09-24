@@ -109,20 +109,9 @@ Item {
     readonly property real widthLeftArea: width * 0.05
 
     property real angleLineHeight: (parent.height - phasorDiagramm.height) / 3
-    Rectangle { // extra buttons
-        id: extraButtonRect
-        anchors.left: parent.left
-        // argh - we do not have yet https://tc39.es/proposal-optional-chaining/
-        // as 'jsonSourceInfo?.supportsHarmonics'
-        width: (jsonSourceInfo && jsonSourceInfo.supportsHarmonics) ? widthLeftArea : 0
-        anchors.top: parent.top
-        anchors.bottom: onOffRect.top
-        border.color: Material.dividerColor
-        color: Material.backgroundColor
-    }
     Item {  // value table
         id: valueRectangle
-        anchors.left: extraButtonRect.right
+        anchors.left: parent.left
         anchors.right: rightColumn.left
         anchors.top: parent.top
         anchors.bottom: onOffRect.top
