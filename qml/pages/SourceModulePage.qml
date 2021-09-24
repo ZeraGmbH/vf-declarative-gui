@@ -422,7 +422,7 @@ Item {
                 anchors.bottom: parent.bottom
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: angleButtonRow.buttonWidth * 0.5
+                    Layout.preferredWidth: angleButtonRow.buttonWidth * 0.55
                     ZComboBox {
                         id: comboPQ
                         anchors.fill: parent
