@@ -155,54 +155,12 @@ Item {
                 }
             }
         }
-        Column { // symbols for RMS / angle / value / onOff
-            id: headerColumnInfo
-            anchors.top: parent.top
-            anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
-            anchors.bottom: parent.bottom
-            anchors.left: headerColumnUI.right
-            width: valueRectangle.headerColumnWidth
-            Repeater {
-                model: linesTotal-1 // no horizontal header
-                Rectangle {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: valueRectangle.lineHeight
-                    border.color: Material.dividerColor
-                    color: Material.backgroundColor
-                    Label {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.pointSize: headerPointSize * 0.8
-                        font.family: FA.old
-                        text: {
-                            let unitLine = getLineInUnit(index)
-                            switch(unitLine) {
-                            case 0:
-                                return '↗'
-                                //return FA.fa_arrow_alt_circle_up
-                            case 1:
-                                return '∠'
-                            case 2:
-                                return FA.fa_check
-                            case 3:
-                                // we need an upgrade...
-                                //return FA.fa_chart_bar
-                                return ''
-                            default:
-                                return '?'
-                            }
-                        }
-                    }
-                }
-            }
-        }
         Column { // 1st line header / other entry lines
             id: headerColumnHeaderAnValues
             anchors.top: parent.top
             anchors.topMargin: valueRectangle.topMargin
             anchors.bottom: parent.bottom
-            anchors.left: headerColumnInfo.right
+            anchors.left: headerColumnUI.right
             anchors.right: headerColumnUnit.left
             property real columnWidth: jsonSourceInfo ? width / jsonSourceInfo.columnInfo.length : 0
             // Header line
