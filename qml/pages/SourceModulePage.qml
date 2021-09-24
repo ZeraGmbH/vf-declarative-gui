@@ -241,18 +241,43 @@ Item {
                         Repeater { // colums
                             model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
                             Rectangle {
+                                id: valueRect
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
                                 border.color: Material.dividerColor
                                 color: Material.backgroundColor
                                 width: headerColumnHeaderAnValues.columnWidth
                                 readonly property int columnIndex: index
+                                readonly property bool isAngleU1: isVoltageLine(rowIndex) &&
+                                                                  getLineInUnit(rowIndex) === 1 &&
+                                                                  columnIndex === 0
+                                property string valueText: { // This is for demo - we need some JSON for this
+                                    if(isAngleU1) {
+                                        return '0'
+                                    }  else {
+                                        // TODO!!!!!
+                                        return '0.000'
+                                    }
+                                }
                                 Component {
                                     id: phaseValueTextComponent
                                     ZLineEdit {
                                         anchors.fill: parent
                                         pointSize: valueRectangle.lineHeight * 0.3
                                         textField.color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
+                                        text: valueText
+                                    }
+                                }
+                                Component {
+                                    id: phaseValueTextComponentDisabled
+                                    Label {
+                                        anchors.fill: parent
+                                        anchors.rightMargin: GC.standardTextHorizMargin
+                                        font.pointSize: valueRectangle.lineHeight * 0.3
+                                        horizontalAlignment: Label.AlignRight
+                                        verticalAlignment: Label.AlignVCenter
+                                        color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
+                                        text: valueText
                                     }
                                 }
                                 Component {
@@ -278,7 +303,11 @@ Item {
                                     sourceComponent: {
                                         switch(getLineInUnit(rowIndex)) {
                                         default:
-                                            return phaseValueTextComponent
+                                            let enabled = !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3)
+                                            if(enabled)
+                                                return phaseValueTextComponent
+                                            else
+                                                return phaseValueTextComponentDisabled
                                         case 2:
                                             return phaseCheckBoxComponent
                                         case 3:
@@ -349,6 +378,7 @@ Item {
             font.pointSize: root.pointSize * 0.9
         }
         CheckBox {
+            id: symmetricCheckbox
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             text: Z.tr("symmetric")
