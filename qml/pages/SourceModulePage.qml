@@ -119,7 +119,7 @@ Item {
         readonly property real headerColumnWidth: valueRectangle.width * 0.08
         readonly property bool keepHeight: linesTotal >= 1+4
         readonly property real lineHeight: keepHeight ? height / linesTotal : 0.5 *  height / linesTotal
-        readonly property real topMargin: keepHeight ? 0 : height / 4
+        readonly property real topMargin: keepHeight ? 0 : height / 2
         Column { // U/I header
             id: headerColumnUI
             anchors.top: parent.top
