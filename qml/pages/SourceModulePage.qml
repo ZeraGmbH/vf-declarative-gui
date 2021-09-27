@@ -28,6 +28,8 @@ Item {
 
         retJson['maxValU'] = 0.0
         retJson['maxValI'] = 0.0
+        retJson['extraLinesRequired'] = false
+
         let uiCount = 0
         let arrUI = ['U', 'I']
 
@@ -51,9 +53,8 @@ Item {
                         let refPhase = jsonSourceInfoRaw[phaseName].sameAs
                         retJson[phaseName] = jsonSourceInfoRaw[refPhase]
                     }
-
                     if(jsonSourceInfoRaw[phaseName].supportsHarmonics) {
-                        retJson['supportsHarmonics'] = true
+                        retJson['extraLinesRequired'] = true
                         retJson['supportsHarmonics'+strUI] = true
                     }
                     if(jsonSourceInfoRaw[phaseName].maxVal > retJson['maxVal'+strUI]) {
@@ -129,7 +130,7 @@ Item {
             readonly property real comboFontSize: pointSize * 1.25
             readonly property real widthLeftArea: width * 0.6
             readonly property real widthRightArea: width - widthLeftArea
-            readonly property real headerColumnWidth: widthLeftArea * 0.08
+            readonly property real headerColumnWidth: widthLeftArea * 0.12
             readonly property real buttonWidth: widthRightArea / 4
             readonly property int scrollBarWidth: width > 100 ? width / 100 : 8
             readonly property bool horizScrollbarOn: jsonSourceInfo.columnInfo.length > 3
@@ -158,7 +159,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.left: parent.left
-                width: theView.headerColumnWidth
+                width: theView.headerColumnWidth - jsonSourceInfo.extraLinesRequired * scrollBarWidth
                 Rectangle { // empty topmost
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -371,6 +372,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.right: vectorView.left
+                anchors.rightMargin: jsonSourceInfo.extraLinesRequired * scrollBarWidth
                 width: theView.headerColumnWidth
                 Rectangle { // [ ] topmost
                     anchors.left: parent.left
@@ -398,7 +400,7 @@ Item {
                         boundsBehavior: Flickable.StopAtBounds
                         delegate: Rectangle {
                             anchors.left: parent.left
-                            width: parent.width - theView.scrollBarWidth * (uiType === 'U' ? theView.vertScrollbarOnU : theView.vertScrollbarOnI)
+                            width: parent.width
                             height: theView.lineHeight
                             border.color: Material.dividerColor
                             color: Material.backgroundColor
@@ -460,6 +462,7 @@ Item {
 
 
             ///////////// right area /////////////
+            readonly property real qAndHzLabelWidth: width / 32
             Rectangle {
                 id: vectorView
                 anchors.right: parent.right
@@ -582,7 +585,7 @@ Item {
                 }
                 Label {
                     font.pointSize: theView.pointSize
-                    Layout.preferredWidth: theView.headerColumnWidth * 0.625
+                    Layout.preferredWidth: theView.qAndHzLabelWidth
                     text: "Q:"
                 }
                 Item {
@@ -619,7 +622,7 @@ Item {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         anchors.left: parent.left
-                        anchors.leftMargin: theView.headerColumnWidth
+                        anchors.leftMargin: theView.headerColumnWidth - jsonSourceInfo.extraLinesRequired * scrollBarWidth
                         topInset: 0
                         bottomInset: 0
                         font.pointSize: theView.pointSize * 0.9
@@ -666,7 +669,7 @@ Item {
                             }
                         }
                         Label {
-                            Layout.preferredWidth: theView.headerColumnWidth * 0.625
+                            Layout.preferredWidth: theView.qAndHzLabelWidth
                             font.pointSize: theView.pointSize
                             visible: frequencyMode.varSelected
                             text: "Hz"
