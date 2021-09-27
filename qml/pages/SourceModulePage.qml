@@ -468,7 +468,7 @@ Item {
                 anchors.right: parent.right
                 width: theView.widthRightArea
                 anchors.top: parent.top
-                anchors.bottom: angleQuickRow.top
+                anchors.bottom: pqRow.top
                 border.color: Material.dividerColor
                 color: Material.backgroundColor
 
@@ -506,62 +506,20 @@ Item {
                     vector6Label: "IL3"
                 }
             }
-            Row {
-                id: angleQuickRow
-                anchors.right: parent.right
-                width: theView.widthRightArea
-                anchors.bottom: pqRow.top
-                height: theView.lineHeight
-                Button {
-                    width: theView.buttonWidth
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    topInset: 0
-                    bottomInset: 0
-                    font.pointSize: theView.pointSize * 0.9
-                    text: "0°"
-                }
-                Button {
-                    width: theView.buttonWidth
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    topInset: 0
-                    bottomInset: 0
-                    font.pointSize: theView.pointSize * 0.9
-                    text: "180°"
-                }
-                Button {
-                    width: theView.buttonWidth
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    topInset: 0
-                    bottomInset: 0
-                    font.pointSize: theView.pointSize * 0.9
-                    text: "+15°"
-                }
-                Button {
-                    width: theView.buttonWidth
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    topInset: 0
-                    bottomInset: 0
-                    font.pointSize: theView.pointSize * 0.9
-                    text: "-15°"
-                }
-            }
-
             RowLayout {
                 id: pqRow
                 anchors.right: parent.right
                 width: theView.widthRightArea
-                anchors.bottom: bottomRow.top
+                anchors.bottom: angleQuickRow.top
                 height: theView.lineHeight + (theView.horizScrollbarOn ? theView.scrollBarWidth : 0)
+                readonly property int bottomFreeSpace: 1
                 Item {
                     Layout.fillHeight: true
                     Layout.preferredWidth: theView.buttonWidth * 0.55
                     ZComboBox {
                         id: comboPQ
                         anchors.fill: parent
+                        anchors.bottomMargin: pqRow.bottomFreeSpace
                         arrayMode: true
                         fontSize: theView.comboFontSize
                         centerVertical: true
@@ -581,6 +539,8 @@ Item {
                     ZLineEdit {
                         anchors.fill: parent
                         pointSize: theView.pointSize
+                        textField.topPadding: 9
+                        textField.bottomPadding: 9
                     }
                 }
                 Label {
@@ -593,6 +553,7 @@ Item {
                     Layout.preferredWidth: theView.buttonWidth
                     ZComboBox {
                         anchors.fill: parent
+                        anchors.bottomMargin: pqRow.bottomFreeSpace
                         arrayMode: true
                         fontSize: comboFontSize
                         centerVertical: true
@@ -600,7 +561,53 @@ Item {
                     }
                 }
             }
-
+            Row {
+                id: angleQuickRow
+                anchors.right: parent.right
+                width: theView.widthRightArea
+                anchors.bottom: bottomRow.top
+                height: theView.lineHeight
+                readonly property int rightFreeSpace: 2
+                Button {
+                    width: theView.buttonWidth
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    rightInset: angleQuickRow.rightFreeSpace
+                    topInset: 0
+                    bottomInset: 0
+                    font.pointSize: theView.pointSize * 0.9
+                    text: "0°"
+                }
+                Button {
+                    width: theView.buttonWidth
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    rightInset: angleQuickRow.rightFreeSpace
+                    topInset: 0
+                    bottomInset: 0
+                    font.pointSize: theView.pointSize * 0.9
+                    text: "180°"
+                }
+                Button {
+                    width: theView.buttonWidth
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    rightInset: angleQuickRow.rightFreeSpace
+                    topInset: 0
+                    bottomInset: 0
+                    font.pointSize: theView.pointSize * 0.9
+                    text: "+15°"
+                }
+                Button {
+                    width: theView.buttonWidth
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    topInset: 0
+                    bottomInset: 0
+                    font.pointSize: theView.pointSize * 0.9
+                    text: "-15°"
+                }
+            }
             ///////////// full width bottom area /////////////
             Rectangle {
                 id: bottomRow
@@ -610,6 +617,7 @@ Item {
                 height: theView.lineHeight
                 border.color: Material.dividerColor
                 color: Material.backgroundColor
+                readonly property int topFreeSpace: 2
                 Item {
                     id: onOffRow
                     anchors.left: parent.left
@@ -621,10 +629,10 @@ Item {
                         width: theView.buttonWidth
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
+                        topInset: bottomRow.topFreeSpace
+                        bottomInset: 0
                         anchors.left: parent.left
                         anchors.leftMargin: theView.headerColumnWidth - jsonSourceInfo.extraLinesRequired * scrollBarWidth
-                        topInset: 0
-                        bottomInset: 0
                         font.pointSize: theView.pointSize * 0.9
                     }
                     CheckBox {
@@ -639,10 +647,10 @@ Item {
                         width: theView.buttonWidth
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
-                        anchors.right: parent.right
-                        anchors.rightMargin: theView.headerColumnWidth
-                        topInset: 0
+                        topInset: bottomRow.topFreeSpace
                         bottomInset: 0
+                        anchors.right: parent.right
+                        anchors.rightMargin: theView.headerColumnWidth + jsonSourceInfo.extraLinesRequired * scrollBarWidth
                         font.pointSize: theView.pointSize * 0.9
                     }
                 }
@@ -680,6 +688,7 @@ Item {
                             ZComboBox {
                                 id: frequencyMode
                                 anchors.fill: parent
+                                anchors.topMargin: bottomRow.topFreeSpace
                                 arrayMode: true
                                 fontSize: comboFontSize
                                 centerVertical: true
