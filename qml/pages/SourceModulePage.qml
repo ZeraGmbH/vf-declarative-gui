@@ -15,6 +15,13 @@ Item {
     // set by our tab-page
     property var jsonSourceInfoRaw
 
+    enum LineType {
+        LineOnOff = 0,
+        LineRMS,
+        LineAngle,
+        LineHarmonics
+    }
+
     // convenient JSON to simplify code below
     readonly property var jsonSourceInfo: {
         let retJson = jsonSourceInfoRaw
@@ -128,8 +135,6 @@ Item {
             readonly property bool horizScrollbarOn: jsonSourceInfo.columnInfo.length > 3
             readonly property bool vertScrollbarOnU: linesU > 3
             readonly property bool vertScrollbarOnI: linesI > 3
-
-
 
             // ------------------------ Layout ---------------------------------
             //
@@ -247,8 +252,9 @@ Item {
                                         color: Material.backgroundColor
                                         width: dataTable.columnWidth
                                         readonly property int columnIndex: index
-                                        readonly property bool isAngleU1: uiType === 'U' && // TODO more common: first phase U
-                                                                          rowIndex === 1 &&
+                                        readonly property bool isAngleU1: uiType === 'U' &&
+                                                                          rowIndex === SourceModulePage.LineType.LineAngle &&
+                                                                          // TODO more common: first phase U
                                                                           columnIndex === 0
                                         property string valueText: { // This is for demo - we need some JSON for this
                                             if(isAngleU1) {
@@ -264,9 +270,9 @@ Item {
                                                 switch(rowIndex) {
                                                 default:
                                                     return phaseValueTextComponent
-                                                case 2: // phase on/off
+                                                case SourceModulePage.LineType.LineOnOff:
                                                     return phaseCheckBoxComponent
-                                                case 3: // harmonics
+                                                case SourceModulePage.LineType.LineHarmonics:
                                                     return phaseComboHarmonics
                                                 }
                                             }
@@ -291,12 +297,12 @@ Item {
                                                         let uiPhase = uiPrefix + String(columnIndex+1)
                                                         let minVal, maxVal, minStepVal = 0.0
                                                         switch(rowIndex) {
-                                                        case 0: // ampitude
+                                                        case SourceModulePage.LineType.LineRMS:
                                                             minVal = jsonSourceInfo[uiPhase].minVal
                                                             maxVal = jsonSourceInfo[uiPhase].maxVal
                                                             minStepVal = jsonSourceInfo[uiPhase].minStepVal
                                                             break
-                                                        case 1: // angle
+                                                        case SourceModulePage.LineType.LineAngle:
                                                             minStepVal = jsonSourceInfo[uiPhase].minStepValAngle
                                                             minVal = -360.0 + minStepVal
                                                             maxVal = 360.0 - minStepVal
@@ -403,9 +409,9 @@ Item {
                                 font.family: FA.old
                                 text: {
                                     switch(index) {
-                                    case 0:
+                                    case SourceModulePage.LineType.LineRMS:
                                         return uiType === 'U' ? 'V' : 'A'
-                                    case 1:
+                                    case SourceModulePage.LineType.LineAngle:
                                         return '°'
                                     default:
                                         return ''
