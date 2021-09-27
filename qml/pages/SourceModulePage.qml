@@ -1,7 +1,7 @@
-import QtQuick 2.5
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
+import QtQuick 2.14
+import QtQuick.Layouts 1.5
+import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
@@ -12,9 +12,6 @@ import ZeraComponents 1.0
 import ZeraFa 1.0
 
 Item {
-    id: root
-    clip: true
-
     // set by our tab-page
     property var jsonSourceInfoRaw
 
@@ -89,461 +86,502 @@ Item {
 
         return retJson
     }
-    // convenient properties
-    readonly property int linesU: (jsonSourceInfo && jsonSourceInfo.UPhaseMax) ? (jsonSourceInfo.supportsHarmonicsU ? 4: 3) : 0
-    readonly property int linesI: (jsonSourceInfo && jsonSourceInfo.IPhaseMax) ? (jsonSourceInfo.supportsHarmonicsI ? 4: 3) : 0
-    readonly property int linesTotal: 1 + linesU + linesI
-    function getLineInUnit(line) {
-        let unitLine = line
-        if(unitLine >= linesU) {
-            unitLine -= linesU
-        }
-        return unitLine
-    }
-    function isVoltageLine(line) {
-        return linesU > 0 && line < linesU
-    }
-    readonly property real pointSize: height > 0 ? height / 30 : 10
-    readonly property real headerPointSize: pointSize * 1.5
-    readonly property real comboFontSize: pointSize * 1.25
-    readonly property real widthRightArea: width * 0.4
-    readonly property real widthLeftArea: width * 0.05
 
-    property real angleLineHeight: (parent.height - phasorDiagramm.height) / 3
-    Item {  // value table
-        id: valueRectangle
-        anchors.left: parent.left
-        anchors.right: rightColumn.left
-        anchors.top: parent.top
-        anchors.bottom: onOffRect.top
-        readonly property real headerColumnWidth: valueRectangle.width * 0.08
-        readonly property bool keepHeight: linesTotal >= 1+4
-        readonly property real lineHeight: keepHeight ? height / linesTotal : 0.5 *  height / linesTotal
-        readonly property real topMargin: keepHeight ? 0 : height / 2
-        Column { // U/I header
-            id: headerColumnUI
-            anchors.top: parent.top
-            anchors.topMargin: valueRectangle.topMargin
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            width: valueRectangle.headerColumnWidth
-            Rectangle { // empty topmost
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: valueRectangle.lineHeight
-                border.color: Material.dividerColor
-                color: GC.tableShadeColor
-            }
-            Rectangle { // U
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: jsonSourceInfo.UPhaseMax ? (jsonSourceInfo.supportsHarmonicsU ? 4 : 3) * valueRectangle.lineHeight : 0
-                visible: jsonSourceInfo.UPhaseMax > 0
-                border.color: Material.dividerColor
-                color: GC.tableShadeColor
-                Label {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.pointSize: headerPointSize
-                    text: "U"
+    // To avoid waste of CPU by back & forth painting: Load view after jsonSourceInfo is valid
+    Loader {
+        anchors.fill: parent
+        sourceComponent: theViewComponent
+        active: jsonSourceInfo
+    }
+    Component {
+        id: theViewComponent
+        Item {
+            id: theView
+            anchors.fill: parent
+
+            // convenient properties
+            readonly property int linesStandardUI: 3 // RMS / Angle / OnOff
+            readonly property real lineHeight: height / (linesStandardUI*2 + 2) // +2 header+bottom line
+            readonly property real lineHeightHeaderLine: lineHeight - (horizScrollbarOn ? scrollBarWidth : 0)
+            readonly property int linesU: jsonSourceInfo.UPhaseMax ? (jsonSourceInfo.supportsHarmonicsU ? 4: 3) : 0
+            readonly property int linesI: jsonSourceInfo.IPhaseMax ? (jsonSourceInfo.supportsHarmonicsI ? 4: 3) : 0
+            readonly property var uiModel: {
+                let retArr = []
+                if(linesU > 0) {
+                    retArr.push('U')
                 }
-            }
-            Rectangle { // I
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: jsonSourceInfo.IPhaseMax ? (jsonSourceInfo.supportsHarmonicsI ? 4 : 3) * valueRectangle.lineHeight : 0
-                visible: jsonSourceInfo.IPhaseMax > 0
-                border.color: Material.dividerColor
-                color: GC.tableShadeColor
-                Label {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.pointSize: headerPointSize
-                    text: "I"
+                if(linesI > 0) {
+                    retArr.push('I')
                 }
+                return retArr
             }
-        }
-        Column { // 1st line header / other entry lines
-            id: headerColumnHeaderAnValues
-            anchors.top: parent.top
-            anchors.topMargin: valueRectangle.topMargin
-            anchors.bottom: parent.bottom
-            anchors.left: headerColumnUI.right
-            anchors.right: headerColumnUnit.left
-            property real columnWidth: jsonSourceInfo ? width / jsonSourceInfo.columnInfo.length : 0
-            // Header line
-            Row {
-                id: headerRow
+            readonly property int columnsStandardUI: 3
+
+            readonly property real pointSize: height > 0 ? height / 30 : 10
+            readonly property real headerPointSize: pointSize * 1.5
+            readonly property real comboFontSize: pointSize * 1.25
+            readonly property real widthLeftArea: width * 0.6
+            readonly property real widthRightArea: width - widthLeftArea
+            readonly property real headerColumnWidth: widthLeftArea * 0.08
+            readonly property real buttonWidth: widthRightArea / 4
+            readonly property int scrollBarWidth: width > 100 ? width / 100 : 8
+            readonly property bool horizScrollbarOn: jsonSourceInfo.columnInfo.length > 3
+            readonly property bool vertScrollbarOnU: linesU > 3
+            readonly property bool vertScrollbarOnI: linesI > 3
+
+
+
+            // ------------------------ Layout ---------------------------------
+            //
+            //   headerColumnUI                       unitColumn
+            //  /                                    /
+            //  ----------------------------------------------------------------
+            // | |                       RMS        | |                        |
+            // | |             U         Angles     | |                        |
+            // | |                       PhaseOnOff | |                        |
+            // | |         dataTable                | |     vectorView         |
+            // | |                       RMS        | |------------------------|
+            // | |             I         Angles   <-|-|->   angleQuickRow      |
+            // | |                       PhaseOnOff | |     pqRow              |
+            //  ---------------------------------------------------------------|
+            // |              onOffRow                |     frequencyRow       | bottomRow
+            //  ----------------------------------------------------------------
+
+            ///////////// left area /////////////
+            Column { // U/I header left
+                id: headerColumnUI
+                anchors.bottom: bottomRow.top
+                anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.left: parent.left
-                anchors.right: parent.right
-                height: valueRectangle.lineHeight
-                Repeater {
-                    model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
+                width: theView.headerColumnWidth
+                Rectangle { // empty topmost
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: theView.lineHeightHeaderLine
+                    border.color: Material.dividerColor
+                    color: GC.tableShadeColor
+                }
+                Repeater { // U/I rectangles
+                    model: theView.uiModel
                     Rectangle {
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        height: theView.linesStandardUI * theView.lineHeight
                         border.color: Material.dividerColor
                         color: GC.tableShadeColor
-                        width: headerColumnHeaderAnValues.columnWidth
                         Label {
-                            anchors.fill: parent
-                            anchors.rightMargin: GC.standardTextHorizMargin
-                            horizontalAlignment: Label.AlignRight
-                            verticalAlignment: Label.AlignVCenter
-                            font.pointSize: headerPointSize
-                            text: modelData.phaseNameDisplay
-                            color: GC.currentColorTable[modelData.colorIndexU]
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.pointSize: theView.headerPointSize
+                            text: modelData
                         }
                     }
                 }
-                Rectangle {
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    width: valueRectangle.headerColumnWidth
+            }
+
+            Flickable { // table with controls to set values - center
+                id: dataTable
+                flickableDirection: Flickable.HorizontalFlick
+                boundsBehavior: Flickable.StopAtBounds // don't tear our table away from units
+                anchors.top: parent.top
+                anchors.topMargin: theView.linesU > 0 ? 0 : theView.linesStandardUI * lineHeight
+                anchors.bottom: bottomRow.top
+                anchors.left: headerColumnUI.right
+                anchors.right: unitColumn.left
+                contentWidth: columnWidth * jsonSourceInfo.columnInfo.length
+                contentHeight: height - (theView.horizScrollbarOn ? theView.scrollBarWidth : 0)
+                clip: true
+                readonly property real columnWidth: width / theView.columnsStandardUI
+                Column { // header / U table / I table
+                    width: dataTable.contentWidth
+                    height: dataTable.contentHeight
+
+                    Row { // header row
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        height: theView.lineHeightHeaderLine
+                        Repeater {
+                            model: jsonSourceInfo.columnInfo
+                            Rectangle {
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                width: dataTable.columnWidth
+                                border.color: Material.dividerColor
+                                color: GC.tableShadeColor
+                                Label {
+                                    anchors.fill: parent
+                                    anchors.rightMargin: GC.standardTextHorizMargin
+                                    horizontalAlignment: Label.AlignRight
+                                    verticalAlignment: Label.AlignVCenter
+                                    font.pointSize: theView.headerPointSize
+                                    text: modelData.phaseNameDisplay
+                                    color: GC.currentColorTable[modelData.colorIndexU]
+                                }
+                            }
+                        }
+                    }
+
+                    Repeater {  // a set of ListView for U & I
+                        model: theView.uiModel
+                        ListView { // 3+ lines
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: theView.lineHeight * theView.linesStandardUI
+                            readonly property string uiType: modelData
+                            model: uiType === 'U' ? theView.linesU : theView.linesI
+                            snapMode: ListView.SnapToItem
+                            boundsBehavior: Flickable.StopAtBounds
+                            clip: true
+                            delegate: Row { // row of phase fields
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                height: theView.lineHeight
+                                readonly property int rowIndex: index
+                                Repeater {
+                                    model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
+                                    Rectangle { // the field
+                                        id: valueRect
+                                        anchors.top: parent.top
+                                        anchors.bottom: parent.bottom
+                                        border.color: Material.dividerColor
+                                        color: Material.backgroundColor
+                                        width: dataTable.columnWidth
+                                        readonly property int columnIndex: index
+                                        readonly property bool isAngleU1: uiType === 'U' && // TODO more common: first phase U
+                                                                          rowIndex === 1 &&
+                                                                          columnIndex === 0
+                                        property string valueText: { // This is for demo - we need some JSON for this
+                                            if(isAngleU1) {
+                                                return '0'
+                                            }  else {
+                                                // TODO!!!!!
+                                                return '0.000'
+                                            }
+                                        }
+                                        Loader { // we load matching control dynamically
+                                            anchors.fill: parent
+                                            sourceComponent: {
+                                                switch(rowIndex) {
+                                                default:
+                                                    return phaseValueTextComponent
+                                                case 2: // phase on/off
+                                                    return phaseCheckBoxComponent
+                                                case 3: // harmonics
+                                                    return phaseComboHarmonics
+                                                }
+                                            }
+                                        }
+                                        Component {
+                                            id: phaseValueTextComponent
+                                            Item {
+                                                anchors.fill: parent
+                                                ZLineEdit {
+                                                    id: valueEdit
+                                                    anchors.fill: parent
+                                                    pointSize: theView.lineHeight * 0.3
+                                                    enabled: !valueRect.isAngleU1 &&
+                                                             (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3)
+                                                    visible: enabled
+                                                    textField.color: GC.currentColorTable[uiType === 'U' ?
+                                                                                              modelData.colorIndexU :
+                                                                                              modelData.colorIndexI]
+                                                    text: valueText
+                                                    readonly property var validatorInfo: {
+                                                        let uiPrefix = uiType
+                                                        let uiPhase = uiPrefix + String(columnIndex+1)
+                                                        let minVal, maxVal, minStepVal = 0.0
+                                                        switch(rowIndex) {
+                                                        case 0: // ampitude
+                                                            minVal = jsonSourceInfo[uiPhase].minVal
+                                                            maxVal = jsonSourceInfo[uiPhase].maxVal
+                                                            minStepVal = jsonSourceInfo[uiPhase].minStepVal
+                                                            break
+                                                        case 1: // angle
+                                                            minStepVal = jsonSourceInfo[uiPhase].minStepValAngle
+                                                            minVal = -360.0 + minStepVal
+                                                            maxVal = 360.0 - minStepVal
+                                                            break
+                                                        }
+                                                        return { 'minVal': minVal, 'maxVal': maxVal, 'minStepVal': minStepVal}
+                                                    }
+                                                    validator: ZDoubleValidator {
+                                                        bottom: valueEdit.validatorInfo.minVal
+                                                        top: valueEdit.validatorInfo.maxVal
+                                                        decimals: FT.ceilLog10Of1DividedByX(valueEdit.validatorInfo.minStepVal)
+                                                    }
+                                                }
+                                                // Hack: to make underline disappear for disabled ZLineEdit show Label
+                                                Label {
+                                                    visible: !valueEdit.visible
+                                                    anchors.fill: parent
+                                                    anchors.rightMargin: GC.standardTextHorizMargin
+                                                    font.pointSize: theView.lineHeight * 0.3
+                                                    horizontalAlignment: Label.AlignRight
+                                                    verticalAlignment: Label.AlignVCenter
+                                                    color: GC.currentColorTable[uiType === 'U' ?
+                                                                                    modelData.colorIndexU :
+                                                                                    modelData.colorIndexI]
+                                                    text: valueEdit.textField.text
+                                                }
+                                            }
+                                        }
+                                        Component {
+                                            id: phaseCheckBoxComponent
+                                            Item {
+                                                CheckBox {
+                                                    anchors.right: parent.right
+                                                    anchors.rightMargin: GC.standardTextHorizMargin
+                                                    anchors.top: parent.top
+                                                    anchors.bottom: parent.bottom
+                                                    width: indicator.width
+                                                }
+                                            }
+                                        }
+                                        Component {
+                                            id: phaseComboHarmonics
+                                            ZComboBox {
+                                                anchors.fill: parent
+                                                arrayMode: true
+                                                fontSize: theView.lineHeight * 0.4
+                                                centerVertical: true
+                                                model: [Z.tr('none')]
+                                                textColor: GC.currentColorTable[uiType === 'U' ?
+                                                                                    modelData.colorIndexU :
+                                                                                    modelData.colorIndexI]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            ScrollBar.vertical: uiType === 'U' ? scrollbarU : scrollbarI
+                        }
+                    }
+                }
+                ScrollBar.horizontal: scrollbarHoriz
+            }
+
+            Column { // units right
+                id: unitColumn
+                anchors.bottom: bottomRow.top
+                anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
+                anchors.right: vectorView.left
+                width: theView.headerColumnWidth
+                Rectangle { // [ ] topmost
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: theView.lineHeightHeaderLine
                     border.color: Material.dividerColor
                     color: GC.tableShadeColor
                     Label {
-                        anchors.fill: parent
-                        anchors.rightMargin: GC.standardTextHorizMargin
-                        horizontalAlignment: Label.AlignRight
-                        verticalAlignment: Label.AlignVCenter
-                        font.pointSize: headerPointSize
-                        text: '[]'
-                    }
-                }
-            }
-            // Data entry lines
-            Column {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                Repeater { // rows
-                    model: linesTotal-1 // horizontal header is created above
-                    Row {
-                        height: valueRectangle.lineHeight
-                        readonly property int rowIndex: index
-                        Repeater { // colums
-                            model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
-                            Rectangle {
-                                id: valueRect
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                                border.color: Material.dividerColor
-                                color: Material.backgroundColor
-                                width: headerColumnHeaderAnValues.columnWidth
-                                readonly property int columnIndex: index
-                                readonly property bool isAngleU1: isVoltageLine(rowIndex) &&
-                                                                  getLineInUnit(rowIndex) === 1 &&
-                                                                  columnIndex === 0
-                                property string valueText: { // This is for demo - we need some JSON for this
-                                    if(isAngleU1) {
-                                        return '0'
-                                    }  else {
-                                        // TODO!!!!!
-                                        return '0.000'
-                                    }
-                                }
-                                Component {
-                                    id: phaseValueTextComponent
-                                    Item {
-                                        anchors.fill: parent
-                                        ZLineEdit {
-                                            id: valueEdit
-                                            anchors.fill: parent
-                                            pointSize: valueRectangle.lineHeight * 0.3
-                                            enabled: !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3)
-                                            visible: enabled
-                                            textField.color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
-                                            text: valueText
-                                            readonly property var validatorInfo: {
-                                                let uiPrefix = isVoltageLine(rowIndex) ? 'U' : 'I'
-                                                let uiPhase = uiPrefix + String(columnIndex+1)
-                                                let minVal, maxVal, minStepVal = 0.0
-                                                switch(getLineInUnit(rowIndex)) {
-                                                case 0: // Ampitude
-                                                    minVal = jsonSourceInfo[uiPhase].minVal
-                                                    maxVal = jsonSourceInfo[uiPhase].maxVal
-                                                    minStepVal = jsonSourceInfo[uiPhase].minStepVal
-                                                    break
-                                                case 1: // Angle
-                                                    minStepVal = jsonSourceInfo[uiPhase].minStepValAngle
-                                                    minVal = -360.0 + minStepVal
-                                                    maxVal = 360.0 - minStepVal
-                                                    break
-                                                }
-                                                return { 'minVal': minVal, 'maxVal': maxVal, 'minStepVal': minStepVal}
-                                            }
-                                            validator: ZDoubleValidator {
-                                                bottom: valueEdit.validatorInfo.minVal
-                                                top: valueEdit.validatorInfo.maxVal
-                                                decimals: FT.ceilLog10Of1DividedByX(valueEdit.validatorInfo.minStepVal)
-                                            }
-                                        }
-                                        // A bit of a hack to make underline disappear for disabled ZLineEdit
-                                        Label {
-                                            visible: !valueEdit.visible
-                                            anchors.fill: parent
-                                            anchors.rightMargin: GC.standardTextHorizMargin
-                                            font.pointSize: valueRectangle.lineHeight * 0.3
-                                            horizontalAlignment: Label.AlignRight
-                                            verticalAlignment: Label.AlignVCenter
-                                            color: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
-                                            text: valueEdit.textField.text
-                                        }
-                                    }
-                                }
-                                Component {
-                                    id: phaseCheckBoxComponent
-                                    CheckBox {
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                    }
-                                }
-                                Component {
-                                    id: phaseComboHarmonics
-                                    ZComboBox {
-                                        anchors.fill: parent
-                                        arrayMode: true
-                                        fontSize: valueRectangle.lineHeight * 0.4
-                                        centerVertical: true
-                                        model: ['---']
-                                        textColor: GC.currentColorTable[isVoltageLine(rowIndex) ? modelData.colorIndexU : modelData.colorIndexI]
-                                    }
-                                }
-                                Loader {
-                                    anchors.fill: parent
-                                    sourceComponent: {
-                                        switch(getLineInUnit(rowIndex)) {
-                                        default:
-                                            return phaseValueTextComponent
-                                        case 2:
-                                            return phaseCheckBoxComponent
-                                        case 3:
-                                            return phaseComboHarmonics
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        Column {
-            id: headerColumnUnit
-            anchors.top: parent.top
-            anchors.topMargin: valueRectangle.topMargin + valueRectangle.lineHeight
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            width: valueRectangle.headerColumnWidth
-            Repeater {
-                model: linesTotal-1 // no horizontal  header
-                Rectangle {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: valueRectangle.lineHeight
-                    border.color: Material.dividerColor
-                    color: Material.backgroundColor
-                    Label {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
-                        font.pointSize: headerPointSize * 0.8
-                        font.family: FA.old
-                        text: {
-                            let unitLine = getLineInUnit(index)
-                            let isVoltage = isVoltageLine(index)
-                            switch(unitLine) {
-                            case 0:
-                                return isVoltage ? 'V' : 'A'
-                            case 1:
-                                return '°'
-                            default:
-                                return ''
+                        font.pointSize: theView.headerPointSize * 0.8
+                        text: '[ ]'
+                    }
+                }
+                Repeater {
+                    model: theView.uiModel
+                    ListView {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        readonly property string uiType: modelData
+                        model: uiType === 'U' ? linesU : linesI
+                        height: model > 0 ? theView.linesStandardUI * theView.lineHeight : 0
+                        clip: true
+                        snapMode: ListView.SnapToItem
+                        boundsBehavior: Flickable.StopAtBounds
+                        delegate: Rectangle {
+                            anchors.left: parent.left
+                            width: parent.width - theView.scrollBarWidth * (uiType === 'U' ? theView.vertScrollbarOnU : theView.vertScrollbarOnI)
+                            height: theView.lineHeight
+                            border.color: Material.dividerColor
+                            color: Material.backgroundColor
+                            Label {
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                font.pointSize: headerPointSize * 0.8
+                                font.family: FA.old
+                                text: {
+                                    switch(index) {
+                                    case 0:
+                                        return uiType === 'U' ? 'V' : 'A'
+                                    case 1:
+                                        return '°'
+                                    default:
+                                        return ''
+                                    }
+                                }
                             }
                         }
+                        ScrollBar.vertical: uiType === 'U' ? scrollbarU : scrollbarI
                     }
                 }
             }
-        }
-    }
-    Rectangle {
-        id: onOffRect
-        anchors.left: parent.left
-        anchors.right: rightColumn.left
-        height: angleLineHeight
-        anchors.bottom: parent.bottom
-        border.color: Material.dividerColor
-        color: Material.backgroundColor
-        Button {
-            text: Z.tr("On")
-            width: angleButtonRow.buttonWidth
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.leftMargin: valueRectangle.headerColumnWidth
-            topInset: 0
-            bottomInset: 0
-            font.pointSize: root.pointSize * 0.9
-        }
-        CheckBox {
-            id: symmetricCheckbox
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: Z.tr("symmetric")
-            font.pointSize: root.pointSize * 0.9
-        }
-        Button {
-            text: Z.tr("Off")
-            width: angleButtonRow.buttonWidth
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.rightMargin: valueRectangle.headerColumnWidth
-            topInset: 0
-            bottomInset: 0
-            font.pointSize: root.pointSize * 0.9
-        }
-    }
-
-    Column {
-        id: rightColumn
-        anchors.right: parent.right
-        width: widthRightArea
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-
-        Rectangle {
-            id: vectorFrame
-            width: parent.width
-            height: width * 0.8
-            border.color: Material.dividerColor
-            color: Material.backgroundColor
-            PhasorDiagram {
-                anchors.fill: parent
-                id: phasorDiagramm
-                circleVisible: true
-
-                gridColor: Material.frameColor;
-                gridVisible: true
-
-                fromX: Math.floor(width/2)
-                fromY: Math.floor(height/2)
-                phiOrigin: 0
-
-                vector1Color: GC.colorUL1
-                vector2Color: GC.colorUL2
-                vector3Color: GC.colorUL3
-                vector4Color: GC.colorIL1
-                vector5Color: GC.colorIL2
-                vector6Color: GC.colorIL3
-
-                /*vector1Data: [v1x.text,v1y.text];
-                vector2Data: [v2x.text,v2y.text];
-                vector3Data: [v3x.text,v3y.text];
-                vector4Data: [v4x.text,v4y.text];
-                vector5Data: [v5x.text,v5y.text];
-                vector6Data: [v6x.text,v6y.text];*/
-
-                vector1Label: "UL1"
-                vector2Label: "UL2"
-                vector3Label: "UL3"
-                vector4Label: "IL1"
-                vector5Label: "IL2"
-                vector6Label: "IL3"
-            }
-        }
-        Rectangle {
-            border.color: Material.dividerColor
-            width: parent.width
-            height: angleLineHeight
-            color: Material.backgroundColor
-            Row {
-                id: angleButtonRow
-                readonly property int buttonWidth: parent.width / 4
-                width: parent.width
-                height: angleLineHeight
+            // we need tailored scrollbars to syncronize scrolling of dataTable's
+            // and unitColumn's children
+            ScrollBar {
+                id: scrollbarU
+                orientation: Qt.Vertical
                 anchors.top: parent.top
+                height: theView.linesStandardUI * theView.lineHeight
+                anchors.topMargin: theView.lineHeightHeaderLine
+                anchors.right: vectorView.left
+                policy: theView.vertScrollbarOnU ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                width: theView.scrollBarWidth
+            }
+            ScrollBar {
+                id: scrollbarI
+                orientation: Qt.Vertical
+                anchors.bottom: bottomRow.top
+                anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
+                height: theView.linesStandardUI * theView.lineHeight
+                anchors.right: vectorView.left
+                policy: theView.vertScrollbarOnI ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                width: theView.scrollBarWidth
+            }
+            // we introduced scrollBarWidth depending upon screen resolution. This made
+            // dataTable freak out on change of resolution: Scroll bar was painted in the
+            // middle of our screen. So use a hand crafted scrollbar too.
+            ScrollBar {
+                id: scrollbarHoriz
+                orientation: Qt.Horizontal
+                anchors.bottom: bottomRow.top
+                anchors.right: unitColumn.left
+                anchors.left: headerColumnUI.right
+                policy: theView.horizScrollbarOn ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                height: theView.scrollBarWidth
+            }
+
+
+            ///////////// right area /////////////
+            Rectangle {
+                id: vectorView
+                anchors.right: parent.right
+                width: theView.widthRightArea
+                anchors.top: parent.top
+                anchors.bottom: angleQuickRow.top
+                border.color: Material.dividerColor
+                color: Material.backgroundColor
+
+                PhasorDiagram {
+                    anchors.fill: parent
+
+                    circleVisible: true
+
+                    gridColor: Material.frameColor;
+                    gridVisible: true
+
+                    fromX: Math.floor(width/2)
+                    fromY: Math.floor(height/2)
+                    phiOrigin: 0
+
+                    vector1Color: GC.colorUL1
+                    vector2Color: GC.colorUL2
+                    vector3Color: GC.colorUL3
+                    vector4Color: GC.colorIL1
+                    vector5Color: GC.colorIL2
+                    vector6Color: GC.colorIL3
+
+                    /*vector1Data: [v1x.text,v1y.text];
+                    vector2Data: [v2x.text,v2y.text];
+                    vector3Data: [v3x.text,v3y.text];
+                    vector4Data: [v4x.text,v4y.text];
+                    vector5Data: [v5x.text,v5y.text];
+                    vector6Data: [v6x.text,v6y.text];*/
+
+                    vector1Label: "UL1"
+                    vector2Label: "UL2"
+                    vector3Label: "UL3"
+                    vector4Label: "IL1"
+                    vector5Label: "IL2"
+                    vector6Label: "IL3"
+                }
+            }
+            Row {
+                id: angleQuickRow
+                anchors.right: parent.right
+                width: theView.widthRightArea
+                anchors.bottom: pqRow.top
+                height: theView.lineHeight
                 Button {
-                    width: angleButtonRow.buttonWidth
+                    width: theView.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     topInset: 0
                     bottomInset: 0
-                    font.pointSize: root.pointSize * 0.9
+                    font.pointSize: theView.pointSize * 0.9
                     text: "0°"
                 }
                 Button {
-                    width: angleButtonRow.buttonWidth
+                    width: theView.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     topInset: 0
                     bottomInset: 0
-                    font.pointSize: root.pointSize * 0.9
+                    font.pointSize: theView.pointSize * 0.9
                     text: "180°"
                 }
                 Button {
-                    width: angleButtonRow.buttonWidth
+                    width: theView.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     topInset: 0
                     bottomInset: 0
-                    font.pointSize: root.pointSize * 0.9
+                    font.pointSize: theView.pointSize * 0.9
                     text: "+15°"
                 }
                 Button {
-                    width: angleButtonRow.buttonWidth
+                    width: theView.buttonWidth
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     topInset: 0
                     bottomInset: 0
-                    font.pointSize: root.pointSize * 0.9
+                    font.pointSize: theView.pointSize * 0.9
                     text: "-15°"
                 }
             }
-        }
-        Rectangle { // P/Q + cos/sin + quadrant row
-            border.color: Material.dividerColor
-            width: parent.width
-            height: angleLineHeight
-            color: Material.backgroundColor
+
             RowLayout {
-                width: parent.width
-                height: angleLineHeight
-                anchors.bottom: parent.bottom
+                id: pqRow
+                anchors.right: parent.right
+                width: theView.widthRightArea
+                anchors.bottom: bottomRow.top
+                height: theView.lineHeight + (theView.horizScrollbarOn ? theView.scrollBarWidth : 0)
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: angleButtonRow.buttonWidth * 0.55
+                    Layout.preferredWidth: theView.buttonWidth * 0.55
                     ZComboBox {
                         id: comboPQ
                         anchors.fill: parent
                         arrayMode: true
-                        fontSize: comboFontSize
+                        fontSize: theView.comboFontSize
                         centerVertical: true
                         model: ['P', 'Q']
                     }
                 }
                 Label {
-                    font.pointSize: pointSize
+                    font.pointSize: theView.pointSize
                     Layout.fillWidth: true
                     horizontalAlignment: Label.AlignRight
+                    Layout.preferredWidth: theView.buttonWidth
                     text: comboPQ.currentText === "P" ? "cos φ:" :"sin φ:"
                 }
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: itemFreq.width
+                    Layout.preferredWidth: theView.buttonWidth * 1.1
                     ZLineEdit {
                         anchors.fill: parent
-                        pointSize: root.pointSize
+                        pointSize: theView.pointSize
                     }
                 }
                 Label {
-                    font.pointSize: pointSize
-                    Layout.preferredWidth: lblHz.width
+                    font.pointSize: theView.pointSize
+                    Layout.preferredWidth: theView.headerColumnWidth * 0.625
                     text: "Q:"
                 }
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: angleButtonRow.buttonWidth * 0.75
-                    Layout.rightMargin: 2 // have no idea why it paints over parent's border
+                    Layout.preferredWidth: theView.buttonWidth
                     ZComboBox {
                         anchors.fill: parent
                         arrayMode: true
@@ -553,45 +591,93 @@ Item {
                     }
                 }
             }
-        }
-        Rectangle { // frequency row
-            border.color: Material.dividerColor
-            width: parent.width
-            height: angleLineHeight
-            color: Material.backgroundColor
-            RowLayout {
-                width: parent.width
-                height: angleLineHeight
+
+            ///////////// full width bottom area /////////////
+            Rectangle {
+                id: bottomRow
+                anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                Label {
-                    font.pointSize: pointSize
-                    Layout.leftMargin: GC.standardTextHorizMargin
-                    text: Z.tr("Frequency:")
-                }
+                height: theView.lineHeight
+                border.color: Material.dividerColor
+                color: Material.backgroundColor
                 Item {
-                    id: itemFreq
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    ZLineEdit {
-                        anchors.fill: parent
-                        pointSize: root.pointSize
+                    id: onOffRow
+                    anchors.left: parent.left
+                    anchors.right: frequencyRow.left
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    Button {
+                        text: Z.tr("On")
+                        width: theView.buttonWidth
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.leftMargin: theView.headerColumnWidth
+                        topInset: 0
+                        bottomInset: 0
+                        font.pointSize: theView.pointSize * 0.9
+                    }
+                    CheckBox {
+                        id: symmetricCheckbox
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: Z.tr("symmetric")
+                        font.pointSize: theView.pointSize * 0.9
+                    }
+                    Button {
+                        text: Z.tr("Off")
+                        width: theView.buttonWidth
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.right: parent.right
+                        anchors.rightMargin: theView.headerColumnWidth
+                        topInset: 0
+                        bottomInset: 0
+                        font.pointSize: theView.pointSize * 0.9
                     }
                 }
-                Label {
-                    id: lblHz
-                    font.pointSize: pointSize
-                    text: "Hz"
-                }
                 Item {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: angleButtonRow.buttonWidth * 0.75
-                    Layout.rightMargin: 2 // have no idea why it paints over parent's border
-                    ZComboBox {
+                    id: frequencyRow
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    width: theView.widthRightArea
+                    RowLayout {
                         anchors.fill: parent
-                        arrayMode: true
-                        fontSize: comboFontSize
-                        centerVertical: true
-                        model: ['var', 'syn']
+                        Label {
+                            font.pointSize: pointSize
+                            Layout.fillWidth: true
+                            text: Z.tr("Frequency:")
+                        }
+                        Item {
+                            Layout.fillHeight: true
+                            Layout.preferredWidth: theView.buttonWidth * 1.1
+                            visible: frequencyMode.varSelected
+                            ZLineEdit {
+                                anchors.fill: parent
+                                pointSize: theView.pointSize
+                            }
+                        }
+                        Label {
+                            Layout.preferredWidth: theView.headerColumnWidth * 0.625
+                            font.pointSize: theView.pointSize
+                            visible: frequencyMode.varSelected
+                            text: "Hz"
+                        }
+                        Item {
+                            Layout.fillHeight: true
+                            Layout.preferredWidth: theView.buttonWidth
+                            ZComboBox {
+                                id: frequencyMode
+                                anchors.fill: parent
+                                arrayMode: true
+                                fontSize: comboFontSize
+                                centerVertical: true
+                                model: [Z.tr('var'), Z.tr('sync')]
+                                readonly property bool varSelected: targetIndex === 0
+                            }
+                        }
                     }
                 }
             }
