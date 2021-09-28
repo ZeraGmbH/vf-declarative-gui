@@ -142,13 +142,13 @@ Item {
             //   headerColumnUI                       unitColumn
             //  /                                    /
             //  ----------------------------------------------------------------
-            // | |                       RMS        | |                        |
-            // | |             U         Angles     | |                        |
             // | |                       PhaseOnOff | |                        |
+            // | |             U         RMS        | |                        |
+            // | |                       Angles     | |                        |
             // | |         dataTable                | |     vectorView         |
-            // | |                       RMS        | |------------------------|
-            // | |             I         Angles   <-|-|->   angleQuickRow      |
-            // | |                       PhaseOnOff | |     pqRow              |
+            // | |                       PhaseOnOff | |------------------------|
+            // | |             I         RMS      <-|-|->       pqRow          |
+            // | |                       Angles     | |     angleQuickRow      |
             //  ---------------------------------------------------------------|
             // |              onOffRow                |     frequencyRow       | bottomRow
             //  ----------------------------------------------------------------
