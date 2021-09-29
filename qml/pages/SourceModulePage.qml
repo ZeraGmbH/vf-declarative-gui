@@ -687,8 +687,8 @@ Item {
                                 arrayMode: true
                                 fontSize: comboFontSize
                                 centerVertical: true
-                                model: [Z.tr('var'), Z.tr('sync')]
-                                readonly property bool varSelected: targetIndex === 0
+                                model: jsonSourceInfo.Frequency.params.type.list
+                                readonly property bool varSelected: currentText === "var"
                             }
                         }
                     }
