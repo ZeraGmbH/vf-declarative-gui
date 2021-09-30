@@ -22,37 +22,29 @@ Item {
         LineHarmonics
     }
 
-    // convenient JSON to simplify code below
+    // convenient JSON property to simplify code below
     readonly property var jsonSourceInfo: {
-        let retJson = jsonSourceInfoRaw
+        // dirty hack to get a deep copy: spread operator '...' and (working
+        // as expected) 'Object.assign' require ECMAScript 9 which we do not
+        // seem to have yet
+        let retJson = JSON.parse(JSON.stringify(jsonSourceInfoRaw))
 
+        // defaults for mandatory values
         retJson['maxValU'] = 0.0
         retJson['maxValI'] = 0.0
         retJson['extraLinesRequired'] = false
 
-        let uiCount = 0
-        let arrUI = ['U', 'I']
-
-        // * apply 'sameAs'
         // * calc U/I max values
-        // * U/I/global harmonic support
-
-        // using array's forEach and arrow function causes qt-creator
+        // * U/I/global harmonic support -> extraLinesRequired
+        // Note: using array's forEach and arrow function causes qt-creator
         // freaking out on indentation. So loop the old-school way
+        let arrUI = ['U', 'I']
         for(let numUI=0; numUI<arrUI.length; ++numUI) {
             let strUI = arrUI[numUI]
             let maxPhaseNum = jsonSourceInfoRaw[strUI + 'PhaseMax']
-            if(maxPhaseNum > 0) {
-                uiCount++
-            }
-
             for(var phase=1; phase<=maxPhaseNum; ++phase) {
                 let phaseName = strUI + String(phase)
                 if(jsonSourceInfoRaw[phaseName]) {
-                    if(jsonSourceInfoRaw[phaseName].sameAs) {
-                        let refPhase = jsonSourceInfoRaw[phaseName].sameAs
-                        retJson[phaseName] = jsonSourceInfoRaw[refPhase]
-                    }
                     if(jsonSourceInfoRaw[phaseName].supportsHarmonics) {
                         retJson['extraLinesRequired'] = true
                         retJson['supportsHarmonics'+strUI] = true
@@ -63,9 +55,8 @@ Item {
                 }
             }
         }
-        retJson['uiCount'] = uiCount
-
-        // check which colums we have to display
+        // * generate columInfo as an ordered array of
+        // { 'phasenum': .. 'phaseNameDisplay': .., 'colorIndexU': .., 'colorIndexI': .. }
         let columInfo = []
         let maxPhaseAll = Math.max(jsonSourceInfoRaw['UPhaseMax'],
                                    jsonSourceInfoRaw['IPhaseMax'])
@@ -91,7 +82,6 @@ Item {
             }
         }
         retJson['columnInfo'] = columInfo
-
         return retJson
     }
 
@@ -296,25 +286,25 @@ Item {
                                                     readonly property var validatorInfo: {
                                                         let uiPrefix = uiType
                                                         let uiPhase = uiPrefix + String(columnIndex+1)
-                                                        let minVal, maxVal, minStepVal = 0.0
+                                                        let min, max, decimals = 0.0
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            minVal = jsonSourceInfo[uiPhase].minVal
-                                                            maxVal = jsonSourceInfo[uiPhase].maxVal
-                                                            minStepVal = jsonSourceInfo[uiPhase].minStepVal
+                                                            min = jsonSourceInfo[uiPhase]['params']['rms'].min
+                                                            max = jsonSourceInfo[uiPhase]['params']['rms'].max
+                                                            decimals = jsonSourceInfo[uiPhase]['params']['rms'].decimals
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            minStepVal = jsonSourceInfo[uiPhase].minStepValAngle
-                                                            minVal = -360.0 + minStepVal
-                                                            maxVal = 360.0 - minStepVal
+                                                            min = jsonSourceInfo[uiPhase]['params']['angle'].min
+                                                            max = jsonSourceInfo[uiPhase]['params']['angle'].max
+                                                            decimals = jsonSourceInfo[uiPhase]['params']['angle'].decimals
                                                             break
                                                         }
-                                                        return { 'minVal': minVal, 'maxVal': maxVal, 'minStepVal': minStepVal}
+                                                        return { 'min': min, 'max': max, 'decimals': decimals}
                                                     }
                                                     validator: ZDoubleValidator {
-                                                        bottom: valueEdit.validatorInfo.minVal
-                                                        top: valueEdit.validatorInfo.maxVal
-                                                        decimals: FT.ceilLog10Of1DividedByX(valueEdit.validatorInfo.minStepVal)
+                                                        bottom: valueEdit.validatorInfo.min
+                                                        top: valueEdit.validatorInfo.max
+                                                        decimals: valueEdit.validatorInfo.decimals
                                                     }
                                                 }
                                                 // Hack: to make underline disappear for disabled ZLineEdit show Label
@@ -674,6 +664,11 @@ Item {
                             ZLineEdit {
                                 anchors.fill: parent
                                 pointSize: theView.pointSize
+                                validator: ZDoubleValidator {
+                                    bottom: jsonSourceInfo['Frequency']['params']['val'].min
+                                    top: jsonSourceInfo['Frequency']['params']['val'].max
+                                    decimals: jsonSourceInfo['Frequency']['params']['val'].decimals
+                                }
                             }
                         }
                         Label {
