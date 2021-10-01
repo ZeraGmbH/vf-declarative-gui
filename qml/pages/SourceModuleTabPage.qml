@@ -51,11 +51,11 @@ BaseTabPage {
                 lastSlotItemsPage.push(undefined)
             }
             let componentName = String("ACT_DeviceInfo%1").arg(sourceNum)
-            let jsonTmp = JSON.parse(sourceModule[componentName])
+            let jsonTmp = sourceModule[componentName]
             let slotIsOn = jsonTmp.UPhaseMax !== undefined && jsonTmp.IPhaseMax !== undefined
             // create?
             if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
-                let bindingJsonDeviceInfo = Qt.binding(() => JSON.parse(sourceModule[componentName]))
+                let bindingJsonDeviceInfo = Qt.binding(() => sourceModule[componentName])
 
                 lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceInfo" : bindingJsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
