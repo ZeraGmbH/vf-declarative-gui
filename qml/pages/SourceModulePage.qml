@@ -531,6 +531,12 @@ Item {
                         pointSize: theView.pointSize
                         textField.topPadding: 9
                         textField.bottomPadding: 9
+                        validator: ZDoubleValidator {
+                            bottom: -1.0
+                            top: 1.0
+                            // with we can display 5 digits bur sign is one of them
+                            decimals: Math.min(4, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
+                        }
                     }
                 }
                 Label {
