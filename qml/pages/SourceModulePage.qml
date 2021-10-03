@@ -13,7 +13,13 @@ import ZeraFa 1.0
 
 Item {
     // set by our tab-page
-    property var jsonSourceInfoRaw
+    property var jsonSourceParamInfoRaw
+    property var jsonSourceParamStatus
+    // This is just for debugging purpose and can go soon
+    onJsonSourceParamStatusChanged: {
+        console.warn("jsonSourceParamStatus changed")
+    }
+    property string statusEntityName
 
     enum LineType {
         LineOnOff = 0,
@@ -23,11 +29,11 @@ Item {
     }
 
     // convenient JSON property to simplify code below
-    readonly property var jsonSourceInfo: {
-        // dirty hack to get a deep copy: spread operator '...' and (working
-        // as expected) 'Object.assign' require ECMAScript 9 which we do not
-        // seem to have yet
-        let retJson = JSON.parse(JSON.stringify(jsonSourceInfoRaw))
+    readonly property var jsonSourceParamInfoExtended: {
+        // All changes on retJson will occore in jsonSourceParamInfoRaw either
+        // but jsonSourceParamInfoRaw is set once and will not change by it's
+        // own
+        let retJson = jsonSourceParamInfoRaw
 
         // defaults for mandatory values
         retJson['maxValU'] = 0.0
@@ -41,16 +47,16 @@ Item {
         let arrUI = ['U', 'I']
         for(let numUI=0; numUI<arrUI.length; ++numUI) {
             let strUI = arrUI[numUI]
-            let maxPhaseNum = jsonSourceInfoRaw[strUI + 'PhaseMax']
+            let maxPhaseNum = jsonSourceParamInfoRaw[strUI + 'PhaseMax']
             for(var phase=1; phase<=maxPhaseNum; ++phase) {
                 let phaseName = strUI + String(phase)
-                if(jsonSourceInfoRaw[phaseName]) {
-                    if(jsonSourceInfoRaw[phaseName].supportsHarmonics) {
+                if(jsonSourceParamInfoRaw[phaseName]) {
+                    if(jsonSourceParamInfoRaw[phaseName].supportsHarmonics) {
                         retJson['extraLinesRequired'] = true
                         retJson['supportsHarmonics'+strUI] = true
                     }
-                    if(jsonSourceInfoRaw[phaseName].maxVal > retJson['maxVal'+strUI]) {
-                        retJson['maxVal'+strUI] = jsonSourceInfoRaw[phaseName].maxVal
+                    if(jsonSourceParamInfoRaw[phaseName].maxVal > retJson['maxVal'+strUI]) {
+                        retJson['maxVal'+strUI] = jsonSourceParamInfoRaw[phaseName].maxVal
                     }
                 }
             }
@@ -58,8 +64,8 @@ Item {
         // * generate columInfo as an ordered array of
         // { 'phasenum': .. 'phaseNameDisplay': .., 'colorIndexU': .., 'colorIndexI': .. }
         let columInfo = []
-        let maxPhaseAll = Math.max(jsonSourceInfoRaw['UPhaseMax'],
-                                   jsonSourceInfoRaw['IPhaseMax'])
+        let maxPhaseAll = Math.max(jsonSourceParamInfoRaw['UPhaseMax'],
+                                   jsonSourceParamInfoRaw['IPhaseMax'])
         for(phase=1; phase<=maxPhaseAll; ++phase) {
             let phaseRequired = retJson['U'+String(phase)] !== undefined || retJson['I'+String(phase)] !== undefined
             if(phaseRequired) {
@@ -85,11 +91,11 @@ Item {
         return retJson
     }
 
-    // To avoid waste of CPU by back & forth painting: Load view after jsonSourceInfo is valid
+    // To avoid waste of CPU by back & forth painting: Load view after jsonSourceParamInfoExtended is valid
     Loader {
         anchors.fill: parent
         sourceComponent: theViewComponent
-        active: jsonSourceInfo
+        active: jsonSourceParamInfoExtended
     }
     Component {
         id: theViewComponent
@@ -101,8 +107,8 @@ Item {
             readonly property int linesStandardUI: 3 // RMS / Angle / OnOff
             readonly property real lineHeight: height / (linesStandardUI*2 + 2) // +2 header+bottom line
             readonly property real lineHeightHeaderLine: lineHeight - (horizScrollbarOn ? scrollBarWidth : 0)
-            readonly property int linesU: jsonSourceInfo.UPhaseMax ? (jsonSourceInfo.supportsHarmonicsU ? 4: 3) : 0
-            readonly property int linesI: jsonSourceInfo.IPhaseMax ? (jsonSourceInfo.supportsHarmonicsI ? 4: 3) : 0
+            readonly property int linesU: jsonSourceParamInfoExtended.UPhaseMax ? (jsonSourceParamInfoExtended.supportsHarmonicsU ? 4: 3) : 0
+            readonly property int linesI: jsonSourceParamInfoExtended.IPhaseMax ? (jsonSourceParamInfoExtended.supportsHarmonicsI ? 4: 3) : 0
             readonly property var uiModel: {
                 let retArr = []
                 if(linesU > 0) {
@@ -123,7 +129,7 @@ Item {
             readonly property real headerColumnWidth: widthLeftArea * 0.12
             readonly property real buttonWidth: widthRightArea / 4
             readonly property int scrollBarWidth: width > 100 ? width / 100 : 8
-            readonly property bool horizScrollbarOn: jsonSourceInfo.columnInfo.length > 3
+            readonly property bool horizScrollbarOn: jsonSourceParamInfoExtended.columnInfo.length > 3
             readonly property bool vertScrollbarOnU: linesU > 3
             readonly property bool vertScrollbarOnI: linesI > 3
 
@@ -149,7 +155,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.left: parent.left
-                width: theView.headerColumnWidth - jsonSourceInfo.extraLinesRequired * scrollBarWidth
+                width: theView.headerColumnWidth - jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
                 Rectangle { // empty topmost
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -184,7 +190,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.left: headerColumnUI.right
                 anchors.right: unitColumn.left
-                contentWidth: columnWidth * jsonSourceInfo.columnInfo.length
+                contentWidth: columnWidth * jsonSourceParamInfoExtended.columnInfo.length
                 contentHeight: height - (theView.horizScrollbarOn ? theView.scrollBarWidth : 0)
                 clip: true
                 readonly property real columnWidth: width / theView.columnsStandardUI
@@ -197,7 +203,7 @@ Item {
                         anchors.right: parent.right
                         height: theView.lineHeightHeaderLine
                         Repeater {
-                            model: jsonSourceInfo.columnInfo
+                            model: jsonSourceParamInfoExtended.columnInfo
                             Rectangle {
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
@@ -234,7 +240,7 @@ Item {
                                 height: theView.lineHeight
                                 readonly property int rowIndex: index
                                 Repeater {
-                                    model: jsonSourceInfo ? jsonSourceInfo.columnInfo : 0
+                                    model: jsonSourceParamInfoExtended ? jsonSourceParamInfoExtended.columnInfo : 0
                                     Rectangle { // the field
                                         id: valueRect
                                         anchors.top: parent.top
@@ -243,18 +249,11 @@ Item {
                                         color: Material.backgroundColor
                                         width: dataTable.columnWidth
                                         readonly property int columnIndex: index
+                                        readonly property string phaseName: uiType + String(columnIndex+1)
                                         readonly property bool isAngleU1: uiType === 'U' &&
                                                                           rowIndex === SourceModulePage.LineType.LineAngle &&
                                                                           // TODO more common: first phase U
                                                                           columnIndex === 0
-                                        property string valueText: { // This is for demo - we need some JSON for this
-                                            if(isAngleU1) {
-                                                return '0'
-                                            }  else {
-                                                // TODO!!!!!
-                                                return '0.000'
-                                            }
-                                        }
                                         Loader { // we load matching control dynamically
                                             anchors.fill: parent
                                             sourceComponent: {
@@ -282,21 +281,41 @@ Item {
                                                     textField.color: GC.currentColorTable[uiType === 'U' ?
                                                                                               modelData.colorIndexU :
                                                                                               modelData.colorIndexI]
-                                                    text: valueText
+                                                    text: {
+                                                        let val
+                                                        switch(rowIndex) {
+                                                        case SourceModulePage.LineType.LineRMS:
+                                                            val = jsonSourceParamStatus[phaseName].rms
+                                                            break
+                                                        case SourceModulePage.LineType.LineAngle:
+                                                            val = jsonSourceParamStatus[phaseName].angle
+                                                            break
+                                                        }
+                                                        return val
+                                                    }
+                                                    function doApplyInput(newText) {
+                                                        switch(rowIndex) {
+                                                        case SourceModulePage.LineType.LineRMS:
+                                                            jsonSourceParamStatus[phaseName].rms = parseFloat(newText)
+                                                            break
+                                                        case SourceModulePage.LineType.LineAngle:
+                                                            jsonSourceParamStatus[phaseName].angle = parseFloat(newText)
+                                                            break
+                                                        }
+                                                        return true
+                                                    }
                                                     readonly property var validatorInfo: {
-                                                        let uiPrefix = uiType
-                                                        let uiPhase = uiPrefix + String(columnIndex+1)
                                                         let min, max, decimals = 0.0
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            min = jsonSourceInfo[uiPhase]['params']['rms'].min
-                                                            max = jsonSourceInfo[uiPhase]['params']['rms'].max
-                                                            decimals = jsonSourceInfo[uiPhase]['params']['rms'].decimals
+                                                            min = jsonSourceParamInfoExtended[phaseName]['params']['rms'].min
+                                                            max = jsonSourceParamInfoExtended[phaseName]['params']['rms'].max
+                                                            decimals = jsonSourceParamInfoExtended[phaseName]['params']['rms'].decimals
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            min = jsonSourceInfo[uiPhase]['params']['angle'].min
-                                                            max = jsonSourceInfo[uiPhase]['params']['angle'].max
-                                                            decimals = jsonSourceInfo[uiPhase]['params']['angle'].decimals
+                                                            min = jsonSourceParamInfoExtended[phaseName]['params']['angle'].min
+                                                            max = jsonSourceParamInfoExtended[phaseName]['params']['angle'].max
+                                                            decimals = jsonSourceParamInfoExtended[phaseName]['params']['angle'].decimals
                                                             break
                                                         }
                                                         return { 'min': min, 'max': max, 'decimals': decimals}
@@ -362,7 +381,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.right: vectorView.left
-                anchors.rightMargin: jsonSourceInfo.extraLinesRequired * scrollBarWidth
+                anchors.rightMargin: jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
                 width: theView.headerColumnWidth
                 Rectangle { // [ ] topmost
                     anchors.left: parent.left
@@ -628,8 +647,12 @@ Item {
                         topInset: bottomRow.topFreeSpace
                         bottomInset: 0
                         anchors.left: parent.left
-                        anchors.leftMargin: theView.headerColumnWidth - jsonSourceInfo.extraLinesRequired * scrollBarWidth
+                        anchors.leftMargin: theView.headerColumnWidth - jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
                         font.pointSize: theView.pointSize * 0.9
+                        onClicked: {
+                            jsonSourceParamStatus.on = true
+                            VeinEntity.getEntity("SourceModule1")[statusEntityName] = jsonSourceParamStatus
+                        }
                     }
                     CheckBox {
                         id: symmetricCheckbox
@@ -646,8 +669,12 @@ Item {
                         topInset: bottomRow.topFreeSpace
                         bottomInset: 0
                         anchors.right: parent.right
-                        anchors.rightMargin: theView.headerColumnWidth + jsonSourceInfo.extraLinesRequired * scrollBarWidth
+                        anchors.rightMargin: theView.headerColumnWidth + jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
                         font.pointSize: theView.pointSize * 0.9
+                        onClicked: {
+                            jsonSourceParamStatus.on = false
+                            VeinEntity.getEntity("SourceModule1")[statusEntityName] = jsonSourceParamStatus
+                        }
                     }
                 }
                 Item {
@@ -671,9 +698,9 @@ Item {
                                 anchors.fill: parent
                                 pointSize: theView.pointSize
                                 validator: ZDoubleValidator {
-                                    bottom: jsonSourceInfo['Frequency']['params']['val'].min
-                                    top: jsonSourceInfo['Frequency']['params']['val'].max
-                                    decimals: jsonSourceInfo['Frequency']['params']['val'].decimals
+                                    bottom: jsonSourceParamInfoExtended['Frequency']['params']['val'].min
+                                    top: jsonSourceParamInfoExtended['Frequency']['params']['val'].max
+                                    decimals: jsonSourceParamInfoExtended['Frequency']['params']['val'].decimals
                                 }
                             }
                         }
@@ -693,7 +720,7 @@ Item {
                                 arrayMode: true
                                 fontSize: comboFontSize
                                 centerVertical: true
-                                model: jsonSourceInfo.Frequency.params.type.list
+                                model: jsonSourceParamInfoExtended.Frequency.params.type.list
                                 readonly property bool varSelected: currentText === "var"
                             }
                         }
