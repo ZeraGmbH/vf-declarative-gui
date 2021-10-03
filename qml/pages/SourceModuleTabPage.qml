@@ -22,8 +22,8 @@ BaseTabPage {
     Component {
         id: tabSource
         TabButton {
-            property var jsonSourceInfo
-            text: jsonSourceInfo.Name
+            property var jsonSourceParamInfo
+            text: jsonSourceParamInfo.Name
         }
     }
     // Page - multi instance
@@ -50,17 +50,22 @@ BaseTabPage {
                 lastSlotItemsTab.push(undefined)
                 lastSlotItemsPage.push(undefined)
             }
-            let componentName = String("ACT_DeviceInfo%1").arg(sourceNum)
-            let jsonTmp = sourceModule[componentName]
+            let componentNameInfo = String("ACT_DeviceInfo%1").arg(sourceNum)
+            let componentNameStatus = String("PAR_SourceState%1").arg(sourceNum)
+            let jsonTmp = sourceModule[componentNameInfo]
             let slotIsOn = jsonTmp.UPhaseMax !== undefined && jsonTmp.IPhaseMax !== undefined
             // create?
             if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
-                let bindingJsonDeviceInfo = Qt.binding(() => sourceModule[componentName])
+                let jsonDeviceInfo = sourceModule[componentNameInfo] // won't change contents
+                let jsonStatusBinding = Qt.binding(() => sourceModule[componentNameStatus])
 
-                lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceInfo" : bindingJsonDeviceInfo})
+                lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceParamInfo" : jsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
 
-                lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {"jsonSourceInfoRaw" : bindingJsonDeviceInfo})
+                lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {
+                                                                           "statusEntityName" : componentNameStatus,
+                                                                           "jsonSourceParamInfoRaw" : jsonDeviceInfo,
+                                                                           "jsonSourceParamStatus"  : jsonStatusBinding})
                 swipeView.addItem(lastSlotItemsPage[sourceNum])
             }
             // destroy?
