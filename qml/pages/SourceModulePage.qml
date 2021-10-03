@@ -14,12 +14,20 @@ import ZeraFa 1.0
 Item {
     // set by our tab-page
     property var jsonSourceParamInfoRaw
-    property var jsonSourceParamStatus
+    property string statusEntityName
+
+    property var jsonSourceParamStatus // unbound working copy
     // This is just for debugging purpose and can go soon
     onJsonSourceParamStatusChanged: {
         console.warn("jsonSourceParamStatus changed")
     }
-    property string statusEntityName
+    property bool ignoreStatusChange: false
+    readonly property var statusEntity: VeinEntity.getEntity("SourceModule1")[statusEntityName]
+    onStatusEntityChanged: {
+        if(!ignoreStatusChange) {
+            jsonSourceParamStatus = statusEntity
+        }
+    }
 
     enum LineType {
         LineOnOff = 0,
@@ -653,7 +661,9 @@ Item {
                         font.pointSize: theView.pointSize * 0.9
                         onClicked: {
                             jsonSourceParamStatus.on = true
+                            ignoreStatusChange = true
                             VeinEntity.getEntity("SourceModule1")[statusEntityName] = jsonSourceParamStatus
+                            ignoreStatusChange = false
                         }
                     }
                     CheckBox {
@@ -675,7 +685,9 @@ Item {
                         font.pointSize: theView.pointSize * 0.9
                         onClicked: {
                             jsonSourceParamStatus.on = false
+                            ignoreStatusChange = true
                             VeinEntity.getEntity("SourceModule1")[statusEntityName] = jsonSourceParamStatus
+                            ignoreStatusChange = false
                         }
                     }
                 }
