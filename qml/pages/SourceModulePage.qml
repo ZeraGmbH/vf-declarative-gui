@@ -702,6 +702,11 @@ Item {
                                     top: jsonSourceParamInfoExtended['Frequency']['params']['val'].max
                                     decimals: jsonSourceParamInfoExtended['Frequency']['params']['val'].decimals
                                 }
+                                text: jsonSourceParamStatus['Frequency'].val
+                                function doApplyInput(newText) {
+                                    jsonSourceParamStatus['Frequency'].val = parseFloat(newText)
+                                    return true
+                                }
                             }
                         }
                         Label {
@@ -722,6 +727,13 @@ Item {
                                 centerVertical: true
                                 model: jsonSourceParamInfoExtended.Frequency.params.type.list
                                 readonly property bool varSelected: currentText === "var"
+                                function setInitialIndex() {
+                                    currentIndex = model.indexOf(jsonSourceParamStatus.Frequency.type)
+                                }
+                                onModelChanged: setInitialIndex()
+                                onSelectedTextChanged: {
+                                    jsonSourceParamStatus.Frequency.type = selectedText
+                                }
                             }
                         }
                     }
