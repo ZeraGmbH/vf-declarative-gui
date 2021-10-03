@@ -350,6 +350,8 @@ Item {
                                                     anchors.top: parent.top
                                                     anchors.bottom: parent.bottom
                                                     width: indicator.width
+                                                    checked: jsonSourceParamStatus[phaseName].on
+                                                    onClicked: jsonSourceParamStatus[phaseName].on = checked
                                                 }
                                             }
                                         }
