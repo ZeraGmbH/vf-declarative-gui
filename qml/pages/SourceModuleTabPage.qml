@@ -57,15 +57,13 @@ BaseTabPage {
             // create?
             if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
                 let jsonDeviceInfo = sourceModule[componentNameInfo] // won't change contents
-                let jsonStatusBinding = Qt.binding(() => sourceModule[componentNameStatus])
 
                 lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceParamInfo" : jsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
 
                 lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {
                                                                            "statusEntityName" : componentNameStatus,
-                                                                           "jsonSourceParamInfoRaw" : jsonDeviceInfo,
-                                                                           "jsonSourceParamStatus"  : jsonStatusBinding})
+                                                                           "jsonSourceParamInfoRaw" : jsonDeviceInfo})
                 swipeView.addItem(lastSlotItemsPage[sourceNum])
             }
             // destroy?
