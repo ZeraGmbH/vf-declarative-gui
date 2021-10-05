@@ -50,19 +50,19 @@ BaseTabPage {
                 lastSlotItemsTab.push(undefined)
                 lastSlotItemsPage.push(undefined)
             }
-            let componentNameInfo = String("ACT_DeviceInfo%1").arg(sourceNum)
-            let componentNameStatus = String("PAR_SourceState%1").arg(sourceNum)
-            let jsonTmp = sourceModule[componentNameInfo]
-            let slotIsOn = jsonTmp.UPhaseMax !== undefined && jsonTmp.IPhaseMax !== undefined
+            let infoComponentName = String("ACT_DeviceInfo%1").arg(sourceNum)
+            let jsonInfoTmp = sourceModule[infoComponentName]
+            let slotIsOn = jsonInfoTmp.UPhaseMax !== undefined && jsonInfoTmp.IPhaseMax !== undefined
+            let paramComponentName = String("PAR_SourceState%1").arg(sourceNum)
             // create?
             if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
-                let jsonDeviceInfo = sourceModule[componentNameInfo] // won't change contents
+                let jsonDeviceInfo = sourceModule[infoComponentName] // won't change contents
 
                 lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceParamInfo" : jsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
 
                 lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {
-                                                                           "statusEntityName" : componentNameStatus,
+                                                                           "paramComponentName" : paramComponentName,
                                                                            "jsonSourceParamInfoRaw" : jsonDeviceInfo})
                 swipeView.addItem(lastSlotItemsPage[sourceNum])
             }
