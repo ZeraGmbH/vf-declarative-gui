@@ -7,6 +7,7 @@ import ZeraTranslation 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import DeclarativeJson 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
@@ -81,30 +82,31 @@ Item {
         LineAngle,
         LineHarmonics
     }
+    DeclarativeJsonItem {
+        // this is magic: Feels like JSON but declarative (property binding possible)
+        id: declarativeJsonItem
+    }
 
-    // local parameter handling
+    // local parameter load
     readonly property var paramComponent: VeinEntity.getEntity("SourceModule1")[paramComponentName]
     onParamComponentChanged: {
         if(!ignoreStatusChange) {
-            jsonLocalParameters = paramComponent
+            declarativeJsonItem.fromJson(paramComponent)
         }
     }
-    property var jsonLocalParameters
-    onJsonLocalParametersChanged: {
-        console.warn("jsonLocalParameters changed")
-    }
+    // local parameter store
     property bool ignoreStatusChange: false
     function sendParamsToServer() {
         // Avoid double full painting by our json property change
         ignoreStatusChange = true
-        VeinEntity.getEntity("SourceModule1")[paramComponentName] = jsonLocalParameters
+        VeinEntity.getEntity("SourceModule1")[paramComponentName] = declarativeJsonItem.toJson()
         ignoreStatusChange = false
     }
     // To avoid waste of CPU by back & forth painting: Load view after jsonParamInfoExt is valid
     Loader {
         anchors.fill: parent
         sourceComponent: theViewComponent
-        active: jsonParamInfoExt
+        active: jsonParamInfoExt !== undefined && paramComponent !== undefined
     }
     // Graphical items start
     Component {
@@ -258,7 +260,7 @@ Item {
                                         anchors.bottom: parent.bottom
                                         width: dataTable.columnWidth
                                         readonly property int columnIndex: index
-                                        readonly property string phaseName: uiType + String(columnIndex+1)
+                                        readonly property string jsonPhaseName: uiType + String(columnIndex+1)
                                         readonly property bool isAngleU1: uiType === 'U' &&
                                                                           rowIndex === SourceModulePage.LineType.LineAngle &&
                                                                           // TODO more common: first phase U
@@ -294,10 +296,10 @@ Item {
                                                         let val
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            val = jsonLocalParameters[phaseName].rms
+                                                            val = declarativeJsonItem[jsonPhaseName].rms
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            val = jsonLocalParameters[phaseName].angle
+                                                            val = declarativeJsonItem[jsonPhaseName].angle
                                                             break
                                                         }
                                                         return val
@@ -305,10 +307,10 @@ Item {
                                                     function doApplyInput(newText) {
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            jsonLocalParameters[phaseName].rms = parseFloat(newText)
+                                                            declarativeJsonItem[jsonPhaseName].rms = parseFloat(newText)
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            jsonLocalParameters[phaseName].angle = parseFloat(newText)
+                                                            declarativeJsonItem[jsonPhaseName].angle = parseFloat(newText)
                                                             break
                                                         }
                                                         return true
@@ -317,14 +319,14 @@ Item {
                                                         let min, max, decimals = 0.0
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            min = jsonParamInfoExt[phaseName]['params']['rms'].min
-                                                            max = jsonParamInfoExt[phaseName]['params']['rms'].max
-                                                            decimals = jsonParamInfoExt[phaseName]['params']['rms'].decimals
+                                                            min = jsonParamInfoExt[jsonPhaseName]['params']['rms'].min
+                                                            max = jsonParamInfoExt[jsonPhaseName]['params']['rms'].max
+                                                            decimals = jsonParamInfoExt[jsonPhaseName]['params']['rms'].decimals
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            min = jsonParamInfoExt[phaseName]['params']['angle'].min
-                                                            max = jsonParamInfoExt[phaseName]['params']['angle'].max
-                                                            decimals = jsonParamInfoExt[phaseName]['params']['angle'].decimals
+                                                            min = jsonParamInfoExt[jsonPhaseName]['params']['angle'].min
+                                                            max = jsonParamInfoExt[jsonPhaseName]['params']['angle'].max
+                                                            decimals = jsonParamInfoExt[jsonPhaseName]['params']['angle'].decimals
                                                             break
                                                         }
                                                         return { 'min': min, 'max': max, 'decimals': decimals}
@@ -359,8 +361,8 @@ Item {
                                                     anchors.top: parent.top
                                                     anchors.bottom: parent.bottom
                                                     width: indicator.width
-                                                    checked: jsonLocalParameters[phaseName].on
-                                                    onClicked: jsonLocalParameters[phaseName].on = checked
+                                                    checked: declarativeJsonItem[jsonPhaseName].on
+                                                    onClicked: declarativeJsonItem[jsonPhaseName].on = checked
                                                 }
                                             }
                                         }
@@ -654,7 +656,7 @@ Item {
                         anchors.leftMargin: theView.headerColumnWidth - jsonParamInfoExt.extraLinesRequired * scrollBarWidth
                         font.pointSize: theView.pointSize * 0.9
                         onClicked: {
-                            jsonLocalParameters.on = true
+                            declarativeJsonItem.on = true
                             sendParamsToServer()
                         }
                     }
@@ -676,7 +678,7 @@ Item {
                         anchors.rightMargin: theView.headerColumnWidth + jsonParamInfoExt.extraLinesRequired * scrollBarWidth
                         font.pointSize: theView.pointSize * 0.9
                         onClicked: {
-                            jsonLocalParameters.on = false
+                            declarativeJsonItem.on = false
                             sendParamsToServer()
                         }
                     }
@@ -706,9 +708,9 @@ Item {
                                     top: jsonParamInfoExt['Frequency']['params']['val'].max
                                     decimals: jsonParamInfoExt['Frequency']['params']['val'].decimals
                                 }
-                                text: jsonLocalParameters['Frequency'].val
+                                text: declarativeJsonItem['Frequency'].val
                                 function doApplyInput(newText) {
-                                    jsonLocalParameters['Frequency'].val = parseFloat(newText)
+                                    declarativeJsonItem['Frequency'].val = parseFloat(newText)
                                     return true
                                 }
                             }
@@ -732,11 +734,11 @@ Item {
                                 model: jsonParamInfoExt.Frequency.params.type.list
                                 readonly property bool varSelected: currentText === "var"
                                 function setInitialIndex() {
-                                    currentIndex = model.indexOf(jsonLocalParameters.Frequency.type)
+                                    currentIndex = model.indexOf(declarativeJsonItem.Frequency.type)
                                 }
                                 onModelChanged: setInitialIndex()
                                 onSelectedTextChanged: {
-                                    jsonLocalParameters.Frequency.type = selectedText
+                                    declarativeJsonItem.Frequency.type = selectedText
                                 }
                             }
                         }
