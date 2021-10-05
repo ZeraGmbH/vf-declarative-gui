@@ -82,6 +82,13 @@ Item {
         LineAngle,
         LineHarmonics
     }
+    property var arrJsonTypeKey: [
+        "on",
+        "rms",
+        "angle",
+        "not-implemented"
+    ]
+
     DeclarativeJsonItem {
         // this is magic: Feels like JSON but declarative (property binding possible)
         id: declarativeJsonItem
@@ -292,27 +299,9 @@ Item {
                                                     textField.color: GC.currentColorTable[uiType === 'U' ?
                                                                                               modelData.colorIndexU :
                                                                                               modelData.colorIndexI]
-                                                    text: {
-                                                        let val
-                                                        switch(rowIndex) {
-                                                        case SourceModulePage.LineType.LineRMS:
-                                                            val = declarativeJsonItem[jsonPhaseName].rms
-                                                            break
-                                                        case SourceModulePage.LineType.LineAngle:
-                                                            val = declarativeJsonItem[jsonPhaseName].angle
-                                                            break
-                                                        }
-                                                        return val
-                                                    }
+                                                    text: declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]]
                                                     function doApplyInput(newText) {
-                                                        switch(rowIndex) {
-                                                        case SourceModulePage.LineType.LineRMS:
-                                                            declarativeJsonItem[jsonPhaseName].rms = parseFloat(newText)
-                                                            break
-                                                        case SourceModulePage.LineType.LineAngle:
-                                                            declarativeJsonItem[jsonPhaseName].angle = parseFloat(newText)
-                                                            break
-                                                        }
+                                                        declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]] = parseFloat(newText)
                                                         return true
                                                     }
                                                     readonly property var validatorInfo: {
