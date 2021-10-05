@@ -11,44 +11,23 @@ import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
 
+import '../controls'
+
 Item {
     // set by our tab-page
     property var jsonSourceParamInfoRaw
-    property string statusEntityName
+    property string paramComponentName
 
-    property var jsonSourceParamStatus // unbound working copy
-    // This is just for debugging purpose and can go soon
-    onJsonSourceParamStatusChanged: {
-        console.warn("jsonSourceParamStatus changed")
-    }
-    property bool ignoreStatusChange: false
-    readonly property var statusEntity: VeinEntity.getEntity("SourceModule1")[statusEntityName]
-    onStatusEntityChanged: {
-        if(!ignoreStatusChange) {
-            jsonSourceParamStatus = statusEntity
-        }
-    }
-
-    enum LineType {
-        LineOnOff = 0,
-        LineRMS,
-        LineAngle,
-        LineHarmonics
-    }
-
-    // convenient JSON property to simplify code below
-    readonly property var jsonSourceParamInfoExtended: {
+    // convenient JSON property to simplify layout code below
+    readonly property var jsonParamInfoExt: {
         // All changes on retJson will occore in jsonSourceParamInfoRaw either
         // but jsonSourceParamInfoRaw is set once and will not change by it's
         // own
         let retJson = jsonSourceParamInfoRaw
 
         // defaults for mandatory values
-        retJson['maxValU'] = 0.0
-        retJson['maxValI'] = 0.0
         retJson['extraLinesRequired'] = false
 
-        // * calc U/I max values
         // * U/I/global harmonic support -> extraLinesRequired
         // Note: using array's forEach and arrow function causes qt-creator
         // freaking out on indentation. So loop the old-school way
@@ -62,9 +41,6 @@ Item {
                     if(jsonSourceParamInfoRaw[phaseName].supportsHarmonics) {
                         retJson['extraLinesRequired'] = true
                         retJson['supportsHarmonics'+strUI] = true
-                    }
-                    if(jsonSourceParamInfoRaw[phaseName].maxVal > retJson['maxVal'+strUI]) {
-                        retJson['maxVal'+strUI] = jsonSourceParamInfoRaw[phaseName].maxVal
                     }
                 }
             }
@@ -99,24 +75,50 @@ Item {
         return retJson
     }
 
-    // To avoid waste of CPU by back & forth painting: Load view after jsonSourceParamInfoExtended is valid
+    enum LineType {
+        LineOnOff = 0,
+        LineRMS,
+        LineAngle,
+        LineHarmonics
+    }
+
+    // local parameter handling
+    readonly property var paramComponent: VeinEntity.getEntity("SourceModule1")[paramComponentName]
+    onParamComponentChanged: {
+        if(!ignoreStatusChange) {
+            jsonLocalParameters = paramComponent
+        }
+    }
+    property var jsonLocalParameters
+    onJsonLocalParametersChanged: {
+        console.warn("jsonLocalParameters changed")
+    }
+    property bool ignoreStatusChange: false
+    function sendParamsToServer() {
+        // Avoid double full painting by our json property change
+        ignoreStatusChange = true
+        VeinEntity.getEntity("SourceModule1")[paramComponentName] = jsonLocalParameters
+        ignoreStatusChange = false
+    }
+    // To avoid waste of CPU by back & forth painting: Load view after jsonParamInfoExt is valid
     Loader {
         anchors.fill: parent
         sourceComponent: theViewComponent
-        active: jsonSourceParamInfoExtended
+        active: jsonParamInfoExt
     }
+    // Graphical items start
     Component {
         id: theViewComponent
         Item {
             id: theView
             anchors.fill: parent
 
-            // convenient properties
+            // convenient properties for layout vertical
             readonly property int linesStandardUI: 3 // RMS / Angle / OnOff
             readonly property real lineHeight: height / (linesStandardUI*2 + 2) // +2 header+bottom line
             readonly property real lineHeightHeaderLine: lineHeight - (horizScrollbarOn ? scrollBarWidth : 0)
-            readonly property int linesU: jsonSourceParamInfoExtended.UPhaseMax ? (jsonSourceParamInfoExtended.supportsHarmonicsU ? 4: 3) : 0
-            readonly property int linesI: jsonSourceParamInfoExtended.IPhaseMax ? (jsonSourceParamInfoExtended.supportsHarmonicsI ? 4: 3) : 0
+            readonly property int linesU: jsonParamInfoExt.UPhaseMax ? (jsonParamInfoExt.supportsHarmonicsU ? 4: 3) : 0
+            readonly property int linesI: jsonParamInfoExt.IPhaseMax ? (jsonParamInfoExt.supportsHarmonicsI ? 4: 3) : 0
             readonly property var uiModel: {
                 let retArr = []
                 if(linesU > 0) {
@@ -127,17 +129,21 @@ Item {
                 }
                 return retArr
             }
+            // convenient properties for layout horizontal
             readonly property int columnsStandardUI: 3
-
-            readonly property real pointSize: height > 0 ? height / 30 : 10
-            readonly property real headerPointSize: pointSize * 1.5
             readonly property real comboFontSize: pointSize * 1.25
             readonly property real widthLeftArea: width * 0.6
             readonly property real widthRightArea: width - widthLeftArea
             readonly property real headerColumnWidth: widthLeftArea * 0.12
             readonly property real buttonWidth: widthRightArea / 4
+
+            // convenient properties fonts
+            readonly property real headerPointSize: pointSize * 1.5
+            readonly property real pointSize: height > 0 ? height / 30 : 10
+
+            // convenient properties scrollbars
             readonly property int scrollBarWidth: width > 100 ? width / 100 : 8
-            readonly property bool horizScrollbarOn: jsonSourceParamInfoExtended.columnInfo.length > 3
+            readonly property bool horizScrollbarOn: jsonParamInfoExt.columnInfo.length > 3
             readonly property bool vertScrollbarOnU: linesU > 3
             readonly property bool vertScrollbarOnI: linesI > 3
 
@@ -163,21 +169,19 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.left: parent.left
-                width: theView.headerColumnWidth - jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
-                Rectangle { // empty topmost
+                width: theView.headerColumnWidth - jsonParamInfoExt.extraLinesRequired * scrollBarWidth
+                GridRect { // empty topmost
                     anchors.left: parent.left
                     anchors.right: parent.right
                     height: theView.lineHeightHeaderLine
-                    border.color: Material.dividerColor
                     color: GC.tableShadeColor
                 }
                 Repeater { // U/I rectangles
                     model: theView.uiModel
-                    Rectangle {
+                    GridRect {
                         anchors.left: parent.left
                         anchors.right: parent.right
                         height: theView.linesStandardUI * theView.lineHeight
-                        border.color: Material.dividerColor
                         color: GC.tableShadeColor
                         Label {
                             anchors.verticalCenter: parent.verticalCenter
@@ -198,7 +202,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.left: headerColumnUI.right
                 anchors.right: unitColumn.left
-                contentWidth: columnWidth * jsonSourceParamInfoExtended.columnInfo.length
+                contentWidth: columnWidth * jsonParamInfoExt.columnInfo.length
                 contentHeight: height - (theView.horizScrollbarOn ? theView.scrollBarWidth : 0)
                 clip: true
                 readonly property real columnWidth: width / theView.columnsStandardUI
@@ -211,12 +215,11 @@ Item {
                         anchors.right: parent.right
                         height: theView.lineHeightHeaderLine
                         Repeater {
-                            model: jsonSourceParamInfoExtended.columnInfo
-                            Rectangle {
+                            model: jsonParamInfoExt.columnInfo
+                            GridRect {
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
                                 width: dataTable.columnWidth
-                                border.color: Material.dividerColor
                                 color: GC.tableShadeColor
                                 Label {
                                     anchors.fill: parent
@@ -248,13 +251,11 @@ Item {
                                 height: theView.lineHeight
                                 readonly property int rowIndex: index
                                 Repeater {
-                                    model: jsonSourceParamInfoExtended ? jsonSourceParamInfoExtended.columnInfo : 0
-                                    Rectangle { // the field
+                                    model: jsonParamInfoExt.columnInfo
+                                    GridRect { // the field
                                         id: valueRect
                                         anchors.top: parent.top
                                         anchors.bottom: parent.bottom
-                                        border.color: Material.dividerColor
-                                        color: Material.backgroundColor
                                         width: dataTable.columnWidth
                                         readonly property int columnIndex: index
                                         readonly property string phaseName: uiType + String(columnIndex+1)
@@ -293,10 +294,10 @@ Item {
                                                         let val
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            val = jsonSourceParamStatus[phaseName].rms
+                                                            val = jsonLocalParameters[phaseName].rms
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            val = jsonSourceParamStatus[phaseName].angle
+                                                            val = jsonLocalParameters[phaseName].angle
                                                             break
                                                         }
                                                         return val
@@ -304,10 +305,10 @@ Item {
                                                     function doApplyInput(newText) {
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            jsonSourceParamStatus[phaseName].rms = parseFloat(newText)
+                                                            jsonLocalParameters[phaseName].rms = parseFloat(newText)
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            jsonSourceParamStatus[phaseName].angle = parseFloat(newText)
+                                                            jsonLocalParameters[phaseName].angle = parseFloat(newText)
                                                             break
                                                         }
                                                         return true
@@ -316,14 +317,14 @@ Item {
                                                         let min, max, decimals = 0.0
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            min = jsonSourceParamInfoExtended[phaseName]['params']['rms'].min
-                                                            max = jsonSourceParamInfoExtended[phaseName]['params']['rms'].max
-                                                            decimals = jsonSourceParamInfoExtended[phaseName]['params']['rms'].decimals
+                                                            min = jsonParamInfoExt[phaseName]['params']['rms'].min
+                                                            max = jsonParamInfoExt[phaseName]['params']['rms'].max
+                                                            decimals = jsonParamInfoExt[phaseName]['params']['rms'].decimals
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            min = jsonSourceParamInfoExtended[phaseName]['params']['angle'].min
-                                                            max = jsonSourceParamInfoExtended[phaseName]['params']['angle'].max
-                                                            decimals = jsonSourceParamInfoExtended[phaseName]['params']['angle'].decimals
+                                                            min = jsonParamInfoExt[phaseName]['params']['angle'].min
+                                                            max = jsonParamInfoExt[phaseName]['params']['angle'].max
+                                                            decimals = jsonParamInfoExt[phaseName]['params']['angle'].decimals
                                                             break
                                                         }
                                                         return { 'min': min, 'max': max, 'decimals': decimals}
@@ -358,8 +359,8 @@ Item {
                                                     anchors.top: parent.top
                                                     anchors.bottom: parent.bottom
                                                     width: indicator.width
-                                                    checked: jsonSourceParamStatus[phaseName].on
-                                                    onClicked: jsonSourceParamStatus[phaseName].on = checked
+                                                    checked: jsonLocalParameters[phaseName].on
+                                                    onClicked: jsonLocalParameters[phaseName].on = checked
                                                 }
                                             }
                                         }
@@ -391,13 +392,12 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.right: vectorView.left
-                anchors.rightMargin: jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
+                anchors.rightMargin: jsonParamInfoExt.extraLinesRequired * scrollBarWidth
                 width: theView.headerColumnWidth
-                Rectangle { // [ ] topmost
+                GridRect { // [ ] topmost
                     anchors.left: parent.left
                     anchors.right: parent.right
                     height: theView.lineHeightHeaderLine
-                    border.color: Material.dividerColor
                     color: GC.tableShadeColor
                     Label {
                         anchors.verticalCenter: parent.verticalCenter
@@ -417,12 +417,10 @@ Item {
                         clip: true
                         snapMode: ListView.SnapToItem
                         boundsBehavior: Flickable.StopAtBounds
-                        delegate: Rectangle {
+                        delegate: GridRect {
                             anchors.left: parent.left
                             width: parent.width
                             height: theView.lineHeight
-                            border.color: Material.dividerColor
-                            color: Material.backgroundColor
                             Label {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -482,14 +480,12 @@ Item {
 
             ///////////// right area /////////////
             readonly property real qAndHzLabelWidth: width / 32
-            Rectangle {
+            GridRect {
                 id: vectorView
                 anchors.right: parent.right
                 width: theView.widthRightArea
                 anchors.top: parent.top
                 anchors.bottom: pqRow.top
-                border.color: Material.dividerColor
-                color: Material.backgroundColor
 
                 PhasorDiagram {
                     anchors.fill: parent
@@ -634,14 +630,12 @@ Item {
                 }
             }
             ///////////// full width bottom area /////////////
-            Rectangle {
+            GridRect {
                 id: bottomRow
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 height: theView.lineHeight
-                border.color: Material.dividerColor
-                color: Material.backgroundColor
                 readonly property int topFreeSpace: 2
                 Item {
                     id: onOffRow
@@ -657,13 +651,11 @@ Item {
                         topInset: bottomRow.topFreeSpace
                         bottomInset: 0
                         anchors.left: parent.left
-                        anchors.leftMargin: theView.headerColumnWidth - jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
+                        anchors.leftMargin: theView.headerColumnWidth - jsonParamInfoExt.extraLinesRequired * scrollBarWidth
                         font.pointSize: theView.pointSize * 0.9
                         onClicked: {
-                            jsonSourceParamStatus.on = true
-                            ignoreStatusChange = true
-                            VeinEntity.getEntity("SourceModule1")[statusEntityName] = jsonSourceParamStatus
-                            ignoreStatusChange = false
+                            jsonLocalParameters.on = true
+                            sendParamsToServer()
                         }
                     }
                     CheckBox {
@@ -681,13 +673,11 @@ Item {
                         topInset: bottomRow.topFreeSpace
                         bottomInset: 0
                         anchors.right: parent.right
-                        anchors.rightMargin: theView.headerColumnWidth + jsonSourceParamInfoExtended.extraLinesRequired * scrollBarWidth
+                        anchors.rightMargin: theView.headerColumnWidth + jsonParamInfoExt.extraLinesRequired * scrollBarWidth
                         font.pointSize: theView.pointSize * 0.9
                         onClicked: {
-                            jsonSourceParamStatus.on = false
-                            ignoreStatusChange = true
-                            VeinEntity.getEntity("SourceModule1")[statusEntityName] = jsonSourceParamStatus
-                            ignoreStatusChange = false
+                            jsonLocalParameters.on = false
+                            sendParamsToServer()
                         }
                     }
                 }
@@ -712,13 +702,13 @@ Item {
                                 anchors.fill: parent
                                 pointSize: theView.pointSize
                                 validator: ZDoubleValidator {
-                                    bottom: jsonSourceParamInfoExtended['Frequency']['params']['val'].min
-                                    top: jsonSourceParamInfoExtended['Frequency']['params']['val'].max
-                                    decimals: jsonSourceParamInfoExtended['Frequency']['params']['val'].decimals
+                                    bottom: jsonParamInfoExt['Frequency']['params']['val'].min
+                                    top: jsonParamInfoExt['Frequency']['params']['val'].max
+                                    decimals: jsonParamInfoExt['Frequency']['params']['val'].decimals
                                 }
-                                text: jsonSourceParamStatus['Frequency'].val
+                                text: jsonLocalParameters['Frequency'].val
                                 function doApplyInput(newText) {
-                                    jsonSourceParamStatus['Frequency'].val = parseFloat(newText)
+                                    jsonLocalParameters['Frequency'].val = parseFloat(newText)
                                     return true
                                 }
                             }
@@ -739,14 +729,14 @@ Item {
                                 arrayMode: true
                                 fontSize: comboFontSize
                                 centerVertical: true
-                                model: jsonSourceParamInfoExtended.Frequency.params.type.list
+                                model: jsonParamInfoExt.Frequency.params.type.list
                                 readonly property bool varSelected: currentText === "var"
                                 function setInitialIndex() {
-                                    currentIndex = model.indexOf(jsonSourceParamStatus.Frequency.type)
+                                    currentIndex = model.indexOf(jsonLocalParameters.Frequency.type)
                                 }
                                 onModelChanged: setInitialIndex()
                                 onSelectedTextChanged: {
-                                    jsonSourceParamStatus.Frequency.type = selectedText
+                                    jsonLocalParameters.Frequency.type = selectedText
                                 }
                             }
                         }
