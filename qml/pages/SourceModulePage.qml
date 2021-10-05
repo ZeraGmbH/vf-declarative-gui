@@ -188,6 +188,32 @@ Item {
 
                 }
             }
+            function autoAngle(isAbs, diffAngleSet) {
+                for(let phase=1; phase<=3; phase++) {
+                    let jsonPhaseNameU = 'U%1'.arg(phase)
+                    let angleUCurr = 0
+                    if(declarativeJsonItem[jsonPhaseNameU]) {
+                        angleUCurr = declarativeJsonItem[jsonPhaseNameU].angle
+                    }
+                    let jsonPhaseNameI = 'I%1'.arg(phase)
+                    let angleICurr = 0
+                    if(declarativeJsonItem[jsonPhaseNameI]) {
+                        angleICurr = declarativeJsonItem[jsonPhaseNameI].angle
+                    }
+
+                    let angleINew
+                    if(isAbs) {
+                        angleINew = angleUCurr + diffAngleSet
+                    }
+                    else {
+                        angleINew = angleICurr + diffAngleSet
+                    }
+
+                    if(declarativeJsonItem[jsonPhaseNameI]) {
+                        declarativeJsonItem[jsonPhaseNameI].angle = angleModulo(angleINew)
+                    }
+                }
+            }
 
             // ------------------------ Layout ---------------------------------
             //
@@ -626,6 +652,7 @@ Item {
                     bottomInset: 0
                     font.pointSize: theView.pointSize * 0.9
                     text: "0°"
+                    onClicked: autoAngle(true, 0.0)
                 }
                 Button {
                     width: theView.buttonWidth
@@ -636,6 +663,7 @@ Item {
                     bottomInset: 0
                     font.pointSize: theView.pointSize * 0.9
                     text: "180°"
+                    onClicked: autoAngle(true, 180.0)
                 }
                 Button {
                     width: theView.buttonWidth
@@ -646,6 +674,9 @@ Item {
                     bottomInset: 0
                     font.pointSize: theView.pointSize * 0.9
                     text: "+15°"
+                    autoRepeat: true
+                    //autoRepeatInterval: 150
+                    onReleased: autoAngle(false, 15) // onClicked is slow on repetitions
                 }
                 Button {
                     width: theView.buttonWidth
@@ -655,6 +686,8 @@ Item {
                     bottomInset: 0
                     font.pointSize: theView.pointSize * 0.9
                     text: "-15°"
+                    autoRepeat: true
+                    onReleased: autoAngle(false, -15)
                 }
             }
             ///////////// full width bottom area /////////////
