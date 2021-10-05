@@ -121,6 +121,9 @@ Item {
         Item {
             id: theView
             anchors.fill: parent
+            Component.onCompleted: {
+                symmetrize()
+            }
 
             // convenient properties for layout vertical
             readonly property int linesStandardUI: 3 // RMS / Angle / OnOff
@@ -155,6 +158,36 @@ Item {
             readonly property bool horizScrollbarOn: jsonParamInfoExt.columnInfo.length > 3
             readonly property bool vertScrollbarOnU: linesU > 3
             readonly property bool vertScrollbarOnI: linesI > 3
+
+            // angle helper functions
+            function angleModulo(angle) {
+                // just a little of a hack but due to validators only autoAngle
+                // may cause negative angles
+                return (angle+36000) % 360
+            }
+            function symmetrize() {
+                if(symmetricCheckbox.checked) {
+                    let angleOffset = 120.0
+                    let angleU = 0.0
+                    let angleI = declarativeJsonItem["I1"] ? declarativeJsonItem["I1"].angle : 0.0
+                    let rmsU = declarativeJsonItem["U1"] ? declarativeJsonItem["U1"].rms : 0.0
+                    let rmsI = declarativeJsonItem["I1"] ? declarativeJsonItem["I1"].rms : 0.0
+                    for(let phase=2; phase<=3; phase++) {
+                        let jsonPhaseNameU = 'U%1'.arg(phase)
+                        if(declarativeJsonItem[jsonPhaseNameU]) {
+                            declarativeJsonItem[jsonPhaseNameU].angle = angleModulo(angleU + angleOffset)
+                            declarativeJsonItem[jsonPhaseNameU].rms = rmsU
+                        }
+                        let jsonPhaseNameI = 'I%1'.arg(phase)
+                        if(declarativeJsonItem[jsonPhaseNameI]) {
+                            declarativeJsonItem[jsonPhaseNameI].angle = angleModulo(angleI + angleOffset)
+                            declarativeJsonItem[jsonPhaseNameI].rms = rmsI
+                        }
+                        angleOffset += 120
+                    }
+
+                }
+            }
 
             // ------------------------ Layout ---------------------------------
             //
@@ -300,9 +333,13 @@ Item {
                                                                                               modelData.colorIndexU :
                                                                                               modelData.colorIndexI]
                                                     text: declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]]
+
                                                     function doApplyInput(newText) {
                                                         declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]] = parseFloat(newText)
-                                                        return true
+                                                        if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
+                                                            symmetrize()
+                                                        }
+                                                        return false
                                                     }
                                                     readonly property var validatorInfo: {
                                                         let min, max, decimals = 0.0
@@ -655,6 +692,10 @@ Item {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: Z.tr("symmetric")
                         font.pointSize: theView.pointSize * 0.9
+                        checked: true // How should a per source setting not confuse
+                        onCheckedChanged: {
+                            symmetrize()
+                        }
                     }
                     Button {
                         text: Z.tr("Off")
