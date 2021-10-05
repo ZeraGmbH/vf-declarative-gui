@@ -18,6 +18,7 @@
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 #include "qmlappstarterforwebgl.h"
+#include "declarativejsonitem.h"
 #include <zvkeyboard.h>
 
 int main(int argc, char *argv[])
@@ -75,6 +76,8 @@ int main(int argc, char *argv[])
 
     GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
     GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
+
+    qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
 
     QQmlApplicationEngine engine;
     QTimer networkWatchdog;
