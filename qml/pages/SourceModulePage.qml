@@ -181,12 +181,14 @@ Item {
                     for(let phase=2; phase<=3; phase++) {
                         let jsonPhaseNameU = 'U%1'.arg(phase)
                         if(declarativeJsonItem[jsonPhaseNameU]) {
-                            declarativeJsonItem[jsonPhaseNameU].angle = angleModulo(angleU + angleOffset)
+                            let decimals = jsonParamInfoExt[jsonPhaseNameU]['params']['angle'].decimals
+                            declarativeJsonItem[jsonPhaseNameU].angle = Number(FT.formatNumber(angleModulo(angleU + angleOffset), decimals))
                             declarativeJsonItem[jsonPhaseNameU].rms = rmsU
                         }
                         let jsonPhaseNameI = 'I%1'.arg(phase)
                         if(declarativeJsonItem[jsonPhaseNameI]) {
-                            declarativeJsonItem[jsonPhaseNameI].angle = angleModulo(angleI + angleOffset)
+                            let decimals = jsonParamInfoExt[jsonPhaseNameI]['params']['angle'].decimals
+                            declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumber(angleModulo(angleI + angleOffset), decimals))
                             declarativeJsonItem[jsonPhaseNameI].rms = rmsI
                         }
                         angleOffset += 120
@@ -217,7 +219,8 @@ Item {
                     }
 
                     if(declarativeJsonItem[jsonPhaseNameI]) {
-                        declarativeJsonItem[jsonPhaseNameI].angle = angleModulo(angleINew)
+                        let decimals = jsonParamInfoExt[jsonPhaseNameI]['params']['angle'].decimals
+                        declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumber(angleModulo(angleINew), decimals))
                     }
                     defaultAngle += 120
                 }
