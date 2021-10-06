@@ -11,6 +11,8 @@ public:
     DeclarativeJsonItem(QObject *parent = nullptr);
     Q_INVOKABLE void fromJson(const QJsonObject &jsonObject);
     Q_INVOKABLE QJsonObject toJson();
+protected:
+    virtual QVariant updateValue(const QString &key, const QVariant &input) override;
 private:
     void createPropertyMapRecursive(DeclarativeJsonItem* qmlPropMap, const QJsonObject &jsonObject);
     void savePropertyMapRecursive(DeclarativeJsonItem *qmlPropMap, QJsonObject &jsonObject);
