@@ -216,7 +216,7 @@ Item {
                 }
             }
             readonly property var maxVoltage: {
-                let max = 0.0
+                let max = 1e-6 // avoid division by 0
                 for(let phase=1; phase<=3; phase++) {
                     let jsonPhaseNameU = 'U%1'.arg(phase)
                     if(declarativeJsonItem[jsonPhaseNameU]) {
@@ -226,7 +226,7 @@ Item {
                 return max
             }
             readonly property var maxCurrent: {
-                let max = 0.0
+                let max = 1e-6 // avoid division by 0
                 for(let phase=1; phase<=3; phase++) {
                     let jsonPhaseNameI = 'I%1'.arg(phase)
                     if(declarativeJsonItem[jsonPhaseNameI]) {
