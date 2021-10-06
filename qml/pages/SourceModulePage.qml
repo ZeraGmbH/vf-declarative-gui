@@ -734,13 +734,47 @@ Item {
                             id: cosCosSinValidator
                             bottom: -1.0
                             top: 1.0
-                            // we can display 4 digits but sign is one of them
-                            decimals: Math.min(3, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
+                            // we can display 5 digits but sign is one of them
+                            decimals: Math.min(4, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
                         }
                         text: FT.formatNumber(pqRow.cosSinAverAngle, cosCosSinValidator.decimals)
                         function doApplyInput(newText) {
-                            // TODO
+                            let newCosSin = Number(newText)
+                            let angleACosSin = (comboPQ.currentText === "P" ? Math.acos(newCosSin) : Math.asin(newCosSin)) / toRadianFactor
+                            // Try to be of support: Due to limited digits it is not possible to
+                            // reach a load exactly so round the angle a bit
+                            let difftoNextInteger = angleACosSin - Math.round(angleACosSin)
+                            if(Math.abs(difftoNextInteger) < 0.05) {
+                                angleACosSin = angleACosSin - difftoNextInteger
+                            }
 
+                            // let's move around as few as possible
+                            let averageAngleDiffCurr = pqRow.calcAverageAngleDiff()+0.0001 // 0.0001: prefer higher quadrants
+                            let angleAlternate = comboPQ.currentText === "P" ? -angleACosSin : -(angleACosSin-90)+90
+                            let diffAngleACosSin = angleModulo(angleACosSin - averageAngleDiffCurr)
+                            let diffAngleAlternate = angleModulo(angleAlternate - averageAngleDiffCurr)
+                            // scale down to 0-180° (kind of angle abs)
+                            if(diffAngleACosSin > 180) {
+                                diffAngleACosSin = 360-diffAngleACosSin
+                            }
+                            if(diffAngleAlternate > 180) {
+                                diffAngleAlternate = 360-diffAngleAlternate
+                            }
+                            let angle = Math.abs(diffAngleACosSin) < Math.abs(diffAngleAlternate) ? angleACosSin : angleAlternate
+                            autoAngle(true, angle)
+                            // Our angle snapping above can lead to following situation:
+                            // * current cos = 0.7071
+                            // * user enters 0.707
+                            // => Ruslting angles are same as before => no recalculation of sin/cos
+                            // => fiels remains green
+                            // So after angles make sure
+                            discardInput() // This is what ZLineEdit does as soon as new value is set
+                            // We have no unit tests yet but setting values sin/cos=0 are of interest - so test
+                            // cos: test with +10°/-10° and set cos=0. Expected 90°/-90°
+                            // cos: test with +190°/170° and set cos=0. Expected 270°/90°
+                            // sin: test with +80°/100° and set sin=0. Expected 0°/180°
+                            // sin: test with +260°/280° and set sin=0. Expected 180°/0°
+                            // repeat angles but set sin/cos to +-0.1 (for proper digits)
                             return false
                         }
                     }
