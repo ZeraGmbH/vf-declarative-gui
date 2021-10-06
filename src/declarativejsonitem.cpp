@@ -61,7 +61,7 @@ void DeclarativeJsonItem::createPropertyMapRecursive(DeclarativeJsonItem *qmlPro
                     }
                 }
                 else {
-                    qWarning("createPropertyMapRecursive: Datatype mismatch key %s", qPrintable(iter.key()));
+                    qCritical("createPropertyMapRecursive: Datatype mismatch key %s", qPrintable(iter.key()));
                 }
             }
             else {
@@ -103,7 +103,7 @@ void DeclarativeJsonItem::savePropertyMapRecursive(DeclarativeJsonItem *qmlPropM
                 }
             }
             else {
-                qWarning("savePropertyMapRecursive: Datatype mismatch key %s", qPrintable(iter.key()));
+                qCritical("savePropertyMapRecursive: Datatype mismatch key %s", qPrintable(iter.key()));
             }
         }
     }
