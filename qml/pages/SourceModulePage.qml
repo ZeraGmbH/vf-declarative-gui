@@ -839,10 +839,10 @@ Item {
                     topInset: 0
                     bottomInset: 0
                     font.pointSize: theView.pointSize * 0.9
-                    text: "+15°"
+                    text: "-15°"
                     autoRepeat: true
                     //autoRepeatInterval: 150
-                    onReleased: autoAngle(false, 15) // onClicked is slow on repetitions
+                    onReleased: autoAngle(false, -15) // onClicked is slow on repetitions
                 }
                 Button {
                     width: theView.buttonWidth
@@ -851,9 +851,9 @@ Item {
                     topInset: 0
                     bottomInset: 0
                     font.pointSize: theView.pointSize * 0.9
-                    text: "-15°"
+                    text: "+15°"
                     autoRepeat: true
-                    onReleased: autoAngle(false, -15)
+                    onReleased: autoAngle(false, 15)
                 }
             }
             ///////////// full width bottom area /////////////
