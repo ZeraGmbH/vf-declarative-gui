@@ -389,6 +389,11 @@ Item {
                                                     text: declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]]
 
                                                     function doApplyInput(newText) {
+                                                        if(rowIndex === SourceModulePage.LineType.LineAngle) { // correct negative angles immediately
+                                                            let angle = Number(newText)
+                                                            angle = angleModulo(angle)
+                                                            newText = FT.formatNumber(angle, jsonParamInfoExt[jsonPhaseName]['params']['angle'].decimals)
+                                                        }
                                                         declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]] = parseFloat(newText)
                                                         if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
                                                             symmetrize()
@@ -404,7 +409,7 @@ Item {
                                                             decimals = jsonParamInfoExt[jsonPhaseName]['params']['rms'].decimals
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            min = jsonParamInfoExt[jsonPhaseName]['params']['angle'].min
+                                                            min = -jsonParamInfoExt[jsonPhaseName]['params']['angle'].max // we allow users entering +/-
                                                             max = jsonParamInfoExt[jsonPhaseName]['params']['angle'].max
                                                             decimals = jsonParamInfoExt[jsonPhaseName]['params']['angle'].decimals
                                                             break
