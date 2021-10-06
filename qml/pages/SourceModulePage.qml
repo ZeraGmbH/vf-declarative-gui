@@ -51,6 +51,7 @@ Item {
         let columInfo = []
         let maxPhaseAll = Math.max(jsonSourceParamInfoRaw['UPhaseMax'],
                                    jsonSourceParamInfoRaw['IPhaseMax'])
+        retJson['maxPhaseAll'] = maxPhaseAll
         for(phase=1; phase<=maxPhaseAll; ++phase) {
             let phaseRequired = retJson['U'+String(phase)] !== undefined || retJson['I'+String(phase)] !== undefined
             if(phaseRequired) {
@@ -148,6 +149,10 @@ Item {
             readonly property real widthRightArea: width - widthLeftArea
             readonly property real headerColumnWidth: widthLeftArea * 0.12
             readonly property real buttonWidth: widthRightArea / 4
+            readonly property real columnWidth: (widthLeftArea - 2*headerColumnWidth) / columnsStandardUI
+            readonly property real moveTableRightForFewPhasors:
+                jsonParamInfoExt.maxPhaseAll >= columnsStandardUI ?
+                    0 : (columnsStandardUI - jsonParamInfoExt.maxPhaseAll) * columnWidth
 
             // convenient properties fonts
             readonly property real headerPointSize: pointSize * 1.5
@@ -260,6 +265,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 anchors.left: parent.left
+                anchors.leftMargin: theView.moveTableRightForFewPhasors
                 width: theView.headerColumnWidth - jsonParamInfoExt.extraLinesRequired * scrollBarWidth
                 GridRect { // empty topmost
                     anchors.left: parent.left
@@ -293,10 +299,9 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.left: headerColumnUI.right
                 anchors.right: unitColumn.left
-                contentWidth: columnWidth * jsonParamInfoExt.columnInfo.length
+                contentWidth: theView.columnWidth * jsonParamInfoExt.columnInfo.length
                 contentHeight: height - (theView.horizScrollbarOn ? theView.scrollBarWidth : 0)
                 clip: true
-                readonly property real columnWidth: width / theView.columnsStandardUI
                 Column { // header / U table / I table
                     width: dataTable.contentWidth
                     height: dataTable.contentHeight
@@ -310,7 +315,7 @@ Item {
                             GridRect {
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
-                                width: dataTable.columnWidth
+                                width: theView.columnWidth
                                 color: GC.tableShadeColor
                                 Label {
                                     anchors.fill: parent
@@ -347,7 +352,7 @@ Item {
                                         id: valueRect
                                         anchors.top: parent.top
                                         anchors.bottom: parent.bottom
-                                        width: dataTable.columnWidth
+                                        width: theView.columnWidth
                                         readonly property int columnIndex: index
                                         readonly property string jsonPhaseName: uiType + String(columnIndex+1)
                                         readonly property bool isAngleU1: uiType === 'U' &&
