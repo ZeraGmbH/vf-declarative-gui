@@ -190,14 +190,15 @@ Item {
                 }
             }
             function autoAngle(isAbs, diffAngleSet) {
+                let defaultAngle = 0.0
                 for(let phase=1; phase<=3; phase++) {
                     let jsonPhaseNameU = 'U%1'.arg(phase)
-                    let angleUCurr = 0
+                    let angleUCurr = defaultAngle
                     if(declarativeJsonItem[jsonPhaseNameU]) {
                         angleUCurr = declarativeJsonItem[jsonPhaseNameU].angle
                     }
                     let jsonPhaseNameI = 'I%1'.arg(phase)
-                    let angleICurr = 0
+                    let angleICurr = defaultAngle
                     if(declarativeJsonItem[jsonPhaseNameI]) {
                         angleICurr = declarativeJsonItem[jsonPhaseNameI].angle
                     }
@@ -213,6 +214,7 @@ Item {
                     if(declarativeJsonItem[jsonPhaseNameI]) {
                         declarativeJsonItem[jsonPhaseNameI].angle = angleModulo(angleINew)
                     }
+                    defaultAngle += 120
                 }
             }
             readonly property var maxVoltage: {
