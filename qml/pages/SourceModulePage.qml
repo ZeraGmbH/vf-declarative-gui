@@ -214,6 +214,26 @@ Item {
                     }
                 }
             }
+            readonly property var maxVoltage: {
+                let max = 0.0
+                for(let phase=1; phase<=3; phase++) {
+                    let jsonPhaseNameU = 'U%1'.arg(phase)
+                    if(declarativeJsonItem[jsonPhaseNameU]) {
+                        max = Math.max(max, declarativeJsonItem[jsonPhaseNameU].rms)
+                    }
+                }
+                return max
+            }
+            readonly property var maxCurrent: {
+                let max = 0.0
+                for(let phase=1; phase<=3; phase++) {
+                    let jsonPhaseNameI = 'I%1'.arg(phase)
+                    if(declarativeJsonItem[jsonPhaseNameI]) {
+                        max = Math.max(max, declarativeJsonItem[jsonPhaseNameI].rms)
+                    }
+                }
+                return max
+            }
 
             // ------------------------ Layout ---------------------------------
             //
@@ -543,15 +563,63 @@ Item {
 
                 PhasorDiagram {
                     anchors.fill: parent
-
-                    circleVisible: true
-
-                    gridColor: Material.frameColor;
-                    gridVisible: true
+                    readonly property real maxNominalFactor: 1.2
+                    readonly property var arrRms: { // rms + phase on
+                        let arr = []
+                        for(var phase=1; phase<=3; phase++) {
+                            let jsonPhaseName = 'U%1'.arg(phase)
+                            let rmsVal = declarativeJsonItem[jsonPhaseName] && declarativeJsonItem[jsonPhaseName].on ?
+                                    declarativeJsonItem[jsonPhaseName].rms : 0.0
+                            arr.push(rmsVal)
+                        }
+                        for(phase=1; phase<=3; phase++) {
+                            let jsonPhaseName = 'I%1'.arg(phase)
+                            let rmsVal = declarativeJsonItem[jsonPhaseName] && declarativeJsonItem[jsonPhaseName].on ?
+                                    declarativeJsonItem[jsonPhaseName].rms : 0.0
+                            arr.push(rmsVal)
+                        }
+                        return arr
+                    }
+                    readonly property var arrRmsXY: { // rms + phase on -> x/y
+                        let arr = []
+                        let toRadianFactor = 2*Math.PI/360
+                        for(var phase=1; phase<=3; phase++) {
+                            let jsonPhaseName = 'U%1'.arg(phase)
+                            let angleVal = declarativeJsonItem[jsonPhaseName] ? declarativeJsonItem[jsonPhaseName].angle : 0.0
+                            let xyArr = []
+                            xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase-1]
+                            xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase-1]
+                            arr.push(xyArr)
+                        }
+                        for(phase=1; phase<=3; phase++) {
+                            let jsonPhaseName = 'I%1'.arg(phase)
+                            let angleVal = declarativeJsonItem[jsonPhaseName] ? declarativeJsonItem[jsonPhaseName].angle : 0.0
+                            let xyArr = []
+                            xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase+3-1]
+                            xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase+3-1]
+                            arr.push(xyArr)
+                        }
+                        return arr
+                    }
 
                     fromX: Math.floor(width/2)
                     fromY: Math.floor(height/2)
                     phiOrigin: 0
+
+                    circleVisible: true
+                    circleColor: Material.frameColor
+                    circleValue: maxVoltage / maxNominalFactor
+
+                    gridColor: Material.frameColor;
+                    gridVisible: true
+                    gridScale: Math.min(height,width)/maxVoltage/2
+
+                    property real minRelValueDisplayed: 0.05
+                    // Next time we re-use PhasorDiagram, we should think about rewriting it!!!
+                    maxVoltage: theView.maxVoltage * maxNominalFactor / Math.sqrt(3)
+                    minVoltage: maxVoltage * minRelValueDisplayed
+                    maxCurrent: theView.maxCurrent * maxNominalFactor
+                    minCurrent: maxCurrent * minRelValueDisplayed
 
                     vector1Color: GC.colorUL1
                     vector2Color: GC.colorUL2
@@ -560,12 +628,12 @@ Item {
                     vector5Color: GC.colorIL2
                     vector6Color: GC.colorIL3
 
-                    /*vector1Data: [v1x.text,v1y.text];
-                    vector2Data: [v2x.text,v2y.text];
-                    vector3Data: [v3x.text,v3y.text];
-                    vector4Data: [v4x.text,v4y.text];
-                    vector5Data: [v5x.text,v5y.text];
-                    vector6Data: [v6x.text,v6y.text];*/
+                    vector1Data: [arrRmsXY[0][0],arrRmsXY[0][1]]
+                    vector2Data: [arrRmsXY[1][0],arrRmsXY[1][1]]
+                    vector3Data: [arrRmsXY[2][0],arrRmsXY[2][1]]
+                    vector4Data: [arrRmsXY[3][0],arrRmsXY[3][1]]
+                    vector5Data: [arrRmsXY[4][0],arrRmsXY[4][1]]
+                    vector6Data: [arrRmsXY[5][0],arrRmsXY[5][1]]
 
                     vector1Label: "UL1"
                     vector2Label: "UL2"
@@ -573,6 +641,10 @@ Item {
                     vector4Label: "IL1"
                     vector5Label: "IL2"
                     vector6Label: "IL3"
+
+                    vectorView: PhasorDiagram.VIEW_THREE_PHASE // TODO???
+                    vectorMode: PhasorDiagram.DIN410
+                    currentVisible: true
                 }
             }
             RowLayout {
