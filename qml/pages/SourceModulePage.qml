@@ -753,6 +753,10 @@ Item {
                         centerVertical: true
                         model: ['1', '2', '3', '4']
                         currentIndex: pqRow.quadrantZeroBased
+                        onTargetIndexChanged: {
+                            let diffAngle = (targetIndex-currentIndex) * 90
+                            autoAngle(false, diffAngle)
+                        }
                     }
                 }
             }
