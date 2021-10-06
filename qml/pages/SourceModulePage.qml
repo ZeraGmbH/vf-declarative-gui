@@ -159,7 +159,8 @@ Item {
             readonly property bool vertScrollbarOnU: linesU > 3
             readonly property bool vertScrollbarOnI: linesI > 3
 
-            // angle helper functions
+            // angle helpers
+            readonly property real toRadianFactor: 2*Math.PI/360
             function angleModulo(angle) {
                 // just a little of a hack but due to validators only autoAngle
                 // may cause negative angles
@@ -582,7 +583,6 @@ Item {
                     }
                     readonly property var arrRmsXY: { // rms + phase on -> x/y
                         let arr = []
-                        let toRadianFactor = 2*Math.PI/360
                         for(var phase=1; phase<=3; phase++) {
                             let jsonPhaseName = 'U%1'.arg(phase)
                             let angleVal = declarativeJsonItem[jsonPhaseName] ? declarativeJsonItem[jsonPhaseName].angle : 0.0
@@ -654,6 +654,35 @@ Item {
                 anchors.bottom: angleQuickRow.top
                 height: theView.lineHeight + (theView.horizScrollbarOn ? theView.scrollBarWidth : 0)
                 readonly property int bottomFreeSpace: 1
+                function calcAverageAngleDiff() {
+                    let arrAngleDiff = []
+                    let activePhases = 0
+                    let defaultAngle = 0.0 // for sources with current (or voltage??) only
+                    for(let phase=1; phase<=3; phase++) {
+                        let angleDiff = 0.0
+                        let jsonPhaseNameU = 'U%1'.arg(phase)
+                        let angleValU = declarativeJsonItem[jsonPhaseNameU] ? declarativeJsonItem[jsonPhaseNameU].angle : defaultAngle
+                        let jsonPhaseNameI = 'I%1'.arg(phase)
+                        let angleValI = declarativeJsonItem[jsonPhaseNameI] ? declarativeJsonItem[jsonPhaseNameI].angle : defaultAngle
+                        angleDiff = angleModulo(angleValI - angleValU)
+                        arrAngleDiff.push(angleDiff)
+                        defaultAngle += 120.0
+                        if(declarativeJsonItem[jsonPhaseNameU] || declarativeJsonItem[jsonPhaseNameI]) {
+                            ++activePhases
+                        }
+                    }
+                    let angleDiffSum = 0.0
+                    arrAngleDiff.forEach(element => angleDiffSum+=element)
+                    let averageAngleDiff = angleDiffSum / (activePhases ? activePhases : 1)
+                    return averageAngleDiff
+                }
+                readonly property real cosSinAverAngle: {
+                    // TODO ???: do we have to rework this to an 'energy-weighted' factor
+                    let averageAngleDiff = calcAverageAngleDiff()
+                    let sinCos = comboPQ.currentText === "P" ? Math.cos(toRadianFactor * averageAngleDiff) : Math.sin(toRadianFactor * averageAngleDiff)
+                    return sinCos
+                }
+
                 Item {
                     Layout.fillHeight: true
                     Layout.preferredWidth: theView.buttonWidth * 0.55
@@ -683,10 +712,17 @@ Item {
                         textField.topPadding: 9
                         textField.bottomPadding: 9
                         validator: ZDoubleValidator {
+                            id: cosCosSinValidator
                             bottom: -1.0
                             top: 1.0
-                            // with we can display 5 digits bur sign is one of them
-                            decimals: Math.min(4, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
+                            // we can display 4 digits but sign is one of them
+                            decimals: Math.min(3, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
+                        }
+                        text: FT.formatNumber(pqRow.cosSinAverAngle, cosCosSinValidator.decimals)
+                        function doApplyInput(newText) {
+                            // TODO
+
+                            return false
                         }
                     }
                 }
