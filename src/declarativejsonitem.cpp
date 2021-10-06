@@ -53,7 +53,7 @@ void DeclarativeJsonItem::createPropertyMapRecursive(DeclarativeJsonItem *qmlPro
         }
         else {
             QVariant& oldValue = (*qmlPropMap)[iter.key()];
-            if(oldValue.type() != QVariant::Invalid) {
+            if(oldValue.type() != QVariant::Invalid) { // re-create?
                 QVariant convertedNewVal = iter.value().toVariant();
                 if(convertedNewVal.convert(oldValue.type())) {
                     if(convertedNewVal != oldValue) {
@@ -64,7 +64,7 @@ void DeclarativeJsonItem::createPropertyMapRecursive(DeclarativeJsonItem *qmlPro
                     qCritical("createPropertyMapRecursive: Datatype mismatch key %s", qPrintable(iter.key()));
                 }
             }
-            else {
+            else { // 1st create
                 qmlPropMap->insert(iter.key(), iter.value().toVariant());
             }
         }
