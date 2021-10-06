@@ -19,6 +19,16 @@ QJsonObject DeclarativeJsonItem::toJson()
     return m_jsonObject;
 }
 
+QVariant DeclarativeJsonItem::updateValue(const QString &key, const QVariant &input)
+{
+    QVariant oldValue = value(key);
+    if(oldValue.toJsonValue().type() != input.toJsonValue().type()) {
+        qCritical("Trying to change JSON type of %s", qPrintable(key));
+        return oldValue;
+    }
+    return input;
+}
+
 void DeclarativeJsonItem::createPropertyMapRecursive(DeclarativeJsonItem *qmlPropMap, const QJsonObject &jsonObject)
 {
     for(QJsonObject::const_iterator iter=jsonObject.begin(); iter!=jsonObject.constEnd(); ++iter) {
