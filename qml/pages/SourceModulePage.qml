@@ -689,6 +689,10 @@ Item {
                     let sinCos = comboPQ.currentText === "P" ? Math.cos(toRadianFactor * averageAngleDiff) : Math.sin(toRadianFactor * averageAngleDiff)
                     return sinCos
                 }
+                readonly property int quadrantZeroBased: {
+                    let averageAngleDiff = calcAverageAngleDiff()
+                    return Math.floor(averageAngleDiff / 90)
+                }
 
                 Item {
                     Layout.fillHeight: true
@@ -748,6 +752,7 @@ Item {
                         fontSize: comboFontSize
                         centerVertical: true
                         model: ['1', '2', '3', '4']
+                        currentIndex: pqRow.quadrantZeroBased
                     }
                 }
             }
