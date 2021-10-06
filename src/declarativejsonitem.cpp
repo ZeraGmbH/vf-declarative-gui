@@ -1,9 +1,10 @@
 #include "declarativejsonitem.h"
+#include <QObject>
 
 DeclarativeJsonItem::DeclarativeJsonItem(QObject *parent) :
     QQmlPropertyMap(this, parent)
 {
-
+    connect(this, &DeclarativeJsonItem::valueChanged, this, &DeclarativeJsonItem::onChildChangedValue);
 }
 
 
@@ -17,6 +18,29 @@ QJsonObject DeclarativeJsonItem::toJson()
 {
     savePropertyMapRecursive(this, m_jsonObject);
     return m_jsonObject;
+}
+
+const int &DeclarativeJsonItem::changedValueCount()
+{
+    return m_changeValueCount;
+}
+
+void DeclarativeJsonItem::onChildChangedValue(const QString &key, const QVariant &value)
+{
+    Q_UNUSED(key)
+    Q_UNUSED(value)
+    // Consider object changed as soon as child values change
+    childChangedObject();
+}
+
+void DeclarativeJsonItem::childChangedObject()
+{
+    ++m_changeValueCount;
+    emit notifyQMLChangedValueCount(); // QML property notification
+    DeclarativeJsonItem* my_parent = qobject_cast<DeclarativeJsonItem*>(parent());
+    if(my_parent) {
+        my_parent->childChangedObject();
+    }
 }
 
 QVariant DeclarativeJsonItem::updateValue(const QString &key, const QVariant &input)
@@ -58,6 +82,10 @@ void DeclarativeJsonItem::createPropertyMapRecursive(DeclarativeJsonItem *qmlPro
                 if(convertedNewVal.convert(oldValue.type())) {
                     if(convertedNewVal != oldValue) {
                         qmlPropMap->insert(iter.key(), convertedNewVal);
+                        // QQmlPropertyMap takes care for the QML side of but does not
+                        // emit valueChanged, if C++ side changes values. To keep our
+                        // change count up to date we have to take care ourselves
+                        qmlPropMap->childChangedObject();
                     }
                 }
                 else {
@@ -113,4 +141,3 @@ void DeclarativeJsonItem::setJson(const QJsonObject &jsonObject)
 {
     m_jsonObject = jsonObject;
 }
-
