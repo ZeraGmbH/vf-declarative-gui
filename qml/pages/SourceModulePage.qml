@@ -126,6 +126,20 @@ Item {
             Component.onCompleted: {
                 symmetrize()
             }
+            // On/off wait popup
+            readonly property var stateComponent: VeinEntity.getEntity("SourceModule1")[stateComponentName]
+            onStateComponentChanged: {
+                if(stateComponent.busy) {
+                    waitPopup.startWait((declarativeJsonItem.on ? Z.tr("Switching on") : Z.tr("Switching off"))+" "+ jsonParamInfoExt.Name)
+                }
+                else {
+                    waitPopup.stopWait(stateComponent.warnings, stateComponent.errors, null)
+                }
+            }
+            WaitTransaction {
+                id: waitPopup
+                animationComponent: AnimationSlowBits { }
+            }
 
             // convenient properties for layout vertical
             readonly property int linesStandardUI: 3 // RMS / Angle / OnOff
