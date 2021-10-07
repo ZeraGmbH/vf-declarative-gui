@@ -40,7 +40,7 @@ Popup {
     closePolicy: Popup.NoAutoClose
 
     // layout calculations
-    readonly property real rowHeight: parent.height > 0 ? parent.height/8 : 10
+    readonly property real rowHeight: root.height > 0 ? parent.height/8 : 10
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale
 
