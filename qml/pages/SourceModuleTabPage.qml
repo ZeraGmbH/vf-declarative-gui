@@ -54,6 +54,7 @@ BaseTabPage {
             let jsonInfoTmp = sourceModule[infoComponentName]
             let slotIsOn = jsonInfoTmp.UPhaseMax !== undefined && jsonInfoTmp.IPhaseMax !== undefined
             let paramComponentName = String("PAR_SourceState%1").arg(sourceNum)
+            let stateComponentName = String("ACT_DeviceState%1").arg(sourceNum)
             // create?
             if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
                 let jsonDeviceInfo = sourceModule[infoComponentName] // won't change contents
@@ -63,6 +64,7 @@ BaseTabPage {
 
                 lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {
                                                                            "paramComponentName" : paramComponentName,
+                                                                           "stateComponentName" : stateComponentName,
                                                                            "jsonSourceParamInfoRaw" : jsonDeviceInfo})
                 swipeView.addItem(lastSlotItemsPage[sourceNum])
             }
