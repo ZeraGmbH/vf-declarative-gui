@@ -899,6 +899,27 @@ Item {
                             declarativeJsonItem.on = true
                             sendParamsToServer()
                         }
+                        Rectangle {
+                            id: buttonOnRect
+                            anchors.fill: parent
+                            anchors.topMargin: bottomRow.topFreeSpace
+                            color: "red"
+                            visible: declarativeJsonItem.on && !theView.stateComponent.busy
+                            SequentialAnimation on opacity {
+                                running: visible
+                                loops: Animation.Infinite
+                                NumberAnimation {
+                                    from: 0.20
+                                    to: 0.35
+                                    duration: 1500
+                                }
+                                NumberAnimation {
+                                    from: 0.35
+                                    to: 0.20
+                                    duration: 1500
+                                }
+                            }
+                        }
                     }
                     CheckBox {
                         id: symmetricCheckbox
@@ -924,6 +945,13 @@ Item {
                         onClicked: {
                             declarativeJsonItem.on = false
                             sendParamsToServer()
+                        }
+                        Rectangle {
+                            anchors.fill: parent
+                            anchors.topMargin: bottomRow.topFreeSpace
+                            color: "#206040" // taken from MainToolBar - it is near by
+                            opacity: 0.4
+                            visible: !declarativeJsonItem.on && !theView.stateComponent.busy
                         }
                     }
                 }
