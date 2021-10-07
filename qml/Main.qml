@@ -324,7 +324,7 @@ ApplicationWindow {
                 if(countActiveSources > 0 && sourceViewPosition === -1) {
                     let iconName = ""
                     if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/act_values.png"
+                        iconName = "qrc:/data/staticdata/resources/source.png"
                     }
                     append({name: "Source control", icon: iconName, elementValue: sourceViewQml});
                 }
