@@ -18,6 +18,7 @@ Item {
     // set by our tab-page
     property var jsonSourceParamInfoRaw
     property string paramComponentName
+    property string stateComponentName
 
     // convenient JSON property to simplify layout code below
     readonly property var jsonParamInfoExt: {
@@ -93,21 +94,6 @@ Item {
     DeclarativeJsonItem {
         // this is magic: Feels like JSON but declarative (property binding possible)
         id: declarativeJsonItem
-        onChangedValueCountChanged: {
-            let changeCount = changedValueCount
-            console.info("Base:", changeCount)
-        }
-    }
-    // an example for sub-object notification. Since declarativeJsonItem is
-    // created dynamically, it is bound at runtime after json load in
-    // onParamComponentChanged below
-    property var u1
-    Connections{
-        target: u1
-        onChangedValueCountChanged: {
-            let changeCount = u1.changedValueCount
-            console.info("U1:", changeCount)
-        }
     }
 
     // local parameter load
@@ -115,7 +101,6 @@ Item {
     onParamComponentChanged: {
         if(!ignoreStatusChange) {
             declarativeJsonItem.fromJson(paramComponent)
-            u1 = Qt.binding(() => declarativeJsonItem.U1)
         }
     }
     // local parameter store
