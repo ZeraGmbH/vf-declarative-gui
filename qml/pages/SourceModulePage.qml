@@ -646,7 +646,8 @@ Item {
 
                     property real minRelValueDisplayed: 0.05
                     // Next time we re-use PhasorDiagram, we should think about rewriting it!!!
-                    maxVoltage: theView.maxVoltage * maxNominalFactor / Math.sqrt(3)
+                    readonly property real sqrt3: Math.sqrt(3)
+                    maxVoltage: theView.maxVoltage * maxNominalFactor / sqrt3
                     minVoltage: maxVoltage * minRelValueDisplayed
                     maxCurrent: theView.maxCurrent * maxNominalFactor
                     minCurrent: maxCurrent * minRelValueDisplayed
