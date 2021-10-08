@@ -809,11 +809,38 @@ Item {
                         arrayMode: true
                         fontSize: comboFontSize
                         centerVertical: true
-                        model: ['1', '2', '3', '4']
-                        currentIndex: pqRow.quadrantZeroBased
-                        onTargetIndexChanged: {
-                            let diffAngle = (targetIndex-currentIndex) * 90
-                            autoAngle(false, diffAngle)
+                        model: {
+                            // current quadrant is minimum content
+                            let entryList = []
+                            let currenQuadrantZero = pqRow.quadrantZeroBased
+                            entryList.push(String(currenQuadrantZero+1))
+                            // check for alternate quadrant
+                            let cosSin = pqRow.cosSinAverAngle
+                            let absCosSin = Math.abs(cosSin)
+                            // cos/sin = 1 do not have alternate quadrants
+                            if(absCosSin < 1-1e-6 ) {
+                                let averageAngleCurr = pqRow.calcAverageAngleDiff()
+                                let angleAlternate = comboPQ.currentText === "P" ? -averageAngleCurr : -(averageAngleCurr-90)+90
+                                angleAlternate= angleModulo(angleAlternate)
+                                let alternateQuadrantZero = Math.floor(angleAlternate / 90)
+                                entryList.push(String(alternateQuadrantZero+1))
+                            }
+                            entryList.sort()
+                            return entryList
+                        }
+                        currentIndex: {
+                            let currenQuadrant = pqRow.quadrantZeroBased+1
+                            let idx = model.findIndex(element => element === String(currenQuadrant))
+                            return idx
+                        }
+                        automaticIndexChange: true
+                        onSelectedTextChanged: {
+                            let quadrantString = model[targetIndex]
+                            // filter out user change input
+                            let averageAngleCurr = pqRow.calcAverageAngleDiff()
+                            let angleAlternate = comboPQ.currentText === "P" ? -averageAngleCurr : -(averageAngleCurr-90)+90
+                            angleAlternate = angleModulo(angleAlternate)
+                            autoAngle(true, angleAlternate)
                         }
                     }
                 }
