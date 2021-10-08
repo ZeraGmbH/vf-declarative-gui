@@ -727,7 +727,6 @@ Item {
                         anchors.bottomMargin: pqRow.bottomFreeSpace
                         arrayMode: true
                         fontSize: theView.comboFontSize
-                        centerVertical: true
                         model: ['P', 'Q']
                     }
                 }
@@ -808,7 +807,6 @@ Item {
                         anchors.bottomMargin: pqRow.bottomFreeSpace
                         arrayMode: true
                         fontSize: comboFontSize
-                        centerVertical: true
                         model: {
                             // current quadrant is minimum content
                             let entryList = []
