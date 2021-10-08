@@ -26,6 +26,8 @@ Item {
 
     property int referencePhaseMode: e_DIN;
 
+    property real sqrt3: Math.sqrt(3)
+
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
     readonly property real comboWidth: width/7.5
@@ -137,7 +139,7 @@ Item {
             }
             let maxVoltage = phasorDiagramm.maxVoltage
             if(root.viewMode === root.e_threePhaseView) {
-                maxVoltage *= Math.sqrt(3)
+                maxVoltage *= sqrt3
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
             let valUnitArr = FT.doAutoScale(maxVoltage / (1000*maxNominalFactor * Math.SQRT2), "V")
@@ -321,7 +323,7 @@ Item {
                 max = rangeMax
             }
             else {
-                max = root.maxU * maxNominalFactor / (root.viewMode === root.e_threePhaseView ? Math.sqrt(3) : 1)
+                max = root.maxU * maxNominalFactor / (root.viewMode === root.e_threePhaseView ? sqrt3 : 1)
                 // avoid no load arrow dance
                 let allPhasaesOff = true
                 for(let phase = 0; phase < 3; ++phase) {
