@@ -51,14 +51,12 @@ BaseTabPage {
                 lastSlotItemsPage.push(undefined)
             }
             let infoComponentName = String("ACT_DeviceInfo%1").arg(sourceNum)
-            let jsonInfoTmp = sourceModule[infoComponentName]
-            let slotIsOn = jsonInfoTmp.UPhaseMax !== undefined && jsonInfoTmp.IPhaseMax !== undefined
+            let jsonDeviceInfo = sourceModule[infoComponentName]
+            let slotIsOn = jsonDeviceInfo.UPhaseMax !== undefined && jsonDeviceInfo.IPhaseMax !== undefined
             let paramComponentName = String("PAR_SourceState%1").arg(sourceNum)
             let stateComponentName = String("ACT_DeviceState%1").arg(sourceNum)
             // create?
             if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
-                let jsonDeviceInfo = sourceModule[infoComponentName] // won't change contents
-
                 lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceParamInfo" : jsonDeviceInfo})
                 tabBar.addItem(lastSlotItemsTab[sourceNum])
 
