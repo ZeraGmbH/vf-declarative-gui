@@ -375,6 +375,8 @@ Item {
                                         width: theView.columnWidth
                                         readonly property int columnIndex: index
                                         readonly property string jsonPhaseName: uiType + String(columnIndex+1)
+                                        property var jsonDataBase: declarativeJsonItem[jsonPhaseName]
+                                        readonly property var jsonParamInfoBase: jsonParamInfoExt[jsonPhaseName]['params']
                                         readonly property bool isAngleU1: uiType === 'U' &&
                                                                           rowIndex === SourceModulePage.LineType.LineAngle &&
                                                                           // TODO more common: first phase U
@@ -406,15 +408,15 @@ Item {
                                                     textField.color: GC.currentColorTable[uiType === 'U' ?
                                                                                               modelData.colorIndexU :
                                                                                               modelData.colorIndexI]
-                                                    text: declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]]
+                                                    text: jsonDataBase[arrJsonTypeKey[rowIndex]]
 
                                                     function doApplyInput(newText) {
                                                         if(rowIndex === SourceModulePage.LineType.LineAngle) { // correct negative angles immediately
                                                             let angle = Number(newText)
                                                             angle = angleModulo(angle)
-                                                            newText = FT.formatNumber(angle, jsonParamInfoExt[jsonPhaseName]['params']['angle'].decimals)
+                                                            newText = FT.formatNumber(angle, jsonParamInfoBase['angle'].decimals)
                                                         }
-                                                        declarativeJsonItem[jsonPhaseName][arrJsonTypeKey[rowIndex]] = parseFloat(newText)
+                                                        jsonDataBase[arrJsonTypeKey[rowIndex]] = parseFloat(newText)
                                                         if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
                                                             symmetrize()
                                                         }
@@ -424,14 +426,14 @@ Item {
                                                         let min, max, decimals = 0.0
                                                         switch(rowIndex) {
                                                         case SourceModulePage.LineType.LineRMS:
-                                                            min = jsonParamInfoExt[jsonPhaseName]['params']['rms'].min
-                                                            max = jsonParamInfoExt[jsonPhaseName]['params']['rms'].max
-                                                            decimals = jsonParamInfoExt[jsonPhaseName]['params']['rms'].decimals
+                                                            min = jsonParamInfoBase['rms'].min
+                                                            max = jsonParamInfoBase['rms'].max
+                                                            decimals = jsonParamInfoBase['rms'].decimals
                                                             break
                                                         case SourceModulePage.LineType.LineAngle:
-                                                            min = -jsonParamInfoExt[jsonPhaseName]['params']['angle'].max // we allow users entering +/-
-                                                            max = jsonParamInfoExt[jsonPhaseName]['params']['angle'].max
-                                                            decimals = jsonParamInfoExt[jsonPhaseName]['params']['angle'].decimals
+                                                            min = -jsonParamInfoBase['angle'].max // we allow users entering +/-
+                                                            max = jsonParamInfoBase['angle'].max
+                                                            decimals = jsonParamInfoBase['angle'].decimals
                                                             break
                                                         }
                                                         return { 'min': min, 'max': max, 'decimals': decimals}
@@ -467,8 +469,8 @@ Item {
                                                     anchors.top: parent.top
                                                     anchors.bottom: parent.bottom
                                                     width: indicator.width
-                                                    checked: declarativeJsonItem[jsonPhaseName].on
-                                                    onClicked: declarativeJsonItem[jsonPhaseName].on = checked
+                                                    checked: jsonDataBase.on
+                                                    onClicked: jsonDataBase.on = checked
                                                 }
                                             }
                                         }
@@ -604,14 +606,16 @@ Item {
                         let arr = []
                         for(var phase=1; phase<=3; phase++) {
                             let jsonPhaseName = 'U%1'.arg(phase)
-                            let rmsVal = declarativeJsonItem[jsonPhaseName] && declarativeJsonItem[jsonPhaseName].on ?
-                                    declarativeJsonItem[jsonPhaseName].rms : 0.0
+                            let jsonDataBase = declarativeJsonItem[jsonPhaseName]
+                            let rmsVal = jsonDataBase && jsonDataBase.on ?
+                                    jsonDataBase.rms : 0.0
                             arr.push(rmsVal)
                         }
                         for(phase=1; phase<=3; phase++) {
                             let jsonPhaseName = 'I%1'.arg(phase)
-                            let rmsVal = declarativeJsonItem[jsonPhaseName] && declarativeJsonItem[jsonPhaseName].on ?
-                                    declarativeJsonItem[jsonPhaseName].rms : 0.0
+                            let jsonDataBase = declarativeJsonItem[jsonPhaseName]
+                            let rmsVal = jsonDataBase && jsonDataBase.on ?
+                                    jsonDataBase.rms : 0.0
                             arr.push(rmsVal)
                         }
                         return arr
@@ -620,7 +624,8 @@ Item {
                         let arr = []
                         for(var phase=1; phase<=3; phase++) {
                             let jsonPhaseName = 'U%1'.arg(phase)
-                            let angleVal = declarativeJsonItem[jsonPhaseName] ? declarativeJsonItem[jsonPhaseName].angle : 0.0
+                            let jsonDataBase = declarativeJsonItem[jsonPhaseName]
+                            let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
                             let xyArr = []
                             xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase-1]
                             xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase-1]
@@ -628,7 +633,8 @@ Item {
                         }
                         for(phase=1; phase<=3; phase++) {
                             let jsonPhaseName = 'I%1'.arg(phase)
-                            let angleVal = declarativeJsonItem[jsonPhaseName] ? declarativeJsonItem[jsonPhaseName].angle : 0.0
+                            let jsonDataBase = declarativeJsonItem[jsonPhaseName]
+                            let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
                             let xyArr = []
                             xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase+3-1]
                             xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase+3-1]
@@ -697,13 +703,15 @@ Item {
                     for(let phase=1; phase<=3; phase++) {
                         let angleDiff = 0.0
                         let jsonPhaseNameU = 'U%1'.arg(phase)
-                        let angleValU = declarativeJsonItem[jsonPhaseNameU] ? declarativeJsonItem[jsonPhaseNameU].angle : defaultAngle
                         let jsonPhaseNameI = 'I%1'.arg(phase)
-                        let angleValI = declarativeJsonItem[jsonPhaseNameI] ? declarativeJsonItem[jsonPhaseNameI].angle : defaultAngle
+                        let jsonDataU = declarativeJsonItem[jsonPhaseNameU]
+                        let jsonDataI = declarativeJsonItem[jsonPhaseNameI]
+                        let angleValU = jsonDataU ? jsonDataU.angle : defaultAngle
+                        let angleValI = jsonDataI ? jsonDataI.angle : defaultAngle
                         angleDiff = angleModulo(angleValI - angleValU)
                         arrAngleDiff.push(angleDiff)
                         defaultAngle += 120.0
-                        if(declarativeJsonItem[jsonPhaseNameU] || declarativeJsonItem[jsonPhaseNameI]) {
+                        if(jsonDataU || jsonDataI) {
                             ++activePhases
                         }
                     }
