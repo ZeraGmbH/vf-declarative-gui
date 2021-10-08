@@ -299,6 +299,7 @@ Item {
                         height: theView.linesStandardUI * theView.lineHeight
                         color: GC.tableShadeColor
                         Label {
+                            textFormat: Text.PlainText
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             font.pointSize: theView.headerPointSize
@@ -336,6 +337,7 @@ Item {
                                 width: theView.columnWidth
                                 color: GC.tableShadeColor
                                 Label {
+                                    textFormat: Text.PlainText
                                     anchors.fill: parent
                                     anchors.rightMargin: GC.standardTextHorizMargin
                                     horizontalAlignment: Label.AlignRight
@@ -442,6 +444,7 @@ Item {
                                                 }
                                                 // Hack: to make underline disappear for disabled ZLineEdit show Label
                                                 Label {
+                                                    textFormat: Text.PlainText
                                                     visible: !valueEdit.visible
                                                     anchors.fill: parent
                                                     anchors.rightMargin: GC.standardTextHorizMargin
@@ -505,6 +508,7 @@ Item {
                     height: theView.lineHeightHeaderLine
                     color: GC.tableShadeColor
                     Label {
+                        textFormat: Text.PlainText
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pointSize: theView.headerPointSize * 0.8
@@ -527,6 +531,7 @@ Item {
                             width: parent.width
                             height: theView.lineHeight
                             Label {
+                                textFormat: Text.PlainText
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 font.pointSize: headerPointSize * 0.8
@@ -731,6 +736,7 @@ Item {
                     }
                 }
                 Label {
+                    textFormat: Text.PlainText
                     font.pointSize: theView.pointSize
                     Layout.fillWidth: true
                     horizontalAlignment: Label.AlignRight
@@ -795,6 +801,7 @@ Item {
                     }
                 }
                 Label {
+                    textFormat: Text.PlainText
                     font.pointSize: theView.pointSize
                     Layout.preferredWidth: theView.qAndHzLabelWidth
                     text: "Q:"
@@ -990,6 +997,7 @@ Item {
                     RowLayout {
                         anchors.fill: parent
                         Label {
+                            textFormat: Text.PlainText
                             font.pointSize: pointSize
                             Layout.fillWidth: true
                             text: Z.tr("Frequency:")
@@ -1014,6 +1022,7 @@ Item {
                             }
                         }
                         Label {
+                            textFormat: Text.PlainText
                             Layout.preferredWidth: theView.qAndHzLabelWidth
                             font.pointSize: theView.pointSize
                             visible: frequencyMode.varSelected
