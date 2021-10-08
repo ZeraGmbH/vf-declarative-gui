@@ -140,7 +140,7 @@ Item {
                 maxVoltage *= Math.sqrt(3)
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = FT.doAutoScale(maxVoltage / (1000*maxNominalFactor * Math.sqrt(2)), "V")
+            let valUnitArr = FT.doAutoScale(maxVoltage / (1000*maxNominalFactor * Math.SQRT2), "V")
             return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorVoltage + "'>"+ "U: " + valueStr + " * √2" + "</font>"
@@ -157,7 +157,7 @@ Item {
                 return maxIRange
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = FT.doAutoScale(phasorDiagramm.maxCurrent / (1000 * maxNominalFactor * Math.sqrt(2)), "A")
+            let valUnitArr = FT.doAutoScale(phasorDiagramm.maxCurrent / (1000 * maxNominalFactor * Math.SQRT2), "A")
             return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorCurrent + "'>"+ "I: " + valueStr + " * √2" + "</font>"
@@ -315,7 +315,7 @@ Item {
         property real minRelValueDisplayed: 0.05
         minVoltage: maxVoltage * minRelValueDisplayed
         maxVoltage: {
-            let rangeMax = root.maxOVRRejectionU*Math.sqrt(2)
+            let rangeMax = root.maxOVRRejectionU*Math.SQRT2
             let max
             if(lenMode.rangeLen) {
                 max = rangeMax
@@ -341,7 +341,7 @@ Item {
         }
         minCurrent: maxCurrent * minRelValueDisplayed
         maxCurrent: {
-            let rangeMax = root.maxOVRRejectionI*Math.sqrt(2)
+            let rangeMax = root.maxOVRRejectionI*Math.SQRT2
             let max
             if(lenMode.rangeLen) {
                 max = rangeMax
