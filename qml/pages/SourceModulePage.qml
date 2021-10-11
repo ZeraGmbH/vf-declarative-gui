@@ -420,6 +420,7 @@ Item {
                                                         if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
                                                             symmetrize()
                                                         }
+                                                        discardInput() // Long reasoning for this at sin/cos field
                                                         return false
                                                     }
                                                     readonly property var validatorInfo: {
