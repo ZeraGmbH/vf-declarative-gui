@@ -592,7 +592,7 @@ Item {
 
 
             ///////////// right area /////////////
-            readonly property real qAndHzLabelWidth: width / 32
+            readonly property real qAndHzLabelWidth: theView.buttonWidth * 0.35
             GridRect {
                 id: vectorView
                 anchors.right: parent.right
@@ -754,7 +754,7 @@ Item {
                 }
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: theView.buttonWidth * 1.1
+                    Layout.preferredWidth: theView.buttonWidth
                     ZLineEdit {
                         anchors.fill: parent
                         pointSize: theView.pointSize
@@ -764,8 +764,7 @@ Item {
                             id: cosCosSinValidator
                             bottom: -1.0
                             top: 1.0
-                            // we can display 5 digits but sign is one of them
-                            decimals: Math.min(4, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
+                            decimals: Math.min(3, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
                         }
                         text: FT.formatNumber(pqRow.cosSinAverAngle, cosCosSinValidator.decimals)
                         function doApplyInput(newText) {
@@ -813,6 +812,7 @@ Item {
                     textFormat: Text.PlainText
                     font.pointSize: theView.pointSize
                     Layout.preferredWidth: theView.qAndHzLabelWidth
+                    horizontalAlignment : Label.AlignRight
                     text: "Q:"
                 }
                 Item {
@@ -1013,7 +1013,7 @@ Item {
                         }
                         Item {
                             Layout.fillHeight: true
-                            Layout.preferredWidth: theView.buttonWidth * 1.1
+                            Layout.preferredWidth: theView.buttonWidth
                             visible: frequencyMode.varSelected
                             ZLineEdit {
                                 anchors.fill: parent
@@ -1034,6 +1034,7 @@ Item {
                             textFormat: Text.PlainText
                             Layout.preferredWidth: theView.qAndHzLabelWidth
                             font.pointSize: theView.pointSize
+                            horizontalAlignment: Label.AlignLeft
                             visible: frequencyMode.varSelected
                             text: "Hz"
                         }
