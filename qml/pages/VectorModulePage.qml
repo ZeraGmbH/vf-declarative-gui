@@ -344,7 +344,6 @@ Item {
         }
 
         vectorView: root.viewMode
-        vectorMode: PhasorDiagram.DIN410 // TODO remove noop
         currentVisible: currentOnOffSelector.displayCurrents
     }
 }
