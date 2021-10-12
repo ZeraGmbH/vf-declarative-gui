@@ -269,7 +269,7 @@ Item {
             // | |                       PhaseOnOff | |                        |
             // | |             U         RMS        | |                        |
             // | |                       Angles     | |                        |
-            // | |         dataTable                | |     vectorView         |
+            // | |         dataTable                | |     phasorView         |
             // | |                       PhaseOnOff | |------------------------|
             // | |             I         RMS      <-|-|->       pqRow          |
             // | |                       Angles     | |     angleQuickRow      |
@@ -502,7 +502,7 @@ Item {
                 id: unitColumn
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
-                anchors.right: vectorView.left
+                anchors.right: phasorView.left
                 anchors.rightMargin: jsonParamInfoExt.extraLinesRequired * scrollBarWidth
                 width: theView.headerColumnWidth
                 GridRect { // [ ] topmost
@@ -563,7 +563,7 @@ Item {
                 anchors.top: parent.top
                 height: theView.linesStandardUI * theView.lineHeight
                 anchors.topMargin: theView.lineHeightHeaderLine
-                anchors.right: vectorView.left
+                anchors.right: phasorView.left
                 policy: theView.vertScrollbarOnU ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
                 width: theView.scrollBarWidth
             }
@@ -573,7 +573,7 @@ Item {
                 anchors.bottom: bottomRow.top
                 anchors.bottomMargin: theView.horizScrollbarOn ? theView.scrollBarWidth : 0
                 height: theView.linesStandardUI * theView.lineHeight
-                anchors.right: vectorView.left
+                anchors.right: phasorView.left
                 policy: theView.vertScrollbarOnI ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
                 width: theView.scrollBarWidth
             }
@@ -594,7 +594,7 @@ Item {
             ///////////// right area /////////////
             readonly property real qAndHzLabelWidth: theView.buttonWidth * 0.35
             GridRect {
-                id: vectorView
+                id: phasorView
                 anchors.right: parent.right
                 width: theView.widthRightArea
                 anchors.top: parent.top
@@ -667,7 +667,7 @@ Item {
                     currentVisible: true
 
                     Popup {
-                        id: vectorViewPopup
+                        id: phasorViewPopup
                         x: Math.round((parent.width - width))
                         y: Math.round((parent.height - height))
                         width: theView.buttonWidth * 2
@@ -678,7 +678,7 @@ Item {
                         Label {
                             text: "➚"
                             anchors.left: parent.left
-                            width: vectorViewPopup.labelWidth
+                            width: phasorViewPopup.labelWidth
                             horizontalAlignment: Label.AlignHCenter
                             anchors.verticalCenter: dinIECSelector.verticalCenter
                             font.pointSize: pointSize * 1.5
@@ -687,7 +687,7 @@ Item {
                             id: dinIECSelector
                             height: theView.lineHeight
                             anchors.right: parent.right
-                            width: vectorViewPopup.width - vectorViewPopup.labelWidth
+                            width: phasorViewPopup.width - phasorViewPopup.labelWidth
                             anchors.top: parent.top
                             fontSize: comboFontSize
                             arrayMode: true
@@ -696,7 +696,7 @@ Item {
                             property bool popupOpened: popup.opened
                             onPopupOpenedChanged: {
                                 if(!popupOpened) {
-                                    vectorViewPopup.close()
+                                    phasorViewPopup.close()
                                 }
                             }
                             onTargetIndexChanged: {
@@ -707,7 +707,7 @@ Item {
                         Label {
                             text: "➚"
                             anchors.left: parent.left
-                            width: vectorViewPopup.labelWidth
+                            width: phasorViewPopup.labelWidth
                             horizontalAlignment: Label.AlignHCenter
                             anchors.verticalCenter: viewModeSelector.verticalCenter
                             font.pointSize: pointSize * 1.5
@@ -716,7 +716,7 @@ Item {
                             id: viewModeSelector
                             height: theView.lineHeight
                             anchors.right: parent.right
-                            width: vectorViewPopup.width - vectorViewPopup.labelWidth
+                            width: phasorViewPopup.width - phasorViewPopup.labelWidth
                             anchors.bottom: parent.bottom
                             centerVertical: true
                             fontSize: comboFontSize
@@ -726,7 +726,7 @@ Item {
                             property bool popupOpened: popup.opened
                             onPopupOpenedChanged: {
                                 if(!popupOpened) {
-                                    vectorViewPopup.close()
+                                    phasorViewPopup.close()
                                 }
                             }
                             onTargetIndexChanged: {
@@ -735,7 +735,7 @@ Item {
                         }
                     }
                     Button {
-                        id: vectorViewSettingsButton
+                        id: phasorViewSettingsButton
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         height: theView.lineHeight * 0.8
@@ -748,7 +748,7 @@ Item {
                         font.family: FA.old
                         text: FA.fa_cogs
                         onClicked: {
-                            vectorViewPopup.open()
+                            phasorViewPopup.open()
                         }
                     }
                 }
