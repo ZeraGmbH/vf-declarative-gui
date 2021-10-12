@@ -8,6 +8,7 @@ import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
+import '../controls'
 
 Item {
     id: root
@@ -21,25 +22,14 @@ Item {
 
     property int viewMode : e_starView;
 
-    readonly property int e_DIN: 0;
-    readonly property int e_IEC: 1;
-
-    property int referencePhaseMode: e_DIN;
-
-    property real sqrt3: Math.sqrt(3)
-
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
     readonly property real comboWidth: width/7.5
     readonly property real comboMargin: 8
-    readonly property real maxNominalFactor: 1.25
 
     property real topMargin: 0
 
     // vectors / values / ranges....
-    readonly property real din410PhiOrigin: Math.atan2(getVector(0)[1], getVector(0)[0])+Math.PI/2
-    readonly property real iec387PhiOrigin: Math.atan2(getVector(3)[1], getVector(3)[0])
-    readonly property real phiOrigin: dinIECSelector.din410 ? din410PhiOrigin : iec387PhiOrigin;
 
     function getVectorName(vecIndex) {
         var retVal;
@@ -137,12 +127,12 @@ Item {
             if(lenMode.rangeLen && root.viewMode !== root.e_threePhaseView) {
                 return maxURange
             }
-            let maxVoltage = phasorDiagramm.maxVoltage
+            let maxVoltage = phasorDiagram.maxVoltage
             if(root.viewMode === root.e_threePhaseView) {
-                maxVoltage *= sqrt3
+                maxVoltage *= phasorDiagram.sqrt3
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = FT.doAutoScale(maxVoltage / (1000*maxNominalFactor * Math.SQRT2), "V")
+            let valUnitArr = FT.doAutoScale(maxVoltage / (1000*phasorDiagram.maxNominalFactor * Math.SQRT2), "V")
             return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorVoltage + "'>"+ "U: " + valueStr + " * √2" + "</font>"
@@ -159,7 +149,7 @@ Item {
                 return maxIRange
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = FT.doAutoScale(phasorDiagramm.maxCurrent / (1000 * maxNominalFactor * Math.SQRT2), "A")
+            let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * phasorDiagram.maxNominalFactor * Math.SQRT2), "A")
             return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorCurrent + "'>"+ "I: " + valueStr + " * √2" + "</font>"
@@ -246,10 +236,9 @@ Item {
 
         targetIndex: GC.vectorIecMode
         onTargetIndexChanged: {
+            phasorDiagram.din410 = targetIndex == 0
             GC.setVectorIecMode(targetIndex)
         }
-
-        property bool din410: targetIndex===0
     }
 
     Image {
@@ -284,20 +273,10 @@ Item {
         property bool rangeLen: targetIndex===0
     }
 
-    PhasorDiagram {
-        id: phasorDiagramm
+    PhasorDiagramEx {
+        id: phasorDiagram
         anchors.fill: parent
         anchors.topMargin: root.topMargin
-
-        fromX: Math.floor(width/2)
-        fromY: Math.floor(height/2)
-
-        vector1Color: GC.colorUL1
-        vector2Color: GC.colorUL2
-        vector3Color: GC.colorUL3
-        vector4Color: GC.colorIL1
-        vector5Color: GC.colorIL2
-        vector6Color: GC.colorIL3
 
         vector1Data: getVector(0);
         vector2Data: getVector(1);
@@ -313,9 +292,6 @@ Item {
         vector5Label: getVectorName(4);
         vector6Label: getVectorName(5);
 
-        phiOrigin: root.phiOrigin
-        property real minRelValueDisplayed: 0.05
-        minVoltage: maxVoltage * minRelValueDisplayed
         maxVoltage: {
             let rangeMax = root.maxOVRRejectionU*Math.SQRT2
             let max
@@ -341,7 +317,6 @@ Item {
             }
             return max
         }
-        minCurrent: maxCurrent * minRelValueDisplayed
         maxCurrent: {
             let rangeMax = root.maxOVRRejectionI*Math.SQRT2
             let max
@@ -367,17 +342,9 @@ Item {
             }
             return max
         }
-        circleColor: Material.frameColor;
-        circleValue: maxVoltage / maxNominalFactor
-        circleVisible: true
-
-        gridColor: Material.frameColor;
-        gridVisible: true
-
-        gridScale: Math.min(height,width)/maxVoltage/2
 
         vectorView: root.viewMode
-        vectorMode: root.referencePhaseMode
+        vectorMode: PhasorDiagram.DIN410 // TODO remove noop
         currentVisible: currentOnOffSelector.displayCurrents
     }
 }

@@ -11,6 +11,7 @@
         <file>qml/controls/MeasModeComboHeader.qml</file>
         <file>qml/controls/PagePathView.qml</file>
         <file>qml/controls/RotaryFieldIndicator.qml</file>
+        <file>qml/controls/PhasorDiagramEx.qml</file>
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/WaitTransaction.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>

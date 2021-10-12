@@ -600,9 +600,10 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: pqRow.top
 
-                PhasorDiagram {
+                PhasorDiagramEx {
+                    id: phasorDiagram
                     anchors.fill: parent
-                    readonly property real maxNominalFactor: 1.2
+                    maxNominalFactor: 1.2
                     readonly property var arrRms: { // rms + phase on
                         let arr = []
                         for(var phase=1; phase<=3; phase++) {
@@ -644,32 +645,9 @@ Item {
                         return arr
                     }
 
-                    fromX: Math.floor(width/2)
-                    fromY: Math.floor(height/2)
-                    phiOrigin: 0
-
-                    circleVisible: true
-                    circleColor: Material.frameColor
-                    circleValue: maxVoltage / maxNominalFactor
-
-                    gridColor: Material.frameColor;
-                    gridVisible: true
-                    gridScale: Math.min(height,width)/maxVoltage/2
-
-                    property real minRelValueDisplayed: 0.05
                     // Next time we re-use PhasorDiagram, we should think about rewriting it!!!
-                    readonly property real sqrt3: Math.sqrt(3)
                     maxVoltage: theView.maxVoltage * maxNominalFactor / sqrt3
-                    minVoltage: maxVoltage * minRelValueDisplayed
                     maxCurrent: theView.maxCurrent * maxNominalFactor
-                    minCurrent: maxCurrent * minRelValueDisplayed
-
-                    vector1Color: GC.colorUL1
-                    vector2Color: GC.colorUL2
-                    vector3Color: GC.colorUL3
-                    vector4Color: GC.colorIL1
-                    vector5Color: GC.colorIL2
-                    vector6Color: GC.colorIL3
 
                     vector1Data: [arrRmsXY[0][0],arrRmsXY[0][1]]
                     vector2Data: [arrRmsXY[1][0],arrRmsXY[1][1]]
@@ -685,8 +663,8 @@ Item {
                     vector5Label: "IL2"
                     vector6Label: "IL3"
 
-                    vectorView: PhasorDiagram.VIEW_THREE_PHASE // TODO???
-                    vectorMode: PhasorDiagram.DIN410
+                    vectorView: PhasorDiagram.VIEW_THREE_PHASE
+                    vectorMode: PhasorDiagram.DIN410 // TODO remove noop
                     currentVisible: true
                 }
             }
