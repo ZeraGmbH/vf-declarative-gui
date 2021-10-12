@@ -138,5 +138,9 @@ void DeclarativeJsonItem::savePropertyMapRecursive(DeclarativeJsonItem *qmlPropM
 
 void DeclarativeJsonItem::setJson(const QJsonObject &jsonObject)
 {
+    bool changed = m_jsonObject != jsonObject;
     m_jsonObject = jsonObject;
+    if(changed) {
+        childChangedObject();
+    }
 }
