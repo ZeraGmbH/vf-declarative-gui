@@ -117,7 +117,6 @@ void DeclarativeJsonItem::savePropertyMapRecursive(DeclarativeJsonItem *qmlPropM
             }
             savePropertyMapRecursive(subQmlMap, subJsonObj);
             jsonObject[iter.key()] = subJsonObj;
-            subQmlMap->setJson(subJsonObj); // make toJson work on sub qml
         }
         else if(iter->isArray()) { // TODO?
             qWarning("savePropertyMapRecursive: JSON arrays are not supported (yet?)");
