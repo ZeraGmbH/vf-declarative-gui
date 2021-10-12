@@ -664,7 +664,6 @@ Item {
                     vector6Label: "IL3"
 
                     vectorView: PhasorDiagram.VIEW_THREE_PHASE
-                    vectorMode: PhasorDiagram.DIN410 // TODO remove noop
                     currentVisible: true
 
                     Popup {
