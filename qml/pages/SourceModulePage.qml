@@ -645,25 +645,29 @@ Item {
                         return arr
                     }
 
-                    // Next time we re-use PhasorDiagram, we should think about rewriting it!!!
-                    maxVoltage: theView.maxVoltage * maxNominalFactor / sqrt3
+                    maxVoltage: theView.maxVoltage * maxNominalFactor
                     maxCurrent: theView.maxCurrent * maxNominalFactor
 
-                    vector1Data: [arrRmsXY[0][0],arrRmsXY[0][1]]
-                    vector2Data: [arrRmsXY[1][0],arrRmsXY[1][1]]
-                    vector3Data: [arrRmsXY[2][0],arrRmsXY[2][1]]
+                    vector1Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
+                                     [arrRmsXY[0][0],arrRmsXY[0][1]] :
+                                     [arrRmsXY[0][0]-arrRmsXY[1][0], arrRmsXY[0][1]-arrRmsXY[1][1]] /* UL1-UL2 */
+                    vector2Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
+                                     [arrRmsXY[1][0],arrRmsXY[1][1]] :
+                                     [arrRmsXY[2][0]-arrRmsXY[1][0], arrRmsXY[2][1]-arrRmsXY[1][1]] /* UL3-UL2 */
+                    vector3Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrRmsXY[2][0],arrRmsXY[2][1]] : [0,0]
                     vector4Data: [arrRmsXY[3][0],arrRmsXY[3][1]]
-                    vector5Data: [arrRmsXY[4][0],arrRmsXY[4][1]]
+                    vector5Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrRmsXY[4][0],arrRmsXY[4][1]] : [0,0]
                     vector6Data: [arrRmsXY[5][0],arrRmsXY[5][1]]
 
-                    vector1Label: "UL1"
-                    vector2Label: "UL2"
-                    vector3Label: "UL3"
+                    vector1Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? "UL1" : "UL1-UL2"
+                    vector2Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? "UL2" : "UL3-UL2" // same as ACT_DFTPP2
+                    vector3Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? "UL3" : "UL3-UL1"
                     vector4Label: "IL1"
                     vector5Label: "IL2"
                     vector6Label: "IL3"
 
-                    vectorView: PhasorDiagram.VIEW_THREE_PHASE
+                    vectorView: GC.vectorMode
+                    din410: !GC.vectorIecMode
                     currentVisible: true
 
                     Popup {
@@ -700,7 +704,6 @@ Item {
                                 }
                             }
                             onTargetIndexChanged: {
-                                phasorDiagram.din410 = targetIndex == 0
                                 GC.setVectorIecMode(targetIndex)
                             }
                         }
