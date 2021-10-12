@@ -666,6 +666,92 @@ Item {
                     vectorView: PhasorDiagram.VIEW_THREE_PHASE
                     vectorMode: PhasorDiagram.DIN410 // TODO remove noop
                     currentVisible: true
+
+                    Popup {
+                        id: vectorViewPopup
+                        x: Math.round((parent.width - width))
+                        y: Math.round((parent.height - height))
+                        width: theView.buttonWidth * 2
+                        readonly property real labelWidth: width*0.3
+                        height: theView.lineHeight * 2 /* number of lines */ + bottomRow.topFreeSpace
+                        verticalPadding: 0
+                        horizontalPadding: 0
+                        Label {
+                            text: "➚"
+                            anchors.left: parent.left
+                            width: vectorViewPopup.labelWidth
+                            horizontalAlignment: Label.AlignHCenter
+                            anchors.verticalCenter: dinIECSelector.verticalCenter
+                            font.pointSize: pointSize * 1.5
+                        }
+                        ZComboBox {
+                            id: dinIECSelector
+                            height: theView.lineHeight
+                            anchors.right: parent.right
+                            width: vectorViewPopup.width - vectorViewPopup.labelWidth
+                            anchors.top: parent.top
+                            fontSize: comboFontSize
+                            arrayMode: true
+                            model: ["DIN410", "IEC387"]
+                            targetIndex: GC.vectorIecMode
+                            property bool popupOpened: popup.opened
+                            onPopupOpenedChanged: {
+                                if(!popupOpened) {
+                                    vectorViewPopup.close()
+                                }
+                            }
+                            onTargetIndexChanged: {
+                                phasorDiagram.din410 = targetIndex == 0
+                                GC.setVectorIecMode(targetIndex)
+                            }
+                        }
+                        Label {
+                            text: "➚"
+                            anchors.left: parent.left
+                            width: vectorViewPopup.labelWidth
+                            horizontalAlignment: Label.AlignHCenter
+                            anchors.verticalCenter: viewModeSelector.verticalCenter
+                            font.pointSize: pointSize * 1.5
+                        }
+                        ZComboBox {
+                            id: viewModeSelector
+                            height: theView.lineHeight
+                            anchors.right: parent.right
+                            width: vectorViewPopup.width - vectorViewPopup.labelWidth
+                            anchors.bottom: parent.bottom
+                            centerVertical: true
+                            fontSize: comboFontSize
+                            arrayMode: true
+                            model: ["U  PN", "U  △", "U  ∠"]
+                            targetIndex: GC.vectorMode
+                            property bool popupOpened: popup.opened
+                            onPopupOpenedChanged: {
+                                if(!popupOpened) {
+                                    vectorViewPopup.close()
+                                }
+                            }
+                            onTargetIndexChanged: {
+                                GC.setVectorMode(targetIndex)
+                            }
+                        }
+                    }
+                    Button {
+                        id: vectorViewSettingsButton
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        height: theView.lineHeight * 0.8
+                        width: height
+                        topInset: 1
+                        bottomInset: 2
+                        rightInset: topInset
+                        leftInset: topInset
+                        font.pointSize: theView.pointSize
+                        font.family: FA.old
+                        text: FA.fa_cogs
+                        onClicked: {
+                            vectorViewPopup.open()
+                        }
+                    }
                 }
             }
             RowLayout {
