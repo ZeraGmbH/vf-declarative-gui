@@ -16,11 +16,7 @@ Item {
     readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
     readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
 
-    readonly property int e_starView: 0;
-    readonly property int e_triangleView: 1;
-    readonly property int e_threePhaseView: 2;
-
-    property int viewMode : e_starView;
+    property var viewMode : PhasorDiagram.VIEW_STAR;
 
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
@@ -33,10 +29,10 @@ Item {
 
     function getVectorName(vecIndex) {
         var retVal;
-        if(root.viewMode===root.e_starView || root.viewMode===root.e_triangleView) {
+        if(root.viewMode===PhasorDiagram.VIEW_STAR || root.viewMode===PhasorDiagram.VIEW_TRIANGLE) {
             retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName
         }
-        if(root.viewMode===root.e_threePhaseView) {
+        if(root.viewMode===PhasorDiagram.VIEW_THREE_PHASE) {
             if(vecIndex < 3) {
                 retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP"+parseInt(vecIndex+1)].ChannelName;
             }
@@ -48,10 +44,10 @@ Item {
     }
     function getVector(vecIndex) {
         var retVal=[0,0];
-        if(root.viewMode===root.e_starView || root.viewMode===root.e_triangleView) {
+        if(root.viewMode===PhasorDiagram.VIEW_STAR || root.viewMode===PhasorDiagram.VIEW_TRIANGLE) {
             retVal = root.dftModule["ACT_DFTPN"+parseInt(vecIndex+1)];
         }
-        else if(root.viewMode===root.e_threePhaseView) {
+        else if(root.viewMode===PhasorDiagram.VIEW_THREE_PHASE) {
             switch(vecIndex)
             {
             case 0:
@@ -124,11 +120,11 @@ Item {
     Label {
         id: voltageIndicator
         readonly property string valueStr: {
-            if(lenMode.rangeLen && root.viewMode !== root.e_threePhaseView) {
+            if(lenMode.rangeLen && root.viewMode !== PhasorDiagram.VIEW_THREE_PHASE) {
                 return maxURange
             }
             let maxVoltage = phasorDiagram.maxVoltage
-            if(root.viewMode === root.e_threePhaseView) {
+            if(root.viewMode === PhasorDiagram.VIEW_THREE_PHASE) {
                 maxVoltage *= phasorDiagram.sqrt3
             }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
@@ -299,7 +295,7 @@ Item {
                 max = rangeMax
             }
             else {
-                max = root.maxU * maxNominalFactor / (root.viewMode === root.e_threePhaseView ? sqrt3 : 1)
+                max = root.maxU * maxNominalFactor / (root.viewMode === PhasorDiagram.VIEW_THREE_PHASE ? sqrt3 : 1)
                 // avoid no load arrow dance
                 let allPhasaesOff = true
                 for(let phase = 0; phase < 3; ++phase) {
