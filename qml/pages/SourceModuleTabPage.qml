@@ -17,28 +17,19 @@ import "../controls/settings"
 BaseTabPage {
     id: root
 
-    // TabButton - multi instance
-    Component {
-        id: tabSource
-        TabButton {
-            property var jsonSourceParamInfo
-            text: jsonSourceParamInfo.Name
-        }
-    }
-    // Page - multi instance
-    Component {
-        id: pageSource
-        SourceModulePage {
-            SwipeView.onIsCurrentItemChanged: {
-                if(SwipeView.isCurrentItem) {
-                    GC.currentGuiContext = GC.guiContextEnum.GUI_SOURCE_CONTROL
-                }
-            }
+    readonly property QtObject sourceEntity: VeinEntity.getEntity("SourceModule1")
+
+    // kindof onCreate - maxCountSources will never change
+    readonly property int maxCountSources: sourceEntity.ACT_MaxSources
+    onMaxCountSourcesChanged: { // init all slot related data
+        for(let slotNo=0; slotNo<maxCountSources; slotNo++) {
+            jsonSlotWatcherComponent.createObject(tabBar, {"slotNo" : slotNo})
         }
     }
 
-    readonly property QtObject sourceModule: VeinEntity.getEntity("SourceModule1")
-    // Per slot JSON watcher
+    // Per slot JSON watcher items:
+    // * scan all JSON components to create & destroy active slot items
+    // * live as long as BaseTabPage does
     Component {
         id: jsonSlotWatcherComponent
         Item {
@@ -47,163 +38,214 @@ BaseTabPage {
 
             // Each source device has 3 JSON components we watch:
             // 1. JSON component: Param / device info
-            property var jsonParamInfo: sourceModule[String("ACT_DeviceInfo%1").arg(slotNo)]
-            property bool jsonParamInfoLoaded: false
-            onJsonParamInfoChanged: {
-                if(Object.keys(jsonParamInfo).length) {
-                    extendJsonParamInfo()
-                    jsonParamInfoLoaded = true
-                } else {
-                    jsonParamInfoLoaded = false
-                }
-                checkCreateDestroy()
-            }
-            function extendJsonParamInfo() {
-                // default(s) for mandatory value(s)
-                jsonParamInfo['extraLinesRequired'] = false
-
-                // * U/I/global harmonic support -> extraLinesRequired
-                // Note: using array's forEach and arrow function causes qt-creator
-                // freaking out on indentation. So loop the old-school way
-                let arrUI = ['U', 'I']
-                for(let numUI=0; numUI<arrUI.length; ++numUI) {
-                    let strUI = arrUI[numUI]
-                    let maxPhaseNum = jsonParamInfo[strUI + 'PhaseMax']
-                    for(var phase=1; phase<=maxPhaseNum; ++phase) {
-                        let phaseName = strUI + String(phase)
-                        if(jsonParamInfo[phaseName]) {
-                            if(jsonParamInfo[phaseName].supportsHarmonics) {
-                                jsonParamInfo['extraLinesRequired'] = true
-                                jsonParamInfo['supportsHarmonics'+strUI] = true
-                            }
-                        }
-                    }
-                }
-                // * generate columInfo as an ordered array of
-                // { 'phasenum': .. 'phaseNameDisplay': .., 'colorIndexU': .., 'colorIndexI': .. }
-                let columInfo = []
-                let maxPhaseAll = Math.max(jsonParamInfo['UPhaseMax'],
-                                           jsonParamInfo['IPhaseMax'])
-                jsonParamInfo['maxPhaseAll'] = maxPhaseAll
-                for(phase=1; phase<=maxPhaseAll; ++phase) {
-                    let phaseRequired = jsonParamInfo['U'+String(phase)] !== undefined || jsonParamInfo['I'+String(phase)] !== undefined
-                    if(phaseRequired) {
-                        let phaseNameDisplay = 'L' + String(phase)
-                        let colorIndexU = phase-1
-                        let colorIndexI = phase-1 + 3
-                        if(phase > 3) {
-                            colorIndexU = 6 // zero based
-                            colorIndexI = 7
-                            if(maxPhaseAll > 4) {
-                                phaseNameDisplay = 'AUX' + String(phase-maxPhaseAll)
-                            } else {
-                                phaseNameDisplay = 'AUX'
-                            }
-                        }
-                        columInfo.push({'phaseNum': phase,
-                                           'phaseNameDisplay': phaseNameDisplay,
-                                           'colorIndexU': colorIndexU,
-                                           'colorIndexI': colorIndexI})
-                    }
-                }
-                jsonParamInfo['columnInfo'] = columInfo
+            property var jsonParamInfo: sourceEntity[String("ACT_DeviceInfo%1").arg(slotNo)]
+            onJsonParamInfoChanged: { // data static => once only
+                checkCreateSlotItem()
             }
             // 2. JSON component: Param data
-            Component {
-                id: declarativeJsonItemComponent
-                DeclarativeJsonItem {
-                    // this is magic: Feels like JSON but declarative (property binding possible)
-                    id: declarativeJsonItem
-                }
-            }
-            property QtObject declarativeJsonItem: null
-            property var jsonParams: sourceModule[String("PAR_SourceState%1").arg(slotNo)]
-            property bool jsonParamsLoaded: false
+            property var jsonParams: sourceEntity[String("PAR_SourceState%1").arg(slotNo)]
             onJsonParamsChanged: {
-                if(Object.keys(jsonParams).length) {
-                    // DeclarativeJsonItem cannot delete JSON objects once
-                    // created (e.g slot had U/I source and now gets an I-only
-                    // source)
-                    // => we must create/delete DeclarativeJsonItem explicitly
-                    if(!declarativeJsonItem) {
-                        declarativeJsonItem = declarativeJsonItemComponent.createObject(tabBar, {})
-                    }
-                    declarativeJsonItem.fromJson(jsonParams)
-                    jsonParamsLoaded = true
-                    checkCreateDestroy()
-                }
-                else {
-                    jsonParamsLoaded = false
-                    checkCreateDestroy()
-                    declarativeJsonItem = null // = delete
-                }
+                checkCreateSlotItem()
             }
             // 3. JSON component: Source state
-            property var jsonState: sourceModule[String("ACT_DeviceState%1").arg(slotNo)]
-            property bool jsonStateLoaded: false
+            property var jsonState: sourceEntity[String("ACT_DeviceState%1").arg(slotNo)]
             onJsonStateChanged: {
-                jsonStateLoaded = Object.keys(jsonState).length
-                checkCreateDestroy()
+                checkCreateSlotItem()
             }
-            function checkCreateDestroy() {
-                jsonSlotWatcherComponents[slotNo] = jsonSlotWatcher // allow external access into component
-                createOrDestroyTab(slotNo, jsonParamInfoLoaded && jsonParamsLoaded && jsonStateLoaded)
+            property bool itemCreated: false
+            function checkCreateSlotItem() {
+                let allJsonValid =
+                    Object.keys(jsonParamInfo).length != 0 &&
+                    Object.keys(jsonParams).length != 0 &&
+                    Object.keys(jsonState).length != 0
+                if(!itemCreated && allJsonValid) {
+                    createOrDestroyActiveSlotItem(true)
+                    itemCreated = true
+                }
+                if(itemCreated && !allJsonValid) {
+                    createOrDestroyActiveSlotItem(false)
+                    itemCreated = false
+                }
             }
-        }
-    }
-    property var jsonSlotWatcherComponents: []
-    readonly property int maxCountSources: sourceModule.ACT_MaxSources
-    onMaxCountSourcesChanged: { // create slot watcher array
-        for(let slotNo=0; slotNo<maxCountSources; slotNo++) {
-            jsonSlotWatcherComponent.createObject(tabBar, {"slotNo" : slotNo})
-        }
-    }
-
-    function createOrDestroyTab(slotNo, create) {
-        console.info("createOrDestroyTab:", slotNo, create)
-        if(create) {
-            console.info(jsonSlotWatcherComponents[slotNo].jsonParamInfo.Name)
-        }
-    }
-
-
-    // create tabs/pages dynamic
-    readonly property int countAvtiveSources: sourceModule.ACT_CountSources
-    property var lastSlotItemsTab: []
-    property var lastSlotItemsPage: []
-    onCountAvtiveSourcesChanged: {
-        for(let sourceNum=0; sourceNum<maxCountSources; ++sourceNum) {
-            // prefill object keeper on 1st call
-            while(lastSlotItemsTab.length <= sourceNum) {
-                lastSlotItemsTab.push(undefined)
-                lastSlotItemsPage.push(undefined)
-            }
-            let infoComponentName = String("ACT_DeviceInfo%1").arg(sourceNum)
-            let jsonDeviceInfo = sourceModule[infoComponentName]
-            let slotIsOn = jsonDeviceInfo.UPhaseMax !== undefined && jsonDeviceInfo.IPhaseMax !== undefined
-            let paramComponentName = String("PAR_SourceState%1").arg(sourceNum)
-            let stateComponentName = String("ACT_DeviceState%1").arg(sourceNum)
-            // create?
-            if(slotIsOn && lastSlotItemsTab[sourceNum] === undefined) {
-                lastSlotItemsTab[sourceNum] = tabSource.createObject(tabBar, {"jsonSourceParamInfo" : jsonDeviceInfo})
-                tabBar.addItem(lastSlotItemsTab[sourceNum])
-
-                lastSlotItemsPage[sourceNum] = pageSource.createObject(swipeView, {
-                                                                           "paramComponentName" : paramComponentName,
-                                                                           "stateComponentName" : stateComponentName,
-                                                                           "jsonSourceParamInfoRaw" : jsonDeviceInfo})
-                swipeView.addItem(lastSlotItemsPage[sourceNum])
-            }
-            // destroy?
-            else if(!slotIsOn && lastSlotItemsTab[sourceNum] !== undefined) {
-                tabBar.removeItem(lastSlotItemsTab[sourceNum])
-                lastSlotItemsTab[sourceNum] = undefined
-
-                swipeView.removeItem(lastSlotItemsPage[sourceNum])
-                lastSlotItemsPage[sourceNum] = undefined
+            property var activeSlotItem
+            function createOrDestroyActiveSlotItem(create) {
+                if(create) {
+                    activeSlotItem = activeSlotComponent.createObject(
+                                    null, {
+                                    "slotNo": slotNo})
+                    activeSlotItem.createItems()
+                }
+                else {
+                    activeSlotItem.destroyItems()
+                    activeSlotItem = undefined
+                }
             }
         }
     }
+
+    // Items for active slots / alive as long as source (JSONS) is available
+    Component {
+        id: activeSlotComponent
+        Item {
+            // params for createObject
+            property int slotNo
+            property var jsonParamInfo: extendJsonParamInfo(sourceEntity[String("ACT_DeviceInfo%1").arg(slotNo)])
+            property var jsonParams: sourceEntity[String("PAR_SourceState%1").arg(slotNo)]
+            property var jsonState: sourceEntity[String("ACT_DeviceState%1").arg(slotNo)]
+            onJsonStateChanged: {
+                if(itemsCreated && Object.keys(jsonState).length) {
+                    // json values passed in createObject seem to be passed passed by value
+                    viewItem.jsonState = jsonState
+                }
+            }
+
+            function createItems() {
+                if(!itemsCreated) {
+                    tabItem = tabComponent.createObject(
+                                null,
+                                {
+                                    "jsonParamInfo" : jsonParamInfo,
+                                    "jsonState" : jsonState,
+                                    "declarativeJsonItem" : jsonDeclParams,
+                                })
+                    tabItem.parent = tabBar
+                    tabBar.addItem(tabItem)
+
+                    viewItem = pageComponent.createObject(
+                                null,
+                                {
+                                    "jsonParamInfo" : jsonParamInfo,
+                                    "jsonState" : jsonState,
+                                    "declarativeJsonItem" : jsonDeclParams,
+                                    "sendParamsToServer" : sendParamsToServer
+                                })
+                    viewItem.parent = swipeView
+                    swipeView.addItem(viewItem)
+
+                    itemsCreated = true
+                }
+            }
+            function destroyItems() {
+                if(itemsCreated) {
+                    tabBar.removeItem(tabItem)
+                    tabItem = undefined
+
+                    swipeView.removeItem(viewItem)
+                    viewItem = undefined
+
+                    itemsCreated = false
+                    destroy()
+                }
+            }
+
+            // local parameter -> vein
+            property bool ignoreStatusChange: false
+            function sendParamsToServer() { // SourceModulePage' send vein method
+                // Avoid double full painting in SourceModulePage by our property changes
+                ignoreStatusChange = true
+                VeinEntity.getEntity("SourceModule1")[String("PAR_SourceState%1").arg(slotNo)] = jsonDeclParams.toJson()
+                ignoreStatusChange = false
+            }
+            // vein -> local parameter
+            onJsonParamsChanged: {
+                if(Object.keys(jsonParams).length) {
+                    jsonDeclParams.fromJson(jsonParams)
+                }
+            }
+            property bool itemsCreated: false
+            property var tabItem
+            property var viewItem
+
+            // Our famous Json -> Qml property wrapper
+            DeclarativeJsonItem {
+                id: jsonDeclParams
+                /*Component.onDestruction: {
+                    console.info("Destruct jsonDeclParams")
+                }*/
+            }
+            // Tab button factory
+            Component {
+                id: tabComponent
+                TabButton {
+                    property var jsonParamInfo
+                    property var jsonState
+                    property var declarativeJsonItem
+                    text: jsonParamInfo.Name
+                    /*Component.onDestruction: {
+                        console.info("Destruct tabItem")
+                    }*/
+                }
+            }
+            // Source view factory
+            Component {
+                id: pageComponent
+                SourceModulePage {
+                    SwipeView.onIsCurrentItemChanged: {
+                        if(SwipeView.isCurrentItem) {
+                            GC.currentGuiContext = GC.guiContextEnum.GUI_SOURCE_CONTROL
+                        }
+                    }
+                    /*Component.onDestruction: {
+                        console.info("Destruct pageItem")
+                    }*/
+                }
+            }
+        }
+    }
+
+    // Convenience extension of source param info
+    function extendJsonParamInfo(paramInfoJsonObj) {
+        // default(s) for mandatory value(s)
+        paramInfoJsonObj['extraLinesRequired'] = false
+
+        // * U/I/global harmonic support -> extraLinesRequired
+        // Note: using array's forEach and arrow function causes qt-creator
+        // freaking out on indentation. So loop the old-school way
+        let arrUI = ['U', 'I']
+        for(let numUI=0; numUI<arrUI.length; ++numUI) {
+            let strUI = arrUI[numUI]
+            let maxPhaseNum = paramInfoJsonObj[strUI + 'PhaseMax']
+            for(var phase=1; phase<=maxPhaseNum; ++phase) {
+                let phaseName = strUI + String(phase)
+                if(paramInfoJsonObj[phaseName]) {
+                    if(paramInfoJsonObj[phaseName].supportsHarmonics) {
+                        paramInfoJsonObj['extraLinesRequired'] = true
+                        paramInfoJsonObj['supportsHarmonics'+strUI] = true
+                    }
+                }
+            }
+        }
+        // * generate columInfo as an ordered array of
+        // { 'phasenum': .. 'phaseNameDisplay': .., 'colorIndexU': .., 'colorIndexI': .. }
+        let columInfo = []
+        let maxPhaseAll = Math.max(paramInfoJsonObj['UPhaseMax'],
+                                   paramInfoJsonObj['IPhaseMax'])
+        paramInfoJsonObj['maxPhaseAll'] = maxPhaseAll
+        for(phase=1; phase<=maxPhaseAll; ++phase) {
+            let phaseRequired = paramInfoJsonObj['U'+String(phase)] !== undefined || paramInfoJsonObj['I'+String(phase)] !== undefined
+            if(phaseRequired) {
+                let phaseNameDisplay = 'L' + String(phase)
+                let colorIndexU = phase-1
+                let colorIndexI = phase-1 + 3
+                if(phase > 3) {
+                    colorIndexU = 6 // zero based
+                    colorIndexI = 7
+                    if(maxPhaseAll > 4) {
+                        phaseNameDisplay = 'AUX' + String(phase-maxPhaseAll)
+                    } else {
+                        phaseNameDisplay = 'AUX'
+                    }
+                }
+                columInfo.push({'phaseNum': phase,
+                                   'phaseNameDisplay': phaseNameDisplay,
+                                   'colorIndexU': colorIndexU,
+                                   'colorIndexI': colorIndexI})
+            }
+        }
+        paramInfoJsonObj['columnInfo'] = columInfo
+        return paramInfoJsonObj
+    }
+
     Component.onCompleted: {
         finishInit()
     }
