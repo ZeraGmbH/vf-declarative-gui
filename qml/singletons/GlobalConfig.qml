@@ -137,6 +137,15 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
+    // Source settings
+    property bool sourceSymmetric: parseInt(settings.globalSettings.getOption("source_symmetric", "1"))
+    function setSourceSymmetric(symmetric) {
+        sourceSymmetric = symmetric
+        var setValue = symmetric ? 1 : 0
+        settings.globalSettings.setOption("source_symmetric", setValue);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
     // Pinch settings
     property real osciPinchScale: Number(settings.globalSettings.getOption("osci_pinch_scale", "3"))
     function setOsciPinchScale(scale) {
