@@ -966,7 +966,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Z.tr("symmetric")
                 font.pointSize: pointSize * 0.9
-                checked: true // How should a per source setting not confuse
+                checked: GC.sourceSymmetric
                 onCheckedChanged: {
                     symmetrize()
                 }
