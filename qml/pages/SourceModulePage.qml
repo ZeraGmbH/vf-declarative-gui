@@ -13,6 +13,25 @@ import ZeraComponents 1.0
 import ZeraFa 1.0
 import '../controls'
 
+// TODOs / Ideas
+// * Missing Feature: Phase sequence: Idea: Can we abuse phase sequence
+//   indicator in toolbar to save pixels?
+// * Bug/Feature: Current-only sources vector display: Suggestion: Add shadow
+//   data/vectors for voltage
+// * Bug: On switch on previous load set is displayed shortly (only visible on
+//   device
+// * Bug: Opening source GUI for multiple devices is very slow
+// * Feature: Make U/I buttons to select all / no phase (or add 3-state CheckBox??)
+// * Feature: Introduce two-finger rotate gesture for vector diagram
+// * Bug: Sync/Var is not sent to source module
+// * Feature: Add an indicator right to 'ON' button to show that user has made
+//   changes since last (active) switch on
+// * Feature: Add an option to fade Phase 2 & 3 for better understanding of angle
+//   quadrant
+// * Feature: Add harmonics editor...
+// * Feature: Add sound on clicks particularly on sequence of clicks caused by
+//   long press of +-15°
+
 Item {
     id: root
 
