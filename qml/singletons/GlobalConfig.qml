@@ -145,6 +145,8 @@ Item {
         settings.globalSettings.setOption("source_symmetric", setValue);
     }
 
+    property int sourceTableShowDelay: parseInt(settings.globalSettings.getOption("source_table_show_delay", "2000"))
+
     /////////////////////////////////////////////////////////////////////////////
     // Pinch settings
     property real osciPinchScale: Number(settings.globalSettings.getOption("osci_pinch_scale", "3"))
