@@ -223,5 +223,8 @@ Item {
             return strNum
         }
     }
+    function formatNumberCLocale(num, decimalPlacesSet /* optional!!! */) {
+        return formatNumber(num, decimalPlacesSet).replace(",", ".")
+    }
 
 }
