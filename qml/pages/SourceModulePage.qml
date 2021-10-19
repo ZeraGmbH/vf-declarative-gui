@@ -128,13 +128,13 @@ Item {
                 let jsonPhaseNameU = 'U%1'.arg(phase)
                 if(declarativeJsonItem[jsonPhaseNameU]) {
                     let decimals = jsonParamInfo[jsonPhaseNameU]['params']['angle'].decimals
-                    declarativeJsonItem[jsonPhaseNameU].angle = Number(FT.formatNumber(angleModulo(angleU + angleOffset), decimals))
+                    declarativeJsonItem[jsonPhaseNameU].angle = Number(FT.formatNumberCLocale(angleModulo(angleU + angleOffset), decimals))
                     declarativeJsonItem[jsonPhaseNameU].rms = rmsU
                 }
                 let jsonPhaseNameI = 'I%1'.arg(phase)
                 if(declarativeJsonItem[jsonPhaseNameI]) {
                     let decimals = jsonParamInfo[jsonPhaseNameI]['params']['angle'].decimals
-                    declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumber(angleModulo(angleI + angleOffset), decimals))
+                    declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumberCLocale(angleModulo(angleI + angleOffset), decimals))
                     declarativeJsonItem[jsonPhaseNameI].rms = rmsI
                 }
                 angleOffset += 120
@@ -166,7 +166,7 @@ Item {
 
             if(declarativeJsonItem[jsonPhaseNameI]) {
                 let decimals = jsonParamInfo[jsonPhaseNameI]['params']['angle'].decimals
-                declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumber(angleModulo(angleINew), decimals))
+                declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumberCLocale(angleModulo(angleINew), decimals))
             }
             defaultAngle += 120
         }
@@ -351,10 +351,11 @@ Item {
                                             text: jsonDataBase[arrJsonTypeKey[rowIndex]]
 
                                             function doApplyInput(newText) {
+                                                newText = newText.replace(",", ".") /* C locale */
                                                 if(rowIndex === SourceModulePage.LineType.LineAngle) { // correct negative angles immediately
                                                     let angle = Number(newText)
                                                     angle = angleModulo(angle)
-                                                    newText = FT.formatNumber(angle, jsonParamInfoBase['angle'].decimals)
+                                                    newText = FT.formatNumberCLocale(angle, jsonParamInfoBase['angle'].decimals)
                                                 }
                                                 jsonDataBase[arrJsonTypeKey[rowIndex]] = parseFloat(newText)
                                                 if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
@@ -775,8 +776,9 @@ Item {
                     top: 1.0
                     decimals: Math.min(3, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
                 }
-                text: FT.formatNumber(pqRow.cosSinAverAngle, cosCosSinValidator.decimals)
+                text: FT.formatNumberCLocale(pqRow.cosSinAverAngle, cosCosSinValidator.decimals)
                 function doApplyInput(newText) {
+                    newText = newText.replace(",", ".") /* C locale */
                     let newCosSin = Number(newText)
                     let angleACosSin = (comboPQ.currentText === "P" ? Math.acos(newCosSin) : Math.asin(newCosSin)) / toRadianFactor
                     // Try to be of support: Due to limited digits it is not possible to
@@ -1034,7 +1036,7 @@ Item {
                         }
                         text: declarativeJsonItem['Frequency'].val
                         function doApplyInput(newText) {
-                            declarativeJsonItem['Frequency'].val = parseFloat(newText)
+                            declarativeJsonItem['Frequency'].val = parseFloat(newText.replace(",", ".") /* C locale */)
                             return true
                         }
                     }
