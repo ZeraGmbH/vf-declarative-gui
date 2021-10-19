@@ -74,7 +74,7 @@ Item {
 
     // convenient properties for layout vertical
     readonly property int linesStandardUI: 3 // RMS / Angle / OnOff
-    readonly property real lineHeight: height > 0 ? (height / (linesStandardUI*2 + 2)) : 10 // +2 header+bottom line
+    readonly property real lineHeight: height > 0 ? (height / (linesStandardUI*2 + 3)) : 10 // +2 header+bottom line
     readonly property real lineHeightHeaderLine: lineHeight - (horizScrollbarOn ? scrollBarWidth : 0)
     readonly property int linesU: jsonParamInfo.UPhaseMax ? (jsonParamInfo.supportsHarmonicsU ? 4: 3) : 0
     readonly property int linesI: jsonParamInfo.IPhaseMax ? (jsonParamInfo.supportsHarmonicsI ? 4: 3) : 0
@@ -94,7 +94,7 @@ Item {
     readonly property real widthLeftArea: width * 0.6
     readonly property real widthRightArea: width - widthLeftArea
     readonly property real headerColumnWidth: widthLeftArea * 0.12
-    readonly property real buttonWidth: widthRightArea / 4
+    readonly property real buttonWidth: widthRightArea / 5
     readonly property real columnWidth: (widthLeftArea - 2*headerColumnWidth) / columnsStandardUI
     readonly property real moveTableRightForFewPhasors:
         jsonParamInfo.maxPhaseAll >= columnsStandardUI ?
@@ -215,6 +215,66 @@ Item {
         interval: GC.sourceTableShowDelay + 500*VeinEntity.getEntity("SourceModule1").ACT_CountSources
         running: true
     }
+    GridRect {
+        id: quickLoadSelectRect
+        anchors.left: parent.left
+        width: widthLeftArea
+        anchors.top: parent.top
+        height: lineHeight
+        Label {
+            id: quickLoadSelectLabel
+            text: Z.tr("Select:")
+            font.pointSize: pointSize
+            anchors.left: parent.left
+            anchors.leftMargin: GC.standardTextHorizMargin
+            textFormat: Text.PlainText
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        ComboBox { // TODO: replace by custom solution
+            id: quickLoadSelectCombo
+            anchors.left: quickLoadSelectLabel.right
+            anchors.leftMargin: GC.standardTextHorizMargin
+            anchors.right: buttonSave.left
+            font.pointSize: pointSize
+            editable: true
+            model: ["230V / 5A / cos 1", "230V / 5A / cos 0.5ind"]
+            onAccepted: {
+                focus = false
+            }
+            onActivated: {
+                focus = false
+            }
+            Keys.onEscapePressed: {
+                focus = false
+            }
+        }
+        Button {
+            id: buttonSave
+            anchors.right: buttonDelete.left
+            font.family: FA.old
+            text: FA.fa_save
+            height: lineHeight
+            width: height
+            topInset: 1
+            bottomInset: 2
+            rightInset: topInset
+            leftInset: topInset
+            font.pointSize: pointSize
+        }
+        Button {
+            id: buttonDelete
+            anchors.right: quickLoadSelectRect.right
+            font.family: FA.old
+            text: FA.fa_trash
+            height: lineHeight
+            width: height
+            topInset: 1
+            bottomInset: 2
+            rightInset: topInset
+            leftInset: topInset
+            font.pointSize: pointSize
+        }
+    }
     Column { // U/I header left
         id: headerColumnUI
         visible: !showDelay.running
@@ -246,13 +306,12 @@ Item {
             }
         }
     }
-
     Flickable { // table with controls to set values - center
         id: dataTable
         visible: !showDelay.running
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds // don't tear our table away from units
-        anchors.top: parent.top
+        anchors.top: quickLoadSelectRect.bottom
         anchors.topMargin: linesU > 0 ? 0 : linesStandardUI * lineHeight
         anchors.bottom: bottomRow.top
         anchors.left: headerColumnUI.right
@@ -504,7 +563,7 @@ Item {
         orientation: Qt.Vertical
         anchors.top: parent.top
         height: linesStandardUI * lineHeight
-        anchors.topMargin: lineHeightHeaderLine
+        anchors.topMargin: lineHeightHeaderLine + lineHeight
         anchors.right: phasorView.left
         policy: vertScrollbarOnU ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         width: scrollBarWidth
@@ -547,7 +606,7 @@ Item {
         PhasorDiagramEx {
             id: phasorDiagram
             anchors.fill: parent
-            maxNominalFactor: 1.2
+            maxNominalFactor: 1.25
             readonly property var arrRms: { // rms + phase on
                 let arr = []
                 for(var phase=1; phase<=3; phase++) {
@@ -618,7 +677,7 @@ Item {
                 id: phasorViewPopup
                 x: Math.round((parent.width - width))
                 y: Math.round((parent.height - height))
-                width: buttonWidth * 2
+                width: buttonWidth * 3
                 readonly property real labelWidth: width*0.3
                 height: lineHeight * 2 /* number of lines */ + bottomRow.topFreeSpace
                 verticalPadding: 0
@@ -744,7 +803,7 @@ Item {
 
         Item {
             Layout.fillHeight: true
-            Layout.preferredWidth: buttonWidth * 0.55
+            Layout.preferredWidth: buttonWidth-2
             ZComboBox {
                 id: comboPQ
                 anchors.fill: parent
@@ -764,7 +823,7 @@ Item {
         }
         Item {
             Layout.fillHeight: true
-            Layout.preferredWidth: buttonWidth
+            Layout.preferredWidth: buttonWidth*1.2
             ZLineEdit {
                 anchors.fill: parent
                 pointSize: root.pointSize
@@ -870,7 +929,7 @@ Item {
             }
         }
     }
-    Row { // angle buttons
+    Row { // angle buttons + phase sequence combo
         id: angleQuickRow
         anchors.right: parent.right
         width: widthRightArea
@@ -922,6 +981,27 @@ Item {
             text: "+15°"
             autoRepeat: true
             onReleased: autoAngle(false, 15)
+        }
+        ZComboBox {
+            width: buttonWidth
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            arrayMode: true
+            fontSize: comboFontSize * 0.95
+            model: {
+                let retModel = []
+                let lineStr = ""
+                for(var idx of [1,2,3]) {
+                    lineStr += "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
+                }
+                retModel.push(lineStr)
+                lineStr = ""
+                for(idx of [1,3,2]) {
+                    lineStr += "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
+                }
+                retModel.push(lineStr)
+                return retModel
+            }
         }
     }
     ///////////// full width bottom area /////////////
@@ -1024,7 +1104,7 @@ Item {
                 }
                 Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: buttonWidth
+                    Layout.preferredWidth: buttonWidth * 1.5
                     visible: frequencyMode.varSelected
                     ZLineEdit {
                         anchors.fill: parent
@@ -1056,8 +1136,9 @@ Item {
                         id: frequencyMode
                         anchors.fill: parent
                         anchors.topMargin: bottomRow.topFreeSpace
+                        anchors.rightMargin: 2
                         arrayMode: true
-                        fontSize: comboFontSize
+                        fontSize: comboFontSize * 0.85
                         centerVertical: true
                         model: jsonParamInfo.Frequency.params.type.list
                         readonly property bool varSelected: currentText === "var"
