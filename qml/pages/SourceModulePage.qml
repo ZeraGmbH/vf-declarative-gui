@@ -8,6 +8,8 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import DeclarativeJson 1.0
+import FontAwesomeQml 1.0
+
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraFa 1.0
@@ -222,8 +224,9 @@ Item {
         height: lineHeight
         Label {
             id: quickLoadSelectLabel
-            font.family: FA.old
-            text: FA.fa_heart + " :"
+            font.family: FAQ.fontFamily
+            font.styleName: "Regular"
+            text: FAQ.fa_heart + " :"
             font.pointSize: pointSize
             anchors.left: parent.left
             textFormat: Text.PlainText
@@ -265,8 +268,9 @@ Item {
             id: buttonDelete
             anchors.right: quickLoadSelectRect.right
             anchors.rightMargin: unitColumn.anchors.rightMargin
-            font.family: FA.old
-            text: FA.fa_trash
+            font.family: FAQ.fontFamily
+            font.styleName: "Regular"
+            text: FAQ.fa_trash_alt
             height: lineHeight
             width: unitColumn.width
             topInset: 1

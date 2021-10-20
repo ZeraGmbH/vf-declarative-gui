@@ -20,6 +20,8 @@ find_package(Qt5QuickCompiler CONFIG REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(QWT REQUIRED Qt5Qwt6)
 
+find_package(FontAweSomeQml REQUIRED)
+
 find_Package(VfEvent REQUIRED )
 find_Package(VfComponent REQUIRED )
 find_Package(VfNet2 REQUIRED ) 
@@ -112,6 +114,7 @@ target_link_libraries(vf-declarative-gui
     "-Wl,--as-needed"
     #Other Libs
     ${QWT_LIBRARIES}
+    FontAweSomeQml::FontAweSomeQml
     ${glLib}
     )
 
