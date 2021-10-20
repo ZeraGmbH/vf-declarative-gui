@@ -23,7 +23,6 @@ import '../controls'
 // * Bug: Opening source GUI for multiple devices is very slow
 // * Feature: Make U/I buttons to select all / no phase (or add 3-state CheckBox??)
 // * Feature: Introduce two-finger rotate gesture for vector diagram
-// * Bug: Sync/Var is not sent to source module
 // * Feature: Add an indicator right to 'ON' button to show that user has made
 //   changes since last (active) switch on
 // * Feature: Add an option to fade Phase 2 & 3 for better understanding of angle
@@ -91,7 +90,7 @@ Item {
     // convenient properties for layout horizontal
     readonly property int columnsStandardUI: 3
     readonly property real comboFontSize: pointSize * 1.25
-    readonly property real widthLeftArea: width * 0.6
+    readonly property real widthLeftArea: width * 0.53
     readonly property real widthRightArea: width - widthLeftArea
     readonly property real headerColumnWidth: widthLeftArea * 0.12
     readonly property real buttonWidth: widthRightArea / 5
@@ -223,19 +222,20 @@ Item {
         height: lineHeight
         Label {
             id: quickLoadSelectLabel
-            text: Z.tr("Select:")
+            font.family: FA.old
+            text: FA.fa_heart + " :"
             font.pointSize: pointSize
             anchors.left: parent.left
-            anchors.leftMargin: GC.standardTextHorizMargin
             textFormat: Text.PlainText
             anchors.verticalCenter: parent.verticalCenter
+            horizontalAlignment: Label.AlignHCenter
+            width: headerColumnUI.width
         }
         ComboBox { // TODO: replace by custom solution
             id: quickLoadSelectCombo
             anchors.left: quickLoadSelectLabel.right
-            anchors.leftMargin: GC.standardTextHorizMargin
             anchors.right: buttonSave.left
-            font.pointSize: pointSize
+            font.pointSize: pointSize*0.9
             editable: true
             model: ["230V / 5A / cos 1", "230V / 5A / cos 0.5ind"]
             onAccepted: {
@@ -254,7 +254,7 @@ Item {
             font.family: FA.old
             text: FA.fa_save
             height: lineHeight
-            width: height
+            width: unitColumn.width
             topInset: 1
             bottomInset: 2
             rightInset: topInset
@@ -264,10 +264,11 @@ Item {
         Button {
             id: buttonDelete
             anchors.right: quickLoadSelectRect.right
+            anchors.rightMargin: unitColumn.anchors.rightMargin
             font.family: FA.old
             text: FA.fa_trash
             height: lineHeight
-            width: height
+            width: unitColumn.width
             topInset: 1
             bottomInset: 2
             rightInset: topInset
@@ -595,7 +596,7 @@ Item {
 
 
     ///////////// right area /////////////
-    readonly property real qAndHzLabelWidth: buttonWidth * 0.35
+    readonly property real qAndHzLabelWidth: buttonWidth * 0.5
     GridRect {
         id: phasorView
         anchors.right: parent.right
@@ -606,7 +607,7 @@ Item {
         PhasorDiagramEx {
             id: phasorDiagram
             anchors.fill: parent
-            maxNominalFactor: 1.25
+            maxNominalFactor: 1.2
             readonly property var arrRms: { // rms + phase on
                 let arr = []
                 for(var phase=1; phase<=3; phase++) {
@@ -744,8 +745,8 @@ Item {
                 id: phasorViewSettingsButton
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                height: lineHeight * 0.8
-                width: height
+                height: lineHeight
+                width: buttonWidth
                 topInset: 1
                 bottomInset: 2
                 rightInset: topInset
@@ -759,12 +760,12 @@ Item {
             }
         }
     }
-    RowLayout {
+    Item {
         id: pqRow
         anchors.right: parent.right
         width: widthRightArea
         anchors.bottom: angleQuickRow.top
-        height: lineHeight + (horizScrollbarOn ? scrollBarWidth : 0)
+        height: lineHeight
         readonly property int bottomFreeSpace: 1
         function calcAverageAngleDiff() {
             let arrAngleDiff = []
@@ -801,131 +802,138 @@ Item {
             return Math.floor(averageAngleDiff / 90)
         }
 
-        Item {
-            Layout.fillHeight: true
-            Layout.preferredWidth: buttonWidth-2
-            ZComboBox {
-                id: comboPQ
-                anchors.fill: parent
-                anchors.bottomMargin: pqRow.bottomFreeSpace
-                arrayMode: true
-                fontSize: comboFontSize
-                model: ['P', 'Q']
-            }
+        ZComboBox {
+            id: comboPQ
+            anchors.left: parent.left
+            width: buttonWidth
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: pqRow.bottomFreeSpace
+            arrayMode: true
+            fontSize: comboFontSize
+            model: ['P', 'Q']
         }
         Label {
+            id: cosSinLabel
+            anchors.left: comboPQ.right
+            width: buttonWidth
             textFormat: Text.PlainText
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
             font.pointSize: pointSize
-            Layout.fillWidth: true
             horizontalAlignment: Label.AlignRight
-            Layout.preferredWidth: buttonWidth
+            verticalAlignment: Label.AlignVCenter
             text: comboPQ.currentText === "P" ? "cos φ:" :"sin φ:"
         }
-        Item {
-            Layout.fillHeight: true
-            Layout.preferredWidth: buttonWidth*1.2
-            ZLineEdit {
-                anchors.fill: parent
-                pointSize: root.pointSize
-                textField.topPadding: 9
-                textField.bottomPadding: 9
-                validator: ZDoubleValidator {
-                    id: cosCosSinValidator
-                    bottom: -1.0
-                    top: 1.0
-                    decimals: Math.min(3, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
+        ZLineEdit {
+            id: cosSinVal
+            anchors.left: cosSinLabel.right
+            width: buttonWidth*2 - qAndHzLabelWidth
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            pointSize: root.pointSize
+            textField.topPadding: 9 // underline visibility
+            textField.bottomPadding: 9
+            validator: ZDoubleValidator {
+                id: cosCosSinValidator
+                bottom: -1.0
+                top: 1.0
+                decimals: Math.min(3, Math.min(GC.digitsTotal-1, GC.decimalPlaces))
+            }
+            text: FT.formatNumberCLocale(pqRow.cosSinAverAngle, cosCosSinValidator.decimals)
+            function doApplyInput(newText) {
+                newText = newText.replace(",", ".") /* C locale */
+                let newCosSin = Number(newText)
+                let angleACosSin = (comboPQ.currentText === "P" ? Math.acos(newCosSin) : Math.asin(newCosSin)) / toRadianFactor
+                // Try to be of support: Due to limited digits it is not possible to
+                // reach a load exactly so round the angle a bit
+                let difftoNextInteger = angleACosSin - Math.round(angleACosSin)
+                if(Math.abs(difftoNextInteger) < 0.05) {
+                    angleACosSin = angleACosSin - difftoNextInteger
                 }
-                text: FT.formatNumberCLocale(pqRow.cosSinAverAngle, cosCosSinValidator.decimals)
-                function doApplyInput(newText) {
-                    newText = newText.replace(",", ".") /* C locale */
-                    let newCosSin = Number(newText)
-                    let angleACosSin = (comboPQ.currentText === "P" ? Math.acos(newCosSin) : Math.asin(newCosSin)) / toRadianFactor
-                    // Try to be of support: Due to limited digits it is not possible to
-                    // reach a load exactly so round the angle a bit
-                    let difftoNextInteger = angleACosSin - Math.round(angleACosSin)
-                    if(Math.abs(difftoNextInteger) < 0.05) {
-                        angleACosSin = angleACosSin - difftoNextInteger
-                    }
 
-                    // let's move around as few as possible
-                    let averageAngleDiffCurr = pqRow.calcAverageAngleDiff()+0.0001 // 0.0001: prefer higher quadrants
-                    let angleAlternate = comboPQ.currentText === "P" ? -angleACosSin : -(angleACosSin-90)+90
-                    let diffAngleACosSin = angleModulo(angleACosSin - averageAngleDiffCurr)
-                    let diffAngleAlternate = angleModulo(angleAlternate - averageAngleDiffCurr)
-                    // scale down to 0-180° (kind of angle abs)
-                    if(diffAngleACosSin > 180) {
-                        diffAngleACosSin = 360-diffAngleACosSin
-                    }
-                    if(diffAngleAlternate > 180) {
-                        diffAngleAlternate = 360-diffAngleAlternate
-                    }
-                    let angle = Math.abs(diffAngleACosSin) < Math.abs(diffAngleAlternate) ? angleACosSin : angleAlternate
-                    autoAngle(true, angle)
-                    // Our angle snapping above can lead to following situation:
-                    // * current cos = 0.7071
-                    // * user enters 0.707
-                    // => Ruslting angles are same as before => no recalculation of sin/cos
-                    // => fiels remains green
-                    // So after angles make sure
-                    discardInput() // This is what ZLineEdit does as soon as new value is set
-                    // We have no unit tests yet but setting values sin/cos=0 are of interest - so test
-                    // cos: test with +10°/-10° and set cos=0. Expected 90°/-90°
-                    // cos: test with +190°/170° and set cos=0. Expected 270°/90°
-                    // sin: test with +80°/100° and set sin=0. Expected 0°/180°
-                    // sin: test with +260°/280° and set sin=0. Expected 180°/0°
-                    // repeat angles but set sin/cos to +-0.1 (for proper digits)
-                    return false
+                // let's move around as few as possible
+                let averageAngleDiffCurr = pqRow.calcAverageAngleDiff()+0.0001 // 0.0001: prefer higher quadrants
+                let angleAlternate = comboPQ.currentText === "P" ? -angleACosSin : -(angleACosSin-90)+90
+                let diffAngleACosSin = angleModulo(angleACosSin - averageAngleDiffCurr)
+                let diffAngleAlternate = angleModulo(angleAlternate - averageAngleDiffCurr)
+                // scale down to 0-180° (kind of angle abs)
+                if(diffAngleACosSin > 180) {
+                    diffAngleACosSin = 360-diffAngleACosSin
                 }
+                if(diffAngleAlternate > 180) {
+                    diffAngleAlternate = 360-diffAngleAlternate
+                }
+                let angle = Math.abs(diffAngleACosSin) < Math.abs(diffAngleAlternate) ? angleACosSin : angleAlternate
+                autoAngle(true, angle)
+                // Our angle snapping above can lead to following situation:
+                // * current cos = 0.7071
+                // * user enters 0.707
+                // => Ruslting angles are same as before => no recalculation of sin/cos
+                // => fiels remains green
+                // So after angles make sure
+                discardInput() // This is what ZLineEdit does as soon as new value is set
+                // We have no unit tests yet but setting values sin/cos=0 are of interest - so test
+                // cos: test with +10°/-10° and set cos=0. Expected 90°/-90°
+                // cos: test with +190°/170° and set cos=0. Expected 270°/90°
+                // sin: test with +80°/100° and set sin=0. Expected 0°/180°
+                // sin: test with +260°/280° and set sin=0. Expected 180°/0°
+                // repeat angles but set sin/cos to +-0.1 (for proper digits)
+                return false
             }
         }
         Label {
+            id: quarantLabel
             textFormat: Text.PlainText
+            anchors.left: cosSinVal.right
+            width: qAndHzLabelWidth
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
             font.pointSize: pointSize
-            Layout.preferredWidth: qAndHzLabelWidth
             horizontalAlignment : Label.AlignRight
+            verticalAlignment: Label.AlignVCenter
             text: "Q:"
         }
-        Item {
-            Layout.fillHeight: true
-            Layout.preferredWidth: buttonWidth
-            ZComboBox {
-                anchors.fill: parent
-                anchors.bottomMargin: pqRow.bottomFreeSpace
-                arrayMode: true
-                fontSize: comboFontSize
-                model: {
-                    // current quadrant is minimum content
-                    let entryList = []
-                    let currenQuadrantZero = pqRow.quadrantZeroBased
-                    entryList.push(String(currenQuadrantZero+1))
-                    // check for alternate quadrant
-                    let cosSin = pqRow.cosSinAverAngle
-                    let absCosSin = Math.abs(cosSin)
-                    // cos/sin = 1 do not have alternate quadrants
-                    if(absCosSin < 1-1e-6 ) {
-                        let averageAngleCurr = pqRow.calcAverageAngleDiff()
-                        let angleAlternate = comboPQ.currentText === "P" ? -averageAngleCurr : -(averageAngleCurr-90)+90
-                        angleAlternate= angleModulo(angleAlternate)
-                        let alternateQuadrantZero = Math.floor(angleAlternate / 90)
-                        entryList.push(String(alternateQuadrantZero+1))
-                    }
-                    entryList.sort()
-                    return entryList
-                }
-                currentIndex: {
-                    let currenQuadrant = pqRow.quadrantZeroBased+1
-                    let idx = model.findIndex(element => element === String(currenQuadrant))
-                    return idx
-                }
-                automaticIndexChange: true
-                onSelectedTextChanged: {
-                    let quadrantString = model[targetIndex]
-                    // filter out user change input
+        ZComboBox {
+            anchors.left: quarantLabel.right
+            width: buttonWidth
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: pqRow.bottomFreeSpace
+            arrayMode: true
+            fontSize: comboFontSize
+            model: {
+                // current quadrant is minimum content
+                let entryList = []
+                let currenQuadrantZero = pqRow.quadrantZeroBased
+                entryList.push(String(currenQuadrantZero+1))
+                // check for alternate quadrant
+                let cosSin = pqRow.cosSinAverAngle
+                let absCosSin = Math.abs(cosSin)
+                // cos/sin = 1 do not have alternate quadrants
+                if(absCosSin < 1-1e-6 ) {
                     let averageAngleCurr = pqRow.calcAverageAngleDiff()
                     let angleAlternate = comboPQ.currentText === "P" ? -averageAngleCurr : -(averageAngleCurr-90)+90
-                    angleAlternate = angleModulo(angleAlternate)
-                    autoAngle(true, angleAlternate)
+                    angleAlternate= angleModulo(angleAlternate)
+                    let alternateQuadrantZero = Math.floor(angleAlternate / 90)
+                    entryList.push(String(alternateQuadrantZero+1))
                 }
+                entryList.sort()
+                return entryList
+            }
+            currentIndex: {
+                let currenQuadrant = pqRow.quadrantZeroBased+1
+                let idx = model.findIndex(element => element === String(currenQuadrant))
+                return idx
+            }
+            automaticIndexChange: true
+            onSelectedTextChanged: {
+                let quadrantString = model[targetIndex]
+                // filter out user change input
+                let averageAngleCurr = pqRow.calcAverageAngleDiff()
+                let angleAlternate = comboPQ.currentText === "P" ? -averageAngleCurr : -(averageAngleCurr-90)+90
+                angleAlternate = angleModulo(angleAlternate)
+                autoAngle(true, angleAlternate)
             }
         }
     }
@@ -934,7 +942,7 @@ Item {
         anchors.right: parent.right
         width: widthRightArea
         anchors.bottom: bottomRow.top
-        height: lineHeight
+        height: lineHeight + (horizScrollbarOn ? scrollBarWidth : 0)
         readonly property int rightFreeSpace: 2
         Button {
             width: buttonWidth
@@ -975,6 +983,7 @@ Item {
             width: buttonWidth
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            rightInset: angleQuickRow.rightFreeSpace
             topInset: 0
             bottomInset: 0
             font.pointSize: pointSize * 0.9
@@ -992,12 +1001,14 @@ Item {
                 let retModel = []
                 let lineStr = ""
                 for(var idx of [1,2,3]) {
-                    lineStr += "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
+                    let strSpace = idx !== 1 ? " " : ""
+                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
                 }
                 retModel.push(lineStr)
                 lineStr = ""
                 for(idx of [1,3,2]) {
-                    lineStr += "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
+                    let strSpace = idx !== 1 ? " " : ""
+                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
                 }
                 retModel.push(lineStr)
                 return retModel
@@ -1016,8 +1027,7 @@ Item {
             id: onOffRow
             anchors.left: parent.left
             anchors.right: frequencyRow.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+            height: parent.height
             Button {
                 text: Z.tr("On")
                 width: buttonWidth
@@ -1094,62 +1104,65 @@ Item {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             width: widthRightArea
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                    text: Z.tr("Frequency:")
+            Label {
+                id: frequencyLabel
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                width: buttonWidth*2
+                anchors.rightMargin: GC.standardTextHorizMargin
+                horizontalAlignment: Label.AlignRight
+                verticalAlignment: Label.AlignVCenter
+                text: Z.tr("Frequency:")
+            }
+            ZLineEdit {
+                id: frequencyVal
+                visible: frequencyMode.varSelected
+                anchors.left: frequencyLabel.right
+                width: buttonWidth * 2 - qAndHzLabelWidth
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                pointSize: root.pointSize
+                validator: ZDoubleValidator {
+                    bottom: jsonParamInfo['Frequency']['params']['val'].min
+                    top: jsonParamInfo['Frequency']['params']['val'].max
+                    decimals: jsonParamInfo['Frequency']['params']['val'].decimals
                 }
-                Item {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: buttonWidth * 1.5
-                    visible: frequencyMode.varSelected
-                    ZLineEdit {
-                        anchors.fill: parent
-                        pointSize: root.pointSize
-                        validator: ZDoubleValidator {
-                            bottom: jsonParamInfo['Frequency']['params']['val'].min
-                            top: jsonParamInfo['Frequency']['params']['val'].max
-                            decimals: jsonParamInfo['Frequency']['params']['val'].decimals
-                        }
-                        text: declarativeJsonItem['Frequency'].val
-                        function doApplyInput(newText) {
-                            declarativeJsonItem['Frequency'].val = parseFloat(newText.replace(",", ".") /* C locale */)
-                            return true
-                        }
-                    }
+                text: declarativeJsonItem['Frequency'].val
+                function doApplyInput(newText) {
+                    declarativeJsonItem['Frequency'].val = parseFloat(newText.replace(",", ".") /* C locale */)
+                    return true
                 }
-                Label {
-                    textFormat: Text.PlainText
-                    Layout.preferredWidth: qAndHzLabelWidth
-                    font.pointSize: pointSize
-                    horizontalAlignment: Label.AlignLeft
-                    visible: frequencyMode.varSelected
-                    text: "Hz"
-                }
-                Item {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: buttonWidth
-                    ZComboBox {
-                        id: frequencyMode
-                        anchors.fill: parent
-                        anchors.topMargin: bottomRow.topFreeSpace
-                        anchors.rightMargin: 2
-                        arrayMode: true
-                        fontSize: comboFontSize * 0.85
-                        centerVertical: true
-                        model: jsonParamInfo.Frequency.params.type.list
-                        readonly property bool varSelected: currentText === "var"
-                        function setInitialIndex() {
-                            currentIndex = model.indexOf(declarativeJsonItem.Frequency.type)
-                        }
-                        onModelChanged: setInitialIndex()
-                        onSelectedTextChanged: {
-                            declarativeJsonItem.Frequency.type = selectedText
-                        }
-                    }
+            }
+            Label {
+                visible: frequencyMode.varSelected
+                anchors.left: frequencyVal.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: qAndHzLabelWidth
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                horizontalAlignment: Label.AlignLeft
+                verticalAlignment: Label.AlignVCenter
+                text: "Hz"
+            }
+            ZComboBox {
+                id: frequencyMode
+                anchors.right: parent.right
+                width: buttonWidth
+                anchors.topMargin: bottomRow.topFreeSpace
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                arrayMode: true
+                fontSize: comboFontSize
+                centerVertical: true
+                model: jsonParamInfo.Frequency.params.type.list
+                readonly property bool varSelected: currentText === "var"
+                currentIndex: model.indexOf(declarativeJsonItem.Frequency.type)
+                onSelectedTextChanged: {
+                    declarativeJsonItem.Frequency.type = selectedText
                 }
             }
         }
