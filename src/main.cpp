@@ -12,6 +12,7 @@
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
+#include <fontawesome-qml.h>
 #include "zeragluelogic.h"
 #include "gluelogicpropertymap.h"
 #include <zeratranslationplugin.h>
@@ -83,6 +84,9 @@ int main(int argc, char *argv[])
     QTimer networkWatchdog;
     networkWatchdog.setInterval(3000);
     networkWatchdog.setSingleShot(true);
+
+    FontAwesomeQml::registerFonts(true, true, false);
+    FontAwesomeQml::registerFAQml(&engine);
 
     JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
     globalSettingsFile->setAutoWriteBackEnabled(true);
