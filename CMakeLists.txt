@@ -40,6 +40,7 @@ find_package(qmlhelpers REQUIRED)
 find_package(zeraveincomponents REQUIRED)
 find_package(qwtcharts REQUIRED)
 find_package(JsonSettingsQml REQUIRED)
+find_Package(zera-json-qml REQUIRED)
 
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
@@ -111,6 +112,7 @@ target_link_libraries(vf-declarative-gui
     ZeraQml::zeraveincomponents
     ZeraQml::qwtcharts
     ZeraQml::JsonSettingsQml
+    zera-json-qml
     "-Wl,--as-needed"
     #Other Libs
     ${QWT_LIBRARIES}
