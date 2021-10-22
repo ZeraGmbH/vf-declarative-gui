@@ -128,13 +128,13 @@ Item {
             for(let phase=2; phase<=3; phase++) {
                 let jsonPhaseNameU = 'U%1'.arg(phase)
                 if(declarativeJsonItem[jsonPhaseNameU]) {
-                    let decimals = jsonParamInfo[jsonPhaseNameU]['params']['angle'].decimals
+                    let decimals = jsonParamInfo[jsonPhaseNameU]['zj_params']['angle'].decimals
                     declarativeJsonItem[jsonPhaseNameU].angle = Number(FT.formatNumberCLocale(angleModulo(angleU + angleOffset), decimals))
                     declarativeJsonItem[jsonPhaseNameU].rms = rmsU
                 }
                 let jsonPhaseNameI = 'I%1'.arg(phase)
                 if(declarativeJsonItem[jsonPhaseNameI]) {
-                    let decimals = jsonParamInfo[jsonPhaseNameI]['params']['angle'].decimals
+                    let decimals = jsonParamInfo[jsonPhaseNameI]['zj_params']['angle'].decimals
                     declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumberCLocale(angleModulo(angleI + angleOffset), decimals))
                     declarativeJsonItem[jsonPhaseNameI].rms = rmsI
                 }
@@ -166,7 +166,7 @@ Item {
             }
 
             if(declarativeJsonItem[jsonPhaseNameI]) {
-                let decimals = jsonParamInfo[jsonPhaseNameI]['params']['angle'].decimals
+                let decimals = jsonParamInfo[jsonPhaseNameI]['zj_params']['angle'].decimals
                 declarativeJsonItem[jsonPhaseNameI].angle = Number(FT.formatNumberCLocale(angleModulo(angleINew), decimals))
             }
             defaultAngle += 120
@@ -379,7 +379,7 @@ Item {
                                 readonly property int columnIndex: index
                                 readonly property string jsonPhaseName: uiType + String(columnIndex+1)
                                 property var jsonDataBase: declarativeJsonItem[jsonPhaseName]
-                                readonly property var jsonParamInfoBase: jsonParamInfo[jsonPhaseName]['params']
+                                readonly property var jsonParamInfoBase: jsonParamInfo[jsonPhaseName]['zj_params']
                                 readonly property bool isAngleU1: uiType === 'U' &&
                                                                   rowIndex === SourceModulePage.LineType.LineAngle &&
                                                                   // TODO more common: first phase U
@@ -1130,9 +1130,9 @@ Item {
                 anchors.bottom: parent.bottom
                 pointSize: root.pointSize
                 validator: ZDoubleValidator {
-                    bottom: jsonParamInfo['Frequency']['params']['val'].min
-                    top: jsonParamInfo['Frequency']['params']['val'].max
-                    decimals: jsonParamInfo['Frequency']['params']['val'].decimals
+                    bottom: jsonParamInfo['Frequency']['zj_params']['val'].min
+                    top: jsonParamInfo['Frequency']['zj_params']['val'].max
+                    decimals: jsonParamInfo['Frequency']['zj_params']['val'].decimals
                 }
                 text: declarativeJsonItem['Frequency'].val
                 function doApplyInput(newText) {
@@ -1162,7 +1162,7 @@ Item {
                 arrayMode: true
                 fontSize: comboFontSize
                 centerVertical: true
-                model: jsonParamInfo.Frequency.params.type.list
+                model: jsonParamInfo.Frequency.zj_params.type.list
                 readonly property bool varSelected: currentText === "var"
                 currentIndex: model.indexOf(declarativeJsonItem.Frequency.type)
                 onSelectedTextChanged: {
