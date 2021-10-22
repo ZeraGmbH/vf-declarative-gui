@@ -19,7 +19,7 @@
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 #include "qmlappstarterforwebgl.h"
-#include "declarativejsonitem.h"
+#include <declarativejsonitem.h>
 #include <zvkeyboard.h>
 
 int main(int argc, char *argv[])
