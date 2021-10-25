@@ -158,8 +158,8 @@ BaseTabPage {
                             width: page.width*0.09;
                             contentRowHeight: height*1.2
 
-                            model: Z.tr(burdenIntrospection.ComponentInfo.PAR_NominalRangeFactor.Validation.Data)
-                            imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
+                            model: Z.tr(["1","1/sqrt(3)","1/3"])
+                            imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_3.png"]
                             property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);
                             automaticIndexChange: true
                             onIntermediateChanged: {
