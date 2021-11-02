@@ -17,9 +17,6 @@ Popup {
         longRunAnimationSTartTimer.start()
     }
     function stopWait(warningTxtArr, errorTxtArr, fpOnFinish /* function pointer on finish */) {
-        if(!root.opened) {
-            return
-        }
         root.warningTxtArr = warningTxtArr
         root.errorTxtArr = errorTxtArr
         root.fpOnFinish = fpOnFinish
