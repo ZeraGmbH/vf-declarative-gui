@@ -168,7 +168,7 @@ Item {
 
             Connections {
                 target: VeinEntity
-                onSigEntityAvailable: {
+                function onSigEntityAvailable(t_entityName) {
                     if(t_entityName === "_System") {
                         sessionSelector.systemEntity = VeinEntity.getEntity("_System");
                     }

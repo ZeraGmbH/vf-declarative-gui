@@ -110,7 +110,7 @@ ApplicationWindow {
 
     Connections {
         target: VeinEntity
-        onStateChanged: {
+        function onSigStateChanged(t_state) {
             if(t_state === VeinEntity.VQ_LOADED) {
                 dynamicPageModel.initModel();
                 pageView.model = dynamicPageModel;
@@ -142,7 +142,7 @@ ApplicationWindow {
             }
         }
 
-        onSigEntityAvailable: {
+        function onSigEntityAvailable(t_entityName) {
             var checkRequired = false;
             var entId = VeinEntity.getEntity(t_entityName).entityId()
             if(entId === 0) {
