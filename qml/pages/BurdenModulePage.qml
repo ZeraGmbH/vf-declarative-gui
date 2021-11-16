@@ -150,6 +150,10 @@ BaseTabPage {
                             top: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[1];
                             decimals: FT.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
                         }
+
+
+                        // The current Burden does not need a Rangefactor
+                        // Therefore it is always 1 and the box is invisible
                         ZVisualComboBox {
                             anchors.left: parent.right
                             anchors.leftMargin: 8
@@ -157,9 +161,21 @@ BaseTabPage {
                             anchors.bottom: parent.bottom
                             width: page.width*0.09;
                             contentRowHeight: height*1.2
-
-                            model: Z.tr(["1","1/sqrt(3)","1/3"])
-                            imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_3.png"]
+                            visible: page.isVoltagePage
+                            model: {
+                             if(page.isVoltagePage){
+                                return Z.tr(["1","1/sqrt(3)","1/3"])
+                             }else{
+                                return Z.tr(["1"])
+                             }
+                            }
+                            imageModel: {
+                                if(page.isVoltagePage){
+                                   return ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_3.png"]
+                                }else{
+                                   return ["qrc:/data/staticdata/resources/x_1.png"]
+                                }
+                               }
                             property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);
                             automaticIndexChange: true
                             onIntermediateChanged: {
