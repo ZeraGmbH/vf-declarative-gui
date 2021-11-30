@@ -132,5 +132,12 @@ SettingsView {
             width: root.rowWidth;
             pointSize: root.pointSize
         }
+        SerialSettings {
+            height: root.rowHeight * Math.min(ttyCount, 4)
+            rowHeight: root.rowHeight
+            width: root.rowWidth;
+            id: serialSettings
+            pointSize: root.pointSize
+        }
     }
 }
