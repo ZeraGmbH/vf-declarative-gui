@@ -22,6 +22,8 @@ Item {
     readonly property bool scpiconnected: scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
     readonly property string scpiSerial: scpiEntity ? scpiEntity.ACT_SerialScpiDeviceFile : ""
 
+    readonly property QtObject sourceEntity: VeinEntity.getEntity("SourceModule1")
+
     visible: height > 0
 
     RowLayout {
@@ -56,7 +58,10 @@ Item {
                     model: {
                         let ret = []
                         ret.push(Z.tr("Not connected"))
-                        ret.push(Z.tr("Source device"))
+                        // Global setting will go once we are ready to ship
+                        if(sourceEntity && GC.sourceConnectEnabled) {
+                            ret.push(Z.tr("Source device"))
+                        }
                         if(scpiEntity && ttyRow.ttyDev === scpiSerial) {
                             ret.push(Z.tr("Serial SCPI"))
                         }

@@ -146,6 +146,7 @@ Item {
     }
 
     property int sourceTableShowDelay: parseInt(settings.globalSettings.getOption("source_table_show_delay", "2000"))
+    property bool sourceConnectEnabled: settings.globalSettings.getOption("source_connect_enabled", "0") === "1"
 
     /////////////////////////////////////////////////////////////////////////////
     // Pinch settings
