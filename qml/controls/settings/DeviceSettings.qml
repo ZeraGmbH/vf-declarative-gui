@@ -13,25 +13,17 @@ import ZeraFa 1.0
 SettingsView {
     id: root
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-    rowHeight: 48
+    rowHeight: height > 0 ? height * 0.12 : 10
+    readonly property real pointSize: height > 0 ? height * 0.04 : 10
+    readonly property int pixelSize: pointSize*1.4
 
-    /*Loader {
-        id: fInOutPopup
-        active: VeinEntity.hasEntity("POWER1Module4")
-
-        sourceComponent: FrequencyInOutConfigPopup {
-            width: root.width
-            height: root.height
-        }
-    }*/
     Component {
         id: swPllAutomatic
         RowLayout {
             Label {
                 textFormat: Text.PlainText
                 text: Z.tr("PLL channel automatic:")
-                font.pixelSize: 20
-
+                font.pointSize: pointSize
                 Layout.fillWidth: true
             }
             VFSwitch {
@@ -41,21 +33,17 @@ SettingsView {
             }
         }
     }
-
     Component {
         id: cbPllChannel
         RowLayout {
             enabled: VeinEntity.getEntity("SampleModule1").PAR_PllAutomaticOnOff === 0
-
             Label {
                 textFormat: Text.PlainText
                 text: Z.tr("PLL channel:")
-                font.pixelSize: 20
-
+                font.pointSize: pointSize
                 Layout.fillWidth: true
                 opacity: enabled ? 1.0 : 0.7
             }
-
             Item {
                 Layout.fillWidth: true
             }
@@ -66,6 +54,7 @@ SettingsView {
                 model: ModuleIntrospection.sampleIntrospection.ComponentInfo.PAR_PllChannel.Validation.Data
                 centerVertical: true
                 implicitWidth: root.rowWidth/4
+                fontSize: root.pixelSize
                 height: root.rowHeight-8
                 opacity: enabled ? 1.0 : 0.7
             }
@@ -78,15 +67,13 @@ SettingsView {
             Label {
                 textFormat: Text.PlainText
                 text: Z.tr("DFT reference channel:")
-                font.pixelSize: 20
+                font.pointSize: pointSize
                 Layout.fillWidth: true
                 opacity: enabled ? 1.0 : 0.7
             }
-
             Item {
                 Layout.fillWidth: true
             }
-
             VFComboBox {
                 arrayMode: true
                 entity: VeinEntity.getEntity("DFTModule1")
@@ -94,6 +81,7 @@ SettingsView {
                 model: ModuleIntrospection.dftIntrospection.ComponentInfo.PAR_RefChannel.Validation.Data
                 centerVertical: true
                 implicitWidth: root.rowWidth/4
+                fontSize: root.pixelSize
                 height: root.rowHeight-8
                 opacity: enabled ? 1.0 : 0.7
             }
@@ -104,7 +92,6 @@ SettingsView {
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
-
             Loader {
                 sourceComponent: swPllAutomatic
                 active: VeinEntity.hasEntity("SampleModule1")
@@ -113,14 +100,11 @@ SettingsView {
                 height: active ? root.rowHeight : 0
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 20
-                anchors.rightMargin: 16
             }
         }
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
-
             Loader {
                 sourceComponent: cbPllChannel
                 active: VeinEntity.hasEntity("SampleModule1")
@@ -129,68 +113,24 @@ SettingsView {
                 height: active ? root.rowHeight : 0
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 20
-                anchors.rightMargin: 16
             }
         }
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
-
             Loader {
                 sourceComponent: cbDftChannel
                 active: VeinEntity.hasEntity("DFTModule1")
                 asynchronous: true
-
-                height: active ? root.rowHeight : 0
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 20
-                anchors.rightMargin: 16
             }
         }
-        Item {
+        SettingsInterval {
+            id: sInterval
             height: root.rowHeight;
             width: root.rowWidth;
-
-            SettingsInterval {
-                id: sInterval
-                rowHeight: root.rowHeight
-                rowWidth: root.rowWidth-36
-                x: 20
-            }
+            pointSize: root.pointSize
         }
-        /*Item {
-            height: root.rowHeight * visible; //do not waste space in the layout if not visible
-            width: root.rowWidth;
-            visible: VeinEntity.hasEntity("POWER1Module4")
-            RowLayout {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: 16
-                anchors.rightMargin: 16
-                Label {
-                    textFormat: Text.PlainText
-                    text: Z.tr("Frequency input/output configuration:");
-                    font.pixelSize: 20
-
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: FA.fa_cogs
-                    font.family: FA.old
-                    font.pixelSize: 20
-                    implicitHeight: root.rowHeight
-                    onClicked: fInOutPopup.item.open();
-                }
-            }
-        }*/
-
-
-
-
-
-
     }
-
 }

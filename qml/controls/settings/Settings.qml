@@ -20,6 +20,8 @@ import "qrc:/src/qml/tree"
 BaseTabPage {
     id:tabroot
     anchors.fill: parent
+    anchors.leftMargin: 8
+    anchors.rightMargin: 8
     // Overrides
     function getLastTabSelected() {
         return GC.lastSettingsTabSelected
