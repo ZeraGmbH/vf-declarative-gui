@@ -469,17 +469,6 @@ SettingsView {
                         Rectangle {
                             Layout.fillWidth: true
                         }
-                        Text {
-                            font.pointSize: root.rowHeight / 5.2
-                            text: Z.tr("or")
-                        }
-                        Rectangle {
-                            Layout.fillWidth: true
-                        }
-                        Text {
-                            font.pointSize: root.rowHeight / 5.2
-                            text: ipv6 + ':' + ASWGL.port
-                        }
                     }
                 }
             }
