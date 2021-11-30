@@ -19,6 +19,8 @@ SettingsView {
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: height/8.5
+    readonly property real pointSize: height > 0 ? height * 0.04 : 10
+    readonly property int pixelSize: pointSize*1.4
 
     Timer {
         id: slowMachineSettingsHelper
@@ -252,16 +254,12 @@ SettingsView {
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
-
             RowLayout {
                 anchors.fill: parent
-                anchors.rightMargin: 16
-                anchors.leftMargin: 16
-
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("Language:")
-                    font.pixelSize: 20
+                    font.pointSize: pointSize
                     Layout.fillWidth: true
                 }
                 ZVisualComboBox {
@@ -271,14 +269,13 @@ SettingsView {
                     height: root.rowHeight * 0.9
                     width: height*2.5
                     contentRowHeight: height*1.2
-
                     property string intermediate: ZLocale.localeName
+
                     onIntermediateChanged: {
                         if(model[currentIndex] !== intermediate) {
                             currentIndex = model.indexOf(intermediate);
                         }
                     }
-
                     onSelectedTextChanged: {
                         if(ZLocale.localeName !== selectedText) {
                             GC.setLocale(selectedText, true);
@@ -287,20 +284,15 @@ SettingsView {
                 }
             }
         }
-
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: 16
-                anchors.rightMargin: 16
-
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("Display harmonic tables relative to the fundamental oscillation:")
-                    font.pixelSize: 20
-
+                    font.pointSize: pointSize
                     Layout.fillWidth: true
                 }
                 CheckBox {
@@ -313,25 +305,21 @@ SettingsView {
                 }
             }
         }
-
         Item {
             height: root.rowHeight;
             width: root.rowWidth;
             RowLayout {
                 anchors.fill: parent
-                anchors.rightMargin: 0
-                anchors.leftMargin: 16
-
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("Max decimals total:")
-                    font.pixelSize: 20
+                    font.pointSize: pointSize
                     Layout.fillWidth: true
                 }
-
                 ZSpinBox {
                     id: actDecimalPlacesTotal
-                    height: 47
+                    pointSize: root.pointSize
+                    spinBox.width: root.rowWidth / 4
                     Component.onCompleted: text = GC.digitsTotal
                     validator: IntValidator {
                         bottom: 1
@@ -350,19 +338,16 @@ SettingsView {
             width: root.rowWidth;
             RowLayout {
                 anchors.fill: parent
-                anchors.rightMargin: 0
-                anchors.leftMargin: 16
-
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("Max places after the decimal point:")
-                    font.pixelSize: 20
+                    font.pointSize: pointSize
                     Layout.fillWidth: true
                 }
-
                 ZSpinBox {
                     id: actDecimalPlaces
-                    height: 47
+                    pointSize: root.pointSize
+                    spinBox.width: root.rowWidth / 4
                     Component.onCompleted: text = GC.decimalPlaces
                     validator: IntValidator {
                         bottom: 1
@@ -384,13 +369,10 @@ SettingsView {
 
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: 16
-                anchors.rightMargin: 16
-
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("System colors:")
-                    font.pixelSize: 20
+                    font.pointSize: pointSize
                 }
                 ListView {
                     clip: true
@@ -399,20 +381,19 @@ SettingsView {
                     model: root.channelCount
                     orientation: ListView.Horizontal
                     layoutDirection: "RightToLeft"
-                    spacing: 4
+                    spacing: 2
                     boundsBehavior: Flickable.OvershootBounds
                     ScrollIndicator.horizontal: ScrollIndicator {
                         onActiveChanged: active = true;
                         active: true
                     }
-
                     delegate: Item {
-                        width:  rButton.width// + lChannel.contentWidth
+                        width:  rButton.width
                         height: root.rowHeight
-
-                        Button{
+                        Button {
                             id: rButton
                             width: root.rowHeight*1.18
+                            font.pointSize: pointSize * 0.65
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
                             text: {
@@ -446,13 +427,10 @@ SettingsView {
             width: root.rowWidth;
             sourceComponent: RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: 16
-                anchors.rightMargin: 16
-
                 Label {
                     textFormat: Text.PlainText
                     text: Z.tr("Show AUX phase values:")
-                    font.pixelSize: 20
+                    font.pointSize: pointSize
                     Layout.fillWidth: true
                 }
                 CheckBox {
@@ -507,14 +485,11 @@ SettingsView {
             }
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: 16
-                anchors.rightMargin: 16
                 Label {
                     id: labelRemotWeb
                     textFormat: Text.PlainText
                     text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Browser addresses:")
-                    font.pixelSize: 20
-
+                    font.pointSize: pointSize
                 }
                 Item { Layout.fillWidth: true }
                 CheckBox {
