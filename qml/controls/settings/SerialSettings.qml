@@ -24,7 +24,7 @@ Item {
 
     readonly property QtObject sourceEntity: VeinEntity.getEntity("SourceModule1")
 
-    visible: height > 0
+    visible: height > 0 && (sourceEntity || scpiEntity)
 
     RowLayout {
         anchors.fill: parent
