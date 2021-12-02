@@ -19,10 +19,11 @@ Item {
     readonly property var ttyCount: filesEntity === undefined ? 0 : Object.keys(ttysJson).length
 
     readonly property QtObject scpiEntity: VeinEntity.getEntity("SCPIModule1")
-    readonly property bool scpiconnected: scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
+    readonly property bool scpiConnected: scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
     readonly property string scpiSerial: scpiEntity ? scpiEntity.ACT_SerialScpiDeviceFile : ""
 
     readonly property QtObject sourceEntity: VeinEntity.getEntity("SourceModule1")
+    readonly property int maxSourceCount: sourceEntity ? sourceEntity.ACT_MaxSources : 0
 
     visible: height > 0 && (sourceEntity || scpiEntity)
 
@@ -46,16 +47,20 @@ Item {
                 font.pointSize: pointSize
             }
             ZComboBox {
+                id: comboConnectionType
                 arrayMode: true
+                property bool canSCPI: scpiEntity && ttyRow.ttyDev === scpiSerial
+                readonly property string labelScpi: Z.tr("Serial SCPI")
+                readonly property string labelSource: Z.tr("Source device")
                 model: {
                     let ret = []
                     ret.push(Z.tr("Not connected"))
                     // Global setting will go once we are ready to ship
                     if(sourceEntity && GC.sourceConnectEnabled) {
-                        ret.push(Z.tr("Source device"))
+                        ret.push(labelScpi)
                     }
-                    if(scpiEntity && ttyRow.ttyDev === scpiSerial) {
-                        ret.push(Z.tr("Serial SCPI"))
+                    if(canSCPI) {
+                        ret.push(labelSource)
                     }
                     return ret
                 }
@@ -63,6 +68,45 @@ Item {
                 implicitWidth: root.width * 0.3
                 fontSize: pointSize*1.4
                 height: rowHeight-8
+
+                property bool ignoreSelectionChange: false
+                property string currentConnectionType
+                function setComboSelection(idx) {
+                    ignoreSelectionChange = true
+                    comboConnectionType.targetIndex = idx
+                    ignoreSelectionChange = false
+                }
+                function getComboIdx(strContent) {
+                    let selection = 0
+                    if(strContent !== "") {
+                        for(let idx=0; idx<model.length; ++idx) {
+                            if(model[idx] === strContent) {
+                                selection = idx
+                                break
+                            }
+                        }
+                    }
+                    return selection
+                }
+                function getCurrentConnectionTypeStr() {
+                    let selectStr = ""
+                    if(canSCPI && scpiConnected) {
+                        selectStr = labelScpi
+                    }
+                    else {
+                        for(let slot=0; slot<maxSourceCount; ++slot) {
+                            let status = sourceEntity["ACT_DeviceState%1".arg(slot)]
+                            if(status["deviceinfo"] === ttyRow.ttyDev) {
+                                selectStr = labelSource
+                            }
+                        }
+                    }
+                    return selectStr
+                }
+                Component.onCompleted: {
+                    currentConnectionType = getCurrentConnectionTypeStr()
+                    setComboSelection(getComboIdx(currentConnectionType))
+                }
             }
         }
     }
