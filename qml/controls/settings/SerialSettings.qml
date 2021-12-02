@@ -26,52 +26,43 @@ Item {
 
     visible: height > 0 && (sourceEntity || scpiEntity)
 
-    RowLayout {
+    ListView {
         anchors.fill: parent
-        Label {
-            text: Z.tr("Serial IOs:")
-            font.pointSize: pointSize
-            Layout.fillWidth: true
-        }
-        ListView {
-            Layout.preferredWidth: parent.width * 0.8
-            Layout.fillHeight: true
-            model: ttys
-            clip: true
-            boundsBehavior: ListView.OvershootBounds
-            delegate: RowLayout {
-                id: ttyRow
-                property var ttyDev: modelData
-                height: rowHeight
-                width: parent.width
-                Label {
-                    text: modelData.replace('/dev/tty', '') + ": "
-                    font.pointSize: pointSize
-                }
-                Label {
-                    text: ttysJson[modelData].manufacturer
-                    Layout.fillWidth: true
-                    font.pointSize: pointSize
-                }
-                ZComboBox {
-                    arrayMode: true
-                    model: {
-                        let ret = []
-                        ret.push(Z.tr("Not connected"))
-                        // Global setting will go once we are ready to ship
-                        if(sourceEntity && GC.sourceConnectEnabled) {
-                            ret.push(Z.tr("Source device"))
-                        }
-                        if(scpiEntity && ttyRow.ttyDev === scpiSerial) {
-                            ret.push(Z.tr("Serial SCPI"))
-                        }
-                        return ret
+        model: ttys
+        clip: true
+        boundsBehavior: ListView.OvershootBounds
+        delegate: RowLayout {
+            id: ttyRow
+            property var ttyDev: modelData
+            height: rowHeight
+            width: parent.width
+            Label {
+                text: modelData.replace('/dev/tty', '') + " / "
+                font.pointSize: pointSize
+            }
+            Label {
+                text: ttysJson[modelData].manufacturer + ":"
+                Layout.fillWidth: true
+                font.pointSize: pointSize
+            }
+            ZComboBox {
+                arrayMode: true
+                model: {
+                    let ret = []
+                    ret.push(Z.tr("Not connected"))
+                    // Global setting will go once we are ready to ship
+                    if(sourceEntity && GC.sourceConnectEnabled) {
+                        ret.push(Z.tr("Source device"))
                     }
-                    centerVertical: true
-                    implicitWidth: root.width * 0.3
-                    fontSize: pointSize*1.4
-                    height: rowHeight-8
+                    if(scpiEntity && ttyRow.ttyDev === scpiSerial) {
+                        ret.push(Z.tr("Serial SCPI"))
+                    }
+                    return ret
                 }
+                centerVertical: true
+                implicitWidth: root.width * 0.3
+                fontSize: pointSize*1.4
+                height: rowHeight-8
             }
         }
     }
