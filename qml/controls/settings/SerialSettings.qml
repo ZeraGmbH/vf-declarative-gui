@@ -50,17 +50,18 @@ Item {
                 id: comboConnectionType
                 arrayMode: true
                 property bool canSCPI: scpiEntity && ttyRow.ttyDev === scpiSerial
+                readonly property string labelDisconnected: Z.tr("Not connected")
                 readonly property string labelScpi: Z.tr("Serial SCPI")
                 readonly property string labelSource: Z.tr("Source device")
                 model: {
                     let ret = []
-                    ret.push(Z.tr("Not connected"))
+                    ret.push(labelDisconnected)
                     // Global setting will go once we are ready to ship
                     if(sourceEntity && GC.sourceConnectEnabled) {
-                        ret.push(labelScpi)
+                        ret.push(labelSource)
                     }
                     if(canSCPI) {
-                        ret.push(labelSource)
+                        ret.push(labelScpi)
                     }
                     return ret
                 }
@@ -69,7 +70,7 @@ Item {
                 fontSize: pointSize*1.4
                 height: rowHeight-8
 
-                property bool ignoreSelectionChange: false
+                property bool ignoreSelectionChange: true
                 property string currentConnectionType
                 function setComboSelection(idx) {
                     ignoreSelectionChange = true
@@ -106,6 +107,47 @@ Item {
                 Component.onCompleted: {
                     currentConnectionType = getCurrentConnectionTypeStr()
                     setComboSelection(getComboIdx(currentConnectionType))
+                }
+                function startDisconnectScpi() {
+
+                    // move to cmd response
+                    currentConnectionType = ""
+                    startAction()
+                }
+                function startDisconnectSource() {
+
+                    // move to cmd response
+                    currentConnectionType = ""
+                    startAction()
+                }
+                function startConnectScpi() {
+
+                    // move to cmd response
+                    currentConnectionType = currentText
+                }
+                function startConnectSource() {
+
+                    // move to cmd response
+                    currentConnectionType = currentText
+                }
+                function startAction() {
+                    if(currentConnectionType === labelScpi) {
+                        startDisconnectScpi()
+                    }
+                    else if(currentConnectionType === labelSource) {
+                        startDisconnectSource()
+                    }
+                    else if(currentText == labelScpi) {
+                        startConnectScpi()
+                    }
+                    else if(currentText == labelSource) {
+                        startConnectSource()
+                    }
+                }
+                onCurrentTextChanged: {
+                    if(!ignoreSelectionChange && currentText !== currentConnectionType) {
+                        startAction()
+                    }
                 }
             }
         }
