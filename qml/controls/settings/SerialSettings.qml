@@ -19,7 +19,6 @@ Item {
     readonly property var ttyCount: filesEntity === undefined ? 0 : Object.keys(ttysJson).length
 
     readonly property QtObject scpiEntity: VeinEntity.getEntity("SCPIModule1")
-    readonly property bool scpiConnected: scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
     readonly property string scpiSerial: scpiEntity ? scpiEntity.ACT_SerialScpiDeviceFile : ""
 
     readonly property QtObject sourceEntity: VeinEntity.getEntity("SourceModule1")
@@ -108,29 +107,40 @@ Item {
                     currentConnectionType = getCurrentConnectionTypeStr()
                     setComboSelection(getComboIdx(currentConnectionType))
                 }
-                function startDisconnectScpi() {
 
-                    // move to cmd response
-                    currentConnectionType = ""
-                    startAction()
+                // SCPI type connect / disconnect
+                property bool scpiConnected: scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
+                function setScpiConnected(connected) {
+                    scpiEntity.PAR_SerialScpiActive = connected
                 }
+                onScpiConnectedChanged: {
+                    if(canSCPI) {
+                        currentConnectionType = scpiConnected ? currentText : ""
+                        if(!scpiConnected) {
+                            startNextAction()
+                        }
+                    }
+                }
+                function startDisconnectScpi() {
+                    setScpiConnected(false)
+                }
+                function startConnectScpi() {
+                    setScpiConnected(true)
+                }
+
+                // Source type connect / disconnect
                 function startDisconnectSource() {
 
                     // move to cmd response
                     currentConnectionType = ""
-                    startAction()
-                }
-                function startConnectScpi() {
-
-                    // move to cmd response
-                    currentConnectionType = currentText
+                    startNextAction()
                 }
                 function startConnectSource() {
 
                     // move to cmd response
                     currentConnectionType = currentText
                 }
-                function startAction() {
+                function startNextAction() {
                     if(currentConnectionType === labelScpi) {
                         startDisconnectScpi()
                     }
@@ -146,7 +156,7 @@ Item {
                 }
                 onCurrentTextChanged: {
                     if(!ignoreSelectionChange && currentText !== currentConnectionType) {
-                        startAction()
+                        startNextAction()
                     }
                 }
             }
