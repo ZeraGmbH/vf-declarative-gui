@@ -56,7 +56,7 @@ Item {
     Component {
         id: rpcConnection
         Connections {
-            onSigRPCFinished: {
+            function onSigRPCFinished(t_identifier, t_resultData) {
                 if(t_identifier === _private.rpcId) {
                     let cont
                     // no notifier callback set: use default matching most times
