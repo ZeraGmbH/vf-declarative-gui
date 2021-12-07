@@ -208,7 +208,7 @@ ComboBox {
     }
     Connections {
         target: filesEntity
-        onSigRPCFinished: {
+        function onSigRPCFinished(t_identifier, t_resultData) {
             var idxFound = indexOfRpcId(nextModel, t_identifier)
             if(idxFound >= 0) {
                 // reset rpc id
