@@ -44,7 +44,7 @@ Item {
     }
     Connections {
         target: loggerSessionNameWithMacrosPopup
-        onSessionNameSelected: {
+        function onSessionNameSelected(newSessionName) {
             sessionNameField.text = newSessionName
         }
     }
