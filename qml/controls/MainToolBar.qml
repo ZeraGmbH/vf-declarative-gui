@@ -170,7 +170,7 @@ ToolBar {
                     }
                     Connections {
                         target: loggerSettingsStackObj
-                        onPleaseCloseMe: {
+                        function onPleaseCloseMe(butOpenMenu) {
                             goHomeToPages()
                             if(butOpenMenu) {
                                  menuLoader.item.open()
