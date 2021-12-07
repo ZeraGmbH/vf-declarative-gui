@@ -159,7 +159,7 @@ Item {
                 property var disconnectRpcId
                 Connections {
                     target: sourceEntity
-                    function onSigRPCFinished(t_identifier) {
+                    function onSigRPCFinished(t_identifier, t_resultData) {
                         let ok = t_resultData["RemoteProcedureData::resultCode"] === 0
                         if(t_identifier === comboConnectionType.connectRpcId) {
                             comboConnectionType.connectRpcId = undefined
