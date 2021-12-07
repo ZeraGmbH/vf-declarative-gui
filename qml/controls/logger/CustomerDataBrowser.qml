@@ -80,7 +80,7 @@ Item {
             }
         ]
         Connections {
-            onDone: {
+            function onDone(error) {
                 importCustomerDataPopup.close()
                 let errorDescriptionArr = []
                 if(error) {
@@ -104,7 +104,7 @@ Item {
             }
         ]
         Connections {
-            onDone: {
+            function onDone(error) {
                 importCustomerDataPopup.close()
                 let errorDescriptionArr = []
                 if(error) {
