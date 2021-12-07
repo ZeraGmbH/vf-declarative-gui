@@ -5,6 +5,7 @@ import QtQuick.Controls.Material.impl 2.12
 import VeinEntity 1.0
 import ZeraLocale 1.0
 import ZeraTranslation 1.0
+import ".."
 
 ComboBox {
     id: root
@@ -167,7 +168,7 @@ ComboBox {
             comboRipple.startFlash()
         }
         else {
-            comboRipple.ignoreFirstMountChange = false
+            comboRipple.ignoreFirst = false
         }
     }
 
@@ -263,26 +264,8 @@ ComboBox {
             }
         }
     }
-
-    // flash effect for user notification
-    Ripple {
-        id: comboRipple
-        function startFlash() {
-            if(!ignoreFirstMountChange) {
-                active = true
-                comboRippleTimer.start()
-            }
-            ignoreFirstMountChange = false
-        }
-        property bool ignoreFirstMountChange: true
-        clipRadius: 2
-        anchors.fill: parent
+    FlashingRipple {
         anchor: root
-        color: Material.highlightedRippleColor // Material.rippleColor
-        Timer {
-            id: comboRippleTimer
-            interval: 700
-            onTriggered: { comboRipple.active = false }
-        }
+        id: comboRipple
     }
 }
