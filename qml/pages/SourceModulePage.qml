@@ -58,10 +58,10 @@ Item {
     // On/off wait popup
     onJsonStateChanged: {
         if(jsonState.busy) {
-            waitPopup.startWait((declarativeJsonItem.on ? Z.tr("Switching on") : Z.tr("Switching off"))+" "+ jsonParamInfo.Name)
+            waitPopup.startWait((declarativeJsonItem.on ? Z.tr("Switching on %1...") : Z.tr("Switching off %1...")).arg(jsonParamInfo.Name))
         }
         else {
-            waitPopup.stopWait(jsonState.warnings, jsonState.errors, null)
+            waitPopup.stopWait(Z.tr(jsonState.warnings), Z.tr(jsonState.errors), null)
         }
     }
     WaitTransaction {
