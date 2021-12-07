@@ -5,6 +5,7 @@
         <file>qml/controls/ActivityAnimation.qml</file>
         <file>qml/controls/AnimationSlowBits.qml</file>
         <file>qml/controls/DebugRectangle.qml</file>
+        <file>qml/controls/FlashingRipple.qml</file>
         <file>qml/controls/FpsItem.qml</file>
         <file>qml/controls/GridItem.qml</file>
         <file>qml/controls/GridRect.qml</file>
