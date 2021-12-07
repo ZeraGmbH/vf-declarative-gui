@@ -129,7 +129,7 @@ SettingsView {
     // vf-files RPC responses
     Connections {
         target: filesEntity
-        onSigRPCFinished: {
+        function onSigRPCFinished(t_identifier, t_resultData) {
             // TODO error handling
             var idxFound = -1
             var fileIdx
