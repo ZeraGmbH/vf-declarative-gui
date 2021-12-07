@@ -27,15 +27,23 @@ Item {
 
     visible: height > 0 && (sourceEntity || scpiEntity)
 
+    WaitTransaction {
+        id: waitPopup
+        animationComponent: AnimationSlowBits { }
+    }
+    property var warningsCollected: []
+    property var errorsCollected: []
+    function stopWaitWithMsgs() {
+        waitPopup.stopWait(warningsCollected, errorsCollected, null)
+        warningsCollected = []
+        errorsCollected = []
+    }
+
     ListView {
         anchors.fill: parent
         model: ttys
         clip: true
         boundsBehavior: ListView.OvershootBounds
-        WaitTransaction {
-            id: waitPopup
-            animationComponent: AnimationSlowBits { }
-        }
         delegate: RowLayout {
             id: ttyRow
             property var ttyDev: modelData
@@ -67,7 +75,7 @@ Item {
                     return ret
                 }
                 centerVertical: true
-                implicitWidth: root.width * 0.3
+                implicitWidth: root.width * 0.32
                 fontSize: pointSize*1.4
                 height: rowHeight-8
 
@@ -118,18 +126,18 @@ Item {
                         let waitText = ""
                         // (Re-)connect
                         if(currentText === labelSource) {
-                            waitText = "Scanning for source device..."
+                            waitText = Z.tr("Scanning for source device...")
                         }
                         else if(currentText === labelScpi) {
-                            waitText = "Opening SCPI serial..."
+                            waitText = Z.tr("Opening SCPI serial...")
                         }
                         // Disconnect
                         else if(currentText === labelDisconnected) {
                             if(currentConnectionType === labelSource) {
-                                waitText = "Disconnect source..."
+                                waitText = Z.tr("Disconnect source...")
                             }
                             if(currentConnectionType === labelScpi) {
-                                waitText = "Disconnect scpi serial..."
+                                waitText = Z.tr("Disconnect SCPI serial...")
                             }
                         }
                         waitPopup.startWait(waitText)
@@ -146,7 +154,7 @@ Item {
                     if(canSCPI) {
                         if(scpiConnected) {
                             currentConnectionType = currentText
-                            waitPopup.stopWait([], [], null)
+                            stopWaitWithMsgs()
                         }
                         else {
                             handleDisconnect()
@@ -165,22 +173,20 @@ Item {
                             comboConnectionType.connectRpcId = undefined
                             if(ok) {
                                 comboConnectionType.currentConnectionType = comboConnectionType.currentText
-                                waitPopup.stopWait([], [], null)
+                                stopWaitWithMsgs()
                             }
                             else {
                                 comboConnectionType.setComboSelection(comboConnectionType.currentConnectionType)
-                                waitPopup.stopWait([], ['No source found'], null)
+                                errorsCollected.push(Z.tr('No source found'))
+                                stopWaitWithMsgs()
                             }
                         }
                         if(t_identifier === comboConnectionType.disconnectRpcId) {
                             comboConnectionType.disconnectRpcId = undefined
-                            if(ok) {
-                                comboConnectionType.handleDisconnect()
+                            if(!ok) {
+                                warningsCollected.push(Z.tr('Source switch off failed'))
                             }
-                            else {
-                                setComboSelection(comboConnectionType.currentConnectionType)
-                                waitPopup.stopWait(['SCPI disconnect failed'], [], null)
-                            }
+                            comboConnectionType.handleDisconnect()
                         }
                     }
                 }
@@ -221,7 +227,7 @@ Item {
                         nextStarted = true
                     }
                     if(!nextStarted) {
-                        waitPopup.stopWait([], [], null)
+                        stopWaitWithMsgs()
                     }
                 }
             }
