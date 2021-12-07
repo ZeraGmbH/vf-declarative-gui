@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material.impl 2.14
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
@@ -24,11 +25,20 @@ ToolBar {
                     return VeinEntity.getEntity("_LoggingSystem").LoggingEnabled;
                 });
             }
+            if(VeinEntity.hasEntity("_Files")) {
+                veinTtys = Qt.binding(function() {
+                    return VeinEntity.getEntity("_Files").Ttys;
+                });
+            }
         }
     }
 
     property bool measurementPaused: false
     property bool loggingActive: false
+    property var veinTtys
+    onVeinTtysChanged: {
+        settingsButtonRipple.startFlash()
+    }
     property bool pageViewVisible: false     // PageView.visible is bound to pageViewVisible
     property QtObject layoutStackObj         // bound to main.qml / layoutStack
     property QtObject loggerSettingsStackObj // bound to LoggerSettingsStack
@@ -219,6 +229,10 @@ ToolBar {
                     // show settings
                     root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutSettingsIndex;
                 }
+            }
+            FlashingRipple {
+                id: settingsButtonRipple
+                anchor: settingsButton
             }
         }
         ToolButton {
