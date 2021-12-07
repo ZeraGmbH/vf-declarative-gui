@@ -16,10 +16,10 @@ Popup {
         animationLoader.visible = false
         longRunAnimationSTartTimer.start()
     }
-    function stopWait(warningTxtArr, errorTxtArr, fpOnFinish /* function pointer on finish */) {
+    function stopWait(warningTxtArr, errorTxtArr, funcExecutedOnFinish) {
         root.warningTxtArr = warningTxtArr
         root.errorTxtArr = errorTxtArr
-        root.fpOnFinish = fpOnFinish
+        root.funcExecutedOnFinish = funcExecutedOnFinish
         fadeInAnimation.stop()
         longRunAnimationSTartTimer.stop()
         animationLoader.active = false
@@ -43,7 +43,7 @@ Popup {
 
     property var warningTxtArr: []
     property var errorTxtArr: []
-    property var fpOnFinish: null
+    property var funcExecutedOnFinish: null
 
     NumberAnimation {
         id: fadeInAnimation
@@ -74,8 +74,8 @@ Popup {
             }
         }
         onTriggered: {
-            if(fpOnFinish) {
-                root.fpOnFinish()
+            if(funcExecutedOnFinish) {
+                root.funcExecutedOnFinish()
             }
             close()
         }
