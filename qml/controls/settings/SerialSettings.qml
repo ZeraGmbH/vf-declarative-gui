@@ -9,6 +9,7 @@ import VeinEntity 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
 import ".."
+import "../../helpers"
 
 Item {
     property real pointSize
@@ -33,11 +34,10 @@ Item {
     }
     property var warningsCollected: []
     property var errorsCollected: []
-    function stopWaitWithMsgs() {
-        waitPopup.stopWait(warningsCollected, errorsCollected, null)
-        warningsCollected = []
-        errorsCollected = []
-    }
+
+    readonly property int connTypeDisconnected: 0
+    readonly property int connTypeScpi: 1
+    readonly property int connTypeSouce: 2
 
     ListView {
         anchors.fill: parent
@@ -62,16 +62,22 @@ Item {
                 id: comboConnectionType
                 arrayMode: true
                 property bool canSCPI: scpiEntity && ttyRow.ttyDev === scpiSerial
+                property var enumModel
                 model: {
                     let ret = []
-                    ret.push(labelDisconnected)
+                    let retEnum = []
+                    ret.push(Z.tr("Not connected"))
+                    retEnum.push(connTypeDisconnected)
                     // Global setting will go once we are ready to ship
                     if(sourceEntity && GC.sourceConnectEnabled) {
-                        ret.push(labelSource)
+                        ret.push(Z.tr("Source device"))
+                        retEnum.push(connTypeSouce)
                     }
                     if(canSCPI) {
-                        ret.push(labelScpi)
+                        ret.push(Z.tr("Serial SCPI"))
+                        retEnum.push(connTypeScpi)
                     }
+                    enumModel = retEnum
                     return ret
                 }
                 centerVertical: true
@@ -79,156 +85,153 @@ Item {
                 fontSize: pointSize*1.4
                 height: rowHeight-8
 
-                property string currentConnectionType
-                readonly property string labelDisconnected: Z.tr("Not connected")
-                readonly property string labelScpi: Z.tr("Serial SCPI")
-                readonly property string labelSource: Z.tr("Source device")
-
-                function getInitialConnectionTypeStr() {
-                    let selectStr = ""
+                // initial selection
+                Component.onCompleted: {
+                    setComboSelection(getInitialConnectionType())
+                }
+                function getInitialConnectionType() {
+                    let connectionType = connTypeDisconnected
                     if(canSCPI && scpiConnected) {
-                        selectStr = labelScpi
+                        connectionType = connTypeScpi
                     }
                     else {
                         for(let slot=0; slot<maxSourceCount; ++slot) {
                             let status = sourceEntity["ACT_DeviceState%1".arg(slot)]
                             if(status["deviceinfo"] === ttyRow.ttyDev) {
-                                selectStr = labelSource
+                                connectionType = connTypeSouce
                             }
                         }
                     }
-                    return selectStr
+                    return connectionType
                 }
-                Component.onCompleted: {
-                    currentConnectionType = getInitialConnectionTypeStr()
-                    setComboSelection(currentConnectionType)
-                }
-
                 property bool ignoreSelectionChange: true
-                function setComboSelection(connectionTypeStr) {
+                function setComboSelection(connectionType) {
                     let selectIdx = 0
-                    if(connectionTypeStr !== "") {
-                        for(let idx=0; idx<model.length; ++idx) {
-                            if(model[idx] === connectionTypeStr) {
-                                selectIdx = idx
-                                break
-                            }
+                    for(let idx=0; idx<model.length; ++idx) {
+                        if(enumModel[idx] === connectionType) {
+                            selectIdx = idx
+                            break
                         }
                     }
                     ignoreSelectionChange = true
                     comboConnectionType.targetIndex = selectIdx
+                    lastIndex = selectIdx
                     ignoreSelectionChange = false
                 }
 
-                // User selection
-                onCurrentTextChanged: {
-                    if(!ignoreSelectionChange && currentText !== currentConnectionType) {
-                        let waitText = ""
-                        // (Re-)connect
-                        if(currentText === labelSource) {
-                            waitText = Z.tr("Scanning for source device...")
-                        }
-                        else if(currentText === labelScpi) {
-                            waitText = Z.tr("Opening SCPI serial...")
-                        }
-                        // Disconnect
-                        else if(currentText === labelDisconnected) {
-                            if(currentConnectionType === labelSource) {
-                                waitText = Z.tr("Disconnect source...")
-                            }
-                            if(currentConnectionType === labelScpi) {
-                                waitText = Z.tr("Disconnect SCPI serial...")
-                            }
-                        }
+                // user selection
+                property int lastIndex
+                onTargetIndexChanged: { // onCurrentIndexChanged does not work!
+                    if(!ignoreSelectionChange) {
+                        let connectionTypeTarget = enumModel[targetIndex]
+                        let connectionTypeCurrent = enumModel[lastIndex]
+                        lastIndex = targetIndex
+
+                        let waitText = getWaitTitle(connectionTypeTarget, connectionTypeCurrent)
+                        fillTaskList(connectionTypeTarget, connectionTypeCurrent)
+
                         waitPopup.startWait(waitText)
-                        startNextAction()
+                        taskList.startRun()
                     }
+                }
+
+
+                TaskList {
+                    id: taskList
+                    Connections {
+                        function onDone(error) {
+                            waitPopup.stopWait(warningsCollected, errorsCollected, null)
+                            warningsCollected = []
+                            errorsCollected = []
+                        }
+                    }
+                }
+                function getWaitTitle(connectionTypeTarget, connectionTypeCurrent) {
+                    if(connectionTypeTarget === connTypeSouce) {
+                        return Z.tr("Scanning for source device...")
+                    }
+                    if(connectionTypeTarget === connTypeScpi) {
+                        return Z.tr("Opening SCPI serial...")
+                    }
+                    if(connectionTypeTarget === connTypeDisconnected) {
+                        if(connectionTypeCurrent === connTypeSouce) {
+                            return Z.tr("Disconnect source...")
+                        }
+                        else {
+                            return Z.tr("Disconnect SCPI serial...")
+                        }
+                    }
+                }
+                function fillTaskList(connectionTypeTarget, connectionTypeCurrent) {
+                    let scpiDisconnect = connectionTypeCurrent === connTypeScpi
+                    let sourceDisconnect = connectionTypeCurrent === connTypeSouce
+                    let scpiConnect = connectionTypeTarget === connTypeScpi
+                    let sourceConnect = connectionTypeTarget === connTypeSouce
+
+                    let taskArray = []
+                    if(scpiDisconnect) {
+                        taskArray.push( { 'type': 'unblock',
+                                          'callFunction': () => setScpiConnected(false)
+                                        })
+                    }
+                    if(sourceDisconnect) {
+                        taskArray.push( { 'type': 'rpc',
+                                          'rpcTarget': sourceEntity,
+                                          'callFunction': () => startDisconnectSource(),
+                                          'notifyCallback': (t_resultData) => disconnectSourceCallback(t_resultData)
+                                        })
+                    }
+                    if(scpiConnect) {
+                        taskArray.push( { 'type': 'unblock',
+                                          'callFunction': () => setScpiConnected(true)
+                                        })
+                    }
+                    if(sourceConnect) {
+                        taskArray.push( { 'type': 'rpc',
+                                          'rpcTarget': sourceEntity,
+                                          'callFunction': () => startConnectSource(),
+                                          'notifyCallback': (t_resultData) => connectSourceCallback(t_resultData)
+                                        })
+                    }
+                    taskList.taskArray = taskArray
                 }
 
                 // SCPI type connect / disconnect
                 property bool scpiConnected: scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
                 function setScpiConnected(connected) {
                     scpiEntity.PAR_SerialScpiActive = connected
+                    return true
                 }
                 onScpiConnectedChanged: {
-                    if(canSCPI) {
-                        if(scpiConnected) {
-                            currentConnectionType = currentText
-                            stopWaitWithMsgs()
-                        }
-                        else {
-                            handleDisconnect()
-                        }
+                    if(taskList.running) {
+                        taskList.startNextTask()
                     }
                 }
 
                 // Source type connect / disconnect
-                property var connectRpcId
-                property var disconnectRpcId
-                Connections {
-                    target: sourceEntity
-                    function onSigRPCFinished(t_identifier, t_resultData) {
-                        let ok = t_resultData["RemoteProcedureData::resultCode"] === 0
-                        if(t_identifier === comboConnectionType.connectRpcId) {
-                            comboConnectionType.connectRpcId = undefined
-                            if(ok) {
-                                comboConnectionType.currentConnectionType = comboConnectionType.currentText
-                                stopWaitWithMsgs()
-                            }
-                            else {
-                                comboConnectionType.setComboSelection(comboConnectionType.currentConnectionType)
-                                errorsCollected.push(Z.tr('No source found'))
-                                stopWaitWithMsgs()
-                            }
-                        }
-                        if(t_identifier === comboConnectionType.disconnectRpcId) {
-                            comboConnectionType.disconnectRpcId = undefined
-                            if(!ok) {
-                                warningsCollected.push(Z.tr('Source switch off failed'))
-                            }
-                            comboConnectionType.handleDisconnect()
-                        }
-                    }
-                }
                 function startDisconnectSource() {
-                    if(!disconnectRpcId) {
-                        disconnectRpcId = sourceEntity.invokeRPC("RPC_CloseSource(QString p_deviceInfo)", {
-                                                                 "p_deviceInfo": ttyDev })
+                    return sourceEntity.invokeRPC("RPC_CloseSource(QString p_deviceInfo)", {
+                                                  "p_deviceInfo": ttyDev })
+                }
+                function disconnectSourceCallback(t_resultData) {
+                    let ok = t_resultData["RemoteProcedureData::resultCode"] === 0
+                    if(!ok) {
+                        warningsCollected.push(Z.tr('Source switch off failed'))
                     }
+                    return ok
                 }
                 function startConnectSource() {
-                    if(!connectRpcId) {
-                        connectRpcId = sourceEntity.invokeRPC("RPC_ScanInterface(QString p_deviceInfo,int p_type)", {
-                                                              "p_type": 2,
-                                                              "p_deviceInfo": ttyDev })
-                    }
+                    return sourceEntity.invokeRPC("RPC_ScanInterface(QString p_deviceInfo,int p_type)", {
+                                                  "p_type": 2,
+                                                  "p_deviceInfo": ttyDev })
                 }
-                // lazy state machine
-                function handleDisconnect() {
-                    currentConnectionType = labelDisconnected
-                    startNextAction()
-                }
-                function startNextAction() {
-                    let nextStarted = false
-                    if(currentConnectionType === labelScpi) {
-                        setScpiConnected(false)
-                        nextStarted = true
+                function connectSourceCallback(t_resultData) {
+                    let ok = t_resultData["RemoteProcedureData::resultCode"] === 0
+                    if(!ok) {
+                        errorsCollected.push(Z.tr('No source found'))
+                        setComboSelection(connTypeDisconnected)
                     }
-                    else if(currentConnectionType === labelSource) {
-                        startDisconnectSource()
-                        nextStarted = true
-                    }
-                    else if(currentText == labelScpi) {
-                        setScpiConnected(true)
-                        nextStarted = true
-                    }
-                    else if(currentText == labelSource) {
-                        startConnectSource()
-                        nextStarted = true
-                    }
-                    if(!nextStarted) {
-                        stopWaitWithMsgs()
-                    }
+                    return ok
                 }
             }
         }
