@@ -216,7 +216,7 @@ Item {
                     if(!ok) {
                         warningsCollected.push(Z.tr('Source switch off failed'))
                     }
-                    return ok
+                    return true
                 }
                 function startConnectSource() {
                     return sourceEntity.invokeRPC("RPC_ScanInterface(QString p_deviceInfo,int p_type)", {
