@@ -17,7 +17,7 @@ Item {
         callFunction:
           * no parameter
           * return value:
-		    * block: functions are expected to return true (ok) / false (error)
+            * block: functions are expected to return true (ok) / false (error)
             * rpc functions must return RPC ID
         notifyCallback:
           * if not set use wise default
@@ -58,17 +58,17 @@ Item {
         Connections {
             function onSigRPCFinished(t_identifier, t_resultData) {
                 if(t_identifier === _private.rpcId) {
-                    let cont
+                    let continueNext
                     // no notifier callback set: use default matching most times
                     if(taskArray[_private.currentTaskNo].notifyCallback === undefined) {
                         // default
-                        cont =  t_resultData["RemoteProcedureData::resultCode"] === 0 &&
+                        continueNext =  t_resultData["RemoteProcedureData::resultCode"] === 0 &&
                                 t_resultData["RemoteProcedureData::Return"] === true
                     }
                     else {
-                        cont = taskArray[_private.currentTaskNo].notifyCallback(t_resultData)
+                        continueNext = taskArray[_private.currentTaskNo].notifyCallback(t_resultData)
                     }
-                    if(cont) {
+                    if(continueNext) {
                         timerNextHelper.start()
                     }
                     else {
@@ -102,19 +102,19 @@ Item {
     function startTask() {
         switch(taskArray[_private.currentTaskNo].type) {
         case 'block':
-            let ret = taskArray[_private.currentTaskNo].callFunction()
-            let cont
+            let ok = taskArray[_private.currentTaskNo].callFunction()
+            let continueNext
             if(taskArray[_private.currentTaskNo].notifyCallback === undefined) {
-                cont = ret // stop on error
+                continueNext = ok // stop on error
             }
             else {
-                cont = taskArray[_private.currentTaskNo].notifyCallback(ret)
+                continueNext = taskArray[_private.currentTaskNo].notifyCallback(ok)
             }
-            if(cont) {
+            if(continueNext) {
                 timerNextHelper.start()
             }
             else {
-                stop(ret)
+                stop(!ok)
             }
             break;
         case 'rpc':
