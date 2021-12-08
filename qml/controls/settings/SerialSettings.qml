@@ -87,9 +87,9 @@ Item {
 
                 // initial selection
                 Component.onCompleted: {
-                    setComboSelection(getInitialConnectionType())
+                    setComboSelectionFromVein()
                 }
-                function getInitialConnectionType() {
+                function getConnectionTypeFromVein() {
                     let connectionType = connTypeDisconnected
                     if(canSCPI && scpiConnected) {
                         connectionType = connTypeScpi
@@ -118,6 +118,9 @@ Item {
                     lastIndex = selectIdx
                     ignoreSelectionChange = false
                 }
+                function setComboSelectionFromVein() {
+                    setComboSelection(getConnectionTypeFromVein())
+                }
 
                 // user selection
                 property int lastIndex
@@ -138,6 +141,7 @@ Item {
                     id: taskList
                     Connections {
                         function onDone(error) {
+                            comboConnectionType.setComboSelectionFromVein()
                             waitPopup.stopWait(warningsCollected, errorsCollected, null)
                             warningsCollected = []
                             errorsCollected = []
@@ -227,7 +231,6 @@ Item {
                     let ok = t_resultData["RemoteProcedureData::resultCode"] === 0
                     if(!ok) {
                         errorsCollected.push(Z.tr('No source found'))
-                        setComboSelection(connTypeDisconnected)
                     }
                     return ok
                 }
