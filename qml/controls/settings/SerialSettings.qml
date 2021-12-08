@@ -134,8 +134,6 @@ Item {
                         taskList.startRun()
                     }
                 }
-
-
                 TaskList {
                     id: taskList
                     Connections {
