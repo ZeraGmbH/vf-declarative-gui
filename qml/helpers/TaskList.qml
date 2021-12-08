@@ -7,7 +7,7 @@ Item {
 
     /* taskArray has to be set as a array of
       {
-        'type': 'block'/'rpc',
+        'type': 'block' / 'unblock' /'rpc',
         'callFunction': <pointer to the function starting a task>,
         'notifyCallback: <pointer to after-task notification/evaluation function>,
         'rpcTarget': <target entity for (rpc type only / othewise ignored)>
@@ -100,10 +100,11 @@ Item {
     }
 
     function startTask() {
+        let continueNext
+        let ok
         switch(taskArray[_private.currentTaskNo].type) {
         case 'block':
-            let ok = taskArray[_private.currentTaskNo].callFunction()
-            let continueNext
+            ok = taskArray[_private.currentTaskNo].callFunction()
             if(taskArray[_private.currentTaskNo].notifyCallback === undefined) {
                 continueNext = ok // stop on error
             }
@@ -114,6 +115,14 @@ Item {
                 timerNextHelper.start()
             }
             else {
+                stop(!ok)
+            }
+            break;
+        case 'unblock':
+            ok = taskArray[_private.currentTaskNo].callFunction()
+            // there is no notifyCallback for unblock / client must decide to
+            // call startNextTask (or stop) by itself
+            if(!ok) { // stop on error
                 stop(!ok)
             }
             break;
