@@ -204,7 +204,7 @@ Item {
             }
         ]
         Connections {
-            onDone: {
+            function onDone(error) {
                 waitPopup.stopWait(warnings, errors, () =>  menuStackLayout.pleaseCloseMe(false))
             }
         }
@@ -229,7 +229,7 @@ Item {
             }
         ]
         Connections {
-            onDone: {
+            function onDone(error) {
                 let errorDescriptionArr = []
                 if(error) {
                     errorDescriptionArr.push(Z.tr("Copy failed - drive full or removed?"))
