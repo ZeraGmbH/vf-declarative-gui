@@ -116,6 +116,11 @@ Item {
                     ignoreSelectionChange = true
                     comboConnectionType.targetIndex = selectIdx
                     lastIndex = selectIdx
+                    if(connectionType !== connTypeDisconnected) {
+                        let colorPrefix = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>"
+                        let colorPostfix = "</font>"
+                        currentText = colorPrefix + currentText + colorPostfix
+                    }
                     ignoreSelectionChange = false
                 }
                 function setComboSelectionFromVein() {
@@ -198,20 +203,20 @@ Item {
                     taskList.taskArray = taskArray
                 }
 
+                readonly property bool connected: scpiConnected || getConnectionTypeFromVein() !== connTypeDisconnected
+
                 // SCPI type connect / disconnect
-                property bool scpiConnected: scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
+                readonly property bool scpiConnected: canSCPI && scpiEntity ? scpiEntity.PAR_SerialScpiActive : false
                 function setScpiConnected(connected) {
                     scpiEntity.PAR_SerialScpiActive = connected
                     return true
                 }
                 onScpiConnectedChanged: {
-                    if(canSCPI) {
-                        if(taskList.running) {
-                            taskList.startNextTask()
-                        }
-                        else {
-                            setComboSelectionFromVein()
-                        }
+                    if(taskList.running) {
+                        taskList.startNextTask()
+                    }
+                    else {
+                        setComboSelectionFromVein()
                     }
                 }
 
