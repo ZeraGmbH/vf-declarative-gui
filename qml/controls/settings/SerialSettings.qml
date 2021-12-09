@@ -205,8 +205,13 @@ Item {
                     return true
                 }
                 onScpiConnectedChanged: {
-                    if(taskList.running) {
-                        taskList.startNextTask()
+                    if(canSCPI) {
+                        if(taskList.running) {
+                            taskList.startNextTask()
+                        }
+                        else {
+                            setComboSelectionFromVein()
+                        }
                     }
                 }
 
