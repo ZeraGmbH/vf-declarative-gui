@@ -61,6 +61,11 @@ Item {
             ZComboBox {
                 id: comboConnectionType
                 arrayMode: true
+                centerVertical: true
+                implicitWidth: root.width * 0.32
+                fontSize: pointSize*1.4
+                height: rowHeight-8
+
                 property bool canSCPI: scpiEntity && ttyRow.ttyDev === scpiSerial
                 property var enumModel
                 model: {
@@ -80,13 +85,7 @@ Item {
                     enumModel = retEnum
                     return ret
                 }
-                centerVertical: true
-                implicitWidth: root.width * 0.32
-                fontSize: pointSize*1.4
-                height: rowHeight-8
-
-                // initial selection
-                Component.onCompleted: {
+                onModelChanged: {
                     setComboSelectionFromVein()
                 }
                 function getConnectionTypeFromVein() {
