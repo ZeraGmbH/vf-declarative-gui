@@ -80,6 +80,7 @@
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
         <file>qml/controls/error_comparison_common/MeterConstantSettings.qml</file>
+        <file>qml/controls/ScrollGroup.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>staticdata/resources/MeterPrim.gif</file>
