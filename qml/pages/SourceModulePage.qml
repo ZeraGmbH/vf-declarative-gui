@@ -382,11 +382,7 @@ Item {
                                     sourceComponent: {
                                         switch(rowIndex) {
                                         default:
-                                            var enabled = !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3);
-                                            if(!enabled){
-                                                return inputDisabledField
-                                            }
-                                            return inputEnabledField
+                                            return phaseEdit
                                         case SourceModulePage.LineType.LineOnOff:
                                             return phaseCheckBoxComponent
                                         case SourceModulePage.LineType.LineHarmonics:
@@ -397,7 +393,7 @@ Item {
                                 }
 
                                     Component {
-                                    id: inputEnabledField
+                                    id: phaseEdit
                                         ZLineEdit {
                                             id: valueEdit
                                             anchors.fill: parent
@@ -406,7 +402,16 @@ Item {
                                                                                       modelData.colorIndexU :
                                                                                       modelData.colorIndexI]
                                             text: jsonDataBase[arrJsonTypeKey[rowIndex]]
-
+                                            textField.enabled: !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3);
+                                            textField.background: Rectangle {
+                                                y: textField.height - height - textField.bottomPadding / 2
+                                                implicitWidth: 120
+                                                height: textField.activeFocus ? 2 : 1
+                                                color: {
+                                                    if(textField.enabled) return textField.activeFocus ? textField.Material.accentColor : textField.Material.hintTextColor;
+                                                    return textField.Material.background
+                                                }
+                                            }
                                             function doApplyInput(newText) {
                                                 newText = newText.replace(",", ".") /* C locale */
                                                 if(rowIndex === SourceModulePage.LineType.LineAngle) { // correct negative angles immediately
@@ -442,22 +447,6 @@ Item {
                                                 top: valueEdit.validatorInfo.max
                                                 decimals: valueEdit.validatorInfo.decimals
                                             }
-                                        }
-                                    }
-                                    Component {
-                                        id: inputDisabledField
-                                        // Hack: to make underline disappear for disabled ZLineEdit show Label
-                                        Label {
-                                            textFormat: Text.PlainText
-                                            anchors.fill: parent
-                                            anchors.rightMargin: GC.standardTextHorizMargin
-                                            font.pointSize: pointSize * 1.2
-                                            horizontalAlignment: Label.AlignRight
-                                            verticalAlignment: Label.AlignVCenter
-                                            color: GC.currentColorTable[uiType === 'U' ?
-                                                                            modelData.colorIndexU :
-                                                                            modelData.colorIndexI]
-                                            text: jsonDataBase[arrJsonTypeKey[rowIndex]]
                                         }
                                     }
                                 Component {
