@@ -111,14 +111,15 @@ BaseTabPage {
                     tabItem.parent = tabBar
                     tabBar.addItem(tabItem)
 
-                    viewItem = pageComponent.createObject(
-                                null,
-                                {
-                                    "jsonParamInfo" : jsonParamInfo,
-                                    "jsonState" : jsonState,
-                                    "declarativeJsonItem" : jsonDeclParams,
-                                    "sendParamsToServer" : sendParamsToServer
-                                })
+
+                    viewItem=pageComponent.createObject()
+                    viewItem.setSource("SourceModulePage.qml",
+                                       {
+                                           "jsonParamInfo" : jsonParamInfo,
+                                           "jsonState" : jsonState,
+                                           "declarativeJsonItem" : jsonDeclParams,
+                                           "sendParamsToServer" : sendParamsToServer
+                                       })
                     viewItem.parent = swipeView
                     swipeView.addItem(viewItem)
 
@@ -179,15 +180,14 @@ BaseTabPage {
             // Source view factory
             Component {
                 id: pageComponent
-                SourceModulePage {
+                Loader{
+                    active: false
                     SwipeView.onIsCurrentItemChanged: {
                         if(SwipeView.isCurrentItem) {
                             GC.currentGuiContext = GC.guiContextEnum.GUI_SOURCE_CONTROL
+                            active=true
                         }
                     }
-                    /*Component.onDestruction: {
-                        console.info("Destruct pageItem")
-                    }*/
                 }
             }
         }
