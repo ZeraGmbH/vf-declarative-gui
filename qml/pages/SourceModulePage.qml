@@ -211,11 +211,6 @@ Item {
     //  ----------------------------------------------------------------
 
     ///////////// left area /////////////
-    Timer {
-        id: showDelay
-        interval: GC.sourceTableShowDelay + 500*VeinEntity.getEntity("SourceModule1").ACT_CountSources
-        running: true
-    }
     GridRect {
         id: quickLoadSelectRect
         anchors.left: parent.left
@@ -282,7 +277,6 @@ Item {
     }
     Column { // U/I header left
         id: headerColumnUI
-        visible: !showDelay.running
         anchors.bottom: bottomRow.top
         anchors.bottomMargin: horizScrollbarOn ? scrollBarWidth : 0
         anchors.left: parent.left
@@ -313,7 +307,6 @@ Item {
     }
     Flickable { // table with controls to set values - center
         id: dataTable
-        visible: !showDelay.running
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds // don't tear our table away from units
         anchors.top: quickLoadSelectRect.bottom
@@ -453,7 +446,6 @@ Item {
                                         // Hack: to make underline disappear for disabled ZLineEdit show Label
                                         Label {
                                             textFormat: Text.PlainText
-                                            visible: !valueEdit.visible
                                             anchors.fill: parent
                                             anchors.rightMargin: GC.standardTextHorizMargin
                                             font.pointSize: pointSize * 1.2
@@ -505,7 +497,6 @@ Item {
 
     Column { // units right
         id: unitColumn
-        visible: !showDelay.running
         anchors.bottom: bottomRow.top
         anchors.bottomMargin: horizScrollbarOn ? scrollBarWidth : 0
         anchors.right: phasorView.left
@@ -564,7 +555,6 @@ Item {
     // and unitColumn's children
     ScrollBar {
         id: scrollbarU
-        visible: !showDelay.running
         orientation: Qt.Vertical
         anchors.top: parent.top
         height: linesStandardUI * lineHeight
@@ -575,7 +565,6 @@ Item {
     }
     ScrollBar {
         id: scrollbarI
-        visible: !showDelay.running
         orientation: Qt.Vertical
         anchors.bottom: bottomRow.top
         anchors.bottomMargin: horizScrollbarOn ? scrollBarWidth : 0
@@ -589,7 +578,6 @@ Item {
     // middle of our screen. So use a hand crafted scrollbar too.
     ScrollBar {
         id: scrollbarHoriz
-        visible: !showDelay.running
         orientation: Qt.Horizontal
         anchors.bottom: bottomRow.top
         anchors.right: unitColumn.left
