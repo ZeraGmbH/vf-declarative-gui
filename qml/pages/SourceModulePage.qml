@@ -382,7 +382,11 @@ Item {
                                     sourceComponent: {
                                         switch(rowIndex) {
                                         default:
-                                            return phaseValueTextComponent
+                                            var enabled = !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3);
+                                            if(!enabled){
+                                                return inputDisabledField
+                                            }
+                                            return inputEnabledField
                                         case SourceModulePage.LineType.LineOnOff:
                                             return phaseCheckBoxComponent
                                         case SourceModulePage.LineType.LineHarmonics:
@@ -391,17 +395,13 @@ Item {
                                     }
                                     asynchronous: true
                                 }
-                                Component {
-                                    id: phaseValueTextComponent
-                                    Item {
-                                        anchors.fill: parent
+
+                                    Component {
+                                    id: inputEnabledField
                                         ZLineEdit {
                                             id: valueEdit
                                             anchors.fill: parent
                                             pointSize: root.pointSize * 1.2
-                                            enabled: !valueRect.isAngleU1 &&
-                                                     (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3)
-                                            visible: enabled
                                             textField.color: GC.currentColorTable[uiType === 'U' ?
                                                                                       modelData.colorIndexU :
                                                                                       modelData.colorIndexI]
@@ -443,6 +443,9 @@ Item {
                                                 decimals: valueEdit.validatorInfo.decimals
                                             }
                                         }
+                                    }
+                                    Component {
+                                        id: inputDisabledField
                                         // Hack: to make underline disappear for disabled ZLineEdit show Label
                                         Label {
                                             textFormat: Text.PlainText
@@ -454,10 +457,9 @@ Item {
                                             color: GC.currentColorTable[uiType === 'U' ?
                                                                             modelData.colorIndexU :
                                                                             modelData.colorIndexI]
-                                            text: valueEdit.textField.text
+                                            text: jsonDataBase[arrJsonTypeKey[rowIndex]]
                                         }
                                     }
-                                }
                                 Component {
                                     id: phaseCheckBoxComponent
                                     Item {
