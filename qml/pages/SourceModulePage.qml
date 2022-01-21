@@ -212,6 +212,7 @@ Item {
 
     ///////////// left area /////////////
     GridRect {
+        visible: false
         id: quickLoadSelectRect
         anchors.left: parent.left
         width: widthLeftArea
