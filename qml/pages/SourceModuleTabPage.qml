@@ -112,7 +112,7 @@ BaseTabPage {
                     tabBar.addItem(tabItem)
 
 
-                    viewItem=pageComponent.createObject()
+                    viewItem = pageComponent.createObject()
                     viewItem.setSource("SourceModulePage.qml",
                                        {
                                            "jsonParamInfo" : jsonParamInfo,
@@ -180,7 +180,7 @@ BaseTabPage {
             // Source view factory
             Component {
                 id: pageComponent
-                Loader{
+                Loader {
                     active: false
                     SwipeView.onIsCurrentItemChanged: {
                         if(SwipeView.isCurrentItem) {

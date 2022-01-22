@@ -392,64 +392,63 @@ Item {
                                     }
                                     asynchronous: true
                                 }
-
-                                    Component {
+                                Component {
                                     id: phaseEdit
-                                        ZLineEdit {
-                                            id: valueEdit
-                                            anchors.fill: parent
-                                            pointSize: root.pointSize * 1.2
-                                            textField.color: GC.currentColorTable[uiType === 'U' ?
-                                                                                      modelData.colorIndexU :
-                                                                                      modelData.colorIndexI]
-                                            text: jsonDataBase[arrJsonTypeKey[rowIndex]]
-                                            textField.enabled: !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3);
-                                            textField.background: Rectangle {
-                                                y: textField.height - height - textField.bottomPadding / 2
-                                                implicitWidth: 120
-                                                height: textField.activeFocus ? 2 : 1
-                                                color: {
-                                                    if(textField.enabled) return textField.activeFocus ? textField.Material.accentColor : textField.Material.hintTextColor;
-                                                    return textField.Material.background
-                                                }
-                                            }
-                                            function doApplyInput(newText) {
-                                                newText = newText.replace(",", ".") /* C locale */
-                                                if(rowIndex === SourceModulePage.LineType.LineAngle) { // correct negative angles immediately
-                                                    let angle = Number(newText)
-                                                    angle = angleModulo(angle)
-                                                    newText = FT.formatNumberCLocale(angle, jsonParamInfoBase['angle'].decimals)
-                                                }
-                                                jsonDataBase[arrJsonTypeKey[rowIndex]] = parseFloat(newText)
-                                                if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
-                                                    symmetrize()
-                                                }
-                                                discardInput() // Long reasoning for this at sin/cos field
-                                                return false
-                                            }
-                                            readonly property var validatorInfo: {
-                                                let min, max, decimals = 0.0
-                                                switch(rowIndex) {
-                                                case SourceModulePage.LineType.LineRMS:
-                                                    min = jsonParamInfoBase['rms'].min
-                                                    max = jsonParamInfoBase['rms'].max
-                                                    decimals = jsonParamInfoBase['rms'].decimals
-                                                    break
-                                                case SourceModulePage.LineType.LineAngle:
-                                                    min = -jsonParamInfoBase['angle'].max // we allow users entering +/-
-                                                    max = jsonParamInfoBase['angle'].max
-                                                    decimals = jsonParamInfoBase['angle'].decimals
-                                                    break
-                                                }
-                                                return { 'min': min, 'max': max, 'decimals': decimals}
-                                            }
-                                            validator: ZDoubleValidator {
-                                                bottom: valueEdit.validatorInfo.min
-                                                top: valueEdit.validatorInfo.max
-                                                decimals: valueEdit.validatorInfo.decimals
+                                    ZLineEdit {
+                                        id: valueEdit
+                                        anchors.fill: parent
+                                        pointSize: root.pointSize * 1.2
+                                        textField.color: GC.currentColorTable[uiType === 'U' ?
+                                                                                  modelData.colorIndexU :
+                                                                                  modelData.colorIndexI]
+                                        text: jsonDataBase[arrJsonTypeKey[rowIndex]]
+                                        textField.enabled: !valueRect.isAngleU1 && (!symmetricCheckbox.checked || columnIndex == 0 || columnIndex >= 3);
+                                        textField.background: Rectangle {
+                                            y: textField.height - height - textField.bottomPadding / 2
+                                            implicitWidth: 120
+                                            height: textField.activeFocus ? 2 : 1
+                                            color: {
+                                                if(textField.enabled) return textField.activeFocus ? textField.Material.accentColor : textField.Material.hintTextColor;
+                                                return textField.Material.background
                                             }
                                         }
+                                        function doApplyInput(newText) {
+                                            newText = newText.replace(",", ".") /* C locale */
+                                            if(rowIndex === SourceModulePage.LineType.LineAngle) { // correct negative angles immediately
+                                                let angle = Number(newText)
+                                                angle = angleModulo(angle)
+                                                newText = FT.formatNumberCLocale(angle, jsonParamInfoBase['angle'].decimals)
+                                            }
+                                            jsonDataBase[arrJsonTypeKey[rowIndex]] = parseFloat(newText)
+                                            if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
+                                                symmetrize()
+                                            }
+                                            discardInput() // Long reasoning for this at sin/cos field
+                                            return false
+                                        }
+                                        readonly property var validatorInfo: {
+                                            let min, max, decimals = 0.0
+                                            switch(rowIndex) {
+                                            case SourceModulePage.LineType.LineRMS:
+                                                min = jsonParamInfoBase['rms'].min
+                                                max = jsonParamInfoBase['rms'].max
+                                                decimals = jsonParamInfoBase['rms'].decimals
+                                                break
+                                            case SourceModulePage.LineType.LineAngle:
+                                                min = -jsonParamInfoBase['angle'].max // we allow users entering +/-
+                                                max = jsonParamInfoBase['angle'].max
+                                                decimals = jsonParamInfoBase['angle'].decimals
+                                                break
+                                            }
+                                            return { 'min': min, 'max': max, 'decimals': decimals}
+                                        }
+                                        validator: ZDoubleValidator {
+                                            bottom: valueEdit.validatorInfo.min
+                                            top: valueEdit.validatorInfo.max
+                                            decimals: valueEdit.validatorInfo.decimals
+                                        }
                                     }
+                                }
                                 Component {
                                     id: phaseCheckBoxComponent
                                     Item {
