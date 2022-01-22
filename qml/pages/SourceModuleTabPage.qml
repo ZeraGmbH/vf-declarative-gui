@@ -95,7 +95,7 @@ BaseTabPage {
             onJsonStateChanged: {
                 if(itemsCreated && Object.keys(jsonState).length) {
                     // json values passed in createObject seem to be passed passed by value
-                    viewItem.jsonState = jsonState
+                    viewItem.item.jsonState = jsonState
                 }
             }
 
