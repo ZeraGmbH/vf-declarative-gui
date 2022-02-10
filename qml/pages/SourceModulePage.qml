@@ -61,7 +61,13 @@ Item {
             waitPopup.startWait((declarativeJsonItem.on ? Z.tr("Switching on %1...") : Z.tr("Switching off %1...")).arg(jsonParamInfo.Name))
         }
         else {
-            waitPopup.stopWait(Z.tr(jsonState.warnings), Z.tr(jsonState.errors), null)
+            if(waitPopup.opened) {
+                waitPopup.stopWait(Z.tr(jsonState.warnings), Z.tr(jsonState.errors), null)
+            }
+            else if(jsonState.errors.length !== 0) { // poll
+                waitPopup.startWait(Z.tr("Status error on %1...").arg(jsonParamInfo.Name))
+                waitPopup.stopWait(Z.tr(jsonState.warnings), Z.tr(jsonState.errors), null)
+            }
         }
     }
     WaitTransaction {
