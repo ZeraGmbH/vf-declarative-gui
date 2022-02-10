@@ -87,6 +87,7 @@ BaseTabPage {
     Component {
         id: activeSlotComponent
         Item {
+            id: activeSlotItme
             // params for createObject
             property int slotNo
             property var jsonParamInfo: extendJsonParamInfo(sourceEntity[String("ACT_DeviceInfo%1").arg(slotNo)])
@@ -172,6 +173,7 @@ BaseTabPage {
                     property var jsonState
                     property var declarativeJsonItem
                     text: jsonParamInfo.Name
+                    Material.foreground: activeSlotItme.jsonState.errors.length === 0 ? Material.White : Material.Red
                     /*Component.onDestruction: {
                         console.info("Destruct tabItem")
                     }*/
