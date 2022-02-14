@@ -308,6 +308,9 @@ ApplicationWindow {
             id: dynamicPageModel
             property int countActiveSources: 0
             function updateSourceView() {
+                if((ASWGL.isServer && !ASWGL.sourceEnabled)) {
+                    return
+                }
                 let sourceViewQml = "qrc:/qml/pages/SourceModuleTabPage.qml"
                 // search source view currently added
                 let sourceViewPosition = -1
@@ -338,7 +341,6 @@ ApplicationWindow {
                         else {
                             pageView.pageLoaderSource = ""
                         }
-
                         GC.setLastPageViewIndexSelected(0)
                     }
                 }

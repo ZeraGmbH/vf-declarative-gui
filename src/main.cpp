@@ -62,13 +62,18 @@ int main(int argc, char *argv[])
 
     // WebGL server
     QCommandLineParser parser;
-    QCommandLineOption webGlServerOption(QStringList() << "w" << "webgl-server", "1: Start as webGL server", "1/0");
+    QCommandLineOption webGlServerOption(QStringList() << "w" << "webgl-server", "Set: Start as webGL server");
     webGlServerOption.setDefaultValue("0");
     parser.addOption(webGlServerOption);
+    QCommandLineOption enableSourceControlOption(QStringList() << "s" << "source-control-remote", "Set: Allow source control at remote control");
+    enableSourceControlOption.setDefaultValue("0");
+    parser.addOption(enableSourceControlOption);
     parser.process(app);
     bool webGlServer = parser.isSet(webGlServerOption);
+    bool enableSourceControl = parser.isSet(enableSourceControlOption);
     QmlAppStarterForWebGL *pWGLSingleon = QmlAppStarterForWebGL::getStaticInstance();
     pWGLSingleon->setIsServer(webGlServer);
+    pWGLSingleon->setEnableSource(enableSourceControl);
     QmlAppStarterForWebGL::registerQMLSingleton();
 
     app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));

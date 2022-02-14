@@ -94,6 +94,19 @@ void QmlAppStarterForWebGL::setIsServer(const bool isServer)
     }
 }
 
+bool QmlAppStarterForWebGL::getSourceEnabled() const
+{
+    return m_enableSourceControl;
+}
+
+void QmlAppStarterForWebGL::setEnableSource(const bool enable)
+{
+    if(m_enableSourceControl != enable) {
+        m_enableSourceControl = enable;
+        emit sigEnableSourceControlChanged();
+    }
+}
+
 void QmlAppStarterForWebGL::processStateChanged(QProcess::ProcessState newState)
 {
     bool running = newState == QProcess::Running;
