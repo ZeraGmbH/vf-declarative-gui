@@ -35,6 +35,10 @@ public:
       @brief: QML-readonly property to allow adjustment Application/WebGL-server adjustments
       */
     Q_PROPERTY(bool isServer READ isServer NOTIFY isServerChanged)
+    /**
+      @brief: QML-readonly property to enable/disable source control
+      */
+    Q_PROPERTY(bool sourceEnabled READ getSourceEnabled NOTIFY sigEnableSourceControlChanged)
 
     QString applicationPath() const;
     void setApplicationPath(const QString& applicationPath);
@@ -50,12 +54,16 @@ public:
 
     bool isServer() const;
     void setIsServer(const bool isServer);
+
+    bool getSourceEnabled() const;
+    void setEnableSource(const bool enable);
 signals:
     void applicationPathChanged();
     void additionalParamsChanged();
     void portChanged();
     void runningChanged();
     void isServerChanged();
+    void sigEnableSourceControlChanged();
 private slots:
     void processStateChanged(QProcess::ProcessState newState);
     void processErrorOccured(QProcess::ProcessError error);
@@ -66,6 +74,7 @@ private:
     int m_port = 8080;
     bool m_running = false;
     bool m_bisServer = false;
+    bool m_enableSourceControl = false;
 
     bool m_bIgnoreCrashEvent = false;
     QProcess m_process;

@@ -488,7 +488,9 @@ SettingsView {
                     onCheckedChanged: {
                         if(!ASWGL.running) {
                             ASWGL.applicationPath = "vf-declarative-gui"
-                            ASWGL.additionalParams = ["-w", "1"]
+                            let params = ["-w"]
+                            //params.push("-s")
+                            ASWGL.additionalParams = params
                         }
                         ASWGL.running = checked
                     }
