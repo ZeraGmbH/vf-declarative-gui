@@ -73,8 +73,7 @@ Item {
                     let retEnum = []
                     ret.push(Z.tr("Not connected"))
                     retEnum.push(connTypeDisconnected)
-                    // Global setting will go once we are ready to ship
-                    if(sourceEntity && GC.sourceConnectEnabled) {
+                    if(sourceEntity) {
                         ret.push(Z.tr("Source device"))
                         retEnum.push(connTypeSouce)
                     }
