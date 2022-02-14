@@ -145,7 +145,6 @@ Item {
         settings.globalSettings.setOption("source_symmetric", setValue);
     }
 
-    property int sourceTableShowDelay: parseInt(settings.globalSettings.getOption("source_table_show_delay", "2000"))
     property bool sourceConnectEnabled: settings.globalSettings.getOption("source_connect_enabled", "0") === "1"
 
     /////////////////////////////////////////////////////////////////////////////
