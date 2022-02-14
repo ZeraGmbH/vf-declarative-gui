@@ -145,8 +145,6 @@ Item {
         settings.globalSettings.setOption("source_symmetric", setValue);
     }
 
-    property bool sourceConnectEnabled: settings.globalSettings.getOption("source_connect_enabled", "0") === "1"
-
     /////////////////////////////////////////////////////////////////////////////
     // Pinch settings
     property real osciPinchScale: Number(settings.globalSettings.getOption("osci_pinch_scale", "3"))
