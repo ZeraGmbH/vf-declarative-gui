@@ -124,6 +124,20 @@ Item {
         // may cause negative angles
         return (angle+36000) % 360
     }
+    property var baseColorTable: GC.currentColorTable
+    onBaseColorTableChanged: darkenColorsForSymmetric()
+    property var currentColorTable: []
+    function darkenColorsForSymmetric() {
+        let colorTable = [...GC.currentColorTable]
+        if(symmetricCheckbox.checked) {
+            let darken = 2.1
+            colorTable[1] = Qt.darker(GC.currentColorTable[1], darken) // U2
+            colorTable[2] = Qt.darker(GC.currentColorTable[2], darken) // U3
+            colorTable[4] = Qt.darker(GC.currentColorTable[4], darken) // I2
+            colorTable[5] = Qt.darker(GC.currentColorTable[5], darken) // I2
+        }
+        currentColorTable = colorTable
+    }
     function symmetrize() {
         if(symmetricCheckbox.checked) {
             let angleOffset = 120.0
@@ -146,8 +160,8 @@ Item {
                 }
                 angleOffset += 120
             }
-
         }
+        darkenColorsForSymmetric()
     }
     function autoAngle(isAbs, diffAngleSet) {
         let defaultAngle = 0.0
@@ -404,7 +418,7 @@ Item {
                                         id: valueEdit
                                         anchors.fill: parent
                                         pointSize: root.pointSize * 1.2
-                                        textField.color: GC.currentColorTable[uiType === 'U' ?
+                                        textField.color: currentColorTable[uiType === 'U' ?
                                                                                   modelData.colorIndexU :
                                                                                   modelData.colorIndexI]
                                         text: jsonDataBase[arrJsonTypeKey[rowIndex]]
@@ -597,6 +611,11 @@ Item {
             id: phasorDiagram
             anchors.fill: parent
             maxNominalFactor: 1.2
+            vector2Color: currentColorTable[1]
+            vector3Color: currentColorTable[2]
+            vector5Color: currentColorTable[4]
+            vector6Color: currentColorTable[5]
+            forceI1Top: symmetricCheckbox.checked
             readonly property var arrRms: { // rms + phase on
                 let arr = []
                 for(var phase=1; phase<=3; phase++) {
