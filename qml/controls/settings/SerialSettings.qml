@@ -16,9 +16,9 @@ Item {
     property real rowHeight
 
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
-    readonly property var ttysJson: filesEntity === undefined ? {} : filesEntity.Ttys
-    readonly property var ttys: filesEntity === undefined ? [] : Object.keys(ttysJson)
-    readonly property var ttyCount: filesEntity === undefined ? 0 : Object.keys(ttysJson).length
+    readonly property var ttysJson: filesEntity ? filesEntity.Ttys : {}
+    readonly property var ttys: filesEntity ? Object.keys(ttysJson) : []
+    readonly property var ttyCount: filesEntity ? Object.keys(ttysJson).length : 0
 
     readonly property QtObject scpiEntity: VeinEntity.getEntity("SCPIModule1")
     readonly property string scpiSerial: scpiEntity ? scpiEntity.ACT_SerialScpiDeviceFile : ""
