@@ -184,10 +184,10 @@ BaseTabPage {
                 id: pageComponent
                 Loader {
                     active: false
-                    SwipeView.onIsCurrentItemChanged: {
+                    property var currSwipeItem: swipeView.currentItem
+                    onCurrSwipeItemChanged: {
                         if(SwipeView.isCurrentItem) {
-                            GC.currentGuiContext = GC.guiContextEnum.GUI_SOURCE_CONTROL
-                            active=true
+                            active = true
                         }
                     }
                 }
@@ -249,7 +249,8 @@ BaseTabPage {
     }
 
     Component.onCompleted: {
-        finishInit()
+        initialized = true
+        GC.currentGuiContext = GC.guiContextEnum.GUI_SOURCE_CONTROL
     }
 }
 
