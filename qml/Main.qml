@@ -32,6 +32,8 @@ ApplicationWindow {
     // for development: current resolution
     property int screenResolution: GC.screenResolution
 
+    readonly property bool dcSession : String(currentSession).includes('dc-session')
+
     visible: true
     width: getScreenWidth()
     height: getScreenHeight()
@@ -354,14 +356,25 @@ ApplicationWindow {
                 controlsBar.rotaryFieldDependenciesReady =
                         ModuleIntrospection.hasDependentEntities(["DFTModule1"]) &&
                         !ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"]) &&
-                        !String(currentSession).includes('dc-session')
+                        dcSession
                 let iconName = ""
-                if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/act_values.png"
+                if(!dcSession) {
+                    if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
+                        if(!ASWGL.isServer) {
+                            iconName = "qrc:/data/staticdata/resources/act_values.png"
+                        }
+                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
                     }
-                    append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
                 }
+                else {
+                    if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "POWER1Module4", "RangeModule1"])) {
+                        if(!ASWGL.isServer) {
+                            iconName = "qrc:/data/staticdata/resources/act_values.png"
+                        }
+                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"});
+                    }
+                }
+
                 if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"])) {
                     if(!ASWGL.isServer) {
                         iconName = "qrc:/data/staticdata/resources/osci.png"

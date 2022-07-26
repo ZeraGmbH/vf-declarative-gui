@@ -8,7 +8,6 @@ import ModuleIntrospection 1.0
 
 BaseTabPage {
     id: root
-    readonly property bool showOsci: !String(currentSession).includes('dc-session')
 
     // TabButtons
     Component {
@@ -84,10 +83,8 @@ BaseTabPage {
         tabBar.addItem(tabTable.createObject(tabBar))
         swipeView.addItem(pageTable.createObject(swipeView))
 
-        if(showOsci) {
-            tabBar.addItem(tabVector.createObject(tabBar))
-            swipeView.addItem(pageVector.createObject(swipeView))
-        }
+        tabBar.addItem(tabVector.createObject(tabBar))
+        swipeView.addItem(pageVector.createObject(swipeView))
 
         tabBar.addItem(tabPower.createObject(tabBar))
         swipeView.addItem(pagePower.createObject(swipeView))

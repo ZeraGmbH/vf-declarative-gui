@@ -59,6 +59,7 @@
         <file>qml/pages/BaseTabPage.qml</file>
         <file>qml/pages/BurdenModulePage.qml</file>
         <file>qml/pages/CEDModulePage.qml</file>
+        <file>qml/pages/DCActualValueTabsPage.qml</file>
         <file>qml/pages/ErrorCalculatorModulePage.qml</file>
         <file>qml/pages/ErrorRegisterModulePage.qml</file>
         <file>qml/pages/ComparisonTabsView.qml</file>
