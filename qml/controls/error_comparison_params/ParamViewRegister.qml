@@ -91,8 +91,10 @@ Item {
                     }
                     switch(cbRefInput.currentText) {
                     case "P":
+                    case "P AC":
                         return ModuleIntrospection.p1m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     case "Q":
+                    case "P DC":
                         return ModuleIntrospection.p1m2Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     case "S":
                         return ModuleIntrospection.p1m3Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
@@ -108,8 +110,10 @@ Item {
                     }
                     switch(cbRefInput.currentText) {
                     case "P":
+                    case "P AC":
                         return root.p1m1
                     case "Q":
+                    case "P DC":
                         return root.p1m2
                     case "S":
                         return root.p1m3
