@@ -33,6 +33,7 @@ ApplicationWindow {
     property int screenResolution: GC.screenResolution
 
     readonly property bool dcSession : String(currentSession).includes('dc-session')
+    readonly property bool emobSession : String(currentSession).includes('emob-session')
 
     visible: true
     width: getScreenWidth()
@@ -357,20 +358,24 @@ ApplicationWindow {
                 let isReference = ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"])
                 controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !dcSession
                 let iconName = ""
-                if(!dcSession) {
+                if(emobSession) {
+                    if(!ASWGL.isServer) {
+                        iconName = "qrc:/data/staticdata/resources/act_values.png"
+                    }
+                    append({name: "Actual values AC", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
+                }
+                else if(dcSession) {
+                    if(!ASWGL.isServer) {
+                        iconName = "qrc:/data/staticdata/resources/act_values.png"
+                    }
+                    append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"});
+                }
+                else {
                     if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
                         if(!ASWGL.isServer) {
                             iconName = "qrc:/data/staticdata/resources/act_values.png"
                         }
                         append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
-                    }
-                }
-                else {
-                    if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "POWER1Module4", "RangeModule1"])) {
-                        if(!ASWGL.isServer) {
-                            iconName = "qrc:/data/staticdata/resources/act_values.png"
-                        }
-                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"});
                     }
                 }
 
