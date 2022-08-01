@@ -7,7 +7,7 @@
 class ActualValueModel : public ZeraGlueLogicItemModelBase
 {
 public:
-    ActualValueModel(int t_rows, int t_columns, QObject *t_parent);
+    ActualValueModel(QObject *t_parent);
     virtual ~ActualValueModel() override;
 
     void setupTable() override;
