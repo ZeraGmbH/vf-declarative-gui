@@ -2,10 +2,10 @@
 #include "actualvaluemodel.h"
 #include "burdenvaluemodel.h"
 #include "ffttablemodel.h"
+#include "hptablemodel.h"
 
 #include <QHash>
 #include <QPoint>
-#include <QTimer>
 
 #include <ve_commandevent.h>
 #include <vcmp_componentdata.h>
@@ -19,68 +19,7 @@
 #include <functional>
 
 
-
-
 //harmonic power values
-class HPTableModel : public QStandardItemModel
-{
-public:
-    explicit HPTableModel(QObject *t_parent) : QStandardItemModel(t_parent)
-    {
-        setupTimer();
-    }
-    HPTableModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent)
-    {
-        setupTimer();
-    }
-    virtual ~HPTableModel() override;
-
-    // QAbstractItemModel interface
-public:
-    QHash<int, QByteArray> roleNames() const override
-    {
-        QHash<int, QByteArray> roles;
-
-        roles.insert(POWER_S1_P, "PowerS1P");
-        roles.insert(POWER_S2_P, "PowerS2P");
-        roles.insert(POWER_S3_P, "PowerS3P");
-        roles.insert(POWER_S1_Q, "PowerS1Q");
-        roles.insert(POWER_S2_Q, "PowerS2Q");
-        roles.insert(POWER_S3_Q, "PowerS3Q");
-        roles.insert(POWER_S1_S, "PowerS1S");
-        roles.insert(POWER_S2_S, "PowerS2S");
-        roles.insert(POWER_S3_S, "PowerS3S");
-
-        return roles;
-    }
-
-    enum RoleIndexes
-    {
-        POWER_S1_P=Qt::UserRole+1,
-        POWER_S2_P,
-        POWER_S3_P,
-        POWER_S1_Q=POWER_S1_P+100,
-        POWER_S2_Q,
-        POWER_S3_Q,
-        POWER_S1_S=POWER_S1_Q+100,
-        POWER_S2_S,
-        POWER_S3_S,
-    };
-
-private:
-    QTimer m_dataChangeTimer;
-    void setupTimer()
-    {
-        m_dataChangeTimer.setInterval(1000);
-        m_dataChangeTimer.setSingleShot(false);
-        QObject::connect(&m_dataChangeTimer, &QTimer::timeout, [&]() {
-            emit dataChanged(index(0, 0), index(rowCount()-1, columnCount()-1));
-        });
-        m_dataChangeTimer.start();
-    }
-};
-
-HPTableModel::~HPTableModel() {}
 
 class ModelRowPair
 {
