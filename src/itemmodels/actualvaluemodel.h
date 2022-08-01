@@ -14,5 +14,4 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 };
 
-
 #endif // ACTUALVALUEMODEL_H

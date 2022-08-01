@@ -1,6 +1,7 @@
 #include "zeragluelogic.h"
 #include "actualvaluemodel.h"
-#include <QStandardItemModel>
+#include "burdenvaluemodel.h"
+
 #include <QHash>
 #include <QPoint>
 #include <QTimer>
@@ -17,28 +18,6 @@
 #include <functional>
 
 
-class BurdenValueModel : public QStandardItemModel
-{
-public:
-    explicit BurdenValueModel(QObject *t_parent) : QStandardItemModel(t_parent){}
-    BurdenValueModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent) {}
-    virtual ~BurdenValueModel() override;
-    // QAbstractItemModel interface
-public:
-    QHash<int, QByteArray> roleNames() const override
-    {
-        using namespace CommonTable;
-        QHash<int, QByteArray> roles;
-        roles.insert(RoleIndexes::NAME, "Name");
-        roles.insert(RoleIndexes::L1, "L1");
-        roles.insert(RoleIndexes::L2, "L2");
-        roles.insert(RoleIndexes::L3, "L3");
-        roles.insert(RoleIndexes::UNIT, "Unit");
-        return roles;
-    }
-};
-
-BurdenValueModel::~BurdenValueModel() {}
 
 class FftTableModel : public QStandardItemModel
 {
