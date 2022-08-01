@@ -1,4 +1,5 @@
 #include "zeragluelogic.h"
+#include "actualvaluemodel.h"
 #include <QStandardItemModel>
 #include <QHash>
 #include <QPoint>
@@ -15,47 +16,6 @@
 
 #include <functional>
 
-// DISCLAIMER: this is glue logic code, in this sense use the unix philosophy "worse is better"
-// If you don't know what that means then don't make assumptions, just google it!
-
-namespace CommonTable
-{
-enum RoleIndexes
-{
-    NAME=Qt::UserRole,
-    L1,
-    L2,
-    L3,
-    AUX=Qt::UserRole+500,
-    SUM=Qt::UserRole+1000,
-    UNIT=Qt::UserRole+1001,
-};
-}
-
-class ActualValueModel : public QStandardItemModel
-{
-public:
-    explicit ActualValueModel(QObject *t_parent) : QStandardItemModel(t_parent){}
-    ActualValueModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent) {}
-    virtual ~ActualValueModel() override;
-    // QAbstractItemModel interface
-public:
-    QHash<int, QByteArray> roleNames() const override
-    {
-        using namespace CommonTable;
-        QHash<int, QByteArray> roles;
-        roles.insert(RoleIndexes::NAME, "Name");
-        roles.insert(RoleIndexes::L1, "L1");
-        roles.insert(RoleIndexes::L2, "L2");
-        roles.insert(RoleIndexes::L3, "L3");
-        roles.insert(RoleIndexes::AUX, "AUX");
-        roles.insert(RoleIndexes::SUM, "Sum");
-        roles.insert(RoleIndexes::UNIT, "Unit");
-        return roles;
-    }
-};
-
-ActualValueModel::~ActualValueModel() {}
 
 class BurdenValueModel : public QStandardItemModel
 {
