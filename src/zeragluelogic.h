@@ -1,9 +1,10 @@
 #ifndef ZeraGlueLogic_H
 #define ZeraGlueLogic_H
 
+#include "gluelogicpropertymap.h"
 #include <ve_eventsystem.h>
 #include <zeratranslation.h>
-#include "gluelogicpropertymap.h"
+#include <QStandardItemModel>
 class ZeraGlueLogicPrivate;
 
 namespace CommonTable
@@ -19,6 +20,15 @@ enum RoleIndexes
     UNIT=Qt::UserRole+1001,
 };
 }
+
+class ZeraGlueLogicItemModelBase : public QStandardItemModel
+{
+public:
+    ZeraGlueLogicItemModelBase(int t_rows, int t_columns, QObject *t_parent);
+    virtual void setupTable() = 0;
+protected:
+    ZeraTranslation *m_translation = nullptr;
+};
 
 class ZeraGlueLogic : public VeinEvent::EventSystem
 {
