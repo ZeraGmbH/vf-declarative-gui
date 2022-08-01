@@ -56,6 +56,7 @@
         <file>qml/helpers/TaskList.qml</file>
         <file>qml/pages/ActualValuesPage.qml</file>
         <file>qml/pages/ActualValueTabsPage.qml</file>
+        <file>qml/pages/EMOBActualValueTabsPage.qml</file>
         <file>qml/pages/BaseTabPage.qml</file>
         <file>qml/pages/BurdenModulePage.qml</file>
         <file>qml/pages/CEDModulePage.qml</file>
