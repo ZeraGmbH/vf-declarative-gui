@@ -26,7 +26,7 @@ BaseTabPage {
     // Pages
     Component {
         id: pageTable
-        ActualValuesPage {
+        EMOBActualValuesPage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ACTUAL_VALUES
