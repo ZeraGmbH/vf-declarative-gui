@@ -22,7 +22,7 @@ Item {
         model: rotaryField.length
         Text {
             text: rotaryField[index];
-            color: GC.currentColorTable[parseInt(rotaryField[index]-1)]
+            color: GC.entityInitializationDone ? GC.currentColorTable[parseInt(rotaryField[index]-1)] : "black"
             font.pixelSize: root.height/1.8
             x: 2 + (root.width/3 * index)
             anchors.verticalCenter: parent.verticalCenter
