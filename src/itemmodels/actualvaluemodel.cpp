@@ -7,9 +7,6 @@ ActualValueModel::ActualValueModel(int t_rows, int t_columns, QObject *t_parent)
 
 ActualValueModel::~ActualValueModel()
 {
-    for(auto point : qAsConst(m_valueMapping)) {
-        delete point;
-    }
 }
 
 void ActualValueModel::setupTable()
@@ -151,7 +148,6 @@ void ActualValueModel::setupMapping()
     QHash<QString, QPoint> *rangeMap = new QHash<QString, QPoint>();
     rangeMap->insert("ACT_Frequency", QPoint(RoleIndexes::SUM, 13));
 
-
     m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
     m_valueMapping.insert(static_cast<int>(Modules::ThdnModule2), thdnMap);
     m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
@@ -159,7 +155,8 @@ void ActualValueModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module2), p1m2Map);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module3), p1m3Map);
-    m_valueMapping.insert(static_cast<int>(Modules::RangeModule), rangeMap);}
+    m_valueMapping.insert(static_cast<int>(Modules::RangeModule), rangeMap);
+}
 
 void ActualValueModel::updateTranslation()
 {

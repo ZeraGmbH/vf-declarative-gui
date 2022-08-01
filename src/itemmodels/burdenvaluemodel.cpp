@@ -1,7 +1,8 @@
 #include "burdenvaluemodel.h"
 
-BurdenValueModel::BurdenValueModel(int t_rows, int t_columns, QObject *t_parent) :
-    ZeraGlueLogicItemModelBase(t_rows, t_columns, t_parent)
+BurdenValueModel::BurdenValueModel(Modules modulVeinId, int t_rows, int t_columns, QObject *t_parent) :
+    ZeraGlueLogicItemModelBase(t_rows, t_columns, t_parent),
+    m_modulVeinId(modulVeinId)
 {
 }
 
@@ -48,6 +49,34 @@ void BurdenValueModel::setupTable()
 
 void BurdenValueModel::setupMapping()
 {
+    using namespace CommonTable;
+
+    QHash<QString, QPoint> *rmsMap = new QHash<QString, QPoint>();
+    rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, 1));
+    rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
+    rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
+
+    rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 2));
+    rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 2));
+    rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 2));
+
+    //(3) ∠UI is a calculated value
+
+    QHash<QString, QPoint> *burdenMap = new QHash<QString, QPoint>();
+    burdenMap->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
+    burdenMap->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
+    burdenMap->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
+
+    burdenMap->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
+    burdenMap->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
+    burdenMap->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
+
+    burdenMap->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
+    burdenMap->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
+    burdenMap->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
+
+    m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
+    m_valueMapping.insert(static_cast<int>(m_modulVeinId), burdenMap);
 
 }
 

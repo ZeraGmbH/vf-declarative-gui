@@ -56,6 +56,7 @@ class ZeraGlueLogicItemModelBase : public QStandardItemModel
 {
 public:
     ZeraGlueLogicItemModelBase(int t_rows, int t_columns, QObject *t_parent);
+    virtual ~ZeraGlueLogicItemModelBase();
     virtual void setupTable() = 0;
     virtual void setupMapping() = 0;
     virtual void updateTranslation() = 0;

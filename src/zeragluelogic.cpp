@@ -48,8 +48,8 @@ class ZeraGlueLogicPrivate
         m_propertyMap(t_propertyMap),
         m_translation(ZeraTranslation::getInstance()),
         m_actValueData(new ActualValueModel(14, 1, m_qPtr)),
-        m_burden1Data(new BurdenValueModel(7, 1, m_qPtr)),
-        m_burden2Data(new BurdenValueModel(7, 1, m_qPtr)),
+        m_burden1Data(new BurdenValueModel(Modules::Burden1Module, 7, 1, m_qPtr)),
+        m_burden2Data(new BurdenValueModel(Modules::Burden2Module, 7, 1, m_qPtr)),
         m_osciP1Data(new QStandardItemModel(3, 128, m_qPtr)),
         m_osciP2Data(new QStandardItemModel(3, 128, m_qPtr)),
         m_osciP3Data(new QStandardItemModel(3, 128, m_qPtr)),
@@ -65,8 +65,9 @@ class ZeraGlueLogicPrivate
         m_burden1Data->setupTable();
         m_burden2Data->setupTable();
 
-        setupActualValueMapping();
-        setupBurdenMapping();
+        m_actValueData->setupMapping();
+        m_burden1Data->setupMapping();
+        m_burden2Data->setupMapping();
         setupOsciData();
         setupFftData();
         setupPropertyMap();
@@ -76,13 +77,6 @@ class ZeraGlueLogicPrivate
     ~ZeraGlueLogicPrivate()
     {
         delete m_actValueData;
-
-        for(int i=0; i<m_burdenMapping->count(); ++i)
-        {
-            QHash<QString, QPoint> *tmpToDelete = m_burdenMapping->values().at(i);
-            delete tmpToDelete;
-        }
-        delete m_burdenMapping;
         delete m_burden1Data;
         delete m_burden2Data;
 
@@ -95,63 +89,6 @@ class ZeraGlueLogicPrivate
         delete m_fftRelativeTableData;
     }
 
-
-    /**
-   * @brief Maps x, y positions of components into the itemmodel
-   *
-   * QPoint is the x, y  / column, row position in the itemmodel.
-   * QML uses roles instead of columns!
-   */
-    void setupActualValueMapping()
-    {
-        m_actValueData->setupMapping();
-    }
-
-    void setupBurdenMapping()
-    {
-        using namespace CommonTable;
-
-        QHash<QString, QPoint> *rmsMap = new QHash<QString, QPoint>();
-        rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, 1));
-        rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
-        rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
-
-        rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 2));
-        rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 2));
-        rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 2));
-
-        //(3) ∠UI is a calculated value
-
-        QHash<QString, QPoint> *burdenMap1 = new QHash<QString, QPoint>();
-        burdenMap1->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
-        burdenMap1->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
-        burdenMap1->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
-
-        burdenMap1->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
-        burdenMap1->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
-        burdenMap1->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
-
-        burdenMap1->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
-        burdenMap1->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
-        burdenMap1->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
-
-        QHash<QString, QPoint> *burdenMap2 = new QHash<QString, QPoint>();
-        burdenMap2->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
-        burdenMap2->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
-        burdenMap2->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
-
-        burdenMap2->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
-        burdenMap2->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
-        burdenMap2->insert("ACT_PFactor3", QPoint(RoleIndexes::L3, 5));
-
-        burdenMap2->insert("ACT_Ratio1", QPoint(RoleIndexes::L1, 6));
-        burdenMap2->insert("ACT_Ratio2", QPoint(RoleIndexes::L2, 6));
-        burdenMap2->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
-
-        m_burdenMapping->insert(static_cast<int>(Modules::RmsModule), rmsMap);
-        m_burdenMapping->insert(static_cast<int>(Modules::Burden1Module), burdenMap1);
-        m_burdenMapping->insert(static_cast<int>(Modules::Burden2Module), burdenMap2);
-    }
 
     void setupOsciData()
     {
@@ -575,12 +512,6 @@ class ZeraGlueLogicPrivate
     HarmonicPowerTableModel *m_hpTableData;
     HarmonicPowerTableModel *m_hpRelativeTableData;
 
-    //stands for QHash<"entity descriptor", QHash<"component name", 2D coordinates>*>
-    template <typename T>
-    using CoordinateMapping = QHash<T, QHash<QString, QPoint>*>;
-
-    CoordinateMapping<int> *m_burdenMapping = new CoordinateMapping<int>();
-
     QHash<QString, ModelRowPair> m_osciMapping;
     QHash<QString, int> m_fftTableRoleMapping;
     QHash<QString, int> m_hpwTableRoleMapping;
@@ -661,7 +592,7 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             }
             case Modules::Burden1Module:
             {
-                const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
+                const auto burdenMapping = m_dPtr->m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping != nullptr))
                 {
                     const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
@@ -671,7 +602,7 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             }
             case Modules::Burden2Module:
             {
-                const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
+                const auto burdenMapping = m_dPtr->m_burden2Data->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping != nullptr))
                 {
                     const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
@@ -681,20 +612,24 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             }
             default: /// @note values handled earlier in the switch case will not show up in the actual values table!
             {
-                const auto avMapping = m_dPtr->m_actValueData->getValueMapping().value(evData->entityId(), nullptr);
-                const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
                 const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-
                 Q_ASSERT(cmpData != nullptr);
+                const auto avMapping = m_dPtr->m_actValueData->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(avMapping != nullptr))
                 {
                     retVal = m_dPtr->handleActualValues(avMapping, cmpData);
                 }
-                if(Q_UNLIKELY(burdenMapping != nullptr)) //rms values
+                const auto burdenMapping1 = m_dPtr->m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
+                if(Q_UNLIKELY(burdenMapping1 != nullptr)) //rms values
                 {
                     retVal = true;
-                    m_dPtr->handleBurden1Values(burdenMapping, cmpData);
-                    m_dPtr->handleBurden2Values(burdenMapping, cmpData);
+                    m_dPtr->handleBurden1Values(burdenMapping1, cmpData);
+                }
+                const auto burdenMapping2 = m_dPtr->m_burden2Data->getValueMapping().value(evData->entityId(), nullptr);
+                if(Q_UNLIKELY(burdenMapping2 != nullptr)) //rms values
+                {
+                    retVal = true;
+                    m_dPtr->handleBurden2Values(burdenMapping2, cmpData);
                 }
                 break;
             }
@@ -708,6 +643,13 @@ ZeraGlueLogicItemModelBase::ZeraGlueLogicItemModelBase(int t_rows, int t_columns
     QStandardItemModel(t_rows, t_columns, t_parent),
     m_translation(ZeraTranslation::getInstance())
 {
+}
+
+ZeraGlueLogicItemModelBase::~ZeraGlueLogicItemModelBase()
+{
+    for(auto point : qAsConst(m_valueMapping)) {
+        delete point;
+    }
 }
 
 QHash<int, QHash<QString, QPoint> *> ZeraGlueLogicItemModelBase::getValueMapping()
