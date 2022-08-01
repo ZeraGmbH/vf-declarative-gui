@@ -104,9 +104,6 @@ Item {
                         return ModuleIntrospection.p1m3Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     case "P DC":
                         return ModuleIntrospection.p1m4Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    default:
-                        console.assert("Unhandled condition")
-                        return undefined;
                     }
                 }
 
@@ -124,9 +121,6 @@ Item {
                         return root.p1m3
                     case "P DC":
                         return root.p1m4
-                    default:
-                        console.assert("Unhandled condition")
-                        return undefined;
                     }
                 }
 
@@ -346,9 +340,6 @@ Item {
                             return [["VArh","kVArh","MVArh"],[1e-3,1e0,1e3]]
                         case "S":
                             return [["VAh","kVAh","MVAh"],[1e-3,1e0,1e3]]
-                        default:
-                            console.assert("Unhandled condition")
-                            return undefined;
                         }
                     }
                     anchors.top: parent.top
