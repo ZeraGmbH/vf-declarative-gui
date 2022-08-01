@@ -20,7 +20,7 @@ Item {
         anchors.centerIn: parent
         ListView {
             anchors.fill: parent
-            model: ZGL.ActualValueModel
+            model: ZGL.ActualValueOnlyPModel
             boundsBehavior: Flickable.StopAtBounds
 
             delegate: Component {

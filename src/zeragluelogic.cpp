@@ -249,43 +249,39 @@ class ZeraGlueLogicPrivate
 
         tmpIndex = m_actValueData->index(8, 0);
         m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
+        //m_actValueOnlyPData??
     }
 
-    bool handleActualValues(QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+    bool handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
     {
         bool retVal = false;
         const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
         if(valueCoordiates.isNull() == false) //nothing is at 0, 0
         {
-            QModelIndex mIndex = m_actValueData->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
-
-            if(t_cmpData->entityId() != static_cast<int>(Modules::DftModule))
-            {
-                if(t_cmpData->componentName() == QLatin1String("PAR_MeasuringMode")) // these values need some string formatting
-                {
-                    // inform m_actValueData so it translates meas modes properly from now on
+            QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
+            if(t_cmpData->entityId() != static_cast<int>(Modules::DftModule)) {
+                if(t_cmpData->componentName() == QLatin1String("PAR_MeasuringMode")) {
+                    // inform itemModel so it translates meas modes properly from now on
                     QString newValue = t_cmpData->newValue().toString();
-                    dynamic_cast<ActualValueModel*>(m_actValueData)->insertMeasMode(valueCoordiates.y(), newValue);
+                    auto weHavASeriousTodoHere = dynamic_cast<ActualValueModel*>(itemModel);
+                    if(weHavASeriousTodoHere) {
+                        weHavASeriousTodoHere->insertMeasMode(valueCoordiates.y(), newValue);
+                    }
                 }
-                else
-                {
+                else {
                     //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
-                    m_actValueData->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
+                    itemModel->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x());
                 }
             }
             else //these are vectors that need calculation and are aligned to the reference channel
             {
                 QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
-                if(tmpVector.isEmpty() == false)
-                {
+                if(tmpVector.isEmpty() == false) {
                     double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
-                    if(vectorAngle < 0)
-                    {
+                    if(vectorAngle < 0) {
                         vectorAngle = 360 + vectorAngle;
                     }
-
-                    m_actValueData->setData(mIndex, vectorAngle, valueCoordiates.x());
-
+                    itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
                     //use lookup table to call the right lambda that returns the id to update the angles
                     setAngleUI(m_dftDispatchTable.value(t_cmpData->componentName())(vectorAngle));
                 }
@@ -295,29 +291,15 @@ class ZeraGlueLogicPrivate
         return retVal;
     }
 
-    bool handleBurden1Values(QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+    bool handleBurdenValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
     {
         bool retVal = false;
         const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
         if(valueCoordiates.isNull() == false) //nothing is at 0, 0
         {
-            QModelIndex mIndex = m_burden1Data->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
+            QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
             //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
-            m_burden1Data->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
-        }
-
-        return retVal;
-    }
-
-    bool handleBurden2Values(QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
-    {
-        bool retVal = false;
-        const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
-        if(valueCoordiates.isNull() == false) //nothing is at 0, 0
-        {
-            QModelIndex mIndex = m_burden2Data->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
-            //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
-            m_burden2Data->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
+            itemModel->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
         }
 
         return retVal;
@@ -495,6 +477,7 @@ class ZeraGlueLogicPrivate
     {
         using namespace CommonTable;
         m_actValueData->updateTranslation();
+        m_actValueOnlyPData->updateTranslation();
         m_burden1Data->updateTranslation();
         m_burden2Data->updateTranslation();
     }
@@ -601,20 +584,18 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             case Modules::Burden1Module:
             {
                 const auto burdenMapping = m_dPtr->m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
-                if(Q_UNLIKELY(burdenMapping != nullptr))
-                {
+                if(Q_UNLIKELY(burdenMapping != nullptr)) {
                     const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-                    retVal = m_dPtr->handleBurden1Values(burdenMapping, cmpData);
+                    retVal = m_dPtr->handleBurdenValues(m_dPtr->m_burden1Data, burdenMapping, cmpData);
                 }
                 break;
             }
             case Modules::Burden2Module:
             {
                 const auto burdenMapping = m_dPtr->m_burden2Data->getValueMapping().value(evData->entityId(), nullptr);
-                if(Q_UNLIKELY(burdenMapping != nullptr))
-                {
+                if(Q_UNLIKELY(burdenMapping != nullptr)) {
                     const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-                    retVal = m_dPtr->handleBurden2Values(burdenMapping, cmpData);
+                    retVal = m_dPtr->handleBurdenValues(m_dPtr->m_burden2Data, burdenMapping, cmpData);
                 }
                 break;
             }
@@ -625,19 +606,24 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
                 const auto avMapping = m_dPtr->m_actValueData->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(avMapping != nullptr))
                 {
-                    retVal = m_dPtr->handleActualValues(avMapping, cmpData);
+                    retVal = m_dPtr->handleActualValues(m_dPtr->m_actValueData, avMapping, cmpData);
+                }
+                const auto avMappingOnlyP = m_dPtr->m_actValueOnlyPData->getValueMapping().value(evData->entityId(), nullptr);
+                if(Q_UNLIKELY(avMappingOnlyP != nullptr))
+                {
+                    retVal = m_dPtr->handleActualValues(m_dPtr->m_actValueOnlyPData, avMappingOnlyP, cmpData);
                 }
                 const auto burdenMapping1 = m_dPtr->m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping1 != nullptr)) //rms values
                 {
                     retVal = true;
-                    m_dPtr->handleBurden1Values(burdenMapping1, cmpData);
+                    m_dPtr->handleBurdenValues(m_dPtr->m_burden1Data, burdenMapping1, cmpData);
                 }
                 const auto burdenMapping2 = m_dPtr->m_burden2Data->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping2 != nullptr)) //rms values
                 {
                     retVal = true;
-                    m_dPtr->handleBurden2Values(burdenMapping2, cmpData);
+                    m_dPtr->handleBurdenValues(m_dPtr->m_burden2Data, burdenMapping2, cmpData);
                 }
                 break;
             }
