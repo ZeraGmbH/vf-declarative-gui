@@ -34,6 +34,8 @@ Item {
     // hack to determine if we are in ced-session and have to use POWER2Module1
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
+    // even more hack for EMOB with two P power mdules ("P AC"/"P DC")
+    readonly property bool hasMultiplePs: validatorRefInput.Data.includes("P AC") && validatorRefInput.Data.includes("P DC")
 
     readonly property real rowHeight: height > 0 ? height/7 : 10
     readonly property real pointSize: rowHeight/2.5
@@ -41,6 +43,7 @@ Item {
     readonly property QtObject p1m1: !usePower2 ? VeinEntity.getEntity("POWER1Module1") : QtObject
     readonly property QtObject p1m2: !usePower2 ? VeinEntity.getEntity("POWER1Module2") : QtObject
     readonly property QtObject p1m3: !usePower2 ? VeinEntity.getEntity("POWER1Module3") : QtObject
+    readonly property QtObject p1m4: hasMultiplePs ? VeinEntity.getEntity("POWER1Module4") : QtObject
     readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject
 
     readonly property real col1Width: 10/20
