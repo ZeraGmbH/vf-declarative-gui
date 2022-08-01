@@ -56,8 +56,8 @@ class ZeraGlueLogicPrivate
         m_osciAUXData(new QStandardItemModel(3, 128, m_qPtr)),
         m_fftTableData(new FftTableModel(1, 1, m_qPtr)), //dynamic size
         m_fftRelativeTableData(new FftTableModel(1, 1, m_qPtr)), //dynamic size
-        m_hpTableData(new HPTableModel(1, 1, m_qPtr)), //dynamic size
-        m_hpRelativeTableData(new HPTableModel(1, 1, m_qPtr)) //dynamic size
+        m_hpTableData(new HarmonicPowerTableModel(1, 1, m_qPtr)), //dynamic size
+        m_hpRelativeTableData(new HarmonicPowerTableModel(1, 1, m_qPtr)) //dynamic size
     {
         QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, m_qPtr, [this](){updateTranslation();});
 
@@ -448,17 +448,17 @@ class ZeraGlueLogicPrivate
         m_fftTableRoleMapping.insert("ACT_FFT8", FftTableModel::AMP_L8);
 
         //harmonic power values
-        m_hpwTableRoleMapping.insert("ACT_HPP1", HPTableModel::POWER_S1_P);
-        m_hpwTableRoleMapping.insert("ACT_HPP2", HPTableModel::POWER_S2_P);
-        m_hpwTableRoleMapping.insert("ACT_HPP3", HPTableModel::POWER_S3_P);
+        m_hpwTableRoleMapping.insert("ACT_HPP1", HarmonicPowerTableModel::POWER_S1_P);
+        m_hpwTableRoleMapping.insert("ACT_HPP2", HarmonicPowerTableModel::POWER_S2_P);
+        m_hpwTableRoleMapping.insert("ACT_HPP3", HarmonicPowerTableModel::POWER_S3_P);
 
-        m_hpwTableRoleMapping.insert("ACT_HPQ1", HPTableModel::POWER_S1_Q);
-        m_hpwTableRoleMapping.insert("ACT_HPQ2", HPTableModel::POWER_S2_Q);
-        m_hpwTableRoleMapping.insert("ACT_HPQ3", HPTableModel::POWER_S3_Q);
+        m_hpwTableRoleMapping.insert("ACT_HPQ1", HarmonicPowerTableModel::POWER_S1_Q);
+        m_hpwTableRoleMapping.insert("ACT_HPQ2", HarmonicPowerTableModel::POWER_S2_Q);
+        m_hpwTableRoleMapping.insert("ACT_HPQ3", HarmonicPowerTableModel::POWER_S3_Q);
 
-        m_hpwTableRoleMapping.insert("ACT_HPS1", HPTableModel::POWER_S1_S);
-        m_hpwTableRoleMapping.insert("ACT_HPS2", HPTableModel::POWER_S2_S);
-        m_hpwTableRoleMapping.insert("ACT_HPS3", HPTableModel::POWER_S3_S);
+        m_hpwTableRoleMapping.insert("ACT_HPS1", HarmonicPowerTableModel::POWER_S1_S);
+        m_hpwTableRoleMapping.insert("ACT_HPS2", HarmonicPowerTableModel::POWER_S2_S);
+        m_hpwTableRoleMapping.insert("ACT_HPS3", HarmonicPowerTableModel::POWER_S3_S);
     }
 
     /**
@@ -868,8 +868,8 @@ class ZeraGlueLogicPrivate
     FftTableModel *m_fftTableData;
     FftTableModel *m_fftRelativeTableData;
 
-    HPTableModel *m_hpTableData;
-    HPTableModel *m_hpRelativeTableData;
+    HarmonicPowerTableModel *m_hpTableData;
+    HarmonicPowerTableModel *m_hpRelativeTableData;
 
     //stands for QHash<"entity descriptor", QHash<"component name", 2D coordinates>*>
     template <typename T>

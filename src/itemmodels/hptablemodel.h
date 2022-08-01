@@ -5,11 +5,11 @@
 #include <QStandardItemModel>
 #include <QTimer>
 
-class HPTableModel : public QStandardItemModel
+class HarmonicPowerTableModel : public QStandardItemModel
 {
 public:
-    HPTableModel(int t_rows, int t_columns, QObject *t_parent);
-    virtual ~HPTableModel() override;
+    HarmonicPowerTableModel(int t_rows, int t_columns, QObject *t_parent);
+    virtual ~HarmonicPowerTableModel() override;
     // QAbstractItemModel interface
 public:
     QHash<int, QByteArray> roleNames() const override;
