@@ -1,16 +1,16 @@
 #include "hptablemodel.h"
 
-HPTableModel::HPTableModel(int t_rows, int t_columns, QObject *t_parent) :
+HarmonicPowerTableModel::HarmonicPowerTableModel(int t_rows, int t_columns, QObject *t_parent) :
     QStandardItemModel(t_rows, t_columns, t_parent)
 {
     setupTimer();
 }
 
-HPTableModel::~HPTableModel()
+HarmonicPowerTableModel::~HarmonicPowerTableModel()
 {
 }
 
-QHash<int, QByteArray> HPTableModel::roleNames() const
+QHash<int, QByteArray> HarmonicPowerTableModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
 
@@ -27,7 +27,7 @@ QHash<int, QByteArray> HPTableModel::roleNames() const
     return roles;
 }
 
-void HPTableModel::setupTimer()
+void HarmonicPowerTableModel::setupTimer()
 {
     m_dataChangeTimer.setInterval(1000);
     m_dataChangeTimer.setSingleShot(false);
