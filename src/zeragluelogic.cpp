@@ -75,12 +75,6 @@ class ZeraGlueLogicPrivate
 
     ~ZeraGlueLogicPrivate()
     {
-        for(int i=0; i<m_actualValueMapping->count(); ++i)
-        {
-            QHash<QString, QPoint> *tmpToDelete = m_actualValueMapping->values().at(i);
-            delete tmpToDelete;
-        }
-        delete m_actualValueMapping;
         delete m_actValueData;
 
         for(int i=0; i<m_burdenMapping->count(); ++i)
@@ -110,83 +104,7 @@ class ZeraGlueLogicPrivate
    */
     void setupActualValueMapping()
     {
-        using namespace CommonTable;
-        QHash<QString, QPoint> *rmsMap = new QHash<QString, QPoint>();
-        rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, 1));
-        rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
-        rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
-        rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::AUX, 1));
-
-        rmsMap->insert("ACT_RMSPP1", QPoint(RoleIndexes::L1, 2));
-        rmsMap->insert("ACT_RMSPP2", QPoint(RoleIndexes::L2, 2));
-        rmsMap->insert("ACT_RMSPP3", QPoint(RoleIndexes::L3, 2));
-
-        QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
-        dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 3));
-        dftMap->insert("ACT_DFTPN2", QPoint(RoleIndexes::L2, 3));
-        dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, 3));
-        dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::AUX, 3));
-
-        QHash<QString, QPoint> *thdnMap = new QHash<QString, QPoint>();
-        thdnMap->insert("ACT_THDR1", QPoint(RoleIndexes::L1, 4));
-        thdnMap->insert("ACT_THDR2", QPoint(RoleIndexes::L2, 4));
-        thdnMap->insert("ACT_THDR3", QPoint(RoleIndexes::L3, 4));
-
-        rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 5));
-        rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 5));
-        rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 5));
-        rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::AUX, 5));
-
-        dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, 6));
-        dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, 6));
-        dftMap->insert("ACT_DFTPN6", QPoint(RoleIndexes::L3, 6));
-        dftMap->insert("ACT_DFTPN8", QPoint(RoleIndexes::AUX, 6));
-
-        thdnMap->insert("ACT_THDR4", QPoint(RoleIndexes::L1, 7));
-        thdnMap->insert("ACT_THDR5", QPoint(RoleIndexes::L2, 7));
-        thdnMap->insert("ACT_THDR6", QPoint(RoleIndexes::L3, 7));
-
-        //(8) ∠UI is a calculated value
-
-        QHash<QString, QPoint> *lambdaMap = new QHash<QString, QPoint>();
-        lambdaMap->insert("ACT_Lambda1", QPoint(RoleIndexes::L1, 9));
-        lambdaMap->insert("ACT_Lambda2", QPoint(RoleIndexes::L2, 9));
-        lambdaMap->insert("ACT_Lambda3", QPoint(RoleIndexes::L3, 9));
-        lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM, 9));
-
-        QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
-        p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 10));
-        p1m1Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 10));
-        p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 10));
-        p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 10));
-        p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 10));
-
-        QHash<QString, QPoint> *p1m2Map = new QHash<QString, QPoint>();
-        p1m2Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 11));
-        p1m2Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 11));
-        p1m2Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 11));
-        p1m2Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 11));
-        p1m2Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 11));
-
-        QHash<QString, QPoint> *p1m3Map = new QHash<QString, QPoint>();
-        p1m3Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 12));
-        p1m3Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 12));
-        p1m3Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 12));
-        p1m3Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 12));
-        p1m3Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 12));
-
-        QHash<QString, QPoint> *rangeMap = new QHash<QString, QPoint>();
-        rangeMap->insert("ACT_Frequency", QPoint(RoleIndexes::SUM, 13));
-
-
-        m_actualValueMapping->insert(static_cast<int>(Modules::RmsModule), rmsMap);
-        m_actualValueMapping->insert(static_cast<int>(Modules::ThdnModule2), thdnMap);
-        m_actualValueMapping->insert(static_cast<int>(Modules::DftModule), dftMap);
-        m_actualValueMapping->insert(static_cast<int>(Modules::LambdaModule), lambdaMap);
-        m_actualValueMapping->insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
-        m_actualValueMapping->insert(static_cast<int>(Modules::Power1Module2), p1m2Map);
-        m_actualValueMapping->insert(static_cast<int>(Modules::Power1Module3), p1m3Map);
-        m_actualValueMapping->insert(static_cast<int>(Modules::RangeModule), rangeMap);
+        m_actValueData->setupMapping();
     }
 
     void setupBurdenMapping()
@@ -661,7 +579,6 @@ class ZeraGlueLogicPrivate
     template <typename T>
     using CoordinateMapping = QHash<T, QHash<QString, QPoint>*>;
 
-    CoordinateMapping<int> *m_actualValueMapping = new CoordinateMapping<int>();
     CoordinateMapping<int> *m_burdenMapping = new CoordinateMapping<int>();
 
     QHash<QString, ModelRowPair> m_osciMapping;
@@ -691,33 +608,6 @@ class ZeraGlueLogicPrivate
     double m_angleI1=0;
     double m_angleI2=0;
     double m_angleI3=0;
-
-    enum class Modules : int {
-        ModeModule = 1000,
-        ReferenceModule = 1001,
-        RangeModule = 1020,
-        SampleModule = 1030,
-        RmsModule = 1040,
-        DftModule = 1050,
-        FftModule = 1060,
-        Power1Module1 = 1070, // P
-        Power1Module2 = 1071, // Q
-        Power1Module3 = 1072, // S
-        //Power1Module4 = 1073, // P+Q+S for SCPI clients
-        //Power2Module1 = 1090, // CED session
-        Power3Module = 1100,
-        ThdnModule1 = 1110,
-        ThdnModule2 = 1111,
-        OsciModule = 1120,
-        Sec1Module = 1130,
-        LambdaModule = 1140,
-        //StatusModule = 1150,
-        Burden1Module = 1160,
-        Burden2Module = 1161,
-        //TranformerModule = 1170,
-        //AdjustmentModule = 1190,
-        //ScpiModule = 9999,
-    };
 
     friend class ZeraGlueLogic;
 };
@@ -749,27 +639,27 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
         if (cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION
                 && evData->type() == VeinComponent::ComponentData::dataType())
         {
-            switch(static_cast<ZeraGlueLogicPrivate::Modules>(evData->entityId()))
+            switch(static_cast<Modules>(evData->entityId()))
             {
-            case ZeraGlueLogicPrivate::Modules::OsciModule:
+            case Modules::OsciModule:
             {
                 const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                 retVal = m_dPtr->handleOsciValues(cmpData);
                 break;
             }
-            case ZeraGlueLogicPrivate::Modules::FftModule:
+            case Modules::FftModule:
             {
                 const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                 retVal = m_dPtr->handleFftValues(cmpData);
                 break;
             }
-            case ZeraGlueLogicPrivate::Modules::Power3Module:
+            case Modules::Power3Module:
             {
                 const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                 retVal = m_dPtr->handleHarmonicPowerValues(cmpData);
                 break;
             }
-            case ZeraGlueLogicPrivate::Modules::Burden1Module:
+            case Modules::Burden1Module:
             {
                 const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping != nullptr))
@@ -779,7 +669,7 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
                 }
                 break;
             }
-            case ZeraGlueLogicPrivate::Modules::Burden2Module:
+            case Modules::Burden2Module:
             {
                 const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping != nullptr))
@@ -791,7 +681,7 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             }
             default: /// @note values handled earlier in the switch case will not show up in the actual values table!
             {
-                const auto avMapping = m_dPtr->m_actualValueMapping->value(evData->entityId(), nullptr);
+                const auto avMapping = m_dPtr->m_actValueData->getValueMapping().value(evData->entityId(), nullptr);
                 const auto burdenMapping = m_dPtr->m_burdenMapping->value(evData->entityId(), nullptr);
                 const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
 
@@ -818,4 +708,9 @@ ZeraGlueLogicItemModelBase::ZeraGlueLogicItemModelBase(int t_rows, int t_columns
     QStandardItemModel(t_rows, t_columns, t_parent),
     m_translation(ZeraTranslation::getInstance())
 {
+}
+
+QHash<int, QHash<QString, QPoint> *> ZeraGlueLogicItemModelBase::getValueMapping()
+{
+    return m_valueMapping;
 }

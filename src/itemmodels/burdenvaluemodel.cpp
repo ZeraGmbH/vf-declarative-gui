@@ -46,6 +46,11 @@ void BurdenValueModel::setupTable()
     setData(mIndex, "%", RoleIndexes::UNIT);
 }
 
+void BurdenValueModel::setupMapping()
+{
+
+}
+
 void BurdenValueModel::updateTranslation()
 {
     using namespace CommonTable;
