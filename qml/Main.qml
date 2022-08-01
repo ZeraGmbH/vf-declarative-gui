@@ -353,10 +353,9 @@ ApplicationWindow {
 
             function initModel() {
                 clear()
-                controlsBar.rotaryFieldDependenciesReady =
-                        ModuleIntrospection.hasDependentEntities(["DFTModule1"]) &&
-                        !ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"]) &&
-                        dcSession
+                let dftAvail = ModuleIntrospection.hasDependentEntities(["DFTModule1"])
+                let isReference = ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"])
+                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !dcSession
                 let iconName = ""
                 if(!dcSession) {
                     if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
