@@ -1,6 +1,7 @@
 #include "zeragluelogic.h"
 #include "actualvaluemodel.h"
 #include "burdenvaluemodel.h"
+#include "ffttablemodel.h"
 
 #include <QHash>
 #include <QPoint>
@@ -19,67 +20,6 @@
 
 
 
-class FftTableModel : public QStandardItemModel
-{
-public:
-    explicit FftTableModel(QObject *t_parent) : QStandardItemModel(t_parent)
-    {
-    }
-    FftTableModel(int t_rows, int t_columns, QObject *t_parent) : QStandardItemModel(t_rows, t_columns, t_parent)
-    {
-    }
-    virtual ~FftTableModel() override;
-
-    // QAbstractItemModel interface
-public:
-    QHash<int, QByteArray> roleNames() const override
-    {
-        QHash<int, QByteArray> roles;
-        //    roles.insert(rowIndex, "RowIndex");
-        roles.insert(AMP_L1, "AmplitudeL1"); //leave the first one for eventual harmonic order
-        roles.insert(AMP_L2, "AmplitudeL2");
-        roles.insert(AMP_L3, "AmplitudeL3");
-        roles.insert(AMP_L4, "AmplitudeL4");
-        roles.insert(AMP_L5, "AmplitudeL5");
-        roles.insert(AMP_L6, "AmplitudeL6");
-        roles.insert(AMP_L7, "AmplitudeL7");
-        roles.insert(AMP_L8, "AmplitudeL8");
-        roles.insert(VECTOR_L1, "VectorL1");
-        roles.insert(VECTOR_L2, "VectorL2");
-        roles.insert(VECTOR_L3, "VectorL3");
-        roles.insert(VECTOR_L4, "VectorL4");
-        roles.insert(VECTOR_L5, "VectorL5");
-        roles.insert(VECTOR_L6, "VectorL6");
-        roles.insert(VECTOR_L7, "VectorL7");
-        roles.insert(VECTOR_L8, "VectorL8");
-
-        return roles;
-    }
-
-    enum RoleIndexes
-    {
-        AMP_L1=Qt::UserRole+1,
-        AMP_L2,
-        AMP_L3,
-        AMP_L4,
-        AMP_L5,
-        AMP_L6,
-        AMP_L7,
-        AMP_L8,
-        VECTOR_L1=AMP_L1+100,
-        VECTOR_L2,
-        VECTOR_L3,
-        VECTOR_L4,
-        VECTOR_L5,
-        VECTOR_L6,
-        VECTOR_L7,
-        VECTOR_L8,
-    };
-
-private:
-};
-
-FftTableModel::~FftTableModel() {}
 
 //harmonic power values
 class HPTableModel : public QStandardItemModel
