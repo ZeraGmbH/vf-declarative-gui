@@ -472,13 +472,9 @@ class ZeraGlueLogicPrivate
             {
                 if(t_cmpData->componentName() == QLatin1String("PAR_MeasuringMode")) // these values need some string formatting
                 {
-                    //dynamic translation
-                    m_dynamicMeasuringModeDescriptor.insert(valueCoordiates.y(), t_cmpData->newValue().toString()); //update dynamic reference table
-                    const QString translatedMode = m_translation->TrValue(t_cmpData->newValue().toString()).toString();
-                    Q_ASSERT(translatedMode.isEmpty() == false); //only triggers when the translation is missing in zeratranslation.cpp!
-                    // (%Mode) %Name
-                    const QString tmpValue = QString("(%1) %2").arg(translatedMode).arg(getAvmNameById(t_cmpData->entityId()));
-                    m_actValueData->setData(mIndex, tmpValue, valueCoordiates.x()); // QML doesn't understand column, so use roles
+                    // inform m_actValueData so it translates meas modes properly from now on
+                    QString newValue = t_cmpData->newValue().toString();
+                    dynamic_cast<ActualValueModel*>(m_actValueData)->insertMeasMode(valueCoordiates.y(), newValue);
                 }
                 else
                 {
@@ -706,45 +702,10 @@ class ZeraGlueLogicPrivate
     void updateTranslation()
     {
         using namespace CommonTable;
-        //actValue
-        QModelIndex mIndex = m_actValueData->index(0, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
-        m_actValueData->setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
-        m_actValueData->setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
-        m_actValueData->setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
-        m_actValueData->setData(mIndex, "Σ", RoleIndexes::SUM);
-        m_actValueData->setData(mIndex, "[ ]", RoleIndexes::UNIT);
-
-        //mIndex = m_actValueData->index(0, 0); //none
-        mIndex = m_actValueData->index(1, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(2, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("UPP"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(3, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("∠U"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(4, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("kU"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(5, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(6, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("∠I"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(7, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("kI"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(8, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(9, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(10, 0);
-        m_actValueData->setData(mIndex, QString("(%1) P").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(11, 0);
-        m_actValueData->setData(mIndex, QString("(%1) Q").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(12, 0);
-        m_actValueData->setData(mIndex, QString("(%1) S").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
-        mIndex = m_actValueData->index(13, 0);
-        m_actValueData->setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
+        m_actValueData->updateTranslation();
 
         //burden1
-        mIndex = m_burden1Data->index(0, 0);
+        QModelIndex mIndex = m_burden1Data->index(0, 0);
         m_burden1Data->setData(mIndex, m_translation->TrValue("BRD1"), RoleIndexes::L1);
         m_burden1Data->setData(mIndex, m_translation->TrValue("BRD2"), RoleIndexes::L2);
         m_burden1Data->setData(mIndex, m_translation->TrValue("BRD3"), RoleIndexes::L3);
@@ -813,8 +774,6 @@ class ZeraGlueLogicPrivate
     QHash<QString, ModelRowPair> m_osciMapping;
     QHash<QString, int> m_fftTableRoleMapping;
     QHash<QString, int> m_hpwTableRoleMapping;
-
-    QHash<int, QString> m_dynamicMeasuringModeDescriptor = {{10, ""}, {11, ""}, {12, ""}};
 
     double m_dftReferenceValue; //vector diagram reference angle
 

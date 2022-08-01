@@ -78,6 +78,41 @@ void ActualValueModel::setupTable()
     setData(mIndex, "Hz", RoleIndexes::UNIT);
 }
 
+void ActualValueModel::updateTranslation()
+{
+    using namespace CommonTable;
+    QModelIndex mIndex = index(0, 0);
+    setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
+    setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
+    setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
+    setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
+    setData(mIndex, "Σ", RoleIndexes::SUM);
+    setData(mIndex, "[ ]", RoleIndexes::UNIT);
+
+    //mIndex = index(0, 0); //none
+    mIndex = index(1, 0);
+    setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
+    mIndex = index(2, 0);
+    setData(mIndex, m_translation->TrValue("UPP"), RoleIndexes::NAME);
+    mIndex = index(3, 0);
+    setData(mIndex, m_translation->TrValue("∠U"), RoleIndexes::NAME);
+    mIndex = index(4, 0);
+    setData(mIndex, m_translation->TrValue("kU"), RoleIndexes::NAME);
+    mIndex = index(5, 0);
+    setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
+    mIndex = index(6, 0);
+    setData(mIndex, m_translation->TrValue("∠I"), RoleIndexes::NAME);
+    mIndex = index(7, 0);
+    setData(mIndex, m_translation->TrValue("kI"), RoleIndexes::NAME);
+    mIndex = index(8, 0);
+    setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
+    mIndex = index(9, 0);
+    setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
+    updateMModeTranslations();
+    mIndex = index(13, 0);
+    setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
+}
+
 QHash<int, QByteArray> ActualValueModel::roleNames() const
 {
     using namespace CommonTable;
@@ -90,4 +125,21 @@ QHash<int, QByteArray> ActualValueModel::roleNames() const
     roles.insert(RoleIndexes::SUM, "Sum");
     roles.insert(RoleIndexes::UNIT, "Unit");
     return roles;
+}
+
+void ActualValueModel::insertMeasMode(int yCoordinate, QString measMode)
+{
+    m_dynamicMeasuringModeDescriptor.insert(yCoordinate, measMode);
+    updateMModeTranslations();
+}
+
+void ActualValueModel::updateMModeTranslations()
+{
+    using namespace CommonTable;
+    QModelIndex mIndex = index(10, 0);
+    setData(mIndex, QString("(%1) P").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    mIndex = index(11, 0);
+    setData(mIndex, QString("(%1) Q").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    mIndex = index(12, 0);
+    setData(mIndex, QString("(%1) S").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
 }
