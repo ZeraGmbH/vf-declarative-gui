@@ -2,24 +2,20 @@
 #define ZeraGlueLogic_H
 
 #include <ve_eventsystem.h>
-
-class QStandardItemModel;
+#include <zeratranslation.h>
+#include "gluelogicpropertymap.h"
 class ZeraGlueLogicPrivate;
-class GlueLogicPropertyMap;
-class ZeraTranslation;
 
 class ZeraGlueLogic : public VeinEvent::EventSystem
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=nullptr);
-  ~ZeraGlueLogic() override;
-
-  // EventSystem interface
+    explicit ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=nullptr);
+    ~ZeraGlueLogic() override;
 public:
-  bool processEvent(QEvent *t_event) override;
+    bool processEvent(QEvent *t_event) override;
 private:
-  ZeraGlueLogicPrivate *m_dPtr;
+    ZeraGlueLogicPrivate *m_dPtr;
 };
 
 #endif // ZeraGlueLogic_H
