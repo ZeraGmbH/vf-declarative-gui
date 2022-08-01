@@ -1,5 +1,6 @@
 #include "zeragluelogic.h"
 #include "actualvaluemodel.h"
+#include "actualvalueonlypmodel.h"
 #include "burdenvaluemodel.h"
 #include "ffttablemodel.h"
 #include "hptablemodel.h"
@@ -48,6 +49,7 @@ class ZeraGlueLogicPrivate
         m_propertyMap(t_propertyMap),
         m_translation(ZeraTranslation::getInstance()),
         m_actValueData(new ActualValueModel(m_qPtr)),
+        m_actValueOnlyPData(new ActualValueOnlyPModel(m_qPtr)),
         m_burden1Data(new BurdenValueModel(Modules::Burden1Module, m_qPtr)),
         m_burden2Data(new BurdenValueModel(Modules::Burden2Module, m_qPtr)),
         m_osciP1Data(new QStandardItemModel(3, 128, m_qPtr)),
@@ -62,10 +64,12 @@ class ZeraGlueLogicPrivate
         QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, m_qPtr, [this](){updateTranslation();});
 
         m_actValueData->setupTable();
+        m_actValueOnlyPData->setupTable();
         m_burden1Data->setupTable();
         m_burden2Data->setupTable();
 
         m_actValueData->setupMapping();
+        m_actValueOnlyPData->setupMapping();
         m_burden1Data->setupMapping();
         m_burden2Data->setupMapping();
         setupOsciData();
@@ -77,6 +81,7 @@ class ZeraGlueLogicPrivate
     ~ZeraGlueLogicPrivate()
     {
         delete m_actValueData;
+        delete m_actValueOnlyPData;
         delete m_burden1Data;
         delete m_burden2Data;
 
@@ -458,6 +463,7 @@ class ZeraGlueLogicPrivate
     void setupPropertyMap()
     {
         m_propertyMap->insert(ZeraGlueLogicPrivate::s_actualValueComponentName, QVariant::fromValue<QObject*>(m_actValueData));
+        m_propertyMap->insert(ZeraGlueLogicPrivate::s_actualValueOnlyPComponentName, QVariant::fromValue<QObject*>(m_actValueOnlyPData));
         m_propertyMap->insert(ZeraGlueLogicPrivate::s_burden1ComponentName, QVariant::fromValue<QObject*>(m_burden1Data));
         m_propertyMap->insert(ZeraGlueLogicPrivate::s_burden2ComponentName, QVariant::fromValue<QObject*>(m_burden2Data));
         m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP1ComponentName, QVariant::fromValue<QObject*>(m_osciP1Data));
@@ -498,6 +504,7 @@ class ZeraGlueLogicPrivate
     ZeraTranslation *m_translation = nullptr;
 
     ZeraGlueLogicItemModelBase *m_actValueData;
+    ZeraGlueLogicItemModelBase *m_actValueOnlyPData;
     ZeraGlueLogicItemModelBase *m_burden1Data;
     ZeraGlueLogicItemModelBase *m_burden2Data;
 
@@ -519,6 +526,7 @@ class ZeraGlueLogicPrivate
     double m_dftReferenceValue; //vector diagram reference angle
 
     static constexpr char const *s_actualValueComponentName = "ActualValueModel";
+    static constexpr char const *s_actualValueOnlyPComponentName = "ActualValueOnlyPModel";
     static constexpr char const *s_burden1ComponentName = "BurdenModelI";
     static constexpr char const *s_burden2ComponentName = "BurdenModelU";
     static constexpr char const *s_osciP1ComponentName = "OSCIP1Model";
