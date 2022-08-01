@@ -1,7 +1,7 @@
 #include "actualvaluemodel.h"
 
-ActualValueModel::ActualValueModel(int t_rows, int t_columns, QObject *t_parent) :
-    ZeraGlueLogicItemModelBase(t_rows, t_columns, t_parent)
+ActualValueModel::ActualValueModel(QObject *t_parent) :
+    ZeraGlueLogicItemModelBase(14, 1, t_parent)
 {
 }
 
