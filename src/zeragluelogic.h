@@ -3,8 +3,12 @@
 
 #include "gluelogicpropertymap.h"
 #include <ve_eventsystem.h>
+#include <vcmp_componentdata.h>
 #include <zeratranslation.h>
+#include <QPoint>
+#include <QHash>
 #include <QStandardItemModel>
+
 class ZeraGlueLogicPrivate;
 
 namespace CommonTable
