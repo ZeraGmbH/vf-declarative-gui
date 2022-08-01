@@ -7,21 +7,15 @@ cmake_policy(SET CMP0071 NEW)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# cmake macros
+
 include(FeatureSummary)
 
-#Required Packages
-
-##Qt5
 find_package(Qt5 "5.12.0" COMPONENTS Core Widgets DBus Xml Quick QuickControls2 Qml CONFIG REQUIRED COMPONENTS)
 find_package(Qt5QuickCompiler CONFIG REQUIRED)
-
-##QWT libs
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(QWT REQUIRED Qt5Qwt6)
 
 find_package(FontAweSomeQml REQUIRED)
-
 find_Package(VfEvent REQUIRED )
 find_Package(VfComponent REQUIRED )
 find_Package(VfNet2 REQUIRED ) 
@@ -45,15 +39,14 @@ find_Package(zera-json-qml REQUIRED)
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
 
-# All sources by type
-
-##Application
 file(GLOB APP_HEADERS
     src/*.h
+    src/itemmodels/*.h
     )
 
 file(GLOB_RECURSE APP_SOURCES
     src/*.cpp
+    src/intemmodels/*.h
     )
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -62,17 +55,16 @@ else()
     qtquick_compiler_add_resources(APP_RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
 endif()
 
-# our application
 add_executable(vf-declarative-gui
     ${APP_HEADERS}
     ${APP_SOURCES}
     ${APP_RESOURCES}
     )
 
-# dependencies
 target_include_directories(vf-declarative-gui
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/itemmodels
     ${QWT_INCLUDE_DIRS}
     )
 
@@ -84,7 +76,6 @@ else()
     set(glLib ${OPENGL_LIBRARIES})
 endif()
 
-## linking
 target_link_libraries(vf-declarative-gui
     PRIVATE
     Qt5::Core
@@ -120,7 +111,6 @@ target_link_libraries(vf-declarative-gui
     ${glLib}
     )
 
-# add Qml-Debug for Debug build envirionemt only
 target_compile_definitions(vf-declarative-gui PRIVATE $<$<CONFIG:Debug>:QT_QML_DEBUG>)
 
 install(TARGETS vf-declarative-gui
@@ -128,16 +118,4 @@ install(TARGETS vf-declarative-gui
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
-#Display feature summary
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
-
-
-
-
-
-
-
-
-
-
