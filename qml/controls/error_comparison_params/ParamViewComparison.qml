@@ -339,6 +339,8 @@ Item {
                         case "P":
                         case "+P":
                         case "-P":
+                        case "P AC":
+                        case "P DC":
                             return [["Wh","kWh","MWh"],[1e-3,1e0,1e3]]
                         case "Q":
                             return [["VArh","kVArh","MVArh"],[1e-3,1e0,1e3]]
