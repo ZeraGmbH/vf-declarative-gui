@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.0
 
 Item {
     id: root
-    property QtObject dftModule: VeinEntity.getEntity("DFTModule1");
+    property QtObject dftModule: GC.entityInitializationDone ? VeinEntity.getEntity("DFTModule1") : QtObject
     property var rotaryField: []
     onDftModuleChanged: {
         rotaryField = Qt.binding(function(){return String(dftModule.ACT_RFIELD).split("");})
