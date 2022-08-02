@@ -22,12 +22,10 @@ void ActualValue4thPhaseDcModel::setupTable()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
+    setData(mIndex, "DC", RoleIndexes::NAME);
     setData(mIndex, "U [V]", RoleIndexes::DC_U);
     setData(mIndex, "I [A]", RoleIndexes::DC_I);
     setData(mIndex, "P [W]", RoleIndexes::DC_P);
-    // 1st line / 1st column
-    mIndex = index(lineVal(LINE_VALUES), 0);
-    setData(mIndex, "DC", RoleIndexes::Name);
 }
 
 void ActualValue4thPhaseDcModel::setupMapping()
@@ -50,7 +48,7 @@ void ActualValue4thPhaseDcModel::updateTranslation()
 QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles.insert(RoleIndexes::Name, "Name");
+    roles.insert(RoleIndexes::NAME, "NAME");
     roles.insert(RoleIndexes::DC_U, "DC_U");
     roles.insert(RoleIndexes::DC_I, "DC_I");
     roles.insert(RoleIndexes::DC_P, "DC_P");

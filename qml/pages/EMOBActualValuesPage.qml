@@ -27,9 +27,9 @@ Item {
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
-                ActualValuesRow {
+                ActualValuesRowNoSum {
                     rowHeight: root.rowHeight
-                    columnWidth: root.width/5.2
+                    columnWidth: root.width/4.2
                 }
             }
         }
@@ -42,7 +42,7 @@ Item {
             delegate: Component {
                 ActualValuesRowAcSum {
                     rowHeight: root.rowHeight
-                    columnWidth: root.width/5.2
+                    columnWidth: root.width/4.2
                     colorU: GC.colorUAux1
                     colorI: GC.colorIAux1
                 }
@@ -57,7 +57,7 @@ Item {
             delegate: Component {
                 ActualValuesRowDc {
                     rowHeight: root.rowHeight
-                    columnWidth: root.width/5.2
+                    columnWidth: root.width/4.2
                     colorU: GC.colorUAux1
                     colorI: GC.colorIAux1
                 }

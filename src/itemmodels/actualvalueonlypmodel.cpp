@@ -6,9 +6,8 @@ enum class LineDefinitions : int {
     LINE_UANGLE,
     LINE_I,
     LINE_IANGLE,
+    LINE_POWER,
     LINE_LAMBDA,
-    LINE_MMODE,
-    LINE_FREQ,
 
     LINE_COUNT
 };
@@ -29,6 +28,7 @@ void ActualValueOnlyPModel::setupTable()
     using namespace CommonTable;
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
+    setData(mIndex, m_translation->TrValue("AC"), RoleIndexes::NAME);
     setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
     setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
     setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
@@ -47,10 +47,8 @@ void ActualValueOnlyPModel::setupTable()
     setData(mIndex, m_translation->TrValue("∠I"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_LAMBDA), 0);
     setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
-    mIndex = index(lineVal(LINE_MMODE), 0);
+    mIndex = index(lineVal(LINE_POWER), 0);
     setData(mIndex, m_translation->TrValue("P"), RoleIndexes::NAME);
-    mIndex = index(lineVal(LINE_FREQ), 0);
-    setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
 
     // last column unit names
     mIndex = index(lineVal(LINE_UPN), 0);
@@ -61,11 +59,9 @@ void ActualValueOnlyPModel::setupTable()
     setData(mIndex, "A", RoleIndexes::UNIT);
     mIndex = index(lineVal(LINE_IANGLE), 0);
     setData(mIndex, "°", RoleIndexes::UNIT);
-    //mIndex = index(lineVal(LINE_LAMBDA), 0); //none
-    mIndex = index(lineVal(LINE_MMODE), 0);
+    mIndex = index(lineVal(LINE_POWER), 0);
     setData(mIndex, "W", RoleIndexes::UNIT);
-    mIndex = index(lineVal(LINE_FREQ), 0);
-    setData(mIndex, "Hz", RoleIndexes::UNIT);
+    //mIndex = index(lineVal(LINE_LAMBDA), 0); //none
 }
 
 void ActualValueOnlyPModel::setupMapping()
@@ -100,20 +96,16 @@ void ActualValueOnlyPModel::setupMapping()
     lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM, lineVal(LINE_LAMBDA)));
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
-    p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, lineVal(LINE_MMODE)));
-    p1m1Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, lineVal(LINE_MMODE)));
-    p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, lineVal(LINE_MMODE)));
-    p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, lineVal(LINE_MMODE)));
-    p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, lineVal(LINE_MMODE)));
-
-    QHash<QString, QPoint> *rangeMap = new QHash<QString, QPoint>();
-    rangeMap->insert("ACT_Frequency", QPoint(RoleIndexes::SUM, lineVal(LINE_FREQ)));
+    p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, lineVal(LINE_POWER)));
+    p1m1Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, lineVal(LINE_POWER)));
+    p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, lineVal(LINE_POWER)));
+    p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, lineVal(LINE_POWER)));
+    p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, lineVal(LINE_POWER)));
 
     m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
     m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
     m_valueMapping.insert(static_cast<int>(Modules::LambdaModule), lambdaMap);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
-    m_valueMapping.insert(static_cast<int>(Modules::RangeModule), rangeMap);
 }
 
 void ActualValueOnlyPModel::updateTranslation()
@@ -138,8 +130,6 @@ void ActualValueOnlyPModel::updateTranslation()
     mIndex = index(lineVal(LINE_LAMBDA), 0);
     setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
     updateMModeTranslations();
-    mIndex = index(lineVal(LINE_FREQ), 0);
-    setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
 }
 
 QHash<int, QByteArray> ActualValueOnlyPModel::roleNames() const
@@ -165,7 +155,7 @@ void ActualValueOnlyPModel::insertMeasMode(int yCoordinate, QString measMode)
 void ActualValueOnlyPModel::updateMModeTranslations()
 {
     using namespace CommonTable;
-    QModelIndex mIndex = index(lineVal(LINE_MMODE), 0);
+    QModelIndex mIndex = index(lineVal(LINE_POWER), 0);
     //setData(mIndex, QString("(%1) P").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
     setData(mIndex, "P");
 }

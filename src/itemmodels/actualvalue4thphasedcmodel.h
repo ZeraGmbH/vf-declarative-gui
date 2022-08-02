@@ -19,7 +19,7 @@ public:
 private:
     enum RoleIndexes
     {
-        Name=Qt::UserRole+1,
+        NAME=Qt::UserRole+1,
         DC_U,
         DC_I,
         DC_P

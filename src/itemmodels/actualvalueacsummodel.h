@@ -19,10 +19,10 @@ public:
 private:
     enum RoleIndexes
     {
-        Name=Qt::UserRole+1,
-        DC_U,
-        DC_I,
-        DC_P
+        NAME=Qt::UserRole+1,
+        SUM_P,
+        SUM_LAMDA,
+        FREQ
     };
 };
 
