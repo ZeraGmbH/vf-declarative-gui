@@ -45,7 +45,6 @@ void ActualValue4thPhaseDcModel::setupMapping()
 
 void ActualValue4thPhaseDcModel::updateTranslation()
 {
-    updateMModeTranslations();
 }
 
 QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const
@@ -56,14 +55,4 @@ QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const
     roles.insert(RoleIndexes::DC_I, "DC_I");
     roles.insert(RoleIndexes::DC_P, "DC_P");
     return roles;
-}
-
-void ActualValue4thPhaseDcModel::insertMeasMode(int yCoordinate, QString measMode)
-{
-    Q_UNUSED(yCoordinate)
-    Q_UNUSED(measMode)
-}
-
-void ActualValue4thPhaseDcModel::updateMModeTranslations()
-{
 }

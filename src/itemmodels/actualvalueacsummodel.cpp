@@ -45,7 +45,6 @@ void ActualValueAcSumModel::setupMapping()
 
 void ActualValueAcSumModel::updateTranslation()
 {
-    updateMModeTranslations();
 }
 
 QHash<int, QByteArray> ActualValueAcSumModel::roleNames() const
@@ -56,14 +55,4 @@ QHash<int, QByteArray> ActualValueAcSumModel::roleNames() const
     roles.insert(RoleIndexes::DC_I, "DC_I");
     roles.insert(RoleIndexes::DC_P, "DC_P");
     return roles;
-}
-
-void ActualValueAcSumModel::insertMeasMode(int yCoordinate, QString measMode)
-{
-    Q_UNUSED(yCoordinate)
-    Q_UNUSED(measMode)
-}
-
-void ActualValueAcSumModel::updateMModeTranslations()
-{
 }
