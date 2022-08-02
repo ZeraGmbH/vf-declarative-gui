@@ -11,7 +11,7 @@ import "../controls"
 Item {
     id: root
 
-    readonly property int rowHeight: Math.floor(height/14)
+    readonly property int rowHeight: Math.floor(height/8)
     readonly property int columnWidth: width/5.25
 
     Item {

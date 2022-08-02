@@ -267,6 +267,10 @@ class ZeraGlueLogicPrivate
                     if(weHavASeriousTodoHere) {
                         weHavASeriousTodoHere->insertMeasMode(valueCoordiates.y(), newValue);
                     }
+                    auto weHavASeriousTodoHerePModel = dynamic_cast<ActualValueOnlyPModel*>(itemModel);
+                    if(weHavASeriousTodoHerePModel) {
+                        weHavASeriousTodoHerePModel->insertMeasMode(valueCoordiates.y(), newValue);
+                    }
                 }
                 else {
                     //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
@@ -613,6 +617,7 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
                 {
                     retVal = m_dPtr->handleActualValues(m_dPtr->m_actValueOnlyPData, avMappingOnlyP, cmpData);
                 }
+
                 const auto burdenMapping1 = m_dPtr->m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping1 != nullptr)) //rms values
                 {
