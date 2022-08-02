@@ -448,18 +448,18 @@ class ZeraGlueLogicPrivate
 
     void setupPropertyMap()
     {
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_actualValueComponentName, QVariant::fromValue<QObject*>(m_actValueData));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_actualValueOnlyPComponentName, QVariant::fromValue<QObject*>(m_actValueOnlyPData));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_burden1ComponentName, QVariant::fromValue<QObject*>(m_burden1Data));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_burden2ComponentName, QVariant::fromValue<QObject*>(m_burden2Data));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP1ComponentName, QVariant::fromValue<QObject*>(m_osciP1Data));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP2ComponentName, QVariant::fromValue<QObject*>(m_osciP2Data));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciP3ComponentName, QVariant::fromValue<QObject*>(m_osciP3Data));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_osciPNComponentName, QVariant::fromValue<QObject*>(m_osciAUXData));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftTableModelComponentName, QVariant::fromValue<QObject*>(m_fftTableData));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_fftRelativeTableModelComponentName, QVariant::fromValue<QObject*>(m_fftRelativeTableData));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_hpwTableModelComponentName, QVariant::fromValue<QObject*>(m_hpTableData));
-        m_propertyMap->insert(ZeraGlueLogicPrivate::s_hpwRelativeTableModelComponentName, QVariant::fromValue<QObject*>(m_hpRelativeTableData));
+        m_propertyMap->insert("ActualValueModel", QVariant::fromValue<QObject*>(m_actValueData));
+        m_propertyMap->insert("ActualValueOnlyPModel", QVariant::fromValue<QObject*>(m_actValueOnlyPData));
+        m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
+        m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
+        m_propertyMap->insert("OSCIP1Model", QVariant::fromValue<QObject*>(m_osciP1Data));
+        m_propertyMap->insert("OSCIP2Model", QVariant::fromValue<QObject*>(m_osciP2Data));
+        m_propertyMap->insert("OSCIP3Model", QVariant::fromValue<QObject*>(m_osciP3Data));
+        m_propertyMap->insert("OSCIPNModel", QVariant::fromValue<QObject*>(m_osciAUXData));
+        m_propertyMap->insert("FFTTableModel", QVariant::fromValue<QObject*>(m_fftTableData));
+        m_propertyMap->insert("FFTRelativeTableModel", QVariant::fromValue<QObject*>(m_fftRelativeTableData));
+        m_propertyMap->insert("HPWTableModel", QVariant::fromValue<QObject*>(m_hpTableData));
+        m_propertyMap->insert("HPWRelativeTableModel", QVariant::fromValue<QObject*>(m_hpRelativeTableData));
     }
 
     /**
@@ -511,19 +511,6 @@ class ZeraGlueLogicPrivate
     QHash<QString, int> m_hpwTableRoleMapping;
 
     double m_dftReferenceValue; //vector diagram reference angle
-
-    static constexpr char const *s_actualValueComponentName = "ActualValueModel";
-    static constexpr char const *s_actualValueOnlyPComponentName = "ActualValueOnlyPModel";
-    static constexpr char const *s_burden1ComponentName = "BurdenModelI";
-    static constexpr char const *s_burden2ComponentName = "BurdenModelU";
-    static constexpr char const *s_osciP1ComponentName = "OSCIP1Model";
-    static constexpr char const *s_osciP2ComponentName = "OSCIP2Model";
-    static constexpr char const *s_osciP3ComponentName = "OSCIP3Model";
-    static constexpr char const *s_osciPNComponentName = "OSCIPNModel";
-    static constexpr char const *s_fftTableModelComponentName = "FFTTableModel";
-    static constexpr char const *s_fftRelativeTableModelComponentName = "FFTRelativeTableModel";
-    static constexpr char const *s_hpwTableModelComponentName = "HPWTableModel";
-    static constexpr char const *s_hpwRelativeTableModelComponentName = "HPWRelativeTableModel";
 
     QHash<QString, std::function<int(double)> > m_dftDispatchTable;
 
