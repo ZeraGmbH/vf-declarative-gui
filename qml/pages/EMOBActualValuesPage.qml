@@ -37,9 +37,11 @@ Item {
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
-                ActualValuesRow {
+                ActualValuesRowDc {
                     rowHeight: root.rowHeight
                     columnWidth: root.width/5.2
+                    colorU: GC.colorUAux1
+                    colorI: GC.colorIAux1
                 }
             }
         }

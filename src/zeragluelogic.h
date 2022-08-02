@@ -34,7 +34,7 @@ enum class Modules : int {
     Power1Module1 = 1070, // P
     Power1Module2 = 1071, // Q
     Power1Module3 = 1072, // S
-    //Power1Module4 = 1073, // P+Q+S for SCPI clients
+    Power1Module4 = 1073, // P+Q+S for SCPI clients / or DC EMOB
     //Power2Module1 = 1090, // CED session
     Power3Module = 1100,
     ThdnModule1 = 1110,

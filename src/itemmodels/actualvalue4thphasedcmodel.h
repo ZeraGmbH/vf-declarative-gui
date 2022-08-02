@@ -22,6 +22,13 @@ public:
 private:
     void updateMModeTranslations();
     QHash<int, QString> m_dynamicMeasuringModeDescriptor = {{10, ""}, {11, ""}, {12, ""}};
+    enum RoleIndexes
+    {
+        Name=Qt::UserRole+1,
+        DC_U,
+        DC_I,
+        DC_P
+    };
 };
 
 #endif // ACTUALVALUE4THPHASEDCMODEL_H
