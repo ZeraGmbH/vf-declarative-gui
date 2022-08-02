@@ -11,7 +11,10 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    property int rowCount: ZGL.ActualValueOnlyPModel.rowCount() + ZGL.ActualValue4thPhaseDcModel.rowCount()
+    property int rowCount:
+        ZGL.ActualValueOnlyPModel.rowCount() +
+        ZGL.ActualValue4thPhaseDcModel.rowCount() +
+        ZGL.ActualValue4thPhaseDcModel.rowCount()
     property real rowHeight: height/rowCount
     Item {
         width: parent.width
@@ -31,9 +34,24 @@ Item {
             }
         }
         ListView {
+            id: acSumTable
+            model: ZGL.ActualValueAcSumModel
+            anchors.top: acTable.bottom
+            height: model.rowCount() * rowHeight
+            boundsBehavior: Flickable.StopAtBounds
+            delegate: Component {
+                ActualValuesRowAcSum {
+                    rowHeight: root.rowHeight
+                    columnWidth: root.width/5.2
+                    colorU: GC.colorUAux1
+                    colorI: GC.colorIAux1
+                }
+            }
+        }
+        ListView {
             id: dcTable
             model: ZGL.ActualValue4thPhaseDcModel
-            anchors.top: acTable.bottom
+            anchors.top: acSumTable.bottom
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
