@@ -15,6 +15,7 @@
         <file>qml/controls/PhasorDiagramEx.qml</file>
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/WaitTransaction.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRow.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
         <file>qml/controls/appinfo/StatusView.qml</file>
