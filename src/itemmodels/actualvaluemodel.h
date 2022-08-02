@@ -2,7 +2,7 @@
 #define ACTUALVALUEMODEL_H
 
 #include "zeragluelogic.h"
-#include <QStandardItemModel>
+#include "zeragluelogicitemmodelbase.h"
 
 class ActualValueModel : public ZeraGlueLogicItemModelBase
 {

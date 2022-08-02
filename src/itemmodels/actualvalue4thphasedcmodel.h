@@ -2,7 +2,7 @@
 #define ACTUALVALUE4THPHASEDCMODEL_H
 
 #include "zeragluelogic.h"
-#include <QStandardItemModel>
+#include "zeragluelogicitemmodelbase.h"
 
 class ActualValue4thPhaseDcModel : public ZeraGlueLogicItemModelBase
 {
