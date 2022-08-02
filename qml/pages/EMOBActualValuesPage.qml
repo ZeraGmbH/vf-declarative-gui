@@ -11,11 +11,14 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    property int rowCount:
+    readonly property int rowCount:
         ZGL.ActualValueOnlyPModel.rowCount() +
         ZGL.ActualValue4thPhaseDcModel.rowCount() +
         ZGL.ActualValue4thPhaseDcModel.rowCount()
-    property real rowHeight: height/rowCount
+    readonly property real rowHeight: height/rowCount
+    readonly property real leftColumWithsScale: 0.4
+    readonly property real rightColumWithsScale: 0.4
+
     Item {
         width: parent.width
         height: parent.height
@@ -29,7 +32,9 @@ Item {
             delegate: Component {
                 ActualValuesRowNoSum {
                     rowHeight: root.rowHeight
-                    columnWidth: root.width/4.2
+                    rowWidth: root.width
+                    leftColumWithsScale: root.leftColumWithsScale
+                    rightColumWithsScale: root.leftColumWithsScale
                 }
             }
         }
@@ -42,9 +47,9 @@ Item {
             delegate: Component {
                 ActualValuesRowAcSum {
                     rowHeight: root.rowHeight
-                    columnWidth: root.width/4.2
-                    colorU: GC.colorUAux1
-                    colorI: GC.colorIAux1
+                    rowWidth: root.width
+                    leftColumWithsScale: root.leftColumWithsScale
+                    rightColumWithsScale: root.leftColumWithsScale
                 }
             }
         }
@@ -57,7 +62,9 @@ Item {
             delegate: Component {
                 ActualValuesRowDc {
                     rowHeight: root.rowHeight
-                    columnWidth: root.width/4.2
+                    rowWidth: root.width
+                    leftColumWithsScale: root.leftColumWithsScale
+                    rightColumWithsScale: root.leftColumWithsScale
                     colorU: GC.colorUAux1
                     colorI: GC.colorIAux1
                 }

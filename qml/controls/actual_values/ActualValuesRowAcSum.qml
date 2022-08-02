@@ -9,39 +9,41 @@ import ZeraTranslation  1.0
 import "../../controls"
 
 Row {
-    id: row
     property real rowHeight
-    property real columnWidth
-    property color colorU
-    property color colorI
+    property real rowWidth
+    property real leftColumWithsScale
+    property real rightColumWithsScale
+
+    readonly property int dataColums: 3
+    readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
     GridItem {
-        width: row.columnWidth*0.7
-        height: row.rowHeight
+        width: columnWidth * leftColumWithsScale
+        height: rowHeight
         color: GC.tableShadeColor
         text: NAME !== undefined ? NAME : ""
         font.bold: true
     }
     GridItem {
-        width: row.columnWidth
-        height: row.rowHeight
+        width: columnWidth
+        height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
         text: SUM_P !== undefined ? FT.formatNumber(SUM_P) : ""
     }
     GridItem {
-        width: row.columnWidth
-        height: row.rowHeight
+        width: columnWidth
+        height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
         text: SUM_LAMDA !== undefined ? FT.formatNumber(SUM_LAMDA) : ""
     }
     GridItem {
-        width: row.columnWidth
-        height: row.rowHeight
+        width: columnWidth
+        height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
         text: FREQ !== undefined ? FT.formatNumber(FREQ) : ""
     }
     GridItem {
-        width: row.columnWidth/2
-        height: row.rowHeight
+        width: columnWidth * rightColumWithsScale
+        height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
     }
 }
