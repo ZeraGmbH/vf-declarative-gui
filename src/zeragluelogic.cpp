@@ -1,6 +1,7 @@
 #include "zeragluelogic.h"
 #include "actualvaluemodel.h"
 #include "actualvalueonlypmodel.h"
+#include "actualvalue4thphasedcmodel.h"
 #include "burdenvaluemodel.h"
 #include "ffttablemodel.h"
 #include "hptablemodel.h"
@@ -50,6 +51,7 @@ class ZeraGlueLogicPrivate
         m_translation(ZeraTranslation::getInstance()),
         m_actValueData(new ActualValueModel(m_qPtr)),
         m_actValueOnlyPData(new ActualValueOnlyPModel(m_qPtr)),
+        m_actValue4thPhaseDcData(new ActualValue4thPhaseDcModel(m_qPtr)),
         m_burden1Data(new BurdenValueModel(Modules::Burden1Module, m_qPtr)),
         m_burden2Data(new BurdenValueModel(Modules::Burden2Module, m_qPtr)),
         m_osciP1Data(new QStandardItemModel(3, 128, m_qPtr)),
@@ -65,11 +67,13 @@ class ZeraGlueLogicPrivate
 
         m_actValueData->setupTable();
         m_actValueOnlyPData->setupTable();
+        m_actValue4thPhaseDcData->setupTable();
         m_burden1Data->setupTable();
         m_burden2Data->setupTable();
 
         m_actValueData->setupMapping();
         m_actValueOnlyPData->setupMapping();
+        m_actValue4thPhaseDcData->setupMapping();
         m_burden1Data->setupMapping();
         m_burden2Data->setupMapping();
         setupOsciData();
@@ -82,6 +86,7 @@ class ZeraGlueLogicPrivate
     {
         delete m_actValueData;
         delete m_actValueOnlyPData;
+        delete m_actValue4thPhaseDcData;
         delete m_burden1Data;
         delete m_burden2Data;
 
@@ -250,6 +255,7 @@ class ZeraGlueLogicPrivate
         tmpIndex = m_actValueData->index(8, 0);
         m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
         //m_actValueOnlyPData??
+        //m_actValue4thPhaseDcData??
     }
 
     bool handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
@@ -450,6 +456,7 @@ class ZeraGlueLogicPrivate
     {
         m_propertyMap->insert("ActualValueModel", QVariant::fromValue<QObject*>(m_actValueData));
         m_propertyMap->insert("ActualValueOnlyPModel", QVariant::fromValue<QObject*>(m_actValueOnlyPData));
+        m_propertyMap->insert("ActualValue4thPhaseDcModel", QVariant::fromValue<QObject*>(m_actValue4thPhaseDcData));
         m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
         m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
         m_propertyMap->insert("OSCIP1Model", QVariant::fromValue<QObject*>(m_osciP1Data));
@@ -482,6 +489,7 @@ class ZeraGlueLogicPrivate
         using namespace CommonTable;
         m_actValueData->updateTranslation();
         m_actValueOnlyPData->updateTranslation();
+        m_actValue4thPhaseDcData->updateTranslation();
         m_burden1Data->updateTranslation();
         m_burden2Data->updateTranslation();
     }
@@ -492,6 +500,7 @@ class ZeraGlueLogicPrivate
 
     ZeraGlueLogicItemModelBase *m_actValueData;
     ZeraGlueLogicItemModelBase *m_actValueOnlyPData;
+    ZeraGlueLogicItemModelBase *m_actValue4thPhaseDcData;
     ZeraGlueLogicItemModelBase *m_burden1Data;
     ZeraGlueLogicItemModelBase *m_burden2Data;
 
@@ -603,6 +612,11 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
                 if(Q_UNLIKELY(avMappingOnlyP != nullptr))
                 {
                     retVal = m_dPtr->handleActualValues(m_dPtr->m_actValueOnlyPData, avMappingOnlyP, cmpData);
+                }
+                const auto avMapping4thPhaseDc = m_dPtr->m_actValue4thPhaseDcData->getValueMapping().value(evData->entityId(), nullptr);
+                if(Q_UNLIKELY(avMapping4thPhaseDc != nullptr))
+                {
+                    retVal = m_dPtr->handleActualValues(m_dPtr->m_actValue4thPhaseDcData, avMapping4thPhaseDc, cmpData);
                 }
 
                 const auto burdenMapping1 = m_dPtr->m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
