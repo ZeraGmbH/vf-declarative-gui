@@ -362,7 +362,7 @@ ApplicationWindow {
                     if(!ASWGL.isServer) {
                         iconName = "qrc:/data/staticdata/resources/act_values.png"
                     }
-                    append({name: "Actual values AC", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
+                    append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
                 }
                 else if(dcSession) {
                     if(!ASWGL.isServer) {

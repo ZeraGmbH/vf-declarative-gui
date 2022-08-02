@@ -22,25 +22,25 @@ void ActualValueAcSumModel::setupTable()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
-    setData(mIndex, "U [V]", RoleIndexes::DC_U);
-    setData(mIndex, "I [A]", RoleIndexes::DC_I);
-    setData(mIndex, "P [W]", RoleIndexes::DC_P);
-    // 1st line / 1st column
+    setData(mIndex, "P [W]", RoleIndexes::SUM_P);
+    setData(mIndex, "λ", RoleIndexes::SUM_LAMDA);
+    setData(mIndex, "F [Hz]", RoleIndexes::FREQ);
     mIndex = index(lineVal(LINE_VALUES), 0);
-    setData(mIndex, "DC", RoleIndexes::Name);
+    setData(mIndex, "Σ", RoleIndexes::NAME);
 }
 
 void ActualValueAcSumModel::setupMapping()
 {
-    QHash<QString, QPoint> *rmsMap = new QHash<QString, QPoint>();
-    rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES)));
-    rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES)));
+    QHash<QString, QPoint> *lambdaMap = new QHash<QString, QPoint>();
+    lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM_LAMDA, lineVal(LINE_VALUES)));
+    QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
+    p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM_P, lineVal(LINE_VALUES)));
+    QHash<QString, QPoint> *rangeMap  = new QHash<QString, QPoint>();
+    rangeMap->insert("ACT_Frequency", QPoint(RoleIndexes::FREQ, lineVal(LINE_VALUES)));
 
-    QHash<QString, QPoint> *p1m4Map = new QHash<QString, QPoint>();
-    p1m4Map->insert("ACT_PQS1", QPoint(RoleIndexes::DC_P, lineVal(LINE_VALUES)));
-
-    m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
-    m_valueMapping.insert(static_cast<int>(Modules::Power1Module4), p1m4Map);
+    m_valueMapping.insert(static_cast<int>(Modules::LambdaModule), lambdaMap);
+    m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
+    m_valueMapping.insert(static_cast<int>(Modules::RangeModule), rangeMap);
 }
 
 void ActualValueAcSumModel::updateTranslation()
@@ -50,9 +50,9 @@ void ActualValueAcSumModel::updateTranslation()
 QHash<int, QByteArray> ActualValueAcSumModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles.insert(RoleIndexes::Name, "Name");
-    roles.insert(RoleIndexes::DC_U, "DC_U");
-    roles.insert(RoleIndexes::DC_I, "DC_I");
-    roles.insert(RoleIndexes::DC_P, "DC_P");
+    roles.insert(RoleIndexes::NAME, "NAME");
+    roles.insert(RoleIndexes::SUM_P, "SUM_P");
+    roles.insert(RoleIndexes::SUM_LAMDA, "SUM_LAMDA");
+    roles.insert(RoleIndexes::FREQ, "FREQ");
     return roles;
 }

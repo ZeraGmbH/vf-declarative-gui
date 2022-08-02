@@ -18,7 +18,8 @@ Row {
         width: row.columnWidth*0.7
         height: row.rowHeight
         color: GC.tableShadeColor
-        text: Name !== undefined ? Name : ""
+        text: NAME !== undefined ? NAME : ""
+        textHorizontalAlignment: index === 0 ? Label.AlignHCenter : Label.AlignRight
         font.bold: true
     }
     GridItem {
