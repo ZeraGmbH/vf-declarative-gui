@@ -11,10 +11,15 @@ import "../../controls"
 Row {
     id: row
     property real rowHeight
-    property real columnWidth
+    property real rowWidth
+    property real leftColumWithsScale
+    property real rightColumWithsScale
+
+    readonly property int dataColums: 4
+    readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
     readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
     GridItem {
-        width: row.columnWidth*0.7
+        width: row.columnWidth * leftColumWithsScale
         height: row.rowHeight
         color: GC.tableShadeColor
         text: Name!==undefined ? Name : ""
@@ -48,7 +53,7 @@ Row {
         text: Sum ? FT.formatNumber(Sum) : ""
     }
     GridItem {
-        width: row.columnWidth/2
+        width: row.columnWidth * rightColumWithsScale
         height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
         text: Unit ? Unit : ""

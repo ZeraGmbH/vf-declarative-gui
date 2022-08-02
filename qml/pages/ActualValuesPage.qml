@@ -11,19 +11,19 @@ import "../controls/actual_values"
 
 Item {
     id: root
+    readonly property QtObject model: ZGL.ActualValueModel
     Item {
-        width: parent.width
-        height: parent.height
-        anchors.centerIn: parent
+        anchors.fill: parent
         ListView {
             anchors.fill: parent
-            model: ZGL.ActualValueModel
+            model: root.model
             boundsBehavior: Flickable.StopAtBounds
-
             delegate: Component {
                 ActualValuesRow {
-                    rowHeight: root.height/14
-                    columnWidth: root.width/5.2
+                    rowHeight: root.height / root.model.rowCount()
+                    rowWidth: root.width
+                    leftColumWithsScale: 0.7
+                    rightColumWithsScale: 0.5
                 }
             }
         }
