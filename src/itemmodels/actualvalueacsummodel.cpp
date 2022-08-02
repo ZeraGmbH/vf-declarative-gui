@@ -45,6 +45,7 @@ void ActualValueAcSumModel::setupMapping()
 
 void ActualValueAcSumModel::updateTranslation()
 {
+    setupTable();
 }
 
 QHash<int, QByteArray> ActualValueAcSumModel::roleNames() const
