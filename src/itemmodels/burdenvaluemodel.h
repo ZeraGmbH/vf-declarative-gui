@@ -2,6 +2,7 @@
 #define BURDENVALUEMODEL_H
 
 #include "zeragluelogic.h"
+#include "zeragluelogicitemmodelbase.h"
 
 class BurdenValueModel : public ZeraGlueLogicItemModelBase
 {

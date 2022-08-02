@@ -1,4 +1,5 @@
 #include "zeragluelogic.h"
+#include "zeragluelogicitemmodelbase.h"
 #include "actualvaluemodel.h"
 #include "actualvalueonlypmodel.h"
 #include "actualvalue4thphasedcmodel.h"
@@ -643,20 +644,3 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
     return retVal;
 }
 
-ZeraGlueLogicItemModelBase::ZeraGlueLogicItemModelBase(int t_rows, int t_columns, QObject *t_parent) :
-    QStandardItemModel(t_rows, t_columns, t_parent),
-    m_translation(ZeraTranslation::getInstance())
-{
-}
-
-ZeraGlueLogicItemModelBase::~ZeraGlueLogicItemModelBase()
-{
-    for(auto point : qAsConst(m_valueMapping)) {
-        delete point;
-    }
-}
-
-QHash<int, QHash<QString, QPoint> *> ZeraGlueLogicItemModelBase::getValueMapping()
-{
-    return m_valueMapping;
-}
