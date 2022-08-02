@@ -43,6 +43,7 @@ void ActualValue4thPhaseDcModel::setupMapping()
 
 void ActualValue4thPhaseDcModel::updateTranslation()
 {
+    setupTable();
 }
 
 QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const
