@@ -26,24 +26,24 @@ Row {
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: Material.backgroundColor
         text: SUM_P !== undefined ? FT.formatNumber(SUM_P) : ""
     }
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: Material.backgroundColor
         text: SUM_LAMDA !== undefined ? FT.formatNumber(SUM_LAMDA) : ""
     }
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: Material.backgroundColor
         text: FREQ !== undefined ? FT.formatNumber(FREQ) : ""
     }
     GridItem {
         width: columnWidth * rightColumWithsScale
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: Material.backgroundColor
     }
 }

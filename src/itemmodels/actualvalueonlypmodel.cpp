@@ -38,7 +38,7 @@ void ActualValueOnlyPModel::setupTable()
 
     // 1st column: row names
     mIndex = index(lineVal(LINE_UPN), 0);
-    setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->TrValue("U"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_UANGLE), 0);
     setData(mIndex, m_translation->TrValue("∠U"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_I), 0);
