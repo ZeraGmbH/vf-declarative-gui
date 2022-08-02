@@ -82,25 +82,7 @@ void BurdenValueModel::setupMapping()
 
 void BurdenValueModel::updateTranslation()
 {
-    using namespace CommonTable;
-    QModelIndex mIndex = index(0, 0);
-    setData(mIndex, m_translation->TrValue("BRD1"), RoleIndexes::L1);
-    setData(mIndex, m_translation->TrValue("BRD2"), RoleIndexes::L2);
-    setData(mIndex, m_translation->TrValue("BRD3"), RoleIndexes::L3);
-    setData(mIndex, "[ ]", RoleIndexes::UNIT);
-
-    mIndex = index(1, 0);
-    setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
-    mIndex = index(2, 0);
-    setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
-    mIndex = index(3, 0);
-    setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
-    mIndex = index(4, 0);
-    setData(mIndex, m_translation->TrValue("Sb"), RoleIndexes::NAME);
-    mIndex = index(5, 0);
-    setData(mIndex, m_translation->TrValue("cos(β)"), RoleIndexes::NAME);
-    mIndex = index(6, 0);
-    setData(mIndex, m_translation->TrValue("Sn"), RoleIndexes::NAME);
+    setupTable();
 }
 
 QHash<int, QByteArray> BurdenValueModel::roleNames() const
