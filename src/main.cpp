@@ -109,13 +109,8 @@ int main(int argc, char *argv[])
         if(!standardConfigDirectory.exists(standardPath)) {
             standardConfigDirectory.mkdir(standardPath);
         }
-#ifndef QT_DEBUG
         // copy from qrc to standard dir
         const QString source = QStringLiteral("://data/settings.json");
-#else
-        // debugging does not work for standard (localhost) so copy the file from application
-        const QString source = QString("%1/%2").arg(standardPath).arg(QStringLiteral("settings.json"));
-#endif
         if(QFile::copy(source, targetPath)) {
             qInfo("Deployed default settings file from: qrc://data/settings.json");
             QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
