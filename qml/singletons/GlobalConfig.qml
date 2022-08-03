@@ -247,7 +247,7 @@ Item {
         currentBrightness = brightness
         settings.globalSettings.setOption("currentBrightness", brightness);
     }
-    readonly property real defaultBlackBrightness: 1
+    readonly property real defaultBlackBrightness: 35
     property real blackBrightness: parseFloat(settings.globalSettings.getOption("blackBrightness", defaultBlackBrightness))
     function setBlackBrigtness(brightness) {
         blackBrightness = brightness
