@@ -136,7 +136,7 @@ ApplicationWindow {
                 if(lastPageSelected >= pageView.model.count) {
                     lastPageSelected = 0
                 }
-                if(pageView.model.length) {
+                if(pageView.model.count) {
                     pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
                 }
                 loadingScreen.close();
