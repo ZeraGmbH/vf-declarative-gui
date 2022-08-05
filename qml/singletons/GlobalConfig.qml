@@ -130,7 +130,7 @@ Item {
         vectorIecMode = mode
         settings.globalSettings.setOption("vector_iecmode", mode);
     }
-    property bool vectorCircleMode: parseInt(settings.globalSettings.getOption("vector_circlecmode", "0"))
+    property bool vectorCircleMode: parseInt(settings.globalSettings.getOption("vector_circlecmode", "1"))
     function setVectorCircleMode(mode) {
         vectorCircleMode = mode
         settings.globalSettings.setOption("vector_circlecmode", mode);
