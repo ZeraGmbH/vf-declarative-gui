@@ -15,7 +15,6 @@ public:
     void updateTranslation() override;
 
     QHash<int, QByteArray> roleNames() const override;
-
 private:
     enum RoleIndexes
     {

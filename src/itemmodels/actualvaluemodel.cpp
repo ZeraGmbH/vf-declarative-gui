@@ -184,6 +184,17 @@ void ActualValueModel::insertMeasMode(int yCoordinate, QString measMode)
     updateMModeTranslations();
 }
 
+void ActualValueModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+{
+    if(cData->componentName() == QLatin1String("PAR_MeasuringMode")) {
+        QString newValue = cData->newValue().toString();
+        insertMeasMode(valueCoordiates.y(), newValue);
+    }
+    else {
+        ZeraGlueLogicItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+    }
+}
+
 void ActualValueModel::updateMModeTranslations()
 {
     using namespace CommonTable;

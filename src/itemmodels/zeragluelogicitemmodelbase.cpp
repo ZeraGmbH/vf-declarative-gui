@@ -17,6 +17,21 @@ ZeraGlueLogicItemModelBase::~ZeraGlueLogicItemModelBase()
     m_setAllBaseModels.remove(this);
 }
 
+void ZeraGlueLogicItemModelBase::handleComponentChange(const VeinComponent::ComponentData *cData)
+{
+    const auto mapping = m_valueMapping.value(cData->entityId(), nullptr);
+    if(mapping) {
+        const QPoint valueCoordiates = mapping->value(cData->componentName());
+        handleComponentChangeCoord(cData, valueCoordiates);
+    }
+}
+
+void ZeraGlueLogicItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+{
+    QModelIndex mIndex = index(valueCoordiates.y(), 0);
+    setData(mIndex, cData->newValue(), valueCoordiates.x());
+}
+
 QList<ZeraGlueLogicItemModelBase *> ZeraGlueLogicItemModelBase::getAllBaseModels()
 {
     return m_setAllBaseModels.values();

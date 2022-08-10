@@ -128,6 +128,17 @@ QHash<int, QByteArray> ActualValueOnlyPModel::roleNames() const
     return roles;
 }
 
+void ActualValueOnlyPModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+{
+    if(cData->componentName() == QLatin1String("PAR_MeasuringMode")) {
+        QString newValue = cData->newValue().toString();
+        insertMeasMode(valueCoordiates.y(), newValue);
+    }
+    else {
+        ZeraGlueLogicItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+    }
+}
+
 void ActualValueOnlyPModel::insertMeasMode(int yCoordinate, QString measMode)
 {
     m_dynamicMeasuringModeDescriptor.insert(yCoordinate, measMode);
