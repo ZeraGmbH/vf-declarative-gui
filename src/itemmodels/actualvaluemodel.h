@@ -15,11 +15,11 @@ public:
     void updateTranslation() override;
 
     QHash<int, QByteArray> roleNames() const override;
+protected:
+    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates) override;
 
-    // All was mixed up in ZeraGlueLogicPrivate. As long as this mess is
-    // still tightly coupled, give insert access to m_dynamicMeasuringModeDescriptor
-    void insertMeasMode(int yCoordinate, QString measMode);
 private:
+    void insertMeasMode(int yCoordinate, QString measMode);
     void updateMModeTranslations();
     QHash<int, QString> m_dynamicMeasuringModeDescriptor = {{10, ""}, {11, ""}, {12, ""}};
 };

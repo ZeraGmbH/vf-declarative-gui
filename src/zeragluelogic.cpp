@@ -265,6 +265,14 @@ class ZeraGlueLogicPrivate
         //m_actValueAcSumData
     }
 
+    void handleComponentChange(const VeinComponent::ComponentData *cData)
+    {
+        QList<ZeraGlueLogicItemModelBase *> allBaseItemModels = ZeraGlueLogicItemModelBase::getAllBaseModels();
+        for(auto model : qAsConst(allBaseItemModels)) {
+            model->handleComponentChange(cData);
+        }
+    }
+
     bool handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
     {
         bool retVal = false;
@@ -272,26 +280,7 @@ class ZeraGlueLogicPrivate
         if(valueCoordiates.isNull() == false) //nothing is at 0, 0
         {
             QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
-            if(t_cmpData->entityId() != static_cast<int>(Modules::DftModule)) {
-                if(t_cmpData->componentName() == QLatin1String("PAR_MeasuringMode")) {
-                    // inform itemModel so it translates meas modes properly from now on
-                    QString newValue = t_cmpData->newValue().toString();
-                    auto weHavASeriousTodoHere = dynamic_cast<ActualValueModel*>(itemModel);
-                    if(weHavASeriousTodoHere) {
-                        weHavASeriousTodoHere->insertMeasMode(valueCoordiates.y(), newValue);
-                    }
-                    auto weHavASeriousTodoHerePModel = dynamic_cast<ActualValueOnlyPModel*>(itemModel);
-                    if(weHavASeriousTodoHerePModel) {
-                        weHavASeriousTodoHerePModel->insertMeasMode(valueCoordiates.y(), newValue);
-                    }
-                }
-                else {
-                    //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
-                    itemModel->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x());
-                }
-            }
-            else //these are vectors that need calculation and are aligned to the reference channel
-            {
+            if(t_cmpData->entityId() == static_cast<int>(Modules::DftModule)) {
                 QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
                 if(tmpVector.isEmpty() == false) {
                     double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
@@ -573,6 +562,9 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
         {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
+            // start per-model handling replacing code below
+            m_dPtr->handleComponentChange(cmpData);
+
             switch(static_cast<Modules>(evData->entityId()))
             {
             case Modules::OsciModule:
