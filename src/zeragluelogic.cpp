@@ -571,23 +571,22 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
         if (cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION
                 && evData->type() == VeinComponent::ComponentData::dataType())
         {
+            const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
+            Q_ASSERT(cmpData != nullptr);
             switch(static_cast<Modules>(evData->entityId()))
             {
             case Modules::OsciModule:
             {
-                const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                 retVal = m_dPtr->handleOsciValues(cmpData);
                 break;
             }
             case Modules::FftModule:
             {
-                const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                 retVal = m_dPtr->handleFftValues(cmpData);
                 break;
             }
             case Modules::Power3Module:
             {
-                const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                 retVal = m_dPtr->handleHarmonicPowerValues(cmpData);
                 break;
             }
@@ -595,7 +594,6 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             {
                 const auto burdenMapping = m_dPtr->m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping != nullptr)) {
-                    const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                     retVal = m_dPtr->handleBurdenValues(m_dPtr->m_burden1Data, burdenMapping, cmpData);
                 }
                 break;
@@ -604,16 +602,12 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             {
                 const auto burdenMapping = m_dPtr->m_burden2Data->getValueMapping().value(evData->entityId(), nullptr);
                 if(Q_UNLIKELY(burdenMapping != nullptr)) {
-                    const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
                     retVal = m_dPtr->handleBurdenValues(m_dPtr->m_burden2Data, burdenMapping, cmpData);
                 }
                 break;
             }
             default: /// @note values handled earlier in the switch case will not show up in the actual values table!
             {
-                const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-                Q_ASSERT(cmpData != nullptr);
-
                 QList<ZeraGlueLogicItemModelBase*> actValueModels = QList<ZeraGlueLogicItemModelBase*>()
                         << m_dPtr->m_actValueData
                         << m_dPtr->m_actValueOnlyPData
