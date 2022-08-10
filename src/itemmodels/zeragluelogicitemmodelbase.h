@@ -12,10 +12,14 @@ public:
     virtual void setupTable() = 0;
     virtual void setupMapping() = 0;
     virtual void updateTranslation() = 0;
+
+    static QList<ZeraGlueLogicItemModelBase*> getAllBaseModels();
     QHash<int, QHash<QString, QPoint>*> getValueMapping();
 protected:
     QHash<int, QHash<QString, QPoint>*> m_valueMapping;
     ZeraTranslation *m_translation = nullptr;
+private:
+    static QSet<ZeraGlueLogicItemModelBase*> m_setAllBaseModels;
 };
 
 #endif // ZERAGLUELOGICITEMMODELBASE_H
