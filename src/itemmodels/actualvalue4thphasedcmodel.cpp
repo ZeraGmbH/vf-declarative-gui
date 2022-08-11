@@ -30,14 +30,15 @@ void ActualValue4thPhaseDcModel::setupTable()
 
 void ActualValue4thPhaseDcModel::setupMapping()
 {
-    QHash<QString, QPoint> *rmsMap = new QHash<QString, QPoint>();
-    rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES)));
-    rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES)));
+    // DC: we cannot use RMS
+    QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
+    fftMap->insert("ACT_FFT7", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES)));
+    fftMap->insert("ACT_FFT8", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES)));
 
     QHash<QString, QPoint> *p1m4Map = new QHash<QString, QPoint>();
     p1m4Map->insert("ACT_PQS1", QPoint(RoleIndexes::DC_P, lineVal(LINE_VALUES)));
 
-    m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
+    m_valueMapping.insert(static_cast<int>(Modules::FftModule), fftMap);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module4), p1m4Map);
 }
 
@@ -54,4 +55,18 @@ QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const
     roles.insert(RoleIndexes::DC_I, "DC_I");
     roles.insert(RoleIndexes::DC_P, "DC_P");
     return roles;
+}
+
+void ActualValue4thPhaseDcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+{
+    if(cData->entityId() == static_cast<int>(Modules::FftModule)) {
+        const QList<double> fftValList = qvariant_cast<QList<double>>(cData->newValue());
+        if(fftValList.count() > 1) {
+            QModelIndex mIndex = index(valueCoordiates.y(), 0);
+            setData(mIndex, fftValList[0], valueCoordiates.x());
+        }
+    }
+    else {
+        ZeraGlueLogicItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+    }
 }
