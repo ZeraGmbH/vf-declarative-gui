@@ -31,7 +31,7 @@ void HarmonicPowerTableModel::setupTimer()
 {
     m_dataChangeTimer.setInterval(1000);
     m_dataChangeTimer.setSingleShot(false);
-    QObject::connect(&m_dataChangeTimer, &QTimer::timeout, [&]() {
+    QObject::connect(&m_dataChangeTimer, &QTimer::timeout, this, [&]() {
         emit dataChanged(index(0, 0), index(rowCount()-1, columnCount()-1));
     });
     m_dataChangeTimer.start();
