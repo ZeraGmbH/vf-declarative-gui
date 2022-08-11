@@ -472,14 +472,21 @@ Item {
                                 Component {
                                     id: phaseCheckBoxComponent
                                     Item {
+                                        anchors.fill: parent
+                                        MouseArea {
+                                            id: mouseArea
+                                            anchors.fill: parent
+                                            onClicked: phaseCheckbox.checked = !phaseCheckbox.checked
+                                        }
                                         CheckBox {
+                                            id: phaseCheckbox
                                             anchors.right: parent.right
                                             anchors.rightMargin: GC.standardTextHorizMargin
                                             anchors.top: parent.top
                                             anchors.bottom: parent.bottom
                                             width: indicator.width
                                             checked: jsonDataBase.on
-                                            onClicked: jsonDataBase.on = checked
+                                            onCheckStateChanged: jsonDataBase.on = checked
                                         }
                                     }
                                 }
