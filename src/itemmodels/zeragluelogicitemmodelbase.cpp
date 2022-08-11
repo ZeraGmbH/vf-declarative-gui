@@ -21,8 +21,11 @@ void ZeraGlueLogicItemModelBase::handleComponentChange(const VeinComponent::Comp
 {
     const auto mapping = m_valueMapping.value(cData->entityId(), nullptr);
     if(mapping) {
-        const QPoint valueCoordiates = mapping->value(cData->componentName());
-        handleComponentChangeCoord(cData, valueCoordiates);
+        auto iter = mapping->constFind(cData->componentName());
+        if(iter != mapping->constEnd()) {
+            const QPoint valueCoordiates = iter.value();
+            handleComponentChangeCoord(cData, valueCoordiates);
+        }
     }
 }
 
