@@ -157,7 +157,7 @@ void ZeraGlueLogicPrivate::setupFftData()
     m_hpwTableRoleMapping.insert("ACT_HPS3", HarmonicPowerTableModel::POWER_S3_S);
 }
 
-QString ZeraGlueLogicPrivate::getAvmNameById(int t_moduleId)
+QString ZeraGlueLogicPrivate::getActualValueModelNameById(int t_moduleId)
 {
     switch(static_cast<Modules>(t_moduleId))
     {
@@ -169,7 +169,7 @@ QString ZeraGlueLogicPrivate::getAvmNameById(int t_moduleId)
         return "S";
     default:
         Q_ASSERT(false);
-        return "ERROR in QString getAvmNameById(int t_moduleId)";
+        return "ERROR in QString getActualValueModelNameById(int t_moduleId)";
     }
 }
 

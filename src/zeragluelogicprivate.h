@@ -17,12 +17,7 @@ class ZeraGlueLogicPrivate
 
     void setupFftData();
 
-    /**
-     * @brief AVM = ActualValueModel
-     * @param t_moduleId
-     * @return
-     */
-    QString getAvmNameById(int t_moduleId);
+    QString getActualValueModelNameById(int t_moduleId);
 
     void setAngleUI(int t_systemNumber);
 
