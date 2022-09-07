@@ -1,7 +1,7 @@
 #ifndef ACTUALVALUEMODEL_H
 #define ACTUALVALUEMODEL_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include "zeragluelogicitemmodelbase.h"
 
 class ActualValueModel : public ZeraGlueLogicItemModelBase

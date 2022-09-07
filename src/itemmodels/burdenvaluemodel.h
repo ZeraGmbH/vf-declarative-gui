@@ -1,7 +1,7 @@
 #ifndef BURDENVALUEMODEL_H
 #define BURDENVALUEMODEL_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include "zeragluelogicitemmodelbase.h"
 
 class BurdenValueModel : public ZeraGlueLogicItemModelBase

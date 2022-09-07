@@ -13,7 +13,7 @@
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
 #include <fontawesome-qml.h>
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include "gluelogicpropertymap.h"
 #include <zeratranslationplugin.h>
 #include "jsonsettingsfile.h"
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     // dependencies
     ZeraTranslationPlugin::registerQml();
     // internal
-    qmlRegisterSingletonType<GlueLogicPropertyMap>("ZeraGlueLogic", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
+    qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/FunctionTools.qml"), "FunctionTools", 1, 0, "FT");
@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
     VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-    ZeraGlueLogic *glueLogicSystem = new ZeraGlueLogic(glueLogicMap, &app);
+    TableEventDistributor *glueLogicSystem = new TableEventDistributor(glueLogicMap, &app);
     VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);

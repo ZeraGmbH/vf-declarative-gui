@@ -1,5 +1,5 @@
-#ifndef ZeraGlueLogic_H
-#define ZeraGlueLogic_H
+#ifndef TABLEEVENTDISTRIBUTOR_H
+#define TABLEEVENTDISTRIBUTOR_H
 
 #include "gluelogicpropertymap.h"
 #include <ve_eventsystem.h>
@@ -49,18 +49,18 @@ enum class Modules : int {
     //ScpiModule = 9999,
 };
 
-class ZeraGlueLogicPrivate;
+class TableEventConsumer;
 
-class ZeraGlueLogic : public VeinEvent::EventSystem
+class TableEventDistributor : public VeinEvent::EventSystem
 {
     Q_OBJECT
 public:
-    explicit ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=nullptr);
-    ~ZeraGlueLogic() override;
+    explicit TableEventDistributor(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=nullptr);
+    ~TableEventDistributor() override;
 public:
     bool processEvent(QEvent *t_event) override;
 private:
-    ZeraGlueLogicPrivate *m_dPtr;
+    TableEventConsumer *m_dPtr;
 };
 
-#endif // ZeraGlueLogic_H
+#endif // TABLEEVENTDISTRIBUTOR_H

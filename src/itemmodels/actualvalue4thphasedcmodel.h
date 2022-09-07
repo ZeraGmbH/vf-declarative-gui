@@ -1,7 +1,7 @@
 #ifndef ACTUALVALUE4THPHASEDCMODEL_H
 #define ACTUALVALUE4THPHASEDCMODEL_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include "zeragluelogicitemmodelbase.h"
 
 class ActualValue4thPhaseDcModel : public ZeraGlueLogicItemModelBase

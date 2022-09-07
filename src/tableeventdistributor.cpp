@@ -1,5 +1,5 @@
-#include "zeragluelogic.h"
-#include "zeragluelogicprivate.h"
+#include "tableeventdistributor.h"
+#include "tableeventconsumer.h"
 
 #include <QHash>
 #include <QPoint>
@@ -12,19 +12,19 @@
 
 //harmonic power values
 
-ZeraGlueLogic::ZeraGlueLogic(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
+TableEventDistributor::TableEventDistributor(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
     VeinEvent::EventSystem(t_parent),
-    m_dPtr(new ZeraGlueLogicPrivate(this, t_propertyMap))
+    m_dPtr(new TableEventConsumer(this, t_propertyMap))
 {
 }
 
-ZeraGlueLogic::~ZeraGlueLogic()
+TableEventDistributor::~TableEventDistributor()
 {
     delete m_dPtr;
     m_dPtr=nullptr;
 }
 
-bool ZeraGlueLogic::processEvent(QEvent *t_event)
+bool TableEventDistributor::processEvent(QEvent *t_event)
 {
     using namespace VeinEvent;
     bool retVal = false;

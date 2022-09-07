@@ -1,7 +1,7 @@
 #ifndef FFTTABLEMODEL_H
 #define FFTTABLEMODEL_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include <QStandardItemModel>
 
 class FftTableModel : public QStandardItemModel

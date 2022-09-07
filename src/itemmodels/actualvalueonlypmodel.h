@@ -1,7 +1,7 @@
 #ifndef ACTUALVALUEONLYPMODEL_H
 #define ACTUALVALUEONLYPMODEL_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include "zeragluelogicitemmodelbase.h"
 
 class ActualValueOnlyPModel : public ZeraGlueLogicItemModelBase
