@@ -6,17 +6,18 @@
 #include "ffttablemodel.h"
 #include "harmonicpowertablemodel.h"
 #include "modelrowpair.h"
+#include "tableeventconsumerinterface.h"
 
 #include <ve_eventdata.h>
 
-class TableEventConsumer : public QObject
+class TableEventConsumer : public QObject, public TableEventConsumerInterface
 {
     Q_OBJECT
 public:
     TableEventConsumer(GlueLogicPropertyMap *t_propertyMap);
     ~TableEventConsumer();
 
-    void handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData);
+    void handleComponentChange(const VeinComponent::ComponentData *cData) override;
 
 private:
     void setupOsciData();

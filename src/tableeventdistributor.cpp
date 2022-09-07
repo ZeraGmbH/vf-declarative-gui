@@ -41,7 +41,7 @@ bool TableEventDistributor::processEvent(QEvent *t_event)
         {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
-            m_consumer->handleComponentChange(cmpData, evData);
+            m_consumer->handleComponentChange(cmpData);
         }
     }
     return retVal;
