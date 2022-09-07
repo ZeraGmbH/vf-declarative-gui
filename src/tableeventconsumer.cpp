@@ -214,14 +214,14 @@ void TableEventConsumer::setAngleUI(int t_systemNumber)
     //m_actValueAcSumData
 }
 
-void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData)
+void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
 {
     QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
     for(auto model : qAsConst(allBaseItemModels)) {
         model->handleComponentChange(cData);
     }
 
-    switch(static_cast<Modules>(evData->entityId()))
+    switch(static_cast<Modules>(cData->entityId()))
     {
     case Modules::OsciModule:
     {
@@ -240,7 +240,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     }
     case Modules::Burden1Module:
     {
-        const auto burdenMapping = m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
+        const auto burdenMapping = m_burden1Data->getValueMapping().value(cData->entityId(), nullptr);
         if(Q_UNLIKELY(burdenMapping != nullptr)) {
             handleBurdenValues(m_burden1Data, burdenMapping, cData);
         }
@@ -248,7 +248,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     }
     case Modules::Burden2Module:
     {
-        const auto burdenMapping = m_burden2Data->getValueMapping().value(evData->entityId(), nullptr);
+        const auto burdenMapping = m_burden2Data->getValueMapping().value(cData->entityId(), nullptr);
         if(Q_UNLIKELY(burdenMapping != nullptr)) {
             handleBurdenValues(m_burden2Data, burdenMapping, cData);
         }
@@ -262,7 +262,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
                 << m_actValue4thPhaseDcData
                 << m_actValueAcSumData;
         for(auto model : qAsConst(actValueModels)) {
-            const auto avMapping = model->getValueMapping().value(evData->entityId(), nullptr);
+            const auto avMapping = model->getValueMapping().value(cData->entityId(), nullptr);
             if(Q_UNLIKELY(avMapping != nullptr)) {
                 handleActualValues(model, avMapping, cData);
             }
@@ -272,7 +272,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
                 << m_burden1Data
                 << m_burden2Data;
         for(auto model : qAsConst(burdenModels)) {
-            const auto burdenMapping = model->getValueMapping().value(evData->entityId(), nullptr);
+            const auto burdenMapping = model->getValueMapping().value(cData->entityId(), nullptr);
             if(Q_UNLIKELY(burdenMapping != nullptr)) { //rms values
                 handleBurdenValues(model, burdenMapping, cData);
             }
