@@ -1,7 +1,7 @@
-#ifndef _ZERAGLUELOGICPRIVATE_H
-#define _ZERAGLUELOGICPRIVATE_H
+#ifndef TABLEEVENTCONSUMER_H
+#define TABLEEVENTCONSUMER_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include "zeragluelogicitemmodelbase.h"
 #include "ffttablemodel.h"
 #include "harmonicpowertablemodel.h"
@@ -9,10 +9,10 @@
 
 #include <ve_eventdata.h>
 
-class ZeraGlueLogicPrivate
+class TableEventConsumer
 {
-    ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap);
-    ~ZeraGlueLogicPrivate();
+    TableEventConsumer(TableEventDistributor *t_public, GlueLogicPropertyMap *t_propertyMap);
+    ~TableEventConsumer();
 
 
     void setupOsciData();
@@ -34,7 +34,7 @@ class ZeraGlueLogicPrivate
     void setupDftDispatchTable();
     void updateTranslation();
 
-    ZeraGlueLogic *m_qPtr;
+    TableEventDistributor *m_qPtr;
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
 
@@ -72,8 +72,8 @@ class ZeraGlueLogicPrivate
     double m_angleI2=0;
     double m_angleI3=0;
 
-    friend class ZeraGlueLogic;
+    friend class TableEventDistributor;
 };
 
 
-#endif // _ZERAGLUELOGICPRIVATE_H
+#endif // TABLEEVENTCONSUMER_H

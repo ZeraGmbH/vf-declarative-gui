@@ -1,4 +1,4 @@
-#include "zeragluelogicprivate.h"
+#include "tableeventconsumer.h"
 #include "actualvaluemodel.h"
 #include "actualvalueonlypmodel.h"
 #include "actualvalue4thphasedcmodel.h"
@@ -9,7 +9,7 @@
 
 #include <QVector2D>
 
-ZeraGlueLogicPrivate::ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap) :
+TableEventConsumer::TableEventConsumer(TableEventDistributor *t_public, GlueLogicPropertyMap *t_propertyMap) :
     m_qPtr(t_public),
     m_propertyMap(t_propertyMap),
     m_translation(ZeraTranslation::getInstance()),
@@ -50,7 +50,7 @@ ZeraGlueLogicPrivate::ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPro
 }
 
 
-ZeraGlueLogicPrivate::~ZeraGlueLogicPrivate()
+TableEventConsumer::~TableEventConsumer()
 {
     delete m_actValueData;
     delete m_actValueOnlyPData;
@@ -68,7 +68,7 @@ ZeraGlueLogicPrivate::~ZeraGlueLogicPrivate()
     delete m_fftRelativeTableData;
 }
 
-void ZeraGlueLogicPrivate::setupOsciData()
+void TableEventConsumer::setupOsciData()
 {
     QModelIndex tmpIndex;
     const int valueInterval = 1000;
@@ -132,7 +132,7 @@ void ZeraGlueLogicPrivate::setupOsciData()
     m_osciMapping.insert("ACT_OSCI8", osci8Pair); //IN
 }
 
-void ZeraGlueLogicPrivate::setupFftData()
+void TableEventConsumer::setupFftData()
 {
     m_fftTableRoleMapping.insert("ACT_FFT1", FftTableModel::AMP_L1);
     m_fftTableRoleMapping.insert("ACT_FFT2", FftTableModel::AMP_L2);
@@ -157,7 +157,7 @@ void ZeraGlueLogicPrivate::setupFftData()
     m_hpwTableRoleMapping.insert("ACT_HPS3", HarmonicPowerTableModel::POWER_S3_S);
 }
 
-QString ZeraGlueLogicPrivate::getActualValueModelNameById(int t_moduleId)
+QString TableEventConsumer::getActualValueModelNameById(int t_moduleId)
 {
     switch(static_cast<Modules>(t_moduleId))
     {
@@ -173,7 +173,7 @@ QString ZeraGlueLogicPrivate::getActualValueModelNameById(int t_moduleId)
     }
 }
 
-void ZeraGlueLogicPrivate::setAngleUI(int t_systemNumber)
+void TableEventConsumer::setAngleUI(int t_systemNumber)
 {
     Q_ASSERT(t_systemNumber==-1 || (t_systemNumber>0 && t_systemNumber<4));
     double tmpAngle = 0;
@@ -222,7 +222,7 @@ void ZeraGlueLogicPrivate::setAngleUI(int t_systemNumber)
     //m_actValueAcSumData
 }
 
-void ZeraGlueLogicPrivate::handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData)
+void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData)
 {
     QList<ZeraGlueLogicItemModelBase *> allBaseItemModels = ZeraGlueLogicItemModelBase::getAllBaseModels();
     for(auto model : qAsConst(allBaseItemModels)) {
@@ -290,7 +290,7 @@ void ZeraGlueLogicPrivate::handleComponentChange(const VeinComponent::ComponentD
     }
 }
 
-bool ZeraGlueLogicPrivate::handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+bool TableEventConsumer::handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal = false;
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
@@ -314,7 +314,7 @@ bool ZeraGlueLogicPrivate::handleActualValues(ZeraGlueLogicItemModelBase *itemMo
     return retVal;
 }
 
-bool ZeraGlueLogicPrivate::handleBurdenValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint> *t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+bool TableEventConsumer::handleBurdenValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint> *t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal = false;
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
@@ -328,7 +328,7 @@ bool ZeraGlueLogicPrivate::handleBurdenValues(ZeraGlueLogicItemModelBase *itemMo
     return retVal;
 }
 
-bool ZeraGlueLogicPrivate::handleOsciValues(const VeinComponent::ComponentData *t_cmpData)
+bool TableEventConsumer::handleOsciValues(const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal=false;
     ModelRowPair tmpPair = m_osciMapping.value(t_cmpData->componentName(), ModelRowPair(nullptr, 0));
@@ -355,7 +355,7 @@ bool ZeraGlueLogicPrivate::handleOsciValues(const VeinComponent::ComponentData *
     return retVal;
 }
 
-bool ZeraGlueLogicPrivate::handleFftValues(const VeinComponent::ComponentData *t_cmpData)
+bool TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal = false;
     int fftTableRole=m_fftTableRoleMapping.value(t_cmpData->componentName(), 0);
@@ -423,7 +423,7 @@ bool ZeraGlueLogicPrivate::handleFftValues(const VeinComponent::ComponentData *t
     return retVal;
 }
 
-bool ZeraGlueLogicPrivate::handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData)
+bool TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal = false;
     const int tableRole=m_hpwTableRoleMapping.value(t_cmpData->componentName(), 0);
@@ -465,7 +465,7 @@ bool ZeraGlueLogicPrivate::handleHarmonicPowerValues(const VeinComponent::Compon
     return retVal;
 }
 
-void ZeraGlueLogicPrivate::setupPropertyMap()
+void TableEventConsumer::setupPropertyMap()
 {
     m_propertyMap->insert("ActualValueModel", QVariant::fromValue<QObject*>(m_actValueData));
     m_propertyMap->insert("ActualValueOnlyPModel", QVariant::fromValue<QObject*>(m_actValueOnlyPData));
@@ -483,7 +483,7 @@ void ZeraGlueLogicPrivate::setupPropertyMap()
     m_propertyMap->insert("HPWRelativeTableModel", QVariant::fromValue<QObject*>(m_hpRelativeTableData));
 }
 
-void ZeraGlueLogicPrivate::setupDftDispatchTable()
+void TableEventConsumer::setupDftDispatchTable()
 {
     m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN1"), [this](double vectorAngle) -> int { m_angleU1 = vectorAngle; return 1; });
     m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN2"), [this](double vectorAngle) -> int { m_angleU2 = vectorAngle; return 2; });
@@ -495,7 +495,7 @@ void ZeraGlueLogicPrivate::setupDftDispatchTable()
     m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN8"), [](double) -> int { return -1; }); //currently the angle is not calculated
 }
 
-void ZeraGlueLogicPrivate::updateTranslation()
+void TableEventConsumer::updateTranslation()
 {
     using namespace CommonTable;
     m_actValueData->updateTranslation();

@@ -1,7 +1,7 @@
 #ifndef HPTABLEMODEL_H
 #define HPTABLEMODEL_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include <QStandardItemModel>
 #include <QTimer>
 

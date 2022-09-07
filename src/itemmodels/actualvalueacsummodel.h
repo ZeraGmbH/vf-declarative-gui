@@ -1,7 +1,7 @@
 #ifndef ACTUALVALUEACSUMMODEL_H
 #define ACTUALVALUEACSUMMODEL_H
 
-#include "zeragluelogic.h"
+#include "tableeventdistributor.h"
 #include "zeragluelogicitemmodelbase.h"
 
 class ActualValueAcSumModel : public ZeraGlueLogicItemModelBase
