@@ -1,7 +1,7 @@
 #include "actualvaluemodel.h"
 
 ActualValueModel::ActualValueModel(QObject *t_parent) :
-    ZeraGlueLogicItemModelBase(14, 1, t_parent)
+    TableEventItemModelBase(14, 1, t_parent)
 {
 }
 
@@ -191,7 +191,7 @@ void ActualValueModel::handleComponentChangeCoord(const VeinComponent::Component
         insertMeasMode(valueCoordiates.y(), newValue);
     }
     else {
-        ZeraGlueLogicItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
     }
 }
 

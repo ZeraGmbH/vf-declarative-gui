@@ -2,9 +2,9 @@
 #define ACTUALVALUE4THPHASEDCMODEL_H
 
 #include "tableeventdistributor.h"
-#include "zeragluelogicitemmodelbase.h"
+#include "tableeventitemmodelbase.h"
 
-class ActualValue4thPhaseDcModel : public ZeraGlueLogicItemModelBase
+class ActualValue4thPhaseDcModel : public TableEventItemModelBase
 {
 public:
     ActualValue4thPhaseDcModel(QObject *t_parent);

@@ -2,9 +2,9 @@
 #define BURDENVALUEMODEL_H
 
 #include "tableeventdistributor.h"
-#include "zeragluelogicitemmodelbase.h"
+#include "tableeventitemmodelbase.h"
 
-class BurdenValueModel : public ZeraGlueLogicItemModelBase
+class BurdenValueModel : public TableEventItemModelBase
 {
 public:
     BurdenValueModel(Modules modulVeinId, QObject *t_parent);

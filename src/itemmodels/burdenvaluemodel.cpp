@@ -1,7 +1,7 @@
 #include "burdenvaluemodel.h"
 
 BurdenValueModel::BurdenValueModel(Modules modulVeinId, QObject *t_parent) :
-    ZeraGlueLogicItemModelBase(7, 1, t_parent),
+    TableEventItemModelBase(7, 1, t_parent),
     m_modulVeinId(modulVeinId)
 {
 }

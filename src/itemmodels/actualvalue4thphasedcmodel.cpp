@@ -10,7 +10,7 @@ enum class LineDefinitions : int {
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
 ActualValue4thPhaseDcModel::ActualValue4thPhaseDcModel(QObject *t_parent) :
-    ZeraGlueLogicItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
+    TableEventItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
 {
 }
 
@@ -67,6 +67,6 @@ void ActualValue4thPhaseDcModel::handleComponentChangeCoord(const VeinComponent:
         }
     }
     else {
-        ZeraGlueLogicItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
     }
 }

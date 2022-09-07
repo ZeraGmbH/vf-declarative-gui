@@ -1,15 +1,15 @@
-#include "zeragluelogicitemmodelbase.h"
+#include "tableeventitemmodelbase.h"
 
-QSet<ZeraGlueLogicItemModelBase*> ZeraGlueLogicItemModelBase::m_setAllBaseModels;
+QSet<TableEventItemModelBase*> TableEventItemModelBase::m_setAllBaseModels;
 
-ZeraGlueLogicItemModelBase::ZeraGlueLogicItemModelBase(int t_rows, int t_columns, QObject *t_parent) :
+TableEventItemModelBase::TableEventItemModelBase(int t_rows, int t_columns, QObject *t_parent) :
     QStandardItemModel(t_rows, t_columns, t_parent),
     m_translation(ZeraTranslation::getInstance())
 {
     m_setAllBaseModels.insert(this);
 }
 
-ZeraGlueLogicItemModelBase::~ZeraGlueLogicItemModelBase()
+TableEventItemModelBase::~TableEventItemModelBase()
 {
     for(auto point : qAsConst(m_valueMapping)) {
         delete point;
@@ -17,7 +17,7 @@ ZeraGlueLogicItemModelBase::~ZeraGlueLogicItemModelBase()
     m_setAllBaseModels.remove(this);
 }
 
-void ZeraGlueLogicItemModelBase::handleComponentChange(const VeinComponent::ComponentData *cData)
+void TableEventItemModelBase::handleComponentChange(const VeinComponent::ComponentData *cData)
 {
     const auto mapping = m_valueMapping.value(cData->entityId(), nullptr);
     if(mapping) {
@@ -29,18 +29,18 @@ void ZeraGlueLogicItemModelBase::handleComponentChange(const VeinComponent::Comp
     }
 }
 
-void ZeraGlueLogicItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     QModelIndex mIndex = index(valueCoordiates.y(), 0);
     setData(mIndex, cData->newValue(), valueCoordiates.x());
 }
 
-QList<ZeraGlueLogicItemModelBase *> ZeraGlueLogicItemModelBase::getAllBaseModels()
+QList<TableEventItemModelBase *> TableEventItemModelBase::getAllBaseModels()
 {
     return m_setAllBaseModels.values();
 }
 
-QHash<int, QHash<QString, QPoint> *> ZeraGlueLogicItemModelBase::getValueMapping()
+QHash<int, QHash<QString, QPoint> *> TableEventItemModelBase::getValueMapping()
 {
     return m_valueMapping;
 }
