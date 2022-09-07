@@ -55,12 +55,11 @@ class TableEventDistributor : public VeinEvent::EventSystem
 {
     Q_OBJECT
 public:
-    explicit TableEventDistributor(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent=nullptr);
-    ~TableEventDistributor() override;
+    explicit TableEventDistributor(std::shared_ptr<TableEventConsumer> consumer);
 public:
     bool processEvent(QEvent *t_event) override;
 private:
-    TableEventConsumer *m_consumer;
+    std::shared_ptr<TableEventConsumer> m_consumer;
 };
 
 #endif // TABLEEVENTDISTRIBUTOR_H

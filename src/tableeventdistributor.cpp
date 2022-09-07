@@ -12,17 +12,11 @@
 
 //harmonic power values
 
-TableEventDistributor::TableEventDistributor(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
-    VeinEvent::EventSystem(t_parent),
-    m_consumer(new TableEventConsumer(t_propertyMap))
+TableEventDistributor::TableEventDistributor(std::shared_ptr<TableEventConsumer> consumer) :
+    m_consumer(consumer)
 {
 }
 
-TableEventDistributor::~TableEventDistributor()
-{
-    delete m_consumer;
-    m_consumer=nullptr;
-}
 
 bool TableEventDistributor::processEvent(QEvent *t_event)
 {

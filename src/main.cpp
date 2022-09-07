@@ -14,6 +14,7 @@
 #include <veinqmlwrapper.h>
 #include <fontawesome-qml.h>
 #include "tableeventdistributor.h"
+#include "tableeventconsumer.h"
 #include "gluelogicpropertymap.h"
 #include <zeratranslationplugin.h>
 #include "jsonsettingsfile.h"
@@ -141,7 +142,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
     VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
-    TableEventDistributor *glueLogicSystem = new TableEventDistributor(glueLogicMap, &app);
+    std::shared_ptr<TableEventConsumer> consumer = std::make_shared<TableEventConsumer>(glueLogicMap);
+    TableEventDistributor glueLogicSystem(consumer);
     VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
@@ -172,7 +174,7 @@ int main(int argc, char *argv[])
 
     netSystem->setOperationMode(VeinNet::NetworkSystem::VNOM_PASS_THROUGH);
 
-    subSystems.append(glueLogicSystem);
+    subSystems.append(&glueLogicSystem);
     subSystems.append(netSystem);
     subSystems.append(tcpSystem);
     subSystems.append(qmlApi);
