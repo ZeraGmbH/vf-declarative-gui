@@ -224,7 +224,7 @@ void TableEventConsumer::setAngleUI(int t_systemNumber)
 
 void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData)
 {
-    QList<ZeraGlueLogicItemModelBase *> allBaseItemModels = ZeraGlueLogicItemModelBase::getAllBaseModels();
+    QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
     for(auto model : qAsConst(allBaseItemModels)) {
         model->handleComponentChange(cData);
     }
@@ -264,7 +264,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     }
     default: /// @note values handled earlier in the switch case will not show up in the actual values table!
     {
-        QList<ZeraGlueLogicItemModelBase*> actValueModels = QList<ZeraGlueLogicItemModelBase*>()
+        QList<TableEventItemModelBase*> actValueModels = QList<TableEventItemModelBase*>()
                 << m_actValueData
                 << m_actValueOnlyPData
                 << m_actValue4thPhaseDcData
@@ -276,7 +276,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
             }
         }
 
-        QList<ZeraGlueLogicItemModelBase*> burdenModels = QList<ZeraGlueLogicItemModelBase*>()
+        QList<TableEventItemModelBase*> burdenModels = QList<TableEventItemModelBase*>()
                 << m_burden1Data
                 << m_burden2Data;
         for(auto model : qAsConst(burdenModels)) {
@@ -290,7 +290,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     }
 }
 
-bool TableEventConsumer::handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+bool TableEventConsumer::handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal = false;
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
@@ -314,7 +314,7 @@ bool TableEventConsumer::handleActualValues(ZeraGlueLogicItemModelBase *itemMode
     return retVal;
 }
 
-bool TableEventConsumer::handleBurdenValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint> *t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+bool TableEventConsumer::handleBurdenValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint> *t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal = false;
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());

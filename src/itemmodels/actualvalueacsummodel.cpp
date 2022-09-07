@@ -10,7 +10,7 @@ enum class LineDefinitions : int {
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
 ActualValueAcSumModel::ActualValueAcSumModel(QObject *t_parent) :
-    ZeraGlueLogicItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
+    TableEventItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
 {
 }
 

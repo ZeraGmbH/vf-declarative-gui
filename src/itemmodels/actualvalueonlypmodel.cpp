@@ -15,7 +15,7 @@ enum class LineDefinitions : int {
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
 ActualValueOnlyPModel::ActualValueOnlyPModel(QObject *t_parent) :
-    ZeraGlueLogicItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
+    TableEventItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
 {
 }
 
@@ -135,7 +135,7 @@ void ActualValueOnlyPModel::handleComponentChangeCoord(const VeinComponent::Comp
         insertMeasMode(valueCoordiates.y(), newValue);
     }
     else {
-        ZeraGlueLogicItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
     }
 }
 

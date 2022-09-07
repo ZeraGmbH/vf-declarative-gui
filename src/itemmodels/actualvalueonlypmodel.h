@@ -2,9 +2,9 @@
 #define ACTUALVALUEONLYPMODEL_H
 
 #include "tableeventdistributor.h"
-#include "zeragluelogicitemmodelbase.h"
+#include "tableeventitemmodelbase.h"
 
-class ActualValueOnlyPModel : public ZeraGlueLogicItemModelBase
+class ActualValueOnlyPModel : public TableEventItemModelBase
 {
 public:
     ActualValueOnlyPModel(QObject *t_parent);

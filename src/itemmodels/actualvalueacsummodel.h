@@ -2,9 +2,9 @@
 #define ACTUALVALUEACSUMMODEL_H
 
 #include "tableeventdistributor.h"
-#include "zeragluelogicitemmodelbase.h"
+#include "tableeventitemmodelbase.h"
 
-class ActualValueAcSumModel : public ZeraGlueLogicItemModelBase
+class ActualValueAcSumModel : public TableEventItemModelBase
 {
 public:
     ActualValueAcSumModel(QObject *t_parent);

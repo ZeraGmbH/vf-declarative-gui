@@ -2,7 +2,7 @@
 #define TABLEEVENTCONSUMER_H
 
 #include "tableeventdistributor.h"
-#include "zeragluelogicitemmodelbase.h"
+#include "tableeventitemmodelbase.h"
 #include "ffttablemodel.h"
 #include "harmonicpowertablemodel.h"
 #include "modelrowpair.h"
@@ -24,8 +24,8 @@ class TableEventConsumer
     void setAngleUI(int t_systemNumber);
 
     void handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData);
-    bool handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
-    bool handleBurdenValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
+    bool handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
+    bool handleBurdenValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     bool handleOsciValues(const VeinComponent::ComponentData *t_cmpData);
     bool handleFftValues(const VeinComponent::ComponentData *t_cmpData);
     bool handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData);
@@ -38,12 +38,12 @@ class TableEventConsumer
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
 
-    ZeraGlueLogicItemModelBase *m_actValueData;
-    ZeraGlueLogicItemModelBase *m_actValueOnlyPData;
-    ZeraGlueLogicItemModelBase *m_actValue4thPhaseDcData;
-    ZeraGlueLogicItemModelBase *m_actValueAcSumData;
-    ZeraGlueLogicItemModelBase *m_burden1Data;
-    ZeraGlueLogicItemModelBase *m_burden2Data;
+    TableEventItemModelBase *m_actValueData;
+    TableEventItemModelBase *m_actValueOnlyPData;
+    TableEventItemModelBase *m_actValue4thPhaseDcData;
+    TableEventItemModelBase *m_actValueAcSumData;
+    TableEventItemModelBase *m_burden1Data;
+    TableEventItemModelBase *m_burden2Data;
 
     QStandardItemModel *m_osciP1Data;
     QStandardItemModel *m_osciP2Data;
