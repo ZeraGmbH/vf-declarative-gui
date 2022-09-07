@@ -34,7 +34,6 @@ class TableEventConsumer
     void setupDftDispatchTable();
     void updateTranslation();
 
-    TableEventDistributor *m_qPtr;
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
 
@@ -56,7 +55,7 @@ class TableEventConsumer
     HarmonicPowerTableModel *m_hpTableData;
     HarmonicPowerTableModel *m_hpRelativeTableData;
 
-    QHash<QString, ModelRowPair> m_osciMapping;
+    QHash<QString, std::shared_ptr<ModelRowPair>> m_osciMapping;
     QHash<QString, int> m_fftTableRoleMapping;
     QHash<QString, int> m_hpwTableRoleMapping;
 
