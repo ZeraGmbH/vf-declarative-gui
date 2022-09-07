@@ -14,14 +14,14 @@
 
 TableEventDistributor::TableEventDistributor(GlueLogicPropertyMap *t_propertyMap, QObject *t_parent) :
     VeinEvent::EventSystem(t_parent),
-    m_dPtr(new TableEventConsumer(this, t_propertyMap))
+    m_consumer(new TableEventConsumer(t_propertyMap))
 {
 }
 
 TableEventDistributor::~TableEventDistributor()
 {
-    delete m_dPtr;
-    m_dPtr=nullptr;
+    delete m_consumer;
+    m_consumer=nullptr;
 }
 
 bool TableEventDistributor::processEvent(QEvent *t_event)
@@ -41,7 +41,7 @@ bool TableEventDistributor::processEvent(QEvent *t_event)
         {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
-            m_dPtr->handleComponentChange(cmpData, evData);
+            m_consumer->handleComponentChange(cmpData, evData);
         }
     }
     return retVal;

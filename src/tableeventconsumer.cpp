@@ -9,25 +9,25 @@
 
 #include <QVector2D>
 
-TableEventConsumer::TableEventConsumer(TableEventDistributor *t_public, GlueLogicPropertyMap *t_propertyMap) :
+TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     m_propertyMap(t_propertyMap),
     m_translation(ZeraTranslation::getInstance()),
-    m_actValueData(new ActualValueModel(t_public)),
-    m_actValueOnlyPData(new ActualValueOnlyPModel(t_public)),
-    m_actValue4thPhaseDcData(new ActualValue4thPhaseDcModel(t_public)),
-    m_actValueAcSumData(new ActualValueAcSumModel(t_public)),
-    m_burden1Data(new BurdenValueModel(Modules::Burden1Module, t_public)),
-    m_burden2Data(new BurdenValueModel(Modules::Burden2Module, t_public)),
-    m_osciP1Data(new QStandardItemModel(3, 128, t_public)),
-    m_osciP2Data(new QStandardItemModel(3, 128, t_public)),
-    m_osciP3Data(new QStandardItemModel(3, 128, t_public)),
-    m_osciAUXData(new QStandardItemModel(3, 128, t_public)),
-    m_fftTableData(new FftTableModel(1, 1, t_public)), //dynamic size
-    m_fftRelativeTableData(new FftTableModel(1, 1, t_public)), //dynamic size
-    m_hpTableData(new HarmonicPowerTableModel(1, 1, t_public)), //dynamic size
-    m_hpRelativeTableData(new HarmonicPowerTableModel(1, 1, t_public)) //dynamic size
+    m_actValueData(new ActualValueModel(nullptr)),
+    m_actValueOnlyPData(new ActualValueOnlyPModel(nullptr)),
+    m_actValue4thPhaseDcData(new ActualValue4thPhaseDcModel(nullptr)),
+    m_actValueAcSumData(new ActualValueAcSumModel(nullptr)),
+    m_burden1Data(new BurdenValueModel(Modules::Burden1Module, nullptr)),
+    m_burden2Data(new BurdenValueModel(Modules::Burden2Module, nullptr)),
+    m_osciP1Data(new QStandardItemModel(3, 128, nullptr)),
+    m_osciP2Data(new QStandardItemModel(3, 128, nullptr)),
+    m_osciP3Data(new QStandardItemModel(3, 128, nullptr)),
+    m_osciAUXData(new QStandardItemModel(3, 128, nullptr)),
+    m_fftTableData(new FftTableModel(1, 1, nullptr)), //dynamic size
+    m_fftRelativeTableData(new FftTableModel(1, 1, nullptr)), //dynamic size
+    m_hpTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
+    m_hpRelativeTableData(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
 {
-    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, t_public, [this](){updateTranslation();});
+    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){updateTranslation();});
 
     m_actValueData->setupTable();
     m_actValueOnlyPData->setupTable();

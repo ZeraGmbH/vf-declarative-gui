@@ -60,7 +60,7 @@ public:
 public:
     bool processEvent(QEvent *t_event) override;
 private:
-    TableEventConsumer *m_dPtr;
+    TableEventConsumer *m_consumer;
 };
 
 #endif // TABLEEVENTDISTRIBUTOR_H
