@@ -1,4 +1,4 @@
-#include "hptablemodel.h"
+#include "harmonicpowertablemodel.h"
 
 HarmonicPowerTableModel::HarmonicPowerTableModel(int t_rows, int t_columns, QObject *t_parent) :
     QStandardItemModel(t_rows, t_columns, t_parent)

@@ -4,7 +4,7 @@
 #include "zeragluelogic.h"
 #include "zeragluelogicitemmodelbase.h"
 #include "ffttablemodel.h"
-#include "hptablemodel.h"
+#include "harmonicpowertablemodel.h"
 #include "modelrowpair.h"
 
 #include <ve_eventdata.h>
