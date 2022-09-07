@@ -42,7 +42,7 @@ bool ZeraGlueLogic::processEvent(QEvent *t_event)
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
             Q_ASSERT(cmpData != nullptr);
             // start per-model handling replacing code below
-            m_dPtr->handleComponentChange(cmpData);
+            m_dPtr->handleComponentChange(cmpData, evData);
 
             switch(static_cast<Modules>(evData->entityId()))
             {

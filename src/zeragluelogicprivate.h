@@ -7,6 +7,8 @@
 #include "hptablemodel.h"
 #include "modelrowpair.h"
 
+#include <ve_eventdata.h>
+
 class ZeraGlueLogicPrivate
 {
     ZeraGlueLogicPrivate(ZeraGlueLogic *t_public, GlueLogicPropertyMap *t_propertyMap);
@@ -21,7 +23,7 @@ class ZeraGlueLogicPrivate
 
     void setAngleUI(int t_systemNumber);
 
-    void handleComponentChange(const VeinComponent::ComponentData *cData);
+    void handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData);
     bool handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     bool handleBurdenValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     bool handleOsciValues(const VeinComponent::ComponentData *t_cmpData);

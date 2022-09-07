@@ -222,7 +222,7 @@ void ZeraGlueLogicPrivate::setAngleUI(int t_systemNumber)
     //m_actValueAcSumData
 }
 
-void ZeraGlueLogicPrivate::handleComponentChange(const VeinComponent::ComponentData *cData)
+void ZeraGlueLogicPrivate::handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData)
 {
     QList<ZeraGlueLogicItemModelBase *> allBaseItemModels = ZeraGlueLogicItemModelBase::getAllBaseModels();
     for(auto model : qAsConst(allBaseItemModels)) {
