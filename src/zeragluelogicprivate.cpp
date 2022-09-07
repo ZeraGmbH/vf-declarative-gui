@@ -228,6 +228,66 @@ void ZeraGlueLogicPrivate::handleComponentChange(const VeinComponent::ComponentD
     for(auto model : qAsConst(allBaseItemModels)) {
         model->handleComponentChange(cData);
     }
+
+    switch(static_cast<Modules>(evData->entityId()))
+    {
+    case Modules::OsciModule:
+    {
+        handleOsciValues(cData);
+        break;
+    }
+    case Modules::FftModule:
+    {
+        handleFftValues(cData);
+        break;
+    }
+    case Modules::Power3Module:
+    {
+        handleHarmonicPowerValues(cData);
+        break;
+    }
+    case Modules::Burden1Module:
+    {
+        const auto burdenMapping = m_burden1Data->getValueMapping().value(evData->entityId(), nullptr);
+        if(Q_UNLIKELY(burdenMapping != nullptr)) {
+            handleBurdenValues(m_burden1Data, burdenMapping, cData);
+        }
+        break;
+    }
+    case Modules::Burden2Module:
+    {
+        const auto burdenMapping = m_burden2Data->getValueMapping().value(evData->entityId(), nullptr);
+        if(Q_UNLIKELY(burdenMapping != nullptr)) {
+            handleBurdenValues(m_burden2Data, burdenMapping, cData);
+        }
+        break;
+    }
+    default: /// @note values handled earlier in the switch case will not show up in the actual values table!
+    {
+        QList<ZeraGlueLogicItemModelBase*> actValueModels = QList<ZeraGlueLogicItemModelBase*>()
+                << m_actValueData
+                << m_actValueOnlyPData
+                << m_actValue4thPhaseDcData
+                << m_actValueAcSumData;
+        for(auto model : qAsConst(actValueModels)) {
+            const auto avMapping = model->getValueMapping().value(evData->entityId(), nullptr);
+            if(Q_UNLIKELY(avMapping != nullptr)) {
+                handleActualValues(model, avMapping, cData);
+            }
+        }
+
+        QList<ZeraGlueLogicItemModelBase*> burdenModels = QList<ZeraGlueLogicItemModelBase*>()
+                << m_burden1Data
+                << m_burden2Data;
+        for(auto model : qAsConst(burdenModels)) {
+            const auto burdenMapping = model->getValueMapping().value(evData->entityId(), nullptr);
+            if(Q_UNLIKELY(burdenMapping != nullptr)) { //rms values
+                handleBurdenValues(model, burdenMapping, cData);
+            }
+        }
+        break;
+    }
+    }
 }
 
 bool ZeraGlueLogicPrivate::handleActualValues(ZeraGlueLogicItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
