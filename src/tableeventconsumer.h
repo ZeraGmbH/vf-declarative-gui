@@ -9,12 +9,16 @@
 
 #include <ve_eventdata.h>
 
-class TableEventConsumer
+class TableEventConsumer : public QObject
 {
-    TableEventConsumer(TableEventDistributor *t_public, GlueLogicPropertyMap *t_propertyMap);
+    Q_OBJECT
+public:
+    TableEventConsumer(GlueLogicPropertyMap *t_propertyMap);
     ~TableEventConsumer();
 
+    void handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData);
 
+private:
     void setupOsciData();
 
     void setupFftData();
@@ -23,7 +27,6 @@ class TableEventConsumer
 
     void setAngleUI(int t_systemNumber);
 
-    void handleComponentChange(const VeinComponent::ComponentData *cData, VeinEvent::EventData *evData);
     bool handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     bool handleBurdenValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     bool handleOsciValues(const VeinComponent::ComponentData *t_cmpData);
@@ -70,8 +73,6 @@ class TableEventConsumer
     double m_angleI1=0;
     double m_angleI2=0;
     double m_angleI3=0;
-
-    friend class TableEventDistributor;
 };
 
 
