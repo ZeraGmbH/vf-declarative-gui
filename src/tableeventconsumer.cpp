@@ -10,25 +10,24 @@
 #include <QVector2D>
 
 TableEventConsumer::TableEventConsumer(TableEventDistributor *t_public, GlueLogicPropertyMap *t_propertyMap) :
-    m_qPtr(t_public),
     m_propertyMap(t_propertyMap),
     m_translation(ZeraTranslation::getInstance()),
-    m_actValueData(new ActualValueModel(m_qPtr)),
-    m_actValueOnlyPData(new ActualValueOnlyPModel(m_qPtr)),
-    m_actValue4thPhaseDcData(new ActualValue4thPhaseDcModel(m_qPtr)),
-    m_actValueAcSumData(new ActualValueAcSumModel(m_qPtr)),
-    m_burden1Data(new BurdenValueModel(Modules::Burden1Module, m_qPtr)),
-    m_burden2Data(new BurdenValueModel(Modules::Burden2Module, m_qPtr)),
-    m_osciP1Data(new QStandardItemModel(3, 128, m_qPtr)),
-    m_osciP2Data(new QStandardItemModel(3, 128, m_qPtr)),
-    m_osciP3Data(new QStandardItemModel(3, 128, m_qPtr)),
-    m_osciAUXData(new QStandardItemModel(3, 128, m_qPtr)),
-    m_fftTableData(new FftTableModel(1, 1, m_qPtr)), //dynamic size
-    m_fftRelativeTableData(new FftTableModel(1, 1, m_qPtr)), //dynamic size
-    m_hpTableData(new HarmonicPowerTableModel(1, 1, m_qPtr)), //dynamic size
-    m_hpRelativeTableData(new HarmonicPowerTableModel(1, 1, m_qPtr)) //dynamic size
+    m_actValueData(new ActualValueModel(t_public)),
+    m_actValueOnlyPData(new ActualValueOnlyPModel(t_public)),
+    m_actValue4thPhaseDcData(new ActualValue4thPhaseDcModel(t_public)),
+    m_actValueAcSumData(new ActualValueAcSumModel(t_public)),
+    m_burden1Data(new BurdenValueModel(Modules::Burden1Module, t_public)),
+    m_burden2Data(new BurdenValueModel(Modules::Burden2Module, t_public)),
+    m_osciP1Data(new QStandardItemModel(3, 128, t_public)),
+    m_osciP2Data(new QStandardItemModel(3, 128, t_public)),
+    m_osciP3Data(new QStandardItemModel(3, 128, t_public)),
+    m_osciAUXData(new QStandardItemModel(3, 128, t_public)),
+    m_fftTableData(new FftTableModel(1, 1, t_public)), //dynamic size
+    m_fftRelativeTableData(new FftTableModel(1, 1, t_public)), //dynamic size
+    m_hpTableData(new HarmonicPowerTableModel(1, 1, t_public)), //dynamic size
+    m_hpRelativeTableData(new HarmonicPowerTableModel(1, 1, t_public)) //dynamic size
 {
-    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, m_qPtr, [this](){updateTranslation();});
+    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, t_public, [this](){updateTranslation();});
 
     m_actValueData->setupTable();
     m_actValueOnlyPData->setupTable();
@@ -86,50 +85,43 @@ void TableEventConsumer::setupOsciData()
         m_osciAUXData->setData(tmpIndex, i, Qt::DisplayRole);
     }
 
+    std::shared_ptr<ModelRowPair> tempModelPair;
     //P1
-    ModelRowPair osci1Pair(m_osciP1Data, 1);
-    osci1Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci1Pair.m_updateInterval->setInterval(valueInterval);
-    osci1Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI1", osci1Pair); //UL1
-    ModelRowPair osci2Pair(m_osciP1Data, 2);
-    osci2Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci2Pair.m_updateInterval->setInterval(valueInterval);
-    osci2Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI4", osci2Pair); //IL1
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciP1Data, 1);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI1", tempModelPair); //UL1
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciP1Data, 2);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI4", tempModelPair); //IL1
     //P2
-    ModelRowPair osci3Pair(m_osciP2Data, 1);
-    osci3Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci3Pair.m_updateInterval->setInterval(valueInterval);
-    osci3Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI2", osci3Pair); //UL2
-    ModelRowPair osci4Pair(m_osciP2Data, 2);
-    osci4Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci4Pair.m_updateInterval->setInterval(valueInterval);
-    osci4Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI5", osci4Pair); //IL2
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciP2Data, 1);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI2", tempModelPair); //UL2
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciP2Data, 2);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI5", tempModelPair); //IL2
     //P3
-    ModelRowPair osci5Pair(m_osciP3Data, 1);
-    osci5Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci5Pair.m_updateInterval->setInterval(valueInterval);
-    osci5Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI3", osci5Pair); //UL3
-    ModelRowPair osci6Pair(m_osciP3Data, 2);
-    osci6Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci6Pair.m_updateInterval->setInterval(valueInterval);
-    osci6Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI6", osci6Pair); //IL3
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciP3Data, 1);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI3", tempModelPair); //UL3
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciP3Data, 2);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI6", tempModelPair); //IL3
     //PN
-    ModelRowPair osci7Pair(m_osciAUXData, 1);
-    osci7Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci7Pair.m_updateInterval->setInterval(valueInterval);
-    osci7Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI7", osci7Pair); //UN
-    ModelRowPair osci8Pair(m_osciAUXData, 2);
-    osci8Pair.m_updateInterval=new QTimer(m_qPtr);
-    osci8Pair.m_updateInterval->setInterval(valueInterval);
-    osci8Pair.m_updateInterval->setSingleShot(true);
-    m_osciMapping.insert("ACT_OSCI8", osci8Pair); //IN
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciAUXData, 1);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI7", tempModelPair); //UN
+    tempModelPair = std::make_shared<ModelRowPair>(m_osciAUXData, 2);
+    tempModelPair->m_updateInterval.setInterval(valueInterval);
+    tempModelPair->m_updateInterval.setSingleShot(true);
+    m_osciMapping.insert("ACT_OSCI8", tempModelPair); //IN
 }
 
 void TableEventConsumer::setupFftData()
@@ -331,24 +323,25 @@ bool TableEventConsumer::handleBurdenValues(TableEventItemModelBase *itemModel, 
 bool TableEventConsumer::handleOsciValues(const VeinComponent::ComponentData *t_cmpData)
 {
     bool retVal=false;
-    ModelRowPair tmpPair = m_osciMapping.value(t_cmpData->componentName(), ModelRowPair(nullptr, 0));
-    if(tmpPair.isNull() == false)
+    auto iter = m_osciMapping.find(t_cmpData->componentName());
+    if(iter != m_osciMapping.end())
     {
-        QStandardItemModel *tmpModel = tmpPair.m_model;
+        std::shared_ptr<ModelRowPair> tmpPair = iter.value();
+        QStandardItemModel *tmpModel = tmpPair->m_model;
         QModelIndex tmpIndex;
         const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
 
         QSignalBlocker blocker(tmpModel); //no need to send dataChanged for every iteration
         for(int i=0; i<tmpData.length(); ++i)
         {
-            tmpIndex = tmpModel->index(tmpPair.m_row, i);
+            tmpIndex = tmpModel->index(tmpPair->m_row, i);
             tmpModel->setData(tmpIndex, tmpData.at(i), Qt::DisplayRole);
         }
         blocker.unblock();
-        if(tmpPair.m_updateInterval->isActive() == false)
+        if(tmpPair->m_updateInterval.isActive() == false)
         {
-            emit tmpModel->dataChanged(tmpModel->index(tmpPair.m_row, 0), tmpModel->index(tmpPair.m_row, tmpData.length()-1));
-            tmpPair.m_updateInterval->start();
+            emit tmpModel->dataChanged(tmpModel->index(tmpPair->m_row, 0), tmpModel->index(tmpPair->m_row, tmpData.length()-1));
+            tmpPair->m_updateInterval.start();
         }
         retVal = true;
     }

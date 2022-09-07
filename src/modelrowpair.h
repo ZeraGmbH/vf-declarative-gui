@@ -13,14 +13,8 @@ public:
     {
     }
 
-    bool isNull() const
-    {
-        return (m_model == nullptr || m_row == 0);
-    }
-
     QStandardItemModel * m_model=nullptr;
-    //optional timer used for values that change too frequently
-    QTimer *m_updateInterval=nullptr; //uses the qt parent system to cleanup the instance
+    QTimer m_updateInterval;
     int m_row=0;
 };
 
