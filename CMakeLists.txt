@@ -39,45 +39,40 @@ find_Package(zera-json-qml REQUIRED)
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
 
-file(GLOB APP_HEADERS
+file(GLOB HEADERS
     src/*.h
     src/itemmodels/*.h
     )
 
-file(GLOB_RECURSE APP_SOURCES
-    src/*.cpp
-    src/intemmodels/*.h
+file(GLOB_RECURSE SOURCES
+    src/itemmodels/*.cpp
+    src/gluelogicpropertymap.cpp
+    src/modelrowpair.cpp
+    src/qmlappstarterforwebgl.cpp
+    src/qmlfileio.cpp
+    src/tableeventconsumer.cpp
+    src/tableeventdistributor.cpp
     )
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    qt5_add_resources(APP_RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
+    qt5_add_resources(RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
 else()
-    qtquick_compiler_add_resources(APP_RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
+    qtquick_compiler_add_resources(RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
 endif()
 
-add_executable(vf-declarative-gui
-    ${APP_HEADERS}
-    ${APP_SOURCES}
-    ${APP_RESOURCES}
+add_library(vf-declarative-gui-lib STATIC
+    ${SOURCES}
+    ${HEADERS}
     )
 
-target_include_directories(vf-declarative-gui
+target_include_directories(vf-declarative-gui-lib
     PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/itemmodels
-    ${QWT_INCLUDE_DIRS}
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/itemmodels>
     )
 
-## Choose between openGL and GLES
-if(${useGles})
-    set (glLib ${GLES2_LIBRARIES})
-    target_include_directories(vf-declarative-gui PUBLIC ${GLES2_INCLUDE_DIR})
-else()
-    set(glLib ${OPENGL_LIBRARIES})
-endif()
-
-target_link_libraries(vf-declarative-gui
-    PRIVATE
+target_link_libraries(vf-declarative-gui-lib
+    PUBLIC
     Qt5::Core
     Qt5::Widgets
     Qt5::Quick
@@ -109,6 +104,31 @@ target_link_libraries(vf-declarative-gui
     ${QWT_LIBRARIES}
     FontAweSomeQml::FontAweSomeQml
     ${glLib}
+    )
+
+add_executable(vf-declarative-gui
+    ${RESOURCES}
+    src/main.cpp
+    )
+
+target_include_directories(vf-declarative-gui
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/itemmodels
+    ${QWT_INCLUDE_DIRS}
+    )
+
+## Choose between openGL and GLES
+if(${useGles})
+    set (glLib ${GLES2_LIBRARIES})
+    target_include_directories(vf-declarative-gui PUBLIC ${GLES2_INCLUDE_DIR})
+else()
+    set(glLib ${OPENGL_LIBRARIES})
+endif()
+
+target_link_libraries(vf-declarative-gui
+    PRIVATE
+    vf-declarative-gui-lib
     )
 
 target_compile_definitions(vf-declarative-gui PRIVATE $<$<CONFIG:Debug>:QT_QML_DEBUG>)
