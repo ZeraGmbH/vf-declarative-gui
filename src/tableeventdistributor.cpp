@@ -12,7 +12,7 @@
 
 //harmonic power values
 
-TableEventDistributor::TableEventDistributor(std::shared_ptr<TableEventConsumer> consumer) :
+TableEventDistributor::TableEventDistributor(std::shared_ptr<TableEventConsumerInterface> consumer) :
     m_consumer(consumer)
 {
 }
