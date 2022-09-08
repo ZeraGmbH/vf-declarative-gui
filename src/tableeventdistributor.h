@@ -2,6 +2,7 @@
 #define TABLEEVENTDISTRIBUTOR_H
 
 #include "gluelogicpropertymap.h"
+#include "tableeventconsumerinterface.h"
 #include <ve_eventsystem.h>
 #include <vcmp_componentdata.h>
 #include <zeratranslation.h>
@@ -49,17 +50,15 @@ enum class Modules : int {
     //ScpiModule = 9999,
 };
 
-class TableEventConsumer;
-
 class TableEventDistributor : public VeinEvent::EventSystem
 {
     Q_OBJECT
 public:
-    explicit TableEventDistributor(std::shared_ptr<TableEventConsumer> consumer);
+    explicit TableEventDistributor(std::shared_ptr<TableEventConsumerInterface> consumer);
 public:
     bool processEvent(QEvent *t_event) override;
 private:
-    std::shared_ptr<TableEventConsumer> m_consumer;
+    std::shared_ptr<TableEventConsumerInterface> m_consumer;
 };
 
 #endif // TABLEEVENTDISTRIBUTOR_H
