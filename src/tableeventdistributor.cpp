@@ -1,22 +1,11 @@
 #include "tableeventdistributor.h"
-#include "tableeventconsumer.h"
-
-#include <QHash>
-#include <QPoint>
-
 #include <ve_commandevent.h>
 #include <vcmp_componentdata.h>
-
-#include <functional>
-
-
-//harmonic power values
 
 TableEventDistributor::TableEventDistributor(std::shared_ptr<TableEventConsumerInterface> consumer) :
     m_consumer(consumer)
 {
 }
-
 
 bool TableEventDistributor::processEvent(QEvent *t_event)
 {
