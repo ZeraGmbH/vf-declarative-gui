@@ -7,6 +7,7 @@
 #include "harmonicpowertablemodel.h"
 #include "modelrowpair.h"
 #include "tableeventconsumerinterface.h"
+#include "gluelogicpropertymap.h"
 
 #include <ve_eventdata.h>
 

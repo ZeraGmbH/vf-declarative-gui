@@ -1,13 +1,9 @@
 #ifndef TABLEEVENTDISTRIBUTOR_H
 #define TABLEEVENTDISTRIBUTOR_H
 
-#include "gluelogicpropertymap.h"
 #include "tableeventconsumerinterface.h"
 #include <ve_eventsystem.h>
 #include <vcmp_componentdata.h>
-#include <zeratranslation.h>
-#include <QPoint>
-#include <QHash>
 
 namespace CommonTable
 {
