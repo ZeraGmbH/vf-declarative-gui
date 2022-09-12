@@ -1,13 +1,13 @@
-#include "tableeventdistributor.h"
+#include "vfeventdispatcher.h"
 #include <ve_commandevent.h>
 #include <vcmp_componentdata.h>
 
-TableEventDistributor::TableEventDistributor(std::shared_ptr<TableEventConsumerInterface> consumer) :
+VfEventDispatcher::VfEventDispatcher(std::shared_ptr<VfEventConsumerInterface> consumer) :
     m_consumer(consumer)
 {
 }
 
-bool TableEventDistributor::processEvent(QEvent *t_event)
+bool VfEventDispatcher::processEvent(QEvent *t_event)
 {
     using namespace VeinEvent;
     bool retVal = false;

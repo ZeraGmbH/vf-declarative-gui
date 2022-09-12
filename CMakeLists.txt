@@ -51,7 +51,7 @@ file(GLOB_RECURSE SOURCES
     src/qmlappstarterforwebgl.cpp
     src/qmlfileio.cpp
     src/tableeventconsumer.cpp
-    src/tableeventdistributor.cpp
+    src/vfeventdispatcher.cpp
     )
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")

@@ -1,10 +1,10 @@
 #ifndef VEINCONSUMERMOCK_H
 #define VEINCONSUMERMOCK_H
 
-#include "tableeventconsumerinterface.h"
+#include "vfeventconsumerinterface.h"
 
 
-class VeinConsumerMock : public TableEventConsumerInterface
+class VeinConsumerMock : public VfEventConsumerInterface
 
 {
 public:
