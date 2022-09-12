@@ -1,17 +1,17 @@
 #ifndef TABLEEVENTCONSUMER_H
 #define TABLEEVENTCONSUMER_H
 
-#include "tableeventdistributor.h"
+#include "vfeventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 #include "ffttablemodel.h"
 #include "harmonicpowertablemodel.h"
 #include "modelrowpair.h"
-#include "tableeventconsumerinterface.h"
+#include "vfeventconsumerinterface.h"
 #include "gluelogicpropertymap.h"
 
 #include <ve_eventdata.h>
 
-class TableEventConsumer : public QObject, public TableEventConsumerInterface
+class TableEventConsumer : public QObject, public VfEventConsumerInterface
 {
     Q_OBJECT
 public:

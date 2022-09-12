@@ -1,7 +1,7 @@
 #ifndef HPTABLEMODEL_H
 #define HPTABLEMODEL_H
 
-#include "tableeventdistributor.h"
+#include "vfeventdispatcher.h"
 #include <QStandardItemModel>
 #include <QTimer>
 

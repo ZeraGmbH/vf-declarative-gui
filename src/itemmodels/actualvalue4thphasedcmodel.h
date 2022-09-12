@@ -1,7 +1,7 @@
 #ifndef ACTUALVALUE4THPHASEDCMODEL_H
 #define ACTUALVALUE4THPHASEDCMODEL_H
 
-#include "tableeventdistributor.h"
+#include "vfeventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 
 class ActualValue4thPhaseDcModel : public TableEventItemModelBase

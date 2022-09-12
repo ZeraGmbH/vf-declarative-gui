@@ -1,7 +1,7 @@
-#ifndef TABLEEVENTDISTRIBUTOR_H
-#define TABLEEVENTDISTRIBUTOR_H
+#ifndef VFEVENTDISPATCHER_H
+#define VFEVENTDISPATCHER_H
 
-#include "tableeventconsumerinterface.h"
+#include "vfeventconsumerinterface.h"
 #include <ve_eventsystem.h>
 #include <vcmp_componentdata.h>
 
@@ -46,15 +46,15 @@ enum class Modules : int {
     //ScpiModule = 9999,
 };
 
-class TableEventDistributor : public VeinEvent::EventSystem
+class VfEventDispatcher : public VeinEvent::EventSystem
 {
     Q_OBJECT
 public:
-    explicit TableEventDistributor(std::shared_ptr<TableEventConsumerInterface> consumer);
+    explicit VfEventDispatcher(std::shared_ptr<VfEventConsumerInterface> consumer);
 public:
     bool processEvent(QEvent *t_event) override;
 private:
-    std::shared_ptr<TableEventConsumerInterface> m_consumer;
+    std::shared_ptr<VfEventConsumerInterface> m_consumer;
 };
 
-#endif // TABLEEVENTDISTRIBUTOR_H
+#endif // VFEVENTDISPATCHER_H
