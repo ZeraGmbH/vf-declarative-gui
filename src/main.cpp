@@ -13,7 +13,7 @@
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
 #include <fontawesome-qml.h>
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 #include "tableeventconsumer.h"
 #include "gluelogicpropertymap.h"
 #include <zeratranslationplugin.h>
@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 
     VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
     std::shared_ptr<TableEventConsumer> consumer = std::make_shared<TableEventConsumer>(glueLogicMap);
-    VfEventDispatcher *glueLogicSystem = new VfEventDispatcher(consumer);
+    VfComponentEventDispatcher *glueLogicSystem = new VfComponentEventDispatcher(consumer);
     VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);

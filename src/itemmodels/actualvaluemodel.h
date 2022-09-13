@@ -1,7 +1,7 @@
 #ifndef ACTUALVALUEMODEL_H
 #define ACTUALVALUEMODEL_H
 
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 
 class ActualValueModel : public TableEventItemModelBase

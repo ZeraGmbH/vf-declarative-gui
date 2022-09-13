@@ -1,7 +1,7 @@
 #ifndef TABLEEVENTCONSUMER_H
 #define TABLEEVENTCONSUMER_H
 
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 #include "ffttablemodel.h"
 #include "harmonicpowertablemodel.h"

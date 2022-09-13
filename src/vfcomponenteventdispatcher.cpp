@@ -1,17 +1,17 @@
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 #include <ve_commandevent.h>
 #include <vcmp_componentdata.h>
 
-VfEventDispatcher::VfEventDispatcher(std::shared_ptr<VfEventConsumerInterface> consumer) :
+VfComponentEventDispatcher::VfComponentEventDispatcher(std::shared_ptr<VfEventConsumerInterface> consumer) :
     m_consumer(consumer)
 {
 }
 
-VfEventDispatcher::~VfEventDispatcher()
+VfComponentEventDispatcher::~VfComponentEventDispatcher()
 {
 }
 
-bool VfEventDispatcher::processEvent(QEvent *t_event)
+bool VfComponentEventDispatcher::processEvent(QEvent *t_event)
 {
     using namespace VeinEvent;
     bool retVal = false;

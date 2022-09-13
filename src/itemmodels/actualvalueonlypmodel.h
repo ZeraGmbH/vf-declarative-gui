@@ -1,7 +1,7 @@
 #ifndef ACTUALVALUEONLYPMODEL_H
 #define ACTUALVALUEONLYPMODEL_H
 
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 
 class ActualValueOnlyPModel : public TableEventItemModelBase

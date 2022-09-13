@@ -1,6 +1,6 @@
 #include "test_veineventdispatcher.h"
 #include "veinconsumermock.h"
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 
 static constexpr int entityId = 2;
 static const char *componentName = "fooComponentName";
@@ -19,7 +19,7 @@ void test_veineventdispatcher::cleanup()
 void test_veineventdispatcher::zeroEvents()
 {
     std::shared_ptr<VeinConsumerMock> mock = std::make_shared<VeinConsumerMock>();
-    VfEventDispatcher dispatcher(mock);
+    VfComponentEventDispatcher dispatcher(mock);
     m_vfEventHandler->addSubsystem(&dispatcher);
 
     QCoreApplication::processEvents();
@@ -29,7 +29,7 @@ void test_veineventdispatcher::zeroEvents()
 void test_veineventdispatcher::oneEvent()
 {
     std::shared_ptr<VeinConsumerMock> mock = std::make_shared<VeinConsumerMock>();
-    VfEventDispatcher dispatcher(mock);
+    VfComponentEventDispatcher dispatcher(mock);
     m_vfEventHandler->addSubsystem(&dispatcher);
 
     m_vfComponentData->setValue(entityId, componentName, QVariant(1));
@@ -40,7 +40,7 @@ void test_veineventdispatcher::oneEvent()
 void test_veineventdispatcher::twoEvents()
 {
     std::shared_ptr<VeinConsumerMock> mock = std::make_shared<VeinConsumerMock>();
-    VfEventDispatcher dispatcher(mock);
+    VfComponentEventDispatcher dispatcher(mock);
     m_vfEventHandler->addSubsystem(&dispatcher);
 
     m_vfComponentData->setValue(entityId, componentName, QVariant(1));
@@ -55,7 +55,7 @@ void test_veineventdispatcher::twoEventsTwoEntities()
     QCoreApplication::processEvents();
 
     std::shared_ptr<VeinConsumerMock> mock = std::make_shared<VeinConsumerMock>();
-    VfEventDispatcher dispatcher(mock);
+    VfComponentEventDispatcher dispatcher(mock);
     m_vfEventHandler->addSubsystem(&dispatcher);
 
     m_vfComponentData->setValue(entityId, componentName, QVariant(1));
@@ -70,7 +70,7 @@ void test_veineventdispatcher::twoEventsTwoComponents()
     QCoreApplication::processEvents();
 
     std::shared_ptr<VeinConsumerMock> mock = std::make_shared<VeinConsumerMock>();
-    VfEventDispatcher dispatcher(mock);
+    VfComponentEventDispatcher dispatcher(mock);
     m_vfEventHandler->addSubsystem(&dispatcher);
 
     m_vfComponentData->setValue(entityId, componentName, QVariant(1));

@@ -1,7 +1,7 @@
 #ifndef BURDENVALUEMODEL_H
 #define BURDENVALUEMODEL_H
 
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 
 class BurdenValueModel : public TableEventItemModelBase
