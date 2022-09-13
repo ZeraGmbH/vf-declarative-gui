@@ -12,7 +12,6 @@ public:
     virtual ~TableEventItemModelBase();
     virtual void setLabelsAndUnits() = 0;
     virtual void setupMapping() = 0;
-    virtual void updateTranslation() = 0;
     void handleComponentChange(const VeinComponent::ComponentData *cData);
 
     static QList<TableEventItemModelBase*> getAllBaseModels();

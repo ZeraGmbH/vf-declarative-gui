@@ -76,6 +76,8 @@ void ActualValueModel::setLabelsAndUnits()
     setData(mIndex, "VA", RoleIndexes::UNIT);
     mIndex = index(13, 0);
     setData(mIndex, "Hz", RoleIndexes::UNIT);
+
+    updateMModeTranslations();
 }
 
 void ActualValueModel::setupMapping()
@@ -156,12 +158,6 @@ void ActualValueModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module2), p1m2Map);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module3), p1m3Map);
     m_valueMapping.insert(static_cast<int>(Modules::RangeModule), rangeMap);
-}
-
-void ActualValueModel::updateTranslation()
-{
-    setLabelsAndUnits();
-    updateMModeTranslations();
 }
 
 QHash<int, QByteArray> ActualValueModel::roleNames() const

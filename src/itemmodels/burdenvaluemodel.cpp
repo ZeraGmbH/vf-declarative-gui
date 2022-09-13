@@ -80,11 +80,6 @@ void BurdenValueModel::setupMapping()
 
 }
 
-void BurdenValueModel::updateTranslation()
-{
-    setLabelsAndUnits();
-}
-
 QHash<int, QByteArray> BurdenValueModel::roleNames() const
 {
     using namespace CommonTable;

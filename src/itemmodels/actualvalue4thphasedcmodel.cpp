@@ -42,11 +42,6 @@ void ActualValue4thPhaseDcModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module4), p1m4Map);
 }
 
-void ActualValue4thPhaseDcModel::updateTranslation()
-{
-    setLabelsAndUnits();
-}
-
 QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
