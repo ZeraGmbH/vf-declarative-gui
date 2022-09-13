@@ -16,7 +16,7 @@ Item {
     readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
     readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
 
-    property var viewMode : PhasorDiagram.VIEW_STAR;
+    property int viewMode : PhasorDiagram.VIEW_STAR;
 
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
@@ -30,14 +30,18 @@ Item {
     function getVectorName(vecIndex) {
         var retVal;
         if(root.viewMode===PhasorDiagram.VIEW_STAR || root.viewMode===PhasorDiagram.VIEW_TRIANGLE) {
-            retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName
+            retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName)
         }
         if(root.viewMode===PhasorDiagram.VIEW_THREE_PHASE) {
             if(vecIndex < 3) {
                 retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP"+parseInt(vecIndex+1)].ChannelName;
+                let arrPhases = retVal.split('-')
+                if(arrPhases.length === 2) {
+                    retVal = Z.tr(arrPhases[0]) + '-' + Z.tr(arrPhases[1])
+                }
             }
             else {
-                retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName
+                retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName)
             }
         }
         return retVal;

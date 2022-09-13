@@ -123,7 +123,7 @@ Item {
                 width: uranges.width/4
                 Label {
                     id: urlabel
-                    text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
+                    text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName)
                     color: FT.getColorByIndex(modelData+1, root.groupingActive)
                     anchors.bottom: parent.top
                     anchors.bottomMargin: -(parent.height/3)
@@ -246,7 +246,7 @@ Item {
                 width: iranges.width/4
                 Label {
                     id: irlabel
-                    text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName
+                    text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName)
                     color: FT.getColorByIndex(modelData+1, root.groupingActive)
                     anchors.bottom: parent.top
                     anchors.bottomMargin: -(parent.height/3)

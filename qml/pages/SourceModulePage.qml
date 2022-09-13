@@ -678,12 +678,12 @@ Item {
             vector5Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrRmsXY[4][0],arrRmsXY[4][1]] : [0,0]
             vector6Data: [arrRmsXY[5][0],arrRmsXY[5][1]]
 
-            vector1Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? "UL1" : "UL1-UL2"
-            vector2Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? "UL2" : "UL3-UL2" // same as ACT_DFTPP2
-            vector3Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? "UL3" : "UL3-UL1"
-            vector4Label: "IL1"
-            vector5Label: "IL2"
-            vector6Label: "IL3"
+            vector1Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL1") : Z.tr("UL1") + "-" + Z.tr("UL2")
+            vector2Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL2") : Z.tr("UL3") + "-" + Z.tr("UL2") // same as ACT_DFTPP2
+            vector3Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL3") : Z.tr("UL3") + "-" + Z.tr("UL1")
+            vector4Label: Z.tr("IL1")
+            vector5Label: Z.tr("IL2")
+            vector6Label: Z.tr("IL3")
 
             vectorView: GC.vectorMode
             din410: !GC.vectorIecMode
@@ -1017,13 +1017,15 @@ Item {
                 let lineStr = ""
                 for(var idx of [1,2,3]) {
                     let strSpace = idx !== 1 ? " " : ""
-                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
+                    let strPhase = Z.tr("Phase" + String(idx))
+                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + strPhase + "</font>"
                 }
                 retModel.push(lineStr)
                 lineStr = ""
                 for(idx of [1,3,2]) {
                     let strSpace = idx !== 1 ? " " : ""
-                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + String(idx) + "</font>"
+                    let strPhase = Z.tr("Phase" + String(idx))
+                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + strPhase + "</font>"
                 }
                 retModel.push(lineStr)
                 return retModel

@@ -238,6 +238,7 @@ BaseTabPage {
                         phaseNameDisplay = 'AUX'
                     }
                 }
+                phaseNameDisplay = Z.tr(phaseNameDisplay)
                 columInfo.push({'phaseNum': phase,
                                    'phaseNameDisplay': phaseNameDisplay,
                                    'colorIndexU': colorIndexU,
