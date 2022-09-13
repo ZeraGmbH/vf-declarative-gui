@@ -27,14 +27,9 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     m_hpTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
     m_hpRelativeTableData(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
 {
-    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){updateTranslation();});
+    QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setLabelsAndUnits();});
 
-    m_actValueData->setLabelsAndUnits();
-    m_actValueOnlyPData->setLabelsAndUnits();
-    m_actValue4thPhaseDcData->setLabelsAndUnits();
-    m_actValueAcSumData->setLabelsAndUnits();
-    m_burden1Data->setLabelsAndUnits();
-    m_burden2Data->setLabelsAndUnits();
+    setLabelsAndUnits();
 
     m_actValueData->setupMapping();
     m_actValueOnlyPData->setupMapping();
@@ -488,12 +483,12 @@ void TableEventConsumer::setupDftDispatchTable()
     m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN8"), [](double) -> int { return -1; }); //currently the angle is not calculated
 }
 
-void TableEventConsumer::updateTranslation()
+void TableEventConsumer::setLabelsAndUnits()
 {
-    m_actValueData->updateTranslation();
-    m_actValueOnlyPData->updateTranslation();
-    m_actValue4thPhaseDcData->updateTranslation();
-    m_actValueAcSumData->updateTranslation();
-    m_burden1Data->updateTranslation();
-    m_burden2Data->updateTranslation();
+    m_actValueData->setLabelsAndUnits();
+    m_actValueOnlyPData->setLabelsAndUnits();
+    m_actValue4thPhaseDcData->setLabelsAndUnits();
+    m_actValueAcSumData->setLabelsAndUnits();
+    m_burden1Data->setLabelsAndUnits();
+    m_burden2Data->setLabelsAndUnits();
 }

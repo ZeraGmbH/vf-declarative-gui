@@ -62,6 +62,8 @@ void ActualValueOnlyPModel::setLabelsAndUnits()
     mIndex = index(lineVal(LINE_POWER), 0);
     setData(mIndex, "W", RoleIndexes::UNIT);
     //mIndex = index(lineVal(LINE_LAMBDA), 0); //none
+
+    updateMModeTranslations();
 }
 
 void ActualValueOnlyPModel::setupMapping()
@@ -106,12 +108,6 @@ void ActualValueOnlyPModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
     m_valueMapping.insert(static_cast<int>(Modules::LambdaModule), lambdaMap);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
-}
-
-void ActualValueOnlyPModel::updateTranslation()
-{
-    setLabelsAndUnits();
-    updateMModeTranslations();
 }
 
 QHash<int, QByteArray> ActualValueOnlyPModel::roleNames() const

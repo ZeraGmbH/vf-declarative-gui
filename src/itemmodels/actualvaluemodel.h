@@ -12,7 +12,6 @@ public:
 
     void setLabelsAndUnits() override;
     void setupMapping() override;
-    void updateTranslation() override;
 
     QHash<int, QByteArray> roleNames() const override;
 protected:

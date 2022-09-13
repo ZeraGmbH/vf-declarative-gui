@@ -37,7 +37,7 @@ private:
 
     void setupPropertyMap();
     void setupDftDispatchTable();
-    void updateTranslation();
+    void setLabelsAndUnits();
 
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;

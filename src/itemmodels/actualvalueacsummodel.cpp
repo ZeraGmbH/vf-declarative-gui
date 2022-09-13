@@ -43,11 +43,6 @@ void ActualValueAcSumModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::RangeModule), rangeMap);
 }
 
-void ActualValueAcSumModel::updateTranslation()
-{
-    setLabelsAndUnits();
-}
-
 QHash<int, QByteArray> ActualValueAcSumModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
