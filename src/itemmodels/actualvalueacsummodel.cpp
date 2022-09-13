@@ -23,7 +23,7 @@ void ActualValueAcSumModel::setLabelsAndUnits()
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
     setData(mIndex, "P [W]", RoleIndexes::SUM_P);
-    setData(mIndex, "λ", RoleIndexes::SUM_LAMDA);
+    setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::SUM_LAMDA);
     setData(mIndex, "F [Hz]", RoleIndexes::FREQ);
     mIndex = index(lineVal(LINE_VALUES), 0);
     setData(mIndex, "Σ", RoleIndexes::NAME);
