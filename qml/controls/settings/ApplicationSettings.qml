@@ -160,7 +160,7 @@ SettingsView {
                         model: root.channelCount
                         Label {
                             Layout.fillHeight: true
-                            text: ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${index+1}Range`].ChannelName
+                            text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${index+1}Range`].ChannelName)
                             font.pointSize: colourListView.height * 0.040
                             color: GC.defaultColorsTableArray[lineDelegate.row][index]
                             verticalAlignment: Text.AlignVCenter
@@ -400,7 +400,7 @@ SettingsView {
                                 let workingIndex = root.channelCount-index
                                 let colorLead = "<font color='" + slowMachineSettingsHelper.getCurrentColor(workingIndex) + "'>"
                                 let colorTrail = "</font>"
-                                return colorLead + ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName + colorTrail
+                                return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
                             }
                             onClicked: {
                                 colorPicker.systemIndex = root.channelCount-index;

@@ -9,6 +9,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraLocale 1.0
+import ZeraTranslation 1.0
 
 Item {
     id: root
@@ -175,14 +176,14 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 rotation: -90
-                text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName;
+                text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName)
                 color: FT.getColorByIndex(leftChannels[index]+1);
             }
             Label {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 rotation: 90
-                text: ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName;
+                text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName)
                 color: FT.getColorByIndex(rightChannels[index]+1);
             }
         }
