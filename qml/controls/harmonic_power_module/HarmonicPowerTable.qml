@@ -90,7 +90,7 @@ Item {
                         height: root.rowHeight
                         color: GC.tableShadeColor
                         border.color: "#444" //disable border transparency
-                        text: ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPP%1").arg(index+1)].ChannelName + relativeUnit; //P
+                        text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPP%1").arg(index+1)].ChannelName + relativeUnit) //P
                         textColor: FT.getColorByIndex(index+1)
                         font.bold: true
                     }
@@ -99,7 +99,7 @@ Item {
                         height: root.rowHeight
                         color: GC.tableShadeColor
                         border.color: "#444" //disable border transparency
-                        text: ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPQ%1").arg(index+1)].ChannelName + relativeUnit; //Q
+                        text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPQ%1").arg(index+1)].ChannelName + relativeUnit) //Q
                         textColor: FT.getColorByIndex(index+1)
                         font.bold: true
                     }
@@ -108,7 +108,7 @@ Item {
                         height: root.rowHeight
                         color: GC.tableShadeColor
                         border.color: "#444" //disable border transparency
-                        text: ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPS%1").arg(index+1)].ChannelName + relativeUnit; //S
+                        text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPS%1").arg(index+1)].ChannelName + relativeUnit) //S
                         textColor: FT.getColorByIndex(index+1)
                         font.bold: true
                     }
