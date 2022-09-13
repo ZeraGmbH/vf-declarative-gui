@@ -490,7 +490,6 @@ void TableEventConsumer::setupDftDispatchTable()
 
 void TableEventConsumer::updateTranslation()
 {
-    using namespace CommonTable;
     m_actValueData->updateTranslation();
     m_actValueOnlyPData->updateTranslation();
     m_actValue4thPhaseDcData->updateTranslation();
