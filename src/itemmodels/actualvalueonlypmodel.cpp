@@ -23,7 +23,7 @@ ActualValueOnlyPModel::~ActualValueOnlyPModel()
 {
 }
 
-void ActualValueOnlyPModel::setupTable()
+void ActualValueOnlyPModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     // header line
@@ -110,7 +110,7 @@ void ActualValueOnlyPModel::setupMapping()
 
 void ActualValueOnlyPModel::updateTranslation()
 {
-    setupTable();
+    setLabelsAndUnits();
     updateMModeTranslations();
 }
 

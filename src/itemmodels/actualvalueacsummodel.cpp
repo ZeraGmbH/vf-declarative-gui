@@ -18,7 +18,7 @@ ActualValueAcSumModel::~ActualValueAcSumModel()
 {
 }
 
-void ActualValueAcSumModel::setupTable()
+void ActualValueAcSumModel::setLabelsAndUnits()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
@@ -45,7 +45,7 @@ void ActualValueAcSumModel::setupMapping()
 
 void ActualValueAcSumModel::updateTranslation()
 {
-    setupTable();
+    setLabelsAndUnits();
 }
 
 QHash<int, QByteArray> ActualValueAcSumModel::roleNames() const

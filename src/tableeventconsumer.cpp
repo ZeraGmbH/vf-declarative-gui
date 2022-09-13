@@ -29,12 +29,12 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
 {
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){updateTranslation();});
 
-    m_actValueData->setupTable();
-    m_actValueOnlyPData->setupTable();
-    m_actValue4thPhaseDcData->setupTable();
-    m_actValueAcSumData->setupTable();
-    m_burden1Data->setupTable();
-    m_burden2Data->setupTable();
+    m_actValueData->setLabelsAndUnits();
+    m_actValueOnlyPData->setLabelsAndUnits();
+    m_actValue4thPhaseDcData->setLabelsAndUnits();
+    m_actValueAcSumData->setLabelsAndUnits();
+    m_burden1Data->setLabelsAndUnits();
+    m_burden2Data->setLabelsAndUnits();
 
     m_actValueData->setupMapping();
     m_actValueOnlyPData->setupMapping();

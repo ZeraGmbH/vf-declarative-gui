@@ -9,7 +9,7 @@ ActualValueModel::~ActualValueModel()
 {
 }
 
-void ActualValueModel::setupTable()
+void ActualValueModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     //column names
@@ -160,7 +160,7 @@ void ActualValueModel::setupMapping()
 
 void ActualValueModel::updateTranslation()
 {
-    setupTable();
+    setLabelsAndUnits();
     updateMModeTranslations();
 }
 

@@ -10,7 +10,7 @@ public:
     ActualValue4thPhaseDcModel(QObject *t_parent);
     virtual ~ActualValue4thPhaseDcModel() override;
 
-    void setupTable() override;
+    void setLabelsAndUnits() override;
     void setupMapping() override;
     void updateTranslation() override;
 

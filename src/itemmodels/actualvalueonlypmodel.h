@@ -10,7 +10,7 @@ public:
     ActualValueOnlyPModel(QObject *t_parent);
     virtual ~ActualValueOnlyPModel() override;
 
-    void setupTable() override;
+    void setLabelsAndUnits() override;
     void setupMapping() override;
     void updateTranslation() override;
 

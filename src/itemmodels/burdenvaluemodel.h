@@ -10,7 +10,7 @@ public:
     BurdenValueModel(Modules modulVeinId, QObject *t_parent);
     virtual ~BurdenValueModel() override;
 
-    void setupTable() override;
+    void setLabelsAndUnits() override;
     void setupMapping() override;
     void updateTranslation() override;
 
