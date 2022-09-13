@@ -7,7 +7,7 @@
 class ActualValueAcSumModel : public TableEventItemModelBase
 {
 public:
-    ActualValueAcSumModel(QObject *t_parent);
+    ActualValueAcSumModel();
     virtual ~ActualValueAcSumModel() override;
 
     void setLabelsAndUnits() override;

@@ -7,7 +7,7 @@
 class ActualValue4thPhaseDcModel : public TableEventItemModelBase
 {
 public:
-    ActualValue4thPhaseDcModel(QObject *t_parent);
+    ActualValue4thPhaseDcModel();
     virtual ~ActualValue4thPhaseDcModel() override;
 
     void setLabelsAndUnits() override;

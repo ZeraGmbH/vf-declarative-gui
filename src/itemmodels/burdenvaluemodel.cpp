@@ -1,7 +1,7 @@
 #include "burdenvaluemodel.h"
 
-BurdenValueModel::BurdenValueModel(Modules modulVeinId, QObject *t_parent) :
-    TableEventItemModelBase(7, 1, t_parent),
+BurdenValueModel::BurdenValueModel(Modules modulVeinId) :
+    TableEventItemModelBase(7, 1),
     m_modulVeinId(modulVeinId)
 {
 }
