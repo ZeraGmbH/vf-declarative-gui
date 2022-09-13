@@ -10,7 +10,7 @@ BurdenValueModel::~BurdenValueModel()
 {
 }
 
-void BurdenValueModel::setupTable()
+void BurdenValueModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(0, 0);
@@ -82,7 +82,7 @@ void BurdenValueModel::setupMapping()
 
 void BurdenValueModel::updateTranslation()
 {
-    setupTable();
+    setLabelsAndUnits();
 }
 
 QHash<int, QByteArray> BurdenValueModel::roleNames() const

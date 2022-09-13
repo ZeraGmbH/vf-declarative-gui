@@ -18,7 +18,7 @@ ActualValue4thPhaseDcModel::~ActualValue4thPhaseDcModel()
 {
 }
 
-void ActualValue4thPhaseDcModel::setupTable()
+void ActualValue4thPhaseDcModel::setLabelsAndUnits()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
@@ -44,7 +44,7 @@ void ActualValue4thPhaseDcModel::setupMapping()
 
 void ActualValue4thPhaseDcModel::updateTranslation()
 {
-    setupTable();
+    setLabelsAndUnits();
 }
 
 QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const

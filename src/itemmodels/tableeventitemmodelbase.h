@@ -10,7 +10,7 @@ class TableEventItemModelBase : public QStandardItemModel
 public:
     TableEventItemModelBase(int t_rows, int t_columns, QObject *t_parent);
     virtual ~TableEventItemModelBase();
-    virtual void setupTable() = 0;
+    virtual void setLabelsAndUnits() = 0;
     virtual void setupMapping() = 0;
     virtual void updateTranslation() = 0;
     void handleComponentChange(const VeinComponent::ComponentData *cData);

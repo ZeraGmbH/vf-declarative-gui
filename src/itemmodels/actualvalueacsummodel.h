@@ -10,7 +10,7 @@ public:
     ActualValueAcSumModel(QObject *t_parent);
     virtual ~ActualValueAcSumModel() override;
 
-    void setupTable() override;
+    void setLabelsAndUnits() override;
     void setupMapping() override;
     void updateTranslation() override;
 
