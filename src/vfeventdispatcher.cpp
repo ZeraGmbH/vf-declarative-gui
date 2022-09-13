@@ -7,6 +7,10 @@ VfEventDispatcher::VfEventDispatcher(std::shared_ptr<VfEventConsumerInterface> c
 {
 }
 
+VfEventDispatcher::~VfEventDispatcher()
+{
+}
+
 bool VfEventDispatcher::processEvent(QEvent *t_event)
 {
     using namespace VeinEvent;
@@ -29,4 +33,3 @@ bool VfEventDispatcher::processEvent(QEvent *t_event)
     }
     return retVal;
 }
-

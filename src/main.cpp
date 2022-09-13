@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 
     VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
     std::shared_ptr<TableEventConsumer> consumer = std::make_shared<TableEventConsumer>(glueLogicMap);
-    VfEventDispatcher glueLogicSystem(consumer);
+    VfEventDispatcher *glueLogicSystem = new VfEventDispatcher(consumer);
     VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
 
     netSystem->setOperationMode(VeinNet::NetworkSystem::VNOM_PASS_THROUGH);
 
-    subSystems.append(&glueLogicSystem);
+    subSystems.append(glueLogicSystem);
     subSystems.append(netSystem);
     subSystems.append(tcpSystem);
     subSystems.append(qmlApi);
