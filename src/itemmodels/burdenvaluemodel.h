@@ -7,7 +7,7 @@
 class BurdenValueModel : public TableEventItemModelBase
 {
 public:
-    BurdenValueModel(Modules modulVeinId, QObject *t_parent);
+    BurdenValueModel(Modules modulVeinId);
     virtual ~BurdenValueModel() override;
 
     void setLabelsAndUnits() override;

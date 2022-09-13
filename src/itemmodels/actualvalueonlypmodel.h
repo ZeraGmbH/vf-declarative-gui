@@ -7,7 +7,7 @@
 class ActualValueOnlyPModel : public TableEventItemModelBase
 {
 public:
-    ActualValueOnlyPModel(QObject *t_parent);
+    ActualValueOnlyPModel();
     virtual ~ActualValueOnlyPModel() override;
 
     void setLabelsAndUnits() override;

@@ -2,8 +2,8 @@
 
 QSet<TableEventItemModelBase*> TableEventItemModelBase::m_setAllBaseModels;
 
-TableEventItemModelBase::TableEventItemModelBase(int t_rows, int t_columns, QObject *t_parent) :
-    QStandardItemModel(t_rows, t_columns, t_parent),
+TableEventItemModelBase::TableEventItemModelBase(int t_rows, int t_columns) :
+    QStandardItemModel(t_rows, t_columns),
     m_translation(ZeraTranslation::getInstance())
 {
     m_setAllBaseModels.insert(this);

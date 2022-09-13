@@ -9,8 +9,8 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValue4thPhaseDcModel::ActualValue4thPhaseDcModel(QObject *t_parent) :
-    TableEventItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
+ActualValue4thPhaseDcModel::ActualValue4thPhaseDcModel() :
+    TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 

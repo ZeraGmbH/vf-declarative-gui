@@ -14,8 +14,8 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValueOnlyPModel::ActualValueOnlyPModel(QObject *t_parent) :
-    TableEventItemModelBase(lineVal(LINE_COUNT), 1, t_parent)
+ActualValueOnlyPModel::ActualValueOnlyPModel() :
+    TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 

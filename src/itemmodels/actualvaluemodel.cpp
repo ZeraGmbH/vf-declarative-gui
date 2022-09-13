@@ -1,7 +1,7 @@
 #include "actualvaluemodel.h"
 
-ActualValueModel::ActualValueModel(QObject *t_parent) :
-    TableEventItemModelBase(14, 1, t_parent)
+ActualValueModel::ActualValueModel() :
+    TableEventItemModelBase(14, 1)
 {
 }
 

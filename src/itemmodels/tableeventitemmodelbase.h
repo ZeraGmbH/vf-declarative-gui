@@ -8,7 +8,7 @@
 class TableEventItemModelBase : public QStandardItemModel
 {
 public:
-    TableEventItemModelBase(int t_rows, int t_columns, QObject *t_parent);
+    TableEventItemModelBase(int t_rows, int t_columns);
     virtual ~TableEventItemModelBase();
     virtual void setLabelsAndUnits() = 0;
     virtual void setupMapping() = 0;
