@@ -6,6 +6,7 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraFa 1.1
+import ZeraTranslation  1.0
 
 
 Loader {
@@ -125,7 +126,7 @@ Loader {
                         font.pixelSize: parent.height/1.3
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
-                        text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
+                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName) + ": "
                         color: FT.getColorByIndex(modelData+1, rangeGrouping)
                         font.bold: true
                     }
@@ -162,7 +163,7 @@ Loader {
                         font.pixelSize: parent.height/1.3
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
-                        text: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName + ": "
+                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName) + ": "
                         color: FT.getColorByIndex(modelData+1, rangeGrouping)
                         font.bold: true
                     }
