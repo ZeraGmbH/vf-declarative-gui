@@ -1,5 +1,5 @@
-#ifndef VFEVENTDISPATCHER_H
-#define VFEVENTDISPATCHER_H
+#ifndef VFCOMPONENTEVENTDISPATCHER_H
+#define VFCOMPONENTEVENTDISPATCHER_H
 
 #include "vfeventconsumerinterface.h"
 #include <ve_eventsystem.h>
@@ -46,16 +46,16 @@ enum class Modules : int {
     //ScpiModule = 9999,
 };
 
-class VfEventDispatcher : public VeinEvent::EventSystem
+class VfComponentEventDispatcher : public VeinEvent::EventSystem
 {
     Q_OBJECT
 public:
-    explicit VfEventDispatcher(std::shared_ptr<VfEventConsumerInterface> consumer);
-    virtual ~VfEventDispatcher();
+    explicit VfComponentEventDispatcher(std::shared_ptr<VfEventConsumerInterface> consumer);
+    virtual ~VfComponentEventDispatcher();
 public:
     bool processEvent(QEvent *t_event) override;
 private:
     std::shared_ptr<VfEventConsumerInterface> m_consumer;
 };
 
-#endif // VFEVENTDISPATCHER_H
+#endif // VFCOMPONENTEVENTDISPATCHER_H

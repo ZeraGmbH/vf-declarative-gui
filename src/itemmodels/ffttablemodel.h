@@ -1,7 +1,7 @@
 #ifndef FFTTABLEMODEL_H
 #define FFTTABLEMODEL_H
 
-#include "vfeventdispatcher.h"
+#include "vfcomponenteventdispatcher.h"
 #include <QStandardItemModel>
 
 class FftTableModel : public QStandardItemModel
