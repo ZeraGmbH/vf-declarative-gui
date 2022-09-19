@@ -11,7 +11,7 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    readonly property int rowCount: ZGL.ActualValueDCPerPhase.rowCount()
+    readonly property int rowCount: ZGL.ActualValueDCPerPhaseModel.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
 
@@ -21,7 +21,7 @@ Item {
         anchors.centerIn: parent
         ListView {
             id: dcTable
-            model: ZGL.ActualValueDCPerPhase
+            model: ZGL.ActualValueDCPerPhaseModel
             anchors.top: acSumTable.bottom
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds

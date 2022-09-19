@@ -1,4 +1,4 @@
-#include "actualvaluedcperphase.h"
+#include "actualvaluedcperphasemodel.h"
 #include "vfcomponenteventdispatcher.h"
 
 enum class LineDefinitions : int {
@@ -13,12 +13,12 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValueDCPerPhase::ActualValueDCPerPhase() :
+ActualValueDCPerPhaseModel::ActualValueDCPerPhaseModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 
-void ActualValueDCPerPhase::setLabelsAndUnits()
+void ActualValueDCPerPhaseModel::setLabelsAndUnits()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
@@ -36,7 +36,7 @@ void ActualValueDCPerPhase::setLabelsAndUnits()
     setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::NAME);
 }
 
-void ActualValueDCPerPhase::setupMapping()
+void ActualValueDCPerPhaseModel::setupMapping()
 {
     // DC: we cannot use RMS
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
@@ -65,7 +65,7 @@ void ActualValueDCPerPhase::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module4), p1m4Map);
 }
 
-QHash<int, QByteArray> ActualValueDCPerPhase::roleNames() const
+QHash<int, QByteArray> ActualValueDCPerPhaseModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleIndexes::NAME, "NAME");
@@ -75,7 +75,7 @@ QHash<int, QByteArray> ActualValueDCPerPhase::roleNames() const
     return roles;
 }
 
-void ActualValueDCPerPhase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void ActualValueDCPerPhaseModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     if(cData->entityId() == static_cast<int>(Modules::FftModule)) {
         const QList<double> fftValList = qvariant_cast<QList<double>>(cData->newValue());
