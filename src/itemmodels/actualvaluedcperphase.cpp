@@ -26,6 +26,14 @@ void ActualValueDCPerPhase::setLabelsAndUnits()
     setData(mIndex, "U [V]", RoleIndexes::DC_U);
     setData(mIndex, "I [A]", RoleIndexes::DC_I);
     setData(mIndex, "P [W]", RoleIndexes::DC_P);
+    mIndex = index(lineVal(LINE_VALUES_PH1), 0);
+    setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::NAME);
+    mIndex = index(lineVal(LINE_VALUES_PH2), 0);
+    setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::NAME);
+    mIndex = index(lineVal(LINE_VALUES_PH3), 0);
+    setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::NAME);
+    mIndex = index(lineVal(LINE_VALUES_PH4), 0);
+    setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::NAME);
 }
 
 void ActualValueDCPerPhase::setupMapping()
