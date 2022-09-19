@@ -1,4 +1,5 @@
 #include "actualvalue4thphasedcmodel.h"
+#include "vfcomponenteventdispatcher.h"
 
 enum class LineDefinitions : int {
     LINE_HEADER,
@@ -11,10 +12,6 @@ enum class LineDefinitions : int {
 
 ActualValue4thPhaseDcModel::ActualValue4thPhaseDcModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
-{
-}
-
-ActualValue4thPhaseDcModel::~ActualValue4thPhaseDcModel()
 {
 }
 
