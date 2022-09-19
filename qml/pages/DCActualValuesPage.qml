@@ -14,7 +14,6 @@ Item {
     readonly property int rowCount: ZGL.ActualValueDCPerPhase.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
-    readonly property real rightColumWithsScale: 0.4
 
     Item {
         width: parent.width
@@ -27,11 +26,10 @@ Item {
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
-                ActualValuesRowDc {
+                ActualValuesRowDcPerPhase {
                     rowHeight: root.rowHeight
                     rowWidth: root.width
                     leftColumWithsScale: root.leftColumWithsScale
-                    rightColumWithsScale: root.leftColumWithsScale
                     colorU: GC.colorUAux1
                     colorI: GC.colorIAux1
                 }

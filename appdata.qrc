@@ -86,6 +86,7 @@
         <file>qml/controls/error_comparison_common/MeterConstantSettings.qml</file>
         <file>qml/controls/ScrollGroup.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowDc.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowDcPerPhase.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
