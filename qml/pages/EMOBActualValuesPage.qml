@@ -13,7 +13,7 @@ Item {
     id: root
     readonly property int rowCount:
         ZGL.ActualValueOnlyPModel.rowCount() +
-        ZGL.ActualValue4thPhaseDcModel.rowCount() +
+        ZGL.ActualValueAcSumModel.rowCount() +
         ZGL.ActualValue4thPhaseDcModel.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
