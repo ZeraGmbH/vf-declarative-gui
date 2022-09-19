@@ -1,14 +1,12 @@
 #ifndef ACTUALVALUE4THPHASEDCMODEL_H
 #define ACTUALVALUE4THPHASEDCMODEL_H
 
-#include "vfcomponenteventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 
 class ActualValue4thPhaseDcModel : public TableEventItemModelBase
 {
 public:
     ActualValue4thPhaseDcModel();
-    virtual ~ActualValue4thPhaseDcModel() override;
 
     void setLabelsAndUnits() override;
     void setupMapping() override;
