@@ -33,11 +33,11 @@ void ActualValueDCPerPhase::setupMapping()
     // DC: we cannot use RMS
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
     fftMap->insert("ACT_FFT1", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES_PH1)));
-    fftMap->insert("ACT_FFT4", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES_PH1)));
+    //fftMap->insert("ACT_FFT4", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES_PH1)));
     fftMap->insert("ACT_FFT2", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES_PH2)));
-    fftMap->insert("ACT_FFT5", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES_PH2)));
+    //fftMap->insert("ACT_FFT5", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES_PH2)));
     fftMap->insert("ACT_FFT3", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES_PH3)));
-    fftMap->insert("ACT_FFT6", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES_PH3)));
+    //fftMap->insert("ACT_FFT6", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES_PH3)));
     fftMap->insert("ACT_FFT7", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES_PH4)));
     fftMap->insert("ACT_FFT8", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES_PH4)));
 
