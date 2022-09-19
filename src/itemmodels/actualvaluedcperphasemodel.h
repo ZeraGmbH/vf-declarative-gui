@@ -1,12 +1,12 @@
-#ifndef ACTUALVALUEDCPERPHASE_H
-#define ACTUALVALUEDCPERPHASE_H
+#ifndef ACTUALVALUEDCPERPHASEMODEL_H
+#define ACTUALVALUEDCPERPHASEMODEL_H
 
 #include "tableeventitemmodelbase.h"
 
-class ActualValueDCPerPhase : public TableEventItemModelBase
+class ActualValueDCPerPhaseModel : public TableEventItemModelBase
 {
 public:
-    ActualValueDCPerPhase();
+    ActualValueDCPerPhaseModel();
     void setLabelsAndUnits() override;
     void setupMapping() override;
 
@@ -23,4 +23,4 @@ private:
     };
 };
 
-#endif // ACTUALVALUEDCPERPHASE_H
+#endif // ACTUALVALUEDCPERPHASEMODEL_H
