@@ -34,7 +34,7 @@ Item {
                     rowHeight: root.rowHeight
                     rowWidth: root.width
                     leftColumWithsScale: root.leftColumWithsScale
-                    rightColumWithsScale: root.leftColumWithsScale
+                    rightColumWithsScale: root.rightColumWithsScale
                 }
             }
         }
