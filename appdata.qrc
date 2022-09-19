@@ -88,6 +88,7 @@
         <file>qml/controls/actual_values/ActualValuesRowDc.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
+        <file>qml/pages/DCActualValuesPage.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>staticdata/resources/MeterPrim.gif</file>

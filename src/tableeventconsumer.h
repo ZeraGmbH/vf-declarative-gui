@@ -46,6 +46,7 @@ private:
     TableEventItemModelBase *m_actValueOnlyPData;
     TableEventItemModelBase *m_actValue4thPhaseDcData;
     TableEventItemModelBase *m_actValueAcSumData;
+    TableEventItemModelBase *m_actValueDcPerPhaseData;
     TableEventItemModelBase *m_burden1Data;
     TableEventItemModelBase *m_burden2Data;
 
