@@ -49,6 +49,8 @@ private:
     TableEventItemModelBase *m_actValueDcPerPhaseUData;
     TableEventItemModelBase *m_actValueDcSinglePhaseIData;
     TableEventItemModelBase *m_actValueDcSinglePhasePData;
+    QList<TableEventItemModelBase*> m_actValueModels;
+
     TableEventItemModelBase *m_burden1Data;
     TableEventItemModelBase *m_burden2Data;
 
