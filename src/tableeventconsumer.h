@@ -43,12 +43,6 @@ private:
     ZeraTranslation *m_translation = nullptr;
 
     TableEventItemModelBase *m_actValueData;
-    TableEventItemModelBase *m_actValueOnlyPData;
-    TableEventItemModelBase *m_actValue4thPhaseDcData;
-    TableEventItemModelBase *m_actValueAcSumData;
-    TableEventItemModelBase *m_actValueDcPerPhaseUData;
-    TableEventItemModelBase *m_actValueDcSinglePhaseIData;
-    TableEventItemModelBase *m_actValueDcSinglePhasePData;
     QList<TableEventItemModelBase*> m_actValueModels;
 
     TableEventItemModelBase *m_burden1Data;
