@@ -2,7 +2,6 @@
 #define MODELROWPAIR_H
 
 #include <QStandardItemModel>
-#include <QTimer>
 
 class ModelRowPair
 {
@@ -14,7 +13,6 @@ public:
     }
 
     QStandardItemModel * m_model=nullptr;
-    QTimer m_updateInterval;
     int m_row=0;
 };
 
