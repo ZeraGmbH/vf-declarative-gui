@@ -6,6 +6,7 @@
 
 class FftTableModel : public QStandardItemModel
 {
+    Q_OBJECT
 public:
     FftTableModel(int t_rows, int t_columns, QObject *t_parent);
     virtual ~FftTableModel() override;

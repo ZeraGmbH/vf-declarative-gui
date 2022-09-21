@@ -6,6 +6,7 @@
 
 class ActualValueModel : public TableEventItemModelBase
 {
+    Q_OBJECT
 public:
     ActualValueModel();
     virtual ~ActualValueModel() override;
