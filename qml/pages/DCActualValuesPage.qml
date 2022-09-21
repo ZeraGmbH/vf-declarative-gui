@@ -13,7 +13,8 @@ Item {
     id: root
     readonly property int rowCount:
         ZGL.ActualValueDCPerPhaseUModel.rowCount() +
-        ZGL.ActualValueDCSinglePhaseIModel.rowCount()
+        ZGL.ActualValueDCSinglePhaseIModel.rowCount() +
+        ZGL.ActualValueDCPerPhasePModel.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.5
     readonly property real rightColumWithsScale: 0.5
@@ -41,6 +42,22 @@ Item {
             id: dciTable
             anchors.top: dcUTable.bottom
             model: ZGL.ActualValueDCSinglePhaseIModel
+            height: model.rowCount() * rowHeight
+            boundsBehavior: Flickable.StopAtBounds
+            delegate: Component {
+                ActualValuesRowDcPerPhase {
+                    rowHeight: root.rowHeight
+                    rowWidth: root.width
+                    leftColumWithsScale: root.leftColumWithsScale
+                    rightColumWithsScale: root.rightColumWithsScale
+                    noHeaderRows: true
+                }
+            }
+        }
+        ListView {
+            id: dcpTable
+            anchors.top: dciTable.bottom
+            model: ZGL.ActualValueDCPerPhasePModel
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
