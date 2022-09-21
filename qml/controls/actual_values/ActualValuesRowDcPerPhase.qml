@@ -14,10 +14,12 @@ Row {
     property real rowWidth
     property real leftColumWithsScale
     property real rightColumWithsScale
+    property bool noHeaderRows
 
     readonly property int dataColums: 4
     readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
     readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
+    readonly property bool isHeaderRow: index === 0 && !noHeaderRows
     GridItem {
         width: row.columnWidth * leftColumWithsScale
         height: row.rowHeight
@@ -28,35 +30,35 @@ Row {
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
         text: L1!==undefined ? FT.formatNumber(L1) : ""
         textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
         text: L2!==undefined ? FT.formatNumber(L2) : ""
         textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
         text: L3!==undefined ? FT.formatNumber(L3) : ""
         textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
         text: AUX!==undefined ? FT.formatNumber(AUX) : ""
         textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
     }
     GridItem {
         width: row.columnWidth * rightColumWithsScale
         height: row.rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
         text: Unit ? Unit : ""
     }
 }

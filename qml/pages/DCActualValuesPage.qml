@@ -31,6 +31,7 @@ Item {
                     rowWidth: root.width
                     leftColumWithsScale: root.leftColumWithsScale
                     rightColumWithsScale: root.rightColumWithsScale
+                    noHeaderRows: false
                 }
             }
         }
