@@ -71,7 +71,6 @@ TableEventConsumer::~TableEventConsumer()
 void TableEventConsumer::setupOsciData()
 {
     QModelIndex tmpIndex;
-    const int valueInterval = 1000;
 
     //fill in the x axis values
     for(int i=0; i<128; ++i)
@@ -89,39 +88,23 @@ void TableEventConsumer::setupOsciData()
     std::shared_ptr<ModelRowPair> tempModelPair;
     //P1
     tempModelPair = std::make_shared<ModelRowPair>(m_osciP1Data, 1);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI1", tempModelPair); //UL1
     tempModelPair = std::make_shared<ModelRowPair>(m_osciP1Data, 2);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI4", tempModelPair); //IL1
     //P2
     tempModelPair = std::make_shared<ModelRowPair>(m_osciP2Data, 1);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI2", tempModelPair); //UL2
     tempModelPair = std::make_shared<ModelRowPair>(m_osciP2Data, 2);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI5", tempModelPair); //IL2
     //P3
     tempModelPair = std::make_shared<ModelRowPair>(m_osciP3Data, 1);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI3", tempModelPair); //UL3
     tempModelPair = std::make_shared<ModelRowPair>(m_osciP3Data, 2);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI6", tempModelPair); //IL3
     //PN
     tempModelPair = std::make_shared<ModelRowPair>(m_osciAUXData, 1);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI7", tempModelPair); //UN
     tempModelPair = std::make_shared<ModelRowPair>(m_osciAUXData, 2);
-    tempModelPair->m_updateInterval.setInterval(valueInterval);
-    tempModelPair->m_updateInterval.setSingleShot(true);
     m_osciMapping.insert("ACT_OSCI8", tempModelPair); //IN
 }
 
@@ -331,11 +314,7 @@ bool TableEventConsumer::handleOsciValues(const VeinComponent::ComponentData *t_
             tmpModel->setData(tmpIndex, tmpData.at(i), Qt::DisplayRole);
         }
         blocker.unblock();
-        if(tmpPair->m_updateInterval.isActive() == false)
-        {
-            emit tmpModel->dataChanged(tmpModel->index(tmpPair->m_row, 0), tmpModel->index(tmpPair->m_row, tmpData.length()-1));
-            tmpPair->m_updateInterval.start();
-        }
+        emit tmpModel->dataChanged(tmpModel->index(tmpPair->m_row, 0), tmpModel->index(tmpPair->m_row, tmpData.length()-1));
         retVal = true;
     }
     return retVal;
