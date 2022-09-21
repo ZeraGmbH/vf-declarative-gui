@@ -7,6 +7,7 @@
 
 class TableEventItemModelBase : public QStandardItemModel
 {
+    Q_OBJECT
 public:
     TableEventItemModelBase(int t_rows, int t_columns);
     virtual ~TableEventItemModelBase();

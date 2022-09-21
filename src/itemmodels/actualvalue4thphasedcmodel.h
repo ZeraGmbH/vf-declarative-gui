@@ -5,6 +5,7 @@
 
 class ActualValue4thPhaseDcModel : public TableEventItemModelBase
 {
+    Q_OBJECT
 public:
     ActualValue4thPhaseDcModel();
 

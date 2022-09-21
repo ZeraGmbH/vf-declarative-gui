@@ -5,6 +5,7 @@
 
 class ActualValueDCPerPhaseUModel : public TableEventItemModelBase
 {
+    Q_OBJECT
 public:
     ActualValueDCPerPhaseUModel();
     void setLabelsAndUnits() override;

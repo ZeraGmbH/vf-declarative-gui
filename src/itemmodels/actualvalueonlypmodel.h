@@ -6,6 +6,7 @@
 
 class ActualValueOnlyPModel : public TableEventItemModelBase
 {
+    Q_OBJECT
 public:
     ActualValueOnlyPModel();
     virtual ~ActualValueOnlyPModel() override;

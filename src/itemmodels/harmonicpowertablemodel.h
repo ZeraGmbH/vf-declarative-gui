@@ -7,6 +7,7 @@
 
 class HarmonicPowerTableModel : public QStandardItemModel
 {
+    Q_OBJECT
 public:
     HarmonicPowerTableModel(int t_rows, int t_columns, QObject *t_parent);
     virtual ~HarmonicPowerTableModel() override;
