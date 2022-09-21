@@ -22,6 +22,14 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     m_actValueDcPerPhaseUData(new ActualValueDCPerPhaseUModel),
     m_actValueDcSinglePhaseIData(new ActualValueDCSinglePhaseIModel),
     m_actValueDcSinglePhasePData(new ActualValueDCPerPhasePModel),
+    m_actValueModels(QList<TableEventItemModelBase*>()
+            << m_actValueData
+            << m_actValueOnlyPData
+            << m_actValue4thPhaseDcData
+            << m_actValueAcSumData
+            << m_actValueDcPerPhaseUData
+            << m_actValueDcSinglePhaseIData
+            << m_actValueDcSinglePhasePData),
     m_burden1Data(new BurdenValueModel(Modules::Burden1Module)),
     m_burden2Data(new BurdenValueModel(Modules::Burden2Module)),
     m_osciP1Data(new QStandardItemModel(3, 128, nullptr)),
@@ -260,15 +268,7 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     }
     default: /// @note values handled earlier in the switch case will not show up in the actual values table!
     {
-        QList<TableEventItemModelBase*> actValueModels = QList<TableEventItemModelBase*>()
-                << m_actValueData
-                << m_actValueOnlyPData
-                << m_actValue4thPhaseDcData
-                << m_actValueAcSumData
-                << m_actValueDcPerPhaseUData
-                << m_actValueDcSinglePhaseIData
-                << m_actValueDcSinglePhasePData;
-        for(auto model : qAsConst(actValueModels)) {
+        for(const auto &model : qAsConst(m_actValueModels)) {
             const auto avMapping = model->getValueMapping().value(cData->entityId(), nullptr);
             if(Q_UNLIKELY(avMapping != nullptr)) {
                 handleActualValues(model, avMapping, cData);
