@@ -13,7 +13,7 @@ BaseTabPage {
     Component {
         id: tabTable
         TabButton {
-            text:Z.tr("Actual values")
+            text:Z.tr("Actual values DC")
         }
     }
 

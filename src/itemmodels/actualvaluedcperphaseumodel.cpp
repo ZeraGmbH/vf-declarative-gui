@@ -20,7 +20,6 @@ void ActualValueDCPerPhaseUModel::setLabelsAndUnits()
     using namespace CommonTable;
 
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
-    setData(mIndex, "DC", RoleIndexes::NAME);
     setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
     setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
     setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
