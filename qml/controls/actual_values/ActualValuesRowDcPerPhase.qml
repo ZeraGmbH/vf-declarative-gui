@@ -9,40 +9,54 @@ import ZeraTranslation  1.0
 import "../../controls"
 
 Row {
+    id: row
     property real rowHeight
     property real rowWidth
     property real leftColumWithsScale
-    property color colorU
-    property color colorI
+    property real rightColumWithsScale
 
-    readonly property int dataColums: 3
-    readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums)
+    readonly property int dataColums: 4
+    readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
+    readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
     GridItem {
-        width: columnWidth * leftColumWithsScale
-        height: rowHeight
+        width: row.columnWidth * leftColumWithsScale
+        height: row.rowHeight
         color: GC.tableShadeColor
-        text: NAME !== undefined ? NAME : ""
-        textHorizontalAlignment: index === 0 ? Label.AlignHCenter : Label.AlignRight
+        text: Name!==undefined ? Name : ""
         font.bold: true
     }
     GridItem {
-        width: columnWidth
-        height: rowHeight
+        width: row.columnWidth
+        height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: DC_U !== undefined ? FT.formatNumber(DC_U) : ""
-        textColor: colorU
+        text: L1!==undefined ? FT.formatNumber(L1) : ""
+        textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
     }
     GridItem {
-        width: columnWidth
-        height: rowHeight
+        width: row.columnWidth
+        height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: DC_I !== undefined ? FT.formatNumber(DC_I) : ""
-        textColor: colorI
+        text: L2!==undefined ? FT.formatNumber(L2) : ""
+        textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
     }
     GridItem {
-        width: columnWidth
-        height: rowHeight
+        width: row.columnWidth
+        height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: DC_P !== undefined ? FT.formatNumber(DC_P) : ""
+        text: L3!==undefined ? FT.formatNumber(L3) : ""
+        textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
+    }
+    GridItem {
+        width: row.columnWidth
+        height: row.rowHeight
+        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        text: AUX!==undefined ? FT.formatNumber(AUX) : ""
+        textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
+    }
+    GridItem {
+        width: row.columnWidth * rightColumWithsScale
+        height: row.rowHeight
+        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        text: Unit ? Unit : ""
     }
 }

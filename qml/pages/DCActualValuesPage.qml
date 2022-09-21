@@ -11,18 +11,18 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    readonly property int rowCount: ZGL.ActualValueDCPerPhaseModel.rowCount()
+    readonly property int rowCount: ZGL.ActualValueDCPerPhaseUModel.rowCount()
     readonly property real rowHeight: height/rowCount
-    readonly property real leftColumWithsScale: 0.4
+    readonly property real leftColumWithsScale: 0.5
+    readonly property real rightColumWithsScale: 0.5
 
     Item {
         width: parent.width
         height: parent.height
         anchors.centerIn: parent
         ListView {
-            id: dcTable
-            model: ZGL.ActualValueDCPerPhaseModel
-            anchors.top: acSumTable.bottom
+            id: dcUTable
+            model: ZGL.ActualValueDCPerPhaseUModel
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
@@ -30,8 +30,7 @@ Item {
                     rowHeight: root.rowHeight
                     rowWidth: root.width
                     leftColumWithsScale: root.leftColumWithsScale
-                    colorU: GC.colorUAux1
-                    colorI: GC.colorIAux1
+                    rightColumWithsScale: root.rightColumWithsScale
                 }
             }
         }
