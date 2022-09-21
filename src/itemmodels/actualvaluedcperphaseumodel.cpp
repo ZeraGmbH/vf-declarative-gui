@@ -55,3 +55,18 @@ QHash<int, QByteArray> ActualValueDCPerPhaseUModel::roleNames() const
     roles.insert(RoleIndexes::UNIT, "Unit");
     return roles;
 }
+
+void ActualValueDCPerPhaseUModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+{
+    if(cData->entityId() == static_cast<int>(Modules::FftModule)) {
+        const QList<double> fftValList = qvariant_cast<QList<double>>(cData->newValue());
+        if(fftValList.count() > 1) {
+            QModelIndex mIndex = index(valueCoordiates.y(), 0);
+            setData(mIndex, fftValList[0], valueCoordiates.x());
+        }
+    }
+    else {
+        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+    }
+}
+
