@@ -16,20 +16,14 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     m_propertyMap(t_propertyMap),
     m_translation(ZeraTranslation::getInstance()),
     m_actValueData(new ActualValueModel),
-    m_actValueOnlyPData(new ActualValueOnlyPModel),
-    m_actValue4thPhaseDcData(new ActualValue4thPhaseDcModel),
-    m_actValueAcSumData(new ActualValueAcSumModel),
-    m_actValueDcPerPhaseUData(new ActualValueDCPerPhaseUModel),
-    m_actValueDcSinglePhaseIData(new ActualValueDCSinglePhaseIModel),
-    m_actValueDcSinglePhasePData(new ActualValueDCPerPhasePModel),
     m_actValueModels(QList<TableEventItemModelBase*>()
             << m_actValueData
-            << m_actValueOnlyPData
-            << m_actValue4thPhaseDcData
-            << m_actValueAcSumData
-            << m_actValueDcPerPhaseUData
-            << m_actValueDcSinglePhaseIData
-            << m_actValueDcSinglePhasePData),
+            << new ActualValueOnlyPModel
+            << new ActualValue4thPhaseDcModel
+            << new ActualValueAcSumModel
+            << new ActualValueDCPerPhaseUModel
+            << new ActualValueDCSinglePhaseIModel
+            << new ActualValueDCPerPhasePModel),
     m_burden1Data(new BurdenValueModel(Modules::Burden1Module)),
     m_burden2Data(new BurdenValueModel(Modules::Burden2Module)),
     m_osciP1Data(new QStandardItemModel(3, 128, nullptr)),
@@ -45,13 +39,9 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
 
     setLabelsAndUnits();
 
-    m_actValueData->setupMapping();
-    m_actValueOnlyPData->setupMapping();
-    m_actValue4thPhaseDcData->setupMapping();
-    m_actValueAcSumData->setupMapping();
-    m_actValueDcSinglePhasePData->setupMapping();
-    m_actValueDcPerPhaseUData->setupMapping();
-    m_actValueDcSinglePhaseIData->setupMapping();
+    for(const auto &itemModel : qAsConst(m_actValueModels)) {
+        itemModel->setupMapping();
+    }
     m_burden1Data->setupMapping();
     m_burden2Data->setupMapping();
     setupOsciData();
@@ -63,13 +53,9 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
 
 TableEventConsumer::~TableEventConsumer()
 {
-    delete m_actValueData;
-    delete m_actValueOnlyPData;
-    delete m_actValue4thPhaseDcData;
-    delete m_actValueAcSumData;
-    delete m_actValueDcSinglePhasePData;
-    delete m_actValueDcPerPhaseUData;
-    delete m_actValueDcSinglePhaseIData;
+    for(const auto &itemModel : qAsConst(m_actValueModels)) {
+        delete itemModel;
+    }
     delete m_burden1Data;
     delete m_burden2Data;
 
@@ -268,10 +254,10 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     }
     default: /// @note values handled earlier in the switch case will not show up in the actual values table!
     {
-        for(const auto &model : qAsConst(m_actValueModels)) {
-            const auto avMapping = model->getValueMapping().value(cData->entityId(), nullptr);
+        for(const auto &itemModel : qAsConst(m_actValueModels)) {
+            const auto avMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
             if(Q_UNLIKELY(avMapping != nullptr)) {
-                handleActualValues(model, avMapping, cData);
+                handleActualValues(itemModel, avMapping, cData);
             }
         }
 
@@ -467,13 +453,10 @@ bool TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::Componen
 
 void TableEventConsumer::setupPropertyMap()
 {
-    m_propertyMap->insert("ActualValueModel", QVariant::fromValue<QObject*>(m_actValueData));
-    m_propertyMap->insert("ActualValueOnlyPModel", QVariant::fromValue<QObject*>(m_actValueOnlyPData));
-    m_propertyMap->insert("ActualValue4thPhaseDcModel", QVariant::fromValue<QObject*>(m_actValue4thPhaseDcData));
-    m_propertyMap->insert("ActualValueAcSumModel", QVariant::fromValue<QObject*>(m_actValueAcSumData));
-    m_propertyMap->insert("ActualValueDCPerPhaseUModel", QVariant::fromValue<QObject*>(m_actValueDcPerPhaseUData));
-    m_propertyMap->insert("ActualValueDCSinglePhaseIModel", QVariant::fromValue<QObject*>(m_actValueDcSinglePhaseIData));
-    m_propertyMap->insert("ActualValueDCPerPhasePModel", QVariant::fromValue<QObject*>(m_actValueDcSinglePhasePData));
+    for(const auto &itemModel : qAsConst(m_actValueModels)) {
+        m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
+    }
+
     m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
     m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
     m_propertyMap->insert("OSCIP1Model", QVariant::fromValue<QObject*>(m_osciP1Data));
@@ -500,13 +483,9 @@ void TableEventConsumer::setupDftDispatchTable()
 
 void TableEventConsumer::setLabelsAndUnits()
 {
-    m_actValueData->setLabelsAndUnits();
-    m_actValueOnlyPData->setLabelsAndUnits();
-    m_actValue4thPhaseDcData->setLabelsAndUnits();
-    m_actValueAcSumData->setLabelsAndUnits();
-    m_actValueDcPerPhaseUData->setLabelsAndUnits();
-    m_actValueDcSinglePhaseIData->setLabelsAndUnits();
-    m_actValueDcSinglePhasePData->setLabelsAndUnits();
+    for(const auto &itemModel : qAsConst(m_actValueModels)) {
+        itemModel->setLabelsAndUnits();
+    }
     m_burden1Data->setLabelsAndUnits();
     m_burden2Data->setLabelsAndUnits();
 }
