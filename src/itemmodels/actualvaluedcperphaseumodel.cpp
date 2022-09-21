@@ -66,8 +66,5 @@ void ActualValueDCPerPhaseUModel::handleComponentChangeCoord(const VeinComponent
             setData(mIndex, fftValList[0], valueCoordiates.x());
         }
     }
-    else {
-        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
-    }
 }
 
