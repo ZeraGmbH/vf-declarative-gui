@@ -25,12 +25,12 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
             << new ActualValueDCSinglePhaseIModel
             << new ActualValueDCPerPhasePModel),
     m_osciValueModels(QList<TQmlLabelModelPair>()
-            << TQmlLabelModelPair("OSCIP1Model", new OsciModel(QStringList() << "ACT_OSCI1" << "ACT_OSCI4"))),
+            << TQmlLabelModelPair("OSCIP1Model", new OsciModel(QStringList() << "ACT_OSCI1" << "ACT_OSCI4"))
+            << TQmlLabelModelPair("OSCIP2Model", new OsciModel(QStringList() << "ACT_OSCI2" << "ACT_OSCI5"))
+            << TQmlLabelModelPair("OSCIP3Model", new OsciModel(QStringList() << "ACT_OSCI3" << "ACT_OSCI6"))
+            << TQmlLabelModelPair("OSCIPNModel", new OsciModel(QStringList() << "ACT_OSCI7" << "ACT_OSCI8"))),
     m_burden1Data(new BurdenValueModel(Modules::Burden1Module)),
     m_burden2Data(new BurdenValueModel(Modules::Burden2Module)),
-    m_osciP2Data(new QStandardItemModel(3, 128, nullptr)),
-    m_osciP3Data(new QStandardItemModel(3, 128, nullptr)),
-    m_osciAUXData(new QStandardItemModel(3, 128, nullptr)),
     m_fftTableData(new FftTableModel(1, 1, nullptr)), //dynamic size
     m_fftRelativeTableData(new FftTableModel(1, 1, nullptr)), //dynamic size
     m_hpTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
@@ -48,7 +48,6 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     }
     m_burden1Data->setupMapping();
     m_burden2Data->setupMapping();
-    setupOsciData();
     setupFftData();
     setupPropertyMap();
     setupDftDispatchTable();
@@ -68,45 +67,8 @@ TableEventConsumer::~TableEventConsumer()
     delete m_burden1Data;
     delete m_burden2Data;
 
-    delete m_osciP2Data;
-    delete m_osciP3Data;
-    delete m_osciAUXData;
-
     delete m_fftTableData;
     delete m_fftRelativeTableData;
-}
-
-void TableEventConsumer::setupOsciData()
-{
-    QModelIndex tmpIndex;
-
-    //fill in the x axis values
-    for(int i=0; i<128; ++i)
-    {
-        tmpIndex = m_osciP2Data->index(0, i);
-        m_osciP2Data->setData(tmpIndex, i, Qt::DisplayRole);
-        tmpIndex = m_osciP3Data->index(0, i);
-        m_osciP3Data->setData(tmpIndex, i, Qt::DisplayRole);
-        tmpIndex = m_osciAUXData->index(0, i);
-        m_osciAUXData->setData(tmpIndex, i, Qt::DisplayRole);
-    }
-
-    std::shared_ptr<ModelRowPair> tempModelPair;
-    //P2
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciP2Data, 1);
-    m_osciMapping.insert("ACT_OSCI2", tempModelPair); //UL2
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciP2Data, 2);
-    m_osciMapping.insert("ACT_OSCI5", tempModelPair); //IL2
-    //P3
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciP3Data, 1);
-    m_osciMapping.insert("ACT_OSCI3", tempModelPair); //UL3
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciP3Data, 2);
-    m_osciMapping.insert("ACT_OSCI6", tempModelPair); //IL3
-    //PN
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciAUXData, 1);
-    m_osciMapping.insert("ACT_OSCI7", tempModelPair); //UN
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciAUXData, 2);
-    m_osciMapping.insert("ACT_OSCI8", tempModelPair); //IN
 }
 
 void TableEventConsumer::setupFftData()
@@ -205,11 +167,6 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
 
     switch(static_cast<Modules>(cData->entityId()))
     {
-    case Modules::OsciModule:
-    {
-        handleOsciValues(cData);
-        break;
-    }
     case Modules::FftModule:
     {
         handleFftValues(cData);
@@ -294,30 +251,6 @@ bool TableEventConsumer::handleBurdenValues(TableEventItemModelBase *itemModel, 
         itemModel->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
     }
 
-    return retVal;
-}
-
-bool TableEventConsumer::handleOsciValues(const VeinComponent::ComponentData *t_cmpData)
-{
-    bool retVal=false;
-    auto iter = m_osciMapping.find(t_cmpData->componentName());
-    if(iter != m_osciMapping.end())
-    {
-        std::shared_ptr<ModelRowPair> tmpPair = iter.value();
-        QStandardItemModel *tmpModel = tmpPair->m_model;
-        QModelIndex tmpIndex;
-        const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
-
-        QSignalBlocker blocker(tmpModel); //no need to send dataChanged for every iteration
-        for(int i=0; i<tmpData.length(); ++i)
-        {
-            tmpIndex = tmpModel->index(tmpPair->m_row, i);
-            tmpModel->setData(tmpIndex, tmpData.at(i), Qt::DisplayRole);
-        }
-        blocker.unblock();
-        emit tmpModel->dataChanged(tmpModel->index(tmpPair->m_row, 0), tmpModel->index(tmpPair->m_row, tmpData.length()-1));
-        retVal = true;
-    }
     return retVal;
 }
 
@@ -442,9 +375,6 @@ void TableEventConsumer::setupPropertyMap()
     for(const auto &item : qAsConst(m_osciValueModels)) {
         m_propertyMap->insert(item.m_qmlName, QVariant::fromValue<QObject*>(item.m_model));
     }
-    m_propertyMap->insert("OSCIP2Model", QVariant::fromValue<QObject*>(m_osciP2Data));
-    m_propertyMap->insert("OSCIP3Model", QVariant::fromValue<QObject*>(m_osciP3Data));
-    m_propertyMap->insert("OSCIPNModel", QVariant::fromValue<QObject*>(m_osciAUXData));
     m_propertyMap->insert("FFTTableModel", QVariant::fromValue<QObject*>(m_fftTableData));
     m_propertyMap->insert("FFTRelativeTableModel", QVariant::fromValue<QObject*>(m_fftRelativeTableData));
     m_propertyMap->insert("HPWTableModel", QVariant::fromValue<QObject*>(m_hpTableData));

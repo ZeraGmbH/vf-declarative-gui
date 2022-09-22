@@ -21,8 +21,6 @@ public:
     void handleComponentChange(const VeinComponent::ComponentData *cData) override;
 
 private:
-    void setupOsciData();
-
     void setupFftData();
 
     QString getActualValueModelNameById(int t_moduleId);
@@ -31,7 +29,6 @@ private:
 
     bool handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     bool handleBurdenValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
-    bool handleOsciValues(const VeinComponent::ComponentData *t_cmpData);
     bool handleFftValues(const VeinComponent::ComponentData *t_cmpData);
     bool handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData);
 
@@ -54,17 +51,12 @@ private:
     TableEventItemModelBase *m_burden1Data;
     TableEventItemModelBase *m_burden2Data;
 
-    QStandardItemModel *m_osciP2Data;
-    QStandardItemModel *m_osciP3Data;
-    QStandardItemModel *m_osciAUXData;
-
     FftTableModel *m_fftTableData;
     FftTableModel *m_fftRelativeTableData;
 
     HarmonicPowerTableModel *m_hpTableData;
     HarmonicPowerTableModel *m_hpRelativeTableData;
 
-    QHash<QString, std::shared_ptr<ModelRowPair>> m_osciMapping;
     QHash<QString, int> m_fftTableRoleMapping;
     QHash<QString, int> m_hpwTableRoleMapping;
 
