@@ -7,7 +7,7 @@
 #include "actualvaluedcsinglephaseimodel.h"
 #include "actualvaluedcperphasepmodel.h"
 #include "burdenvaluemodel.h"
-
+#include "oscimodel.h"
 #include <math.h>
 
 #include <QVector2D>
@@ -24,9 +24,10 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
             << new ActualValueDCPerPhaseUModel
             << new ActualValueDCSinglePhaseIModel
             << new ActualValueDCPerPhasePModel),
+    m_osciValueModels(QList<TQmlLabelModelPair>()
+            << TQmlLabelModelPair("OSCIP1Model", new OsciModel(QStringList() << "ACT_OSCI1" << "ACT_OSCI4"))),
     m_burden1Data(new BurdenValueModel(Modules::Burden1Module)),
     m_burden2Data(new BurdenValueModel(Modules::Burden2Module)),
-    m_osciP1Data(new QStandardItemModel(3, 128, nullptr)),
     m_osciP2Data(new QStandardItemModel(3, 128, nullptr)),
     m_osciP3Data(new QStandardItemModel(3, 128, nullptr)),
     m_osciAUXData(new QStandardItemModel(3, 128, nullptr)),
@@ -42,6 +43,9 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     for(const auto &itemModel : qAsConst(m_actValueModels)) {
         itemModel->setupMapping();
     }
+    for(const auto &item : qAsConst(m_osciValueModels)) {
+        item.m_model->setupMapping();
+    }
     m_burden1Data->setupMapping();
     m_burden2Data->setupMapping();
     setupOsciData();
@@ -56,10 +60,14 @@ TableEventConsumer::~TableEventConsumer()
     for(const auto &itemModel : qAsConst(m_actValueModels)) {
         delete itemModel;
     }
+    for(const auto &item : qAsConst(m_osciValueModels)) {
+        delete item.m_model;
+    }
+    m_osciValueModels.clear();
+
     delete m_burden1Data;
     delete m_burden2Data;
 
-    delete m_osciP1Data;
     delete m_osciP2Data;
     delete m_osciP3Data;
     delete m_osciAUXData;
@@ -75,8 +83,6 @@ void TableEventConsumer::setupOsciData()
     //fill in the x axis values
     for(int i=0; i<128; ++i)
     {
-        tmpIndex = m_osciP1Data->index(0, i);
-        m_osciP1Data->setData(tmpIndex, i, Qt::DisplayRole);
         tmpIndex = m_osciP2Data->index(0, i);
         m_osciP2Data->setData(tmpIndex, i, Qt::DisplayRole);
         tmpIndex = m_osciP3Data->index(0, i);
@@ -86,11 +92,6 @@ void TableEventConsumer::setupOsciData()
     }
 
     std::shared_ptr<ModelRowPair> tempModelPair;
-    //P1
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciP1Data, 1);
-    m_osciMapping.insert("ACT_OSCI1", tempModelPair); //UL1
-    tempModelPair = std::make_shared<ModelRowPair>(m_osciP1Data, 2);
-    m_osciMapping.insert("ACT_OSCI4", tempModelPair); //IL1
     //P2
     tempModelPair = std::make_shared<ModelRowPair>(m_osciP2Data, 1);
     m_osciMapping.insert("ACT_OSCI2", tempModelPair); //UL2
@@ -438,7 +439,9 @@ void TableEventConsumer::setupPropertyMap()
 
     m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
     m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
-    m_propertyMap->insert("OSCIP1Model", QVariant::fromValue<QObject*>(m_osciP1Data));
+    for(const auto &item : qAsConst(m_osciValueModels)) {
+        m_propertyMap->insert(item.m_qmlName, QVariant::fromValue<QObject*>(item.m_model));
+    }
     m_propertyMap->insert("OSCIP2Model", QVariant::fromValue<QObject*>(m_osciP2Data));
     m_propertyMap->insert("OSCIP3Model", QVariant::fromValue<QObject*>(m_osciP3Data));
     m_propertyMap->insert("OSCIPNModel", QVariant::fromValue<QObject*>(m_osciAUXData));
@@ -465,6 +468,15 @@ void TableEventConsumer::setLabelsAndUnits()
     for(const auto &itemModel : qAsConst(m_actValueModels)) {
         itemModel->setLabelsAndUnits();
     }
+    for(const auto &item : qAsConst(m_osciValueModels)) {
+        item.m_model->setLabelsAndUnits();
+    }
     m_burden1Data->setLabelsAndUnits();
     m_burden2Data->setLabelsAndUnits();
+}
+
+TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)
+{
+    m_qmlName = qmlName;
+    m_model = model;
 }

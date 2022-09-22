@@ -44,11 +44,16 @@ private:
 
     TableEventItemModelBase *m_actValueData;
     QList<TableEventItemModelBase*> m_actValueModels;
+    struct TQmlLabelModelPair {
+        TQmlLabelModelPair(QString qmlName, TableEventItemModelBase* model);
+        QString m_qmlName;
+        TableEventItemModelBase* m_model;
+    };
+    QList<TQmlLabelModelPair> m_osciValueModels;
 
     TableEventItemModelBase *m_burden1Data;
     TableEventItemModelBase *m_burden2Data;
 
-    QStandardItemModel *m_osciP1Data;
     QStandardItemModel *m_osciP2Data;
     QStandardItemModel *m_osciP3Data;
     QStandardItemModel *m_osciAUXData;
