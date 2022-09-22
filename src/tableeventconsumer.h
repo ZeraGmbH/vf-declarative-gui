@@ -5,7 +5,6 @@
 #include "tableeventitemmodelbase.h"
 #include "ffttablemodel.h"
 #include "harmonicpowertablemodel.h"
-#include "modelrowpair.h"
 #include "vfeventconsumerinterface.h"
 #include "gluelogicpropertymap.h"
 
