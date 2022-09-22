@@ -2,7 +2,7 @@
 #include "vfcomponenteventdispatcher.h"
 
 OsciModel::OsciModel(QStringList componentNames) :
-    TableEventItemModelBase(3,128),
+    TableEventItemModelBase(componentNames.size()+1,128),
     m_componentNames(componentNames)
 {
 }
