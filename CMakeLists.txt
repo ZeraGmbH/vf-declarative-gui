@@ -138,9 +138,7 @@ install(TARGETS vf-declarative-gui
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
-if(NOT CMAKE_CROSSCOMPILING)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+enable_testing()
+add_subdirectory(tests)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
