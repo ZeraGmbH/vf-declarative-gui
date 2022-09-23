@@ -28,7 +28,6 @@ Item {
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: root.height > 0 ? root.height / 31 : 10
-    readonly property bool canSwipeMultiple: multiSwipe.currentIndex !== 0 || errCalEntity.ACT_MulCount > 0
 
     QtObject {
         id: stateEnum
@@ -157,8 +156,6 @@ Item {
                         Material.foreground: multipleErrorView.jsonResults.countPass === multipleErrorView.jsonResults.values.length ?
                                                  Material.White : Material.Red
                         font.pointSize: pointSize * 1.5
-                        visible: canSwipeMultiple
-                        enabled: canSwipeMultiple
                         background: Rectangle {
                             color: "transparent"
                         }
