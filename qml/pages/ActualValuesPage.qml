@@ -22,8 +22,8 @@ Item {
                 ActualValuesRow {
                     rowHeight: root.height / root.model.rowCount()
                     rowWidth: root.width
-                    leftColumWithsScale: 0.7
-                    rightColumWithsScale: 0.5
+                    leftColumWithsScale: 0.9
+                    rightColumWithsScale: 0.4
                 }
             }
         }
