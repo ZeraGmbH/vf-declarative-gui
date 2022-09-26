@@ -200,15 +200,16 @@ Item {
                             }
                         }
                         height: parent.height
-                        anchors.right: measModeCombo.left
+                        anchors.left: parent.left
                         anchors.rightMargin: GC.standardTextHorizMargin
+                        anchors.leftMargin: GC.standardTextHorizMargin / 2
                         horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: measModeGrid.height*0.4
                     }
                     VFComboBox {
                         id: measModeCombo
-                        width: parent.width * 0.65
+                        width: parent.width * 0.75
                         height: parent.height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
