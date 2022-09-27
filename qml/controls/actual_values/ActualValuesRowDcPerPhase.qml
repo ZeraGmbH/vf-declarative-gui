@@ -17,11 +17,11 @@ Row {
     property bool noHeaderRows
 
     readonly property int dataColums: 4
-    readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
+    readonly property real columnWidth: rowWidth * (1-(leftColumWithsScale+rightColumWithsScale)) / dataColums
     readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
     readonly property bool isHeaderRow: index === 0 && !noHeaderRows
     GridItem {
-        width: row.columnWidth * leftColumWithsScale
+        width: row.rowWidth * leftColumWithsScale
         height: row.rowHeight
         color: GC.tableShadeColor
         text: Name!==undefined ? Name : ""
@@ -56,7 +56,7 @@ Row {
         textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
     }
     GridItem {
-        width: row.columnWidth * rightColumWithsScale
+        width: row.rowWidth * rightColumWithsScale
         height: row.rowHeight
         color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
         text: Unit ? Unit : ""

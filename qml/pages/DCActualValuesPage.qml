@@ -16,8 +16,8 @@ Item {
         ZGL.ActualValueDCSinglePhaseIModel.rowCount() +
         ZGL.ActualValueDCPerPhasePModel.rowCount()
     readonly property real rowHeight: height/rowCount
-    readonly property real leftColumWithsScale: 0.45
-    readonly property real rightColumWithsScale: 0.45
+    readonly property real leftColumWithsScale: 0.092
+    readonly property real rightColumWithsScale: 0.092
 
     Item {
         width: parent.width
@@ -48,8 +48,8 @@ Item {
                 ActualValuesRowDcOnePhase {
                     rowHeight: root.rowHeight
                     rowWidth: root.width
-                    leftColumWithsScale: 0.092
-                    rightColumWithsScale: 0.092
+                    leftColumWithsScale: root.leftColumWithsScale
+                    rightColumWithsScale: root.rightColumWithsScale
                     noHeaderRows: true
                 }
             }
