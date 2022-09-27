@@ -87,6 +87,7 @@
         <file>qml/controls/ScrollGroup.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowDc.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowDcPerPhase.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowDcOnePhase.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>

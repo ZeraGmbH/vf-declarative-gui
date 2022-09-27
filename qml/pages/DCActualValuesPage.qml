@@ -45,11 +45,11 @@ Item {
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
-                ActualValuesRowDcPerPhase {
+                ActualValuesRowDcOnePhase {
                     rowHeight: root.rowHeight
                     rowWidth: root.width
-                    leftColumWithsScale: root.leftColumWithsScale
-                    rightColumWithsScale: root.rightColumWithsScale
+                    leftColumWithsScale: 0.092
+                    rightColumWithsScale: 0.092
                     noHeaderRows: true
                 }
             }
