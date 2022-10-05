@@ -71,14 +71,7 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
             enabled: root.entityInitializationDone === true
             onClicked: {
-                if(root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex) {
-                    // shows 'start menu ' (selection GUI for page-groups
-                    root.pageViewVisible = true;
-                }
-                else {
-                    // returns to the current page when in (range / settings / logger / appinfo) view
-                    goHomeToPages()
-                }
+                root.pageViewVisible = true;
             }
         }
         ToolButton {
