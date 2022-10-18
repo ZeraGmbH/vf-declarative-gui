@@ -13,7 +13,7 @@ import ZeraFa 1.0
 SettingsView {
     id: root
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-    rowHeight: height > 0 ? height * 0.12 : 10
+    rowHeight: height > 0 ? height / 9 : 10
     readonly property real pointSize: height > 0 ? height * 0.04 : 10
     readonly property int pixelSize: pointSize*1.4
 
@@ -127,8 +127,7 @@ SettingsView {
             }
         }
         SettingsInterval {
-            id: sInterval
-            height: root.rowHeight;
+            height: hasPeriodEntries ? 2*root.rowHeight : root.rowHeight
             width: root.rowWidth;
             pointSize: root.pointSize
         }
