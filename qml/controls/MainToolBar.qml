@@ -71,6 +71,7 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
             enabled: root.entityInitializationDone === true
             onClicked: {
+                goHomeToPages()
                 root.pageViewVisible = true;
             }
         }
