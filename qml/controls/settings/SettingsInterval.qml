@@ -46,14 +46,20 @@ Item {
     }
 
     Loader {
-        anchors.fill: parent
+        id: loaderTime
+        anchors.top: parent.top
+        width: parent.width
+        height: hasPeriodEntries ? parent.height / 2 : parent.height
         sourceComponent: timeComponent
         active: timeList.length > 0;
         asynchronous: true
     }
 
     Loader {
-        anchors.fill: parent
+        anchors.top: loaderTime.bottom
+        anchors.bottom: parent.bottom
+        width: parent.width
+        height: hasPeriodEntries ? parent.height / 2 : parent.height
         sourceComponent: periodComponent
         active: periodList.length > 0;
         asynchronous: true
