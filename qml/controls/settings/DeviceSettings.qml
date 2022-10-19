@@ -127,7 +127,7 @@ SettingsView {
             }
         }
         SettingsInterval {
-            height: hasPeriodEntries ? 2*root.rowHeight : root.rowHeight
+            rowHeight: root.rowHeight
             width: root.rowWidth;
             pointSize: root.pointSize
         }
