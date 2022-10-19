@@ -12,9 +12,9 @@ import "../controls/actual_values"
 Item {
     id: root
     readonly property int rowCount:
-        ZGL.ActualValueDCPerPhaseUModel.rowCount() +
-        ZGL.ActualValueDCSinglePhaseIModel.rowCount() +
-        ZGL.ActualValueDCPerPhasePModel.rowCount()
+        ZGL.ActualValueLemDCPerPhaseUModel.rowCount() +
+        ZGL.ActualValueLemDcSingleIModel.rowCount() +
+        ZGL.ActualValueLemDcPerPhasePModel.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.092
     readonly property real rightColumWithsScale: 0.092
@@ -25,7 +25,7 @@ Item {
         anchors.centerIn: parent
         ListView {
             id: dcUTable
-            model: ZGL.ActualValueDCPerPhaseUModel
+            model: ZGL.ActualValueLemDCPerPhaseUModel
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
@@ -41,7 +41,7 @@ Item {
         ListView {
             id: dciTable
             anchors.top: dcUTable.bottom
-            model: ZGL.ActualValueDCSinglePhaseIModel
+            model: ZGL.ActualValueLemDcSingleIModel
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
@@ -57,7 +57,7 @@ Item {
         ListView {
             id: dcpTable
             anchors.top: dciTable.bottom
-            model: ZGL.ActualValueDCPerPhasePModel
+            model: ZGL.ActualValueLemDcPerPhasePModel
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {

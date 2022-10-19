@@ -4,12 +4,12 @@
 #include "vfcomponenteventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 
-class ActualValueAcSumModel : public TableEventItemModelBase
+class ActualValueEmobAcSumModel : public TableEventItemModelBase
 {
     Q_OBJECT
 public:
-    ActualValueAcSumModel();
-    virtual ~ActualValueAcSumModel() override;
+    ActualValueEmobAcSumModel();
+    virtual ~ActualValueEmobAcSumModel() override;
 
     void setLabelsAndUnits() override;
     void setupMapping() override;

@@ -1,4 +1,4 @@
-#include "actualvaluedcperphaseumodel.h"
+#include "actualvaluelemdcperphaseumodel.h"
 #include "vfcomponenteventdispatcher.h"
 
 enum class LineDefinitions : int {
@@ -10,12 +10,12 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValueDCPerPhaseUModel::ActualValueDCPerPhaseUModel() :
+ActualValueLemDCPerPhaseUModel::ActualValueLemDCPerPhaseUModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 
-void ActualValueDCPerPhaseUModel::setLabelsAndUnits()
+void ActualValueLemDCPerPhaseUModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
 
@@ -30,7 +30,7 @@ void ActualValueDCPerPhaseUModel::setLabelsAndUnits()
     setData(mIndex, "V", RoleIndexes::UNIT);
 }
 
-void ActualValueDCPerPhaseUModel::setupMapping()
+void ActualValueLemDCPerPhaseUModel::setupMapping()
 {
     using namespace CommonTable;
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
@@ -41,7 +41,7 @@ void ActualValueDCPerPhaseUModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::FftModule), fftMap);
 }
 
-QHash<int, QByteArray> ActualValueDCPerPhaseUModel::roleNames() const
+QHash<int, QByteArray> ActualValueLemDCPerPhaseUModel::roleNames() const
 {
     using namespace CommonTable;
     QHash<int, QByteArray> roles;
