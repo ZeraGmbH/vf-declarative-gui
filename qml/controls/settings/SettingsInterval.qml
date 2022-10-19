@@ -13,6 +13,7 @@ import ZeraVeinComponents 1.0
 Item {
     id: root
     property real pointSize
+    property real rowHeight
 
     property var periodList;
     property var timeList;
@@ -21,6 +22,7 @@ Item {
     property var timeIntrospection: ModuleIntrospection.introMap[(timeList.length ? timeList[0].EntityName : "")];
 
     property bool hasPeriodEntries: false
+    height: hasPeriodEntries ? 2*rowHeight : rowHeight
 
     Component.onCompleted: {
         var allEntities = VeinEntity.getEntity("_System").Entities
@@ -49,7 +51,7 @@ Item {
         id: loaderTime
         anchors.top: parent.top
         width: parent.width
-        height: hasPeriodEntries ? parent.height / 2 : parent.height
+        height: parent.rowHeight
         sourceComponent: timeComponent
         active: timeList.length > 0;
         asynchronous: true
@@ -59,7 +61,7 @@ Item {
         anchors.top: loaderTime.bottom
         anchors.bottom: parent.bottom
         width: parent.width
-        height: hasPeriodEntries ? parent.height / 2 : parent.height
+        height: parent.rowHeight
         sourceComponent: periodComponent
         active: periodList.length > 0;
         asynchronous: true
