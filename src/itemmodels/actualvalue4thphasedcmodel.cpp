@@ -27,10 +27,9 @@ void ActualValue4thPhaseDcModel::setLabelsAndUnits()
 
 void ActualValue4thPhaseDcModel::setupMapping()
 {
-    // DC: we cannot use RMS
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
-    fftMap->insert("ACT_FFT7", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES)));
-    fftMap->insert("ACT_FFT8", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES)));
+    fftMap->insert("ACT_DC7", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES)));
+    fftMap->insert("ACT_DC8", QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES)));
 
     QHash<QString, QPoint> *p1m4Map = new QHash<QString, QPoint>();
     p1m4Map->insert("ACT_PQS1", QPoint(RoleIndexes::DC_P, lineVal(LINE_VALUES)));
@@ -47,18 +46,4 @@ QHash<int, QByteArray> ActualValue4thPhaseDcModel::roleNames() const
     roles.insert(RoleIndexes::DC_I, "DC_I");
     roles.insert(RoleIndexes::DC_P, "DC_P");
     return roles;
-}
-
-void ActualValue4thPhaseDcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
-{
-    if(cData->entityId() == static_cast<int>(Modules::FftModule)) {
-        const QList<double> fftValList = qvariant_cast<QList<double>>(cData->newValue());
-        if(fftValList.count() > 1) {
-            QModelIndex mIndex = index(valueCoordiates.y(), 0);
-            setData(mIndex, fftValList[0], valueCoordiates.x());
-        }
-    }
-    else {
-        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
-    }
 }

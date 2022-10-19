@@ -25,10 +25,8 @@ void ActualValueDCSinglePhaseIModel::setLabelsAndUnits()
 void ActualValueDCSinglePhaseIModel::setupMapping()
 {
     using namespace CommonTable;
-    // DC: we cannot use RMS
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
-    fftMap->insert("ACT_FFT8", QPoint(RoleIndexes::AUX, lineVal(LINE_VALUE_I)));
-
+    fftMap->insert("ACT_DC8", QPoint(RoleIndexes::AUX, lineVal(LINE_VALUE_I)));
     m_valueMapping.insert(static_cast<int>(Modules::FftModule), fftMap);
 }
 
@@ -40,15 +38,4 @@ QHash<int, QByteArray> ActualValueDCSinglePhaseIModel::roleNames() const
     roles.insert(RoleIndexes::AUX, "AUX");
     roles.insert(RoleIndexes::UNIT, "Unit");
     return roles;
-}
-
-void ActualValueDCSinglePhaseIModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
-{
-    if(cData->entityId() == static_cast<int>(Modules::FftModule)) {
-        const QList<double> fftValList = qvariant_cast<QList<double>>(cData->newValue());
-        if(fftValList.count() > 1) {
-            QModelIndex mIndex = index(valueCoordiates.y(), 0);
-            setData(mIndex, fftValList[0], valueCoordiates.x());
-        }
-    }
 }

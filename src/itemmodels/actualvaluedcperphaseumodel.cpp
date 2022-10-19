@@ -33,13 +33,11 @@ void ActualValueDCPerPhaseUModel::setLabelsAndUnits()
 void ActualValueDCPerPhaseUModel::setupMapping()
 {
     using namespace CommonTable;
-    // DC: we cannot use RMS
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
-    fftMap->insert("ACT_FFT1", QPoint(RoleIndexes::L1, lineVal(LINE_VALUES_U)));
-    fftMap->insert("ACT_FFT2", QPoint(RoleIndexes::L2, lineVal(LINE_VALUES_U)));
-    fftMap->insert("ACT_FFT3", QPoint(RoleIndexes::L3, lineVal(LINE_VALUES_U)));
-    fftMap->insert("ACT_FFT7", QPoint(RoleIndexes::AUX, lineVal(LINE_VALUES_U)));
-
+    fftMap->insert("ACT_DC1", QPoint(RoleIndexes::L1, lineVal(LINE_VALUES_U)));
+    fftMap->insert("ACT_DC2", QPoint(RoleIndexes::L2, lineVal(LINE_VALUES_U)));
+    fftMap->insert("ACT_DC3", QPoint(RoleIndexes::L3, lineVal(LINE_VALUES_U)));
+    fftMap->insert("ACT_DC7", QPoint(RoleIndexes::AUX, lineVal(LINE_VALUES_U)));
     m_valueMapping.insert(static_cast<int>(Modules::FftModule), fftMap);
 }
 
@@ -55,15 +53,3 @@ QHash<int, QByteArray> ActualValueDCPerPhaseUModel::roleNames() const
     roles.insert(RoleIndexes::UNIT, "Unit");
     return roles;
 }
-
-void ActualValueDCPerPhaseUModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
-{
-    if(cData->entityId() == static_cast<int>(Modules::FftModule)) {
-        const QList<double> fftValList = qvariant_cast<QList<double>>(cData->newValue());
-        if(fftValList.count() > 1) {
-            QModelIndex mIndex = index(valueCoordiates.y(), 0);
-            setData(mIndex, fftValList[0], valueCoordiates.x());
-        }
-    }
-}
-

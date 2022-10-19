@@ -13,8 +13,6 @@ public:
     void setupMapping() override;
 
     QHash<int, QByteArray> roleNames() const override;
-protected:
-    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates) override;
 private:
     enum RoleIndexes
     {
