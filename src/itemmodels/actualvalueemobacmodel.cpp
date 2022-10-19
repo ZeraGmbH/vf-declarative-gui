@@ -73,36 +73,30 @@ void ActualValueEmobAcModel::setupMapping()
     rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, lineVal(LINE_UPN)));
     rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, lineVal(LINE_UPN)));
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, lineVal(LINE_UPN)));
-    rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::AUX, lineVal(LINE_UPN)));
 
     QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
     dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, lineVal(LINE_UANGLE)));
     dftMap->insert("ACT_DFTPN2", QPoint(RoleIndexes::L2, lineVal(LINE_UANGLE)));
     dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, lineVal(LINE_UANGLE)));
-    dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::AUX, lineVal(LINE_UANGLE)));
 
     rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, lineVal(LINE_I)));
     rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, lineVal(LINE_I)));
     rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, lineVal(LINE_I)));
-    rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::AUX, lineVal(LINE_I)));
 
     dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, lineVal(LINE_IANGLE)));
     dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, lineVal(LINE_IANGLE)));
     dftMap->insert("ACT_DFTPN6", QPoint(RoleIndexes::L3, lineVal(LINE_IANGLE)));
-    dftMap->insert("ACT_DFTPN8", QPoint(RoleIndexes::AUX, lineVal(LINE_IANGLE)));
 
     QHash<QString, QPoint> *lambdaMap = new QHash<QString, QPoint>();
     lambdaMap->insert("ACT_Lambda1", QPoint(RoleIndexes::L1, lineVal(LINE_LAMBDA)));
     lambdaMap->insert("ACT_Lambda2", QPoint(RoleIndexes::L2, lineVal(LINE_LAMBDA)));
     lambdaMap->insert("ACT_Lambda3", QPoint(RoleIndexes::L3, lineVal(LINE_LAMBDA)));
-    lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM, lineVal(LINE_LAMBDA)));
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
     p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, lineVal(LINE_POWER)));
     p1m1Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, lineVal(LINE_POWER)));
     p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, lineVal(LINE_POWER)));
     p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, lineVal(LINE_POWER)));
-    p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, lineVal(LINE_POWER)));
 
     m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
     m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
@@ -118,8 +112,6 @@ QHash<int, QByteArray> ActualValueEmobAcModel::roleNames() const
     roles.insert(RoleIndexes::L1, "L1");
     roles.insert(RoleIndexes::L2, "L2");
     roles.insert(RoleIndexes::L3, "L3");
-    roles.insert(RoleIndexes::AUX, "AUX");
-    roles.insert(RoleIndexes::SUM, "Sum");
     roles.insert(RoleIndexes::UNIT, "Unit");
     return roles;
 }
