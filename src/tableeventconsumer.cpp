@@ -1,11 +1,11 @@
 #include "tableeventconsumer.h"
 #include "actualvaluemodel.h"
-#include "actualvalueonlypmodel.h"
-#include "actualvalue4thphasedcmodel.h"
-#include "actualvalueacsummodel.h"
-#include "actualvaluedcperphaseumodel.h"
-#include "actualvaluedcsinglephaseimodel.h"
-#include "actualvaluedcperphasepmodel.h"
+#include "actualvalueemobacmodel.h"
+#include "actualvalueemob4thphasedcmodel.h"
+#include "actualvalueemobacsummodel.h"
+#include "actualvaluelemdcperphaseumodel.h"
+#include "actualvaluelemdcsingleimodel.h"
+#include "actualvaluelemdcperphasepmodel.h"
 #include "burdenvaluemodel.h"
 #include "oscimodel.h"
 #include <math.h>
@@ -18,12 +18,12 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     m_actValueData(new ActualValueModel),
     m_actValueModels(QList<TableEventItemModelBase*>()
             << m_actValueData
-            << new ActualValueOnlyPModel
-            << new ActualValue4thPhaseDcModel
-            << new ActualValueAcSumModel
-            << new ActualValueDCPerPhaseUModel
-            << new ActualValueDCSinglePhaseIModel
-            << new ActualValueDCPerPhasePModel),
+            << new ActualValueEmobAcModel
+            << new ActualValueEmob4thPhaseDcModel
+            << new ActualValueEmobAcSumModel
+            << new ActualValueLemDCPerPhaseUModel
+            << new ActualValueLemDcSingleIModel
+            << new ActualValueLemDcPerPhasePModel),
     m_osciValueModels(QList<TQmlLabelModelPair>()
             << TQmlLabelModelPair("OSCIP1Model", new OsciModel(QStringList() << "ACT_OSCI1" << "ACT_OSCI4"))
             << TQmlLabelModelPair("OSCIP2Model", new OsciModel(QStringList() << "ACT_OSCI2" << "ACT_OSCI5"))

@@ -3,11 +3,11 @@
 
 #include "tableeventitemmodelbase.h"
 
-class ActualValueDCPerPhaseUModel : public TableEventItemModelBase
+class ActualValueLemDCPerPhaseUModel : public TableEventItemModelBase
 {
     Q_OBJECT
 public:
-    ActualValueDCPerPhaseUModel();
+    ActualValueLemDCPerPhaseUModel();
     void setLabelsAndUnits() override;
     void setupMapping() override;
 

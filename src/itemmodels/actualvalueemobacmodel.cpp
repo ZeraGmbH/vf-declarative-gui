@@ -1,4 +1,4 @@
-#include "actualvalueonlypmodel.h"
+#include "actualvalueemobacmodel.h"
 
 enum class LineDefinitions : int {
     LINE_HEADER,
@@ -14,16 +14,16 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValueOnlyPModel::ActualValueOnlyPModel() :
+ActualValueEmobAcModel::ActualValueEmobAcModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 
-ActualValueOnlyPModel::~ActualValueOnlyPModel()
+ActualValueEmobAcModel::~ActualValueEmobAcModel()
 {
 }
 
-void ActualValueOnlyPModel::setLabelsAndUnits()
+void ActualValueEmobAcModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     // header line
@@ -66,7 +66,7 @@ void ActualValueOnlyPModel::setLabelsAndUnits()
     updateMModeTranslations();
 }
 
-void ActualValueOnlyPModel::setupMapping()
+void ActualValueEmobAcModel::setupMapping()
 {
     using namespace CommonTable;
     QHash<QString, QPoint> *rmsMap = new QHash<QString, QPoint>();
@@ -110,7 +110,7 @@ void ActualValueOnlyPModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
 }
 
-QHash<int, QByteArray> ActualValueOnlyPModel::roleNames() const
+QHash<int, QByteArray> ActualValueEmobAcModel::roleNames() const
 {
     using namespace CommonTable;
     QHash<int, QByteArray> roles;
@@ -124,7 +124,7 @@ QHash<int, QByteArray> ActualValueOnlyPModel::roleNames() const
     return roles;
 }
 
-void ActualValueOnlyPModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void ActualValueEmobAcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     if(cData->componentName() == QLatin1String("PAR_MeasuringMode")) {
         QString newValue = cData->newValue().toString();
@@ -135,13 +135,13 @@ void ActualValueOnlyPModel::handleComponentChangeCoord(const VeinComponent::Comp
     }
 }
 
-void ActualValueOnlyPModel::insertMeasMode(int yCoordinate, QString measMode)
+void ActualValueEmobAcModel::insertMeasMode(int yCoordinate, QString measMode)
 {
     m_dynamicMeasuringModeDescriptor.insert(yCoordinate, measMode);
     updateMModeTranslations();
 }
 
-void ActualValueOnlyPModel::updateMModeTranslations()
+void ActualValueEmobAcModel::updateMModeTranslations()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(lineVal(LINE_POWER), 0);

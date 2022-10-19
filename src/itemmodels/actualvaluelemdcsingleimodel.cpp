@@ -1,4 +1,4 @@
-#include "actualvaluedcsinglephaseimodel.h"
+#include "actualvaluelemdcsingleimodel.h"
 #include "vfcomponenteventdispatcher.h"
 
 enum class LineDefinitions : int {
@@ -9,12 +9,12 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValueDCSinglePhaseIModel::ActualValueDCSinglePhaseIModel() :
+ActualValueLemDcSingleIModel::ActualValueLemDcSingleIModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 
-void ActualValueDCSinglePhaseIModel::setLabelsAndUnits()
+void ActualValueLemDcSingleIModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(lineVal(LINE_VALUE_I), 0);
@@ -22,7 +22,7 @@ void ActualValueDCSinglePhaseIModel::setLabelsAndUnits()
     setData(mIndex, "A", RoleIndexes::UNIT);
 }
 
-void ActualValueDCSinglePhaseIModel::setupMapping()
+void ActualValueLemDcSingleIModel::setupMapping()
 {
     using namespace CommonTable;
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
@@ -30,7 +30,7 @@ void ActualValueDCSinglePhaseIModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::FftModule), fftMap);
 }
 
-QHash<int, QByteArray> ActualValueDCSinglePhaseIModel::roleNames() const
+QHash<int, QByteArray> ActualValueLemDcSingleIModel::roleNames() const
 {
     using namespace CommonTable;
     QHash<int, QByteArray> roles;

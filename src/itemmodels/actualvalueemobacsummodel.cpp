@@ -1,4 +1,4 @@
-#include "actualvalueacsummodel.h"
+#include "actualvalueemobacsummodel.h"
 
 enum class LineDefinitions : int {
     LINE_HEADER,
@@ -9,16 +9,16 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValueAcSumModel::ActualValueAcSumModel() :
+ActualValueEmobAcSumModel::ActualValueEmobAcSumModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 
-ActualValueAcSumModel::~ActualValueAcSumModel()
+ActualValueEmobAcSumModel::~ActualValueEmobAcSumModel()
 {
 }
 
-void ActualValueAcSumModel::setLabelsAndUnits()
+void ActualValueEmobAcSumModel::setLabelsAndUnits()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
@@ -29,7 +29,7 @@ void ActualValueAcSumModel::setLabelsAndUnits()
     setData(mIndex, "Σ", RoleIndexes::NAME);
 }
 
-void ActualValueAcSumModel::setupMapping()
+void ActualValueEmobAcSumModel::setupMapping()
 {
     QHash<QString, QPoint> *lambdaMap = new QHash<QString, QPoint>();
     lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM_LAMDA, lineVal(LINE_VALUES)));
@@ -43,7 +43,7 @@ void ActualValueAcSumModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::RangeModule), rangeMap);
 }
 
-QHash<int, QByteArray> ActualValueAcSumModel::roleNames() const
+QHash<int, QByteArray> ActualValueEmobAcSumModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleIndexes::NAME, "NAME");

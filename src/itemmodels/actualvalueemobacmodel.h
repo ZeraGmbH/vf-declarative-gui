@@ -4,12 +4,12 @@
 #include "vfcomponenteventdispatcher.h"
 #include "tableeventitemmodelbase.h"
 
-class ActualValueOnlyPModel : public TableEventItemModelBase
+class ActualValueEmobAcModel : public TableEventItemModelBase
 {
     Q_OBJECT
 public:
-    ActualValueOnlyPModel();
-    virtual ~ActualValueOnlyPModel() override;
+    ActualValueEmobAcModel();
+    virtual ~ActualValueEmobAcModel() override;
 
     void setLabelsAndUnits() override;
     void setupMapping() override;
