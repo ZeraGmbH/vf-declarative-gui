@@ -237,20 +237,34 @@ ToolBar {
             font.pointSize: pointSize
             text: FA.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
-            Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
+            Material.foreground: {
+                if (!GC.adjustmentStatusOk) {
+                    if (GC.schnubbelInserted) {
+                        infoButton.opacity = 1
+                        return blinker.show ? Material.Blue : Material.Red
+                    }
+                    else {
+                        infoButton.opacity = blinker.show ? 1 : 0
+                        return Material.Red
+                    }
+                }
+                else if (GC.schnubbelInserted) {
+                    infoButton.opacity = 1
+                    return Material.Blue
+                }
+                else {
+                    infoButton.opacity = 1
+                    Material.White
+                }
+            }
             Timer {
+                id: blinker
                 interval: 300
                 repeat: true
                 running: !GC.adjustmentStatusOk && !infoButton.highlighted
-                onRunningChanged: {
-                    if(!running) {
-                        infoButton.opacity = 1
-                    }
-                }
                 property bool show: true
                 onTriggered: {
                     show = !show
-                    infoButton.opacity = show ? 1 : 0
                 }
             }
             onClicked: {
