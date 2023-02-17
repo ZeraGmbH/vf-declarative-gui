@@ -238,22 +238,22 @@ ToolBar {
             text: FA.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             Material.foreground: {
+                infoButton.opacity = 1
                 if (!GC.adjustmentStatusOk) {
                     if (GC.schnubbelInserted) {
-                        infoButton.opacity = 1
                         return blinker.show ? Material.Blue : Material.Red
                     }
                     else {
-                        infoButton.opacity = blinker.show ? 1 : 0
+                        if (!highlighted) {
+                            infoButton.opacity = blinker.show ? 1 : 0
+                        }
                         return Material.Red
                     }
                 }
                 else if (GC.schnubbelInserted) {
-                    infoButton.opacity = 1
                     return Material.Blue
                 }
                 else {
-                    infoButton.opacity = 1
                     Material.White
                 }
             }
