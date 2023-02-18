@@ -259,7 +259,7 @@ ToolBar {
                 id: blinker
                 interval: 300
                 repeat: true
-                running: !GC.adjustmentStatusOk && !infoButton.highlighted
+                running: true
                 property bool show: true
                 onTriggered: {
                     show = !show
