@@ -250,7 +250,7 @@ ToolBar {
                     }
                 }
                 else if (GC.schnubbelInserted)
-                    _color = Material.Blue
+                    _color = blinker.show ? Material.Blue : Material.White
 
                 infoButton.opacity = _opacity
                 return _color
