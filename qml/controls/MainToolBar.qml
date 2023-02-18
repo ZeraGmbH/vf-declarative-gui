@@ -237,25 +237,23 @@ ToolBar {
             font.pointSize: pointSize
             text: FA.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
-            Material.foreground: {
-                infoButton.opacity = 1
+            Material.foreground: { // Note: highligted overrifdes Material.foreground
+                let _opacity = 1
+                let _color = Material.White
                 if (!GC.adjustmentStatusOk) {
-                    if (GC.schnubbelInserted) {
-                        return blinker.show ? Material.Blue : Material.Red
-                    }
+                    if (GC.schnubbelInserted)
+                        _color = blinker.show ? Material.Blue : Material.Red
                     else {
-                        if (!highlighted) {
-                            infoButton.opacity = blinker.show ? 1 : 0
-                        }
-                        return Material.Red
+                        if (!highlighted)
+                            _opacity = blinker.show ? 1 : 0
+                        _color = Material.Red
                     }
                 }
-                else if (GC.schnubbelInserted) {
-                    return Material.Blue
-                }
-                else {
-                    Material.White
-                }
+                else if (GC.schnubbelInserted)
+                    _color = Material.Blue
+
+                infoButton.opacity = _opacity
+                return _color
             }
             Timer {
                 id: blinker
