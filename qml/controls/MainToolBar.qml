@@ -118,18 +118,11 @@ ToolBar {
                 active: false;
             }
         }
-        ToolButton {
-            id: pauseButton
-            implicitHeight: parent.height
-            font.family: FA.old
-            font.pointSize: pointSize * 0.77
-            text: root.measurementPaused ? FA.fa_play : FA.fa_pause
-            enabled: root.entityInitializationDone === true
-            highlighted: root.measurementPaused
-            onClicked: {
-                //pause button
-                VeinEntity.getEntity("_System").ModulesPaused = !root.measurementPaused;
-            }
+        Text {
+            text: GC.accumulatorSocText
+            font.family: "Helvetica"
+            font.pointSize: pointSize * 0.9
+            color: "white"
         }
         ToolButton {
             id: logStartButton
