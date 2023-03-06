@@ -8,6 +8,7 @@ import VeinEntity 1.0
 import ZeraFa 1.0
 import "range_module"
 import "logger"
+import FontAwesomeQml 1.0
 
 ToolBar {
     id: root
@@ -119,10 +120,25 @@ ToolBar {
             }
         }
         Text {
-            text: GC.accumulatorSocText
-            font.family: "Helvetica"
+            id: battery
+            font.family: FA.old
             font.pointSize: pointSize * 0.9
-            color: "white"
+            text: {
+                if(GC.accumulatorSocText <= 10)
+                    text: FAQ.colorize(FAQ.fa_battery_empty, "red")
+
+                else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
+                    text: FAQ.colorize(FAQ.fa_battery_quarter, "orange")
+
+                else if(GC.accumulatorSocText >= 41 && GC.accumulatorSocText <= 60)
+                    text: FAQ.colorize(FAQ.fa_battery_half, "white")
+
+                else if(GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 89)
+                    text: FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
+
+                else if(GC.accumulatorSocText >= 90)
+                    text: FAQ.colorize(FAQ.fa_battery_full, "white")
+            }
         }
         ToolButton {
             id: logStartButton
