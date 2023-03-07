@@ -6,9 +6,9 @@ import QtQuick.Controls.Material.impl 2.14
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
+import FontAwesomeQml 1.0
 import "range_module"
 import "logger"
-import FontAwesomeQml 1.0
 
 ToolBar {
     id: root
@@ -126,28 +126,37 @@ ToolBar {
             text: {
                 if(GC.accumulatorStatusText === "0"){
                     if(GC.accumulatorSocText <= 10)
-                        text: FAQ.colorize(FAQ.fa_battery_empty, "red")
+                        FAQ.colorize(FAQ.fa_battery_empty, "red")
 
                     else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
-                        text: FAQ.colorize(FAQ.fa_battery_quarter, "orange")
+                        FAQ.colorize(FAQ.fa_battery_quarter, "orange")
 
                     else if(GC.accumulatorSocText >= 41 && GC.accumulatorSocText <= 60)
-                        text: FAQ.colorize(FAQ.fa_battery_half, "white")
+                        FAQ.colorize(FAQ.fa_battery_half, "white")
 
                     else if(GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 89)
-                        text: FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
+                        FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
 
                     else if(GC.accumulatorSocText >= 90)
-                        text: FAQ.colorize(FAQ.fa_battery_full, "white")
+                        FAQ.colorize(FAQ.fa_battery_full, "white")
                     }
                 else if(GC.accumulatorStatusText === "1"){
                     if(GC.accumulatorSocText === 100)
-                        text: FAQ.colorize(FAQ.fa_battery_full, "white")
+                        FAQ.colorize(FAQ.fa_battery_full, "white")
                     else
                         chargingAnimation.start()
                 }
             }
+            Text {
+                id: percentage
+                text: GC.accumulatorSocText + "%"
+                color: "black"
+                font.weight: Font.DemiBold
+                font.pointSize: parent/2
+                anchors.centerIn: parent
+            }
         }
+
         SequentialAnimation {
             id: chargingAnimation
             loops: Animation.Infinite
