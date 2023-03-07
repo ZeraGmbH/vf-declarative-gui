@@ -124,22 +124,66 @@ ToolBar {
             font.family: FA.old
             font.pointSize: pointSize * 0.9
             text: {
-                if(GC.accumulatorSocText <= 10)
-                    text: FAQ.colorize(FAQ.fa_battery_empty, "red")
+                if(GC.accumulatorStatusText === "0"){
+                    if(GC.accumulatorSocText <= 10)
+                        text: FAQ.colorize(FAQ.fa_battery_empty, "red")
 
-                else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
-                    text: FAQ.colorize(FAQ.fa_battery_quarter, "orange")
+                    else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
+                        text: FAQ.colorize(FAQ.fa_battery_quarter, "orange")
 
-                else if(GC.accumulatorSocText >= 41 && GC.accumulatorSocText <= 60)
-                    text: FAQ.colorize(FAQ.fa_battery_half, "white")
+                    else if(GC.accumulatorSocText >= 41 && GC.accumulatorSocText <= 60)
+                        text: FAQ.colorize(FAQ.fa_battery_half, "white")
 
-                else if(GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 89)
-                    text: FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
+                    else if(GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 89)
+                        text: FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
 
-                else if(GC.accumulatorSocText >= 90)
-                    text: FAQ.colorize(FAQ.fa_battery_full, "white")
+                    else if(GC.accumulatorSocText >= 90)
+                        text: FAQ.colorize(FAQ.fa_battery_full, "white")
+                    }
+                else if(GC.accumulatorStatusText === "1"){
+                    if(GC.accumulatorSocText === 100)
+                        text: FAQ.colorize(FAQ.fa_battery_full, "white")
+                    else
+                        chargingAnimation.start()
+                }
             }
         }
+        SequentialAnimation {
+            id: chargingAnimation
+            loops: Animation.Infinite
+            running: GC.accumulatorStatusText === "1"
+            PropertyAnimation {
+                target: battery
+                property: "text"
+                to: FAQ.colorize(FAQ.fa_battery_empty, "white")
+                duration: 500
+            }
+            PropertyAnimation {
+                target: battery
+                property: "text"
+                to: FAQ.colorize(FAQ.fa_battery_quarter, "white")
+                duration: 500
+            }
+            PropertyAnimation {
+                target: battery
+                property: "text"
+                to: FAQ.colorize(FAQ.fa_battery_half, "white")
+                duration: 500
+            }
+            PropertyAnimation {
+                target: battery
+                property: "text"
+                to: FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
+                duration: 500
+            }
+            PropertyAnimation {
+                target: battery
+                property: "text"
+                to: FAQ.colorize(FAQ.fa_battery_full, "white")
+                duration: 500
+            }
+        }
+
         ToolButton {
             id: logStartButton
             implicitHeight: parent.height
