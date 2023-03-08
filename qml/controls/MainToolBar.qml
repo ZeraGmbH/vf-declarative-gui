@@ -152,13 +152,13 @@ ToolBar {
             PropertyAnimation {
                 target: battery
                 property: "text"
-                to: FAQ.colorize(FAQ.fa_battery_empty, "red")
+                to: FAQ.colorize(FAQ.fa_battery_empty, "white")
                 duration: 500
             }
             PropertyAnimation {
                 target: battery
                 property: "text"
-                to: FAQ.colorize(FAQ.fa_battery_quarter, "red")
+                to: FAQ.colorize(FAQ.fa_battery_quarter, "white")
                 duration: 500
             }
         }
@@ -169,19 +169,19 @@ ToolBar {
             PropertyAnimation {
                 target: battery
                 property: "text"
-                to: FAQ.colorize(FAQ.fa_battery_empty, "orange")
+                to: FAQ.colorize(FAQ.fa_battery_empty, "white")
                 duration: 500
             }
             PropertyAnimation {
                 target: battery
                 property: "text"
-                to: FAQ.colorize(FAQ.fa_battery_quarter, "orange")
+                to: FAQ.colorize(FAQ.fa_battery_quarter, "white")
                 duration: 500
             }
             PropertyAnimation {
                 target: battery
                 property: "text"
-                to: FAQ.colorize(FAQ.fa_battery_half, "orange")
+                to: FAQ.colorize(FAQ.fa_battery_half, "white")
                 duration: 500
             }
         }
