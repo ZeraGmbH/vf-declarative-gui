@@ -103,22 +103,6 @@ ToolBar {
                 highlighted: rangeButton.highlighted
             }
         }
-        ToolButton {
-            id: rotaryFieldIndicator
-            implicitHeight: parent.height
-            implicitWidth: height*1.5
-            highlighted: false;
-            enabled: false
-            visible: rotaryFieldIndicatorLoader.active
-            //needs to be in a ToolButton to be correctly positioned in the ToolBar, but is not actually an interactive button
-            Loader {
-                id: rotaryFieldIndicatorLoader
-                sourceComponent: rotaryFieldCmp
-                height: parent.height
-                width: parent.width
-                active: false;
-            }
-        }
         Text {
             id: battery
             font.family: FA.old
@@ -263,6 +247,22 @@ ToolBar {
                 property: "text"
                 to: FAQ.colorize(FAQ.fa_battery_full, "white")
                 duration: 500
+            }
+        }
+        ToolButton {
+            id: rotaryFieldIndicator
+            implicitHeight: parent.height
+            implicitWidth: height*1.5
+            highlighted: false;
+            enabled: false
+            visible: rotaryFieldIndicatorLoader.active
+            //needs to be in a ToolButton to be correctly positioned in the ToolBar, but is not actually an interactive button
+            Loader {
+                id: rotaryFieldIndicatorLoader
+                sourceComponent: rotaryFieldCmp
+                height: parent.height
+                width: parent.width
+                active: false;
             }
         }
         ToolButton {
