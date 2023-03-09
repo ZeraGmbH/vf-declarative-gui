@@ -103,12 +103,6 @@ ToolBar {
                 highlighted: rangeButton.highlighted
             }
         }
-        BatteryToolButton {
-            implicitHeight: parent.height
-            implicitWidth: parent.width / 22
-            highlighted: false;
-            enabled: false
-        }
         ToolButton {
             id: rotaryFieldIndicator
             implicitHeight: parent.height
@@ -222,6 +216,12 @@ ToolBar {
                 id: settingsButtonRipple
                 anchor: settingsButton
             }
+        }
+        BatteryToolButton {
+            implicitHeight: parent.height
+            implicitWidth: parent.width / 22
+            highlighted: false;
+            enabled: false
         }
         ToolButton {
             id: infoButton
