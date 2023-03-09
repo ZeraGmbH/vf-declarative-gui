@@ -4,6 +4,7 @@
         <file>qml/Main.qml</file>
         <file>qml/controls/ActivityAnimation.qml</file>
         <file>qml/controls/AnimationSlowBits.qml</file>
+        <file>qml/controls/BatteryToolButton.qml</file>
         <file>qml/controls/DebugRectangle.qml</file>
         <file>qml/controls/FlashingRipple.qml</file>
         <file>qml/controls/FpsItem.qml</file>
