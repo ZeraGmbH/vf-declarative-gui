@@ -103,32 +103,30 @@ ToolBar {
                 highlighted: rangeButton.highlighted
             }
         }
-        Text {
-            id: battery
-            font.family: FA.old
-            font.pointSize: pointSize * 0.9
-            color: "white"
-            text: {
-                if(GC.accumulatorStatusText === "0"){
-                    if(GC.accumulatorSocText <= 10)
-                        FAQ.colorize(FAQ.fa_battery_empty, "red")
-                    else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
-                        FAQ.colorize(FAQ.fa_battery_quarter, "orange")
-                    else if(GC.accumulatorSocText >= 41 && GC.accumulatorSocText <= 60)
-                        FAQ.colorize(FAQ.fa_battery_half, "white")
-                    else if(GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 89)
-                        FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
-                    else if(GC.accumulatorSocText >= 90)
-                        FAQ.colorize(FAQ.fa_battery_full, "white")
-                    }
-            }
+        ToolButton {
+            implicitHeight: parent.height
+            implicitWidth: parent.width / 22
+            highlighted: false;
+            enabled: false
             Text {
-                id: percentage
-                text: GC.accumulatorSocText + "%"
-                color: "black"
-                font.weight: Font.DemiBold
-                font.pointSize: battery.font.pointSize / 2
-                anchors.centerIn: parent
+                id: battery
+                font.family: FA.old
+                font.pointSize: pointSize * 0.9
+                color: "white"
+                text: {
+                    if(GC.accumulatorStatusText === "0"){
+                        if(GC.accumulatorSocText <= 10)
+                            FAQ.colorize(FAQ.fa_battery_empty, "red")
+                        else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
+                            FAQ.colorize(FAQ.fa_battery_quarter, "orange")
+                        else if(GC.accumulatorSocText >= 41 && GC.accumulatorSocText <= 60)
+                            FAQ.colorize(FAQ.fa_battery_half, "white")
+                        else if(GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 89)
+                            FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
+                        else if(GC.accumulatorSocText >= 90)
+                            FAQ.colorize(FAQ.fa_battery_full, "white")
+                        }
+                }
             }
         }
         SequentialAnimation {
