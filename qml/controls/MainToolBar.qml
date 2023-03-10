@@ -222,6 +222,7 @@ ToolBar {
             implicitWidth: parent.width / 22
             highlighted: false;
             enabled: false
+            visible: false //GC.accumulatorStatusText !== "0"
         }
         ToolButton {
             id: infoButton
