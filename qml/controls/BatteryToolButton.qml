@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import GlobalConfig 1.0
+import ZeraFa 1.0
 import FontAwesomeQml 1.0
 
 ToolButton {
@@ -16,12 +17,15 @@ ToolButton {
                 else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
                     FAQ.colorize(FAQ.fa_battery_quarter, "orange")
                 else if(GC.accumulatorSocText >= 41 && GC.accumulatorSocText <= 60)
-                    FAQ.colorize(FAQ.fa_battery_half, "white")
+                    FAQ.fa_battery_half
                 else if(GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 89)
-                    FAQ.colorize(FAQ.fa_battery_three_quarters, "white")
-                else if(GC.accumulatorSocText >= 90)
-                    FAQ.colorize(FAQ.fa_battery_full, "white")
+                    FAQ.fa_battery_three_quarters
+                else
+                    FAQ.fa_battery_full
                 }
+            else {
+                FAQ.colorize(FAQ.fa_battery_empty, "red")
+            }
         }
     }
     SequentialAnimation {
