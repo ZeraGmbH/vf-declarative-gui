@@ -10,7 +10,7 @@ ToolButton {
         font.pointSize: pointSize * 0.9
         color: "white"
         text: {
-            if(GC.accumulatorStatusText === "0"){
+            if(GC.accumulatorStatusText === "1"){
                 if(GC.accumulatorSocText <= 10)
                     FAQ.colorize(FAQ.fa_battery_empty, "red")
                 else if(GC.accumulatorSocText >= 11 && GC.accumulatorSocText <= 40)
@@ -27,7 +27,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationQuarter
         loops: Animation.Infinite
-        running: GC.accumulatorStatusText === "1" && GC.accumulatorSocText >= 0 && GC.accumulatorSocText <= 30
+        running: GC.accumulatorStatusText === "3" && GC.accumulatorSocText >= 0 && GC.accumulatorSocText <= 30
         PropertyAnimation {
             target: battery
             property: "text"
@@ -44,7 +44,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationHalf
         loops: Animation.Infinite
-        running: GC.accumulatorStatusText === "1" && GC.accumulatorSocText >= 31 && GC.accumulatorSocText <= 60
+        running: GC.accumulatorStatusText === "3" && GC.accumulatorSocText >= 31 && GC.accumulatorSocText <= 60
         PropertyAnimation {
             target: battery
             property: "text"
@@ -67,7 +67,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationThreeQuarters
         loops: Animation.Infinite
-        running: GC.accumulatorStatusText === "1" && GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 80
+        running: GC.accumulatorStatusText === "3" && GC.accumulatorSocText >= 61 && GC.accumulatorSocText <= 80
         PropertyAnimation {
             target: battery
             property: "text"
@@ -96,7 +96,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationFull
         loops: Animation.Infinite
-        running: GC.accumulatorStatusText === "1" && GC.accumulatorSocText >= 81
+        running: GC.accumulatorStatusText === "3" && GC.accumulatorSocText >= 81
         PropertyAnimation {
             target: battery
             property: "text"
