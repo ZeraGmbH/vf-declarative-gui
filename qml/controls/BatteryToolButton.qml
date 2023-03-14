@@ -24,7 +24,7 @@ ToolButton {
                     FAQ.fa_battery_full
                 }
             else {
-                FAQ.colorize(FAQ.fa_battery_empty, "red")
+                FAQ.colorize(FAQ.fa_battery_empty, "white")
             }
         }
     }
