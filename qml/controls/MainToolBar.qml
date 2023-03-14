@@ -227,8 +227,9 @@ ToolBar {
         }
         MessageDialog {
             id: messageBox
-            text: "Battery level is less than 10%"
-            visible:GC.accumulatorSocText <= 25 && GC.accumulatorStatusText === "1"
+            icon: StandardIcon.Warning
+            text: "Battery is less than 10%"
+            visible:GC.accumulatorSocText <= 10 && GC.accumulatorStatusText === "1"
             onAccepted: {
                 messageBox.close()
                 messageBox.visible= false
