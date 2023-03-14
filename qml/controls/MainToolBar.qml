@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Controls.Material.impl 2.14
+import QtQuick.Dialogs 1.1
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
@@ -223,6 +224,15 @@ ToolBar {
             highlighted: false;
             enabled: false
             visible: GC.accumulatorStatusText !== "0"
+        }
+        MessageDialog {
+            id: messageBox
+            text: "Battery level is less than 10%"
+            visible:GC.accumulatorSocText <= 25 && GC.accumulatorStatusText === "1"
+            onAccepted: {
+                messageBox.close()
+                messageBox.visible= false
+            }
         }
         ToolButton {
             id: infoButton
