@@ -71,7 +71,6 @@ Loader {
 
             Item {
                 anchors.right: parent.right
-                anchors.rightMargin: -4
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: height*1.3
