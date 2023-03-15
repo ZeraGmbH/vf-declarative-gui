@@ -66,7 +66,7 @@ Loader {
             Rectangle {
                 anchors.fill: parent
                 color: Material.background
-                opacity: 0.2
+                opacity: 0
             }
 
             Item {
