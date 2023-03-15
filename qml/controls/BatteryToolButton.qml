@@ -10,6 +10,7 @@ ToolButton {
         font.family: FA.old
         font.pointSize: pointSize * 0.9
         color: "white"
+        verticalAlignment: Text.AlignVCenter
         text: {
             if(GC.accumulatorStatusText === "1"){
                 if(GC.accumulatorSocText <= 10)
