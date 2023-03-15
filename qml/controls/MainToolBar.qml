@@ -119,6 +119,9 @@ ToolBar {
                 active: false;
             }
         }
+        Item {
+            Layout.fillWidth: true
+        }
         ToolButton {
             id: logStartButton
             implicitHeight: parent.height
