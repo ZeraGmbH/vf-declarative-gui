@@ -123,6 +123,19 @@ ToolBar {
             Layout.fillWidth: true
         }
         ToolButton {
+            id: pauseButton
+            implicitHeight: parent.height
+            font.family: FA.old
+            font.pointSize: pointSize * 0.77
+            text: root.measurementPaused ? FA.fa_play : FA.fa_pause
+            enabled: root.entityInitializationDone === true
+            highlighted: root.measurementPaused
+            onClicked: {
+                //pause button
+                VeinEntity.getEntity("_System").ModulesPaused = !root.measurementPaused;
+            }
+        }
+        ToolButton {
             id: logStartButton
             implicitHeight: parent.height
             implicitWidth: root.width/16
