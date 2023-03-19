@@ -17,11 +17,36 @@
 #include "tableeventconsumer.h"
 #include "gluelogicpropertymap.h"
 #include <zeratranslationplugin.h>
+#include <advancednetworkmanager.h>
+#include <zeracomponents.h>
+#include <uivectorgraphics.h>
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 #include "qmlappstarterforwebgl.h"
+#include <qwtcharts.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboard.h>
+
+static void registerQmlExt(QQmlApplicationEngine &engine)
+{
+    ZeraTranslationPlugin::registerQml();
+    FontAwesomeQml::registerFonts(true, true, false);
+    FontAwesomeQml::registerFAQml(&engine);
+    AdvancedNetworkmanager::registerQml(engine);
+    ZeraComponents::registerQml(engine);
+    QwtCharts::registerQml();
+    UiVectorgraphics::registerQml();
+}
+
+static void registerQmlInt()
+{
+    QmlAppStarterForWebGL::registerQMLSingleton();
+    qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
+    qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/FunctionTools.qml"), "FunctionTools", 1, 0, "FT");
+}
 
 int main(int argc, char *argv[])
 {
@@ -53,14 +78,6 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
-    // dependencies
-    ZeraTranslationPlugin::registerQml();
-    // internal
-    qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
-    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
-    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
-    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/FunctionTools.qml"), "FunctionTools", 1, 0, "FT");
-
     // WebGL server
     QCommandLineParser parser;
     QCommandLineOption webGlServerOption(QStringList() << "w" << "webgl-server", "Set: Start as webGL server");
@@ -75,7 +92,6 @@ int main(int argc, char *argv[])
     QmlAppStarterForWebGL *pWGLSingleon = QmlAppStarterForWebGL::getStaticInstance();
     pWGLSingleon->setIsServer(webGlServer);
     pWGLSingleon->setEnableSource(enableSourceControl);
-    QmlAppStarterForWebGL::registerQMLSingleton();
 
     app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
@@ -84,15 +100,13 @@ int main(int argc, char *argv[])
     GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
     GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
 
-    qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
-
     QQmlApplicationEngine engine;
+    registerQmlExt(engine);
+    registerQmlInt();
+
     QTimer networkWatchdog;
     networkWatchdog.setInterval(3000);
     networkWatchdog.setSingleShot(true);
-
-    FontAwesomeQml::registerFonts(true, true, false);
-    FontAwesomeQml::registerFAQml(&engine);
 
     JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
     globalSettingsFile->setAutoWriteBackEnabled(true);
