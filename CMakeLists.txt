@@ -24,17 +24,10 @@ find_Package(VfQml REQUIRED )
 find_Package(VfHelpers REQUIRED )
 find_Package(ZVKeyboard REQUIRED)
 find_package(SortFilterProxyModelCmake REQUIRED)
-find_package(zerafa REQUIRED)
-find_Package(anmlib REQUIRED)
-find_Package(uivlib REQUIRED)
-find_package(OpenGL REQUIRED)
 find_package(ZeraTranslation REQUIRED)
-find_package(zeracomponents REQUIRED)
-find_package(qmlhelpers REQUIRED)
-find_package(zeraveincomponents REQUIRED)
-find_package(qwtcharts REQUIRED)
 find_package(JsonSettingsQml REQUIRED)
 find_Package(zera-json-qml REQUIRED)
+find_Package(VfQmlLibs REQUIRED)
 
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
@@ -88,15 +81,15 @@ target_link_libraries(vf-declarative-gui-lib
     VeinMeta::VfHelpers
     "-Wl,--no-as-needed"
     ZeraQml::ZVKeyboard
-    ZeraQml::zerafa
-    ZeraQml::anmlib
-    ZeraQml::uivlib
+    Zera::zerafa
+    Zera::anmlib
+    Zera::uivlib
     ZeraQml::SortFilterProxyModelCmake
     ZeraTranslation::ZeraTranslation
-    ZeraQml::zeracomponents
-    ZeraQml::qmlhelpers
-    ZeraQml::zeraveincomponents
-    ZeraQml::qwtcharts
+    Zera::zeracomponents
+    Zera::qmlhelpers
+    Zera::zeraveincomponents
+    Zera::qwtcharts
     ZeraQml::JsonSettingsQml
     zera-json-qml
     "-Wl,--as-needed"
