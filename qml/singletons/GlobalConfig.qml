@@ -689,12 +689,6 @@ Item {
             schnubbelInsertedText = Qt.binding(function() {
                 return VeinEntity.getEntity("StatusModule1").INF_Schnubbel;
             });
-            accumulatorSocText = Qt.binding(function() {
-                return VeinEntity.getEntity("StatusModule1").INF_AccumulatorSoc;
-            });
-            accumulatorStatusText = Qt.binding(function() {
-                return VeinEntity.getEntity("StatusModule1").INF_AccumulatorStatus;
-            });
             var statusEntity = VeinEntity.getEntity("StatusModule1")
             // this is static - no binding necessary
             deviceName = "zera-" + statusEntity.INF_DeviceType + '-' + statusEntity.PAR_SerialNr
@@ -702,8 +696,6 @@ Item {
     }
     property string deviceName: "zera-undef"
 
-    property string accumulatorSocText: "0"
-    property string accumulatorStatusText: "0"
 
     // adjustment status helpers
     property string adjustmentStatusText: "0"

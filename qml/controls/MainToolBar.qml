@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Controls.Material.impl 2.14
 import QtQuick.Dialogs 1.1
 import GlobalConfig 1.0
+import AccumulatorState 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
 import FontAwesomeQml 1.0
@@ -240,7 +241,7 @@ ToolBar {
             implicitWidth: parent.width / 22
             highlighted: false;
             enabled: false
-            visible: GC.accumulatorStatusText !== "0"
+            visible: AccuState.accumulatorStatusText !== "0"
         }
         ToolButton {
             id: infoButton

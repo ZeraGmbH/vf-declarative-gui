@@ -81,6 +81,7 @@
         <file>qml/singletons/GlobalConfig.qml</file>
         <file>qml/singletons/ModuleIntrospection.qml</file>
         <file>qml/singletons/FunctionTools.qml</file>
+        <file>qml/singletons/AccumulatorState.qml</file>
         <file>qml/controls/MainToolBar.qml</file>
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>

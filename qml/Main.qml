@@ -10,6 +10,7 @@ import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import AccumulatorState 1.0
 import ZeraSettings 1.0
 import ZeraFa 1.0
 import Notifications 1.0
@@ -188,7 +189,7 @@ ApplicationWindow {
         ySpacing: 20
         notificationWidth: 300
         maxOnScreen: 20
-        property bool accuDown: GC.accumulatorSocText <= 10 && GC.accumulatorStatusText === "1"
+        property bool accuDown: AccuState.accuDown
         onAccuDownChanged: {
             if(accuDown)
                 notificationManager.notify("Message", Z.tr("Battery is less than 10%"));
