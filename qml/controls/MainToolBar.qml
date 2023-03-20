@@ -242,16 +242,6 @@ ToolBar {
             enabled: false
             visible: GC.accumulatorStatusText !== "0"
         }
-        MessageDialog {
-            id: messageBox
-            icon: StandardIcon.Warning
-            text: "Battery is less than 10%"
-            visible:GC.accumulatorSocText <= 10 && GC.accumulatorStatusText === "1"
-            onAccepted: {
-                messageBox.close()
-                messageBox.visible= false
-            }
-        }
         ToolButton {
             id: infoButton
             implicitHeight: parent.height
