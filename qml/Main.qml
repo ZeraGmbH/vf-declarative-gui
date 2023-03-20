@@ -12,6 +12,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraSettings 1.0
 import ZeraFa 1.0
+import Notifications 1.0
 
 import "controls"
 import "helpers"
@@ -181,6 +182,18 @@ ApplicationWindow {
         }
     }
 
+    NotificationManager {
+        id: notificationManager
+        window: displayWindow
+        ySpacing: 20
+        notificationWidth: 300
+        maxOnScreen: 20
+        property bool accuDown: GC.accumulatorSocText <= 10 && GC.accumulatorStatusText === "1"
+        onAccuDownChanged: {
+            if(accuDown)
+                notificationManager.notify("Message", Z.tr("Battery is less than 10%"));
+        }
+    }
     Flickable {
         // main view displaying pages and other stuff - (flickable for virtual keyboard)
         id: flickable

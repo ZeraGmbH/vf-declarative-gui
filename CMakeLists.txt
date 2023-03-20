@@ -92,6 +92,7 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::qwtcharts
     ZeraQml::JsonSettingsQml
     zera-json-qml
+    Zera::notificationmanager
     "-Wl,--as-needed"
     #Other Libs
     ${QWT_LIBRARIES}

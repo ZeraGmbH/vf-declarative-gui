@@ -24,6 +24,7 @@
 #include "qmlfileio.h"
 #include "qmlappstarterforwebgl.h"
 #include <qwtcharts.h>
+#include <notificationmanager.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboard.h>
 
@@ -36,6 +37,7 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
     ZeraComponents::registerQml(engine);
     QwtCharts::registerQml();
     UiVectorgraphics::registerQml();
+    NotificationManager::registerQml(engine);
 }
 
 static void registerQmlInt()
