@@ -7,6 +7,7 @@ import QtQuick.Dialogs 1.1
 import GlobalConfig 1.0
 import AccumulatorState 1.0
 import SchnubbelState 1.0
+import AdjustmentState 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
 import FontAwesomeQml 1.0
@@ -255,7 +256,7 @@ ToolBar {
             Material.foreground: { // Note: highligted overrifdes Material.foreground
                 let _opacity = 1
                 let _color = Material.White
-                if (!GC.adjustmentStatusOk) {
+                if (!AdjState.adjusted) {
                     if (SchnubbState.inserted)
                         _color = blinker.show ? Material.Blue : Material.Red
                     else {
