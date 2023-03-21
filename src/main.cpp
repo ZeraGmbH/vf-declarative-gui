@@ -49,6 +49,7 @@ static void registerQmlInt()
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/FunctionTools.qml"), "FunctionTools", 1, 0, "FT");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/AccumulatorState.qml"), "AccumulatorState", 1, 0, "AccuState");
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/SchnubbelState.qml"), "SchnubbelState", 1, 0, "SchnubbState");
 }
 
 int main(int argc, char *argv[])
