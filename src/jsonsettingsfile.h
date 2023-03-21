@@ -11,12 +11,12 @@ class JsonSettingsFile : public QObject
 public:
     explicit JsonSettingsFile(QObject *t_parent = nullptr);
     static JsonSettingsFile *getInstance();
-    static JsonSettingsFile *getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine);
-    bool loadFromStandardLocation(const QString &t_fileName);
-    void setAutoWriteBackEnabled(bool t_autoWriteBackEnabled=true);
+    static JsonSettingsFile *getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
+    bool loadFromStandardLocation(const QString &fileName);
+    void setAutoWriteBackEnabled(bool autoWriteBackEnabled=true);
 
-    Q_INVOKABLE QString getOption(const QString &t_key, const QString &t_valueDefault);
-    Q_INVOKABLE bool setOption(const QString &t_key, const QString &t_value);
+    Q_INVOKABLE QString getOption(const QString &key, const QString &valueDefault);
+    Q_INVOKABLE bool setOption(const QString &key, const QString &value);
 signals:
     void settingsChanged(JsonSettingsFile *settingsFile);
     void settingsSaveRequest(JsonSettingsFile *settingsFile);
@@ -25,7 +25,7 @@ private:
     bool loadFromFile(const QString &t_filePath);
     void saveToFile(const QString &t_filePath, bool t_overwrite=false);
     QString getCurrentFilePath();
-    bool hasOption(const QString &t_key);
+    bool hasOption(const QString &key);
 
     JsonSettingsFilePrivate *d_ptr;
 
