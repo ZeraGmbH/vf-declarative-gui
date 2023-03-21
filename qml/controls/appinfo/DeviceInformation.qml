@@ -3,7 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import GlobalConfig 1.0
+import AdjustmentState 1.0
 import ZeraTranslation  1.0
 
 Item {
@@ -155,7 +155,7 @@ Item {
         RowLayout {
             width: parent.width
             height: root.rowHeight
-            Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
+            Material.foreground: AdjState.adjusted ? Material.White : Material.Red
             Label {
                 font.pointSize: root.pointSize
                 text: Z.tr("Adjustment status:")
@@ -165,7 +165,7 @@ Item {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: GC.adjustmentStatusDescription
+                text: AdjState.adjustmentStatusDescription
             }
         }
         RowLayout {

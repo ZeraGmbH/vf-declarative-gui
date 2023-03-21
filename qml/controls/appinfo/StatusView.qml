@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import AdjustmentState 1.0
 import ZeraFa 1.0
 import "../../pages"
 
@@ -26,11 +27,11 @@ BaseTabPage {
             id: statusTabButton
             font.family: FA.old
             text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
-            Material.foreground: GC.adjustmentStatusOk ? Material.White : Material.Red
+            Material.foreground: AdjState.adjusted ? Material.White : Material.Red
             Timer {
                 interval: 300
                 repeat: true
-                running: !GC.adjustmentStatusOk && !statusTabButton.checked
+                running: !AdjState.adjusted && !statusTabButton.checked
                 onRunningChanged: {
                     if(!running) {
                         statusTabButton.opacity = 1
