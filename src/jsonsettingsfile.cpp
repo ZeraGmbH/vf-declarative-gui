@@ -21,12 +21,8 @@ class JsonSettingsFilePrivate {
     QTimer m_transactionTimer;
     bool m_autoWriteBackEnabled=false;
 
-    bool m_bfireChangeOnSet=false;
-
     Q_DECLARE_PUBLIC(JsonSettingsFile)
 };
-
-
 
 JsonSettingsFile::JsonSettingsFile(QObject *t_parent) :
     QObject(t_parent),
@@ -49,6 +45,8 @@ JsonSettingsFile::JsonSettingsFile(QObject *t_parent) :
     });
 }
 
+JsonSettingsFile *JsonSettingsFile::s_globalSettings = nullptr;
+
 JsonSettingsFile *JsonSettingsFile::getInstance()
 {
     if(s_globalSettings == nullptr) {
@@ -66,7 +64,6 @@ JsonSettingsFile *JsonSettingsFile::getStaticInstance(QQmlEngine *engine, QJSEng
 
 bool JsonSettingsFile::loadFromStandardLocation(const QString &fileName)
 {
-    qDebug() << "[json-settings-qml] Attempting to load settings file from standard location:" << QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(fileName);
     return loadFromFile(QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(fileName));
 }
 
@@ -83,16 +80,13 @@ bool JsonSettingsFile::loadFromFile(const QString &t_filePath)
         if(err.error == QJsonParseError::NoError) {
             d->m_dataHolder = jsonDoc.object();
             retVal = true;
-            qDebug() << "[json-settings-qml] Settings file loaded:" << t_filePath;
         }
-        else {
-            qWarning() << "[json-settings-qml] Error reading settings file:" << err.errorString();
-        }
+        else
+            qWarning() << "Error reading settings file:" << err.errorString();
         settingsFile.close();
     }
-    else {
-        qWarning() << "[json-settings-qml] Settings file does not exists:" << t_filePath;
-    }
+    else
+        qWarning() << "Settings file does not exists:" << t_filePath;
     return retVal;
 }
 
@@ -150,18 +144,12 @@ bool JsonSettingsFile::setOption(const QString &key, const QString &value)
         d->m_dataHolder.insert(key, value);
         retVal=true;
         emit settingsSaveRequest(this);
-        if(d_ptr->m_bfireChangeOnSet) {
-            emit settingsChanged(this);
-        }
     }
     return retVal;
 }
 
 void JsonSettingsFile::setAutoWriteBackEnabled(bool autoWriteBackEnabled)
 {
-    if(d_ptr->m_autoWriteBackEnabled != autoWriteBackEnabled) {
+    if(d_ptr->m_autoWriteBackEnabled != autoWriteBackEnabled)
         d_ptr->m_autoWriteBackEnabled=autoWriteBackEnabled;
-    }
 }
-
-JsonSettingsFile *JsonSettingsFile::s_globalSettings = nullptr;

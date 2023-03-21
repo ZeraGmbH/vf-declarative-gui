@@ -18,7 +18,6 @@ public:
     Q_INVOKABLE QString getOption(const QString &key, const QString &valueDefault);
     Q_INVOKABLE bool setOption(const QString &key, const QString &value);
 signals:
-    void settingsChanged(JsonSettingsFile *settingsFile);
     void settingsSaveRequest(JsonSettingsFile *settingsFile);
 
 private:
