@@ -6,6 +6,7 @@ import QtQuick.Controls.Material.impl 2.14
 import QtQuick.Dialogs 1.1
 import GlobalConfig 1.0
 import AccumulatorState 1.0
+import SchnubbelState 1.0
 import VeinEntity 1.0
 import ZeraFa 1.0
 import FontAwesomeQml 1.0
@@ -255,7 +256,7 @@ ToolBar {
                 let _opacity = 1
                 let _color = Material.White
                 if (!GC.adjustmentStatusOk) {
-                    if (GC.schnubbelInserted)
+                    if (SchnubbState.inserted)
                         _color = blinker.show ? Material.Blue : Material.Red
                     else {
                         if (!highlighted)
@@ -263,7 +264,7 @@ ToolBar {
                         _color = Material.Red
                     }
                 }
-                else if (GC.schnubbelInserted)
+                else if (SchnubbState.inserted)
                     _color = blinker.show ? Material.Blue : Material.White
 
                 infoButton.opacity = _opacity

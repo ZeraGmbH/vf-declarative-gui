@@ -686,9 +686,6 @@ Item {
             adjustmentStatusText = Qt.binding(function() {
                 return VeinEntity.getEntity("StatusModule1").INF_Adjusted;
             });
-            schnubbelInsertedText = Qt.binding(function() {
-                return VeinEntity.getEntity("StatusModule1").INF_Schnubbel;
-            });
             var statusEntity = VeinEntity.getEntity("StatusModule1")
             // this is static - no binding necessary
             deviceName = "zera-" + statusEntity.INF_DeviceType + '-' + statusEntity.PAR_SerialNr
@@ -702,13 +699,6 @@ Item {
     readonly property bool adjustmentStatusOk : {
         // To avoid confusion we assume adjusted state as long as vein is not up
         return !entityInitializationDone || parseInt(adjustmentStatusText) === 0
-    }
-
-    // schnubbel detection
-    property string schnubbelInsertedText: "0"
-    readonly property bool schnubbelInserted : {
-        // To avoid confusion we assume adjusted state as long as vein is not up
-        return !entityInitializationDone || parseInt(schnubbelInsertedText) === 1
     }
 
     readonly property string adjustmentStatusDescription : {
