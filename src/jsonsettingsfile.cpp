@@ -57,17 +57,17 @@ JsonSettingsFile *JsonSettingsFile::getInstance()
     return s_globalSettings;
 }
 
-JsonSettingsFile *JsonSettingsFile::getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
+JsonSettingsFile *JsonSettingsFile::getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_UNUSED(t_engine)
-    Q_UNUSED(t_scriptEngine)
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
     return getInstance();
 }
 
-bool JsonSettingsFile::loadFromStandardLocation(const QString &t_fileName)
+bool JsonSettingsFile::loadFromStandardLocation(const QString &fileName)
 {
-    qDebug() << "[json-settings-qml] Attempting to load settings file from standard location:" << QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(t_fileName);
-    return loadFromFile(QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(t_fileName));
+    qDebug() << "[json-settings-qml] Attempting to load settings file from standard location:" << QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(fileName);
+    return loadFromFile(QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(fileName));
 }
 
 bool JsonSettingsFile::loadFromFile(const QString &t_filePath)
@@ -117,39 +117,37 @@ QString JsonSettingsFile::getCurrentFilePath()
     return d->m_settingsFilePath;
 }
 
-bool JsonSettingsFile::hasOption(const QString &t_key)
+bool JsonSettingsFile::hasOption(const QString &key)
 {
     Q_D(JsonSettingsFile);
     bool retVal=false;
-    if(d->m_dataHolder.value(t_key) != QJsonValue::Undefined) {
+    if(d->m_dataHolder.value(key) != QJsonValue::Undefined)
         retVal = true;
-    }
     return retVal;
 }
 
-QString JsonSettingsFile::getOption(const QString &t_key, const QString &t_valueDefault)
+QString JsonSettingsFile::getOption(const QString &key, const QString &valueDefault)
 {
     Q_D(JsonSettingsFile);
     QString retVal;
-    if(hasOption(t_key)) {
-        retVal = d->m_dataHolder.value(t_key).toString();
-    }
+    if(hasOption(key))
+        retVal = d->m_dataHolder.value(key).toString();
     else {
         if(d->m_settingsFilePath.isEmpty() == false) {
-            d->m_dataHolder.insert(t_key, t_valueDefault);
+            d->m_dataHolder.insert(key, valueDefault);
             emit settingsSaveRequest(this);
-            retVal = t_valueDefault;
+            retVal = valueDefault;
         }
     }
     return retVal;
 }
 
-bool JsonSettingsFile::setOption(const QString &t_key, const QString &t_value)
+bool JsonSettingsFile::setOption(const QString &key, const QString &value)
 {
     Q_D(JsonSettingsFile);
     bool retVal = false;
-    if(!hasOption(t_key) || d->m_dataHolder.value(t_key).toString() != t_value) {
-        d->m_dataHolder.insert(t_key, t_value);
+    if(!hasOption(key) || d->m_dataHolder.value(key).toString() != value) {
+        d->m_dataHolder.insert(key, value);
         retVal=true;
         emit settingsSaveRequest(this);
         if(d_ptr->m_bfireChangeOnSet) {
@@ -159,10 +157,10 @@ bool JsonSettingsFile::setOption(const QString &t_key, const QString &t_value)
     return retVal;
 }
 
-void JsonSettingsFile::setAutoWriteBackEnabled(bool t_autoWriteBackEnabled)
+void JsonSettingsFile::setAutoWriteBackEnabled(bool autoWriteBackEnabled)
 {
-    if(d_ptr->m_autoWriteBackEnabled != t_autoWriteBackEnabled) {
-        d_ptr->m_autoWriteBackEnabled=t_autoWriteBackEnabled;
+    if(d_ptr->m_autoWriteBackEnabled != autoWriteBackEnabled) {
+        d_ptr->m_autoWriteBackEnabled=autoWriteBackEnabled;
     }
 }
 
