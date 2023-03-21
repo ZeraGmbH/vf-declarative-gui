@@ -64,23 +64,6 @@ JsonSettingsFile *JsonSettingsFile::getStaticInstance(QQmlEngine *t_engine, QJSE
     return getInstance();
 }
 
-bool JsonSettingsFile::fileExists(const QString &t_filePath) const
-{
-    bool retVal = false;
-    QFile f;
-    f.setFileName(t_filePath);
-    if(f.exists()) {
-        retVal = true;
-    }
-    return retVal;
-}
-
-void JsonSettingsFile::reloadFile()
-{
-    Q_D(JsonSettingsFile);
-    loadFromFile(d->m_settingsFilePath);
-}
-
 bool JsonSettingsFile::loadFromStandardLocation(const QString &t_fileName)
 {
     qDebug() << "[json-settings-qml] Attempting to load settings file from standard location:" << QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(t_fileName);
@@ -176,45 +159,10 @@ bool JsonSettingsFile::setOption(const QString &t_key, const QString &t_value)
     return retVal;
 }
 
-bool JsonSettingsFile::dropOption(const QString &t_key)
-{
-    Q_D(JsonSettingsFile);
-    bool retVal = false;
-    if(hasOption(t_key)) {
-        d->m_dataHolder.remove(t_key);
-        retVal = true;
-        emit settingsSaveRequest(this);
-        emit settingsChanged(this);
-    }
-    else {
-        qDebug() << "[json-settings-qml] Refused to delete nonexistant key:" << t_key;
-    }
-
-    return retVal;
-}
-
-bool JsonSettingsFile::autoWriteBackEnabled() const
-{
-    return d_ptr->m_autoWriteBackEnabled;
-}
-
 void JsonSettingsFile::setAutoWriteBackEnabled(bool t_autoWriteBackEnabled)
 {
     if(d_ptr->m_autoWriteBackEnabled != t_autoWriteBackEnabled) {
         d_ptr->m_autoWriteBackEnabled=t_autoWriteBackEnabled;
-    }
-}
-
-bool JsonSettingsFile::fireChangeOnSet() const
-{
-    return d_ptr->m_bfireChangeOnSet;
-}
-
-void JsonSettingsFile::setFireChangeOnSet(bool enabled)
-{
-    if(enabled != d_ptr->m_bfireChangeOnSet) {
-        d_ptr->m_bfireChangeOnSet = enabled;
-        emit fireChangeOnSetChanged();
     }
 }
 
