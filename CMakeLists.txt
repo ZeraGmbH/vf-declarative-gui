@@ -47,12 +47,6 @@ file(GLOB_RECURSE SOURCES
     src/vfcomponenteventdispatcher.cpp
     )
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    qt5_add_resources(RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
-else()
-    qtquick_compiler_add_resources(RESOURCES ${CMAKE_CURRENT_LIST_DIR}/appdata.qrc)
-endif()
-
 add_library(vf-declarative-gui-lib STATIC
     ${SOURCES}
     ${HEADERS}
@@ -99,6 +93,12 @@ target_link_libraries(vf-declarative-gui-lib
     FontAweSomeQml::FontAweSomeQml
     ${glLib}
     )
+
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    qt5_add_resources(RESOURCES appdata.qrc)
+else()
+    qtquick_compiler_add_resources(RESOURCES appdata.qrc)
+endif()
 
 add_executable(vf-declarative-gui
     ${RESOURCES}
