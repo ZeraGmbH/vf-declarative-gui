@@ -241,7 +241,7 @@ ToolBar {
             implicitWidth: parent.width / 22
             highlighted: false;
             enabled: false
-            visible: AccuState.accumulatorStatus !== 0
+            visible: AccuState.accuAvail
         }
         ToolButton {
             id: infoButton
