@@ -27,6 +27,7 @@
 #include <notificationmanager.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboard.h>
+#include <jsonsettingsfile.h>
 
 static void registerQmlExt(QQmlApplicationEngine &engine)
 {
@@ -43,6 +44,7 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
 static void registerQmlInt()
 {
     QmlAppStarterForWebGL::registerQMLSingleton();
+    qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", JsonSettingsFile::getStaticInstance);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");

@@ -25,7 +25,6 @@ find_Package(VfHelpers REQUIRED )
 find_Package(ZVKeyboard REQUIRED)
 find_package(SortFilterProxyModelCmake REQUIRED)
 find_package(ZeraTranslation REQUIRED)
-find_package(JsonSettingsQml REQUIRED)
 find_Package(zera-json-qml REQUIRED)
 find_Package(VfQmlLibs REQUIRED)
 
@@ -40,6 +39,7 @@ file(GLOB HEADERS
 file(GLOB_RECURSE SOURCES
     src/itemmodels/*.cpp
     src/gluelogicpropertymap.cpp
+    src/jsonsettingsfile.cpp
     src/modelrowpair.cpp
     src/qmlappstarterforwebgl.cpp
     src/qmlfileio.cpp
@@ -84,7 +84,6 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::qmlhelpers
     Zera::zeraveincomponents
     Zera::qwtcharts
-    ZeraQml::JsonSettingsQml
     zera-json-qml
     Zera::notificationmanager
     "-Wl,--as-needed"

@@ -20,12 +20,9 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // The JSON settings item
     //
-    // IMPORTANT: ensure to wrap each call to settings.globalSettings.getOption
+    // IMPORTANT: ensure to wrap each call to Settings.getOption
     // by a specific property to avoid cross property change activities: settings
     // has just one single notification for ALL settings-entries
-    ZeraGlobalSettings {
-        id: settings
-    }
 
     property string currentSession
     onCurrentSessionChanged: {
@@ -37,13 +34,13 @@ Item {
     property int lastPageViewIndexSelected: {
         let index = lastPageViewIndexSelectedVolatile
         if(currentSession !== "") {
-            index = parseInt(settings.globalSettings.getOption(sessionNamePrefix + "pageIndex", "0"))
+            index = parseInt(Settings.getOption(sessionNamePrefix + "pageIndex", "0"))
         }
         return index
     }
     function setLastPageViewIndexSelected(index) {
         if(currentSession !== "") {
-            settings.globalSettings.setOption(sessionNamePrefix + "pageIndex", index);
+            Settings.setOption(sessionNamePrefix + "pageIndex", index);
         }
         lastPageViewIndexSelectedVolatile = index
     }
@@ -52,122 +49,122 @@ Item {
     property int lastTabSelected: {
         let tab = lastTabSelectedVolatile
         if(currentSession !== "") {
-            tab = parseInt(settings.globalSettings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0"))
+            tab = parseInt(Settings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0"))
         }
         return tab
     }
     function setLastTabSelected(tabNo) {
-        settings.globalSettings.setOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", tabNo)
+        Settings.setOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", tabNo)
         lastTabSelectedVolatile = tabNo
     }
 
-    property int lastSettingsTabSelected: parseInt(settings.globalSettings.getOption("lastTabSettings", "0"))
+    property int lastSettingsTabSelected: parseInt(Settings.getOption("lastTabSettings", "0"))
     function setLastSettingsTabSelected(tabNo) {
         lastSettingsTabSelected = tabNo
-        settings.globalSettings.setOption("lastTabSettings", tabNo)
+        Settings.setOption("lastTabSettings", tabNo)
     }
 
-    property int lastInfoTabSelected: parseInt(settings.globalSettings.getOption("lastTabInfo", "0"))
+    property int lastInfoTabSelected: parseInt(Settings.getOption("lastTabInfo", "0"))
     function setLastInfoTabSelected(tabNo) {
         lastInfoTabSelected = tabNo
-        settings.globalSettings.setOption("lastTabInfo", tabNo)
+        Settings.setOption("lastTabInfo", tabNo)
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Digit settings
-    property int digitsTotal: parseInt(settings.globalSettings.getOption("digitsTotal", "6"))
+    property int digitsTotal: parseInt(Settings.getOption("digitsTotal", "6"))
     function setDigitsTotal(digits) {
         digitsTotal = digits
-        settings.globalSettings.setOption("digitsTotal", digits);
+        Settings.setOption("digitsTotal", digits);
     }
 
-    property int decimalPlaces: parseInt(settings.globalSettings.getOption("digits", "4"))
+    property int decimalPlaces: parseInt(Settings.getOption("digits", "4"))
     function setDecimalPlaces(digits) {
         decimalPlaces = digits
-        settings.globalSettings.setOption("digits", digits);
+        Settings.setOption("digits", digits);
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Aux phases
-    property bool showAuxPhases: parseInt(settings.globalSettings.getOption("show_aux_phases", "0"))
+    property bool showAuxPhases: parseInt(Settings.getOption("show_aux_phases", "0"))
     function setShowAuxPhases(showAux) {
         showAuxPhases = showAux
         var setValue = showAux ? 1 : 0
-        settings.globalSettings.setOption("show_aux_phases", setValue);
+        Settings.setOption("show_aux_phases", setValue);
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // FFT specials
-    property int showFftTableAsRelative: parseInt(settings.globalSettings.getOption("fft_table_as_relative", "0"))
+    property int showFftTableAsRelative: parseInt(Settings.getOption("fft_table_as_relative", "0"))
     function setShowFftTableAsRelative(isRelative) {
         showFftTableAsRelative = isRelative
         var setValue = isRelative ? 1 : 0
-        settings.globalSettings.setOption("fft_table_as_relative", setValue);
+        Settings.setOption("fft_table_as_relative", setValue);
     }
 
-    property int showFftTablePhase: parseInt(settings.globalSettings.getOption("fft_table_show_phase", "0"))
+    property int showFftTablePhase: parseInt(Settings.getOption("fft_table_show_phase", "0"))
     function setShowFftTablePhase(showPhase) {
         showFftTablePhase = showPhase
         var setValue = showPhase ? 1 : 0
-        settings.globalSettings.setOption("fft_table_show_phase", setValue);
+        Settings.setOption("fft_table_show_phase", setValue);
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Vector settings
-    property int vectorMode: parseInt(settings.globalSettings.getOption("vector_mode", "0"))
+    property int vectorMode: parseInt(Settings.getOption("vector_mode", "0"))
     function setVectorMode(mode) {
         vectorMode = mode
-        settings.globalSettings.setOption("vector_mode", mode);
+        Settings.setOption("vector_mode", mode);
     }
-    property bool vectorShowI: parseInt(settings.globalSettings.getOption("vector_show_i", "1"))
+    property bool vectorShowI: parseInt(Settings.getOption("vector_show_i", "1"))
     function setVectorShowI(show) {
         vectorShowI = show
         var setValue = show ? 1 : 0
-        settings.globalSettings.setOption("vector_show_i", setValue);
+        Settings.setOption("vector_show_i", setValue);
     }
-    property bool vectorIecMode: parseInt(settings.globalSettings.getOption("vector_iecmode", "0"))
+    property bool vectorIecMode: parseInt(Settings.getOption("vector_iecmode", "0"))
     function setVectorIecMode(mode) {
         vectorIecMode = mode
-        settings.globalSettings.setOption("vector_iecmode", mode);
+        Settings.setOption("vector_iecmode", mode);
     }
-    property bool vectorCircleMode: parseInt(settings.globalSettings.getOption("vector_circlecmode", "1"))
+    property bool vectorCircleMode: parseInt(Settings.getOption("vector_circlecmode", "1"))
     function setVectorCircleMode(mode) {
         vectorCircleMode = mode
-        settings.globalSettings.setOption("vector_circlecmode", mode);
+        Settings.setOption("vector_circlecmode", mode);
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Source settings
-    property bool sourceSymmetric: parseInt(settings.globalSettings.getOption("source_symmetric", "1"))
+    property bool sourceSymmetric: parseInt(Settings.getOption("source_symmetric", "1"))
     function setSourceSymmetric(symmetric) {
         sourceSymmetric = symmetric
         var setValue = symmetric ? 1 : 0
-        settings.globalSettings.setOption("source_symmetric", setValue);
+        Settings.setOption("source_symmetric", setValue);
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Pinch settings
-    property real osciPinchScale: Number(settings.globalSettings.getOption("osci_pinch_scale", "3"))
+    property real osciPinchScale: Number(Settings.getOption("osci_pinch_scale", "3"))
     function setOsciPinchScale(scale) {
         osciPinchScale = scale
-        settings.globalSettings.setOption("osci_pinch_scale", scale);
+        Settings.setOption("osci_pinch_scale", scale);
     }
-    property real fftChartsPinchScale: Number(settings.globalSettings.getOption("fft_charts_pinch_scale", "3"))
+    property real fftChartsPinchScale: Number(Settings.getOption("fft_charts_pinch_scale", "3"))
     function setFftChartsPinchScale(scale) {
         fftChartsPinchScale = scale
-        settings.globalSettings.setOption("fft_charts_pinch_scale", scale);
+        Settings.setOption("fft_charts_pinch_scale", scale);
     }
-    property real harmonicPowerChartPinchScale: Number(settings.globalSettings.getOption("harm_power_charts_pinch_scale", "3"))
+    property real harmonicPowerChartPinchScale: Number(Settings.getOption("harm_power_charts_pinch_scale", "3"))
     function setHarmonicPowerChartPinchScale(scale) {
         harmonicPowerChartPinchScale = scale
-        settings.globalSettings.setOption("harm_power_charts_pinch_scale", scale);
+        Settings.setOption("harm_power_charts_pinch_scale", scale);
     }
 
 
-    property int energyScaleSelection: parseInt(settings.globalSettings.getOption("energy_scale_selection", "1")) // 1 -> kWh
+    property int energyScaleSelection: parseInt(Settings.getOption("energy_scale_selection", "1")) // 1 -> kWh
     function setEnergyScaleSelection(selection) {
         energyScaleSelection = selection
-        settings.globalSettings.setOption("energy_scale_selection", selection);
+        Settings.setOption("energy_scale_selection", selection);
     }
 
     readonly property var rangePeakVisualisationEnum: {
@@ -186,36 +183,36 @@ Item {
     }
 
 
-    property real rangePeakVisualisation: parseInt(settings.globalSettings.getOption("range_peak_logarithmic", "2")) ///@todo rename config key?
+    property real rangePeakVisualisation: parseInt(Settings.getOption("range_peak_logarithmic", "2")) ///@todo rename config key?
     function setRangePeakVisualisation(peakVisualisation) {
         if(typeof peakVisualisation === "number"
                 && peakVisualisation >=0
                 && peakVisualisation < Object.keys(rangePeakVisualisationEnum).length) {
             rangePeakVisualisation = peakVisualisation
-            settings.globalSettings.setOption("range_peak_logarithmic", peakVisualisation);
+            Settings.setOption("range_peak_logarithmic", peakVisualisation);
         }
         else if(rangePeakVisualisationEnum[peakVisualisation] !== undefined) {
             rangePeakVisualisation = rangePeakVisualisationEnum[peakVisualisation]
-            settings.globalSettings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[peakVisualisation]);
+            Settings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[peakVisualisation]);
         }
     }
 
-    property bool pagesGridViewDisplay: parseInt(settings.globalSettings.getOption("pages_grid_view", ASWGL.isServer ? "1" : "0"))
+    property bool pagesGridViewDisplay: parseInt(Settings.getOption("pages_grid_view", ASWGL.isServer ? "1" : "0"))
     function setPagesGridViewDisplay(isGridView) {
         pagesGridViewDisplay = isGridView
-        settings.globalSettings.setOption("pages_grid_view", isGridView ? 1 : 0);
+        Settings.setOption("pages_grid_view", isGridView ? 1 : 0);
     }
 
-    property int screenResolution: parseInt(settings.globalSettings.getOption("screen_resolution", "0"))
+    property int screenResolution: parseInt(Settings.getOption("screen_resolution", "0"))
     function setScreenResolution(resolution) {
         screenResolution = resolution
-        settings.globalSettings.setOption("screen_resolution", resolution);
+        Settings.setOption("screen_resolution", resolution);
     }
 
-    property bool showVirtualKeyboard: parseInt(settings.globalSettings.getOption("show_virtual_keyboard", "1"))
+    property bool showVirtualKeyboard: parseInt(Settings.getOption("show_virtual_keyboard", "1"))
     function setShowVirtualKeyboard(show) {
         showVirtualKeyboard = show
-        settings.globalSettings.setOption("show_virtual_keyboard", show ? 1 : 0);
+        Settings.setOption("show_virtual_keyboard", show ? 1 : 0);
     }
 
 
@@ -242,16 +239,16 @@ Item {
         "colorIAux1"]  // 8
 
     readonly property real defaultCurrentBrightness: 1.75
-    property real currentBrightness: parseFloat(settings.globalSettings.getOption("currentBrightness", defaultCurrentBrightness))
+    property real currentBrightness: parseFloat(Settings.getOption("currentBrightness", defaultCurrentBrightness))
     function setCurrentBrigtness(brightness) {
         currentBrightness = brightness
-        settings.globalSettings.setOption("currentBrightness", brightness);
+        Settings.setOption("currentBrightness", brightness);
     }
     readonly property real defaultBlackBrightness: 35
-    property real blackBrightness: parseFloat(settings.globalSettings.getOption("blackBrightness", defaultBlackBrightness))
+    property real blackBrightness: parseFloat(Settings.getOption("blackBrightness", defaultBlackBrightness))
     function setBlackBrigtness(brightness) {
         blackBrightness = brightness
-        settings.globalSettings.setOption("blackBrightness", brightness);
+        Settings.setOption("blackBrightness", brightness);
     }
     function restoreDefaultBrighnesses() {
         setCurrentBrigtness(defaultCurrentBrightness)
@@ -351,7 +348,7 @@ Item {
             break
 
         }
-        settings.globalSettings.setOption(arrayJsonColorNames[index-1], color)
+        Settings.setOption(arrayJsonColorNames[index-1], color)
     }
 
     function setSystemDefaultColors(defaultEntry) {
@@ -360,18 +357,18 @@ Item {
         }
     }
 
-    property color colorUL1: settings.globalSettings.getOption(arrayJsonColorNames[0], initialColorTable[0])
-    property color colorUL2: settings.globalSettings.getOption(arrayJsonColorNames[1], initialColorTable[1])
-    property color colorUL3: settings.globalSettings.getOption(arrayJsonColorNames[2], initialColorTable[2])
-    property color colorIL1: settings.globalSettings.getOption(arrayJsonColorNames[3], initialColorTable[3])
-    property color colorIL2: settings.globalSettings.getOption(arrayJsonColorNames[4], initialColorTable[4])
-    property color colorIL3: settings.globalSettings.getOption(arrayJsonColorNames[5], initialColorTable[5])
-    property color colorUAux1: settings.globalSettings.getOption(arrayJsonColorNames[6], initialColorTable[6])
-    property color colorIAux1: settings.globalSettings.getOption(arrayJsonColorNames[7], initialColorTable[7])
+    property color colorUL1: Settings.getOption(arrayJsonColorNames[0], initialColorTable[0])
+    property color colorUL2: Settings.getOption(arrayJsonColorNames[1], initialColorTable[1])
+    property color colorUL3: Settings.getOption(arrayJsonColorNames[2], initialColorTable[2])
+    property color colorIL1: Settings.getOption(arrayJsonColorNames[3], initialColorTable[3])
+    property color colorIL2: Settings.getOption(arrayJsonColorNames[4], initialColorTable[4])
+    property color colorIL3: Settings.getOption(arrayJsonColorNames[5], initialColorTable[5])
+    property color colorUAux1: Settings.getOption(arrayJsonColorNames[6], initialColorTable[6])
+    property color colorIAux1: Settings.getOption(arrayJsonColorNames[7], initialColorTable[7])
 
-    readonly property color groupColorVoltage: settings.globalSettings.getOption("groupColor1", "lightskyblue")
-    readonly property color groupColorCurrent: settings.globalSettings.getOption("groupcurrentColor", "lawngreen")
-    readonly property color groupColorReference: settings.globalSettings.getOption("groupColor3", "darkorange")
+    readonly property color groupColorVoltage: Settings.getOption("groupColor1", "lightskyblue")
+    readonly property color groupColorCurrent: Settings.getOption("groupcurrentColor", "lawngreen")
+    readonly property color groupColorReference: Settings.getOption("groupColor3", "darkorange")
 
     readonly property color tableShadeColor: "#003040"
 
@@ -382,7 +379,7 @@ Item {
      changes and unit is prefixed e.g for autoScaleLimit=1.2 value >= 1200 is
      changed to 1.2k */
 
-    readonly property real autoScaleLimit: parseFloat(settings.globalSettings.getOption("auto_scale_limit", "1.0"))
+    readonly property real autoScaleLimit: parseFloat(Settings.getOption("auto_scale_limit", "1.0"))
 
 
     /////////////////////////////////////////////////////////////////////////////
@@ -392,7 +389,7 @@ Item {
         VirtualKeyboardSettings.locale = newLocaleStr
         ZLocale.localeName = newLocaleStr
         if(writeSettings) {
-            settings.globalSettings.setOption("locale", newLocaleStr);
+            Settings.setOption("locale", newLocaleStr);
         }
     }
 
@@ -529,17 +526,17 @@ Item {
         }
         return contentSets
     }
-    property int loggerContentType: parseInt(settings.globalSettings.getOption("logger_content_type", contentTypeEnum.CONTENT_TYPE_CONTEXT))
+    property int loggerContentType: parseInt(Settings.getOption("logger_content_type", contentTypeEnum.CONTENT_TYPE_CONTEXT))
     function setLoggerContentType(contentType) {
         loggerContentType = contentType
-        settings.globalSettings.setOption("logger_content_type", contentType);
+        Settings.setOption("logger_content_type", contentType);
     }
 
     // custom contentSets
-    property string loggerCustomContentSets: settings.globalSettings.getOption("logger_custom_content_sets", "")
+    property string loggerCustomContentSets: Settings.getOption("logger_custom_content_sets", "")
     function setLoggerCustomContentSets(customContentSets) {
         loggerCustomContentSets = customContentSets
-        settings.globalSettings.setOption("logger_custom_content_sets", customContentSets)
+        Settings.setOption("logger_custom_content_sets", customContentSets)
     }
     function getLoggerCustomContentSets(addDefaultFormGui=true) {
         var contentSets = loggerCustomContentSets
@@ -625,15 +622,15 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // Database persistance settings TODO: let vein handle this
     property bool dbPersitenceDone: false
-    property string currDatabaseFileName: settings.globalSettings.getOption("logger_db_filename", "")
+    property string currDatabaseFileName: Settings.getOption("logger_db_filename", "")
     function setCurrDatabaseFileName(databaseFileName) {
         currDatabaseFileName = databaseFileName
-        settings.globalSettings.setOption("logger_db_filename", databaseFileName)
+        Settings.setOption("logger_db_filename", databaseFileName)
     }
-    property string currDatabaseSessionName: settings.globalSettings.getOption("logger_db_sessionname", "")
+    property string currDatabaseSessionName: Settings.getOption("logger_db_sessionname", "")
     function setCurrDatabaseSessionName(databaseSessionName) {
         currDatabaseSessionName = databaseSessionName
-        settings.globalSettings.setOption("logger_db_sessionname", databaseSessionName)
+        Settings.setOption("logger_db_sessionname", databaseSessionName)
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -668,7 +665,7 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // Misc settings / status
 
-    readonly property string serverIpAddress: settings.globalSettings.getOption("modulemanagerIp", "127.0.0.1");
+    readonly property string serverIpAddress: Settings.getOption("modulemanagerIp", "127.0.0.1");
     // not saved to settings
     property string currentSelectedStoragePath: "/home/operator/logger"; //default
 
@@ -699,6 +696,6 @@ Item {
         ZCC.standardTextHorizMargin = Qt.binding(function() { return globalConfig.standardTextHorizMargin })
         ZCC.standardTextBottomMargin = Qt.binding(function() { return globalConfig.standardTextBottomMargin })
         // locale
-        setLocale(settings.globalSettings.getOption("locale", "en_GB"), false)
+        setLocale(Settings.getOption("locale", "en_GB"), false)
     }
 }
