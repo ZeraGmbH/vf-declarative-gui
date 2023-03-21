@@ -12,14 +12,14 @@ ToolButton {
         color: "white"
         verticalAlignment: Text.AlignVCenter
         text: {
-            if(AccuState.accumulatorStatusText === "1"){
-                if(AccuState.accumulatorSocText <= 10)
+            if(AccuState.accumulatorStatus === 1){
+                if(AccuState.accumulatorChargeValue <= 10)
                     FAQ.colorize(FAQ.fa_battery_empty, "red")
-                else if(AccuState.accumulatorSocText >= 11 && AccuState.accumulatorSocText <= 40)
+                else if(AccuState.accumulatorChargeValue >= 11 && AccuState.accumulatorChargeValue <= 40)
                     FAQ.colorize(FAQ.fa_battery_quarter, "orange")
-                else if(AccuState.accumulatorSocText >= 41 && AccuState.accumulatorSocText <= 60)
+                else if(AccuState.accumulatorChargeValue >= 41 && AccuState.accumulatorChargeValue <= 60)
                     FAQ.fa_battery_half
-                else if(AccuState.accumulatorSocText >= 61 && AccuState.accumulatorSocText <= 89)
+                else if(AccuState.accumulatorChargeValue >= 61 && AccuState.accumulatorChargeValue <= 89)
                     FAQ.fa_battery_three_quarters
                 else
                     FAQ.fa_battery_full
@@ -32,7 +32,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationQuarter
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatusText === "3" && AccuState.accumulatorSocText >= 0 && AccuState.accumulatorSocText <= 30
+        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 0 && AccuState.accumulatorChargeValue <= 30
         PropertyAnimation {
             target: battery
             property: "text"
@@ -49,7 +49,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationHalf
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatusText === "3" && AccuState.accumulatorSocText >= 31 && AccuState.accumulatorSocText <= 60
+        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 31 && AccuState.accumulatorChargeValue <= 60
         PropertyAnimation {
             target: battery
             property: "text"
@@ -72,7 +72,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationThreeQuarters
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatusText === "3" && AccuState.accumulatorSocText >= 61 && AccuState.accumulatorSocText <= 80
+        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 61 && AccuState.accumulatorChargeValue <= 80
         PropertyAnimation {
             target: battery
             property: "text"
@@ -101,7 +101,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationFull
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatusText === "3" && AccuState.accumulatorSocText >= 81
+        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 81
         PropertyAnimation {
             target: battery
             property: "text"
