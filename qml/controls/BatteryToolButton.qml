@@ -12,7 +12,7 @@ ToolButton {
         color: "white"
         verticalAlignment: Text.AlignVCenter
         text: {
-            if(AccuState.accumulatorStatus === 1){
+            if(AccuState.accuAvail && !AccuState.accuCharging) {
                 if(AccuState.accumulatorChargeValue <= 10)
                     FAQ.colorize(FAQ.fa_battery_empty, "red")
                 else if(AccuState.accumulatorChargeValue >= 11 && AccuState.accumulatorChargeValue <= 40)
@@ -32,7 +32,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationQuarter
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 0 && AccuState.accumulatorChargeValue <= 30
+        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 0 && AccuState.accumulatorChargeValue <= 30
         PropertyAnimation {
             target: battery
             property: "text"
@@ -49,7 +49,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationHalf
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 31 && AccuState.accumulatorChargeValue <= 60
+        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 31 && AccuState.accumulatorChargeValue <= 60
         PropertyAnimation {
             target: battery
             property: "text"
@@ -72,7 +72,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationThreeQuarters
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 61 && AccuState.accumulatorChargeValue <= 80
+        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 61 && AccuState.accumulatorChargeValue <= 80
         PropertyAnimation {
             target: battery
             property: "text"
@@ -101,7 +101,7 @@ ToolButton {
     SequentialAnimation {
         id: chargingAnimationFull
         loops: Animation.Infinite
-        running: AccuState.accumulatorStatus === 3 && AccuState.accumulatorChargeValue >= 81
+        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 81
         PropertyAnimation {
             target: battery
             property: "text"
