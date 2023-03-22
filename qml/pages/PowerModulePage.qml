@@ -213,14 +213,16 @@ Item {
                         height: parent.height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        centerVerticalOffset: -parent.height*(Math.min(modelLength-1, contentMaxRows-1)) -
+                        centerVerticalOffset: -contentRowHeight*(Math.min(modelLength-1, contentMaxRows-1)) +
+                                              (height-contentRowHeight) -
                                               headerItem.height
                         arrayMode: true
                         entity: root.getModule(index)
                         controlPropertyName: "PAR_MeasuringMode"
                         model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
-                        contentMaxRows: 6
-                        fontSize: height*0.4
+                        contentMaxRows: 7
+                        contentRowHeight: height*0.85
+                        fontSize: height*0.3
                         headerComponent: MeasModeComboHeader {
                             id: comboHeader
                             visibleHeight: measModeCombo.height * 1.5
