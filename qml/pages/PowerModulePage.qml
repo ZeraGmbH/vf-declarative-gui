@@ -167,28 +167,13 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: measModeGrid.height*0.4
                     }
-                    VFComboBox {
+                    MeasModeCombo {
                         id: measModeCombo
                         width: parent.width * 0.75
                         height: parent.height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        entity: PwrModVeinGetter.getEntity(index)
-                        controlPropertyName: "PAR_MeasuringMode"
-                        model: PwrModVeinGetter.getEntityJsonInfo(index).ComponentInfo[controlPropertyName].Validation.Data
-                        arrayMode: true
-                        centerVerticalOffset: -contentRowHeight*(Math.min(modelLength-1, contentMaxRows-1)) +
-                                              (height-contentRowHeight) -
-                                              headerItem.height
-                        contentMaxRows: 7
-                        contentRowHeight: height*0.85
-                        fontSize: height*0.3
-                        headerComponent: MeasModeComboHeader {
-                            id: comboHeader
-                            visibleHeight: measModeCombo.height * 1.5
-                            entity: measModeCombo.entity
-                            entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(index)
-                        }
+                        power1ModuleIdx: index
                     }
                 }
             }
