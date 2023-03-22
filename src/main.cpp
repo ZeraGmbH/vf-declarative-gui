@@ -19,6 +19,7 @@
 #include <zeratranslationplugin.h>
 #include <advancednetworkmanager.h>
 #include <zeracomponents.h>
+#include <zeraveincomponents.h>
 #include <uivectorgraphics.h>
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
@@ -36,6 +37,7 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
     FontAwesomeQml::registerFAQml(&engine);
     AdvancedNetworkmanager::registerQml(engine);
     ZeraComponents::registerQml(engine);
+    ZeraVeinComponents::registerQml(engine);
     QwtCharts::registerQml();
     UiVectorgraphics::registerQml();
     NotificationManager::registerQml(engine);
