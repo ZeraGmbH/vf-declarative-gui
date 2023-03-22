@@ -5,7 +5,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
-import ModuleIntrospection 1.0
+import PowerModuleVeinGetter 1.0
 import ZeraVeinComponents 1.0
 import "../controls"
 
@@ -18,46 +18,6 @@ Item {
     readonly property int firstColumnWidth: width*0.05
     readonly property int valueColumnWidth: width*0.22
     readonly property int lastColumnWidth: width-firstColumnWidth-4*valueColumnWidth
-
-    //the function exists because it is impossible to use scripted value in ListModel
-    function getModule(index) {
-        var retVal;
-        switch(index) {
-        case 0:
-            retVal = VeinEntity.getEntity("POWER1Module1")
-            break;
-        case 1:
-            retVal = VeinEntity.getEntity("POWER1Module2")
-            break;
-        case 2:
-            retVal = VeinEntity.getEntity("POWER1Module3")
-            break;
-        case 3:
-            retVal = VeinEntity.getEntity("POWER1Module4")
-            break;
-        }
-        return retVal;
-    }
-
-    //the function exists because it is impossible to use scripted value in ListModel
-    function getMetadata(index) {
-        var retVal;
-        switch(index) {
-        case 0:
-            retVal = ModuleIntrospection.p1m1Introspection;
-            break;
-        case 1:
-            retVal = ModuleIntrospection.p1m2Introspection;
-            break;
-        case 2:
-            retVal = ModuleIntrospection.p1m3Introspection;
-            break;
-        case 3:
-            retVal = ModuleIntrospection.p1m4Introspection;
-            break;
-        }
-        return retVal
-    }
 
     Row {
         id: heardersRow
@@ -125,7 +85,7 @@ Item {
                     width: firstColumnWidth
                     height: parent.height
                     color: GC.tableShadeColor
-                    text: (root.getMetadata(index).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> (P/Q/S)
+                    text: (PwrModVeinGetter.getEntityJsonInfo(index).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> (P/Q/S)
                     font.pixelSize: height*0.4
 
                 }
@@ -133,7 +93,7 @@ Item {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: FT.formatNumber(root.getModule(index).ACT_PQS1);
+                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS1);
                     textColor: GC.colorUL1
                     font.pixelSize: height*0.4
                 }
@@ -141,7 +101,7 @@ Item {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: FT.formatNumber(root.getModule(index).ACT_PQS2);
+                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS2);
                     textColor: GC.colorUL2
                     font.pixelSize: height*0.4
                 }
@@ -149,7 +109,7 @@ Item {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: FT.formatNumber(root.getModule(index).ACT_PQS3);
+                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS3);
                     textColor: GC.colorUL3
                     font.pixelSize: height*0.4
                 }
@@ -157,14 +117,14 @@ Item {
                     width: valueColumnWidth
                     height: parent.height
                     clip: true
-                    text: FT.formatNumber(root.getModule(index).ACT_PQS4);
+                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS4);
                     font.pixelSize: height*0.4
                 }
                 GridItem {
                     width: lastColumnWidth
                     height: parent.height
                     clip: true
-                    text: root.getMetadata(index).ComponentInfo.ACT_PQS1.Unit
+                    text: PwrModVeinGetter.getEntityJsonInfo(index).ComponentInfo.ACT_PQS1.Unit
                     font.pixelSize: height*0.25
                 }
             }
@@ -213,13 +173,13 @@ Item {
                         height: parent.height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
+                        entity: PwrModVeinGetter.getEntity(index)
+                        controlPropertyName: "PAR_MeasuringMode"
+                        model: PwrModVeinGetter.getEntityJsonInfo(index).ComponentInfo[controlPropertyName].Validation.Data
+                        arrayMode: true
                         centerVerticalOffset: -contentRowHeight*(Math.min(modelLength-1, contentMaxRows-1)) +
                                               (height-contentRowHeight) -
                                               headerItem.height
-                        arrayMode: true
-                        entity: root.getModule(index)
-                        controlPropertyName: "PAR_MeasuringMode"
-                        model: root.getMetadata(index).ComponentInfo.PAR_MeasuringMode.Validation.Data
                         contentMaxRows: 7
                         contentRowHeight: height*0.85
                         fontSize: height*0.3
@@ -227,7 +187,7 @@ Item {
                             id: comboHeader
                             visibleHeight: measModeCombo.height * 1.5
                             entity: measModeCombo.entity
-                            entityIntrospection: getMetadata(index)
+                            entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(index)
                         }
                     }
                 }
