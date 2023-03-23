@@ -17,6 +17,7 @@ Rectangle {
 
     visible: entity.PAR_FOUT0 !== ""
     height: entity.PAR_FOUT0 !== "" ? visibleHeight : 0
+    width: parent.width
     color: "white"
     property real pointSize: height > 0 ? height * 0.115 : 5
     radius: 4
