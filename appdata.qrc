@@ -12,6 +12,7 @@
         <file>qml/controls/GridRect.qml</file>
         <file>qml/controls/MeasModeCombo.qml</file>
         <file>qml/controls/MeasModeComboHeader.qml</file>
+        <file>qml/controls/MeasModeComboHeaderPhase.qml</file>
         <file>qml/controls/PagePathView.qml</file>
         <file>qml/controls/RotaryFieldIndicator.qml</file>
         <file>qml/controls/PhasorDiagramEx.qml</file>
