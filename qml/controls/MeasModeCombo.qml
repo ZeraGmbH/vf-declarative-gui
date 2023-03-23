@@ -16,10 +16,14 @@ VFComboBox {
     contentMaxRows: 7
     contentRowHeight: height*0.85
     fontSize: height*0.3
-    headerComponent: MeasModeComboHeader {
-        id: comboHeader
-        visibleHeight: root.height * 1.5
-        entity: root.entity
-        entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
+    headerComponent: Column {
+        height: comboHeader.height
+        MeasModeComboHeader {
+            id: comboHeader
+            visibleHeight: root.height * 1.5
+            entity: root.entity
+            entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
+        }
     }
+
 }
