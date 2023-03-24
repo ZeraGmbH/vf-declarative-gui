@@ -192,7 +192,7 @@ ApplicationWindow {
         property bool accuDown: AccuState.accuDown
         onAccuDownChanged: {
             if(accuDown)
-                notificationManager.notify("Message", Z.tr("Battery low ! \n Please charge the device before it turns down"));
+                notificationManager.notify("Message", Z.tr("Battery low !\nPlease charge the device before it turns down"));
             else
                     notificationManager.close();
         }
