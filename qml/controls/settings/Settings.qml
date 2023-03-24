@@ -13,10 +13,6 @@ import ZeraFa 1.0
 import anmsettings 1.0
 import "../../pages"
 
-// Networkmanager
-import "qrc:/src/qml/"
-import "qrc:/src/qml/tree"
-
 BaseTabPage {
     id:tabroot
     anchors.fill: parent
