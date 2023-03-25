@@ -10,7 +10,6 @@ Item {
     property int horizMargin: 0
     property real rowHeight: height/10
     property int rowWidth: sView.width - (sView.contentHeight > sView.height ? scroller.width : 0) // don't overlap with the ScrollIndicator
-    property alias viewAnchors: sView.anchors
 
     ListView {
         id: sView
