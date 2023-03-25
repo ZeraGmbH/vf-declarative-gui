@@ -20,7 +20,7 @@ Item {
     property string actualValue
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
-    readonly property real pointSize: root.height / 30
+    readonly property real pointSize: height > 0 ? height / 30 : 10
 
     QtObject {
         id: stateEnum

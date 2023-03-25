@@ -10,7 +10,7 @@ Item {
     id: root
 
     readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
-    readonly property real rowHeight: height / 20
+    readonly property real rowHeight: height > 0 ? height/20 : 10
     readonly property real pointSize: rowHeight * 0.7
 
     property var dynVersions: []
