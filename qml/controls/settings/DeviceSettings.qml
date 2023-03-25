@@ -54,7 +54,6 @@ SettingsView {
                 model: ModuleIntrospection.sampleIntrospection.ComponentInfo.PAR_PllChannel.Validation.Data
                 centerVertical: true
                 implicitWidth: root.rowWidth/4
-                fontSize: root.pixelSize
                 height: root.rowHeight-8
                 opacity: enabled ? 1.0 : 0.7
             }
@@ -81,7 +80,6 @@ SettingsView {
                 model: ModuleIntrospection.dftIntrospection.ComponentInfo.PAR_RefChannel.Validation.Data
                 centerVertical: true
                 implicitWidth: root.rowWidth/4
-                fontSize: root.pixelSize
                 height: root.rowHeight-8
                 opacity: enabled ? 1.0 : 0.7
             }

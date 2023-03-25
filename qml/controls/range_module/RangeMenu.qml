@@ -141,7 +141,6 @@ Item {
                     anchors.top: urlabel.bottom
                     width: parent.width*0.95
                     enabled: parent.enabled
-                    fontSize: Math.min(18, root.height/20,width/6)
                 }
             }
         }
@@ -265,7 +264,6 @@ Item {
                     anchors.top: irlabel.bottom
                     width: parent.width*0.95
                     enabled: parent.enabled
-                    fontSize: Math.min(18, root.height/20,width/6)
                 }
             }
         }
