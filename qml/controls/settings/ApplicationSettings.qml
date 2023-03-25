@@ -79,7 +79,7 @@ SettingsView {
 
         function applyPendingChanges() {
             if(auxPhaseSetPending) {
-                GC.setShowAuxPhases(nextShowAux);
+                GC.setShowAuxPhases(nextShowAux)
                 auxPhaseSetPending = false
             }
             if(allColorChangePending) {
@@ -110,7 +110,7 @@ SettingsView {
     ColorPicker {
         id: colorPicker
         // set at rButton.onClicked
-        property int systemIndex;
+        property int systemIndex
 
         dim: true
         x: parent.width/2 - width/2
@@ -252,8 +252,8 @@ SettingsView {
 
     model: VisualItemModel {
         Item {
-            height: root.rowHeight;
-            width: root.rowWidth;
+            height: root.rowHeight
+            width: root.rowWidth
             RowLayout {
                 anchors.fill: parent
                 Label {
@@ -273,20 +273,20 @@ SettingsView {
 
                     onIntermediateChanged: {
                         if(model[currentIndex] !== intermediate) {
-                            currentIndex = model.indexOf(intermediate);
+                            currentIndex = model.indexOf(intermediate)
                         }
                     }
                     onSelectedTextChanged: {
                         if(ZLocale.localeName !== selectedText) {
-                            GC.setLocale(selectedText, true);
+                            GC.setLocale(selectedText, true)
                         }
                     }
                 }
             }
         }
         Item {
-            height: root.rowHeight;
-            width: root.rowWidth;
+            height: root.rowHeight
+            width: root.rowWidth
             RowLayout {
                 anchors.fill: parent
                 Label {
@@ -306,8 +306,8 @@ SettingsView {
             }
         }
         Item {
-            height: root.rowHeight;
-            width: root.rowWidth;
+            height: root.rowHeight
+            width: root.rowWidth
             RowLayout {
                 anchors.fill: parent
                 Label {
@@ -334,8 +334,8 @@ SettingsView {
         }
 
         Item {
-            height: root.rowHeight;
-            width: root.rowWidth;
+            height: root.rowHeight
+            width: root.rowWidth
             RowLayout {
                 anchors.fill: parent
                 Label {
@@ -364,8 +364,8 @@ SettingsView {
         Item {
             id: colorRow
             visible: currentSession !== "com5003-ref-session.json" ///@todo replace hardcoded
-            height: root.rowHeight;
-            width: root.rowWidth;
+            height: root.rowHeight
+            width: root.rowWidth
 
             RowLayout {
                 anchors.fill: parent
@@ -384,7 +384,7 @@ SettingsView {
                     spacing: 2
                     boundsBehavior: Flickable.OvershootBounds
                     ScrollIndicator.horizontal: ScrollIndicator {
-                        onActiveChanged: active = true;
+                        onActiveChanged: active = true
                         active: true
                     }
                     delegate: Item {
@@ -403,11 +403,11 @@ SettingsView {
                                 return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
                             }
                             onClicked: {
-                                colorPicker.systemIndex = root.channelCount-index;
+                                colorPicker.systemIndex = root.channelCount-index
                                 /// @bug setting the the same value twice doesn't reset the sliders
-                                colorPicker.oldColor = "transparent";
-                                colorPicker.oldColor = slowMachineSettingsHelper.getCurrentColor(colorPicker.systemIndex);
-                                colorPicker.open();
+                                colorPicker.oldColor = "transparent"
+                                colorPicker.oldColor = slowMachineSettingsHelper.getCurrentColor(colorPicker.systemIndex)
+                                colorPicker.open()
                             }
                         }
                     }
@@ -423,8 +423,8 @@ SettingsView {
         }
         Loader {
             active: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
-            height: root.rowHeight;
-            width: root.rowWidth;
+            height: root.rowHeight
+            width: root.rowWidth
             sourceComponent: RowLayout {
                 anchors.fill: parent
                 Label {
