@@ -334,7 +334,7 @@ SettingsView {
     // The SettingsView
     model: ObjectModel {
         Column {
-            spacing: root.rowHeight / 20
+            spacing: root.rowHeight / 25
             Label { // Header
                 text: Z.tr("Database Logging")
                 width: root.rowWidth;
@@ -349,6 +349,8 @@ SettingsView {
                     text: Z.tr("Logger status:")
                     font.pointSize: root.pointSize
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 Label { // exclamation mark if no database selected
                     font.family: FA.old
@@ -356,15 +358,19 @@ SettingsView {
                     text: FA.fa_exclamation_triangle
                     color: Material.color(Material.Yellow)
                     visible: loggerEntity.DatabaseReady === false
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 Label {
                     text: Z.tr(loggerEntity.LoggingStatus)
                     font.pointSize: root.pointSize
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 BusyIndicator {
                     id: busyIndicator
-                    implicitHeight: root.rowHeight
-                    implicitWidth: height
+                    Layout.preferredHeight: root.rowHeight
+                    Layout.preferredWidth: Layout.preferredHeight
                     visible: loggerEntity.LoggingEnabled
                 }
             }
@@ -402,7 +408,8 @@ SettingsView {
                     }
                     delegate: ItemDelegate {
                         id: dbListDelegate
-                        width: parent.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
+                        width: lvFileBrowser.width - (lvFileBrowser.contentHeight > lvFileBrowser.height ? 8 : 0) // don't overlap with the ScrollIndicator
+                        height: root.rowHeight
                         property bool isCurrentDb: foundFiles[index] === currentDbFile
 
                         RowLayout {
@@ -411,13 +418,14 @@ SettingsView {
                             anchors.rightMargin: 4
 
                             Label { // active indicator
-                                id: activeIndicator
+                                text: FA.fa_check
                                 font.family: FA.old
                                 font.pointSize: root.pointSize
                                 horizontalAlignment: Text.AlignLeft
-                                text: FA.fa_check
                                 opacity: dbListDelegate.isCurrentDb ? 1.0 : 0.0
                                 Layout.preferredWidth: root.pointSize * 1.5
+                                Layout.fillHeight: true
+                                verticalAlignment: Label.AlignVCenter
                             }
                             Label { // db filename
                                 text: {
@@ -429,12 +437,15 @@ SettingsView {
                                 }
                                 font.pointSize: pointSize
                                 Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                verticalAlignment: Label.AlignVCenter
                             }
                             Button { // Eject / make current
+                                text: dbListDelegate.isCurrentDb ? FA.fa_eject : FA.fa_check_circle
                                 font.family: FA.old
                                 font.pointSize: pointSize * 1.25
-                                text: dbListDelegate.isCurrentDb ? FA.fa_eject : FA.fa_check_circle
                                 enabled: loggerEntity.LoggingEnabled === false
+                                Layout.fillHeight: true
                                 background: Rectangle {
                                     color: "transparent"
                                 }
@@ -444,11 +455,11 @@ SettingsView {
                                 }
                             }
                             Button { // delete
+                                text: FA.fa_trash
                                 Layout.preferredWidth: rowHeight * 2
                                 Layout.fillHeight: true
                                 font.family: FA.old
                                 font.pointSize: pointSize * 1.25
-                                text: FA.fa_trash
                                 enabled: foundFiles[index] !== currentDbFile || loggerEntity.LoggingEnabled === false
                                 background: Rectangle {
                                     color: "transparent"
@@ -468,13 +479,15 @@ SettingsView {
                     }
                 }
             }
-
             RowLayout { // add new button (only)
                 height: root.rowHeight;
                 width: root.rowWidth;
                 Button {
                     text: "+"
                     enabled: loggerEntity.LoggingEnabled === false
+                    font.pointSize: pointSize * 1.25
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: rowHeight*1.5
                     onClicked: {
                         newDbPopup.open()
                     }
@@ -485,16 +498,19 @@ SettingsView {
                 width: root.rowWidth;
                 visible: VeinEntity.hasEntity("CustomerData")
                 Label {
-                    textFormat: Text.PlainText
                     text: Z.tr("Manage customer data:")
+                    textFormat: Text.PlainText
                     font.pointSize: root.pointSize
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 Button {
                     text: FA.fa_cogs
                     font.family: FA.old
                     font.pointSize: root.pointSize
-                    implicitHeight: root.rowHeight
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: rowHeight*1.5
                     onClicked: menuStackLayout.showCustomerDataBrowser()
                 }
             }
@@ -503,15 +519,16 @@ SettingsView {
                 height: root.rowHeight;
                 width: root.rowWidth;
                 Label {
-                    textFormat: Text.PlainText
                     text: Z.tr("Logging Duration [hh:mm:ss]:")
+                    enabled: loggerEntity.ScheduledLoggingEnabled === true
+                    textFormat: Text.PlainText
                     font.pointSize: root.pointSize
                     Layout.fillWidth: true
-                    enabled: loggerEntity.ScheduledLoggingEnabled === true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 VFLineEdit {
                     id: durationField
-
                     // overrides
                     function doApplyInput(newText) {
                         entity[controlPropertyName] = FT.timeToMs(newText)
@@ -525,11 +542,10 @@ SettingsView {
                         var regex = /(?!^00:00:00$)[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
                         return regex.test(textField.text)
                     }
-
                     entity: root.loggerEntity
                     controlPropertyName: "ScheduledLoggingDuration"
                     inputMethodHints: Qt.ImhPreferNumbers
-                    height: root.rowHeight
+                    Layout.fillHeight: true
                     pointSize: root.pointSize
                     width: 280
                     enabled: loggerEntity.ScheduledLoggingEnabled === true && loggerEntity.LoggingEnabled === false
@@ -542,11 +558,11 @@ SettingsView {
                     controlPropertyName: "ScheduledLoggingEnabled"
                 }
                 Label {
+                    text: countDown;
                     visible: loggerEntity.LoggingEnabled === true && loggerEntity.ScheduledLoggingEnabled === true
                     font.pointSize: root.pointSize
                     property string countDown: FT.msToTime(loggerEntity.ScheduledLoggingCountdown);
-                    height: root.rowHeight
-                    text: countDown;
+                    Layout.fillHeight: true
                 }
             }
         }
