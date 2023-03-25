@@ -14,6 +14,9 @@ import QtQml.Models 2.11
 Item {
     id: root
 
+    readonly property real rowHeight: height/10
+    readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.325 : 10
+    readonly property real smallPointSize: pointSize * 0.8
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
     readonly property bool groupingActive: groupingMode.checked
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
@@ -66,60 +69,57 @@ Item {
 
     ObjectModel{
         id: leftView
-        readonly property int labelWidth : root.width/4
-        readonly property int rowHeight : root.height/10
-        // this Item is not active yet. In development for ExtTrans
         Item{
             width: parent.width
-            height: leftView.rowHeight
+            height: rowHeight
             Label {
                 text: Z.tr("Range automatic:")
                 anchors.left: parent.left
+                verticalAlignment: Label.AlignVCenter
                 anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: Math.min(18, root.height/20)
+                height: rowHeight
+                font.pointSize: pointSize
                 color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
-                z: 10
             }
             VFSwitch {
                 id: autoMode
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                height: leftView.rowHeight
+                height: rowHeight
                 entity: root.rangeModule
-                controlPropertyName: "PAR_RangeAutomatic"
                 enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
+                controlPropertyName: "PAR_RangeAutomatic"
             }
         }
         Item{
             width: leftList.width
-            height: leftView.rowHeight
+            height: rowHeight
             Label {
                 text: Z.tr("Range grouping:")
                 anchors.left: parent.left
+                verticalAlignment: Label.AlignVCenter
                 anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: Math.min(18, root.height/20)
+                height: rowHeight
+                font.pointSize: pointSize
                 color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
             }
             VFSwitch {
                 id: groupingMode
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                height: leftView.rowHeight
+                height: rowHeight
                 entity: root.rangeModule
                 enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
                 controlPropertyName: "PAR_ChannelGrouping"
             }
         }
-
         ListView {
             id: uranges
             width: leftList.width
-            height: 1.4*leftView.rowHeight
+            height: 1.4*rowHeight
             model: root.upperChannels
             boundsBehavior: Flickable.StopAtBounds
-
             orientation: ListView.Horizontal
-
             delegate: Item {
                 height: parent.height
                 width: uranges.width/4
@@ -127,6 +127,7 @@ Item {
                     id: urlabel
                     text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName)
                     color: FT.getColorByIndex(modelData+1, root.groupingActive)
+                    font.pointSize: smallPointSize
                     anchors.bottom: parent.top
                     anchors.bottomMargin: -(parent.height/3)
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -146,26 +147,24 @@ Item {
                 }
             }
         }
-
         Item {
             id: extU
             width: iranges.width
-            height: !referenceRanges ? leftView.rowHeight : 0
+            height: !referenceRanges ? rowHeight : 0
             visible: !referenceRanges
             Label{
+                text: Z.tr("UExt:")
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("UExt:")
-                font.pixelSize: Math.min(18, root.height/20)
+                font.pointSize: pointSize
             }
-
             ZLineEdit {
                 id: uTrZ
                 width: parent.width/4
-                height: leftView.rowHeight
+                height: rowHeight
                 anchors.right: udiv.left
                 description.width: 0
-                pointSize: Math.min(24, Math.max(1,root.height/30))
+                pointSize: root.pointSize
                 text: rangeModule["PAR_PreScalingGroup0"].split("*")[0].split("/")[0]
                 validator: IntValidator{bottom: 1; top: 999999 }
                 function doApplyInput(newText) {
@@ -174,30 +173,28 @@ Item {
             }
             Label{
                 id: udiv
+                text: "/"
                 anchors.right: uTrN.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: "/"
-                font.pointSize: Math.min(24, Math.max(1,root.height/30))
+                font.pointSize: pointSize
             }
-
             ZLineEdit {
                 id: uTrN
                 width: parent.width/4
-                height: leftView.rowHeight
+                height: rowHeight
                 anchors.right: sqrtComb.left
                 description.width: 0
-                pointSize: Math.min(24, Math.max(1,root.height/30))
+                pointSize: root.pointSize
                 text: rangeModule["PAR_PreScalingGroup0"].split("*")[0].split("/")[1]
                 validator: IntValidator{bottom: 1; top: 999999 }
                 function doApplyInput(newText) {
                     rangeModule["PAR_PreScalingGroup0"]=rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+"/"+newText+sqrtComb.currentText
                 }
             }
-
             ZVisualComboBox {
                 id: sqrtComb
-                height: leftView.rowHeight
-                width:70
+                height: rowHeight
+                width: parent.width * 0.145
                 anchors.right: extUcheck.left
 
                 model: ["","*(sqrt(3))","*(1/sqrt(3))"]
@@ -216,27 +213,24 @@ Item {
                     rangeModule["PAR_PreScalingGroup0"]=rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+"/"+uTrN.text+selectedText
                 }
             }
-
-
             VFSwitch{
                 id: extUcheck
                 entity: root.rangeModule
                 controlPropertyName: "PAR_PreScalingEnabledGroup0"
                 anchors.right: parent.right
-
+                height: rowHeight
             }
-
 
         }
         Item {
             id: spacer
-            height: leftView.rowHeight/2
+            height: rowHeight/2
             width: leftList.width
         }
         ListView {
             id: iranges
             width: leftList.width
-            height: 1.4*leftView.rowHeight
+            height: 1.4*rowHeight
             model: root.lowerChannels
             boundsBehavior: Flickable.StopAtBounds
 
@@ -248,6 +242,7 @@ Item {
                 Label {
                     id: irlabel
                     text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName)
+                    font.pointSize: smallPointSize
                     color: FT.getColorByIndex(modelData+1, root.groupingActive)
                     anchors.bottom: parent.top
                     anchors.bottomMargin: -(parent.height/3)
@@ -269,48 +264,45 @@ Item {
                 }
             }
         }
-
         Item {
             id: extI
             width: iranges.width
-            height: !referenceRanges ? leftView.rowHeight : 0
+            height: !referenceRanges ? rowHeight : 0
             visible: !referenceRanges
             Label{
+                text: Z.tr("IExt:")
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("IExt:")
-                font.pixelSize: Math.min(18, root.height/20)
+                font.pointSize: pointSize
             }
-
             ZLineEdit {
                 id: iTrZ
                 width: parent.width/4
-                height: leftView.rowHeight
+                height: rowHeight
                 anchors.right: idiv.left
                 description.width: 0
-                pointSize: Math.min(24, Math.max(1,root.height/30))
+                pointSize: root.pointSize
                 text: rangeModule["PAR_PreScalingGroup1"].split("*")[0].split("/")[0]
                 validator: IntValidator{bottom: 1; top: 999999 }
                 function doApplyInput(newText) {
                     rangeModule["PAR_PreScalingGroup1"]=newText+"/"+iTrN.text
                 }
-              }
+            }
             Label{
                 id: idiv
+                text: "/"
                 anchors.right: iTrN.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: "/"
-                font.pointSize: Math.min(24, Math.max(1,root.height/30))
+                font.pointSize: pointSize
             }
-
             ZLineEdit {
                 id: iTrN
                 width: parent.width/4
-                height: leftView.rowHeight
+                height: rowHeight
                 anchors.right: extIcheck.left
                 anchors.rightMargin: 70
                 description.width: 0
-                pointSize: Math.min(24, Math.max(1,root.height/30))
+                pointSize: root.pointSize
                 text: rangeModule["PAR_PreScalingGroup1"].split("*")[0].split("/")[1]
                 validator: IntValidator{bottom: 1; top: 999999 }
                 function doApplyInput(newText) {
@@ -320,13 +312,12 @@ Item {
             VFSwitch{
                 id: extIcheck
                 anchors.right: parent.right
+                height: rowHeight
                 entity: root.rangeModule
                 controlPropertyName: "PAR_PreScalingEnabledGroup1"
             }
         }
-
     }
-
     ListView {
         id: leftList
         anchors.top: parent.top
@@ -338,60 +329,43 @@ Item {
     }
 
 
-
-    Item{
-        id:rightview
+    Item {
+        id: rightview
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         width: parent.width*7/16-10
 
-    Button {
-        id: overloadButton
-        property int overload: root.rangeModule.PAR_Overload
-        anchors.top: parent.top
-        anchors.horizontalCenter: rangbar.horizontalCenter
-        text: Z.tr("Overload")
-        enabled: overload
-        font.pixelSize: Math.min(14, root.height/24)
-
-        onClicked: {
-            root.rangeModule.PAR_Overload = 0;
-        }
-
-        background: Rectangle {
-            implicitWidth: 64
-            implicitHeight: 48
-
-            // external vertical padding is 6 (to increase touch area)
-            y: 6
-            width: parent.width
-            height: parent.height - 12
-            radius: 2
-
-            color: overloadButton.overload ? "darkorange" : Material.switchDisabledHandleColor
-
-            Behavior on color {
-                ColorAnimation {
-                    duration: 400
+        Button {
+            id: overloadButton
+            text: Z.tr("Overload")
+            readonly property bool overload: root.rangeModule.PAR_Overload
+            anchors.top: parent.top
+            anchors.horizontalCenter: rangbar.horizontalCenter
+            enabled: overload
+            font.pointSize: pointSize * 0.75
+            onClicked: {
+                root.rangeModule.PAR_Overload = 0;
+            }
+            background: Rectangle {
+                anchors.fill: parent
+                radius: 2
+                color: overloadButton.overload ? "darkorange" : Material.switchDisabledHandleColor
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 400
+                    }
                 }
             }
         }
+        RangePeak {
+            id: rangbar
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.top: overloadButton.bottom
+            anchors.margins: rowHeight*0.3
+            rangeGrouping: root.groupingActive
+        }
     }
-
-
-
-    RangePeak {
-        id: rangbar
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.top: overloadButton.bottom
-        anchors.margins: 20
-        rangeGrouping: root.groupingActive
-    }
-    }
-
-
-
 }
