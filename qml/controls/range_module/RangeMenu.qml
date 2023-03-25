@@ -84,6 +84,7 @@ Item {
                 id: autoMode
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
+                height: leftView.rowHeight
                 entity: root.rangeModule
                 controlPropertyName: "PAR_RangeAutomatic"
                 enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
@@ -103,6 +104,7 @@ Item {
                 id: groupingMode
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
+                height: leftView.rowHeight
                 entity: root.rangeModule
                 enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
                 controlPropertyName: "PAR_ChannelGrouping"

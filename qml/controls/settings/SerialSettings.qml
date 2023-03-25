@@ -52,18 +52,22 @@ Item {
             Label {
                 text: modelData.replace('/dev/tty', '') + " / "
                 font.pointSize: pointSize
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
             }
             Label {
                 text: ttysJson[modelData].manufacturer + ":"
-                Layout.fillWidth: true
                 font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
             }
             ZComboBox {
                 id: comboConnectionType
                 arrayMode: true
                 centerVertical: true
-                implicitWidth: root.width * 0.32
-                height: rowHeight-8
+                Layout.preferredWidth: root.width * 0.32
+                Layout.preferredHeight: rowHeight-8
 
                 property bool canSCPI: scpiEntity && ttyRow.ttyDev === scpiSerial
                 property var enumModel

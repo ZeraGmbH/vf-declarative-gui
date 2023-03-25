@@ -18,7 +18,8 @@ SettingsView {
     id: root
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-    rowHeight: height/8.5
+    readonly property real safeHeight: height > 0.0 ? height : 10
+    rowHeight: safeHeight/8.5
     readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.34 : 10
 
     ColorPicker {
@@ -28,8 +29,8 @@ SettingsView {
 
         dim: true
         x: parent.width/2 - width/2
-        width: parent.width*0.7
-        height: parent.height*0.7
+        width: root.width*0.7
+        height: root.safeHeight*0.7
         onColorAccepted: {
             GC.setSystemColorByIndex(systemIndex, t_color)
         }
@@ -44,35 +45,34 @@ SettingsView {
     }
 
     model: VisualItemModel {
-        Item {
+        RowLayout {
             height: root.rowHeight
             width: root.rowWidth
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    textFormat: Text.PlainText
-                    text: Z.tr("Language:")
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                }
-                ZVisualComboBox {
-                    id: localeCB
-                    model: Z.tr("TRANSLATION_LOCALES")
-                    imageModel: Z.tr("TRANSLATION_FLAGS")
-                    height: root.rowHeight * 0.9
-                    width: height*2.5
-                    contentRowHeight: height*1.2
-                    property string intermediate: ZLocale.localeName
+            Label {
+                text: Z.tr("Language:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZVisualComboBox {
+                id: localeCB
+                model: Z.tr("TRANSLATION_LOCALES")
+                imageModel: Z.tr("TRANSLATION_FLAGS")
+                Layout.preferredHeight: root.rowHeight * 0.9
+                Layout.preferredWidth: Layout.preferredHeight*2.5
+                contentRowHeight: Layout.preferredHeight*1.2
+                property string intermediate: ZLocale.localeName
 
-                    onIntermediateChanged: {
-                        if(model[currentIndex] !== intermediate) {
-                            currentIndex = model.indexOf(intermediate)
-                        }
+                onIntermediateChanged: {
+                    if(model[currentIndex] !== intermediate) {
+                        currentIndex = model.indexOf(intermediate)
                     }
-                    onSelectedTextChanged: {
-                        if(ZLocale.localeName !== selectedText) {
-                            GC.setLocale(selectedText, true)
-                        }
+                }
+                onSelectedTextChanged: {
+                    if(ZLocale.localeName !== selectedText) {
+                        GC.setLocale(selectedText, true)
                     }
                 }
             }
@@ -83,14 +83,16 @@ SettingsView {
             RowLayout {
                 anchors.fill: parent
                 Label {
-                    textFormat: Text.PlainText
                     text: Z.tr("Display harmonic tables relative to the fundamental oscillation:")
+                    textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
-                CheckBox {
+                ZCheckBox {
                     id: actHarmonicsTableAsRelative
-                    height: parent.height
+                    Layout.fillHeight: true
                     Component.onCompleted: checked = GC.showFftTableAsRelative
                     onCheckedChanged: {
                         SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
@@ -104,10 +106,12 @@ SettingsView {
             RowLayout {
                 anchors.fill: parent
                 Label {
-                    textFormat: Text.PlainText
                     text: Z.tr("Max decimals total:")
+                    textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 ZSpinBox {
                     id: actDecimalPlacesTotal
@@ -132,10 +136,12 @@ SettingsView {
             RowLayout {
                 anchors.fill: parent
                 Label {
-                    textFormat: Text.PlainText
                     text: Z.tr("Max places after the decimal point:")
+                    textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 ZSpinBox {
                     id: actDecimalPlaces
@@ -163,14 +169,16 @@ SettingsView {
             RowLayout {
                 anchors.fill: parent
                 Label {
-                    textFormat: Text.PlainText
                     text: Z.tr("System colors:")
+                    textFormat: Text.PlainText
                     font.pointSize: pointSize
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 ListView {
                     clip: true
                     Layout.fillWidth: true
-                    height: parent.height
+                    Layout.fillHeight: true
                     model: root.channelCount
                     orientation: ListView.Horizontal
                     layoutDirection: "RightToLeft"
@@ -206,7 +214,10 @@ SettingsView {
                     }
                 }
                 Button {
-                    font.pointSize: root.rowHeight * 0.15
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                    height: root.rowHeight
+                    Layout.preferredWidth: root.rowHeight * 0.7
+                    font.pointSize: root.rowHeight * 0.2
                     text: "▼"
                     onClicked: {
                         defaultColoursPopup.open()
@@ -221,13 +232,15 @@ SettingsView {
             sourceComponent: RowLayout {
                 anchors.fill: parent
                 Label {
-                    textFormat: Text.PlainText
                     text: Z.tr("Show AUX phase values:")
+                    textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
-                CheckBox {
-                    height: parent.height
+                ZCheckBox {
+                    Layout.fillHeight: true
                     Component.onCompleted: checked = GC.showAuxPhases
                     onCheckedChanged: {
                         SlwMachSettingsHelper.startAuxPhaseChange(checked)
@@ -269,14 +282,17 @@ SettingsView {
                 anchors.fill: parent
                 Label {
                     id: labelRemotWeb
-                    textFormat: Text.PlainText
                     text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Browser addresses:")
+                    textFormat: Text.PlainText
                     font.pointSize: pointSize
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
                 Item { Layout.fillWidth: true }
-                CheckBox {
+                ZCheckBox {
                     id: webOnOff
-                    height: parent.height
+                    Layout.fillHeight: true
                     checked: ASWGL.running
                     onCheckedChanged: {
                         if(!ASWGL.running) {

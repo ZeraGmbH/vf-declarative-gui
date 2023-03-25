@@ -72,8 +72,10 @@ Item {
         RowLayout {
             anchors.fill: parent
             Label {
-                font.pointSize: root.pointSize
                 text: Z.tr("Integration time interval:")
+                font.pointSize: root.pointSize
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
             }
             Item {
                 Layout.fillWidth: true
@@ -114,8 +116,10 @@ Item {
         RowLayout {
             anchors.fill: parent
             Label {
-                font.pointSize: root.pointSize
                 text: Z.tr("Integration period interval:")
+                font.pointSize: root.pointSize
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
             }
             Item {
                 Layout.fillWidth: true
