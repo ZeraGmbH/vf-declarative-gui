@@ -20,7 +20,7 @@ SettingsView {
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     readonly property real safeHeight: height > 0.0 ? height : 10
     rowHeight: safeHeight/8.5
-    readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.34 : 10
+    readonly property real pointSize: rowHeight * 0.34
 
     ColorPicker {
         id: colorPicker
@@ -40,7 +40,7 @@ SettingsView {
         id: defaultColoursPopup
         x: root.width * 5 / 10
         y: 0
-        height: root.height - y
+        height: root.safeHeight - y
         width: root.width - x
     }
 
@@ -77,154 +77,141 @@ SettingsView {
                 }
             }
         }
-        Item {
+        RowLayout {
             height: root.rowHeight
             width: root.rowWidth
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    text: Z.tr("Display harmonic tables relative to the fundamental oscillation:")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ZCheckBox {
-                    id: actHarmonicsTableAsRelative
-                    Layout.fillHeight: true
-                    Component.onCompleted: checked = GC.showFftTableAsRelative
-                    onCheckedChanged: {
-                        SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
-                    }
+            Label {
+                text: Z.tr("Display harmonic tables relative to the fundamental oscillation:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZCheckBox {
+                id: actHarmonicsTableAsRelative
+                Layout.fillHeight: true
+                Component.onCompleted: checked = GC.showFftTableAsRelative
+                onCheckedChanged: {
+                    SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
                 }
             }
         }
-        Item {
+        RowLayout {
             height: root.rowHeight
             width: root.rowWidth
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    text: Z.tr("Max decimals total:")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
+            Label {
+                text: Z.tr("Max decimals total:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZSpinBox {
+                id: actDecimalPlacesTotal
+                pointSize: root.pointSize
+                spinBox.width: root.rowWidth / 4
+                Component.onCompleted: text = GC.digitsTotal
+                validator: IntValidator {
+                    bottom: 1
+                    top: 7
                 }
-                ZSpinBox {
-                    id: actDecimalPlacesTotal
-                    pointSize: root.pointSize
-                    spinBox.width: root.rowWidth / 4
-                    Component.onCompleted: text = GC.digitsTotal
-                    validator: IntValidator {
-                        bottom: 1
-                        top: 7
-                    }
-                    function doApplyInput(newText) {
-                        SlwMachSettingsHelper.startDigitsTotalChange(newText)
-                        return true
-                    }
+                function doApplyInput(newText) {
+                    SlwMachSettingsHelper.startDigitsTotalChange(newText)
+                    return true
                 }
             }
         }
 
-        Item {
+        RowLayout {
             height: root.rowHeight
             width: root.rowWidth
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    text: Z.tr("Max places after the decimal point:")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
+            Label {
+                text: Z.tr("Max places after the decimal point:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZSpinBox {
+                id: actDecimalPlaces
+                pointSize: root.pointSize
+                spinBox.width: root.rowWidth / 4
+                Component.onCompleted: text = GC.decimalPlaces
+                validator: IntValidator {
+                    bottom: 1
+                    top: 7
                 }
-                ZSpinBox {
-                    id: actDecimalPlaces
-                    pointSize: root.pointSize
-                    spinBox.width: root.rowWidth / 4
-                    Component.onCompleted: text = GC.decimalPlaces
-                    validator: IntValidator {
-                        bottom: 1
-                        top: 7
-                    }
-                    function doApplyInput(newText) {
-                        SlwMachSettingsHelper.startDecimalPlacesChange(newText)
-                        return true
-                    }
+                function doApplyInput(newText) {
+                    SlwMachSettingsHelper.startDecimalPlacesChange(newText)
+                    return true
                 }
             }
         }
 
-        Item {
-            id: colorRow
+        RowLayout {
             visible: currentSession !== "com5003-ref-session.json" ///@todo replace hardcoded
             height: root.rowHeight
             width: root.rowWidth
-
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    text: Z.tr("System colors:")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
+            Label {
+                text: Z.tr("System colors:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ListView {
+                clip: true
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                model: root.channelCount
+                orientation: ListView.Horizontal
+                layoutDirection: "RightToLeft"
+                spacing: 2
+                boundsBehavior: Flickable.OvershootBounds
+                ScrollIndicator.horizontal: ScrollIndicator {
+                    onActiveChanged: active = true
+                    active: true
                 }
-                ListView {
-                    clip: true
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    model: root.channelCount
-                    orientation: ListView.Horizontal
-                    layoutDirection: "RightToLeft"
-                    spacing: 2
-                    boundsBehavior: Flickable.OvershootBounds
-                    ScrollIndicator.horizontal: ScrollIndicator {
-                        onActiveChanged: active = true
-                        active: true
-                    }
-                    delegate: Item {
-                        width:  rButton.width
-                        height: root.rowHeight
-                        Button {
-                            id: rButton
-                            width: root.rowHeight*1.18
-                            font.pointSize: pointSize * 0.65
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.right: parent.right
-                            text: {
-                                let workingIndex = root.channelCount-index
-                                let colorLead = "<font color='" + SlwMachSettingsHelper.getCurrentColor(workingIndex) + "'>"
-                                let colorTrail = "</font>"
-                                return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
-                            }
-                            onClicked: {
-                                colorPicker.systemIndex = root.channelCount-index
-                                /// @bug setting the the same value twice doesn't reset the sliders
-                                colorPicker.oldColor = "transparent"
-                                colorPicker.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.systemIndex)
-                                colorPicker.open()
-                            }
+                delegate: Item {
+                    width:  rButton.width
+                    height: root.rowHeight
+                    Button {
+                        id: rButton
+                        width: root.rowHeight*1.18
+                        font.pointSize: pointSize * 0.65
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        text: {
+                            let workingIndex = root.channelCount-index
+                            let colorLead = "<font color='" + SlwMachSettingsHelper.getCurrentColor(workingIndex) + "'>"
+                            let colorTrail = "</font>"
+                            return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
+                        }
+                        onClicked: {
+                            colorPicker.systemIndex = root.channelCount-index
+                            /// @bug setting the the same value twice doesn't reset the sliders
+                            colorPicker.oldColor = "transparent"
+                            colorPicker.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.systemIndex)
+                            colorPicker.open()
                         }
                     }
                 }
-                Button {
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-                    height: root.rowHeight
-                    Layout.preferredWidth: root.rowHeight * 0.7
-                    font.pointSize: root.rowHeight * 0.2
-                    text: "▼"
-                    onClicked: {
-                        defaultColoursPopup.open()
-                    }
+            }
+            Button {
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                height: root.rowHeight
+                Layout.preferredWidth: root.rowHeight * 0.7
+                font.pointSize: root.rowHeight * 0.2
+                text: "▼"
+                onClicked: {
+                    defaultColoursPopup.open()
                 }
             }
         }
+
         Loader {
             active: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
             height: root.rowHeight
@@ -263,7 +250,6 @@ SettingsView {
                     id: ipInfo
                     anchors.fill: parent
                     anchors.margins: root.rowHeight / 6
-                    width: parent.width
                     boundsBehavior: Flickable.OvershootBounds
                     spacing: root.rowHeight / 8
                     model: InfoInterface { }
