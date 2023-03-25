@@ -49,6 +49,7 @@
         <file>qml/controls/range_module/RangeMenu.qml</file>
         <file>qml/controls/range_module/RangePeak.qml</file>
         <file>qml/controls/settings/ColorPicker.qml</file>
+        <file>qml/controls/settings/DefaultColorPopup.qml</file>
         <file>qml/controls/settings/SerialSettings.qml</file>
         <file>qml/controls/settings/FrequencyInOutConfigPopup.qml</file>
         <file>qml/controls/settings/Settings.qml</file>
@@ -56,6 +57,7 @@
         <file>qml/controls/settings/DeviceSettings.qml</file>
         <file>qml/controls/settings/SettingsInterval.qml</file>
         <file>qml/controls/settings/SettingsView.qml</file>
+        <file>qml/controls/settings/SlowMachineSettingsHelperSingleton.qml</file>
         <file>qml/helpers/EntityErrorMeasHelper.qml</file>
         <file>qml/helpers/TaskList.qml</file>
         <file>qml/pages/ActualValuesPage.qml</file>
