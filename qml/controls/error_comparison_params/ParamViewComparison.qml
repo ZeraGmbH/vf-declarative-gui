@@ -92,7 +92,6 @@ Item {
             VFComboBox {
                 arrayMode: true
                 controlPropertyName: "PAR_MeasuringMode"
-                fontSize: 16
                 model: {
                     if(usePower2) {
                         return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;

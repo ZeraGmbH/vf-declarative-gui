@@ -20,7 +20,7 @@ Item {
 
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
-    readonly property real comboWidth: width/7.5
+    readonly property real comboWidth: width/7
     readonly property real comboMargin: 8
 
     property real topMargin: 0
@@ -184,7 +184,6 @@ Item {
         anchors.rightMargin: horizMarign
         height: root.height/10
         width: comboWidth
-        fontSize: pointSize
     }
 
     Label {
@@ -205,7 +204,6 @@ Item {
         anchors.rightMargin: horizMarign
         height: root.height/10
         width: comboWidth
-        fontSize: pointSize
         targetIndex: GC.vectorShowI ? 0 : 1
         onTargetIndexChanged: {
             GC.setVectorShowI(targetIndex == 0)
@@ -232,7 +230,6 @@ Item {
         anchors.rightMargin: horizMarign
         height: root.height/10
         width: comboWidth
-        fontSize: pointSize
 
         targetIndex: GC.vectorIecMode
         onTargetIndexChanged: {
@@ -262,7 +259,6 @@ Item {
         anchors.rightMargin: horizMarign
         height: root.height/10
         width: comboWidth
-        fontSize: pointSize
         centerVertical: true
 
         targetIndex: GC.vectorCircleMode

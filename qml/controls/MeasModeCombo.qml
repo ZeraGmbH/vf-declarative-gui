@@ -15,7 +15,6 @@ VFComboBox {
                           headerItem.height
     contentMaxRows: 7
     contentRowHeight: height*0.85
-    fontSize: height*0.3
     headerComponent: Column {
         height: comboHeader.height
         MeasModeComboHeader {

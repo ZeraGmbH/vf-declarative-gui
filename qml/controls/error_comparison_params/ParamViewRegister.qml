@@ -280,7 +280,6 @@ Item {
             }
             VFComboBox {
                 arrayMode: true
-                fontSize: 16
                 entity: logicalParent.errCalEntity
 
                 controlPropertyName: "PAR_TXUNIT"

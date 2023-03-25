@@ -97,7 +97,6 @@ Item {
     }
     // convenient properties for layout horizontal
     readonly property int columnsStandardUI: 3
-    readonly property real comboFontSize: pointSize * 1.25
     readonly property real widthLeftArea: width * 0.53
     readonly property real widthRightArea: width - widthLeftArea
     readonly property real headerColumnWidth: widthLeftArea * 0.12
@@ -495,7 +494,6 @@ Item {
                                     ZComboBox {
                                         anchors.fill: parent
                                         arrayMode: true
-                                        fontSize: lineHeight * 0.4
                                         centerVertical: true
                                         model: [Z.tr('none')]
                                         textColor: GC.currentColorTable[uiType === 'U' ?
@@ -712,7 +710,6 @@ Item {
                     anchors.right: parent.right
                     width: phasorViewPopup.width - phasorViewPopup.labelWidth
                     anchors.top: parent.top
-                    fontSize: comboFontSize
                     arrayMode: true
                     model: ["DIN410", "IEC387"]
                     targetIndex: GC.vectorIecMode
@@ -741,7 +738,6 @@ Item {
                     width: phasorViewPopup.width - phasorViewPopup.labelWidth
                     anchors.bottom: parent.bottom
                     centerVertical: true
-                    fontSize: comboFontSize
                     arrayMode: true
                     model: ["U  PN", "U  △", "U  ∠"]
                     targetIndex: GC.vectorMode
@@ -825,7 +821,6 @@ Item {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: pqRow.bottomFreeSpace
             arrayMode: true
-            fontSize: comboFontSize
             model: ['P', 'Q']
         }
         Label {
@@ -916,7 +911,6 @@ Item {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: pqRow.bottomFreeSpace
             arrayMode: true
-            fontSize: comboFontSize
             model: {
                 // current quadrant is minimum content
                 let entryList = []
@@ -1011,7 +1005,6 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             arrayMode: true
-            fontSize: comboFontSize * 0.95
             model: {
                 let retModel = []
                 let lineStr = ""
@@ -1175,7 +1168,6 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 arrayMode: true
-                fontSize: comboFontSize
                 centerVertical: true
                 model: jsonParamInfo.Frequency.zj_params.type.list
                 readonly property bool varSelected: currentText === "var"

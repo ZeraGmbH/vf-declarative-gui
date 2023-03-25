@@ -63,7 +63,6 @@ Item {
                 arrayMode: true
                 centerVertical: true
                 implicitWidth: root.width * 0.32
-                fontSize: pointSize*1.4
                 height: rowHeight-8
 
                 property bool canSCPI: scpiEntity && ttyRow.ttyDev === scpiSerial
