@@ -30,7 +30,7 @@ Item {
     // even more hack for EMOB with two P power mdules ("P AC"/"P DC")
     readonly property bool hasMultiplePs: validatorRefInput.Data.includes("P AC") && validatorRefInput.Data.includes("P DC")
 
-    readonly property real rowHeight: height/7
+    readonly property real rowHeight: height > 0 ? height/7 : 10
     readonly property real pointSize: rowHeight/2.5
 
     readonly property QtObject p1m1: !usePower2 ? VeinEntity.getEntity("POWER1Module1") : QtObject
