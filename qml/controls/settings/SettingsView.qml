@@ -8,8 +8,9 @@ Item {
 
     property VisualItemModel model;
     property int horizMargin: 0
-    property real rowHeight: height > 0.0 ? height/10 : 10
-    property int rowWidth: sView.width - (sView.contentHeight > sView.height ? scroller.width : 0) // don't overlap with the ScrollIndicator
+    readonly property real safeHeight: height
+    property real rowHeight: safeHeight/10
+    property int rowWidth: sView.width - (sView.contentHeight > safeHeight ? scroller.width : 0) // don't overlap with the ScrollIndicator
 
     ListView {
         id: sView

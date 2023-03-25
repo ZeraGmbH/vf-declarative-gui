@@ -7,6 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 
@@ -164,9 +165,8 @@ Item {
                         }
                     }
                 }
-                CheckBox {
+                ZCheckBox {
                     text: Z.tr("continuous")
-                    font.pointSize: pointSize
                     height: parent.height
                     width: root.width * 0.215
 

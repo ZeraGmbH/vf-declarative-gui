@@ -536,7 +536,7 @@ SettingsView {
                 }
                 VFSwitch {
                     id: scheduledLogging
-                    height: parent.height
+                    Layout.fillHeight: true
                     entity: root.loggerEntity
                     enabled: loggerEntity.LoggingEnabled === false
                     controlPropertyName: "ScheduledLoggingEnabled"
