@@ -4,7 +4,7 @@ import PowerModuleVeinGetter 1.0
 
 VFComboBox {
     id: root
-    property int power1ModuleIdx
+    property int power1ModuleIdx // setter
 
     entity: PwrModVeinGetter.getEntity(power1ModuleIdx)
     controlPropertyName: "PAR_MeasuringMode"
@@ -16,13 +16,17 @@ VFComboBox {
     contentMaxRows: 7
     contentRowHeight: height*0.85
     headerComponent: Column {
-        height: comboHeader.height
+        height: comboHeader.height + comboHeaderPhase.height
         MeasModeComboHeader {
             id: comboHeader
-            visibleHeight: root.height * 1.5
+            visibleHeight: contentRowHeight * 1.75
             entity: root.entity
             entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
         }
+        MeasModeComboHeaderPhase {
+            id: comboHeaderPhase
+            visibleHeight: contentRowHeight * 0.9
+            entity: root.entity
+        }
     }
-
 }
