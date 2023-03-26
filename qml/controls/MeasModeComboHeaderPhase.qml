@@ -77,7 +77,7 @@ Loader {
         Item {
             height: root.height
             width: root.width / privProps.measSysCount
-            RadioButton {
+            ZRadioButton {
                 anchors.fill: parent
                 readonly property int phaseNo: index
                 checked: modelData === "1"
