@@ -218,10 +218,7 @@ ApplicationWindow {
 
         StackLayout {
             id: layoutStack
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: controlsBar.top
+            anchors { left: parent.left; right: parent.right; top: parent.top; bottom: controlsBar.top }
             anchors.margins: 8
             currentIndex: GC.entityInitializationDone ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutSplashIndex
 
