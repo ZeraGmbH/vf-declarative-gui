@@ -27,7 +27,7 @@
 #include <qwtcharts.h>
 #include <notificationmanager.h>
 #include <declarativejsonitem.h>
-#include <zvkeyboard.h>
+#include <zvkeyboardlayout.h>
 #include <jsonsettingsfile.h>
 
 static void registerQmlExt(QQmlApplicationEngine &engine)
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     // Type 'InputPanel'
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard")); //virtual keyboard
 
-    ZVKeyboard::setKeyboardLayoutEnvironment();
+    ZVKeyboardLayout::setKeyboardLayoutEnvironment();
 
     const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
 
