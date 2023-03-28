@@ -22,7 +22,6 @@ find_Package(VfNet2 REQUIRED )
 find_Package(VfTcp REQUIRED )
 find_Package(VfQml REQUIRED )
 find_Package(VfHelpers REQUIRED )
-find_Package(ZVKeyboard REQUIRED)
 find_package(SortFilterProxyModelCmake REQUIRED)
 find_package(ZeraTranslation REQUIRED)
 find_Package(zera-json-qml REQUIRED)
@@ -74,7 +73,6 @@ target_link_libraries(vf-declarative-gui-lib
     VeinMeta::VfQml
     VeinMeta::VfHelpers
     "-Wl,--no-as-needed"
-    ZeraQml::ZVKeyboard
     Zera::zerafa
     Zera::anmlib
     Zera::uivlib
@@ -86,6 +84,7 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::qwtcharts
     zera-json-qml
     Zera::notificationmanager
+    Zera::ZVKeyboardLayout
     "-Wl,--as-needed"
     #Other Libs
     ${QWT_LIBRARIES}
