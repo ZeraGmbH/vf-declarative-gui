@@ -13,7 +13,7 @@ VFComboBox {
     centerVerticalOffset: -contentRowHeight*(Math.min(modelLength-1, contentMaxRows-1)) +
                           (height-contentRowHeight) -
                           headerItem.height
-    contentMaxRows: 7
+    contentMaxRows: 6
     contentRowHeight: height*0.85
     headerComponent: Column {
         height: comboHeader.height + comboHeaderPhase.height
