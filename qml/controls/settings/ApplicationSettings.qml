@@ -183,6 +183,7 @@ SettingsView {
                     Button {
                         id: rButton
                         width: root.rowHeight*1.18
+                        height: root.rowHeight
                         font.pointSize: pointSize * 0.65
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
@@ -204,7 +205,7 @@ SettingsView {
             }
             Button {
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-                height: root.rowHeight
+                Layout.fillHeight: true
                 Layout.preferredWidth: root.rowHeight * 0.7
                 font.pointSize: root.rowHeight * 0.2
                 text: "▼"
