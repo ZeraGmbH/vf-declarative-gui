@@ -274,11 +274,12 @@ SettingsView {
                     Layout.fillHeight: true
                     checked: ASWGL.running
                     onCheckedChanged: {
-                        if(!ASWGL.running) {
-                            let params = ["-w"]
-                            //params.push("-s")
-                            ASWGL.additionalParams = params
-                        }
+                        let userWantsOn = !ASWGL.running && checked
+                        if(userWantsOn)
+                            GC.setWebRemoteOn(true)
+                        let userWantsOff = ASWGL.running && !checked
+                        if(userWantsOff)
+                            GC.setWebRemoteOn(false)
                         ASWGL.running = checked
                     }
                 }
