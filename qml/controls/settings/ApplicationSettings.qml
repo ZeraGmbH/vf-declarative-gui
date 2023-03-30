@@ -110,6 +110,7 @@ SettingsView {
             }
             ZSpinBox {
                 id: actDecimalPlacesTotal
+                Layout.fillHeight: true
                 pointSize: root.pointSize
                 spinBox.width: root.rowWidth / 4
                 Component.onCompleted: text = GC.digitsTotal
@@ -137,6 +138,7 @@ SettingsView {
             }
             ZSpinBox {
                 id: actDecimalPlaces
+                Layout.fillHeight: true
                 pointSize: root.pointSize
                 spinBox.width: root.rowWidth / 4
                 Component.onCompleted: text = GC.decimalPlaces
