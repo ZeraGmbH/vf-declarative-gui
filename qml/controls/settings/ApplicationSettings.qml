@@ -239,31 +239,6 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             visible: !ASWGL.isServer
-            Rectangle {
-                anchors.fill: parent
-                anchors.leftMargin: 24+labelRemotWeb.width
-                anchors.rightMargin: 24+webOnOff.width
-                anchors.topMargin: -root.rowHeight / 8
-                anchors.bottomMargin: -root.rowHeight / 8
-                visible: ASWGL.running
-                ListView {
-                    id: ipInfo
-                    anchors.fill: parent
-                    anchors.margins: root.rowHeight / 6
-                    boundsBehavior: Flickable.OvershootBounds
-                    spacing: root.rowHeight / 8
-                    model: InfoInterface { }
-                    delegate: RowLayout {
-                        Text {
-                            font.pointSize: root.rowHeight / 5.2
-                            text: ipv4 + ':' + ASWGL.port
-                        }
-                        Rectangle {
-                            Layout.fillWidth: true
-                        }
-                    }
-                }
-            }
             RowLayout {
                 anchors.fill: parent
                 Label {
@@ -271,11 +246,29 @@ SettingsView {
                     text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Browser addresses:")
                     textFormat: Text.PlainText
                     font.pointSize: pointSize
-                    Layout.fillWidth: true
                     Layout.fillHeight: true
                     verticalAlignment: Label.AlignVCenter
                 }
-                Item { Layout.fillWidth: true }
+                Rectangle {
+                    opacity: ASWGL.running ? 1 : 0
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    ListView {
+                        id: ipInfo
+                        anchors.fill: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.margins: root.rowHeight / 6
+                        boundsBehavior: Flickable.OvershootBounds
+                        orientation: ListView.Horizontal
+                        spacing: root.rowHeight / 2
+                        model: InfoInterface { }
+                        delegate: Text {
+                            verticalAlignment: Text.AlignVCenter
+                            font.pointSize: root.rowHeight / 3.5
+                            text: ipv4 + ':' + ASWGL.port
+                        }
+                    }
+                }
                 ZCheckBox {
                     id: webOnOff
                     Layout.fillHeight: true
