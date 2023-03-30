@@ -275,7 +275,6 @@ SettingsView {
                     checked: ASWGL.running
                     onCheckedChanged: {
                         if(!ASWGL.running) {
-                            ASWGL.applicationPath = "vf-declarative-gui"
                             let params = ["-w"]
                             //params.push("-s")
                             ASWGL.additionalParams = params

@@ -11,24 +11,9 @@ void QmlAppStarterForWebGL::registerQML()
     qmlRegisterType<QmlAppStarterForWebGL>("AppStarterForWebGL", 1, 0, "AppStarterForWebGL");
 }
 
-
-
 void QmlAppStarterForWebGL::registerQMLSingleton()
 {
     qmlRegisterSingletonType<QmlAppStarterForWebGL>("AppStarterForWebGLSingleton", 1, 0, "ASWGL", QmlAppStarterForWebGL::getStaticInstance);
-}
-
-QString QmlAppStarterForWebGL::applicationPath() const
-{
-    return m_applicationPath;
-}
-
-void QmlAppStarterForWebGL::setApplicationPath(const QString &applicationPath)
-{
-    if(m_applicationPath != applicationPath) {
-        m_applicationPath = applicationPath;
-        emit applicationPathChanged();
-    }
 }
 
 QStringList QmlAppStarterForWebGL::additionalParams() const
@@ -73,7 +58,7 @@ void QmlAppStarterForWebGL::setRunning(const bool running)
         arguments.append("-platform");
         arguments.append(QStringLiteral("webgl:%1").arg(m_port));
 #endif
-        m_process.start(m_applicationPath, arguments);
+        m_process.start(QCoreApplication::applicationFilePath(), arguments);
     }
     else if (!running && m_running) {
         m_bIgnoreCrashEvent = true;
@@ -118,10 +103,9 @@ void QmlAppStarterForWebGL::processStateChanged(QProcess::ProcessState newState)
 
 void QmlAppStarterForWebGL::processErrorOccured(QProcess::ProcessError error)
 {
-    Q_UNUSED(error) // TODO translation dance?
-    if(!m_bIgnoreCrashEvent) {
-        qWarning("An error occured starting application %s for webgl!", qPrintable(m_applicationPath));
-    }
+    Q_UNUSED(error)
+    if(!m_bIgnoreCrashEvent)
+        qWarning("An error '%s' occured starting application for webgl!", qPrintable(m_process.errorString()));
 }
 
 QmlAppStarterForWebGL* QmlAppStarterForWebGL::singletonInstance = nullptr;
@@ -135,4 +119,3 @@ QmlAppStarterForWebGL *QmlAppStarterForWebGL::getStaticInstance(QQmlEngine *t_en
     }
     return singletonInstance;
 }
-

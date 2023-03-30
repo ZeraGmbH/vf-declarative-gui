@@ -15,33 +15,11 @@ public:
     static void registerQMLSingleton();
     static QmlAppStarterForWebGL *getStaticInstance(QQmlEngine *t_engine=nullptr, QJSEngine *t_scriptEngine=nullptr);
 
-    /**
-      @brief: set path to application. Since caller and server are identical/live in same path 'vf-declarative-gui' is good enough
-      */
-    Q_PROPERTY(QString applicationPath READ applicationPath WRITE setApplicationPath NOTIFY applicationPathChanged)
-    /**
-      @brief: additional commandline params
-      */
     Q_PROPERTY(QStringList additionalParams READ additionalParams WRITE setAdditionalParams NOTIFY additionalParamsChanged)
-    /**
-      @brief: IP port for WebGL server - default 8080
-      */
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
-    /**
-      @brief: Getter/Setter property to start server and check if it is running
-      */
     Q_PROPERTY(bool running READ running WRITE setRunning NOTIFY runningChanged)
-    /**
-      @brief: QML-readonly property to allow adjustment Application/WebGL-server adjustments
-      */
     Q_PROPERTY(bool isServer READ isServer NOTIFY isServerChanged)
-    /**
-      @brief: QML-readonly property to enable/disable source control
-      */
     Q_PROPERTY(bool sourceEnabled READ getSourceEnabled NOTIFY sigEnableSourceControlChanged)
-
-    QString applicationPath() const;
-    void setApplicationPath(const QString& applicationPath);
 
     QStringList additionalParams() const;
     void setAdditionalParams(const QStringList& additionalParams);
@@ -58,7 +36,6 @@ public:
     bool getSourceEnabled() const;
     void setEnableSource(const bool enable);
 signals:
-    void applicationPathChanged();
     void additionalParamsChanged();
     void portChanged();
     void runningChanged();
@@ -69,7 +46,6 @@ private slots:
     void processErrorOccured(QProcess::ProcessError error);
 
 private:
-    QString m_applicationPath;
     QStringList m_additionalParams;
     int m_port = 8080;
     bool m_running = false;
