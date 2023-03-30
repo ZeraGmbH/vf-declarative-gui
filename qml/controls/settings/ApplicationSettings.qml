@@ -172,39 +172,28 @@ SettingsView {
                 orientation: ListView.Horizontal
                 layoutDirection: "RightToLeft"
                 spacing: 2
-                boundsBehavior: Flickable.OvershootBounds
-                ScrollIndicator.horizontal: ScrollIndicator {
-                    onActiveChanged: active = true
-                    active: true
-                }
-                delegate: Item {
-                    width:  rButton.width
+                delegate: Button {
+                    id: rButton
+                    width: root.rowHeight*1.18
                     height: root.rowHeight
-                    Button {
-                        id: rButton
-                        width: root.rowHeight*1.18
-                        height: root.rowHeight
-                        font.pointSize: pointSize * 0.65
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        text: {
-                            let workingIndex = root.channelCount-index
-                            let colorLead = "<font color='" + SlwMachSettingsHelper.getCurrentColor(workingIndex) + "'>"
-                            let colorTrail = "</font>"
-                            return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
-                        }
-                        onClicked: {
-                            colorPicker.systemIndex = root.channelCount-index
-                            /// @bug setting the the same value twice doesn't reset the sliders
-                            colorPicker.oldColor = "transparent"
-                            colorPicker.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.systemIndex)
-                            colorPicker.open()
-                        }
+                    font.pointSize: pointSize * 0.65
+                    text: {
+                        let workingIndex = root.channelCount-index
+                        let colorLead = "<font color='" + SlwMachSettingsHelper.getCurrentColor(workingIndex) + "'>"
+                        let colorTrail = "</font>"
+                        return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
+                    }
+                    onClicked: {
+                        colorPicker.systemIndex = root.channelCount-index
+                        /// @bug setting the the same value twice doesn't reset the sliders
+                        colorPicker.oldColor = "transparent"
+                        colorPicker.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.systemIndex)
+                        colorPicker.open()
                     }
                 }
             }
             Button {
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                Layout.alignment: Qt.AlignVCenter
                 Layout.fillHeight: true
                 Layout.preferredWidth: root.rowHeight * 0.7
                 font.pointSize: root.rowHeight * 0.2
