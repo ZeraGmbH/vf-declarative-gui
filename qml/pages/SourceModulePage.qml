@@ -477,7 +477,7 @@ Item {
                                             anchors.fill: parent
                                             onClicked: phaseCheckbox.checked = !phaseCheckbox.checked
                                         }
-                                        CheckBox {
+                                        ZCheckBox {
                                             id: phaseCheckbox
                                             anchors.right: parent.right
                                             anchors.rightMargin: GC.standardTextHorizMargin
@@ -1076,10 +1076,12 @@ Item {
                     }*/
                 }
             }
-            CheckBox {
+            ZCheckBox {
                 id: symmetricCheckbox
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors {
+                    top: parent.top; bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
                 text: Z.tr("symmetric")
                 font.pointSize: pointSize * 0.9
                 checked: GC.sourceSymmetric
