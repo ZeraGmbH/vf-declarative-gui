@@ -15,14 +15,10 @@ public:
     static void registerQMLSingleton();
     static QmlAppStarterForWebGL *getStaticInstance(QQmlEngine *t_engine=nullptr, QJSEngine *t_scriptEngine=nullptr);
 
-    Q_PROPERTY(QStringList additionalParams READ additionalParams WRITE setAdditionalParams NOTIFY additionalParamsChanged)
     Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
     Q_PROPERTY(bool running READ running WRITE setRunning NOTIFY runningChanged)
     Q_PROPERTY(bool isServer READ isServer NOTIFY isServerChanged)
     Q_PROPERTY(bool sourceEnabled READ getSourceEnabled NOTIFY sigEnableSourceControlChanged)
-
-    QStringList additionalParams() const;
-    void setAdditionalParams(const QStringList& additionalParams);
 
     int port() const;
     void setPort(const int port);
@@ -36,7 +32,6 @@ public:
     bool getSourceEnabled() const;
     void setEnableSource(const bool enable);
 signals:
-    void additionalParamsChanged();
     void portChanged();
     void runningChanged();
     void isServerChanged();
@@ -46,7 +41,6 @@ private slots:
     void processErrorOccured(QProcess::ProcessError error);
 
 private:
-    QStringList m_additionalParams;
     int m_port = 8080;
     bool m_running = false;
     bool m_bisServer = false;

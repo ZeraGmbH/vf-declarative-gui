@@ -16,19 +16,6 @@ void QmlAppStarterForWebGL::registerQMLSingleton()
     qmlRegisterSingletonType<QmlAppStarterForWebGL>("AppStarterForWebGLSingleton", 1, 0, "ASWGL", QmlAppStarterForWebGL::getStaticInstance);
 }
 
-QStringList QmlAppStarterForWebGL::additionalParams() const
-{
-    return m_additionalParams;
-}
-
-void QmlAppStarterForWebGL::setAdditionalParams(const QStringList &additionalParams)
-{
-    if(m_additionalParams != additionalParams) {
-        m_additionalParams = additionalParams;
-        emit additionalParamsChanged();
-    }
-}
-
 int QmlAppStarterForWebGL::port() const
 {
     return m_port;
@@ -51,7 +38,7 @@ void QmlAppStarterForWebGL::setRunning(const bool running)
 {
     if(running && !m_running) {
         m_bIgnoreCrashEvent = false;
-        QStringList arguments = m_additionalParams;
+        QStringList arguments = QStringList() << "-w";
         // at the time of writing platform webgl is not supported on Fedora
         // to enable max debug experience: ignore params
 #ifndef QT_DEBUG

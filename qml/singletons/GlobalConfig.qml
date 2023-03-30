@@ -217,6 +217,15 @@ Item {
 
 
     /////////////////////////////////////////////////////////////////////////////
+    // Web remote
+    property bool webRemoteOn: parseInt(Settings.getOption("web_remote", "0"))
+    function setWebRemoteOn(on) {
+        webRemoteOn = on
+        Settings.setOption("web_remote", on ? 1 : 0);
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////
     // Common standard margins
 
     readonly property real standardMarginWithMin: 1
@@ -691,11 +700,12 @@ Item {
     // Startup jobs
     // * establish ZeraComponents settings bindings
     // * distribute locale from settings
+    // * auto webgl remote
     Component.onCompleted: {
-        // ZeraComponents
         ZCC.standardTextHorizMargin = Qt.binding(function() { return globalConfig.standardTextHorizMargin })
         ZCC.standardTextBottomMargin = Qt.binding(function() { return globalConfig.standardTextBottomMargin })
-        // locale
         setLocale(Settings.getOption("locale", "en_GB"), false)
+        if(!ASWGL.isServer && webRemoteOn )
+            ASWGL.running = true
     }
 }
