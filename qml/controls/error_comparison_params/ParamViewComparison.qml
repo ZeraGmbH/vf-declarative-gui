@@ -20,7 +20,6 @@ Item {
     // properties to set by parent
     property QtObject logicalParent;
     property var validatorRefInput
-    property var validatorMode
     property var validatorDutInput
     property var validatorDutConstant
     property var validatorDutConstUnit

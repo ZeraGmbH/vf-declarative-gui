@@ -92,7 +92,6 @@ Item {
                     id: paramView
                     logicalParent: root
                     validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
-                    validatorMode: moduleIntrospection.ComponentInfo.PAR_Mode.Validation
                     validatorDutInput: moduleIntrospection.ComponentInfo.PAR_DutInput.Validation
                     validatorDutConstant: moduleIntrospection.ComponentInfo.PAR_DutConstant.Validation
                     validatorDutConstUnit: moduleIntrospection.ComponentInfo.PAR_DUTConstUnit.Validation
