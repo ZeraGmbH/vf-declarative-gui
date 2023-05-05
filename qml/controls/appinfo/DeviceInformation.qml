@@ -82,6 +82,21 @@ Item {
             height: root.rowHeight
             Label {
                 font.pointSize: root.pointSize
+                text: Z.tr("PCB version:")
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+            Label {
+                font.pointSize: root.pointSize
+                text: statusEnt.INF_PCBVersion
+            }
+        }
+        RowLayout {
+            width: parent.width
+            height: root.rowHeight
+            Label {
+                font.pointSize: root.pointSize
                 text: Z.tr("PCB server version:")
             }
             Item {
