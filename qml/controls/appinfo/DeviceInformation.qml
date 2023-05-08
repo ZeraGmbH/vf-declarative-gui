@@ -14,10 +14,18 @@ Item {
     readonly property real pointSize: rowHeight * 0.7
 
     property var dynVersions: []
+    property var ctrlVersions: []
     readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
     onHasCpuInfoChanged: {
         if(hasCpuInfo) {
             appendDynVersions(VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"])
+        }
+    }
+
+    readonly property bool hasCtrlInfo: statusEnt.hasComponent("INF_CTRLVersion")
+    onHasCtrlInfoChanged: {
+        if(hasCpuInfo) {
+            appendCtrlVersions(VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"])
         }
     }
     function appendDynVersions(strJsonCpuInfo) {
@@ -43,6 +51,24 @@ Item {
             repeaterVersions.model = dynVersions
         }
     }
+    function appendCtrlVersions(strJsonCpuInfo) {
+        let dynVersionLookup = [
+            [Z.tr("System controller version"),   "SysController version"],
+            [Z.tr("Relay version"),  "Relay version"],
+        ];
+        if(strJsonCpuInfo !== "") {
+            let jsonCpuInfo = JSON.parse(strJsonCpuInfo)
+            for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
+                let jsonVerName = dynVersionLookup[lookupItem][1]
+                if(jsonVerName in jsonCpuInfo) {
+                    let item = [dynVersionLookup[lookupItem][0], jsonCpuInfo[jsonVerName]]
+                    ctrlVersions.push(item)
+                }
+            }
+            repeaterVersions2.model = ctrlVersions
+        }
+    }
+
 
     VisualItemModel {
         id: statusModel
@@ -152,19 +178,26 @@ Item {
                 text: statusEnt.INF_FPGAVersion
             }
         }
-        RowLayout {
+        ColumnLayout {
             width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("Microcontroller firmware version:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_CTRLVersion
+            height: root.rowHeight*2.5
+            spacing: root.rowHeight/7
+            Repeater {
+                id: repeaterVersions2
+                model: []
+                RowLayout {
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: modelData[0] + ":"
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: modelData[1]
+                    }
+                }
             }
         }
         RowLayout {
