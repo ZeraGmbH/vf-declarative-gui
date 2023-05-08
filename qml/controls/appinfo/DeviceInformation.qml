@@ -181,7 +181,7 @@ Item {
         ColumnLayout {
             width: parent.width
             height: root.rowHeight*2.5
-            spacing: root.rowHeight/7
+            spacing: root.rowHeight/4
             Repeater {
                 id: repeaterVersions2
                 model: []
