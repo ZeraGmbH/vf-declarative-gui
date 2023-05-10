@@ -13,18 +13,11 @@ Item {
     readonly property real rowHeight: height > 0 ? height/20 : 10
     readonly property real pointSize: rowHeight * 0.7
 
-    property var dynVersions: []
-    readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
-    onHasCpuInfoChanged: {
-        if(hasCpuInfo) {
-            appendDynVersions(VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"])
-        }
-    }
-
-    function appendDynVersions(strJsonCpuInfo) {
+    readonly property var dynVersions: {
         // Vein/JSON version lookup fields:
         // 1st: Text displayed in label
         // 2nd: JSON input field name
+        let strJsonCpuInfo = VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"]
         let dynVersionLookup = [
             [Z.tr("CPU-board number"),   "PartNumber"],
             [Z.tr("CPU-board assembly"),  "Assembly"],
@@ -32,17 +25,18 @@ Item {
         ];
         // 1st: Text displayed in label
         // 2nd: version
+        let versions = []
         if(strJsonCpuInfo !== "") {
             let jsonCpuInfo = JSON.parse(strJsonCpuInfo)
             for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
                 let jsonVerName = dynVersionLookup[lookupItem][1]
                 if(jsonVerName in jsonCpuInfo) {
                     let item = [dynVersionLookup[lookupItem][0], jsonCpuInfo[jsonVerName]]
-                    dynVersions.push(item)
+                    versions.push(item)
                 }
             }
-            repeaterVersions.model = dynVersions
         }
+        return versions
     }
 
     readonly property var ctrlVersions : {
@@ -231,8 +225,7 @@ Item {
             width: parent.width
             spacing: rowHeight/2
             Repeater {
-                id: repeaterVersions
-                model: []
+                model: dynVersions
                 RowLayout {
                     height: root.rowHeight
                     Label {
