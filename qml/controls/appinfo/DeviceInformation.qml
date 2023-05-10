@@ -14,7 +14,6 @@ Item {
     readonly property real pointSize: rowHeight * 0.7
 
     property var dynVersions: []
-    property var ctrlVersions: []
     readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
     onHasCpuInfoChanged: {
         if(hasCpuInfo) {
@@ -22,12 +21,6 @@ Item {
         }
     }
 
-    readonly property bool hasCtrlInfo: statusEnt.hasComponent("INF_CTRLVersion")
-    onHasCtrlInfoChanged: {
-        if(hasCpuInfo) {
-            appendCtrlVersions(VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"])
-        }
-    }
     function appendDynVersions(strJsonCpuInfo) {
         // Vein/JSON version lookup fields:
         // 1st: Text displayed in label
@@ -51,22 +44,25 @@ Item {
             repeaterVersions.model = dynVersions
         }
     }
-    function appendCtrlVersions(strJsonCpuInfo) {
+
+    readonly property var ctrlVersions : {
+        let strJsonCpuInfo = VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
         let dynVersionLookup = [
             [Z.tr("System controller version"),   "SysController version"],
             [Z.tr("Relay version"),  "Relay version"],
         ];
+        let versions = []
         if(strJsonCpuInfo !== "") {
             let jsonCpuInfo = JSON.parse(strJsonCpuInfo)
             for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
                 let jsonVerName = dynVersionLookup[lookupItem][1]
                 if(jsonVerName in jsonCpuInfo) {
                     let item = [dynVersionLookup[lookupItem][0], jsonCpuInfo[jsonVerName]]
-                    ctrlVersions.push(item)
+                    versions.push(item)
                 }
             }
-            repeaterVersions2.model = ctrlVersions
         }
+        return versions
     }
 
 
@@ -184,7 +180,7 @@ Item {
             spacing: root.rowHeight/4
             Repeater {
                 id: repeaterVersions2
-                model: []
+                model: ctrlVersions
                 RowLayout {
                     Label {
                         font.pointSize: root.pointSize
