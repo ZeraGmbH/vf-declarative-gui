@@ -14,7 +14,6 @@ Item {
     readonly property real pointSize: rowHeight * 0.7
 
     property var dynVersions: []
-    property var ctrlVersions: []
     readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
     onHasCpuInfoChanged: {
         if(hasCpuInfo) {
@@ -158,28 +157,22 @@ Item {
         }
         ColumnLayout {
             width: parent.width
-            height: root.rowHeight*2.5
-            spacing: root.rowHeight/4
+            height: root.rowHeight * (repeaterCtrlVersions.model.length) * 1.4
             Repeater {
-                id: repeaterVersions2
+                id: repeaterCtrlVersions
                 model:  {
-                    let dynVersionLookup = [
-                        [Z.tr("System controller version"),   "SysController version"],
-                        [Z.tr("Relay version"),  "Relay version"],
-                    ];
+                    let ctrlVersions = []
                     if(ctrlVersionInfo !== "") {
                         let jsonCpuInfo = JSON.parse(ctrlVersionInfo)
-                        for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
-                            let jsonVerName = dynVersionLookup[lookupItem][1]
-                            if(jsonVerName in jsonCpuInfo) {
-                                let item = [dynVersionLookup[lookupItem][0], jsonCpuInfo[jsonVerName]]
-                                ctrlVersions.push(item)
-                            }
+                        for(let jsonEntry in jsonCpuInfo) {
+                            let item = [Z.tr(jsonEntry), jsonCpuInfo[jsonEntry]]
+                            ctrlVersions.push(item)
                         }
-                        return ctrlVersions
                     }
+                    return ctrlVersions
                 }
                 RowLayout {
+                    height: root.rowHeight
                     Label {
                         font.pointSize: root.pointSize
                         text: modelData[0] + ":"
