@@ -22,6 +22,7 @@ Item {
     }
 
     readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
+    readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
 
     function appendDynVersions(strJsonCpuInfo) {
         // Vein/JSON version lookup fields:
@@ -80,21 +81,39 @@ Item {
                 text: statusEnt.INF_ReleaseNr
             }
         }
-        RowLayout {
+        ColumnLayout {
             width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("PCB version:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_PCBVersion
+            height: root.rowHeight * (repeaterPCBVersions.model.length) * 1.4
+            Repeater {
+                id: repeaterPCBVersions
+                model:  {
+                    let ctrlVersions = []
+                    if(pcbVersionInfo !== "") {
+                        let jsonInfo = JSON.parse(pcbVersionInfo)
+                        for(let jsonEntry in jsonInfo) {
+                            let item = [Z.tr(jsonEntry), jsonInfo[jsonEntry]]
+                            ctrlVersions.push(item)
+                        }
+                    }
+                    return ctrlVersions
+                }
+                RowLayout {
+                    height: root.rowHeight
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: modelData[0] + ":"
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: modelData[1]
+                    }
+                }
             }
         }
+
         RowLayout {
             width: parent.width
             height: root.rowHeight
