@@ -257,6 +257,7 @@ Item {
         anchors.left: statusListView.right
         anchors.top: statusListView.top
         anchors.bottom: statusListView.bottom
+        anchors.leftMargin: parent.width/80
         visible: statusListView.contentHeight>statusListView.height
         Component.onCompleted: {
             policy = ScrollBar.AlwaysOn;
