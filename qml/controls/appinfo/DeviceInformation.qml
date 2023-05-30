@@ -269,6 +269,7 @@ Item {
         spacing: rowHeight/2
         model: statusModel
         boundsBehavior: Flickable.StopAtBounds
+        clip: true
         ScrollBar.vertical: rightScrollbar
     }
     ScrollBar {
