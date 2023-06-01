@@ -21,9 +21,6 @@ public:
 
 private:
     void setupFftData();
-
-    QString getActualValueModelNameById(int t_moduleId);
-
     void setAngleUI(int t_systemNumber);
 
     bool handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
