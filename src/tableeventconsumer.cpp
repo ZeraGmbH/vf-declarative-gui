@@ -96,22 +96,6 @@ void TableEventConsumer::setupFftData()
     m_hpwTableRoleMapping.insert("ACT_HPS3", HarmonicPowerTableModel::POWER_S3_S);
 }
 
-QString TableEventConsumer::getActualValueModelNameById(int t_moduleId)
-{
-    switch(static_cast<Modules>(t_moduleId))
-    {
-    case Modules::Power1Module1:
-        return "P";
-    case Modules::Power1Module2:
-        return "Q";
-    case Modules::Power1Module3:
-        return "S";
-    default:
-        Q_ASSERT(false);
-        return "ERROR in QString getActualValueModelNameById(int t_moduleId)";
-    }
-}
-
 void TableEventConsumer::setAngleUI(int t_systemNumber)
 {
     Q_ASSERT(t_systemNumber==-1 || (t_systemNumber>0 && t_systemNumber<4));
