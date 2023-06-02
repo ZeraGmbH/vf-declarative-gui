@@ -150,11 +150,11 @@ Item {
                         text: {
                             switch(index) {
                             case 0:
-                                return "P"
+                                return VeinEntity.getEntity("POWER1Module1").ACT_PowerDisplayName
                             case 1:
-                                return "Q"
+                                return VeinEntity.getEntity("POWER1Module2").ACT_PowerDisplayName
                             case 2:
-                                return "S"
+                                return VeinEntity.getEntity("POWER1Module3").ACT_PowerDisplayName
                             case 3:
                                 return Z.tr("ext.")
                             }
