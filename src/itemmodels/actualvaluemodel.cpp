@@ -128,6 +128,7 @@ void ActualValueModel::setupMapping()
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
     p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 10));
+    p1m1Map->insert("ACT_PowerDisplayName", QPoint(RoleIndexes::NAME, 10));
     p1m1Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 10));
     p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 10));
     p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 10));
@@ -135,6 +136,7 @@ void ActualValueModel::setupMapping()
 
     QHash<QString, QPoint> *p1m2Map = new QHash<QString, QPoint>();
     p1m2Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 11));
+    p1m2Map->insert("ACT_PowerDisplayName", QPoint(RoleIndexes::NAME, 11));
     p1m2Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 11));
     p1m2Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 11));
     p1m2Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 11));
@@ -142,6 +144,7 @@ void ActualValueModel::setupMapping()
 
     QHash<QString, QPoint> *p1m3Map = new QHash<QString, QPoint>();
     p1m3Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 12));
+    p1m3Map->insert("ACT_PowerDisplayName", QPoint(RoleIndexes::NAME, 12));
     p1m3Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, 12));
     p1m3Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 12));
     p1m3Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 12));
@@ -180,11 +183,21 @@ void ActualValueModel::insertMeasMode(int yCoordinate, QString measMode)
     updateMModeTranslations();
 }
 
+void ActualValueModel::insertPowerName(int yCoordinate, QString measMode)
+{
+    m_dynamicPowerName.insert(yCoordinate, measMode);
+    updateMModeTranslations();
+}
+
 void ActualValueModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     if(cData->componentName() == QLatin1String("PAR_MeasuringMode")) {
         QString newValue = cData->newValue().toString();
         insertMeasMode(valueCoordiates.y(), newValue);
+    }
+    else if(cData->componentName() == QLatin1String("ACT_PowerDisplayName")) {
+        QString newValue = cData->newValue().toString();
+        insertPowerName(valueCoordiates.y(), newValue);
     }
     else {
         TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
@@ -195,9 +208,12 @@ void ActualValueModel::updateMModeTranslations()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(10, 0);
-    setData(mIndex, QString("(%1) P").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
+                                      .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
     mIndex = index(11, 0);
-    setData(mIndex, QString("(%1) Q").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
+                                      .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
     mIndex = index(12, 0);
-    setData(mIndex, QString("(%1) S").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
+                                      .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
 }

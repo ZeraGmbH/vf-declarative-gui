@@ -20,8 +20,10 @@ protected:
 
 private:
     void insertMeasMode(int yCoordinate, QString measMode);
+    void insertPowerName(int yCoordinate, QString measMode);
     void updateMModeTranslations();
     QHash<int, QString> m_dynamicMeasuringModeDescriptor = {{10, ""}, {11, ""}, {12, ""}};
+    QHash<int, QString> m_dynamicPowerName = {{10, ""}, {11, ""}, {12, ""}};
 };
 
 #endif // ACTUALVALUEMODEL_H
