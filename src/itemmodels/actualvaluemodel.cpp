@@ -219,17 +219,17 @@ void ActualValueModel::updateMModeTranslations()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(10, 0);
-    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
-                                      .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
+                                           m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
     setData(mIndex, QString("%1").arg(m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString()), RoleIndexes::UNIT);
 
     mIndex = index(11, 0);
-    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
-                                      .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
+                                           m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
     setData(mIndex, QString("%1").arg(m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString()), RoleIndexes::UNIT);
 
     mIndex = index(12, 0);
-    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
-                                      .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
+                                           m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
     setData(mIndex, QString("%1").arg(m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString()), RoleIndexes::UNIT);
 }
