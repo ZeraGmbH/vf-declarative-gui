@@ -1,4 +1,5 @@
 #include "actualvaluemodel.h"
+#include <QJsonDocument>
 
 ActualValueModel::ActualValueModel() :
     TableEventItemModelBase(14, 1)
@@ -68,12 +69,6 @@ void ActualValueModel::setLabelsAndUnits()
     mIndex = index(8, 0);
     setData(mIndex, "°", RoleIndexes::UNIT);
     //mIndex = index(9, 0); //none
-    mIndex = index(10, 0);
-    setData(mIndex, "W", RoleIndexes::UNIT);
-    mIndex = index(11, 0);
-    setData(mIndex, "VAR", RoleIndexes::UNIT);
-    mIndex = index(12, 0);
-    setData(mIndex, "VA", RoleIndexes::UNIT);
     mIndex = index(13, 0);
     setData(mIndex, "Hz", RoleIndexes::UNIT);
 
@@ -133,6 +128,7 @@ void ActualValueModel::setupMapping()
     p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 10));
     p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 10));
     p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 10));
+    p1m1Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 10));
 
     QHash<QString, QPoint> *p1m2Map = new QHash<QString, QPoint>();
     p1m2Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 11));
@@ -141,6 +137,7 @@ void ActualValueModel::setupMapping()
     p1m2Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 11));
     p1m2Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 11));
     p1m2Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 11));
+    p1m2Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 11));
 
     QHash<QString, QPoint> *p1m3Map = new QHash<QString, QPoint>();
     p1m3Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 12));
@@ -149,6 +146,7 @@ void ActualValueModel::setupMapping()
     p1m3Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, 12));
     p1m3Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 12));
     p1m3Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 12));
+    p1m3Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 12));
 
     QHash<QString, QPoint> *rangeMap = new QHash<QString, QPoint>();
     rangeMap->insert("ACT_Frequency", QPoint(RoleIndexes::SUM, 13));
@@ -189,6 +187,12 @@ void ActualValueModel::insertPowerName(int yCoordinate, QString measMode)
     updateMModeTranslations();
 }
 
+void ActualValueModel::insertPowerUnit(int yCoordinate, QString measUnit)
+{
+    m_dynamicPowerUnit.insert(yCoordinate, measUnit);
+    updateMModeTranslations();
+}
+
 void ActualValueModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     if(cData->componentName() == QLatin1String("PAR_MeasuringMode")) {
@@ -198,6 +202,13 @@ void ActualValueModel::handleComponentChangeCoord(const VeinComponent::Component
     else if(cData->componentName() == QLatin1String("ACT_PowerDisplayName")) {
         QString newValue = cData->newValue().toString();
         insertPowerName(valueCoordiates.y(), newValue);
+    }
+
+    else if(cData->componentName() == QLatin1String("INF_ModuleInterface")) {
+        QString newValue = cData->newValue().toString();
+        const auto json = QJsonDocument::fromJson(newValue.toUtf8());
+        QJsonValue unit = json["ComponentInfo"]["ACT_PQS1"]["Unit"];
+        insertPowerUnit(valueCoordiates.y(), unit.toString());
     }
     else {
         TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
@@ -210,10 +221,15 @@ void ActualValueModel::updateMModeTranslations()
     QModelIndex mIndex = index(10, 0);
     setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
                                       .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("%1").arg(m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString()), RoleIndexes::UNIT);
+
     mIndex = index(11, 0);
     setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
                                       .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("%1").arg(m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString()), RoleIndexes::UNIT);
+
     mIndex = index(12, 0);
     setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString())
                                       .arg(m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    setData(mIndex, QString("%1").arg(m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString()), RoleIndexes::UNIT);
 }
