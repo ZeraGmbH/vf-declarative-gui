@@ -5,8 +5,6 @@ set(PROJECT_VERSION "1.4.0")
 
 cmake_policy(SET CMP0071 NEW)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FeatureSummary)
 
