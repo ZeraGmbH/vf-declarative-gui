@@ -20,7 +20,7 @@ find_Package(VfNet2 REQUIRED )
 find_Package(VfTcp REQUIRED )
 find_Package(VfQml REQUIRED )
 find_Package(VfHelpers REQUIRED )
-find_package(SortFilterProxyModelCmake REQUIRED)
+find_package(SortFilterProxyModel REQUIRED)
 find_package(ZeraTranslation REQUIRED)
 find_Package(zera-json-qml REQUIRED)
 find_Package(VfQmlLibs REQUIRED)
@@ -74,7 +74,7 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::zerafa
     Zera::anmlib
     Zera::uivlib
-    ZeraQml::SortFilterProxyModelCmake
+    SortFilterProxyModel::SortFilterProxyModel
     ZeraTranslation::ZeraTranslation
     Zera::zeracomponents
     Zera::qmlhelpers
