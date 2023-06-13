@@ -42,14 +42,16 @@ void ActualValueModel::setLabelsAndUnits()
     setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
     mIndex = index(9, 0);
     setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
-    mIndex = index(10, 0);
-    setData(mIndex, m_translation->TrValue("P"), RoleIndexes::NAME);
-    mIndex = index(11, 0);
-    setData(mIndex, m_translation->TrValue("Q"), RoleIndexes::NAME);
-    mIndex = index(12, 0);
-    setData(mIndex, m_translation->TrValue("S"), RoleIndexes::NAME);
     mIndex = index(13, 0);
     setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
+
+    // Types - currently power only
+    mIndex = index(10, 0);
+    setData(mIndex, "Power", RoleIndexes::TYPE);
+    mIndex = index(11, 0);
+    setData(mIndex, "Power", RoleIndexes::TYPE);
+    mIndex = index(12, 0);
+    setData(mIndex, "Power", RoleIndexes::TYPE);
 
     //unit names
     mIndex = index(1, 0);
@@ -172,6 +174,7 @@ QHash<int, QByteArray> ActualValueModel::roleNames() const
     roles.insert(RoleIndexes::AUX, "AUX");
     roles.insert(RoleIndexes::SUM, "Sum");
     roles.insert(RoleIndexes::UNIT, "Unit");
+    roles.insert(RoleIndexes::TYPE, "Type");
     return roles;
 }
 
