@@ -16,6 +16,7 @@ enum RoleIndexes
     AUX=Qt::UserRole+500,
     SUM=Qt::UserRole+1000,
     UNIT=Qt::UserRole+1001,
+    TYPE=Qt::UserRole+1002,
 };
 }
 

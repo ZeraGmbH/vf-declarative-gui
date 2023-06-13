@@ -7,125 +7,95 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import PowerModuleVeinGetter 1.0
 import ZeraVeinComponents 1.0
+import TableEventDistributor 1.0
+import SortFilterProxyModel 0.2
 import "../controls"
 
 Item {
     id: root
 
-    readonly property int row1stHeight: Math.floor(height/8)
-    readonly property int rowHeight: Math.floor((height-2*row1stHeight)/3)
+    readonly property real row1stHeight: Math.floor(height/8)
+    readonly property real rowHeight: Math.floor((height-2*row1stHeight)/3)
+    readonly property int pixelSize: rowHeight*0.4
 
-    readonly property int firstColumnWidth: width*0.05
-    readonly property int valueColumnWidth: width*0.22
-    readonly property int lastColumnWidth: width-firstColumnWidth-4*valueColumnWidth
+    readonly property real firstColumnWidth: width*0.1
+    readonly property real valueColumnWidth: width*0.208
+    readonly property real lastColumnWidth: width-firstColumnWidth-4*valueColumnWidth
 
-    Row {
-        id: heardersRow
-        height: root.row1stHeight
-        GridRect {
-            width: firstColumnWidth
-            height: parent.height
-            color: GC.tableShadeColor
-            //spacer
-        }
-        GridItem {
-            width: valueColumnWidth
-            height: parent.height
-            color: GC.tableShadeColor
-            text: Z.tr("L1")
-            textColor: GC.colorUL1
-            font.pixelSize: rowHeight*0.4
-        }
-        GridItem {
-            width: valueColumnWidth
-            height: parent.height
-            color: GC.tableShadeColor
-            text: Z.tr("L2")
-            textColor: GC.colorUL2
-            font.pixelSize: rowHeight*0.4
-        }
-        GridItem {
-            width: valueColumnWidth
-            height: parent.height
-            color: GC.tableShadeColor
-            text: Z.tr("L3")
-            textColor: GC.colorUL3
-            font.pixelSize: rowHeight*0.4
-        }
-        GridItem {
-            width: valueColumnWidth
-            height: parent.height
-            color: GC.tableShadeColor
-            text: "Σ"
-            font.pixelSize: rowHeight*0.4
-        }
-        GridItem {
-            width: lastColumnWidth
-            height: parent.height
-            color: GC.tableShadeColor
-            text: "[ ]"
-            font.pixelSize: rowHeight*0.3
-        }
+    SortFilterProxyModel {
+        id: filteredActualValueModel
+        sourceModel: ZGL.ActualValueModel
+        filters: [
+            AnyOf {
+                RegExpFilter {
+                    roleName: "Name"
+                    // empty string for header row
+                    pattern: "^$"
+                    caseSensitivity: Qt.CaseInsensitive
+                }
+                RegExpFilter {
+                    roleName: "Type"
+                    pattern: "Power" // just power rows
+                    caseSensitivity: Qt.CaseInsensitive
+                }
+            }
+        ]
     }
-
     ListView {
         id: listView
-        anchors.top: heardersRow.bottom
-        height: root.rowHeight*count
+        anchors.top: parent.top
+        anchors.bottom: footerRow.top
         width: parent.width
-        //used number as model since the ListModel cannot use scripted values
-        model: 3
+        model: filteredActualValueModel
         boundsBehavior: ListView.StopAtBounds
         interactive: false
 
         delegate: Component {
             Row {
-                height: root.rowHeight
+                height: index === 0 ? row1stHeight : rowHeight
                 GridItem {
                     width: firstColumnWidth
                     height: parent.height
                     color: GC.tableShadeColor
-                    text: (PwrModVeinGetter.getEntityJsonInfo(index).ComponentInfo.ACT_PQS1.ChannelName).slice(0,1); //(P/Q/S)1 -> (P/Q/S)
-                    font.pixelSize: height*0.4
-
+                    text: Name!==undefined ? Name : ""
                 }
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
-                    clip: true
-                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS1);
+                    text: L1!==undefined ? FT.formatNumber(L1) : ""
+                    font.pixelSize: pixelSize
+                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     textColor: GC.colorUL1
-                    font.pixelSize: height*0.4
                 }
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
-                    clip: true
-                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS2);
+                    text: L2!==undefined ? FT.formatNumber(L2) : ""
+                    font.pixelSize: pixelSize
+                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     textColor: GC.colorUL2
-                    font.pixelSize: height*0.4
                 }
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
-                    clip: true
-                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS3);
+                    text: L3!==undefined ? FT.formatNumber(L3) : ""
+                    font.pixelSize: pixelSize
+                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     textColor: GC.colorUL3
-                    font.pixelSize: height*0.4
                 }
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
-                    clip: true
-                    text: FT.formatNumber(PwrModVeinGetter.getEntity(index).ACT_PQS4);
-                    font.pixelSize: height*0.4
+                    font.pixelSize: pixelSize
+                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                    text: Sum!==undefined ? FT.formatNumber(Sum) : ""
                 }
                 GridItem {
                     width: lastColumnWidth
                     height: parent.height
-                    clip: true
-                    text: PwrModVeinGetter.getEntityJsonInfo(index).ComponentInfo.ACT_PQS1.Unit
-                    font.pixelSize: height*0.25
+                    text: Unit!==undefined ? FT.formatNumber(Unit) : ""
+                    font.pixelSize: pixelSize*0.7
+                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                 }
             }
         }
@@ -134,7 +104,7 @@ Item {
         id: footerRow
         height: root.row1stHeight
         width: parent.width
-        anchors.top: listView.bottom
+        anchors.bottom: parent.bottom
         GridRect {
             id: measModeGrid
             width: parent.width
