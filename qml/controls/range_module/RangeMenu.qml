@@ -28,13 +28,11 @@ Item {
             var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
             var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
             if(name.startsWith("REF")) {
-                if(channelNum<3) {//REF1..REF3
+                if(channelNum<3) //REF1..REF3
                     retVal.push(channelNum);
-                }
             }
-            else if(unit === "V") { //UL1..UL3 +UAUX
+            else if(unit === "V") //UL1..UL3 +UAUX
                 retVal.push(channelNum)
-            }
         }
         return retVal;
     }
@@ -44,13 +42,11 @@ Item {
             var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
             var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
             if(name.startsWith("REF")) {
-                if(channelNum>=3) { //REF3..REF6
+                if(channelNum>=3) //REF3..REF6
                     retVal.push(channelNum);
-                }
             }
-            else if(unit === "A") { //IL1..IL3 +IAUX
+            else if(unit === "A") //IL1..IL3 +IAUX
                 retVal.push(channelNum)
-            }
         }
         return retVal;
     }
@@ -161,7 +157,7 @@ Item {
                 text: rangeModule["PAR_PreScalingGroup0"].split("*")[0].split("/")[1]
                 validator: IntValidator{bottom: 1; top: 999999 }
                 function doApplyInput(newText) {
-                    rangeModule["PAR_PreScalingGroup0"]=rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+"/"+newText+sqrtComb.currentText
+                    rangeModule["PAR_PreScalingGroup0"]=uTrZ.text+"/"+newText+sqrtComb.currentText
                 }
             }
             ZVisualComboBox {
@@ -174,12 +170,10 @@ Item {
                 imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
                 automaticIndexChange: true
                 currentIndex:{
-                    if(rangeModule["PAR_PreScalingGroup0"].includes("(1/sqrt(3))")){
+                    if(rangeModule["PAR_PreScalingGroup0"].includes("(1/sqrt(3))"))
                         return 2;
-                    }else if(rangeModule["PAR_PreScalingGroup0"].includes("(sqrt(3))")){
+                    else if(rangeModule["PAR_PreScalingGroup0"].includes("(sqrt(3))"))
                         return 1;
-                    }
-
                     return 0;
                 }
                 onSelectedTextChanged: {

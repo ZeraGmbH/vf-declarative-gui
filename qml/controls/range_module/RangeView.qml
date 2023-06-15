@@ -34,7 +34,6 @@ ListView {
             anchors.horizontalCenter: parent.horizontalCenter
         }
         VFComboBox {
-            //UL1-UL3 +UAUX
             arrayMode: true
             entity: VeinEntity.getEntity("RangeModule1")
             controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
