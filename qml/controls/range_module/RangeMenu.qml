@@ -113,40 +113,13 @@ Item {
                 controlPropertyName: "PAR_ChannelGrouping"
             }
         }
-        ListView {
+        RangeView{
             id: uranges
-            width: leftList.width
-            height: 1.4*rowHeight
+            rangeWidth: leftList.width
+            rangeHeight: 1.4*rowHeight
             model: root.upperChannels
-            boundsBehavior: Flickable.StopAtBounds
-            orientation: ListView.Horizontal
-            delegate: Item {
-                height: parent.height
-                width: uranges.width/4
-                Label {
-                    id: urlabel
-                    text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName)
-                    color: FT.getColorByIndex(modelData+1, root.groupingActive)
-                    font.pointSize: smallPointSize
-                    anchors.bottom: parent.top
-                    anchors.bottomMargin: -(parent.height/3)
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                VFComboBox {
-                    //UL1-UL3 +UAUX
-                    arrayMode: true
-                    entity: root.rangeModule
-                    controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
-                    model: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
-                    centerVertical: true
-                    anchors.bottom: parent.bottom
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: urlabel.bottom
-                    width: parent.width*0.95
-                    enabled: parent.enabled
-                }
-            }
         }
+
         Item {
             id: extU
             width: iranges.width
@@ -227,42 +200,12 @@ Item {
             height: rowHeight/2
             width: leftList.width
         }
-        ListView {
+
+        RangeView{
             id: iranges
-            width: leftList.width
-            height: 1.4*rowHeight
+            rangeWidth: leftList.width
+            rangeHeight: 1.4*rowHeight
             model: root.lowerChannels
-            boundsBehavior: Flickable.StopAtBounds
-
-            orientation: ListView.Horizontal
-
-            delegate: Item {
-                height: parent.height
-                width: iranges.width/4
-                Label {
-                    id: irlabel
-                    text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName)
-                    font.pointSize: smallPointSize
-                    color: FT.getColorByIndex(modelData+1, root.groupingActive)
-                    anchors.bottom: parent.top
-                    anchors.bottomMargin: -(parent.height/3)
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                VFComboBox {
-                    //IL1-IL3 +IAUX
-                    arrayMode: true
-                    entity: root.rangeModule
-                    controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
-                    model: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
-                    contentMaxRows: 5
-                    centerVertical: true
-                    anchors.bottom: parent.bottom
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: irlabel.bottom
-                    width: parent.width*0.95
-                    enabled: parent.enabled
-                }
-            }
         }
         Item {
             id: extI
