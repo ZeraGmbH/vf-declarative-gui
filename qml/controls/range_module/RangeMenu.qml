@@ -70,7 +70,7 @@ Item {
         id: leftView
         Item{
             width: parent.width
-            height: rowHeight
+            height: rowHeight/3
             Label {
                 text: Z.tr("Range automatic:")
                 anchors.left: parent.left
@@ -194,7 +194,7 @@ Item {
         }
         Item {
             id: spacer
-            height: rowHeight/2
+            height: rowHeight/4
             width: leftList.width
         }
 
@@ -207,7 +207,7 @@ Item {
         Item {
             id: extI
             width: iranges.width
-            height: !referenceRanges ? rowHeight : 0
+            height: !referenceRanges ? rowHeight*1.4 : 0
             visible: !referenceRanges
             Label{
                 text: Z.tr("IExt:")
@@ -331,6 +331,7 @@ Item {
         width: parent.width*9/16
         spacing: 10
         model: leftView
+        boundsBehavior: Flickable.StopAtBounds
     }
 
 
@@ -339,7 +340,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        width: parent.width*7/16-10
+        width: parent.width*7/16-20
 
         Button {
             id: overloadButton
