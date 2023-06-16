@@ -10,11 +10,14 @@ import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
 import QtQml.Models 2.11
+import "../../controls"
 
 Item {
     id: root
 
     readonly property real rowHeight: height/10
+    readonly property real valueColumnWidth: width*0.152
+
     readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.325 : 10
     readonly property real smallPointSize: pointSize * 0.8
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
@@ -252,6 +255,71 @@ Item {
                 height: rowHeight
                 entity: root.rangeModule
                 controlPropertyName: "PAR_PreScalingEnabledGroup1"
+            }
+        }
+
+        Item{
+            id:measmodeText
+            width: leftList.width
+            height: rowHeight/3
+            visible: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
+            Label {
+                text: Z.tr("Measurement mode:")
+                anchors.left: parent.left
+                verticalAlignment: Label.AlignVCenter
+                anchors.verticalCenter: parent.verticalCenter
+                font.pointSize: pointSize
+            }
+        }
+        Row {
+            id: measmodeRow
+            height: rowHeight
+            width: leftList.width
+            visible: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
+            GridRect {
+                id: measModeGrid
+                height: parent.height
+                anchors.rightMargin: 0
+                anchors.leftMargin: 0
+                Repeater {
+                    model: VeinEntity.hasEntity("POWER1Module4") ? 4 : 3
+                    Item {
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        x: root.valueColumnWidth*(index)
+                        width: root.valueColumnWidth *0.94
+                        Label {
+                            text: {
+                                switch(index) {
+                                case 0:
+                                    return VeinEntity.getEntity("POWER1Module1").ACT_PowerDisplayName
+                                case 1:
+                                    return VeinEntity.getEntity("POWER1Module2").ACT_PowerDisplayName
+                                case 2:
+                                    return VeinEntity.getEntity("POWER1Module3").ACT_PowerDisplayName
+                                case 3:
+                                    return Z.tr("ext.")
+                                }
+                            }
+                            height: parent.height
+                            width: root.valueColumnWidth/6.5
+                            anchors.left: parent.left
+                            anchors.rightMargin: GC.standardTextHorizMargin
+                            anchors.leftMargin: GC.standardTextHorizMargin / 2
+                            horizontalAlignment: Text.AlignRight
+                            verticalAlignment: Text.AlignVCenter
+                            font.pixelSize: measModeGrid.height*0.4
+                        }
+                        MeasModeCombo {
+                            id: measModeCombo
+                            width: root.valueColumnWidth * 0.74
+                            height: parent.height
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            power1ModuleIdx: index
+                        }
+                    }
+                }
             }
         }
     }
