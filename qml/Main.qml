@@ -36,6 +36,7 @@ ApplicationWindow {
 
     readonly property bool dcSession : String(currentSession).includes('dc-session')
     readonly property bool emobSession : String(currentSession).includes('emob-session')
+    readonly property bool demoSession: String(currentSession).includes('demo-session')
 
     visible: true
     width: getScreenWidth()
@@ -387,6 +388,13 @@ ApplicationWindow {
                         iconName = "qrc:/data/staticdata/resources/act_values.png"
                     }
                     append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"});
+                }
+                else if(demoSession){
+                    if(!ASWGL.isServer) {
+                        iconName = "qrc:/data/staticdata/resources/act_values.png"
+                    }
+                    append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
+
                 }
                 else {
                     if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
