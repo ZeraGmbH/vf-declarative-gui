@@ -264,7 +264,7 @@ Item {
             height: rowHeight/3
             visible: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
             Label {
-                text: Z.tr("Measurement mode:")
+                text: Z.tr("Measurement modes:")
                 anchors.left: parent.left
                 verticalAlignment: Label.AlignVCenter
                 anchors.verticalCenter: parent.verticalCenter
