@@ -10,6 +10,7 @@ VFComboBox {
     controlPropertyName: "PAR_MeasuringMode"
     model: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx).ComponentInfo[controlPropertyName].Validation.Data
     arrayMode: true
+    fadeOutOnClose: true
     centerVerticalOffset: -contentRowHeight*(Math.min(modelLength-1, contentMaxRows-1)) +
                           (height-contentRowHeight) -
                           headerItem.height
