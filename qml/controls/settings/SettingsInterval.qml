@@ -31,7 +31,7 @@ Item {
         for(var i=0; i<allEntities.length; ++i) {
             var tmpEntity = VeinEntity.getEntityById(allEntities[i])
             if(tmpEntity && tmpEntity.hasComponent("PAR_Interval")) {
-                if(ModuleIntrospection.introMap[tmpEntity.EntityName].ComponentInfo.PAR_Interval.Unit === "sec") {
+                if(ModuleIntrospection.introMap[tmpEntity.EntityName].ComponentInfo.PAR_Interval.Unit === "s") {
                     tmpTimeList.push(tmpEntity);
                 }
                 else if(ModuleIntrospection.introMap[tmpEntity.EntityName].ComponentInfo.PAR_Interval.Unit === "period") {
