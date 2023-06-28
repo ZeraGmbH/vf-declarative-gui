@@ -15,9 +15,7 @@ pkg_check_modules(QWT REQUIRED Qt5Qwt6)
 
 find_package(FontAweSomeQml REQUIRED)
 find_package(VeinFramework REQUIRED)
-find_Package(VfNet2 REQUIRED ) 
-find_Package(VfTcp REQUIRED )
-find_Package(VfQml REQUIRED )
+find_Package(VfQml REQUIRED)
 find_package(SortFilterProxyModel REQUIRED)
 find_package(ZeraTranslation REQUIRED)
 find_Package(zera-json-qml REQUIRED)
@@ -64,8 +62,8 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::VfHelpers
     Zera::VfEvent
     Zera::VfComponent
-    VeinMeta::VfNet2
-    VeinMeta::VfTcp
+    Zera::VfNet2
+    Zera::VfTcp
     VeinMeta::VfQml
     "-Wl,--no-as-needed"
     Zera::zerafa
