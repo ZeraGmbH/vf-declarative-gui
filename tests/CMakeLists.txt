@@ -1,9 +1,6 @@
 # Inspired by
 # https://github.com/KDAB/kdabtv/blob/master/Qt-Widgets-and-more/UnitTests/Tests/CMakeLists.txt
 
-find_package(Qt5Test REQUIRED)
-find_package(VfComponentTest REQUIRED)
-
 add_library(testhelpers STATIC
     veinconsumermock.h
     veinconsumermock.cpp
@@ -18,7 +15,7 @@ target_link_libraries(testhelpers
     PUBLIC
     Qt5::Test
     vf-declarative-gui-lib
-    VeinMeta::VfComponentTest
+    Zera::VfComponentTest
     )
 
 function(SETUP_TESTS)

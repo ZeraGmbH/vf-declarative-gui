@@ -8,18 +8,16 @@ set(CMAKE_AUTOMOC ON)
 
 include(FeatureSummary)
 
-find_package(Qt5 "5.12.0" COMPONENTS Core Widgets DBus Xml Quick QuickControls2 Qml CONFIG REQUIRED COMPONENTS)
+find_package(Qt5 "5.12.0" COMPONENTS Core Widgets DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
 find_package(Qt5QuickCompiler CONFIG REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(QWT REQUIRED Qt5Qwt6)
 
 find_package(FontAweSomeQml REQUIRED)
-find_Package(VfEvent REQUIRED )
-find_Package(VfComponent REQUIRED )
+find_package(VeinFramework REQUIRED)
 find_Package(VfNet2 REQUIRED ) 
 find_Package(VfTcp REQUIRED )
 find_Package(VfQml REQUIRED )
-find_Package(VfHelpers REQUIRED )
 find_package(SortFilterProxyModel REQUIRED)
 find_package(ZeraTranslation REQUIRED)
 find_Package(zera-json-qml REQUIRED)
@@ -63,13 +61,12 @@ target_link_libraries(vf-declarative-gui-lib
     Qt5::QuickControls2
     Qt5::DBus
     Qt5::Xml
-    #Zera Libs
-    VeinMeta::VfEvent
-    VeinMeta::VfComponent
+    Zera::VfHelpers
+    Zera::VfEvent
+    Zera::VfComponent
     VeinMeta::VfNet2
     VeinMeta::VfTcp
     VeinMeta::VfQml
-    VeinMeta::VfHelpers
     "-Wl,--no-as-needed"
     Zera::zerafa
     Zera::anmlib
@@ -87,7 +84,6 @@ target_link_libraries(vf-declarative-gui-lib
     #Other Libs
     ${QWT_LIBRARIES}
     FontAweSomeQml::FontAweSomeQml
-    ${glLib}
     )
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -107,14 +103,6 @@ target_include_directories(vf-declarative-gui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/itemmodels
     ${QWT_INCLUDE_DIRS}
     )
-
-## Choose between openGL and GLES
-if(${useGles})
-    set (glLib ${GLES2_LIBRARIES})
-    target_include_directories(vf-declarative-gui PUBLIC ${GLES2_INCLUDE_DIR})
-else()
-    set(glLib ${OPENGL_LIBRARIES})
-endif()
 
 target_link_libraries(vf-declarative-gui
     PRIVATE
