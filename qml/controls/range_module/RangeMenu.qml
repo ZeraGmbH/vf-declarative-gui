@@ -29,12 +29,11 @@ Item {
         var retVal = [];
         for(var channelNum=0; channelNum<channelCount; ++channelNum) {
             var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
-            var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
             if(name.startsWith("REF")) {
                 if(channelNum<3) //REF1..REF3
                     retVal.push(channelNum);
             }
-            else if(unit === "V") //UL1..UL3 +UAUX
+            else if(name.startsWith("U"))
                 retVal.push(channelNum)
         }
         return retVal;
@@ -43,12 +42,11 @@ Item {
         var retVal = [];
         for(var channelNum=0; channelNum<channelCount; ++channelNum) {
             var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
-            var unit = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].Unit;
             if(name.startsWith("REF")) {
                 if(channelNum>=3) //REF3..REF6
                     retVal.push(channelNum);
             }
-            else if(unit === "A") //IL1..IL3 +IAUX
+            else if(name.startsWith("I"))
                 retVal.push(channelNum)
         }
         return retVal;
