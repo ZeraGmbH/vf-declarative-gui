@@ -11,10 +11,9 @@ VfComponentEventDispatcher::~VfComponentEventDispatcher()
 {
 }
 
-bool VfComponentEventDispatcher::processEvent(QEvent *t_event)
+void VfComponentEventDispatcher::processEvent(QEvent *t_event)
 {
     using namespace VeinEvent;
-    bool retVal = false;
     if(t_event->type()==CommandEvent::eventType())
     {
         CommandEvent *cEvent = static_cast<CommandEvent *>(t_event);
@@ -31,5 +30,4 @@ bool VfComponentEventDispatcher::processEvent(QEvent *t_event)
             m_consumer->handleComponentChange(cmpData);
         }
     }
-    return retVal;
 }
