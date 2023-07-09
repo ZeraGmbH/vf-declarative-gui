@@ -19,10 +19,22 @@ public:
     QHash<int, QHash<QString, QPoint>*> getValueMapping();
 protected:
     virtual void handleComponentChangeCoord(const VeinComponent::ComponentData *, const QPoint);
+    void addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, QString baseUnit = QString());
+    void setBaseUnit(int row, QString baseUnit);
+    void scaleRow(int row);
 
     QHash<int, QHash<QString, QPoint>*> m_valueMapping;
     ZeraTranslation *m_translation = nullptr;
 private:
+    struct TLineScaleEntry
+    {
+        int roleIndexUnit;
+        QList<int> roleIndicesValues;
+        QString baseUnit;
+    };
+    QHash<int, TLineScaleEntry> m_rowsToAutoScale;
+    QHash<int, QHash<int, QVariant>> m_unscaledOrigValues;
+
     static QSet<TableEventItemModelBase*> m_setAllBaseModels;
 };
 
