@@ -5,19 +5,17 @@ TableRowAutoScaler::TableRowAutoScaler(QStandardItemModel *itemModel) :
 {
 }
 
-void TableRowAutoScaler::addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIdxSingleValues, int roleIndexSum)
+void TableRowAutoScaler::setUnitInfo(int row, QString baseUnit, int roleIndexUnit)
 {
     m_rowsToAutoScale[row].roleIndexUnit = roleIndexUnit;
-    m_rowsToAutoScale[row].roleIdxSingleValues = roleIdxSingleValues;
-    m_rowsToAutoScale[row].roleIndexSum = roleIndexSum;
+    m_rowsToAutoScale[row].baseUnit = baseUnit;
+    scaleRow(row);
 }
 
-void TableRowAutoScaler::setBaseUnit(int row, QString baseUnit)
+void TableRowAutoScaler::mapValueColumns(int row, QList<int> roleIdxSingleValues, int roleIndexSum)
 {
-    if(m_rowsToAutoScale.contains(row)) {
-        m_rowsToAutoScale[row].baseUnit = baseUnit;
-        scaleRow(row);
-    }
+    m_rowsToAutoScale[row].roleIdxSingleValues = roleIdxSingleValues;
+    m_rowsToAutoScale[row].roleIndexSum = roleIndexSum;
 }
 
 bool TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
