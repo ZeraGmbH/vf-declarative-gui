@@ -21,8 +21,8 @@ public:
         QString unitPrefix;
     };
     TSingleScaleResult scaleSingleVal(double absVal);
-    void setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult);
 private:
+    void setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult);
     bool scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &result);
     QHash<int, QVariant> m_unscaledColumnValues;
     double m_hysteresisValue = 0.0;
