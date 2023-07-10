@@ -16,11 +16,12 @@ public:
     TRowScaleResult scaleRow(QString baseUnit, QList<int> roleIdxSingleValues);
     struct TSingleScaleResult
     {
-        double scaleFactor;
+        double scaleFactor = 1.0;
         QString unitPrefix;
     };
-    TSingleScaleResult scaleSingleVal(double val);
+    TSingleScaleResult scaleSingleVal(double absVal);
 private:
+    bool scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &result);
     QHash<int, QVariant> m_unscaledColumnValues;
 };
 
