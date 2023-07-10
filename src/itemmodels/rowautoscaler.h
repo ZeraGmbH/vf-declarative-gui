@@ -8,12 +8,18 @@ class RowAutoScaler
 public:
     RowAutoScaler();
     void setUnscaledValue(int columnRole, QVariant value);
-    struct TScaleResult
+    struct TRowScaleResult
     {
         QString scaledUnit;
         QHash<int, QVariant> scaledColumnValues;
     };
-    TScaleResult doScale(QString baseUnit);
+    TRowScaleResult scaleRow(QString baseUnit, QList<int> roleIdxSingleValues);
+    struct TSingleScaleResult
+    {
+        double scaleFactor;
+        QString unitPrefix;
+    };
+    TSingleScaleResult scaleSingleVal(double val);
 private:
     QHash<int, QVariant> m_unscaledColumnValues;
 };

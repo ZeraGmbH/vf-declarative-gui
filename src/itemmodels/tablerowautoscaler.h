@@ -12,7 +12,7 @@ class TableRowAutoScaler
 {
 public:
     TableRowAutoScaler(QStandardItemModel* itemModel);
-    void addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, int roleIndexSum = 0);
+    void addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIdxSingleValues, int roleIndexSum = 0);
     void setBaseUnit(int row, QString baseUnit);
     bool handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates);
 private:
@@ -21,7 +21,7 @@ private:
     struct TLineScaleEntry
     {
         int roleIndexUnit;
-        QList<int> roleIndicesValues;
+        QList<int> roleIdxSingleValues;
         int roleIndexSum;
         QString baseUnit;
     };
