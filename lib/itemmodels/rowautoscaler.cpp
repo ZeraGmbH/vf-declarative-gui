@@ -35,31 +35,32 @@ RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<i
 
 RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double absVal)
 {
-    TSingleScaleResult res;
-    if(absVal > 1) {
-        if(scaleSingleValForPrefix(absVal, 1e9, "G", res))
-            return res;
-        if(scaleSingleValForPrefix(absVal, 1e6, "M", res))
-            return res;
-        if(scaleSingleValForPrefix(absVal, 1e3, "k", res))
-            return res;
-    }
-    if(scaleSingleValForPrefix(absVal, 1e0, "", res))
-        return res;
-    if(scaleSingleValForPrefix(absVal, 1e-3, "m", res))
-        return res;
-    if(scaleSingleValForPrefix(absVal, 1e-6, "µ", res))
-        return res;
-    if(scaleSingleValForPrefix(absVal, 1e-9, "n", res))
-        return res;
-    return res;
+    TSingleScaleResult singleResult;
+    if(scaleSingleValForPrefix(absVal, 1e9, "G", singleResult))
+        return singleResult;
+    if(scaleSingleValForPrefix(absVal, 1e6, "M", singleResult))
+        return singleResult;
+    if(scaleSingleValForPrefix(absVal, 1e3, "k", singleResult))
+        return singleResult;
+    if(scaleSingleValForPrefix(absVal, 1e0, "", singleResult))
+        return singleResult;
+    if(scaleSingleValForPrefix(absVal, 1e-3, "m", singleResult))
+        return singleResult;
+    setScale(1e-6, "µ", singleResult);
+    return singleResult;
 }
 
-bool RowAutoScaler::scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &result)
+void RowAutoScaler::setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult)
 {
-    if(absVal > limit) {
-        result.scaleFactor = 1/limit;
-        result.unitPrefix = limitPrefix;
+    singleResult.scaleFactor = 1/limit;
+    m_hysteresisValue = limit * HYSTERESIS;
+    singleResult.unitPrefix = limitPrefix;
+}
+
+bool RowAutoScaler::scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &singleResult)
+{
+    if(absVal >= limit-m_hysteresisValue) {
+        setScale(limit, limitPrefix, singleResult);
         return true;
     }
     return false;

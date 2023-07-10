@@ -6,6 +6,7 @@
 class RowAutoScaler
 {
 public:
+    static constexpr double HYSTERESIS = 0.01;
     RowAutoScaler();
     void setUnscaledValue(int columnRole, QVariant value);
     struct TRowScaleResult
@@ -20,9 +21,12 @@ public:
         QString unitPrefix;
     };
     TSingleScaleResult scaleSingleVal(double absVal);
+    void setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult);
 private:
     bool scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &result);
     QHash<int, QVariant> m_unscaledColumnValues;
+    double m_hysteresisValue = 0.0;
+    QString m_LastPrefix;
 };
 
 #endif // ROWAUTOSCALER_H
