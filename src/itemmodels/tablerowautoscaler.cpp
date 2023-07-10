@@ -38,15 +38,14 @@ bool TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::Compone
 
 void TableRowAutoScaler::scaleRow(int row)
 {
-    QString scaledUnit;
-    QHash<int, QVariant> scaledColumnValues;
-    m_rowScalers[row].doScale(m_rowsToAutoScale[row].baseUnit, scaledUnit, scaledColumnValues);
+    RowAutoScaler::TScaleResult result;
+    result = m_rowScalers[row].doScale(m_rowsToAutoScale[row].baseUnit);
 
     QModelIndex mIndex = m_itemModel->index(row, 0);
     int unitColumn = m_rowsToAutoScale[row].roleIndexUnit;
-    m_itemModel->setData(mIndex, scaledUnit, unitColumn);
+    m_itemModel->setData(mIndex, result.scaledUnit, unitColumn);
 
-    for(auto iter = scaledColumnValues.constBegin(); iter != scaledColumnValues.constEnd(); ++iter) {
+    for(auto iter = result.scaledColumnValues.constBegin(); iter != result.scaledColumnValues.constEnd(); ++iter) {
         QVariant val = iter.value();
         int columnRole = iter.key();
         m_itemModel->setData(mIndex, val, columnRole);
