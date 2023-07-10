@@ -37,7 +37,8 @@ void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::Co
     QModelIndex mIndex = index(row, 0);
     if(m_rowsToAutoScale.contains(valueCoordiates.y())) {
         const TLineScaleEntry &scaleEntry = m_rowsToAutoScale[row];
-        if(scaleEntry.roleIndicesValues.contains(column)) {
+        if(scaleEntry.roleIndicesValues.contains(column) ||
+           scaleEntry.roleIndexSum == column) {
             m_unscaledOrigValues[row][column] = newValue;
             scaleRow(row);
             return;
@@ -46,10 +47,11 @@ void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::Co
     setData(mIndex, newValue, column);
 }
 
-void TableEventItemModelBase::addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues)
+void TableEventItemModelBase::addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, int roleIndexSum)
 {
     m_rowsToAutoScale[row].roleIndexUnit = roleIndexUnit;
     m_rowsToAutoScale[row].roleIndicesValues = roleIndicesValues;
+    m_rowsToAutoScale[row].roleIndexSum = roleIndexSum;
 }
 
 void TableEventItemModelBase::setBaseUnit(int row, QString baseUnit)
@@ -74,7 +76,6 @@ void TableEventItemModelBase::scaleRow(int row)
         QVariant val = iter.value();
         int column = iter.key();
         setData(mIndex, val, column);
-
     }
 }
 

@@ -133,7 +133,8 @@ void ActualValueModel::setupMapping()
     p1m1Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 10));
     addAutoScaleRow(10,
                     RoleIndexes::UNIT,
-                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::SUM);
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3,
+                    RoleIndexes::SUM);
 
     QHash<QString, QPoint> *p1m2Map = new QHash<QString, QPoint>();
     p1m2Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 11));
@@ -145,7 +146,8 @@ void ActualValueModel::setupMapping()
     p1m2Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 11));
     addAutoScaleRow(11,
                     RoleIndexes::UNIT,
-                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::SUM);
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3,
+                    RoleIndexes::SUM);
 
     QHash<QString, QPoint> *p1m3Map = new QHash<QString, QPoint>();
     p1m3Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 12));
@@ -157,7 +159,8 @@ void ActualValueModel::setupMapping()
     p1m3Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 12));
     addAutoScaleRow(12,
                     RoleIndexes::UNIT,
-                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::SUM);
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3,
+                    RoleIndexes::SUM);
 
     QHash<QString, QPoint> *rangeMap = new QHash<QString, QPoint>();
     rangeMap->insert("ACT_Frequency", QPoint(RoleIndexes::SUM, 13));
