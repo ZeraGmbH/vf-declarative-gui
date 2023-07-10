@@ -33,11 +33,35 @@ RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<i
     return result;
 }
 
-RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double val)
+RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double absVal)
 {
     TSingleScaleResult res;
-    // no scale yet
-    res.scaleFactor = 1;
-    res.unitPrefix = "";
+    if(absVal > 1) {
+        if(scaleSingleValForPrefix(absVal, 1e9, "G", res))
+            return res;
+        if(scaleSingleValForPrefix(absVal, 1e6, "M", res))
+            return res;
+        if(scaleSingleValForPrefix(absVal, 1e3, "k", res))
+            return res;
+    }
+    if(scaleSingleValForPrefix(absVal, 1e0, "", res))
+        return res;
+    if(scaleSingleValForPrefix(absVal, 1e-3, "m", res))
+        return res;
+    if(scaleSingleValForPrefix(absVal, 1e-6, "µ", res))
+        return res;
+    if(scaleSingleValForPrefix(absVal, 1e-9, "n", res))
+        return res;
     return res;
 }
+
+bool RowAutoScaler::scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &result)
+{
+    if(absVal > limit) {
+        result.scaleFactor = 1/limit;
+        result.unitPrefix = limitPrefix;
+        return true;
+    }
+    return false;
+}
+
