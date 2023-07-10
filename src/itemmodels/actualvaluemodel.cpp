@@ -55,7 +55,7 @@ void ActualValueModel::setLabelsAndUnits()
 
     //unit names
     mIndex = index(1, 0);
-    setBaseUnit(mIndex.row(), "V");
+    m_autoScaleRows.setBaseUnit(mIndex.row(), "V");
 
     mIndex = index(2, 0);
     setData(mIndex, "V", RoleIndexes::UNIT);
@@ -86,7 +86,7 @@ void ActualValueModel::setupMapping()
     rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
     rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::AUX, 1));
-    addAutoScaleRow(1,
+    m_autoScaleRows.addAutoScaleRow(1,
                     RoleIndexes::UNIT,
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::AUX);
 
@@ -135,7 +135,7 @@ void ActualValueModel::setupMapping()
     p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 10));
     p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 10));
     p1m1Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 10));
-    addAutoScaleRow(10,
+    m_autoScaleRows.addAutoScaleRow(10,
                     RoleIndexes::UNIT,
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3,
                     RoleIndexes::SUM);
@@ -148,7 +148,7 @@ void ActualValueModel::setupMapping()
     p1m2Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 11));
     p1m2Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 11));
     p1m2Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 11));
-    addAutoScaleRow(11,
+    m_autoScaleRows.addAutoScaleRow(11,
                     RoleIndexes::UNIT,
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3,
                     RoleIndexes::SUM);
@@ -161,7 +161,7 @@ void ActualValueModel::setupMapping()
     p1m3Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, 12));
     p1m3Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM, 12));
     p1m3Map->insert("INF_ModuleInterface", QPoint(RoleIndexes::UNIT, 12));
-    addAutoScaleRow(12,
+    m_autoScaleRows.addAutoScaleRow(12,
                     RoleIndexes::UNIT,
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3,
                     RoleIndexes::SUM);
@@ -240,15 +240,15 @@ void ActualValueModel::updateMModeTranslations()
     QModelIndex mIndex = index(10, 0);
     setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
                                            m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
-    setBaseUnit(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString());
+    m_autoScaleRows.setBaseUnit(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString());
 
     mIndex = index(11, 0);
     setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
                                            m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
-    setBaseUnit(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString());
+    m_autoScaleRows.setBaseUnit(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString());
 
     mIndex = index(12, 0);
     setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
                                            m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
-    setBaseUnit(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString());
+    m_autoScaleRows.setBaseUnit(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString());
 }

@@ -4,7 +4,8 @@ QSet<TableEventItemModelBase*> TableEventItemModelBase::m_setAllBaseModels;
 
 TableEventItemModelBase::TableEventItemModelBase(int t_rows, int t_columns) :
     QStandardItemModel(t_rows, t_columns),
-    m_translation(ZeraTranslation::getInstance())
+    m_translation(ZeraTranslation::getInstance()),
+    m_autoScaleRows(this)
 {
     m_setAllBaseModels.insert(this);
 }
@@ -31,51 +32,12 @@ void TableEventItemModelBase::handleComponentChange(const VeinComponent::Compone
 
 void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
-    int row = valueCoordiates.y();
-    int columnRole = valueCoordiates.x(); // (role)
-    QVariant newValue = cData->newValue();
-    QModelIndex mIndex = index(row, 0);
-    if(m_rowsToAutoScale.contains(valueCoordiates.y())) {
-        const TLineScaleEntry &scaleEntry = m_rowsToAutoScale[row];
-        if(scaleEntry.roleIndicesValues.contains(columnRole) ||
-           scaleEntry.roleIndexSum == columnRole) {
-            m_unscaledOrigValues[row][columnRole] = newValue;
-            scaleRow(row);
-            return;
-        }
-    }
-    setData(mIndex, newValue, columnRole);
-}
-
-void TableEventItemModelBase::addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, int roleIndexSum)
-{
-    m_rowsToAutoScale[row].roleIndexUnit = roleIndexUnit;
-    m_rowsToAutoScale[row].roleIndicesValues = roleIndicesValues;
-    m_rowsToAutoScale[row].roleIndexSum = roleIndexSum;
-}
-
-void TableEventItemModelBase::setBaseUnit(int row, QString baseUnit)
-{
-    if(m_rowsToAutoScale.contains(row)) {
-        m_rowsToAutoScale[row].baseUnit = baseUnit;
-        scaleRow(row);
-    }
-}
-
-void TableEventItemModelBase::scaleRow(int row)
-{
-    QModelIndex mIndex = index(row, 0);
-
-    // No scale yet
-    int unitColumn = m_rowsToAutoScale[row].roleIndexUnit;
-    QString unit = m_rowsToAutoScale[row].baseUnit;
-    setData(mIndex, unit, unitColumn);
-
-    QHash<int, QVariant> unscaledOrigValues = m_unscaledOrigValues[row];
-    for(auto iter = unscaledOrigValues.constBegin(); iter != unscaledOrigValues.constEnd(); ++iter) {
-        QVariant val = iter.value();
-        int columnRole = iter.key();
-        setData(mIndex, val, columnRole);
+    if(!m_autoScaleRows.handleComponentChangeCoord(cData, valueCoordiates)) {
+        int row = valueCoordiates.y();
+        int columnRole = valueCoordiates.x();
+        QVariant newValue = cData->newValue();
+        QModelIndex mIndex = index(row, 0);
+        setData(mIndex, newValue, columnRole);
     }
 }
 
