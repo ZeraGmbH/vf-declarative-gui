@@ -55,7 +55,8 @@ void ActualValueModel::setLabelsAndUnits()
 
     //unit names
     mIndex = index(1, 0);
-    setData(mIndex, "V", RoleIndexes::UNIT);
+    setBaseUnit(mIndex.row(), "V");
+
     mIndex = index(2, 0);
     setData(mIndex, "V", RoleIndexes::UNIT);
     mIndex = index(3, 0);
@@ -85,6 +86,9 @@ void ActualValueModel::setupMapping()
     rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
     rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::AUX, 1));
+    addAutoScaleRow(1,
+                    RoleIndexes::UNIT,
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::AUX);
 
     rmsMap->insert("ACT_RMSPP1", QPoint(RoleIndexes::L1, 2));
     rmsMap->insert("ACT_RMSPP2", QPoint(RoleIndexes::L2, 2));
