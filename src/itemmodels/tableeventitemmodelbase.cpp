@@ -32,19 +32,19 @@ void TableEventItemModelBase::handleComponentChange(const VeinComponent::Compone
 void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     int row = valueCoordiates.y();
-    int column = valueCoordiates.x(); // (role)
+    int columnRole = valueCoordiates.x(); // (role)
     QVariant newValue = cData->newValue();
     QModelIndex mIndex = index(row, 0);
     if(m_rowsToAutoScale.contains(valueCoordiates.y())) {
         const TLineScaleEntry &scaleEntry = m_rowsToAutoScale[row];
-        if(scaleEntry.roleIndicesValues.contains(column) ||
-           scaleEntry.roleIndexSum == column) {
-            m_unscaledOrigValues[row][column] = newValue;
+        if(scaleEntry.roleIndicesValues.contains(columnRole) ||
+           scaleEntry.roleIndexSum == columnRole) {
+            m_unscaledOrigValues[row][columnRole] = newValue;
             scaleRow(row);
             return;
         }
     }
-    setData(mIndex, newValue, column);
+    setData(mIndex, newValue, columnRole);
 }
 
 void TableEventItemModelBase::addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, int roleIndexSum)
@@ -74,8 +74,8 @@ void TableEventItemModelBase::scaleRow(int row)
     QHash<int, QVariant> unscaledOrigValues = m_unscaledOrigValues[row];
     for(auto iter = unscaledOrigValues.constBegin(); iter != unscaledOrigValues.constEnd(); ++iter) {
         QVariant val = iter.value();
-        int column = iter.key();
-        setData(mIndex, val, column);
+        int columnRole = iter.key();
+        setData(mIndex, val, columnRole);
     }
 }
 
