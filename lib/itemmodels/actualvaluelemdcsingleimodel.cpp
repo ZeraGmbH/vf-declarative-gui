@@ -19,7 +19,7 @@ void ActualValueLemDcSingleIModel::setLabelsAndUnits()
     using namespace CommonTable;
     QModelIndex mIndex = index(lineVal(LINE_VALUE_I), 0);
     setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
-    setData(mIndex, "A", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "A", RoleIndexes::UNIT);
 }
 
 void ActualValueLemDcSingleIModel::setupMapping()
@@ -27,6 +27,8 @@ void ActualValueLemDcSingleIModel::setupMapping()
     using namespace CommonTable;
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
     fftMap->insert("ACT_DC8", QPoint(RoleIndexes::AUX, lineVal(LINE_VALUE_I)));
+    m_autoScaleRows.mapValueColumns(lineVal(LINE_VALUE_I),
+                    QList<int>() << RoleIndexes::AUX);
     m_valueMapping.insert(static_cast<int>(Modules::FftModule), fftMap);
 }
 

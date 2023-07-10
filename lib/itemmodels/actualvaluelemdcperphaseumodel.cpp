@@ -27,7 +27,7 @@ void ActualValueLemDCPerPhaseUModel::setLabelsAndUnits()
 
     mIndex = index(lineVal(LINE_VALUES_U), 0);
     setData(mIndex, m_translation->TrValue("U"), RoleIndexes::NAME);
-    setData(mIndex, "V", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "V", RoleIndexes::UNIT);
 }
 
 void ActualValueLemDCPerPhaseUModel::setupMapping()
@@ -38,6 +38,8 @@ void ActualValueLemDCPerPhaseUModel::setupMapping()
     fftMap->insert("ACT_DC2", QPoint(RoleIndexes::L2, lineVal(LINE_VALUES_U)));
     fftMap->insert("ACT_DC3", QPoint(RoleIndexes::L3, lineVal(LINE_VALUES_U)));
     fftMap->insert("ACT_DC7", QPoint(RoleIndexes::AUX, lineVal(LINE_VALUES_U)));
+    m_autoScaleRows.mapValueColumns(lineVal(LINE_VALUES_U),
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::AUX);
     m_valueMapping.insert(static_cast<int>(Modules::FftModule), fftMap);
 }
 
