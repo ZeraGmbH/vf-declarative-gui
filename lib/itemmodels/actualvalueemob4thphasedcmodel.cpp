@@ -47,3 +47,37 @@ QHash<int, QByteArray> ActualValueEmob4thPhaseDcModel::roleNames() const
     roles.insert(RoleIndexes::DC_P, "DC_P");
     return roles;
 }
+
+void ActualValueEmob4thPhaseDcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+{
+    RowAutoScaler::TSingleScaleResult singleResult;
+    int columnRole = 0;
+    QString headerText;
+    double unscaledValue = cData->newValue().toDouble();
+
+    if(valueCoordiates == QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES))) {
+        columnRole = RoleIndexes::DC_U;
+        singleResult = m_autoScalerU.scaleSingleVal(unscaledValue);
+        headerText = QString("U [%1V]").arg(singleResult.unitPrefix);
+    }
+    else if(valueCoordiates == QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES))) {
+        columnRole = RoleIndexes::DC_I;
+        singleResult = m_autoScalerI.scaleSingleVal(unscaledValue);
+        headerText = QString("I [%1A]").arg(singleResult.unitPrefix);
+    }
+    else if(valueCoordiates == QPoint(RoleIndexes::DC_P, lineVal(LINE_VALUES))) {
+        columnRole = RoleIndexes::DC_P;
+        singleResult = m_autoScalerP.scaleSingleVal(unscaledValue);
+        headerText = QString("P [%1W]").arg(singleResult.unitPrefix);
+    }
+
+    if(columnRole > 0) {
+        QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
+        setData(mIndex, headerText, columnRole);
+        double scaledValue = unscaledValue * singleResult.scaleFactor;
+        mIndex = index(lineVal(LINE_VALUES), 0);
+        setData(mIndex, scaledValue, columnRole);
+    }
+    else
+        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+}
