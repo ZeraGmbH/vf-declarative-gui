@@ -32,13 +32,7 @@ void TableEventItemModelBase::handleComponentChange(const VeinComponent::Compone
 
 void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
-    if(!m_autoScaleRows.handleComponentChangeCoord(cData, valueCoordiates)) {
-        int row = valueCoordiates.y();
-        int columnRole = valueCoordiates.x();
-        QVariant newValue = cData->newValue();
-        QModelIndex mIndex = index(row, 0);
-        setData(mIndex, newValue, columnRole);
-    }
+    m_autoScaleRows.handleComponentChangeCoord(cData, valueCoordiates);
 }
 
 QList<TableEventItemModelBase *> TableEventItemModelBase::getAllBaseModels()

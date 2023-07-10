@@ -18,20 +18,22 @@ void TableRowAutoScaler::mapValueColumns(int row, QList<int> roleIdxSingleValues
     m_rowsToAutoScale[row].roleIndexSum = roleIndexSum;
 }
 
-bool TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     int row = valueCoordiates.y();
+    int columnRole = valueCoordiates.x();
+    QVariant newValue = cData->newValue();
     if(m_rowsToAutoScale.contains(row)) {
         const TLineScaleEntry &scaleEntry = m_rowsToAutoScale[row];
-        int columnRole = valueCoordiates.x();
         if(scaleEntry.roleIdxSingleValues.contains(columnRole) || scaleEntry.roleIndexSum == columnRole) {
-            QVariant newValue = cData->newValue();
             m_rowScalers[row].setUnscaledValue(columnRole, newValue);
             scaleRow(row);
-            return true;
         }
     }
-    return false;
+    else { //
+        QModelIndex mIndex = m_itemModel->index(row, 0);
+        m_itemModel->setData(mIndex, newValue, columnRole);
+    }
 }
 
 void TableRowAutoScaler::scaleRow(int row)

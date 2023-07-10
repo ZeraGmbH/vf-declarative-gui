@@ -224,9 +224,8 @@ void ActualValueModel::handleComponentChangeCoord(const VeinComponent::Component
         QJsonValue unit = json["ComponentInfo"]["ACT_PQS1"]["Unit"];
         insertPowerUnit(valueCoordiates.y(), unit.toString());
     }
-    else {
+    else
         TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
-    }
 }
 
 void ActualValueModel::updateMModeTranslations()
