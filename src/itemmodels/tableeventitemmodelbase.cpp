@@ -46,11 +46,10 @@ void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::Co
     setData(mIndex, newValue, column);
 }
 
-void TableEventItemModelBase::addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, QString baseUnit)
+void TableEventItemModelBase::addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues)
 {
     m_rowsToAutoScale[row].roleIndexUnit = roleIndexUnit;
     m_rowsToAutoScale[row].roleIndicesValues = roleIndicesValues;
-    m_rowsToAutoScale[row].baseUnit = baseUnit;
 }
 
 void TableEventItemModelBase::setBaseUnit(int row, QString baseUnit)
