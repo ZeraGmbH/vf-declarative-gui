@@ -19,7 +19,7 @@ void ActualValueLemDcPerPhasePModel::setLabelsAndUnits()
     using namespace CommonTable;
     QModelIndex mIndex = index(lineVal(LINE_VALUE_P), 0);
     setData(mIndex, m_translation->TrValue("P"), RoleIndexes::NAME);
-    setData(mIndex, "W", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "W", RoleIndexes::UNIT);
 }
 
 void ActualValueLemDcPerPhasePModel::setupMapping()
@@ -33,6 +33,8 @@ void ActualValueLemDcPerPhasePModel::setupMapping()
     p1m3Map->insert("ACT_PQS1", QPoint(RoleIndexes::L3, lineVal(LINE_VALUE_P)));
     QHash<QString, QPoint> *p1m4Map = new QHash<QString, QPoint>();
     p1m4Map->insert("ACT_PQS1", QPoint(RoleIndexes::AUX, lineVal(LINE_VALUE_P)));
+    m_autoScaleRows.mapValueColumns(lineVal(LINE_VALUE_P),
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::AUX);
 
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module2), p1m2Map);
