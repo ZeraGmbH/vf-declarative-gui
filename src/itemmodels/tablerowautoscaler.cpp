@@ -28,7 +28,7 @@ bool TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::Compone
         int columnRole = valueCoordiates.x();
         if(scaleEntry.roleIndicesValues.contains(columnRole) || scaleEntry.roleIndexSum == columnRole) {
             QVariant newValue = cData->newValue();
-            m_unscaledOrigValues[row][columnRole] = newValue;
+            m_rowScalers[row].setUnscaledValue(columnRole, newValue);
             scaleRow(row);
             return true;
         }
@@ -38,15 +38,15 @@ bool TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::Compone
 
 void TableRowAutoScaler::scaleRow(int row)
 {
+    QString scaledUnit;
+    QHash<int, QVariant> scaledColumnValues;
+    m_rowScalers[row].doScale(m_rowsToAutoScale[row].baseUnit, scaledUnit, scaledColumnValues);
+
     QModelIndex mIndex = m_itemModel->index(row, 0);
-
-    // No scale yet
     int unitColumn = m_rowsToAutoScale[row].roleIndexUnit;
-    QString unit = m_rowsToAutoScale[row].baseUnit;
-    m_itemModel->setData(mIndex, unit, unitColumn);
+    m_itemModel->setData(mIndex, scaledUnit, unitColumn);
 
-    QHash<int, QVariant> unscaledOrigValues = m_unscaledOrigValues[row];
-    for(auto iter = unscaledOrigValues.constBegin(); iter != unscaledOrigValues.constEnd(); ++iter) {
+    for(auto iter = scaledColumnValues.constBegin(); iter != scaledColumnValues.constEnd(); ++iter) {
         QVariant val = iter.value();
         int columnRole = iter.key();
         m_itemModel->setData(mIndex, val, columnRole);
