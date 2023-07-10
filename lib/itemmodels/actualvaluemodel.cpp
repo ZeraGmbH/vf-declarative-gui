@@ -57,13 +57,13 @@ void ActualValueModel::setLabelsAndUnits()
     mIndex = index(1, 0);
     m_autoScaleRows.setUnitInfo(mIndex.row(), "V", RoleIndexes::UNIT);
     mIndex = index(2, 0);
-    setData(mIndex, "V", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "V", RoleIndexes::UNIT);
     mIndex = index(3, 0);
     setData(mIndex, "°", RoleIndexes::UNIT);
     mIndex = index(4, 0);
     setData(mIndex, "%", RoleIndexes::UNIT);
     mIndex = index(5, 0);
-    setData(mIndex, "A", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "A", RoleIndexes::UNIT);
     mIndex = index(6, 0);
     setData(mIndex, "°", RoleIndexes::UNIT);
     mIndex = index(7, 0);
@@ -91,6 +91,8 @@ void ActualValueModel::setupMapping()
     rmsMap->insert("ACT_RMSPP1", QPoint(RoleIndexes::L1, 2));
     rmsMap->insert("ACT_RMSPP2", QPoint(RoleIndexes::L2, 2));
     rmsMap->insert("ACT_RMSPP3", QPoint(RoleIndexes::L3, 2));
+    m_autoScaleRows.mapValueColumns(2,
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
     dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 3));
@@ -107,6 +109,8 @@ void ActualValueModel::setupMapping()
     rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 5));
     rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 5));
     rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::AUX, 5));
+    m_autoScaleRows.mapValueColumns(5,
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::AUX);
 
     dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, 6));
     dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, 6));
