@@ -16,9 +16,12 @@ function(SETUP_TESTS)
             )
         target_link_libraries(${_testname}
             PUBLIC
+            Qt5::Test
+            vf-declarative-gui-lib
             )
     endforeach()
 endfunction()
 
 SETUP_TESTS(
+    test_rowautoscaler
     )
