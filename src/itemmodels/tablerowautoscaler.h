@@ -1,7 +1,8 @@
 #ifndef TABLEROWAUTOSCALER_H
 #define TABLEROWAUTOSCALER_H
 
-#include "vcmp_componentdata.h"
+#include "rowautoscaler.h"
+#include <vcmp_componentdata.h>
 #include <QList>
 #include <QHash>
 #include <QVariant>
@@ -25,8 +26,7 @@ private:
         QString baseUnit;
     };
     QHash<int, TLineScaleEntry> m_rowsToAutoScale;
-    QHash<int, QHash<int, QVariant>> m_unscaledOrigValues;
-
+    QHash<int, RowAutoScaler> m_rowScalers;
 };
 
 #endif // TABLEROWAUTOSCALER_H
