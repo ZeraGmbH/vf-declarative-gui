@@ -19,7 +19,7 @@ public:
     QHash<int, QHash<QString, QPoint>*> getValueMapping();
 protected:
     virtual void handleComponentChangeCoord(const VeinComponent::ComponentData *, const QPoint);
-    void addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, int roleIndexSum);
+    void addAutoScaleRow(int row, int roleIndexUnit, QList<int> roleIndicesValues, int roleIndexSum = 0);
     void setBaseUnit(int row, QString baseUnit);
     void scaleRow(int row);
 
