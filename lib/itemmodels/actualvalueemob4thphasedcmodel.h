@@ -14,6 +14,7 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 private:
+    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates) override;
     enum RoleIndexes
     {
         NAME=Qt::UserRole+1,
@@ -21,6 +22,9 @@ private:
         DC_I,
         DC_P
     };
+    RowAutoScaler m_autoScalerU;
+    RowAutoScaler m_autoScalerI;
+    RowAutoScaler m_autoScalerP;
 };
 
 #endif // ACTUALVALUE4THPHASEDCMODEL_H
