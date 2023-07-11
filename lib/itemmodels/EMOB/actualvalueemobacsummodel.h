@@ -17,6 +17,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
+    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates) override;
     enum RoleIndexes
     {
         NAME=Qt::UserRole+1,
@@ -24,6 +25,7 @@ private:
         SUM_LAMDA,
         FREQ
     };
+    RowAutoScaler m_autoScalerP;
 };
 
 #endif // ACTUALVALUEACSUMMODEL_H
