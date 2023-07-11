@@ -20,7 +20,7 @@ public:
         double scaleFactor = 1.0;
         QString unitPrefix;
     };
-    TSingleScaleResult scaleSingleVal(double absVal);
+    TSingleScaleResult scaleSingleVal(double val);
 private:
     void setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult);
     bool scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &result);
