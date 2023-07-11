@@ -9,7 +9,12 @@ class test_rowautoscaler : public QObject
 private slots:
     void scale0();
     void scale1();
+    void scale999();
     void scale1001();
+    void scale1001Negative();
+    void scale999999();
+    void scale1000001();
+    void scale1e9plusOne();
     void scale0Point1();
     void scale0Point001();
     void scale0Point00099();
