@@ -52,3 +52,26 @@ QHash<int, QByteArray> ActualValueEmobAcSumModel::roleNames() const
     roles.insert(RoleIndexes::FREQ, "FREQ");
     return roles;
 }
+
+void ActualValueEmobAcSumModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+{
+    RowAutoScaler::TSingleScaleResult singleResult;
+    int columnRole = 0;
+    QString headerText;
+    double unscaledValue = cData->newValue().toDouble();
+    if(valueCoordiates == QPoint(RoleIndexes::SUM_P, lineVal(LINE_VALUES))) {
+        columnRole = RoleIndexes::SUM_P;
+        singleResult = m_autoScalerP.scaleSingleVal(unscaledValue);
+        headerText = QString("P [%1W]").arg(singleResult.unitPrefix);
+    }
+
+    if(columnRole > 0) {
+        QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
+        setData(mIndex, headerText, columnRole);
+        double scaledValue = unscaledValue * singleResult.scaleFactor;
+        mIndex = index(lineVal(LINE_VALUES), 0);
+        setData(mIndex, scaledValue, columnRole);
+    }
+    else
+        TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
+}
