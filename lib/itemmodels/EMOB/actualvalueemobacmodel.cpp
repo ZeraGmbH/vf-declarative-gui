@@ -52,15 +52,15 @@ void ActualValueEmobAcModel::setLabelsAndUnits()
 
     // last column unit names
     mIndex = index(lineVal(LINE_UPN), 0);
-    setData(mIndex, "V", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "V", RoleIndexes::UNIT);
     mIndex = index(lineVal(LINE_UANGLE), 0);
     setData(mIndex, "°", RoleIndexes::UNIT);
     mIndex = index(lineVal(LINE_I), 0);
-    setData(mIndex, "A", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "A", RoleIndexes::UNIT);
     mIndex = index(lineVal(LINE_IANGLE), 0);
     setData(mIndex, "°", RoleIndexes::UNIT);
     mIndex = index(lineVal(LINE_POWER), 0);
-    setData(mIndex, "W", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "W", RoleIndexes::UNIT);
     //mIndex = index(lineVal(LINE_LAMBDA), 0); //none
 
     updateMModeTranslations();
@@ -73,6 +73,8 @@ void ActualValueEmobAcModel::setupMapping()
     rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, lineVal(LINE_UPN)));
     rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, lineVal(LINE_UPN)));
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, lineVal(LINE_UPN)));
+    m_autoScaleRows.mapValueColumns(lineVal(LINE_UPN),
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
     dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, lineVal(LINE_UANGLE)));
@@ -82,6 +84,8 @@ void ActualValueEmobAcModel::setupMapping()
     rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, lineVal(LINE_I)));
     rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, lineVal(LINE_I)));
     rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, lineVal(LINE_I)));
+    m_autoScaleRows.mapValueColumns(lineVal(LINE_I),
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, lineVal(LINE_IANGLE)));
     dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, lineVal(LINE_IANGLE)));
@@ -97,6 +101,8 @@ void ActualValueEmobAcModel::setupMapping()
     p1m1Map->insert("ACT_PQS1", QPoint(RoleIndexes::L1, lineVal(LINE_POWER)));
     p1m1Map->insert("ACT_PQS2", QPoint(RoleIndexes::L2, lineVal(LINE_POWER)));
     p1m1Map->insert("ACT_PQS3", QPoint(RoleIndexes::L3, lineVal(LINE_POWER)));
+    m_autoScaleRows.mapValueColumns(lineVal(LINE_POWER),
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
     m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
