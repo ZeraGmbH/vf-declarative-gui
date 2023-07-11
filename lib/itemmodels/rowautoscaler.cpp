@@ -33,8 +33,9 @@ RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<i
     return result;
 }
 
-RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double absVal)
+RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double val)
 {
+    double absVal = fabs(val);
     TSingleScaleResult singleResult;
     if(scaleSingleValForPrefix(absVal, 1e9, "G", singleResult))
         return singleResult;
