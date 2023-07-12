@@ -33,8 +33,10 @@ Item {
     // hack to determine if we are in ced-session and have to use POWER2Module1
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
-    // even more hack for EMOB with two P power mdules ("P AC"/"P DC")
-    readonly property bool hasMultiplePs: validatorRefInput.Data.includes("P AC") && validatorRefInput.Data.includes("P DC")
+    // even more hack for EMOB/LEM with two P power mdules ("P AC" / "P DC" / "P 1" / "P 2" / "P 3" / "P AUX")
+    readonly property bool hasMultiplePs:
+        (validatorRefInput.Data.includes("P AC") && validatorRefInput.Data.includes("P DC")) ||
+        (validatorRefInput.Data.includes("P 1") && validatorRefInput.Data.includes("P 2") && validatorRefInput.Data.includes("P 3") && validatorRefInput.Data.includes("P AUX"))
 
     readonly property real rowHeight: height > 0 ? height/7 : 10
     readonly property real pointSize: rowHeight/2.5
@@ -98,12 +100,16 @@ Item {
                     switch(cbRefInput.currentText) {
                     case "P":
                     case "P AC":
+                    case "P 1":
                         return ModuleIntrospection.p1m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     case "Q":
+                    case "P 2":
                         return ModuleIntrospection.p1m2Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     case "S":
+                    case "P 3":
                         return ModuleIntrospection.p1m3Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     case "P DC":
+                    case "P AUX":
                         return ModuleIntrospection.p1m4Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     }
                 }
@@ -115,12 +121,16 @@ Item {
                     switch(cbRefInput.currentText) {
                     case "P":
                     case "P AC":
+                    case "P 1":
                         return root.p1m1
                     case "Q":
+                    case "P 2":
                         return root.p1m2
                     case "S":
+                    case "P 3":
                         return root.p1m3
                     case "P DC":
+                    case "P AUX":
                         return root.p1m4
                     }
                 }
@@ -336,6 +346,10 @@ Item {
                         case "-P":
                         case "P AC":
                         case "P DC":
+                        case "P 1":
+                        case "P 2":
+                        case "P 3":
+                        case "P AUX":
                             return [["Wh","kWh","MWh"],[1e-3,1e0,1e3]]
                         case "Q":
                             return [["VArh","kVArh","MVArh"],[1e-3,1e0,1e3]]
