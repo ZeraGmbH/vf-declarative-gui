@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
+import PowerModuleVeinGetter 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
@@ -27,18 +28,10 @@ Item {
     // hack to determine if we are in ced-session and have to use POWER2Module1
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
-    // even more hack for EMOB/LEM with two P power mdules ("P AC" / "P DC" / "P 1" / "P 2" / "P 3" / "P AUX")
-    readonly property bool hasMultiplePs:
-        (validatorRefInput.Data.includes("P AC") && validatorRefInput.Data.includes("P DC")) ||
-        (validatorRefInput.Data.includes("P 1") && validatorRefInput.Data.includes("P 2") && validatorRefInput.Data.includes("P 3") && validatorRefInput.Data.includes("P AUX"))
 
     readonly property real rowHeight: height > 0 ? height/7 : 10
     readonly property real pointSize: rowHeight/2.5
 
-    readonly property QtObject p1m1: !usePower2 ? VeinEntity.getEntity("POWER1Module1") : QtObject
-    readonly property QtObject p1m2: !usePower2 ? VeinEntity.getEntity("POWER1Module2") : QtObject
-    readonly property QtObject p1m3: !usePower2 ? VeinEntity.getEntity("POWER1Module3") : QtObject
-    readonly property QtObject p1m4: hasMultiplePs ? VeinEntity.getEntity("POWER1Module4") : QtObject
     readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject
 
     readonly property real col1Width: 10/20
@@ -94,42 +87,16 @@ Item {
                     if(usePower2) {
                         return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
                     }
-                    switch(cbRefInput.currentText) {
-                    case "P":
-                    case "P AC":
-                    case "P 1":
-                        return ModuleIntrospection.p1m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    case "Q":
-                    case "P 2":
-                        return ModuleIntrospection.p1m2Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    case "S":
-                    case "P 3":
-                        return ModuleIntrospection.p1m3Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    case "P DC":
-                    case "P AUX":
-                        return ModuleIntrospection.p1m4Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    }
+                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
+                    return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
                 }
 
                 entity: {
                     if(usePower2) {
                         return root.p2m1
                     }
-                    switch(cbRefInput.currentText) {
-                    case "P":
-                    case "P AC":
-                    case "P 1":
-                        return root.p1m1
-                    case "Q":
-                    case "P 2":
-                        return root.p1m2
-                    case "S":
-                    case "P 3":
-                        return root.p1m3
-                    case "P DC":
-                    case "P AUX":
-                        return root.p1m4
-                    }
+                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
+                    return PwrModVeinGetter.getEntity(moduleNo)
                 }
 
                 anchors.right: parent.right
