@@ -23,7 +23,6 @@ Item {
 
     signal closeView();
     signal sessionChanged();
-
     function elementSelected(elementValue) {
         pageLoaderSource = elementValue
         closeView();
@@ -95,13 +94,12 @@ Item {
     }
 
     Button {
-        height: root.height/10
-        Material.accent: Material.color(Material.Red)
-        highlighted: true
-        font.family: FA.old
-        font.pixelSize: 20
-        text: FA.icon(FA.fa_times) + Z.tr("Close")
-        anchors.horizontalCenter: parent.horizontalCenter
+        height: root.height * 0.125
+        width: root.width * 0.2
+        font.pointSize: root.height * 0.05
+        text: Z.tr("Close")
+        anchors.right: parent.right
+        anchors.rightMargin: root.width * 0.01
         anchors.bottom: parent.bottom
         onClicked: root.closeView()
     }
