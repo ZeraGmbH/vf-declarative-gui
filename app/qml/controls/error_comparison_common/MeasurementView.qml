@@ -33,7 +33,7 @@ Item {
                 Label {
                     width: parent.width
                     textFormat: Text.PlainText
-                    font.pixelSize: 40
+                    font.pointSize: root.height * 0.3
                     fontSizeMode: Text.HorizontalFit
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
@@ -158,7 +158,7 @@ Item {
                     width: parent.width
                     textFormat: Text.PlainText
                     horizontalAlignment: Text.AlignRight
-                    font.pixelSize: 40
+                    font.pointSize: root.height * 0.3
                     fontSizeMode: Text.HorizontalFit
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
@@ -183,7 +183,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 20
+                font.pointSize: root.height * 0.15
                 text: root.progressText
             }
         }
