@@ -183,7 +183,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: root.height * 0.15
+                font.pointSize: root.height * 0.125
                 text: root.progressText
             }
         }
