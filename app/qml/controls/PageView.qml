@@ -96,7 +96,7 @@ Item {
     Button {
         height: root.height * 0.125
         width: root.width * 0.2
-        font.pointSize: root.height * 0.05
+        font.pointSize: root.height * 0.04
         text: Z.tr("Close")
         anchors.right: parent.right
         anchors.rightMargin: root.width * 0.01
