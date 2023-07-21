@@ -33,7 +33,6 @@ target_link_libraries(vf-declarative-gui-lib
     Qt5::QuickControls2
     Qt5::DBus
     Qt5::Xml
-    Zera::VfHelpers
     Zera::VfEvent
     Zera::VfComponent
     Zera::VfNet2
