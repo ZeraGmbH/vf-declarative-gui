@@ -23,16 +23,51 @@ Item {
     readonly property real comboWidth: width/7
     readonly property real comboMargin: 8
 
+    readonly property bool threePhase: viewMode===PhasorDiagram.VIEW_THREE_PHASE
+
+    readonly property var vectorU1 : getVector(0)
+    readonly property var vectorU2 : getVector(1)
+    readonly property var vectorU3 : getVector(2)
+    readonly property var vectorsU: [
+        vectorU1,
+        vectorU2,
+        vectorU3
+    ]
+    readonly property real rmsU1: Math.sqrt(Math.pow(vectorU1[0], 2) + Math.pow(vectorU1[1], 2))
+    readonly property real rmsU2: Math.sqrt(Math.pow(vectorU2[0], 2) + Math.pow(vectorU2[1], 2))
+    readonly property real rmsU3: Math.sqrt(Math.pow(vectorU3[0], 2) + Math.pow(vectorU3[1], 2))
+    readonly property real maxRmsU: {
+        let retVal = rmsU1
+        retVal = Math.max(retVal, rmsU2)
+        retVal = Math.max(retVal, rmsU3)
+        return retVal
+    }
+
+    readonly property var vectorI1 : getVector(3)
+    readonly property var vectorI2 : getVector(4)
+    readonly property var vectorI3 : getVector(5)
+    readonly property var vectorsI: [
+        vectorI1,
+        vectorI2,
+        vectorI3
+    ]
+    readonly property real rmsI1: Math.sqrt(Math.pow(vectorI1[0], 2) + Math.pow(vectorI1[1], 2))
+    readonly property real rmsI2: Math.sqrt(Math.pow(vectorI2[0], 2) + Math.pow(vectorI2[1], 2))
+    readonly property real rmsI3: Math.sqrt(Math.pow(vectorI3[0], 2) + Math.pow(vectorI3[1], 2))
+    readonly property real maxRmsI: {
+        let retVal = rmsI1
+        retVal = Math.max(retVal, rmsI2)
+        retVal = Math.max(retVal, rmsI3)
+        return retVal
+    }
+
     property real topMargin: 0
 
     // vectors / values / ranges....
 
     function getVectorName(vecIndex) {
         var retVal;
-        if(root.viewMode===PhasorDiagram.VIEW_STAR || root.viewMode===PhasorDiagram.VIEW_TRIANGLE) {
-            retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName)
-        }
-        if(root.viewMode===PhasorDiagram.VIEW_THREE_PHASE) {
+        if(threePhase) {
             if(vecIndex < 3) {
                 retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP"+parseInt(vecIndex+1)].ChannelName;
                 let arrPhases = retVal.split('-')
@@ -40,18 +75,16 @@ Item {
                     retVal = Z.tr(arrPhases[0]) + '-' + Z.tr(arrPhases[1])
                 }
             }
-            else {
+            else
                 retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName)
-            }
         }
-        return retVal;
+        else
+            retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName)
+        return retVal
     }
     function getVector(vecIndex) {
-        var retVal=[0,0];
-        if(root.viewMode===PhasorDiagram.VIEW_STAR || root.viewMode===PhasorDiagram.VIEW_TRIANGLE) {
-            retVal = root.dftModule["ACT_DFTPN"+parseInt(vecIndex+1)];
-        }
-        else if(root.viewMode===PhasorDiagram.VIEW_THREE_PHASE) {
+        var retVal = [0,0];
+        if(threePhase) {
             switch(vecIndex)
             {
             case 0:
@@ -68,7 +101,9 @@ Item {
                 break;
             }
         }
-        return retVal;
+        else
+            retVal = root.dftModule["ACT_DFTPN" + parseInt(vecIndex+1)];
+        return retVal
     }
     property string maxURange: "5000V"
     readonly property real maxOVRRejectionU: {
@@ -94,20 +129,6 @@ Item {
         }
         return maxVal
     }
-    readonly property real maxU: {
-        let retVal = 0;
-        for(let channel=0; channel<3; channel++) {
-            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(channel)[0], 2) + Math.pow(getVector(channel)[1], 2)))
-        }
-        return retVal
-    }
-    readonly property real maxI: {
-        let retVal = 0;
-        for(let channel=3; channel<6; channel++) {
-            retVal = Math.max(retVal, Math.sqrt(Math.pow(getVector(channel)[0], 2) + Math.pow(getVector(channel)[1], 2)))
-        }
-        return retVal
-    }
 
     Image {
         id: circleIndicator
@@ -124,13 +145,11 @@ Item {
     Label {
         id: voltageIndicator
         readonly property string valueStr: {
-            if(lenMode.rangeLen && root.viewMode !== PhasorDiagram.VIEW_THREE_PHASE) {
+            if(lenMode.rangeLen && !threePhase)
                 return maxURange
-            }
             let maxVoltage = phasorDiagram.maxVoltage
-            if(root.viewMode === PhasorDiagram.VIEW_THREE_PHASE) {
+            if(threePhase)
                 maxVoltage *= phasorDiagram.sqrt3
-            }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
             let valUnitArr = FT.doAutoScale(maxVoltage / (1000*phasorDiagram.maxNominalFactor * Math.SQRT2), "V")
             return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
@@ -274,12 +293,12 @@ Item {
         anchors.fill: parent
         anchors.topMargin: root.topMargin
 
-        vector1Data: getVector(0);
-        vector2Data: getVector(1);
-        vector3Data: getVector(2);
-        vector4Data: getVector(3);
-        vector5Data: getVector(4);
-        vector6Data: getVector(5);
+        vector1Data: vectorU1
+        vector2Data: vectorU2
+        vector3Data: vectorU3
+        vector4Data: vectorI1
+        vector5Data: vectorI2
+        vector6Data: vectorI3
 
         vector1Label: getVectorName(0);
         vector2Label: getVectorName(1);
@@ -295,21 +314,11 @@ Item {
                 max = rangeMax
             }
             else {
-                max = root.maxU * maxNominalFactor / (root.viewMode === PhasorDiagram.VIEW_THREE_PHASE ? sqrt3 : 1)
+                max = root.maxRmsU * maxNominalFactor / (threePhase ? sqrt3 : 1)
                 // avoid no load arrow dance
-                let allPhasaesOff = true
-                for(let phase = 0; phase < 3; ++phase) {
-                    let value = Math.sqrt(Math.pow(getVector(phase)[0],2) + Math.pow(getVector(phase)[1],2))
-                    // we scale arrows so allow lower values
-                    let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
-                    if(value > minValue) {
-                        allPhasaesOff = false
-                        break
-                    }
-                }
-                if(allPhasaesOff) {
+                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
+                if(maxRmsU < minValue)
                     max = rangeMax
-                }
             }
             return max
         }
@@ -320,21 +329,11 @@ Item {
                 max = rangeMax
             }
             else {
-                max = root.maxI * maxNominalFactor
+                max = root.maxRmsI * maxNominalFactor
                 // avoid no load arrow dance
-                let allPhasaesOff = true
-                for(let phase = 3; phase < 6; ++phase) {
-                    let value = Math.sqrt(Math.pow(getVector(phase)[0],2) + Math.pow(getVector(phase)[1],2))
-                    // we scale arrows so allow lower values
-                    let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
-                    if(value > minValue) {
-                        allPhasaesOff = false
-                        break
-                    }
-                }
-                if(allPhasaesOff) {
+                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
+                if(maxRmsI < minValue)
                     max = rangeMax
-                }
             }
             return max
         }
