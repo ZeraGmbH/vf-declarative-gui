@@ -128,6 +128,7 @@ int main(int argc, char *argv[])
 
     JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
     loadSettings(globalSettingsFile, webGlServer);
+    ZeraTranslation::setInitialLanguage(globalSettingsFile->getOption("locale", "en_GB"));
 
     app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
