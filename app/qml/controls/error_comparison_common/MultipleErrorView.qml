@@ -4,7 +4,7 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import ZeraLocale 1.0 // for now - see removeDecimalGroupSeparators / formatNumber below
+import ZeraLocale 1.0 // for now - see formatNumber below
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
@@ -36,14 +36,6 @@ Rectangle {
     // Reasoning: By having these functions in here we can use property bindings
     // for digitsTotal / decimalPlaces. Doing so is cool: In case they change
     // all contents are updated and scroll position remains
-    function removeDecimalGroupSeparators(strNum) {
-        // remove group separators (this is ugly but don't get documented examples to fly here...)
-        let groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
-        while(strNum.includes(groupSepChar)) {
-            strNum = strNum.replace(groupSepChar, "")
-        }
-        return strNum
-    }
     function formatNumber(num, _digitsTotal, _decimalPlaces) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
@@ -62,9 +54,7 @@ Rectangle {
                     dec = 0
                 }
             }
-            let strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
-            strNum = removeDecimalGroupSeparators(strNum)
-            return strNum
+            return Number(num).toLocaleString(ZLocale.locale, 'f', dec)
         }
     }
 
