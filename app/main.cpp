@@ -59,6 +59,28 @@ static void registerQmlInt()
     qmlRegisterSingletonType(QUrl("qrc:/qml/controls/settings/SlowMachineSettingsHelperSingleton.qml"), "SlowMachineSettingsHelper", 1, 0, "SlwMachSettingsHelper");
 }
 
+static void loadSettings(JsonSettingsFile *globalSettingsFile, bool webGlServer)
+{
+    globalSettingsFile->setAutoWriteBackEnabled(true);
+    QString settingsFile = QStringLiteral("settings.json");
+    if(webGlServer)
+        settingsFile = QStringLiteral("settings-remote.json");
+    if(globalSettingsFile->loadFromStandardLocation(settingsFile) == false) {
+        const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+        const QString targetPath = QString("%1/%2").arg(standardPath).arg(settingsFile);
+        QDir standardConfigDirectory;
+        if(!standardConfigDirectory.exists(standardPath))
+            standardConfigDirectory.mkdir(standardPath);
+        // copy from qrc to standard dir
+        const QString source = QStringLiteral("://data/settings.json");
+        if(QFile::copy(source, targetPath)) {
+            qInfo("Deployed default settings file from: qrc://data/settings.json");
+            QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
+            globalSettingsFile->loadFromStandardLocation(settingsFile);
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
     //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
@@ -120,29 +142,7 @@ int main(int argc, char *argv[])
     networkWatchdog.setSingleShot(true);
 
     JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
-    globalSettingsFile->setAutoWriteBackEnabled(true);
-
-    // Load settings
-    QString settingsFile = QStringLiteral("settings.json");
-    if(webGlServer) {
-        settingsFile = QStringLiteral("settings-remote.json");
-    }
-    if(globalSettingsFile->loadFromStandardLocation(settingsFile) == false) {
-        const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-        const QString targetPath = QString("%1/%2").arg(standardPath).arg(settingsFile);
-        QDir standardConfigDirectory;
-
-        if(!standardConfigDirectory.exists(standardPath)) {
-            standardConfigDirectory.mkdir(standardPath);
-        }
-        // copy from qrc to standard dir
-        const QString source = QStringLiteral("://data/settings.json");
-        if(QFile::copy(source, targetPath)) {
-            qInfo("Deployed default settings file from: qrc://data/settings.json");
-            QFile::setPermissions(targetPath, QFlags<QFile::Permission>(0x6644)); //like 644
-            globalSettingsFile->loadFromStandardLocation(settingsFile);
-        }
-    }
+    loadSettings(globalSettingsFile, webGlServer);
 
 #ifdef QT_DEBUG
     engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
