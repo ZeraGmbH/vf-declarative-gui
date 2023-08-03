@@ -41,7 +41,7 @@ Item {
     readonly property real rmsI3: Math.sqrt(Math.pow(vectorI3[0], 2) + Math.pow(vectorI3[1], 2))
     readonly property real maxRmsI: Math.max(rmsI1, Math.max(rmsI2, rmsI3))
 
-    // vectors / values / ranges....
+    // vector & range helpers
     function getVectorName(vecIndex) {
         let strIndex = parseInt(vecIndex+1)
         let retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
@@ -104,6 +104,7 @@ Item {
         return maxVal
     }
 
+    // bottom left voltage/current circle value indicator
     Image {
         id: circleIndicator
         anchors.bottom: root.bottom;
@@ -138,9 +139,8 @@ Item {
     Label {
         id: currentIndicator
         readonly property string valueStr: {
-            if(lenMode.rangeLen) {
+            if(lenMode.rangeLen)
                 return maxIRange
-            }
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
             let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * phasorDiagram.maxNominalFactor * Math.SQRT2), "A")
             return FT.formatNumber(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
@@ -153,6 +153,7 @@ Item {
         font.pointSize: pointSize / 1.25
     }
 
+    // bottom right comboboxes
     Label {
         text: "➚"
         anchors.right: viewModeSelector.left
@@ -262,6 +263,7 @@ Item {
         property bool rangeLen: targetIndex===0
     }
 
+    // and finally vectors
     PhasorDiagramEx {
         id: phasorDiagram
         anchors.topMargin: root.topMargin
