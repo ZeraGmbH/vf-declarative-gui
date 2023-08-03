@@ -43,34 +43,33 @@ Item {
 
     // vectors / values / ranges....
     function getVectorName(vecIndex) {
-        var retVal;
-        if(threePhase) {
+        let strIndex = parseInt(vecIndex+1)
+        let retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
+        if(threePhase) { // unlikely - a must hate :)
             if(vecIndex < 3) {
-                retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP"+parseInt(vecIndex+1)].ChannelName;
+                retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP" + strIndex].ChannelName;
                 let arrPhases = retVal.split('-')
-                if(arrPhases.length === 2) {
+                if(arrPhases.length === 2)
                     retVal = Z.tr(arrPhases[0]) + '-' + Z.tr(arrPhases[1])
-                }
             }
             else
-                retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName)
+                retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
         }
-        else
-            retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN"+parseInt(vecIndex+1)].ChannelName)
         return retVal
     }
     function getVector(vecIndex) {
-        var retVal = [0,0];
-        if(threePhase) {
+        let strIndex = parseInt(vecIndex+1)
+        let retVal = dftModule["ACT_DFTPN" + strIndex];
+        if(threePhase) { // unlikely - a must hate :)
             switch(vecIndex)
             {
             case 0:
             case 1:
-                retVal= dftModule["ACT_DFTPP"+parseInt(vecIndex+1)];
+                retVal= dftModule["ACT_DFTPP" + strIndex];
                 break;
             case 3:
             case 5:
-                retVal = dftModule["ACT_DFTPN"+parseInt(vecIndex+1)];
+                retVal = dftModule["ACT_DFTPN" + strIndex];
                 break;
             case 2:
             case 4:
@@ -78,8 +77,6 @@ Item {
                 break;
             }
         }
-        else
-            retVal = dftModule["ACT_DFTPN" + parseInt(vecIndex+1)];
         return retVal
     }
     property string maxURange: "5000V"
