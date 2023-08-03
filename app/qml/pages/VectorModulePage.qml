@@ -288,13 +288,10 @@ Item {
         vector6Label: getVectorName(5);
 
         maxVoltage: {
-            let rangeMax = root.maxOVRRejectionU*Math.SQRT2
-            let max
-            if(lenMode.rangeLen) {
-                max = rangeMax
-            }
-            else {
-                max = root.maxRmsU * maxNominalFactor / (threePhase ? sqrt3 : 1)
+            let rangeMax = maxOVRRejectionU * Math.SQRT2
+            let max = rangeMax
+            if(!lenMode.rangeLen) {
+                max = maxRmsU * maxNominalFactor / (threePhase ? sqrt3 : 1)
                 // avoid no load arrow dance
                 let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
                 if(maxRmsU < minValue)
@@ -303,13 +300,10 @@ Item {
             return max
         }
         maxCurrent: {
-            let rangeMax = root.maxOVRRejectionI*Math.SQRT2
-            let max
-            if(lenMode.rangeLen) {
-                max = rangeMax
-            }
-            else {
-                max = root.maxRmsI * maxNominalFactor
+            let rangeMax = maxOVRRejectionI * Math.SQRT2
+            let max = rangeMax
+            if(!lenMode.rangeLen) {
+                max = maxRmsI * maxNominalFactor
                 // avoid no load arrow dance
                 let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
                 if(maxRmsI < minValue)
