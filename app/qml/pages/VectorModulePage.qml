@@ -17,13 +17,13 @@ Item {
     readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
 
     property int viewMode : PhasorDiagram.VIEW_STAR;
+    readonly property bool threePhase: viewMode === PhasorDiagram.VIEW_THREE_PHASE
 
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: 10
     readonly property real comboWidth: width/7
     readonly property real comboMargin: 8
-
-    readonly property bool threePhase: viewMode===PhasorDiagram.VIEW_THREE_PHASE
+    property real topMargin: 0
 
     readonly property var vectorU1 : getVector(0)
     readonly property var vectorU2 : getVector(1)
@@ -31,12 +31,7 @@ Item {
     readonly property real rmsU1: Math.sqrt(Math.pow(vectorU1[0], 2) + Math.pow(vectorU1[1], 2))
     readonly property real rmsU2: Math.sqrt(Math.pow(vectorU2[0], 2) + Math.pow(vectorU2[1], 2))
     readonly property real rmsU3: Math.sqrt(Math.pow(vectorU3[0], 2) + Math.pow(vectorU3[1], 2))
-    readonly property real maxRmsU: {
-        let retVal = rmsU1
-        retVal = Math.max(retVal, rmsU2)
-        retVal = Math.max(retVal, rmsU3)
-        return retVal
-    }
+    readonly property real maxRmsU: Math.max(rmsU1, Math.max(rmsU2, rmsU3))
 
     readonly property var vectorI1 : getVector(3)
     readonly property var vectorI2 : getVector(4)
@@ -44,17 +39,9 @@ Item {
     readonly property real rmsI1: Math.sqrt(Math.pow(vectorI1[0], 2) + Math.pow(vectorI1[1], 2))
     readonly property real rmsI2: Math.sqrt(Math.pow(vectorI2[0], 2) + Math.pow(vectorI2[1], 2))
     readonly property real rmsI3: Math.sqrt(Math.pow(vectorI3[0], 2) + Math.pow(vectorI3[1], 2))
-    readonly property real maxRmsI: {
-        let retVal = rmsI1
-        retVal = Math.max(retVal, rmsI2)
-        retVal = Math.max(retVal, rmsI3)
-        return retVal
-    }
-
-    property real topMargin: 0
+    readonly property real maxRmsI: Math.max(rmsI1, Math.max(rmsI2, rmsI3))
 
     // vectors / values / ranges....
-
     function getVectorName(vecIndex) {
         var retVal;
         if(threePhase) {
@@ -79,11 +66,11 @@ Item {
             {
             case 0:
             case 1:
-                retVal=root.dftModule["ACT_DFTPP"+parseInt(vecIndex+1)];
+                retVal= dftModule["ACT_DFTPP"+parseInt(vecIndex+1)];
                 break;
             case 3:
             case 5:
-                retVal=root.dftModule["ACT_DFTPN"+parseInt(vecIndex+1)];
+                retVal = dftModule["ACT_DFTPN"+parseInt(vecIndex+1)];
                 break;
             case 2:
             case 4:
@@ -92,17 +79,17 @@ Item {
             }
         }
         else
-            retVal = root.dftModule["ACT_DFTPN" + parseInt(vecIndex+1)];
+            retVal = dftModule["ACT_DFTPN" + parseInt(vecIndex+1)];
         return retVal
     }
     property string maxURange: "5000V"
     readonly property real maxOVRRejectionU: {
         let maxVal = 0;
         for(let channel=1; channel<=3; channel++) {
-            let newVal = root.rangeInfo[`INF_Channel${channel}ActOVLREJ`]/root.rangeInfo[`INF_PreScalingInfoGroup0`]
+            let newVal = rangeInfo[`INF_Channel${channel}ActOVLREJ`] / rangeInfo[`INF_PreScalingInfoGroup0`]
             if(newVal > maxVal) {
                 maxVal = newVal
-                maxURange = root.rangeInfo[`PAR_Channel${channel}Range`]
+                maxURange = rangeInfo[`PAR_Channel${channel}Range`]
             }
         }
         return maxVal
@@ -111,10 +98,10 @@ Item {
     readonly property real maxOVRRejectionI: {
         let maxVal = 0;
         for(let channel=4; channel<=6; channel++) {
-            let newVal = root.rangeInfo[`INF_Channel${channel}ActOVLREJ`]/root.rangeInfo[`INF_PreScalingInfoGroup1`]
+            let newVal = rangeInfo[`INF_Channel${channel}ActOVLREJ`] / rangeInfo[`INF_PreScalingInfoGroup1`]
             if(newVal > maxVal) {
                 maxVal = newVal
-                maxIRange = root.rangeInfo[`PAR_Channel${channel}Range`]
+                maxIRange = rangeInfo[`PAR_Channel${channel}Range`]
             }
         }
         return maxVal
@@ -183,7 +170,7 @@ Item {
 
         targetIndex: GC.vectorMode
         onTargetIndexChanged: {
-            root.viewMode = targetIndex
+            viewMode = targetIndex
             GC.setVectorMode(targetIndex)
         }
 
@@ -283,6 +270,9 @@ Item {
         anchors.fill: parent
         anchors.topMargin: root.topMargin
 
+        vectorView: viewMode
+        currentVisible: currentOnOffSelector.displayCurrents
+
         vector1Data: vectorU1
         vector2Data: vectorU2
         vector3Data: vectorU3
@@ -327,8 +317,5 @@ Item {
             }
             return max
         }
-
-        vectorView: root.viewMode
-        currentVisible: currentOnOffSelector.displayCurrents
     }
 }
