@@ -28,11 +28,6 @@ Item {
     readonly property var vectorU1 : getVector(0)
     readonly property var vectorU2 : getVector(1)
     readonly property var vectorU3 : getVector(2)
-    readonly property var vectorsU: [
-        vectorU1,
-        vectorU2,
-        vectorU3
-    ]
     readonly property real rmsU1: Math.sqrt(Math.pow(vectorU1[0], 2) + Math.pow(vectorU1[1], 2))
     readonly property real rmsU2: Math.sqrt(Math.pow(vectorU2[0], 2) + Math.pow(vectorU2[1], 2))
     readonly property real rmsU3: Math.sqrt(Math.pow(vectorU3[0], 2) + Math.pow(vectorU3[1], 2))
@@ -46,11 +41,6 @@ Item {
     readonly property var vectorI1 : getVector(3)
     readonly property var vectorI2 : getVector(4)
     readonly property var vectorI3 : getVector(5)
-    readonly property var vectorsI: [
-        vectorI1,
-        vectorI2,
-        vectorI3
-    ]
     readonly property real rmsI1: Math.sqrt(Math.pow(vectorI1[0], 2) + Math.pow(vectorI1[1], 2))
     readonly property real rmsI2: Math.sqrt(Math.pow(vectorI2[0], 2) + Math.pow(vectorI2[1], 2))
     readonly property real rmsI3: Math.sqrt(Math.pow(vectorI3[0], 2) + Math.pow(vectorI3[1], 2))
