@@ -126,6 +126,9 @@ int main(int argc, char *argv[])
     pWGLSingleon->setIsServer(webGlServer);
     pWGLSingleon->setEnableSource(enableSourceControl);
 
+    JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
+    loadSettings(globalSettingsFile, webGlServer);
+
     app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
     QmlFileIO::setStaticInstance(new QmlFileIO(&app));
@@ -141,8 +144,6 @@ int main(int argc, char *argv[])
     networkWatchdog.setInterval(3000);
     networkWatchdog.setSingleShot(true);
 
-    JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
-    loadSettings(globalSettingsFile, webGlServer);
 
 #ifdef QT_DEBUG
     engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
