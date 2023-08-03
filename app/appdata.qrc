@@ -51,7 +51,6 @@
         <file>qml/controls/settings/ColorPicker.qml</file>
         <file>qml/controls/settings/DefaultColorPopup.qml</file>
         <file>qml/controls/settings/SerialSettings.qml</file>
-        <file>qml/controls/settings/FrequencyInOutConfigPopup.qml</file>
         <file>qml/controls/settings/Settings.qml</file>
         <file>qml/controls/settings/ApplicationSettings.qml</file>
         <file>qml/controls/settings/DeviceSettings.qml</file>
