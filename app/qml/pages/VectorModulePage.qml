@@ -264,7 +264,6 @@ Item {
 
     PhasorDiagramEx {
         id: phasorDiagram
-        anchors.fill: parent
         anchors.topMargin: root.topMargin
 
         vectorView: viewMode

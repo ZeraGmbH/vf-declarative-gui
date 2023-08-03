@@ -9,6 +9,11 @@ import ZeraComponents 1.0
 import ZeraTranslation 1.0
 
 PhasorDiagram {
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    width: Math.min(height * 1.25, parent.width)
+    anchors.horizontalCenter: parent.horizontalCenter
+
     property bool din410: true
     property real maxNominalFactor: 1.25
     property real minRelValueDisplayed: 0.05
