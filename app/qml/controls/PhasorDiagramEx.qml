@@ -11,7 +11,7 @@ import ZeraTranslation 1.0
 PhasorDiagram {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    width: Math.min(height * 1.25, parent.width)
+    width: Math.min(height * 1.2, parent.width)
     anchors.horizontalCenter: parent.horizontalCenter
 
     property bool din410: true
