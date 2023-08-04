@@ -13,6 +13,7 @@ PhasorDiagram {
     anchors.bottom: parent.bottom
     width: Math.min(height * 1.2, parent.width)
     anchors.horizontalCenter: parent.horizontalCenter
+    fillColor: color
 
     property bool din410: true
     property real maxNominalFactor: 1.25
