@@ -104,6 +104,53 @@ Item {
         return maxVal
     }
 
+    PhasorDiagramEx {
+        id: phasorDiagram
+        anchors.topMargin: root.topMargin
+
+        vectorView: viewMode
+        currentVisible: currentOnOffSelector.displayCurrents
+
+        vector1Data: vectorU1
+        vector2Data: vectorU2
+        vector3Data: vectorU3
+        vector4Data: vectorI1
+        vector5Data: vectorI2
+        vector6Data: vectorI3
+
+        vector1Label: getVectorName(0);
+        vector2Label: getVectorName(1);
+        vector3Label: getVectorName(2);
+        vector4Label: getVectorName(3);
+        vector5Label: getVectorName(4);
+        vector6Label: getVectorName(5);
+
+        maxVoltage: {
+            let rangeMax = maxOVRRejectionU * Math.SQRT2
+            let max = rangeMax
+            if(!lenMode.rangeLen) {
+                max = maxRmsU * maxNominalFactor / (threePhase ? sqrt3 : 1)
+                // avoid no load arrow dance
+                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
+                if(maxRmsU < minValue)
+                    max = rangeMax
+            }
+            return max
+        }
+        maxCurrent: {
+            let rangeMax = maxOVRRejectionI * Math.SQRT2
+            let max = rangeMax
+            if(!lenMode.rangeLen) {
+                max = maxRmsI * maxNominalFactor
+                // avoid no load arrow dance
+                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
+                if(maxRmsI < minValue)
+                    max = rangeMax
+            }
+            return max
+        }
+    }
+
     // bottom left voltage/current circle value indicator
     Image {
         id: circleIndicator
@@ -261,53 +308,5 @@ Item {
         }
 
         property bool rangeLen: targetIndex===0
-    }
-
-    // and finally vectors
-    PhasorDiagramEx {
-        id: phasorDiagram
-        anchors.topMargin: root.topMargin
-
-        vectorView: viewMode
-        currentVisible: currentOnOffSelector.displayCurrents
-
-        vector1Data: vectorU1
-        vector2Data: vectorU2
-        vector3Data: vectorU3
-        vector4Data: vectorI1
-        vector5Data: vectorI2
-        vector6Data: vectorI3
-
-        vector1Label: getVectorName(0);
-        vector2Label: getVectorName(1);
-        vector3Label: getVectorName(2);
-        vector4Label: getVectorName(3);
-        vector5Label: getVectorName(4);
-        vector6Label: getVectorName(5);
-
-        maxVoltage: {
-            let rangeMax = maxOVRRejectionU * Math.SQRT2
-            let max = rangeMax
-            if(!lenMode.rangeLen) {
-                max = maxRmsU * maxNominalFactor / (threePhase ? sqrt3 : 1)
-                // avoid no load arrow dance
-                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
-                if(maxRmsU < minValue)
-                    max = rangeMax
-            }
-            return max
-        }
-        maxCurrent: {
-            let rangeMax = maxOVRRejectionI * Math.SQRT2
-            let max = rangeMax
-            if(!lenMode.rangeLen) {
-                max = maxRmsI * maxNominalFactor
-                // avoid no load arrow dance
-                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
-                if(maxRmsI < minValue)
-                    max = rangeMax
-            }
-            return max
-        }
     }
 }
