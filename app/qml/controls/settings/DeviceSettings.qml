@@ -102,6 +102,27 @@ SettingsView {
         }
     }
 
+    Component {
+        id: swScpiQueue
+        RowLayout {
+            anchors.fill: parent
+            Label {
+                textFormat: Text.PlainText
+                text: Z.tr("SCPI queue:")
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            VFSwitch {
+                Layout.fillHeight: true
+                entity: VeinEntity.getEntity("SCPIModule1")
+                controlPropertyName: "PAR_OptionalScpiQueue"
+            }
+        }
+    }
+
+
     model: VisualItemModel {
         Loader {
             sourceComponent: swPllAutomatic
@@ -124,6 +145,15 @@ SettingsView {
         Loader {
             sourceComponent: cbDftChannel
             active: VeinEntity.hasEntity("DFTModule1")
+            asynchronous: true
+
+            height: active ? root.rowHeight : 0
+            anchors.left: parent.left
+            anchors.right: parent.right
+        }
+        Loader {
+            sourceComponent: swScpiQueue
+            active: VeinEntity.hasEntity("SCPIModule1")
             asynchronous: true
 
             height: active ? root.rowHeight : 0
