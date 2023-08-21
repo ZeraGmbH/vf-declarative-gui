@@ -300,19 +300,17 @@ Item {
                                 }
                             }
                             height: parent.height
-                            width: root.valueColumnWidth/6.5
-                            anchors.left: parent.left
-                            anchors.rightMargin: GC.standardTextHorizMargin
-                            anchors.leftMargin: GC.standardTextHorizMargin / 2
+                            anchors.left: measModeCombo.right
+                            anchors.leftMargin: GC.standardTextHorizMargin / 5
                             horizontalAlignment: Text.AlignRight
                             verticalAlignment: Text.AlignVCenter
                             font.pixelSize: measModeGrid.height*0.4
                         }
                         MeasModeCombo {
                             id: measModeCombo
-                            width: root.valueColumnWidth * 0.74
-                            height: parent.height
-                            anchors.right: parent.right
+                            width: root.valueColumnWidth * 0.7
+                            height: parent.height * 0.85
+                            anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
                             power1ModuleIdx: index
                         }
@@ -338,7 +336,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        width: parent.width*7/16-20
+        width: parent.width*7/16-45
 
         Button {
             id: overloadButton

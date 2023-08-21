@@ -65,7 +65,7 @@ Item {
 
   ComboBox {
     anchors.bottom: peakChart.bottom
-    anchors.bottomMargin: -45
+    anchors.bottomMargin: -35
     width: parent.width
     anchors.right: parent.right
     readonly property var translatedModel: {
