@@ -321,6 +321,10 @@ bool TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::Componen
             double ampBaseOscillation, currentValue;
             //set ampBaseOscillation
             ampBaseOscillation = tmpData.at(1);
+            if(ampBaseOscillation == 0.0) //avoid division by zero
+            {
+                ampBaseOscillation = pow(10, -15);
+            }
 
             m_hpTableData->setRowCount(tmpData.length());
             m_hpRelativeTableData->setRowCount(tmpData.length());
