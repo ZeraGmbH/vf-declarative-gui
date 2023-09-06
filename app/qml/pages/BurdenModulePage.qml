@@ -163,11 +163,10 @@ BaseTabPage {
                             contentRowHeight: height*1.2
                             visible: page.isVoltagePage
                             model: {
-                             if(page.isVoltagePage){
-                                return Z.tr(["1","1/sqrt(3)","1/3"])
-                             }else{
-                                return Z.tr(["1"])
-                             }
+                                if(page.isVoltagePage)
+                                    return ["1" , "1/sqrt(3)", "1/3"]
+                                else
+                                    return ["1"]
                             }
                             imageModel: {
                                 if(page.isVoltagePage){
