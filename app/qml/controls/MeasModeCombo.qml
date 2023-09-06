@@ -1,11 +1,15 @@
 import QtQuick 2.0
 import ZeraVeinComponents 1.0
 import PowerModuleVeinGetter 1.0
+import ZeraTranslation 1.0
 
 VFComboBox {
     id: root
+    // override
+    function translateText(text){
+        return Z.tr(text)
+    }
     property int power1ModuleIdx // setter
-
     entity: PwrModVeinGetter.getEntity(power1ModuleIdx)
     controlPropertyName: "PAR_MeasuringMode"
     model: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx).ComponentInfo[controlPropertyName].Validation.Data
