@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import ZeraTranslation  1.0
+import ZeraTranslation 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
@@ -67,9 +67,11 @@ Item {
             }
             VFComboBox {
                 id: cbRefInput
-
+                // override
+                function translateText(text) {
+                    return Z.tr(text)
+                }
                 arrayMode: true
-
                 entity: logicalParent.errCalEntity
                 controlPropertyName: "PAR_RefInput"
                 model: validatorRefInput.Data
@@ -86,6 +88,10 @@ Item {
             VFComboBox {
                 arrayMode: true
                 controlPropertyName: "PAR_MeasuringMode"
+                // override
+                function translateText(text){
+                    return Z.tr(text)
+                }
                 model: {
                     if(usePower2) {
                         return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
