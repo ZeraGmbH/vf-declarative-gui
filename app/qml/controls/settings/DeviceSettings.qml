@@ -53,6 +53,10 @@ SettingsView {
                 Layout.fillWidth: true
             }
             VFComboBox {
+                // override
+                function translateText(text){
+                    return Z.tr(text)
+                }
                 arrayMode: true
                 entity: VeinEntity.getEntity("SampleModule1")
                 controlPropertyName: "PAR_PllChannel"
@@ -82,6 +86,10 @@ SettingsView {
                 Layout.fillWidth: true
             }
             VFComboBox {
+                // override
+                function translateText(text){
+                    return Z.tr(text)
+                }
                 arrayMode: true
                 entity: VeinEntity.getEntity("DFTModule1")
                 controlPropertyName: "PAR_RefChannel"

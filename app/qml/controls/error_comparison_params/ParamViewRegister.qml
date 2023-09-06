@@ -83,6 +83,10 @@ Item {
                 id: cbRefMeasMode
                 arrayMode: true
                 controlPropertyName: "PAR_MeasuringMode"
+                // override
+                function translateText(text){
+                    return Z.tr(text)
+                }
                 model: {
                     if(usePower2) {
                         return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;

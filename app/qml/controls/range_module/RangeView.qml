@@ -45,9 +45,6 @@ ListView {
             anchors.top: label.bottom
             width: parent.width*0.95
             enabled: parent.enabled
-            function translateText(text) {
-                return text
-            }
         }
     }
 }
