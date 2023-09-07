@@ -119,11 +119,11 @@ Item {
             // Left part
             PathAttribute { name: "iconScale"; value: 0.9 }
             PathAttribute { name: "iconOpacity"; value: 1.0 }
-            PathQuad { x: path.startX; y: height*0.15; controlX: -width*0.25; controlY: height*0.35 }
+            PathQuad { x: path.startX; y: height*0.15; controlX: -width*0.2; controlY: height*0.35 }
             // Right part
             PathAttribute { name: "iconScale"; value: 0.6 }
             PathAttribute { name: "iconOpacity"; value: 0.7 }
-            PathQuad { x: path.startX; y: path.startY; controlX: width*1.25; controlY: height*0.35 }
+            PathQuad { x: path.startX; y: path.startY; controlX: width*1.2; controlY: height*0.35 }
         }
     }
 }
