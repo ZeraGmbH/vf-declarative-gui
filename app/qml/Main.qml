@@ -75,7 +75,7 @@ ApplicationWindow {
         }
     }
     function getScreenWidth() {
-        var width = Screen.desktopAvailableWidth
+        var width = Screen.width
         if(BUILD_TYPE === "debug") {
             switch(displayWindow.screenResolution) {
             case 0:
@@ -92,7 +92,7 @@ ApplicationWindow {
         return width
     }
     function getScreenHeight() {
-        var height = Screen.desktopAvailableHeight
+        var height = Screen.height
         if(BUILD_TYPE === "debug") {
             switch(displayWindow.screenResolution) {
             case 0:
