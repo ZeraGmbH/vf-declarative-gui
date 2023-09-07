@@ -107,8 +107,8 @@ Item {
     Rectangle {
         anchors.top: root.top
         anchors.left: root.left
-        height: root.height/10
-        width: root.width/2.8
+        height: root.height * 0.1
+        width: root.width * 0.38
         color: Material.dropShadowColor
         visible: sessionSelector.model.length > 1
 
