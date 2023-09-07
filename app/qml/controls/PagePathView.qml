@@ -38,7 +38,7 @@ Item {
                 textFormat: Text.PlainText
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
-                font.pointSize: root.height * 0.038
+                font.pointSize: root.height * 0.035
                 color: (wrapper.PathView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
                 opacity: 1
                 ActivityAnimation {
