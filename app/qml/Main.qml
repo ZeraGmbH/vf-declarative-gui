@@ -74,37 +74,46 @@ ApplicationWindow {
             VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
         }
     }
+    // Notes on resolutions:
+    // * for production we use desktop sizes: We have one monitor & bars
+    // * for debug we use screen sizes for multi monitor environments
     function getScreenWidth() {
-        var width = Screen.width
+        var width = Screen.desktopAvailableWidth
         if(BUILD_TYPE === "debug") {
             // Note: for some reasons, vertical XFCE bar scales automatically
             switch(displayWindow.screenResolution) {
             case 0:
-                width=800-50
+                width = 800-50
                 break
             case 1:
-                width=1024-50
+                width = 1024-50
                 break
             case 2:
-                width=1280-60
+                width = 1280-60
                 break
+            default:
+                width = Screen.width
+                break;
             }
         }
         return width
     }
     function getScreenHeight() {
-        var height = Screen.height
+        var height = Screen.desktopAvailableHeight
         if(BUILD_TYPE === "debug") {
             switch(displayWindow.screenResolution) {
             case 0:
-                height=480;
+                height = 480;
                 break
             case 1:
-                height=600;
+                height = 600;
                 break
             case 2:
-                height=800;
+                height = 800;
                 break
+            default:
+                height = Screen.height
+                break;
             }
         }
         return height
