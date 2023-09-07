@@ -77,15 +77,16 @@ ApplicationWindow {
     function getScreenWidth() {
         var width = Screen.width
         if(BUILD_TYPE === "debug") {
+            // Note: for some reasons, vertical XFCE bar scales automatically
             switch(displayWindow.screenResolution) {
             case 0:
-                width=750;
+                width=800-50
                 break
             case 1:
-                width=1024;
+                width=1024-50
                 break
             case 2:
-                width = Screen.desktopAvailableWidth
+                width=1280-60
                 break
             }
         }
@@ -102,7 +103,7 @@ ApplicationWindow {
                 height=600;
                 break
             case 2:
-                height = Screen.desktopAvailableHeight
+                height=800;
                 break
             }
         }
@@ -179,7 +180,7 @@ ApplicationWindow {
         sequence: "F3"
         autoRepeat: false
         onActivated: {
-            screenResolution = (screenResolution+1) % 3
+            screenResolution = (screenResolution+1) % 4
             GC.setScreenResolution(screenResolution)
         }
     }
