@@ -23,10 +23,10 @@ Item {
 
     Component {
         id: pageDelegate
-
         Item {
             id: wrapper
-            width: 128; height: 64
+            width: root.width * 0.35
+            height: root.height * 0.35 + nameText.implicitHeight
             scale: PathView.iconScale
             opacity: PathView.iconOpacity
             z: -1/PathView.iconOpacity
@@ -36,7 +36,7 @@ Item {
                 id: nameText
                 text: Z.tr(name)
                 textFormat: Text.PlainText
-                anchors.horizontalCenter: previewImage.horizontalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 font.pointSize: root.height * 0.038
                 color: (wrapper.PathView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
@@ -53,37 +53,38 @@ Item {
                     z: parent.z-1
                 }
             }
+
             Rectangle {
-                id: previewImage
                 anchors.top: nameText.bottom
+                anchors.bottom: parent.bottom
+                width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
+
                 border.color: Qt.darker(Material.frameColor, 1.3)
                 border.width: 3
-                width: 410*scaleFactor+4
-                height: 220*scaleFactor+6
-                color: "transparent" //Material.backgroundColor
+                color: "transparent"
                 radius: 4
-
                 Image {
-                    anchors.centerIn: parent
-                    source: icon
-                    scale: 0.8*scaleFactor
-                    mipmap: false
-                }
-
-                MouseArea {
+                    id: image
                     anchors.fill: parent
-                    onPressed: {
-                        if(wrapper.PathView.isCurrentItem &&
-                           // prevents unexpected user activation of items while they move around
-                           (pathView.offset - Math.floor(pathView.offset)) == 0) {
-                            GC.setLastPageViewIndexSelected(index)
-                            elementSelected({"elementIndex": index, "value": elementValue})
-                        }
-                        else {
-                            pathView.currentIndex = index
-                            delayedCloseTimer.elementValue = elementValue
-                            delayedCloseTimer.start()
+                    anchors.margins: 3
+                    source: icon
+                    mipmap: false
+                    fillMode: Image.PreserveAspectFit
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: {
+                            if(wrapper.PathView.isCurrentItem &&
+                               // prevents unexpected user activation of items while they move around
+                               (pathView.offset - Math.floor(pathView.offset)) == 0) {
+                                GC.setLastPageViewIndexSelected(index)
+                                elementSelected({"elementIndex": index, "value": elementValue})
+                            }
+                            else {
+                                pathView.currentIndex = index
+                                delayedCloseTimer.elementValue = elementValue
+                                delayedCloseTimer.start()
+                            }
                         }
                     }
                 }
@@ -111,16 +112,18 @@ Item {
 
         delegate: pageDelegate
         path: Path {
-            startX: width/2;
-            startY: height/1.7
+            id: path
+            startX: width*0.5
+            startY: height*0.8
 
-            // describes an ellipse, the elements get scaled down and become more transparent the farther away they are from the current index on that ring
+            // Left part
             PathAttribute { name: "iconScale"; value: 0.9 }
             PathAttribute { name: "iconOpacity"; value: 1.0 }
-            PathQuad { x: m_w/2; y: 20; controlX: -m_w*0.2; controlY: m_h/5 }
+            PathQuad { x: path.startX; y: height*0.15; controlX: -width*0.25; controlY: height*0.35 }
+            // Right part
             PathAttribute { name: "iconScale"; value: 0.6 }
             PathAttribute { name: "iconOpacity"; value: 0.7 }
-            PathQuad { x: m_w/2; y: m_h/1.8; controlX: m_w*1.2; controlY: m_h/5 }
+            PathQuad { x: path.startX; y: path.startY; controlX: width*1.25; controlY: height*0.35 }
         }
     }
 }
