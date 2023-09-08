@@ -191,6 +191,15 @@ Item {
         return Math.ceil(Math.log(1/realNumberX)/Math.LN10)
     }
 
+    function removeDecimalGroupSeparators(strNum) {
+        // remove group separators (this is ugly but don't get documented examples to fly here...)
+        var groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
+        while(strNum.includes(groupSepChar)) {
+            strNum = strNum.replace(groupSepChar, "")
+        }
+        return strNum
+    }
+
     function formatNumber(num, decimalPlacesSet /* optional!!! */) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
@@ -209,7 +218,9 @@ Item {
                     dec = 0
                 }
             }
-            return Number(num).toLocaleString(ZLocale.locale, 'f', dec)
+            var strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
+            strNum = removeDecimalGroupSeparators(strNum)
+            return strNum
         }
     }
     function formatNumberCLocale(num, decimalPlacesSet /* optional!!! */) {
