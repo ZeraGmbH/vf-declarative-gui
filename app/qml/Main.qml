@@ -55,7 +55,15 @@ ApplicationWindow {
         });
     }
 
+    function prepareSessionChange() {
+        layoutStack.currentIndex=0;
+        controlsBar.rangeIndicatorDependenciesReady = false;
+        pageLoader.active = false;
+        GC.entityInitializationDone = false;
+    }
+
     onCurrentSessionChanged: {
+        prepareSessionChange();
         var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
 
         var oldIdList = VeinEntity.getEntityList();
@@ -477,10 +485,7 @@ ApplicationWindow {
             visible: controlsBar.pageViewVisible;
             onCloseView: controlsBar.pageViewVisible = false;
             onSessionChanged: {
-                layoutStack.currentIndex=0;
-                controlsBar.rangeIndicatorDependenciesReady = false;
-                pageLoader.active = false;
-                GC.entityInitializationDone = false;
+                prepareSessionChange();
                 loadingScreen.open();
             }
         }
