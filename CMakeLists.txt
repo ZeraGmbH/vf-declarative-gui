@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.5)
 
 project(vf-declarative-gui LANGUAGES CXX C)
 set(PROJECT_VERSION "1.4.0")
