@@ -178,6 +178,7 @@ Item {
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 font.pointSize: pointSize
                 anchors.rightMargin: 10
+                width: parent.width/10
                 Material.foreground: {
                     if(logicalParent.errCalEntity["PAR_DutTypeMeasurePoint"] === "CsIsUs"){
                         return "white";
@@ -187,6 +188,20 @@ Item {
                 }
                 onPressed: {
                     meterConstSettings.open()
+                }
+            }
+            Button{
+                id: autoDutButton
+                text: FA.icon(FA.fa_play)
+                font.pointSize: pointSize
+                width: parent.width/10
+                anchors.right: popButton.left
+                anchors.verticalCenter: meterConstLabel.verticalCenter
+                anchors.rightMargin: parent.width/240
+                enabled: true
+                onPressed: {
+                    VeinEntity.getEntity("SEC1Module1").PAR_DutConstantAuto = 1
+                    enabled: false
                 }
             }
 
