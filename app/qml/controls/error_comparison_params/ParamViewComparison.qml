@@ -199,6 +199,7 @@ Item {
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: parent.width/240
                 enabled: true
+                visible: VeinEntity.getEntity("_System").DevMode
                 onPressed: {
                     VeinEntity.getEntity("SEC1Module1").PAR_DutConstantAuto = 1
                     enabled: false
