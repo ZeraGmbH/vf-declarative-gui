@@ -200,29 +200,10 @@ Item {
         return strNum
     }
 
-    function formatNumber(num, decimalPlacesSet /* optional!!! */) {
-        if(typeof num === "string") { //parsing strings as number is not desired
-            return num;
-        }
-        else {
-            let dec = (decimalPlacesSet !== undefined) ? decimalPlacesSet : GC.decimalPlaces
-            let leadDigits = Math.floor(Math.abs(num)).toString()
-            // leading zero is not a digit
-            if(leadDigits === '0') {
-                leadDigits  = ''
-            }
-            let preDecimals = leadDigits.length
-            if(dec + preDecimals > GC.digitsTotal) {
-                dec = GC.digitsTotal - preDecimals
-                if(dec < 0) {
-                    dec = 0
-                }
-            }
-            let strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
-            strNum = removeDecimalGroupSeparators(strNum)
-            return strNum
-        }
+    function formatNumber(num) {
+        return formatNumberAllParam(num, GC.digitsTotal, GC.decimalPlaces)
     }
+
     function formatNumberAllParam(num, _digitsTotal, _decimalPlaces) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
