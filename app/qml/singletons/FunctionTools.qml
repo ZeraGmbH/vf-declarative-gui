@@ -223,7 +223,7 @@ Item {
             return strNum
         }
     }
-    function formatNumberMultipeErrorView(num, _digitsTotal, _decimalPlaces) {
+    function formatNumberAllParam(num, _digitsTotal, _decimalPlaces) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
         }
