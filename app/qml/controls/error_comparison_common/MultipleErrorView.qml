@@ -75,7 +75,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.mean === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.mean, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.mean === null ? '---' : FT.formatNumberAllParam(jsonResults.mean, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             // 2nd line
@@ -85,7 +85,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.range === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.range, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.range === null ? '---' : FT.formatNumberAllParam(jsonResults.range, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             Text {
@@ -94,7 +94,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.stddevN, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.stddevN === null ? '---' : FT.formatNumberAllParam(jsonResults.stddevN, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             Text {
@@ -103,7 +103,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN1 === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.stddevN1, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.stddevN1 === null ? '---' : FT.formatNumberAllParam(jsonResults.stddevN1, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
         }
@@ -237,7 +237,7 @@ Rectangle {
                             color: rat === 1 ? "black" : "red"
                         }
                         Text {
-                            text: strval !== "" ? strval : FT.formatNumberMultipeErrorView(val, digitsTotal, decimalPlaces) + resultUnit
+                            text: strval !== "" ? strval : FT.formatNumberAllParam(val, digitsTotal, decimalPlaces) + resultUnit
                             font.pointSize: pointSize
                             width: mainColumn.width * 7.4 / (10*resultColumns)
                             font.bold: minMax
