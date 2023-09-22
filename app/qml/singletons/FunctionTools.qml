@@ -201,10 +201,10 @@ Item {
     }
 
     function formatNumber(num) {
-        return formatNumberAllParam(num, GC.digitsTotal, GC.decimalPlaces)
+        return formatNumberParam(num, GC.digitsTotal, GC.decimalPlaces)
     }
 
-    function formatNumberAllParam(num, _digitsTotal, _decimalPlaces) {
+    function formatNumberParam(num, _digitsTotal, _decimalPlaces) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
         }
