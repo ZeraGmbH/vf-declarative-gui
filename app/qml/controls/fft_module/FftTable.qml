@@ -252,7 +252,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : ""
-                        text: AmplitudeL1 !== undefined ? FT.formatNumber(AmplitudeL1) + unit : text
+                        text: FT.formatNumber(AmplitudeL1) + unit
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
@@ -261,7 +261,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL1 !== undefined ? FT.formatNumber(VectorL1) : text
+                            text: FT.formatNumber(VectorL1)
                             textColor: GC.colorUL1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -270,7 +270,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : ""
-                        text: AmplitudeL2 !== undefined ? FT.formatNumber(AmplitudeL2) + unit : text
+                        text: FT.formatNumber(AmplitudeL2) + unit
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
@@ -279,7 +279,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL2 !== undefined ? FT.formatNumber(VectorL2) : text
+                            text: FT.formatNumber(VectorL2)
                             textColor: GC.colorUL2
                             font.pixelSize: rowHeight*0.5
                         }
@@ -288,7 +288,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : ""
-                        text: AmplitudeL3 !== undefined ? FT.formatNumber(AmplitudeL3) + unit : text
+                        text: FT.formatNumber(AmplitudeL3) + unit
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
@@ -297,7 +297,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL3 !== undefined ? FT.formatNumber(VectorL3) : text
+                            text: FT.formatNumber(VectorL3)
                             textColor: GC.colorUL3
                             font.pixelSize: rowHeight*0.5
                         }
@@ -306,7 +306,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : ""
-                        text: AmplitudeL4 !== undefined ? FT.formatNumber(AmplitudeL4) + unit : text
+                        text: FT.formatNumber(AmplitudeL4) + unit
                         textColor: GC.colorIL1
                         font.pixelSize: rowHeight*0.5
                     }
@@ -315,7 +315,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL4 !== undefined ? FT.formatNumber(VectorL4) : text
+                            text: FT.formatNumber(VectorL4)
                             textColor: GC.colorIL1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -324,7 +324,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : ""
-                        text: AmplitudeL5 !== undefined ? FT.formatNumber(AmplitudeL5) + unit : text
+                        text: FT.formatNumber(AmplitudeL5) + unit
                         textColor: GC.colorIL2
                         font.pixelSize: rowHeight*0.5
                     }
@@ -333,7 +333,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL5 !== undefined ? FT.formatNumber(VectorL5) : text
+                            text: FT.formatNumber(VectorL5)
                             textColor: GC.colorIL2
                             font.pixelSize: rowHeight*0.5
                         }
@@ -342,7 +342,7 @@ Item {
                         width: root.columnWidth
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : ""
-                        text: AmplitudeL6 !== undefined ? FT.formatNumber(AmplitudeL6) + unit : text
+                        text: FT.formatNumber(AmplitudeL6) + unit
                         textColor: GC.colorIL3
                         font.pixelSize: rowHeight*0.5
                     }
@@ -351,7 +351,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL6 !== undefined ? FT.formatNumber(VectorL6) : text
+                            text: FT.formatNumber(VectorL6)
                             textColor: GC.colorIL3
                             font.pixelSize: rowHeight*0.5
                         }
@@ -362,7 +362,7 @@ Item {
                             width: root.columnWidth
                             height: root.rowHeight
                             property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : ""
-                            text: AmplitudeL7 !== undefined ? FT.formatNumber(AmplitudeL7) + unit : text
+                            text: FT.formatNumber(AmplitudeL7) + unit
                             textColor: GC.colorUAux1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -372,7 +372,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL7 !== undefined ? FT.formatNumber(VectorL7) : text
+                            text: FT.formatNumber(VectorL7)
                             textColor: GC.colorUAux1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -383,7 +383,7 @@ Item {
                             width: root.columnWidth
                             height: root.rowHeight
                             property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : ""
-                            text: AmplitudeL8 !== undefined ? FT.formatNumber(AmplitudeL8) + unit : text
+                            text: FT.formatNumber(AmplitudeL8) + unit
                             textColor: GC.colorIAux1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -393,7 +393,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: VectorL8 !== undefined ? FT.formatNumber(VectorL8) : text
+                            text: FT.formatNumber(VectorL8)
                             textColor: GC.colorIAux1
                             font.pixelSize: rowHeight*0.5
                         }

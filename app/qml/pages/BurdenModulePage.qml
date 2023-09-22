@@ -77,7 +77,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: L1!==undefined ? FT.formatNumber(L1) : ""
+                            text: FT.formatNumber(L1)
                             textColor: isVoltagePage ? GC.colorUL1 : GC.colorIL1
                             font.bold: index === 0
                         }
@@ -85,7 +85,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: L2!==undefined ? FT.formatNumber(L2) : ""
+                            text: FT.formatNumber(L2)
                             textColor: isVoltagePage ? GC.colorUL2 : GC.colorIL2
                             font.bold: index === 0
                         }
@@ -93,7 +93,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: L3!==undefined ? FT.formatNumber(L3) : ""
+                            text: FT.formatNumber(L3)
                             textColor: isVoltagePage ? GC.colorUL3 : GC.colorIL3
                             font.bold: index === 0
                         }

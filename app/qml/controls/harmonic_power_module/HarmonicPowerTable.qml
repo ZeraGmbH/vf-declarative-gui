@@ -146,21 +146,21 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS1P !== undefined ? FT.formatNumber(PowerS1P) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP1.Unit : "")
+                        text: FT.formatNumber(PowerS1P) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP1.Unit : "")
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS1Q !== undefined ? FT.formatNumber(PowerS1Q) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ1.Unit : "")
+                        text: FT.formatNumber(PowerS1Q) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ1.Unit : "")
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS1S !== undefined ? FT.formatNumber(PowerS1S) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS1.Unit : "")
+                        text: FT.formatNumber(PowerS1S) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS1.Unit : "")
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
@@ -168,21 +168,21 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS2P !== undefined ? FT.formatNumber(PowerS2P) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP2.Unit : "")
+                        text: FT.formatNumber(PowerS2P) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP2.Unit : "")
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS2Q !== undefined ? FT.formatNumber(PowerS2Q) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ2.Unit : "")
+                        text: FT.formatNumber(PowerS2Q) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ2.Unit : "")
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS2S !== undefined ? FT.formatNumber(PowerS2S) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS2.Unit : "")
+                        text: FT.formatNumber(PowerS2S) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS2.Unit : "")
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
@@ -190,21 +190,21 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS3P !== undefined ? FT.formatNumber(PowerS3P) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP3.Unit : "")
+                        text: FT.formatNumber(PowerS3P) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPP3.Unit : "")
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS3Q !== undefined ? FT.formatNumber(PowerS3Q) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ3.Unit : "")
+                        text: FT.formatNumber(PowerS3Q) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPQ3.Unit : "")
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        text: (PowerS3S !== undefined ? FT.formatNumber(PowerS3S) : "") + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS3.Unit : "")
+                        text: FT.formatNumber(PowerS3S) + (relativeView && index===1 ? ModuleIntrospection.p3m1Introspection.ComponentInfo.ACT_HPS3.Unit : "")
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
