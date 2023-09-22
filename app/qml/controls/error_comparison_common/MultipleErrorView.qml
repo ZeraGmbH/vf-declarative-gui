@@ -4,11 +4,11 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import ZeraLocale 1.0 // for now - see removeDecimalGroupSeparators / formatNumber below
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
+import FunctionTools 1.0
 
 Rectangle {
     id: root
@@ -30,43 +30,6 @@ Rectangle {
     readonly property real margins: 8
 
     onJsonResultsChanged: resultList.recalcModel()
-
-    // Stolen - more or less from FunctionTools.qml. We should find a more common
-    // place for this...
-    // Reasoning: By having these functions in here we can use property bindings
-    // for digitsTotal / decimalPlaces. Doing so is cool: In case they change
-    // all contents are updated and scroll position remains
-    function removeDecimalGroupSeparators(strNum) {
-        // remove group separators (this is ugly but don't get documented examples to fly here...)
-        let groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
-        while(strNum.includes(groupSepChar)) {
-            strNum = strNum.replace(groupSepChar, "")
-        }
-        return strNum
-    }
-    function formatNumber(num, _digitsTotal, _decimalPlaces) {
-        if(typeof num === "string") { //parsing strings as number is not desired
-            return num;
-        }
-        else {
-            let dec = _decimalPlaces
-            let leadDigits = Math.floor(Math.abs(num)).toString()
-            // leading zero is not a digit
-            if(leadDigits === '0') {
-                leadDigits  = ''
-            }
-            let preDecimals = leadDigits.length
-            if(dec + preDecimals > _digitsTotal) {
-                dec = _digitsTotal - preDecimals
-                if(dec < 0) {
-                    dec = 0
-                }
-            }
-            let strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
-            strNum = removeDecimalGroupSeparators(strNum)
-            return strNum
-        }
-    }
 
     Column {
         id: mainColumn
@@ -112,7 +75,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.mean === null ? '---' : formatNumber(jsonResults.mean, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.mean === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.mean, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             // 2nd line
@@ -122,7 +85,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.range === null ? '---' : formatNumber(jsonResults.range, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.range === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.range, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             Text {
@@ -131,7 +94,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN === null ? '---' : formatNumber(jsonResults.stddevN, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.stddevN === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.stddevN, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
             Text {
@@ -140,7 +103,7 @@ Rectangle {
                 font.bold: true
             }
             Text {
-                text: jsonResults.stddevN1 === null ? '---' : formatNumber(jsonResults.stddevN1, digitsTotal, decimalPlaces) + resultUnit
+                text: jsonResults.stddevN1 === null ? '---' : FT.formatNumberMultipeErrorView(jsonResults.stddevN1, digitsTotal, decimalPlaces) + resultUnit
                 font.pointSize: pointSize
             }
         }
@@ -274,7 +237,7 @@ Rectangle {
                             color: rat === 1 ? "black" : "red"
                         }
                         Text {
-                            text: strval !== "" ? strval : formatNumber(val, digitsTotal, decimalPlaces) + resultUnit
+                            text: strval !== "" ? strval : FT.formatNumberMultipeErrorView(val, digitsTotal, decimalPlaces) + resultUnit
                             font.pointSize: pointSize
                             width: mainColumn.width * 7.4 / (10*resultColumns)
                             font.bold: minMax
