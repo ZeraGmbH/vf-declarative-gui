@@ -193,7 +193,7 @@ Item {
 
     function removeDecimalGroupSeparators(strNum) {
         // remove group separators (this is ugly but don't get documented examples to fly here...)
-        var groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
+        let groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
         while(strNum.includes(groupSepChar)) {
             strNum = strNum.replace(groupSepChar, "")
         }
@@ -205,20 +205,43 @@ Item {
             return num;
         }
         else {
-            var dec = (decimalPlacesSet !== undefined) ? decimalPlacesSet : GC.decimalPlaces
-            var leadDigits = Math.floor(Math.abs(num)).toString()
+            let dec = (decimalPlacesSet !== undefined) ? decimalPlacesSet : GC.decimalPlaces
+            let leadDigits = Math.floor(Math.abs(num)).toString()
             // leading zero is not a digit
             if(leadDigits === '0') {
                 leadDigits  = ''
             }
-            var preDecimals = leadDigits.length
+            let preDecimals = leadDigits.length
             if(dec + preDecimals > GC.digitsTotal) {
                 dec = GC.digitsTotal - preDecimals
                 if(dec < 0) {
                     dec = 0
                 }
             }
-            var strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
+            let strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
+            strNum = removeDecimalGroupSeparators(strNum)
+            return strNum
+        }
+    }
+    function formatNumberMultipeErrorView(num, _digitsTotal, _decimalPlaces) {
+        if(typeof num === "string") { //parsing strings as number is not desired
+            return num;
+        }
+        else {
+            let dec = _decimalPlaces
+            let leadDigits = Math.floor(Math.abs(num)).toString()
+            // leading zero is not a digit
+            if(leadDigits === '0') {
+                leadDigits  = ''
+            }
+            let preDecimals = leadDigits.length
+            if(dec + preDecimals > _digitsTotal) {
+                dec = _digitsTotal - preDecimals
+                if(dec < 0) {
+                    dec = 0
+                }
+            }
+            let strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
             strNum = removeDecimalGroupSeparators(strNum)
             return strNum
         }
