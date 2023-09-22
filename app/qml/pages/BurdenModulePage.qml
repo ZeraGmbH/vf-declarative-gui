@@ -77,7 +77,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: FT.formatNumberFast(L1)
+                            text: FT.formatNumberForScaledValues(L1)
                             textColor: isVoltagePage ? GC.colorUL1 : GC.colorIL1
                             font.bold: index === 0
                         }
@@ -85,7 +85,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: FT.formatNumberFast(L2)
+                            text: FT.formatNumberForScaledValues(L2)
                             textColor: isVoltagePage ? GC.colorUL2 : GC.colorIL2
                             font.bold: index === 0
                         }
@@ -93,7 +93,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: FT.formatNumberFast(L3)
+                            text: FT.formatNumberForScaledValues(L3)
                             textColor: isVoltagePage ? GC.colorUL3 : GC.colorIL3
                             font.bold: index === 0
                         }

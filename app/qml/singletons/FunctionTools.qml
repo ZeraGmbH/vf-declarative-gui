@@ -203,10 +203,10 @@ Item {
     function formatNumber(num) {
         return formatNumberParam(num, GC.digitsTotal, GC.decimalPlaces)
     }
-    function formatNumberFast(num) {
-        return formatNumberParamFast(num, GC.digitsTotal, GC.decimalPlaces)
+    function formatNumberForScaledValues(num) {
+        return formatNumberParamForScaledValues(num, GC.digitsTotal, GC.decimalPlaces)
     }
-    function formatNumberParamFast(num, _digitsTotal, _decimalPlaces) {
+    function formatNumberParamForScaledValues(num, _digitsTotal, _decimalPlaces) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
         }
@@ -228,7 +228,7 @@ Item {
         }
     }
     function formatNumberParam(num, _digitsTotal, _decimalPlaces) {
-        let formatted = formatNumberParamFast(num, _digitsTotal, _decimalPlaces)
+        let formatted = formatNumberParamForScaledValues(num, _digitsTotal, _decimalPlaces)
         return removeDecimalGroupSeparators(formatted)
     }
     function formatNumberCLocale(num, decimalPlacesSet /* optional!!! */) {

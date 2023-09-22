@@ -27,19 +27,19 @@ Row {
         width: columnWidth
         height: rowHeight
         color: Material.backgroundColor
-        text: FT.formatNumberFast(SUM_P)
+        text: FT.formatNumberForScaledValues(SUM_P)
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: Material.backgroundColor
-        text: FT.formatNumberFast(SUM_LAMDA)
+        text: FT.formatNumberForScaledValues(SUM_LAMDA)
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: Material.backgroundColor
-        text: FT.formatNumberFast(FREQ)
+        text: FT.formatNumberForScaledValues(FREQ)
     }
     GridItem {
         width: columnWidth * rightColumWithsScale
