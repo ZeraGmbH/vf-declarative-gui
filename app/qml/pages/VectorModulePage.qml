@@ -174,7 +174,7 @@ Item {
                 maxVoltage *= phasorDiagram.sqrt3
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
             let valUnitArr = FT.doAutoScale(maxVoltage / (1000*phasorDiagram.maxNominalFactor * Math.SQRT2), "V")
-            return FT.formatNumberFast(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
+            return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorVoltage + "'>"+ "U: " + valueStr + " * √2" + "</font>"
         anchors.bottom: currentIndicator.top
@@ -190,7 +190,7 @@ Item {
                 return maxIRange
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
             let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * phasorDiagram.maxNominalFactor * Math.SQRT2), "A")
-            return FT.formatNumberFast(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
+            return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + GC.groupColorCurrent + "'>"+ "I: " + valueStr + " * √2" + "</font>"
         anchors.bottom: root.bottom;

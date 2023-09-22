@@ -31,28 +31,28 @@ Row {
         width: row.columnWidth
         height: row.rowHeight
         color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberFast(L1)
+        text: FT.formatNumberForScaledValues(L1)
         textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
         color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberFast(L2)
+        text: FT.formatNumberForScaledValues(L2)
         textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
         color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberFast(L3)
+        text: FT.formatNumberForScaledValues(L3)
         textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
         color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberFast(AUX)
+        text: FT.formatNumberForScaledValues(AUX)
         textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
     }
     GridItem {

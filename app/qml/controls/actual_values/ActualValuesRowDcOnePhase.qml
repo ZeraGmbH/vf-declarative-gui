@@ -32,7 +32,7 @@ Row {
         height: row.rowHeight
         color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
         textHorizontalAlignment: Label.AlignHCenter
-        text: FT.formatNumberFast(AUX)
+        text: FT.formatNumberForScaledValues(AUX)
         textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
     }
     GridItem {
