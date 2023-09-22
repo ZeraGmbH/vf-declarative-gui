@@ -194,9 +194,8 @@ Item {
     function removeDecimalGroupSeparators(strNum) {
         // remove group separators (this is ugly but don't get documented examples to fly here...)
         let groupSepChar = ZLocale.decimalPoint === "," ? "." : ","
-        while(strNum.includes(groupSepChar)) {
+        while(strNum.includes(groupSepChar))
             strNum = strNum.replace(groupSepChar, "")
-        }
         return strNum
     }
 
@@ -209,22 +208,19 @@ Item {
     function formatNumberParamForScaledValues(num, _digitsTotal, _decimalPlaces) {
         if(num === undefined)
             return ""
-        if(typeof num === "string") { //parsing strings as number is not desired
+        if(typeof num === "string") //parsing strings as number is not desired
             return num;
-        }
         else {
             let dec = _decimalPlaces
             let leadDigits = Math.floor(Math.abs(num)).toString()
             // leading zero is not a digit
-            if(leadDigits === '0') {
+            if(leadDigits === '0')
                 leadDigits  = ''
-            }
             let preDecimals = leadDigits.length
             if(dec + preDecimals > _digitsTotal) {
                 dec = _digitsTotal - preDecimals
-                if(dec < 0) {
+                if(dec < 0)
                     dec = 0
-                }
             }
             return Number(num).toLocaleString(ZLocale.locale, 'f', dec)
         }
