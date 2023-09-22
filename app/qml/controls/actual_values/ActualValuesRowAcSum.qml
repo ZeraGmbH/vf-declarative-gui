@@ -27,19 +27,19 @@ Row {
         width: columnWidth
         height: rowHeight
         color: Material.backgroundColor
-        text: SUM_P !== undefined ? FT.formatNumber(SUM_P) : ""
+        text: SUM_P !== undefined ? FT.formatNumberFast(SUM_P) : ""
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: Material.backgroundColor
-        text: SUM_LAMDA !== undefined ? FT.formatNumber(SUM_LAMDA) : ""
+        text: SUM_LAMDA !== undefined ? FT.formatNumberFast(SUM_LAMDA) : ""
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: Material.backgroundColor
-        text: FREQ !== undefined ? FT.formatNumber(FREQ) : ""
+        text: FREQ !== undefined ? FT.formatNumberFast(FREQ) : ""
     }
     GridItem {
         width: columnWidth * rightColumWithsScale

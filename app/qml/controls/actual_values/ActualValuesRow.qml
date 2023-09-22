@@ -29,28 +29,28 @@ Row {
         width: row.columnWidth
         height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: L1!==undefined ? FT.formatNumber(L1) : ""
+        text: L1!==undefined ? FT.formatNumberFast(L1) : ""
         textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: L2!==undefined ? FT.formatNumber(L2) : ""
+        text: L2!==undefined ? FT.formatNumberFast(L2) : ""
         textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: L3!==undefined ? FT.formatNumber(L3) : ""
+        text: L3!==undefined ? FT.formatNumberFast(L3) : ""
         textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: Sum ? FT.formatNumber(Sum) : ""
+        text: Sum ? FT.formatNumberFast(Sum) : ""
     }
     GridItem {
         width: row.columnWidth * rightColumWithsScale

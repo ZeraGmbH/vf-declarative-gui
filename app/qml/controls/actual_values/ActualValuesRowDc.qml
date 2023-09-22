@@ -30,21 +30,21 @@ Row {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: DC_U !== undefined ? FT.formatNumber(DC_U) : ""
+        text: DC_U !== undefined ? FT.formatNumberFast(DC_U) : ""
         textColor: colorU
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: DC_I !== undefined ? FT.formatNumber(DC_I) : ""
+        text: DC_I !== undefined ? FT.formatNumberFast(DC_I) : ""
         textColor: colorI
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: DC_P !== undefined ? FT.formatNumber(DC_P) : ""
+        text: DC_P !== undefined ? FT.formatNumberFast(DC_P) : ""
     }
     GridItem {
         width: columnWidth * rightColumWithsScale
