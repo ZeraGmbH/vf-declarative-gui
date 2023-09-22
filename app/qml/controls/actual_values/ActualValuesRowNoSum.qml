@@ -29,21 +29,21 @@ Row {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: L1!==undefined ? FT.formatNumberFast(L1) : ""
+        text: FT.formatNumberFast(L1)
         textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: L2!==undefined ? FT.formatNumberFast(L2) : ""
+        text: FT.formatNumberFast(L2)
         textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: L3!==undefined ? FT.formatNumberFast(L3) : ""
+        text: FT.formatNumberFast(L3)
         textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
     }
     GridItem {

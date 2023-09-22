@@ -57,7 +57,7 @@ Item {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L1!==undefined ? FT.formatNumberFast(L1) : ""
+            text: FT.formatNumberFast(L1)
             textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
             font.pixelSize: root.pixelSize
           }
@@ -65,7 +65,7 @@ Item {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L2!==undefined ? FT.formatNumberFast(L2) : ""
+            text: FT.formatNumberFast(L2)
             textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
             font.pixelSize: root.pixelSize
           }
@@ -73,7 +73,7 @@ Item {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: L3!==undefined ? FT.formatNumberFast(L3) : ""
+            text: FT.formatNumberFast(L3)
             textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
             font.pixelSize: root.pixelSize
           }
@@ -81,7 +81,7 @@ Item {
             width: root.columnWidth
             height: parent.height
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: AUX!==undefined ? FT.formatNumberFast(AUX) : ""
+            text: FT.formatNumberFast(AUX)
             textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
             font.pixelSize: root.pixelSize
             visible: channelCount > 6
