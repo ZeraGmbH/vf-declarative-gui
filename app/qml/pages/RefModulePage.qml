@@ -102,7 +102,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumber(dftModule.ACT_DFTPN1[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberAllParam(dftModule.ACT_DFTPN1[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -110,7 +110,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumber(dftModule.ACT_DFTPN2[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberAllParam(dftModule.ACT_DFTPN2[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -118,7 +118,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumber(dftModule.ACT_DFTPN3[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberAllParam(dftModule.ACT_DFTPN3[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -126,7 +126,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumber(dftModule.ACT_DFTPN4[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberAllParam(dftModule.ACT_DFTPN4[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -134,7 +134,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumber(dftModule.ACT_DFTPN5[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberAllParam(dftModule.ACT_DFTPN5[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -142,7 +142,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumber(dftModule.ACT_DFTPN6[0], 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberAllParam(dftModule.ACT_DFTPN6[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
                     textColor: GC.groupColorReference
                     font.pixelSize: height*0.3
                 }
