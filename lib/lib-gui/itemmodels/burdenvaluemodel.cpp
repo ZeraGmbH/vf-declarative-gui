@@ -32,17 +32,15 @@ void BurdenValueModel::setLabelsAndUnits()
     mIndex = index(6, 0);
     setData(mIndex, m_translation->TrValue("Sn"), RoleIndexes::NAME);
 
-    //unit names
+    // unit names
     mIndex = index(1, 0);
-    setData(mIndex, "V", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "V", RoleIndexes::UNIT);
     mIndex = index(2, 0);
-    setData(mIndex, "A", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "A", RoleIndexes::UNIT);
     mIndex = index(3, 0);
     setData(mIndex, "°", RoleIndexes::UNIT);
-    //mIndex = m_burdenData->index(4, 0);
-    //m_burdenData->setData(mIndex, "", RoleIndexes::UNIT);
     mIndex = index(4, 0);
-    setData(mIndex, "VA", RoleIndexes::UNIT);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), "VA", RoleIndexes::UNIT);
     mIndex = index(6, 0);
     setData(mIndex, "%", RoleIndexes::UNIT);
 }
@@ -55,10 +53,14 @@ void BurdenValueModel::setupMapping()
     rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, 1));
     rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
+    m_autoScaleRows.mapValueColumns(1,
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 2));
     rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 2));
     rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 2));
+    m_autoScaleRows.mapValueColumns(2,
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     //(3) ∠UI is a calculated value
 
@@ -66,6 +68,8 @@ void BurdenValueModel::setupMapping()
     burdenMap->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
     burdenMap->insert("ACT_Burden2", QPoint(RoleIndexes::L2, 4));
     burdenMap->insert("ACT_Burden3", QPoint(RoleIndexes::L3, 4));
+    m_autoScaleRows.mapValueColumns(4,
+                    QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     burdenMap->insert("ACT_PFactor1", QPoint(RoleIndexes::L1, 5));
     burdenMap->insert("ACT_PFactor2", QPoint(RoleIndexes::L2, 5));
