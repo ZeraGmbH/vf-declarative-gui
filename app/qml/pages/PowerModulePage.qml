@@ -62,7 +62,7 @@ Item {
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
-                    text: L1!==undefined ? FT.formatNumber(L1) : ""
+                    text: L1!==undefined ? FT.formatNumberFast(L1) : ""
                     font.pixelSize: pixelSize
                     color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     textColor: GC.colorUL1
@@ -70,7 +70,7 @@ Item {
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
-                    text: L2!==undefined ? FT.formatNumber(L2) : ""
+                    text: L2!==undefined ? FT.formatNumberFast(L2) : ""
                     font.pixelSize: pixelSize
                     color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     textColor: GC.colorUL2
@@ -78,7 +78,7 @@ Item {
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
-                    text: L3!==undefined ? FT.formatNumber(L3) : ""
+                    text: L3!==undefined ? FT.formatNumberFast(L3) : ""
                     font.pixelSize: pixelSize
                     color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     textColor: GC.colorUL3
@@ -88,12 +88,12 @@ Item {
                     height: parent.height
                     font.pixelSize: pixelSize
                     color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                    text: Sum!==undefined ? FT.formatNumber(Sum) : ""
+                    text: Sum!==undefined ? FT.formatNumberFast(Sum) : ""
                 }
                 GridItem {
                     width: lastColumnWidth
                     height: parent.height
-                    text: Unit!==undefined ? FT.formatNumber(Unit) : ""
+                    text: Unit
                     font.pixelSize: pixelSize*0.7
                     color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                 }

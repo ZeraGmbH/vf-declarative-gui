@@ -203,8 +203,10 @@ Item {
     function formatNumber(num) {
         return formatNumberParam(num, GC.digitsTotal, GC.decimalPlaces)
     }
-
-    function formatNumberParam(num, _digitsTotal, _decimalPlaces) {
+    function formatNumberFast(num) {
+        return formatNumberParamFast(num, GC.digitsTotal, GC.decimalPlaces)
+    }
+    function formatNumberParamFast(num, _digitsTotal, _decimalPlaces) {
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
         }
@@ -222,10 +224,12 @@ Item {
                     dec = 0
                 }
             }
-            let strNum = Number(num).toLocaleString(ZLocale.locale, 'f', dec)
-            strNum = removeDecimalGroupSeparators(strNum)
-            return strNum
+            return Number(num).toLocaleString(ZLocale.locale, 'f', dec)
         }
+    }
+    function formatNumberParam(num, _digitsTotal, _decimalPlaces) {
+        let formatted = formatNumberParamFast(num, _digitsTotal, _decimalPlaces)
+        return removeDecimalGroupSeparators(formatted)
     }
     function formatNumberCLocale(num, decimalPlacesSet /* optional!!! */) {
         return formatNumber(num, decimalPlacesSet).replace(",", ".")
