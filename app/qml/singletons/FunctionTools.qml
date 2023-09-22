@@ -207,6 +207,8 @@ Item {
         return formatNumberParamForScaledValues(num, GC.digitsTotal, GC.decimalPlaces)
     }
     function formatNumberParamForScaledValues(num, _digitsTotal, _decimalPlaces) {
+        if(num === undefined)
+            return ""
         if(typeof num === "string") { //parsing strings as number is not desired
             return num;
         }
