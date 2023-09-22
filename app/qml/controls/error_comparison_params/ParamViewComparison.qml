@@ -198,7 +198,7 @@ Item {
                 anchors.right: popButton.left
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: parent.width/240
-                enabled: true
+                enabled: (VeinEntity.getEntity("SEC1Module1").ACT_Energy !== 0)
                 visible: VeinEntity.getEntity("_System").DevMode
                 onPressed: {
                     VeinEntity.getEntity("SEC1Module1").PAR_DutConstantAuto = 1
