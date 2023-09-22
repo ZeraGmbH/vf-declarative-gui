@@ -229,8 +229,8 @@ Item {
         let formatted = formatNumberParamForScaledValues(num, _digitsTotal, _decimalPlaces)
         return removeDecimalGroupSeparators(formatted)
     }
-    function formatNumberCLocale(num, decimalPlacesSet /* optional!!! */) {
-        return formatNumber(num, decimalPlacesSet).replace(",", ".")
+    function formatNumberCLocale(num, decimalPlacesSet) {
+        return formatNumberParamForScaledValues(num, GC.digitsTotal, decimalPlacesSet).replace(",", ".")
     }
 
 }
