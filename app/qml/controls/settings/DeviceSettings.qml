@@ -122,7 +122,6 @@ SettingsView {
         }
     }
 
-
     model: VisualItemModel {
         Loader {
             sourceComponent: swPllAutomatic
@@ -153,7 +152,7 @@ SettingsView {
         }
         Loader {
             sourceComponent: swScpiQueue
-            active: VeinEntity.hasEntity("SCPIModule1")
+            active: VeinEntity.hasEntity("SCPIModule1") && VeinEntity.getEntity("_System").DevMode
             asynchronous: true
 
             height: active ? root.rowHeight : 0
