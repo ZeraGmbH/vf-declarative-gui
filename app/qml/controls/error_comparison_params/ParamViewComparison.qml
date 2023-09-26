@@ -10,7 +10,6 @@ import ModuleIntrospection 1.0
 import PowerModuleVeinGetter 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import ZeraFa 1.0
 import FontAwesomeQml 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
@@ -173,8 +172,7 @@ Item {
 
             Button{
                 id: popButton
-                //font.family: FA.old
-                text: FA.icon(FA.fa_cogs)
+                text: FAQ.fa_cogs
                 anchors.right: autoDutButton.left
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: parent.width/240
@@ -200,7 +198,6 @@ Item {
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: 10
                 enabled: (VeinEntity.getEntity("SEC1Module1").ACT_Energy !== 0)
-                visible: VeinEntity.getEntity("_System").DevMode
                 onPressed: {
                     VeinEntity.getEntity("SEC1Module1").PAR_DutConstantAuto = 1
                     enabled: false
