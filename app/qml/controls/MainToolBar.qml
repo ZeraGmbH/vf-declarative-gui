@@ -9,7 +9,6 @@ import AccumulatorState 1.0
 import SchnubbelState 1.0
 import AdjustmentState 1.0
 import VeinEntity 1.0
-import ZeraFa 1.0
 import FontAwesomeQml 1.0
 import "range_module"
 import "logger"
@@ -71,9 +70,8 @@ ToolBar {
         ToolButton {
             id: pageSelectorButton
             implicitHeight: parent.height
-            font.family: FA.old
             font.pointSize: pointSize
-            text: FA.fa_columns
+            text: FAQ.fa_columns
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
             enabled: root.entityInitializationDone === true
             onClicked: {
@@ -130,9 +128,8 @@ ToolBar {
         ToolButton {
             id: pauseButton
             implicitHeight: parent.height
-            font.family: FA.old
             font.pointSize: pointSize * 0.77
-            text: root.measurementPaused ? FA.fa_play : FA.fa_pause
+            text: root.measurementPaused ? FAQ.fa_play : FAQ.fa_pause
             enabled: root.entityInitializationDone === true
             highlighted: root.measurementPaused
             onClicked: {
@@ -144,9 +141,8 @@ ToolBar {
             id: logStartButton
             implicitHeight: parent.height
             implicitWidth: root.width/16
-            font.family: FA.old
             font.pointSize: pointSize
-            text: FA.fa_download
+            text: FAQ.fa_download
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
             enabled: root.entityInitializationDone === true
             visible: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
@@ -218,9 +214,8 @@ ToolBar {
             id: settingsButton
             implicitHeight: parent.height
             implicitWidth: root.width/16
-            font.family: FA.old
             font.pointSize: pointSize
-            text: FA.fa_cogs
+            text: FAQ.fa_cogs
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
             enabled: root.entityInitializationDone === true
             onClicked: {
@@ -249,9 +244,8 @@ ToolBar {
             id: infoButton
             implicitHeight: parent.height
             implicitWidth: root.width/16
-            font.family: FA.old
             font.pointSize: pointSize
-            text: FA.fa_info_circle
+            text: FAQ.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             Material.foreground: { // Note: highligted overrifdes Material.foreground
                 let _opacity = 1
@@ -296,9 +290,8 @@ ToolBar {
       //placeholder for managing Connections to different servers in android
     ToolButton {
       implicitHeight: parent.height
-      font.family: FA.old
       font.pointSize: pointSize * 0.77
-      text: FA.icon(FA.fa_server) + Z.tr("Remotes")
+      text: FAQ.icon(FA.fa_server) + Z.tr("Remotes")
       highlighted: root.currentLayoutIndex===layoutStackEnum.layout<...>Index
       visible: OS_TYPE==="android" || debugBypass
       DebugRectangle {
