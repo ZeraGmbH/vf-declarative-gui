@@ -11,6 +11,7 @@ import PowerModuleVeinGetter 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
+import FontAwesomeQml 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
 import "../settings"
@@ -192,7 +193,7 @@ Item {
             }
             Button{
                 id: autoDutButton
-                text: FA.icon(FA.fa_play)
+                text: FAQ.fa_hand_point_right
                 font.pointSize: pointSize
                 width: parent.width/12
                 anchors.right: meterConstLabel.right
