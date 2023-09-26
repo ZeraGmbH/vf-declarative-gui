@@ -12,7 +12,6 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AccumulatorState 1.0
 import ZeraSettings 1.0
-import ZeraFa 1.0
 import Notifications 1.0
 
 import "controls"
