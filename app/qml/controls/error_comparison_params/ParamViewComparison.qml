@@ -174,10 +174,10 @@ Item {
                 id: popButton
                 //font.family: FA.old
                 text: FA.icon(FA.fa_cogs)
-                anchors.right: meterConstLabel.right
+                anchors.right: autoDutButton.left
                 anchors.verticalCenter: meterConstLabel.verticalCenter
+                anchors.rightMargin: parent.width/240
                 font.pointSize: pointSize
-                anchors.rightMargin: 10
                 width: parent.width/12
                 Material.foreground: {
                     if(logicalParent.errCalEntity["PAR_DutTypeMeasurePoint"] === "CsIsUs"){
@@ -195,9 +195,9 @@ Item {
                 text: FA.icon(FA.fa_play)
                 font.pointSize: pointSize
                 width: parent.width/12
-                anchors.right: popButton.left
+                anchors.right: meterConstLabel.right
                 anchors.verticalCenter: meterConstLabel.verticalCenter
-                anchors.rightMargin: parent.width/240
+                anchors.rightMargin: 10
                 enabled: (VeinEntity.getEntity("SEC1Module1").ACT_Energy !== 0)
                 visible: VeinEntity.getEntity("_System").DevMode
                 onPressed: {
