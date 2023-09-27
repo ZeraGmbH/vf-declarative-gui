@@ -1,7 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
-import ZeraFa 1.0
+import FontAwesomeQml 1.0
 import ZeraTranslation  1.0
 
 Popup {
@@ -91,9 +91,8 @@ Popup {
     Label { // finish OK indicator
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        font.family: FA.old
         font.pointSize: pointSize * 5
-        text: FA.fa_check
+        text: FAQ.fa_check
         color: Material.accentColor
         visible: finishTimer.running && root.warningTxtArr.length === 0 && root.errorTxtArr.length === 0
     }
