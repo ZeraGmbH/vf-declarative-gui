@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AdjustmentState 1.0
-import ZeraFa 1.0
+import FontAwesomeQml 1.0
 import "../../pages"
 
 BaseTabPage {
@@ -25,8 +25,7 @@ BaseTabPage {
         id: tabStatus
         TabButton {
             id: statusTabButton
-            font.family: FA.old
-            text: FA.icon(FA.fa_info_circle)+Z.tr("Device info")
+            text: FAQ.fa_info_circle + " " +Z.tr("Device info")
             Material.foreground: AdjState.adjusted ? Material.White : Material.Red
             Timer {
                 interval: 300
