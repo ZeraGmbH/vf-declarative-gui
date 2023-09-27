@@ -287,22 +287,5 @@ ToolBar {
                 }
             }
         }
-        /*
-      //placeholder for managing Connections to different servers in android
-    ToolButton {
-      implicitHeight: parent.height
-      font.pointSize: pointSize * 0.77
-      text: FAQ.icon(FA.fa_server) + Z.tr("Remotes")
-      highlighted: root.currentLayoutIndex===layoutStackEnum.layout<...>Index
-      visible: OS_TYPE==="android" || debugBypass
-      DebugRectangle {
-        anchors.fill: parent
-        visible: debugBypass && OS_TYPE!=="android"
-      }
-      onClicked: {
-        ;;
-      }
-    }
-    */
     }
 }
