@@ -5,7 +5,6 @@ import QtQuick.Controls.Material.impl 2.12
 import QtQuick.Layouts 1.12
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import ZeraFa 1.0
 
 Item {
     id: root
