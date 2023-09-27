@@ -23,12 +23,16 @@ BaseTabPage {
         id: tabVoltage
         TabButton {
             text: Z.tr("Voltage Burden")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
     Component {
         id: tabCurrent
         TabButton {
             text: Z.tr("Current Burden")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
 
@@ -57,6 +61,7 @@ BaseTabPage {
             ListView {
                 id: burdenValueView
                 height: page.rowHeight*model.rowCount()
+                anchors.topMargin: (root.height/15)-35
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
