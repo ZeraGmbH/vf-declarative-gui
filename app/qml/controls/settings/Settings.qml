@@ -9,7 +9,6 @@ import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import ZeraFa 1.0
 import anmsettings 1.0
 import "../../pages"
 
