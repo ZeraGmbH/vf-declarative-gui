@@ -9,10 +9,8 @@ import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import DeclarativeJson 1.0
 import FontAwesomeQml 1.0
-
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
-import ZeraFa 1.0
 import '../controls'
 
 // TODOs / Ideas
@@ -239,7 +237,6 @@ Item {
         height: lineHeight
         Label {
             id: quickLoadSelectLabel
-            font.family: FAQ.fontFamily
             font.styleName: "Regular"
             text: FAQ.fa_heart + " :"
             font.pointSize: pointSize
@@ -269,8 +266,7 @@ Item {
         Button {
             id: buttonSave
             anchors.right: buttonDelete.left
-            font.family: FA.old
-            text: FA.fa_save
+            text: FAQ.fa_save
             height: lineHeight
             width: unitColumn.width
             topInset: 1
@@ -283,7 +279,6 @@ Item {
             id: buttonDelete
             anchors.right: quickLoadSelectRect.right
             anchors.rightMargin: unitColumn.anchors.rightMargin
-            font.family: FAQ.fontFamily
             font.styleName: "Regular"
             text: FAQ.fa_trash
             height: lineHeight
@@ -698,8 +693,7 @@ Item {
             rightInset: topInset
             leftInset: topInset
             font.pointSize: pointSize
-            font.family: FA.old
-            text: FA.fa_cogs
+            text: FAQ.fa_cogs
             onClicked: {
                 phasorViewPopup.open()
             }
