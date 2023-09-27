@@ -7,8 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import ZeraFa 1.0
-
+import FontAwesomeQml 1.0
 
 Item {
     id: root
@@ -108,8 +107,7 @@ Item {
                 }
             }
             Button {
-                text: FA.fa_cogs
-                font.family: FA.old
+                text: FAQ.fa_cogs
                 font.pointSize: pointSize //* 0.8
                 Layout.preferredWidth: rowHeight
                 onClicked: {
@@ -149,9 +147,8 @@ Item {
                         width: rowHeight / 2
                         height: rowHeight
                         verticalAlignment: Text.AlignVCenter
-                        font.family: FA.old
                         font.pointSize: pointSize
-                        text: FA.fa_check
+                        text: FAQ.fa_check
                         opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
                     }
                     Label {
