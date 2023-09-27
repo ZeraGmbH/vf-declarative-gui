@@ -7,8 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import ZeraFa 1.0
-
+import FontAwesomeQml 1.0
 
 Item {
     id: root
@@ -146,10 +145,9 @@ Item {
                         anchors.fill: parent
                         Label {
                             id: activeIndicator
-                            font.family: FA.old
                             font.pointSize: root.pointSize
                             horizontalAlignment: Text.AlignLeft
-                            text: FA.fa_check
+                            text: FAQ.fa_check
                             opacity: (modelData === currentSessionName) ? 1.0 : 0.0
                             Layout.preferredWidth: root.pointSize * 1.5
                         }
@@ -162,9 +160,8 @@ Item {
                         Button {
                             Layout.preferredWidth: rowHeight * 2
                             Layout.fillHeight: true
-                            font.family: FA.old
                             font.pointSize: pointSize * 1.25
-                            text: FA.fa_trash
+                            text: FAQ.fa_trash
                             background: Rectangle {
                                 color: "transparent"
                             }
