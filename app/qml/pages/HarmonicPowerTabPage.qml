@@ -12,12 +12,16 @@ BaseTabPage {
         id: tabChart
         TabButton {
             text: Z.tr("Harmonic power table")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
     Component {
         id: tabEnergy
         TabButton {
             text: Z.tr("Harmonic power chart")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
 
@@ -25,6 +29,7 @@ BaseTabPage {
     Component {
         id: pageTable
         HarmonicPowerTable {
+            topMarginPage: (root.height/15)-35
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_TABLE
@@ -35,6 +40,7 @@ BaseTabPage {
     Component {
         id: pageChart
         HarmonicPowerCharts {
+            topMarginPage: (root.height/15)-35
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_HARMONIC_POWER_CHART

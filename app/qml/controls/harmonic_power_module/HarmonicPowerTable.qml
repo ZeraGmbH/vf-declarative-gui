@@ -22,6 +22,7 @@ Item {
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
     readonly property string relativeUnit: relativeView ? " %" : "";
+    property real topMarginPage
 
     Keys.forwardTo: [fftFlickable]
     ScrollBar {
@@ -38,6 +39,7 @@ Item {
 
     Flickable {
         id: fftFlickable
+        anchors.topMargin: topMarginPage
         anchors.fill: parent
         anchors.bottomMargin: parent.height%root.rowHeight
         anchors.rightMargin: vBar.width

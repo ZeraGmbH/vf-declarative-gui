@@ -13,6 +13,7 @@ Item {
     readonly property bool hasVertScroll: pinchArea.pinchScale > 1.0
     readonly property QtObject power3Module: VeinEntity.getEntity("Power3Module1");
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
+    property real topMarginPage
 
     Keys.forwardTo: [fftFlickable]
     ScrollBar {
@@ -69,6 +70,7 @@ Item {
         ListView { // vert. scroll (ListView can scroll only one orientation)
             id: listView
             model: 3
+            anchors.topMargin: topMarginPage
             anchors.fill: parent
             contentHeight: pinchArea.pinchScale * height
             ScrollBar.vertical: vBar
