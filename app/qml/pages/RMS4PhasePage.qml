@@ -20,6 +20,7 @@ Item {
   readonly property int columnWidthLast: pixelSize * 1.3
   readonly property int columnWidth: (width-(columnWidth1st+columnWidthLast))/(channelCount/2)
   readonly property int pixelSize: (channelCount>6 ? rowHeight*0.36 : rowHeight*0.45)
+  property real topMarginPage
 
   SortFilterProxyModel {
     id: filteredActualValueModel
@@ -39,6 +40,7 @@ Item {
     anchors.fill: parent
     ListView {
       anchors.fill: parent
+      anchors.topMargin: topMarginPage
       model: filteredActualValueModel //ZGL.ActualValueModel
       boundsBehavior: Flickable.StopAtBounds
 

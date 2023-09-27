@@ -12,10 +12,12 @@ import "../controls/actual_values"
 Item {
     id: root
     readonly property QtObject model: ZGL.ActualValueModel
+    property real topMarginPage
     Item {
         anchors.fill: parent
         ListView {
             anchors.fill: parent
+            anchors.topMargin: topMarginPage
             model: root.model
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {

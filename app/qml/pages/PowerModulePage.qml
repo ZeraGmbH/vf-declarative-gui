@@ -21,6 +21,7 @@ Item {
     readonly property real firstColumnWidth: width*0.1
     readonly property real valueColumnWidth: width*0.208
     readonly property real lastColumnWidth: width-firstColumnWidth-4*valueColumnWidth
+    property real topMarginPage
 
     SortFilterProxyModel {
         id: filteredActualValueModel
@@ -45,6 +46,7 @@ Item {
         id: listView
         anchors.top: parent.top
         anchors.bottom: footerRow.top
+        anchors.topMargin: topMarginPage
         width: parent.width
         model: filteredActualValueModel
         boundsBehavior: ListView.StopAtBounds
