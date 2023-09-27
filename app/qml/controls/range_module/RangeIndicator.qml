@@ -5,7 +5,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
-import ZeraFa 1.1
+import FontAwesomeQml 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
 
@@ -75,28 +75,23 @@ Loader {
 
                 Label {
                     anchors.centerIn: parent
-                    font.family: FA.regular
                     font.pointSize: pointSize
-                    text: {
-                        if(overload){
-                            return FA.icons.fa_exclamation_triangle;
-                        }else if(preScale){
-                            return FA.icons.fa_percent;
-                        }else{
-                            return FA.icons.fa_exclamation_triangle;
-                        }
-                    }
                     property bool overload: rangeModule.PAR_Overload === 1
                     property bool preScale: rangeModule.PAR_PreScalingEnabledGroup0 || rangeModule.PAR_PreScalingEnabledGroup1
+                    text: {
+                        if(overload)
+                            return FAQ.fa_exclamation_triangle
+                        if(preScale)
+                            return FAQ.fa_percent
+                        return FAQ.fa_exclamation_triangle
+                    }
                     opacity: (overload || preScale) ? 1.0 : 0.2
                     color:  {
-                        if(overload){
+                        if(overload)
                             return Material.color(Material.Yellow);
-                        }else if(preScale){
+                        if(preScale)
                             return Material.color(Material.Amber);
-                        }else{
-                            return Material.color(Material.Grey);
-                        }
+                        return Material.color(Material.Grey);
                     }
                 }
             }
