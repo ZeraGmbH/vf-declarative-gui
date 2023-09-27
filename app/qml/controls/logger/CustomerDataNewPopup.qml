@@ -7,7 +7,6 @@ import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
 import ZeraComponents 1.0
-import ZeraFa 1.0
 
 Popup {
     // dirty but parent must have the following root-item properties:
