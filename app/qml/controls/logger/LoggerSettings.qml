@@ -12,7 +12,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import ZeraFa 1.0
+import FontAwesomeQml 1.0
 import "../settings"
 
 SettingsView {
@@ -353,9 +353,8 @@ SettingsView {
                     verticalAlignment: Label.AlignVCenter
                 }
                 Label { // exclamation mark if no database selected
-                    font.family: FA.old
                     font.pointSize: root.pointSize
-                    text: FA.fa_exclamation_triangle
+                    text: FAQ.fa_exclamation_triangle
                     color: Material.color(Material.Yellow)
                     visible: loggerEntity.DatabaseReady === false
                     Layout.fillHeight: true
@@ -418,8 +417,7 @@ SettingsView {
                             anchors.rightMargin: 4
 
                             Label { // active indicator
-                                text: FA.fa_check
-                                font.family: FA.old
+                                text: FAQ.fa_check
                                 font.pointSize: root.pointSize
                                 horizontalAlignment: Text.AlignLeft
                                 opacity: dbListDelegate.isCurrentDb ? 1.0 : 0.0
@@ -441,8 +439,7 @@ SettingsView {
                                 verticalAlignment: Label.AlignVCenter
                             }
                             Button { // Eject / make current
-                                text: dbListDelegate.isCurrentDb ? FA.fa_eject : FA.fa_check_circle
-                                font.family: FA.old
+                                text: dbListDelegate.isCurrentDb ? FAQ.fa_eject : FAQ.fa_check_circle
                                 font.pointSize: pointSize * 1.25
                                 enabled: loggerEntity.LoggingEnabled === false
                                 Layout.fillHeight: true
@@ -455,10 +452,9 @@ SettingsView {
                                 }
                             }
                             Button { // delete
-                                text: FA.fa_trash
+                                text: FAQ.fa_trash
                                 Layout.preferredWidth: rowHeight * 2
                                 Layout.fillHeight: true
-                                font.family: FA.old
                                 font.pointSize: pointSize * 1.25
                                 enabled: foundFiles[index] !== currentDbFile || loggerEntity.LoggingEnabled === false
                                 background: Rectangle {
@@ -506,8 +502,7 @@ SettingsView {
                     verticalAlignment: Label.AlignVCenter
                 }
                 Button {
-                    text: FA.fa_cogs
-                    font.family: FA.old
+                    text: FAQ.fa_cogs
                     font.pointSize: root.pointSize
                     Layout.fillHeight: true
                     Layout.preferredWidth: rowHeight*1.5
