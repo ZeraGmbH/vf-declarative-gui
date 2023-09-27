@@ -9,7 +9,6 @@ import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import ZeraFa 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
 import "../settings"
