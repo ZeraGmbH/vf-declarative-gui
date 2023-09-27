@@ -321,7 +321,7 @@ Item {
                         Layout.preferredWidth: rowHeight * 2
                         Layout.fillHeight: true
                         font.pointSize: pointSize * 1.25
-                        text: FAQ.fa_trash_alt
+                        text: FAQ.fa_trash
                         background: Rectangle {
                             color: "transparent"
                         }

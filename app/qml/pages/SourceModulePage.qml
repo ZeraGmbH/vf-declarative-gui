@@ -285,7 +285,7 @@ Item {
             anchors.rightMargin: unitColumn.anchors.rightMargin
             font.family: FAQ.fontFamily
             font.styleName: "Regular"
-            text: FAQ.fa_trash_alt
+            text: FAQ.fa_trash
             height: lineHeight
             width: unitColumn.width
             topInset: 1
