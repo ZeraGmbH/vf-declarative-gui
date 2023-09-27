@@ -150,6 +150,11 @@ SettingsView {
             anchors.left: parent.left
             anchors.right: parent.right
         }
+        SettingsInterval {
+            rowHeight: root.rowHeight
+            width: root.rowWidth;
+            pointSize: root.pointSize
+        }
         Loader {
             sourceComponent: swScpiQueue
             active: VeinEntity.hasEntity("SCPIModule1") && VeinEntity.getEntity("_System").DevMode
@@ -158,11 +163,6 @@ SettingsView {
             height: active ? root.rowHeight : 0
             anchors.left: parent.left
             anchors.right: parent.right
-        }
-        SettingsInterval {
-            rowHeight: root.rowHeight
-            width: root.rowWidth;
-            pointSize: root.pointSize
         }
         SerialSettings {
             height: root.rowHeight * Math.min(ttyCount, 4)
