@@ -10,6 +10,7 @@ import SchnubbelState 1.0
 import AdjustmentState 1.0
 import VeinEntity 1.0
 import FontAwesomeQml 1.0
+import ZeraComponents 1.0
 import "range_module"
 import "logger"
 
@@ -228,7 +229,7 @@ ToolBar {
                     root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutSettingsIndex;
                 }
             }
-            FlashingRipple {
+            ZFlashingRipple {
                 id: settingsButtonRipple
                 anchor: settingsButton
             }
