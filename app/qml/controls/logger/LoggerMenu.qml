@@ -6,7 +6,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import ZeraFa 1.0
+import FontAwesomeQml 1.0
 
 Item {
     id: root
@@ -183,7 +183,6 @@ Item {
     // menu with logger operations
     Menu {
         id: menu
-        font.family: FA.old
         font.pointSize: root.pointSize
         FontMetrics {
             id: fontMetrics
@@ -230,13 +229,11 @@ Item {
             text: {
                 // No database cannot happen here: We force move to settings in open()
                 var menuText = ""
-                if(sessionNameLogger === "") {
+                if(sessionNameLogger === "")
                     menuText = Z.tr("-- no session --")
-                }
-                else {
+                else
                     menuText = loggerEntity.sessionName
-                }
-                return FA.icon(FA.fa_folder_open) + menuText
+                return FAQ.fa_folder_open + " " + menuText
             }
             onTriggered: {
                 startLoggingAfterSessionSelect = false
@@ -289,7 +286,7 @@ Item {
                     anchors.bottom: parent.bottom
                     anchors.rightMargin: GC.standardTextHorizMargin
 
-                    text: FA.fa_cogs
+                    text: FAQ.fa_cogs
                     visible: {
                         var isVisible = false
                         switch(modelData) {
@@ -324,7 +321,7 @@ Item {
         }
         MenuSeparator { }
         MenuItem { // Snapshot
-            text: FA.icon(FA.fa_camera) + Z.tr("Take snapshot")
+            text: FAQ.fa_camera_retro + " " + Z.tr("Take snapshot") // fa_camera does not work for unknown reasons
             enabled: loggerEntity.LoggingEnabled === false &&
                      loggerEntity.DatabaseReady === true &&
                      !(loggerEntity.ScheduledLoggingEnabled && loggerEntity.ScheduledLoggingDuration === undefined )
@@ -341,9 +338,9 @@ Item {
         }
         MenuItem { // Start/Stop
             text: loggerEntity.LoggingEnabled === true ?
-                      FA.icon(FA.fa_stop) + Z.tr("Stop logging") + (loggerEntity.ScheduledLoggingEnabled === true ?
+                      FAQ.fa_stop + " " + Z.tr("Stop logging") + (loggerEntity.ScheduledLoggingEnabled === true ?
                       (" " + FT.msToTime(loggerEntity.ScheduledLoggingCountdown)) : "") :
-                      FA.icon(FA.fa_play) + Z.tr("Start logging")
+                      FAQ.fa_play + " " + Z.tr("Start logging")
 
             enabled: loggerEntity.DatabaseReady === true &&
                      (loggerEntity.LoggingEnabled === true ||
@@ -366,7 +363,7 @@ Item {
         }
         MenuSeparator { }
         MenuItem { // Export
-            text: FA.icon(FA.fa_save) + Z.tr("Export...")
+            text: FAQ.fa_save + " " + Z.tr("Export...")
             onTriggered: {
                 loggerExportMenu()
             }
@@ -378,7 +375,7 @@ Item {
         MenuSeparator { }
         MenuItem { // Settings
             property alias rightAlignedLabel: raLabel
-            text: FA.icon(FA.fa_cogs) + Z.tr("Settings...")
+            text: FAQ.fa_cogs + " " + Z.tr("Settings...")
             Label {
                 id: raLabel
                 font: menu.font
@@ -391,7 +388,7 @@ Item {
                 text: {
                     var tmpArr = loggerEntity.DatabaseFile.split('/')
                     var dbName = tmpArr[tmpArr.length-1].replace('.db', '')
-                    return FA.icon(FA.fa_database) + dbName
+                    return FAQ.fa_database + " " + dbName
                 }
             }
             onTriggered: {
