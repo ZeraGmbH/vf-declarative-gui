@@ -7,7 +7,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraFa 1.1
 import ZeraTranslation  1.0
-
+import ZeraComponents 1.0
 
 Loader {
     id: invisibleRoot
@@ -116,6 +116,7 @@ Loader {
                 spacing: root.contentWidth*0.1
 
                 delegate: Item {
+                    id: itemVoltage
                     width: root.contentWidth*0.9
                     height: root.height/2
                     Label {
@@ -136,6 +137,19 @@ Loader {
                         anchors.verticalCenter: parent.verticalCenter
                         text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
                         color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
+                    }
+                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
+                    property string validdationDataStr
+                    onValidationDataChanged: {
+                        let newValidationData = JSON.stringify(validationData)
+                        if(validdationDataStr !== newValidationData) {
+                            validdationDataStr = newValidationData
+                            voltageRangeRipple.startFlash()
+                        }
+                    }
+                    ZFlashingRipple {
+                        anchor: itemVoltage
+                        id: voltageRangeRipple
                     }
                 }
             }
@@ -153,6 +167,7 @@ Loader {
                 spacing: root.contentWidth*0.1
 
                 delegate: Item {
+                    id: itemCurrent
                     width: root.contentWidth*0.9
                     height: root.height/2
                     Label {
@@ -173,6 +188,19 @@ Loader {
                         anchors.verticalCenter: parent.verticalCenter
                         text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
                         color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
+                    }
+                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
+                    property string validdationDataStr
+                    onValidationDataChanged: {
+                        let newValidationData = JSON.stringify(validationData)
+                        if(validdationDataStr !== newValidationData) {
+                            validdationDataStr = newValidationData
+                            currentRangeRipple.startFlash()
+                        }
+                    }
+                    ZFlashingRipple {
+                        anchor: itemCurrent
+                        id: currentRangeRipple
                     }
                 }
             }
