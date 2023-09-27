@@ -6,7 +6,6 @@ import QtQuick.Layouts 1.3
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import ZeraFa 1.0
 
 RowLayout {
     id: root
