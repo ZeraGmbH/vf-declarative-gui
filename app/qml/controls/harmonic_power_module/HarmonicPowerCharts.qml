@@ -5,7 +5,6 @@ import VeinEntity 1.0
 import QwtChart 1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
-import ZeraFa 1.0
 import ZeraTranslation  1.0
 
 Item {
