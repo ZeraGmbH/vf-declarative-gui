@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import ZeraTranslation  1.0
-import ZeraFa 1.0 // TODO repace by FontAwesomeQml
+import FontAwesomeQml 1.0
 import SlowMachineSettingsHelper 1.0
 
 Popup {
@@ -120,8 +120,7 @@ Popup {
         }
     }
     Button {
-        text: FA.fa_undo
-        font.family: FA.old
+        text: FAQ.fa_undo
         font.pointSize: root.labelPointSize
         anchors.right: parent.right
         width: root.width * 0.125
