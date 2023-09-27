@@ -1,13 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import AccumulatorState 1.0
-import ZeraFa 1.0
 import FontAwesomeQml 1.0
 
 ToolButton {
     Text {
         id: battery
-        font.family: FA.old
         font.pointSize: pointSize * 0.9
         color: "white"
         verticalAlignment: Text.AlignVCenter
