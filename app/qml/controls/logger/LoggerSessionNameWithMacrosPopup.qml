@@ -6,7 +6,6 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
-import ZeraFa 1.0
 
 Popup {
     id: root
