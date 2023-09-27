@@ -108,7 +108,7 @@ SettingsView {
             anchors.fill: parent
             Label {
                 textFormat: Text.PlainText
-                text: Z.tr("SCPI queue:")
+                text: Z.tr("SCPI sequential mode:")
                 font.pointSize: pointSize
                 Layout.fillWidth: true
                 Layout.fillHeight: true
