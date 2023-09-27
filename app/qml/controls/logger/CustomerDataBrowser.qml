@@ -7,7 +7,7 @@ import ZeraTranslation  1.0
 import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
 import ZeraComponents 1.0
-import ZeraFa 1.0
+import FontAwesomeQml 1.0
 import "../../helpers"
 import ".."
 
@@ -291,9 +291,8 @@ Item {
                     Button {
                         Layout.preferredWidth: rowHeight * 2
                         Layout.fillHeight: true
-                        font.family: FA.old
                         font.pointSize: pointSize * 1.25
-                        text: FA.fa_edit
+                        text: FAQ.fa_edit
                         background: Rectangle {
                             color: "transparent"
                         }
@@ -321,9 +320,8 @@ Item {
                     Button {
                         Layout.preferredWidth: rowHeight * 2
                         Layout.fillHeight: true
-                        font.family: FA.old
                         font.pointSize: pointSize * 1.25
-                        text: FA.fa_trash
+                        text: FAQ.fa_trash_alt
                         background: Rectangle {
                             color: "transparent"
                         }
