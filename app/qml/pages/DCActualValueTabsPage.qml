@@ -14,6 +14,8 @@ BaseTabPage {
         id: tabTable
         TabButton {
             text:Z.tr("Actual values DC")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
 
@@ -22,6 +24,7 @@ BaseTabPage {
         id: pageTable
         // just temp
         DCActualValuesPage {
+            topMarginPage: (root.height/15)-35
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
                     GC.currentGuiContext = GC.guiContextEnum.GUI_ACTUAL_VALUES

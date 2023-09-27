@@ -18,11 +18,13 @@ Item {
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.092
     readonly property real rightColumWithsScale: 0.092
+    property real topMarginPage
 
     Item {
         width: parent.width
         height: parent.height
-        anchors.centerIn: parent
+        anchors.fill: parent
+        anchors.topMargin: topMarginPage
         ListView {
             id: dcUTable
             model: ZGL.ActualValueLemDCPerPhaseUModel
