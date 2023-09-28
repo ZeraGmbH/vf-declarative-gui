@@ -14,24 +14,32 @@ BaseTabPage {
         id: tabTable
         TabButton {
             text:Z.tr("Actual values")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
     Component {
         id: tabVector
         TabButton {
             text: Z.tr("Vector diagram")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
     Component {
         id: tabPower
         TabButton {
             text: Z.tr("Power values")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
     Component {
         id: tabRms
         TabButton {
             text: Z.tr("RMS values")
+            font.pointSize: root.height/40
+            height: root.height/15
         }
     }
 
