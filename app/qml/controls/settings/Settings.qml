@@ -30,18 +30,24 @@ BaseTabPage {
         id: appTab
         TabButton {
             text: Z.tr("Application Settings")
+            font.pointSize: tabroot.height/40
+            height: tabroot.height/15
         }
     }
     Component{
         id: devTab
         TabButton {
             text: Z.tr("Device settings")
+            font.pointSize: tabroot.height/40
+            height: tabroot.height/15
         }
     }
     Component{
         id: netTab
         TabButton {
             text: Z.tr("Network settings")
+            font.pointSize: tabroot.height/40
+            height: tabroot.height/15
         }
     }
 
