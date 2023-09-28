@@ -12,7 +12,7 @@ import ZeraVeinComponents 1.0
 SettingsView {
     id: root
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-    rowHeight: height > 0 ? height / 9 : 10
+    rowHeight: height > 0 ? height * 0.11 : 10
     readonly property real pointSize: rowHeight * 0.36
 
     Component {

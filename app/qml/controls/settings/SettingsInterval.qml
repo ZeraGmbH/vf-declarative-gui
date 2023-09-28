@@ -83,6 +83,7 @@ Item {
             VFSpinBox {
                 spinBox.width: root.width / 4
                 pointSize: root.pointSize
+                Layout.fillHeight: true
                 entity: timeList[0]
                 controlPropertyName: "PAR_Interval"
                 stepSize: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2] * Math.pow(10, validatorTime.decimals)
@@ -126,6 +127,7 @@ Item {
             }
             VFSpinBox {
                 spinBox.width: root.width / 4
+                Layout.fillHeight: true
                 pointSize: root.pointSize
                 entity: periodList[0]
                 controlPropertyName: "PAR_Interval"
