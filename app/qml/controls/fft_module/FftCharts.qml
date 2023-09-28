@@ -81,6 +81,7 @@ ListView {
             readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
+            font.pointSize: root.height/50
             color: GC.currentColorTable[leftChannels[index]]
         }
         Text {
@@ -91,6 +92,7 @@ ListView {
             text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
             anchors.right: parent.right
             anchors.rightMargin: 8
+            font.pointSize: root.height/50
             color: GC.currentColorTable[rightChannels[index]]
         }
 
