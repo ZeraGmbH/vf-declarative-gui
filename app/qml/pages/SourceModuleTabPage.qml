@@ -173,6 +173,8 @@ BaseTabPage {
                     property var jsonState
                     property var declarativeJsonItem
                     text: jsonParamInfo.Name
+                    font.pointSize: root.height/40
+                    height: root.height/15
                     Material.foreground: activeSlotItem.jsonState.errors.length === 0 ? Material.White : Material.Red
                     /*Component.onDestruction: {
                         console.info("Destruct tabItem")
