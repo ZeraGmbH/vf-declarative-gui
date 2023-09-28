@@ -72,7 +72,7 @@ Item {
         RowLayout {
             anchors.fill: parent
             Label {
-                text: Z.tr("Integration time interval:")
+                text: Z.tr("Integration time interval") + " [s]:"
                 font.pointSize: root.pointSize
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
@@ -105,10 +105,6 @@ Item {
                     // wait to be applied
                     return false
                 }
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("seconds");
             }
         }
     }
@@ -150,10 +146,6 @@ Item {
                     // wait to be applied
                     return false
                 }
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("periods");
             }
         }
     }
