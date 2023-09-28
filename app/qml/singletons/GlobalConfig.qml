@@ -167,12 +167,6 @@ Item {
         Settings.setOption("energy_scale_selection", selection);
     }
 
-    readonly property var rangePeakVisualisationEnum: {
-        "RPV_ABSOLUTE" : 0,
-        "RPV_ABSOLUTE_LOGSCALE" : 1,
-        "RPV_RELATIVE_TO_LIMIT" : 2
-    }
-
     readonly property var layoutStackEnum: {
         "layoutPageIndex": 0,
         "layoutRangeIndex": 1,
@@ -182,20 +176,6 @@ Item {
         "layoutSplashIndex": 5
     }
 
-
-    property real rangePeakVisualisation: parseInt(Settings.getOption("range_peak_logarithmic", "2")) ///@todo rename config key?
-    function setRangePeakVisualisation(peakVisualisation) {
-        if(typeof peakVisualisation === "number"
-                && peakVisualisation >=0
-                && peakVisualisation < Object.keys(rangePeakVisualisationEnum).length) {
-            rangePeakVisualisation = peakVisualisation
-            Settings.setOption("range_peak_logarithmic", peakVisualisation);
-        }
-        else if(rangePeakVisualisationEnum[peakVisualisation] !== undefined) {
-            rangePeakVisualisation = rangePeakVisualisationEnum[peakVisualisation]
-            Settings.setOption("range_peak_logarithmic", rangePeakVisualisationEnum[peakVisualisation]);
-        }
-    }
 
     property bool pagesGridViewDisplay: parseInt(Settings.getOption("pages_grid_view", ASWGL.isServer ? "1" : "0"))
     function setPagesGridViewDisplay(isGridView) {

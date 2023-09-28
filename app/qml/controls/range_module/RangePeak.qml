@@ -14,8 +14,6 @@ Item {
 
   readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
   property bool bottomLabels: true
-  property real maxValue: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? 1000 : 20
-  property real minValue: 1e-6;
   property bool rangeGrouping: false
 
   BarChart {
@@ -27,20 +25,20 @@ Item {
     anchors.bottomMargin: 16
     color: Material.backgroundColor
     leftAxisBars: peakBars
-    leftAxisLogScale: GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_ABSOLUTE_LOGSCALE
-    legendEnabled: false//root.legendEnabled
+    leftAxisLogScale: false
+    legendEnabled: false
     bottomLabelsEnabled: root.bottomLabels
-    leftScaleTransform: GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? "%1%" : "%1";
+    leftScaleTransform: "%1%"
 
     chartTitle: Z.tr("Peak values")
-    leftAxisMinValue: GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? 0 : root.minValue
-    leftAxisMaxValue: GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? 125 : root.maxValue
+    leftAxisMinValue: 0
+    leftAxisMaxValue: 125
     textColor: Material.primaryTextColor
     Repeater {
       model: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
       delegate: Bar {
         title: ModuleIntrospection.rangeIntrospection.ComponentInfo["ACT_Channel"+(index+1)+"Peak"].ChannelName
-        value: (GC.rangePeakVisualisation === GC.rangePeakVisualisationEnum.RPV_RELATIVE_TO_LIMIT ? relativeValue : rangeModule["ACT_Channel"+(index+1)+"Peak"]) + 1e-15; //0.0 is out of domain for logscale
+        value: relativeValue
         //toFixed(2) because of visual screen flickering of bars, bug in Qwt?
         //Math.SQRT2 because peak value are compared with rms rejection
         property real preScale: {
@@ -60,29 +58,6 @@ Item {
           peakChart.peakBarsChanged();
         }
       }
-    }
-  }
-
-  ComboBox {
-    anchors.bottom: peakChart.bottom
-    anchors.bottomMargin: -35
-    width: parent.width
-    anchors.right: parent.right
-    readonly property var translatedModel: {
-      var inputKeys = Object.keys(GC.rangePeakVisualisationEnum)
-      var retVal = [];
-      for(var i in inputKeys)
-      {
-        retVal.push(Z.tr(inputKeys[i]));
-      }
-      return retVal;
-    }
-
-    model: translatedModel
-    currentIndex: GC.rangePeakVisualisation
-
-    onActivated: {
-      GC.setRangePeakVisualisation(index);
     }
   }
 }
