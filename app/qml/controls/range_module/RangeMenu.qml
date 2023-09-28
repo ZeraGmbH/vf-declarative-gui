@@ -296,7 +296,7 @@ Item {
                                 case 2:
                                     return VeinEntity.getEntity("POWER1Module3").ACT_PowerDisplayName
                                 case 3:
-                                    return Z.tr("ext.")
+                                    return Z.tr("Ext.")
                                 }
                             }
                             height: parent.height
