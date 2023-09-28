@@ -49,7 +49,7 @@ Item {
     TabBar {
         id: tabBar
         width: parent.width
-        contentHeight: 32
+        contentHeight: parent.height/15
         currentIndex: swipeView.currentIndex
         onCurrentIndexChanged: {
             if(initialized) {
