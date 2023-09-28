@@ -28,10 +28,12 @@ Item {
         leftAxisLogScale: false
         legendEnabled: false
         bottomLabelsEnabled: root.bottomLabels
-        leftScaleTransform: "%1%"
 
+        // Oooh: Sequence seems important or we loose '%'
         leftAxisMinValue: 0
         leftAxisMaxValue: 125
+        leftScaleTransform: "%1%"
+
         textColor: Material.primaryTextColor
         Repeater {
             model: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
