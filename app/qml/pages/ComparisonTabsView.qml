@@ -74,6 +74,8 @@ BaseTabPage {
             id: tabButtonPulse
             readonly property var entity: errMeasHelper.sec1mod1Entity
             text: Z.tr("Meter test") + comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
+            font.pointSize: root.height/40
+            height: root.height/15
             Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPulse
@@ -87,6 +89,8 @@ BaseTabPage {
             id: tabButtonPulseEnergy
             readonly property var entity: errMeasHelper.sec1mod2Entity
             text: Z.tr("Energy comparison") + comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
+            font.pointSize: root.height/40
+            height: root.height/15
             Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPulseEnergy
@@ -100,6 +104,8 @@ BaseTabPage {
             id: tabButtonEnergy
             readonly property var entity: errMeasHelper.sem1mod1Entity
             text: Z.tr("Energy register") + registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
+            font.pointSize: root.height/40
+            height: root.height/15
             Material.foreground: registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonEnergy
@@ -113,6 +119,8 @@ BaseTabPage {
             id: tabButtonPower
             readonly property var entity: errMeasHelper.spm1mod1Entity
             text: Z.tr("Power register") + registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
+            font.pointSize: root.height/40
+            height: root.height/15
             Material.foreground: registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
             ActivityAnimation {
                 targetItem: tabButtonPower
