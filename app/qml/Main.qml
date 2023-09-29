@@ -295,6 +295,7 @@ ApplicationWindow {
             id: rangePeak
             Item {
                 RangeMenu {
+                //RangeMModePage {
                     id: rangeMenu
                     anchors.fill: parent
                     anchors.leftMargin: 10

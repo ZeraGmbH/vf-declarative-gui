@@ -99,6 +99,8 @@
         <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
         <file>qml/controls/range_module/RangeView.qml</file>
+        <file>qml/controls/range_module/RangeMModePage.qml</file>
+        <file>qml/controls/range_module/RangeLine.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>staticdata/resources/MeterPrim.gif</file>
