@@ -23,6 +23,9 @@ Item {
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
     readonly property bool groupingActive: groupingMode.checked
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+    anchors.leftMargin: 10
+    anchors.topMargin: 10
+    anchors.bottomMargin: 10
 
     //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
     readonly property var upperChannels: {

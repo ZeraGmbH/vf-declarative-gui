@@ -298,10 +298,6 @@ ApplicationWindow {
                 //RangeMModePage {
                     id: rangeMenu
                     anchors.fill: parent
-                    anchors.leftMargin: 10
-                    anchors.topMargin: 10
-                    anchors.bottomMargin: 10
-//                    anchors.rightMargin: parent.width
                 }
             }
         }
