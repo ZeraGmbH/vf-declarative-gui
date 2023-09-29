@@ -84,7 +84,7 @@ BaseTabPage {
             }
             ActivityAnimation {
                 targetItem: tabButtonPulse
-                running: errMeasHelper.sec1mod1Running && !tabButtonPulse.checked
+                running: errMeasHelper.sec1mod1Running
             }
         }
     }
@@ -104,7 +104,7 @@ BaseTabPage {
             }
             ActivityAnimation {
                 targetItem: tabButtonPulseEnergy
-                running: errMeasHelper.sec1mod2Running && !tabButtonPulseEnergy.checked
+                running: errMeasHelper.sec1mod2Running
             }
         }
     }
@@ -124,7 +124,7 @@ BaseTabPage {
             }
             ActivityAnimation {
                 targetItem: tabButtonEnergy
-                running: errMeasHelper.sem1mod1Running && !tabButtonEnergy.checked
+                running: errMeasHelper.sem1mod1Running
             }
         }
     }
@@ -144,7 +144,7 @@ BaseTabPage {
             }
             ActivityAnimation {
                 targetItem: tabButtonPower
-                running: errMeasHelper.spm1mod1Running && !tabButtonPower.checked
+                running: errMeasHelper.spm1mod1Running
             }
         }
     }
