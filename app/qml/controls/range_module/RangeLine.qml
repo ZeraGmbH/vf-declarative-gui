@@ -18,38 +18,31 @@ ListView {
     orientation: ListView.Horizontal
     spacing: frameMargin
 
+    readonly property real relativeHeaderHeight: 0.5
+    readonly property real relativeComboHeight: 1.2
+
     delegate: Item {
         id: channelItem
         width: (ranges.width - (channels.length-1)*frameMargin) / channels.length
         height: ranges.height
         readonly property string parChannelRange: "PAR_Channel"+parseInt(channels[index])+"Range"
-        SimpleAndCheapVu {
-            id: vu
-            height: rowHeight * 3/2
-            anchors.bottom: parent.bottom
-            width: parent.width * 0.1
-            anchors.left: parent.left
-
-            nominal: 100
-            overshootFactor: 1.25
-            actual: 110
-        }
 
         Label {
             id: label
-            text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].ChannelName) + ":"
-            color: FT.getColorByIndex(channels[index], root.groupingActive)
-            font.pointSize: pointSize
-            verticalAlignment: Label.AlignBottom
-            height: rowHeight / 2
             anchors.left: parent.left
             anchors.top: parent.top
+            height: rowHeight * relativeHeaderHeight
+            font.pointSize: pointSize
+            verticalAlignment: Label.AlignBottom
+            text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].ChannelName) + ":"
+            color: FT.getColorByIndex(channels[index], root.groupingActive)
         }
         VFComboBox {
-            height: vu.height
-            anchors.left: vu.right
+            id: rangeCombo
+            height: rowHeight * relativeComboHeight
+            anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            anchors.top: label.bottom
 
             // To flash once only we set model only on content change
             // because metadata is JSON and that reports change on all channels
@@ -70,6 +63,18 @@ ListView {
             contentMaxRows: 5
             centerVertical: true
             enabled: true // TODO
+        }
+        SimpleAndCheapVu {
+            id: vu
+            anchors.top : rangeCombo.bottom
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            horizontal: true
+            nominal: 100
+            overshootFactor: 1.25
+            actual: 122
         }
     }
 }
