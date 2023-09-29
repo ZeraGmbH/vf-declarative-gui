@@ -210,6 +210,8 @@ Item {
             return ""
         if(typeof num === "string") //parsing strings as number is not desired
             return num;
+        if(isNaN(num))
+            return "----";
         else {
             let dec = _decimalPlaces
             let leadDigits = Math.floor(Math.abs(num)).toString()
