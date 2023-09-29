@@ -174,6 +174,7 @@ BaseTabPage {
                     property var declarativeJsonItem
                     contentItem: Label {
                         text: jsonParamInfo.Name
+                        font.capitalization: Font.AllUppercase
                         font.pointSize: root.height/40
                         height: root.height/15
                         color: activeSlotItem.jsonState.errors.length === 0 ? "white" : "red"

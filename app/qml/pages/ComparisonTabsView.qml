@@ -73,10 +73,15 @@ BaseTabPage {
         TabButton {
             id: tabButtonPulse
             readonly property var entity: errMeasHelper.sec1mod1Entity
-            text: Z.tr("Meter test") + comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
-            font.pointSize: root.height/40
-            height: root.height/15
-            Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
+            contentItem: Label {
+                text: Z.tr("Meter test") + comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
+                font.capitalization: Font.AllUppercase
+                font.pointSize: root.height/40
+                height: root.height/15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
+            }
             ActivityAnimation {
                 targetItem: tabButtonPulse
                 running: errMeasHelper.sec1mod1Running && !tabButtonPulse.checked
@@ -88,10 +93,15 @@ BaseTabPage {
         TabButton {
             id: tabButtonPulseEnergy
             readonly property var entity: errMeasHelper.sec1mod2Entity
-            text: Z.tr("Energy comparison") + comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
-            font.pointSize: root.height/40
-            height: root.height/15
-            Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
+            contentItem: Label {
+                text: Z.tr("Energy comparison") + comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
+                font.capitalization: Font.AllUppercase
+                font.pointSize: root.height/40
+                height: root.height/15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
+            }
             ActivityAnimation {
                 targetItem: tabButtonPulseEnergy
                 running: errMeasHelper.sec1mod2Running && !tabButtonPulseEnergy.checked
@@ -103,10 +113,15 @@ BaseTabPage {
         TabButton {
             id: tabButtonEnergy
             readonly property var entity: errMeasHelper.sem1mod1Entity
-            text: Z.tr("Energy register") + registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
-            font.pointSize: root.height/40
-            height: root.height/15
-            Material.foreground: registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
+            contentItem: Label {
+                text: Z.tr("Energy register") + registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
+                font.capitalization: Font.AllUppercase
+                font.pointSize: root.height/40
+                height: root.height/15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                Material.foreground: registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
+            }
             ActivityAnimation {
                 targetItem: tabButtonEnergy
                 running: errMeasHelper.sem1mod1Running && !tabButtonEnergy.checked
@@ -118,10 +133,15 @@ BaseTabPage {
         TabButton {
             id: tabButtonPower
             readonly property var entity: errMeasHelper.spm1mod1Entity
-            text: Z.tr("Power register") + registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
-            font.pointSize: root.height/40
-            height: root.height/15
-            Material.foreground: registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
+            contentItem: Label {
+                text: Z.tr("Power register") + registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
+                font.capitalization: Font.AllUppercase
+                font.pointSize: root.height/40
+                height: root.height/15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                Material.foreground: registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
+            }
             ActivityAnimation {
                 targetItem: tabButtonPower
                 running: errMeasHelper.spm1mod1Running && !tabButtonPower.checked
