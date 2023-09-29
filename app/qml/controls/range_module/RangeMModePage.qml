@@ -124,19 +124,11 @@ Item {
             anchors.right: parent.right
             anchors.top: parent.top
             height: lowerAreaLeft.height * 0.5
-            GridRect {
-                id: uHeader
-                anchors.left: parent.left
-                width: leftWidth*0.06
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                color: GC.tableShadeColor
-            }
             RangeLine {
                 anchors.top: parent.top
-                anchors.left: uHeader.right
-                anchors.right: parent.right
                 height: rowHeight * 2
+                anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.margins: frameMargin
                 channels: [1,2,3,7]
             }
@@ -147,19 +139,11 @@ Item {
             anchors.right: parent.right
             anchors.top: uArea.bottom
             height: lowerAreaLeft.height * 0.5
-            GridRect {
-                id: iHeader
-                anchors.left: parent.left
-                width: leftWidth*0.06
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                color: GC.tableShadeColor
-            }
             RangeLine {
                 anchors.top: parent.top
-                anchors.left: iHeader.right
-                anchors.right: parent.right
                 height: rowHeight * 2
+                anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.margins: frameMargin
                 channels: [4,5,6,8]
             }
