@@ -72,12 +72,15 @@ BaseTabPage {
         id: tabPulse
         TabButton {
             id: tabButtonPulse
+            font.pointSize: tabPointSize
+            height: tabHeight
+
             readonly property var entity: errMeasHelper.sec1mod1Entity
             contentItem: Label {
                 text: Z.tr("Meter test") + comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
                 font.capitalization: Font.AllUppercase
-                font.pointSize: root.height/40
-                height: root.height/15
+                font.pointSize: tabPointSize
+                height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
@@ -92,12 +95,15 @@ BaseTabPage {
         id: tabPulseEnergy
         TabButton {
             id: tabButtonPulseEnergy
+            font.pointSize: tabPointSize
+            height: tabHeight
+
             readonly property var entity: errMeasHelper.sec1mod2Entity
             contentItem: Label {
                 text: Z.tr("Energy comparison") + comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
                 font.capitalization: Font.AllUppercase
-                font.pointSize: root.height/40
-                height: root.height/15
+                font.pointSize: tabPointSize
+                height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
@@ -112,12 +118,15 @@ BaseTabPage {
         id: tabEnergy
         TabButton {
             id: tabButtonEnergy
+            font.pointSize: tabPointSize
+            height: tabHeight
+
             readonly property var entity: errMeasHelper.sem1mod1Entity
             contentItem: Label {
                 text: Z.tr("Energy register") + registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
                 font.capitalization: Font.AllUppercase
-                font.pointSize: root.height/40
-                height: root.height/15
+                font.pointSize: tabPointSize
+                height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
@@ -132,12 +141,15 @@ BaseTabPage {
         id: tabPower
         TabButton {
             id: tabButtonPower
+            font.pointSize: tabPointSize
+            height: tabHeight
+
             readonly property var entity: errMeasHelper.spm1mod1Entity
             contentItem: Label {
                 text: Z.tr("Power register") + registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
                 font.capitalization: Font.AllUppercase
-                font.pointSize: root.height/40
-                height: root.height/15
+                font.pointSize: tabPointSize
+                height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red

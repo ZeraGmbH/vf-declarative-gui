@@ -25,6 +25,8 @@ BaseTabPage {
         id: tabStatus
         TabButton {
             id: statusTabButton
+            font.pointSize: tabPointSize
+            height: tabHeight
             text: FAQ.fa_info_circle + " " +Z.tr("Device info")
             Material.foreground: AdjState.adjusted ? Material.White : Material.Red
             Timer {
@@ -47,6 +49,8 @@ BaseTabPage {
     Component {
         id: tabLicense
         TabButton {
+            font.pointSize: tabPointSize
+            height: tabHeight
             text: "§"+Z.tr("License information")
         }
     }
