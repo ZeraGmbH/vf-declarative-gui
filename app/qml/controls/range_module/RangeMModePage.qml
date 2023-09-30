@@ -111,7 +111,6 @@ Item {
         }
     }
 
-
     GridRect {
         id: lowerAreaLeft
         anchors.top: upperAreaLeft.bottom
@@ -130,7 +129,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
-                channels: [1,2,3,7]
+                channels: channelCount >= 7 ? [1,2,3,7] : [1,2,3]
             }
         }
         GridRect {
@@ -145,7 +144,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
-                channels: [4,5,6,8]
+                channels: channelCount >= 8 ? [4,5,6,8] : [4,5,6]
             }
         }
     }
