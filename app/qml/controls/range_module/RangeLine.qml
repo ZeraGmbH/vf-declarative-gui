@@ -20,12 +20,14 @@ ListView {
 
     readonly property real relativeHeaderHeight: 0.5
     readonly property real relativeComboHeight: 1.2
+    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
     delegate: Item {
-        id: channelItem
+        id: channelsRow
         width: (ranges.width - (channels.length-1)*frameMargin) / channels.length
         height: ranges.height
-        readonly property string parChannelRange: "PAR_Channel"+parseInt(channels[index])+"Range"
+        readonly property int channelNo: channels[index]
+        readonly property string parChannelRange: "PAR_Channel"+parseInt(channelNo)+"Range"
 
         Label {
             id: label
@@ -35,7 +37,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
             text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].ChannelName) + ":"
-            color: FT.getColorByIndex(channels[index], root.groupingActive)
+            color: FT.getColorByIndex(channelsRow.channelNo, root.groupingActive)
         }
         VFComboBox {
             id: rangeCombo
@@ -71,10 +73,25 @@ ListView {
             anchors.left: parent.left
             anchors.right: parent.right
 
+            property real preScale: {
+                if(channelNo <= 3)
+                    return root.rangeModule[`INF_PreScalingInfoGroup0`];
+                else if(channelNo <= 6)
+                    return root.rangeModule[`INF_PreScalingInfoGroup1`];
+                return 1;
+            }
+
             horizontal: true
             nominal: 100
             overshootFactor: 1.25
-            actual: 122
+            // This code was taken from RangePeak/relativeValue and adapted to different model
+            // TODO:
+            // * DC displays too small values: peak / sqrt2
+            // * Don't hardcode overshoot
+            //toFixed(2) because of visual screen flickering of bars, bug in Qwt?
+            //Math.SQRT2 because peak value are compared with rms rejection
+            actual: Number((100 * rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"] /
+                            (Math.SQRT2 * rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"])).toFixed(2))*preScale
         }
     }
 }
