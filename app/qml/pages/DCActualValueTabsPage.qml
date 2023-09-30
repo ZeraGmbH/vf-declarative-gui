@@ -14,8 +14,8 @@ BaseTabPage {
         id: tabTable
         TabButton {
             text:Z.tr("Actual values DC")
-            font.pointSize: root.height/40
-            height: root.height/15
+            font.pointSize: tabPointSize
+            height: tabHeight
         }
     }
 

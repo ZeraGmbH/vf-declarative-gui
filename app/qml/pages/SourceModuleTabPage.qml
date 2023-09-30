@@ -169,14 +169,17 @@ BaseTabPage {
             Component {
                 id: tabComponent
                 TabButton {
+                    font.pointSize: tabPointSize
+                    height: tabHeight
+
                     property var jsonParamInfo
                     property var jsonState
                     property var declarativeJsonItem
                     contentItem: Label {
                         text: jsonParamInfo.Name
                         font.capitalization: Font.AllUppercase
-                        font.pointSize: root.height/40
-                        height: root.height/15
+                        font.pointSize: tabPointSize
+                        height: tabHeight
                         color: activeSlotItem.jsonState.errors.length === 0 ? "white" : "red"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter

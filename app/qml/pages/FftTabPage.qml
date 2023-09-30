@@ -17,24 +17,24 @@ BaseTabPage {
         id: tabChart
         TabButton {
             text: Z.tr("Harmonic table")
-            font.pointSize: root.height/40
-            height: root.height/15
+            font.pointSize: tabPointSize
+            height: tabHeight
         }
     }
     Component {
         id: tabEnergy
         TabButton {
             text: Z.tr("Harmonic chart")
-            font.pointSize: root.height/40
-            height: root.height/15
+            font.pointSize: tabPointSize
+            height: tabHeight
         }
     }
     Component {
         id: tabOsc
         TabButton {
             text: Z.tr("Oscilloscope plot")
-            font.pointSize: root.height/40
-            height: root.height/15
+            font.pointSize: tabPointSize
+            height: tabHeight
         }
     }
 
