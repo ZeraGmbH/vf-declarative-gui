@@ -67,31 +67,26 @@ ListView {
             enabled: true // TODO
         }
         SimpleAndCheapVu {
-            id: vu
             anchors.top : rangeCombo.bottom
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
 
-            property real preScale: {
-                if(channelNo <= 3)
+            horizontal: true
+
+            readonly property real preScale: {
+                if(channelsRow.channelNo <= 3)
                     return root.rangeModule[`INF_PreScalingInfoGroup0`];
-                else if(channelNo <= 6)
+                else if(channelsRow.channelNo <= 6)
                     return root.rangeModule[`INF_PreScalingInfoGroup1`];
                 return 1;
             }
-
-            horizontal: true
-            nominal: 100
-            overshootFactor: 1.25
-            // This code was taken from RangePeak/relativeValue and adapted to different model
             // TODO:
             // * DC displays too small values: peak / sqrt2
             // * Don't hardcode overshoot
-            //toFixed(2) because of visual screen flickering of bars, bug in Qwt?
-            //Math.SQRT2 because peak value are compared with rms rejection
-            actual: Number((100 * rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"] /
-                            (Math.SQRT2 * rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"])).toFixed(2))*preScale
+            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
+            actual: Number(rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
+            overshootFactor: 1.25
         }
     }
 }
