@@ -102,11 +102,6 @@ Item {
                 anchors.fill: parent
                 radius: 2
                 color: overloadButton.overload ? "darkorange" : Material.switchDisabledHandleColor
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 400
-                    }
-                }
             }
         }
     }
