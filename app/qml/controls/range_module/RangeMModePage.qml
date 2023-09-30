@@ -124,6 +124,9 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
+                // TODO:
+                // * Less Naive approach
+                // * COM5003 REF
                 channels: channelCount >= 7 ? [1,2,3,7] : [1,2,3]
             }
         }
@@ -139,6 +142,9 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
+                // TODO:
+                // * Less Naive approach
+                // * COM5003 REF
                 channels: channelCount >= 8 ? [4,5,6,8] : [4,5,6]
             }
         }
