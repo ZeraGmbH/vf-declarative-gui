@@ -4,6 +4,9 @@ import GlobalConfig 1.0
 
 Item {
     id: root
+    readonly property real tabPointSize: height * 0.0225
+    readonly property real tabHeight: height * 0.07
+
     property alias swipeView: swipeView
     property alias tabBar: tabBar
     property alias initTimer: initTimer
@@ -49,7 +52,7 @@ Item {
     TabBar {
         id: tabBar
         width: parent.width
-        contentHeight: parent.height/15
+        contentHeight: tabHeight
         currentIndex: swipeView.currentIndex
         onCurrentIndexChanged: {
             if(initialized) {
