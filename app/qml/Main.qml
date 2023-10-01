@@ -18,6 +18,7 @@ import "controls"
 import "helpers"
 
 import "controls/range_module"
+import "controls/ranges"
 import "controls/logger"
 import "controls/appinfo"
 import "controls/settings"
