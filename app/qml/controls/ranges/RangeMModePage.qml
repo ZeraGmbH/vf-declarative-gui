@@ -2,14 +2,11 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import ModuleIntrospection 1.0
-import GlobalConfig 1.0
 import MeasChannelInfo 1.0
-import FunctionTools 1.0
 import ZeraTranslation  1.0
 import VeinEntity 1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
-import QtQml.Models 2.11
 import "../../controls"
 
 Item {
@@ -21,8 +18,6 @@ Item {
     readonly property real upperAreaHeight: rowHeight*2
     readonly property real leftWidth: root.width * 3 / 4
     readonly property real frameMargin: rowHeight * 0.3
-
-    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
     GridRect {
         id: upperAreaLeft
@@ -48,7 +43,7 @@ Item {
                 id: autoMode
                 anchors.right: parent.right
                 height: rowHeight
-                entity: root.rangeModule
+                entity: MeasChannelInfo.rangeModule
                 enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
                 controlPropertyName: "PAR_RangeAutomatic"
             }
@@ -70,7 +65,7 @@ Item {
                 id: groupingMode
                 anchors.right: parent.right
                 height: rowHeight
-                entity: root.rangeModule
+                entity: MeasChannelInfo.rangeModule
                 enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
                 controlPropertyName: "PAR_ChannelGrouping"
             }
