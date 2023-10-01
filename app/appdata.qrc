@@ -98,6 +98,7 @@
         <file>qml/controls/range_module/RangeView.qml</file>
         <file>qml/controls/range_module/RangeMenu.qml</file>
         <file>qml/controls/range_module/RangePeak.qml</file>
+        <file>qml/controls/ranges/OverloadButton.qml</file>
         <file>qml/controls/ranges/RangeMModePage.qml</file>
         <file>qml/controls/ranges/RangeLine.qml</file>
         <file>qml/controls/ranges/RangeIndicator.qml</file>

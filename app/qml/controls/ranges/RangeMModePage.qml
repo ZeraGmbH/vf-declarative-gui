@@ -84,25 +84,13 @@ Item {
         height: upperAreaHeight
         anchors.left: upperAreaLeft.right
         anchors.right: parent.right
-        Button {
-            id: overloadButton
-            text: Z.tr("Overload")
-            readonly property bool overload: root.rangeModule.PAR_Overload
+        OverloadButton {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: frameMargin
             height: rowHeight
-            enabled: overload
             font.pointSize: pointSize
-            onClicked: {
-                root.rangeModule.PAR_Overload = 0;
-            }
-            background: Rectangle {
-                anchors.fill: parent
-                radius: 2
-                color: overloadButton.overload ? "darkorange" : Material.switchDisabledHandleColor
-            }
         }
     }
 

@@ -10,6 +10,7 @@ import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
 import QtQml.Models 2.11
+import "../ranges"
 import "../../controls"
 
 Item {
@@ -341,27 +342,11 @@ Item {
         anchors.right: parent.right
         width: parent.width*7/16-45
 
-        Button {
+        OverloadButton {
             id: overloadButton
-            text: Z.tr("Overload")
-            readonly property bool overload: root.rangeModule.PAR_Overload
             anchors.top: parent.top
             anchors.horizontalCenter: rangbar.horizontalCenter
-            enabled: overload
             font.pointSize: pointSize * 0.75
-            onClicked: {
-                root.rangeModule.PAR_Overload = 0;
-            }
-            background: Rectangle {
-                anchors.fill: parent
-                radius: 2
-                color: overloadButton.overload ? "darkorange" : Material.switchDisabledHandleColor
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 400
-                    }
-                }
-            }
         }
         RangePeak {
             id: rangbar
