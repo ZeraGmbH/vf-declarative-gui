@@ -18,7 +18,7 @@ ListView {
 
     readonly property real headerHeight: height * 0.2
     readonly property real comboHeight: height * 0.6
-    readonly property real vuHeight: height * 0.1
+    readonly property real vuHeight: height * 0.03
 
     delegate: Item {
         id: channelsRow
