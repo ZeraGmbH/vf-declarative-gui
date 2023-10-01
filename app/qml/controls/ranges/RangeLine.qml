@@ -16,8 +16,9 @@ ListView {
     boundsBehavior: Flickable.StopAtBounds
     orientation: ListView.Horizontal
 
-    readonly property real relativeHeaderHeight: 0.5
-    readonly property real relativeComboHeight: 1.2
+    // remaining height up to 1 -> vu
+    readonly property real headerHeight: height * 0.25
+    readonly property real comboHeight: height * 0.6
 
     delegate: Item {
         id: channelsRow
@@ -30,7 +31,7 @@ ListView {
             id: label
             anchors.left: parent.left
             anchors.top: parent.top
-            height: rowHeight * relativeHeaderHeight
+            height: headerHeight
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
             text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].ChannelName) + ":"
@@ -38,7 +39,7 @@ ListView {
         }
         VFComboBox {
             id: rangeCombo
-            height: rowHeight * relativeComboHeight
+            height: comboHeight
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: label.bottom
