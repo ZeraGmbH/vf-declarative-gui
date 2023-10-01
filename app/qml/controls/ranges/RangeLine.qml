@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
+import MeasChannelInfo 1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
 
@@ -20,7 +21,6 @@ ListView {
 
     readonly property real relativeHeaderHeight: 0.5
     readonly property real relativeComboHeight: 1.2
-    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
     delegate: Item {
         id: channelsRow
@@ -37,7 +37,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
             text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].ChannelName) + ":"
-            color: FT.getColorByIndex(channelsRow.channelNo, root.groupingActive)
+            color: FT.getColorByIndex(channelsRow.channelNo, MeasChannelInfo.rangeGroupingActive)
         }
         VFComboBox {
             id: rangeCombo
@@ -76,16 +76,16 @@ ListView {
 
             readonly property real preScale: {
                 if(channelsRow.channelNo <= 3)
-                    return root.rangeModule[`INF_PreScalingInfoGroup0`];
+                    return MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup0`];
                 else if(channelsRow.channelNo <= 6)
-                    return root.rangeModule[`INF_PreScalingInfoGroup1`];
+                    return MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup1`];
                 return 1;
             }
             // TODO:
             // * DC displays too small values: peak / sqrt2
             // * Don't hardcode overshoot
-            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
-            actual: Number(rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
+            nominal: Math.SQRT2 * Number(MeasChannelInfo.rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
+            actual: Number(MeasChannelInfo.rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
             overshootFactor: 1.25
         }
     }
