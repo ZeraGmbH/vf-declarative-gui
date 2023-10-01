@@ -85,6 +85,11 @@ ListView {
             nominal: Math.SQRT2 * Number(MeasChannelInfo.rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
             actual: Number(MeasChannelInfo.rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
             overshootFactor: 1.25
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: rangeCombo.openDropList()
+            }
         }
     }
 }
