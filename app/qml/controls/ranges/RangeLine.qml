@@ -17,7 +17,7 @@ ListView {
     orientation: ListView.Horizontal
 
     // remaining height up to 1 -> vu
-    readonly property real headerHeight: height * 0.25
+    readonly property real headerHeight: height * 0.2
     readonly property real comboHeight: height * 0.6
 
     delegate: Item {
