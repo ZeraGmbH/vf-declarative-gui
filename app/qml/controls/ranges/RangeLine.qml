@@ -1,14 +1,12 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
-import QtQuick.Controls.Material 2.14
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
-import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import MeasChannelInfo 1.0
-import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
+import ZeraVeinComponents 1.0
 
 ListView {
     id: ranges
@@ -17,14 +15,13 @@ ListView {
 
     boundsBehavior: Flickable.StopAtBounds
     orientation: ListView.Horizontal
-    spacing: frameMargin
 
     readonly property real relativeHeaderHeight: 0.5
     readonly property real relativeComboHeight: 1.2
 
     delegate: Item {
         id: channelsRow
-        width: (ranges.width - (channels.length-1)*frameMargin) / channels.length
+        width: (ranges.width - (channels.length-1)*spacing) / channels.length
         height: ranges.height
         readonly property int channelNo: channels[index]
         readonly property string parChannelRange: "PAR_Channel"+parseInt(channelNo)+"Range"
