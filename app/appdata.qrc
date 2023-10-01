@@ -44,9 +44,6 @@
         <file>qml/controls/logger/LoggerSettings.qml</file>
         <file>qml/controls/logger/LoggerSettingsStack.qml</file>
         <file>qml/controls/logger/MountedDrivesCombo.qml</file>
-        <file>qml/controls/range_module/RangeIndicator.qml</file>
-        <file>qml/controls/range_module/RangeMenu.qml</file>
-        <file>qml/controls/range_module/RangePeak.qml</file>
         <file>qml/controls/settings/ColorPicker.qml</file>
         <file>qml/controls/settings/DefaultColorPopup.qml</file>
         <file>qml/controls/settings/SerialSettings.qml</file>
@@ -99,8 +96,11 @@
         <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
         <file>qml/controls/range_module/RangeView.qml</file>
-        <file>qml/controls/range_module/RangeMModePage.qml</file>
-        <file>qml/controls/range_module/RangeLine.qml</file>
+        <file>qml/controls/range_module/RangeMenu.qml</file>
+        <file>qml/controls/range_module/RangePeak.qml</file>
+        <file>qml/controls/ranges/RangeMModePage.qml</file>
+        <file>qml/controls/ranges/RangeLine.qml</file>
+        <file>qml/controls/ranges/RangeIndicator.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>staticdata/resources/MeterPrim.gif</file>
