@@ -16,9 +16,9 @@ ListView {
     boundsBehavior: Flickable.StopAtBounds
     orientation: ListView.Horizontal
 
-    // remaining height up to 1 -> vu
     readonly property real headerHeight: height * 0.2
     readonly property real comboHeight: height * 0.6
+    readonly property real vuHeight: height * 0.1
 
     delegate: Item {
         id: channelsRow
@@ -43,6 +43,7 @@ ListView {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: label.bottom
+            pointSize: root.pointSize
 
             // To flash once only we set model only on content change
             // because metadata is JSON and that reports change on all channels
@@ -66,7 +67,7 @@ ListView {
         }
         SimpleAndCheapVu {
             anchors.top : rangeCombo.bottom
-            anchors.bottom: parent.bottom
+            height: vuHeight
             anchors.left: parent.left
             anchors.right: parent.right
 

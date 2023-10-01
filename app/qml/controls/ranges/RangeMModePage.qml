@@ -16,7 +16,7 @@ Item {
     readonly property real rowHeight: height / rowCount
     readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.325 : 10
     readonly property real upperAreaHeight: rowHeight*2
-    readonly property real leftWidth: root.width * 3 / 4
+    readonly property real leftWidth: root.width * 0.8
     readonly property real frameMargin: rowHeight * 0.3
 
     GridRect {
@@ -28,7 +28,8 @@ Item {
         Item {
             id: rangeAutomaticLine
             anchors.top: parent.top
-            width: parent.width
+            anchors.left: parent.left
+            width: leftWidth * 0.5
             height: rowHeight
             Label {
                 text: Z.tr("Range automatic:")
@@ -50,7 +51,8 @@ Item {
         }
         Item {
             anchors.top: rangeAutomaticLine.bottom
-            width: parent.width
+            anchors.left: parent.left
+            width: leftWidth * 0.5
             height: rowHeight
             Label {
                 text: Z.tr("Range grouping:")
@@ -70,22 +72,16 @@ Item {
                 controlPropertyName: "PAR_ChannelGrouping"
             }
         }
-
-    }
-    GridRect {
-        id: upperAreaRight
-        anchors.top: parent.top
-        height: upperAreaHeight
-        anchors.left: upperAreaLeft.right
-        anchors.right: parent.right
         OverloadButton {
-            anchors.left: parent.left
+            id: overloadButton
+            anchors.left: rangeAutomaticLine.right
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: frameMargin
             height: rowHeight
             font.pointSize: pointSize
         }
+
     }
 
     GridRect {
@@ -127,14 +123,38 @@ Item {
             }
         }
     }
+
     GridRect {
-        id: lowerAreaRight
-        anchors.top: upperAreaLeft.bottom
+        id: areaRight
+        anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.left: lowerAreaLeft.right
+        anchors.left: upperAreaLeft.right
         anchors.right: parent.right
+        Item {
+            id: upperAreaRight
+            anchors.top: parent.top
+            height: upperAreaHeight
+            anchors.left: parent.left
+            anchors.right: parent.right
+            Label {
+                text: Z.tr("Measurement modes:")
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: rowHeight*2
+                wrapMode: Label.WordWrap
+                anchors.margins: frameMargin
+                verticalAlignment: Label.AlignBottom
+                font.pointSize: pointSize
+            }
+        }
+
         ListView {
-            anchors.fill: parent
+            id: lowerAreaRight
+            anchors.top: upperAreaRight.bottom
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.margins: frameMargin
             model: VeinEntity.hasEntity("POWER1Module4") ? 4 : 3
             delegate: Item {
@@ -177,6 +197,7 @@ Item {
                     anchors.top: mmodeLabel.bottom
                     height: mmodeEntry.comboHeight
                     power1ModuleIdx: index
+                    pointSize: root.pointSize
                 }
             }
         }
