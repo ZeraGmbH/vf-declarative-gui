@@ -106,6 +106,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
+                spacing: frameMargin
                 channels: MeasChannelInfo.voltageChannelIds
             }
         }
@@ -121,6 +122,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
+                spacing: frameMargin
                 channels: MeasChannelInfo.currentChannelIds
             }
         }
