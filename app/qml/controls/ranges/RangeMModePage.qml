@@ -179,7 +179,9 @@ Item {
                             labelText = VeinEntity.getEntity("POWER1Module3").ACT_PowerDisplayName
                             break
                         case 3:
-                            labelText =  Z.tr("Ext.")
+                            let power4Name = VeinEntity.getEntity("POWER1Module4").ACT_PowerDisplayName
+                            let power4NameColored = "<font color='" + "lawngreen" + "'>" + power4Name + "</font>"
+                            labelText = String("P/Q/S").replace(power4Name, power4NameColored)
                             break
                         }
                         return labelText + ":"
