@@ -3,6 +3,7 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
+import MeasChannelInfo 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import VeinEntity 1.0
@@ -19,11 +20,9 @@ Item {
     readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.325 : 10
     readonly property real upperAreaHeight: rowHeight*2
     readonly property real leftWidth: root.width * 3 / 4
-
-    readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-    readonly property bool groupingActive: groupingMode.checked
     readonly property real frameMargin: rowHeight * 0.3
+
+    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
     GridRect {
         id: upperAreaLeft
@@ -112,10 +111,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
-                // TODO:
-                // * Less Naive approach
-                // * COM5003 REF
-                channels: channelCount >= 7 ? [1,2,3,7] : [1,2,3]
+                channels: MeasChannelInfo.voltageChannelIds
             }
         }
         GridRect {
@@ -130,10 +126,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
-                // TODO:
-                // * Less Naive approach
-                // * COM5003 REF
-                channels: channelCount >= 8 ? [4,5,6,8] : [4,5,6]
+                channels: MeasChannelInfo.currentChannelIds
             }
         }
     }

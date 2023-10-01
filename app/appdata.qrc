@@ -81,6 +81,7 @@
         <file>qml/singletons/AdjustmentState.qml</file>
         <file>qml/singletons/FunctionTools.qml</file>
         <file>qml/singletons/GlobalConfig.qml</file>
+        <file>qml/singletons/MeasChannelInfo.qml</file>
         <file>qml/singletons/ModuleIntrospection.qml</file>
         <file>qml/singletons/PowerModuleVeinGetter.qml</file>
         <file>qml/singletons/SchnubbelState.qml</file>
