@@ -7,6 +7,7 @@ import ZeraTranslation  1.0
 import VeinEntity 1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
+import FontAwesomeQml 1.0
 import "../../controls"
 
 Item {
@@ -174,6 +175,11 @@ Item {
                     readonly property real comboHeight: height * 0.6
                     Label {
                         id: mmodeLabel
+                        height: mmodeEntry.headerHeight
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        verticalAlignment: Label.AlignBottom
+                        font.pointSize: pointSize
                         text: {
                             let labelText = ""
                             switch(index) {
@@ -194,11 +200,16 @@ Item {
                             }
                             return labelText + ":"
                         }
-                        height: mmodeEntry.headerHeight
-                        anchors.left: parent.left
+                    }
+                    Label {
+                        id: labelBnc
+                        anchors.right: parent.right
                         anchors.top: parent.top
-                        verticalAlignment: Label.AlignBottom
+                        height: headerHeight
                         font.pointSize: pointSize
+                        verticalAlignment: Label.AlignBottom
+                        text: FAQ.fa_dot_circle
+                        visible: measModeCombo.entity.PAR_FOUT0 !== ""
                     }
                     MeasModeCombo {
                         id: measModeCombo
