@@ -10,6 +10,7 @@ import ZeraVeinComponents 1.0
 import TableEventDistributor 1.0
 import SortFilterProxyModel 0.2
 import "../controls"
+import "../controls/measurement_modes"
 
 Item {
     id: root

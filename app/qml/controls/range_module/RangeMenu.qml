@@ -12,6 +12,7 @@ import ZeraComponents 1.0
 import QtQml.Models 2.11
 import "../ranges"
 import "../../controls"
+import "../../controls/measurement_modes"
 
 Item {
     id: root
