@@ -212,20 +212,18 @@ Item {
             return num;
         if(isNaN(num))
             return "----";
-        else {
-            let dec = _decimalPlaces
-            let leadDigits = Math.floor(Math.abs(num)).toString()
-            // leading zero is not a digit
-            if(leadDigits === '0')
-                leadDigits  = ''
-            let preDecimals = leadDigits.length
-            if(dec + preDecimals > _digitsTotal) {
-                dec = _digitsTotal - preDecimals
-                if(dec < 0)
-                    dec = 0
-            }
-            return Number(num).toLocaleString(ZLocale.locale, 'f', dec)
+        let dec = _decimalPlaces
+        let leadDigits = Math.floor(Math.abs(num)).toString()
+        // leading zero is not a digit
+        if(leadDigits === '0')
+            leadDigits  = ''
+        let preDecimals = leadDigits.length
+        if(dec + preDecimals > _digitsTotal) {
+            dec = _digitsTotal - preDecimals
+            if(dec < 0)
+                dec = 0
         }
+        return Number(num).toLocaleString(ZLocale.locale, 'f', dec)
     }
     function formatNumberParam(num, _digitsTotal, _decimalPlaces) {
         let formatted = formatNumberParamForScaledValues(num, _digitsTotal, _decimalPlaces)
