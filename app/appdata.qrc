@@ -9,9 +9,6 @@
         <file>qml/controls/FpsItem.qml</file>
         <file>qml/controls/GridItem.qml</file>
         <file>qml/controls/GridRect.qml</file>
-        <file>qml/controls/MeasModeCombo.qml</file>
-        <file>qml/controls/MeasModeComboHeader.qml</file>
-        <file>qml/controls/MeasModeComboHeaderPhase.qml</file>
         <file>qml/controls/PagePathView.qml</file>
         <file>qml/controls/RotaryFieldIndicator.qml</file>
         <file>qml/controls/PhasorDiagramEx.qml</file>
@@ -44,6 +41,10 @@
         <file>qml/controls/logger/LoggerSettings.qml</file>
         <file>qml/controls/logger/LoggerSettingsStack.qml</file>
         <file>qml/controls/logger/MountedDrivesCombo.qml</file>
+        <file>qml/controls/measurement_modes/MeasModeCombo.qml</file>
+        <file>qml/controls/measurement_modes/MeasModeComboHeader.qml</file>
+        <file>qml/controls/measurement_modes/MeasModeComboHeaderPhase.qml</file>
+        <file>qml/controls/measurement_modes/MeasModeComboListView.qml</file>
         <file>qml/controls/settings/ColorPicker.qml</file>
         <file>qml/controls/settings/DefaultColorPopup.qml</file>
         <file>qml/controls/settings/SerialSettings.qml</file>
