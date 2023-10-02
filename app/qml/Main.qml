@@ -36,6 +36,7 @@ ApplicationWindow {
 
     readonly property bool dcSession : String(currentSession).includes('dc-session')
     readonly property bool emobSession : String(currentSession).includes('emob-session')
+    readonly property bool refSession : String(currentSession).includes('ref-session')
     readonly property bool demoSession: String(currentSession).includes('demo-session')
 
     visible: true
@@ -295,8 +296,10 @@ ApplicationWindow {
         Component {
             id: rangePeak
             Item {
+                /*RangeMModePage {
+                    showMeasModes: !refSession
+                    enableRangeAutomaticAndGrouping: !refSession*/
                 RangeMenu {
-                //RangeMModePage {
                     id: rangeMenu
                     anchors.fill: parent
                 }
