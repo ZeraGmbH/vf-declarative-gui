@@ -23,6 +23,8 @@ Item {
     readonly property real leftWidth: root.width * (showMeasModes ? 0.8 : 1)
     readonly property real frameMargin: rowHeight * 0.3
 
+    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
+
     GridRect {
         id: upperAreaLeft
         anchors.top: parent.top
@@ -48,7 +50,7 @@ Item {
                 id: autoMode
                 anchors.right: parent.right
                 height: rowHeight
-                entity: MeasChannelInfo.rangeModule
+                entity: rangeModule
                 enabled: enableRangeAutomaticAndGrouping
                 controlPropertyName: "PAR_RangeAutomatic"
             }
@@ -71,7 +73,7 @@ Item {
                 id: groupingMode
                 anchors.right: parent.right
                 height: rowHeight
-                entity: MeasChannelInfo.rangeModule
+                entity: rangeModule
                 enabled: enableRangeAutomaticAndGrouping
                 controlPropertyName: "PAR_ChannelGrouping"
             }
