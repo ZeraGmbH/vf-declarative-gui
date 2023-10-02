@@ -51,7 +51,6 @@ ListView {
             entity: VeinEntity.getEntity("RangeModule1")
             controlPropertyName: "PAR_Channel"+parseInt(modelData+1)+"Range"
             contentMaxRows: 5
-            centerVertical: true
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: label.bottom

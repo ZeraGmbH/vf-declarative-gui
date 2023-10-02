@@ -489,7 +489,6 @@ Item {
                                     ZComboBox {
                                         anchors.fill: parent
                                         arrayMode: true
-                                        centerVertical: true
                                         model: [Z.tr('none')]
                                         textColor: GC.currentColorTable[uiType === 'U' ?
                                                                             modelData.colorIndexU :
@@ -748,7 +747,6 @@ Item {
                 anchors.right: parent.right
                 width: phasorViewPopup.width - phasorViewPopup.labelWidth
                 anchors.bottom: parent.bottom
-                centerVertical: true
                 arrayMode: true
                 model: ["U  PN", "U  △", "U  ∠"]
                 targetIndex: GC.vectorMode
@@ -1163,7 +1161,6 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 arrayMode: true
-                centerVertical: true
                 model: jsonParamInfo.Frequency.zj_params.type.list
                 readonly property bool varSelected: currentText === "var"
                 currentIndex: model.indexOf(declarativeJsonItem.Frequency.type)

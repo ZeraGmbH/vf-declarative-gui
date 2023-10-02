@@ -300,7 +300,6 @@ Item {
         anchors.rightMargin: horizMarign
         height: root.height/10
         width: comboWidth
-        centerVertical: true
 
         targetIndex: GC.vectorCircleMode
         onTargetIndexChanged: {
