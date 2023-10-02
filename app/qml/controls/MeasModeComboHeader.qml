@@ -7,6 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import FontAwesomeQml 1.0
 
 Rectangle {
     id: root
@@ -28,8 +29,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 8
         Text {
-            text: Z.tr("Out:")
-            font.bold: true
+            text: FAQ.fa_dot_circle + "<b>:</b>"
             font.pointSize: pointSize
         }
         Text {
