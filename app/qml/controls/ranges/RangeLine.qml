@@ -74,11 +74,13 @@ ListView {
             horizontal: true
 
             readonly property real preScale: {
+                let ret = 1.0
+                // maybe I am missing something but scale from range module is 1/scale here...
                 if(channelsRow.channelNo <= 3)
-                    return MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup0`];
+                    ret = 1 / MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup0`]
                 else if(channelsRow.channelNo <= 6)
-                    return MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup1`];
-                return 1;
+                    ret = 1 / MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup1`]
+                return ret
             }
             // TODO:
             // * DC displays too small values: peak / sqrt2
