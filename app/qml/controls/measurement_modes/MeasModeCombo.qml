@@ -15,9 +15,6 @@ VFComboBox {
     model: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx).ComponentInfo[controlPropertyName].Validation.Data
     arrayMode: true
     fadeOutOnClose: true
-    centerVerticalOffset: -contentRowHeight*(Math.min(modelLength-1, contentMaxRows-1)) +
-                          (height-contentRowHeight) -
-                          headerItem.height
     contentMaxRows: 6
     contentRowHeight: height*0.85
     headerComponent: Column {

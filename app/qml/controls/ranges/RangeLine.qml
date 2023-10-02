@@ -47,7 +47,6 @@ ListView {
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
             contentMaxRows: 5
-            centerVertical: true
 
             // To flash once only we set model only on content change
             // because metadata is JSON and that reports change on all channels
