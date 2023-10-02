@@ -19,6 +19,7 @@ ListView {
     readonly property real headerHeight: height * 0.2
     readonly property real comboHeight: height * 0.6
     readonly property real vuHeight: height * 0.1
+    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
     delegate: Item {
         id: channelsRow
@@ -62,7 +63,7 @@ ListView {
             }
 
             arrayMode: true
-            entity: VeinEntity.getEntity("RangeModule1")
+            entity: rangeModule
             controlPropertyName: parChannelRange
         }
         SimpleAndCheapVu {
@@ -77,16 +78,16 @@ ListView {
                 let ret = 1.0
                 // maybe I am missing something but scale from range module is 1/scale here...
                 if(channelsRow.channelNo <= 3)
-                    ret = 1 / MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup0`]
+                    ret = 1 / rangeModule[`INF_PreScalingInfoGroup0`]
                 else if(channelsRow.channelNo <= 6)
-                    ret = 1 / MeasChannelInfo.rangeModule[`INF_PreScalingInfoGroup1`]
+                    ret = 1 / rangeModule[`INF_PreScalingInfoGroup1`]
                 return ret
             }
             // TODO:
             // * DC displays too small values: peak / sqrt2
             // * Don't hardcode overshoot
-            nominal: Math.SQRT2 * Number(MeasChannelInfo.rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
-            actual: Number(MeasChannelInfo.rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
+            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
+            actual: Number(rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
             overshootFactor: 1.25
 
             MouseArea {
