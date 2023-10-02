@@ -14,6 +14,7 @@ Item {
     id: root
 
     property bool showMeasModes: true
+    property bool enableRangeAutomaticAndGrouping: true
 
     readonly property int rowCount: 10
     readonly property real rowHeight: height / rowCount
@@ -41,14 +42,14 @@ Item {
                 verticalAlignment: Label.AlignVCenter
                 height: rowHeight
                 font.pointSize: pointSize
-                color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
+                color: enableRangeAutomaticAndGrouping ? Material.primaryTextColor : Material.hintTextColor
             }
             VFSwitch {
                 id: autoMode
                 anchors.right: parent.right
                 height: rowHeight
                 entity: MeasChannelInfo.rangeModule
-                enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
+                enabled: enableRangeAutomaticAndGrouping
                 controlPropertyName: "PAR_RangeAutomatic"
             }
         }
@@ -64,14 +65,14 @@ Item {
                 verticalAlignment: Label.AlignVCenter
                 height: rowHeight
                 font.pointSize: pointSize
-                color: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json" ? Material.primaryTextColor : Material.hintTextColor
+                color: enableRangeAutomaticAndGrouping ? Material.primaryTextColor : Material.hintTextColor
             }
             VFSwitch {
                 id: groupingMode
                 anchors.right: parent.right
                 height: rowHeight
                 entity: MeasChannelInfo.rangeModule
-                enabled: VeinEntity.getEntity("_System").Session !== "com5003-ref-session.json"
+                enabled: enableRangeAutomaticAndGrouping
                 controlPropertyName: "PAR_ChannelGrouping"
             }
         }
