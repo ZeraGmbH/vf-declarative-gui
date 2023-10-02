@@ -44,6 +44,9 @@ ListView {
             anchors.right: parent.right
             anchors.top: label.bottom
             pointSize: root.pointSize
+            enabled: !MeasChannelInfo.rangeAutoActive
+            contentMaxRows: 5
+            centerVertical: true
 
             // To flash once only we set model only on content change
             // because metadata is JSON and that reports change on all channels
@@ -61,9 +64,6 @@ ListView {
             arrayMode: true
             entity: VeinEntity.getEntity("RangeModule1")
             controlPropertyName: parChannelRange
-            contentMaxRows: 5
-            centerVertical: true
-            enabled: true // TODO
         }
         SimpleAndCheapVu {
             anchors.top : rangeCombo.bottom
