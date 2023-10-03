@@ -16,18 +16,17 @@ VFComboBox {
     arrayMode: true
     fadeOutOnClose: true
     contentMaxRows: 6
-    contentRowHeight: height*0.85
     headerComponent: Column {
         height: comboHeader.height + comboHeaderPhase.height
         MeasModeComboHeader {
             id: comboHeader
-            visibleHeight: contentRowHeight * 1.75
+            visibleHeight: root.height * 1.75
             entity: root.entity
             entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
         }
         MeasModeComboHeaderPhase {
             id: comboHeaderPhase
-            visibleHeight: contentRowHeight * 0.9
+            visibleHeight: root.height
             entity: root.entity
         }
     }
