@@ -10,12 +10,16 @@ Item {
     property int prescalingGroup
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
+    RatioPopup {
+        id: ratioPopup
+
+    }
+
     Label {
         id: ratioLabel
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.right: ratioButton.left
-        anchors.rightMargin: frameMargin
+        anchors.left: parent.left
         readonly property string prescalingComponentName: "PAR_PreScalingGroup" + prescalingGroup
         readonly property bool prescalingActive: rangeModule["PAR_PreScalingEnabledGroup" + prescalingGroup]
         readonly property var nominatorDenominator: rangeModule[prescalingComponentName].split("*")[0].split("/")
@@ -52,5 +56,6 @@ Item {
         width: height
         text: FAQ.fa_edit
         font.pointSize: pointSize
+        onClicked: ratioPopup.open()
     }
 }
