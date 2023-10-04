@@ -104,6 +104,7 @@ Item {
             anchors.top: parent.top
             height: lowerAreaLeft.height * 0.5
             RangeLine {
+                id: uRangeLine
                 anchors.top: parent.top
                 height: rowHeight * 2
                 anchors.left: parent.left
@@ -111,6 +112,15 @@ Item {
                 anchors.margins: frameMargin
                 spacing: frameMargin
                 channels: MeasChannelInfo.voltageChannelIds
+            }
+            RatioLine {
+                anchors.top: uRangeLine.bottom
+                height: rowHeight
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: frameMargin
+                anchors.topMargin: 1.5*frameMargin
+                prescalingGroup: 0
             }
         }
         GridRect {
@@ -120,6 +130,7 @@ Item {
             anchors.top: uArea.bottom
             height: lowerAreaLeft.height * 0.5
             RangeLine {
+                id: iRangeLine
                 anchors.top: parent.top
                 height: rowHeight * 2
                 anchors.left: parent.left
@@ -127,6 +138,15 @@ Item {
                 anchors.margins: frameMargin
                 spacing: frameMargin
                 channels: MeasChannelInfo.currentChannelIds
+            }
+            RatioLine {
+                anchors.top: iRangeLine.bottom
+                height: rowHeight
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: frameMargin
+                anchors.topMargin: 1.55*frameMargin
+                prescalingGroup: 1
             }
         }
     }

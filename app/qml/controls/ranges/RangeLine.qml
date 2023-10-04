@@ -3,7 +3,7 @@ import QtQuick.Controls 2.14
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import FunctionTools 1.0
-import ZeraTranslation  1.0
+import ZeraTranslation 1.0
 import MeasChannelInfo 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
