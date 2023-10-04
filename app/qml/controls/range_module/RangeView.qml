@@ -4,7 +4,6 @@ import VeinEntity 1.0
 import QtQuick.Controls.Material 2.0
 import QtGraphicalEffects 1.0
 import ModuleIntrospection 1.0
-//import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
@@ -56,6 +55,7 @@ ListView {
             anchors.top: label.bottom
             width: parent.width*0.95
             enabled: parent.enabled
+            pointSize: root.pointSize
         }
     }
 }

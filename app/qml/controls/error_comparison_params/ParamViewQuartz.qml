@@ -65,8 +65,7 @@ Item {
 
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                contentRowHeight: height*GC.standardComboContentScale
+                pointSize: root.pointSize
             }
         }
         Rectangle {

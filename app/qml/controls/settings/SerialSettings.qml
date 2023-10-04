@@ -65,7 +65,6 @@ Item {
             ZComboBox {
                 id: comboConnectionType
                 arrayMode: true
-                centerVertical: true
                 Layout.preferredWidth: root.width * 0.32
                 Layout.preferredHeight: rowHeight-8
 

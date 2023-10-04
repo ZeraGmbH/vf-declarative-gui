@@ -60,10 +60,10 @@ SettingsView {
                 entity: VeinEntity.getEntity("SampleModule1")
                 controlPropertyName: "PAR_PllChannel"
                 model: ModuleIntrospection.sampleIntrospection.ComponentInfo.PAR_PllChannel.Validation.Data
-                centerVertical: true
                 Layout.preferredWidth: root.rowWidth/4
                 Layout.preferredHeight: root.rowHeight*0.9
                 opacity: enabled ? 1.0 : 0.7
+                pointSize: root.pointSize
             }
         }
     }
@@ -93,10 +93,10 @@ SettingsView {
                 entity: VeinEntity.getEntity("DFTModule1")
                 controlPropertyName: "PAR_RefChannel"
                 model: ModuleIntrospection.dftIntrospection.ComponentInfo.PAR_RefChannel.Validation.Data
-                centerVertical: true
                 Layout.preferredWidth: root.rowWidth/4
                 Layout.preferredHeight: root.rowHeight*0.9
                 opacity: enabled ? 1.0 : 0.7
+                pointSize: root.pointSize
             }
         }
     }
