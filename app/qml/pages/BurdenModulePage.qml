@@ -164,7 +164,6 @@ BaseTabPage {
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
                             width: page.width*0.09;
-                            contentRowHeight: height*1.2
                             visible: page.isVoltagePage
                             model: {
                                 if(page.isVoltagePage)

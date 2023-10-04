@@ -61,7 +61,6 @@ SettingsView {
                 imageModel: Z.tr("TRANSLATION_FLAGS")
                 Layout.preferredHeight: root.rowHeight * 0.9
                 Layout.preferredWidth: Layout.preferredHeight*2.5
-                contentRowHeight: Layout.preferredHeight*1.2
                 property string intermediate: ZLocale.localeName
 
                 onIntermediateChanged: {
