@@ -66,8 +66,6 @@ Popup {
                         anchors.right: csEdit.left
                         model: ["PRIM", "SEC"]
                         arrayMode: true
-                        popup.z: 1
-                        focus: true
                         automaticIndexChange: true
                         currentIndex: {
                             if(secEntity["PAR_DutTypeMeasurePoint"].includes("Cp")){
@@ -115,9 +113,8 @@ Popup {
                         model: validatorDutConstUnit.Data;
                         anchors.right: parent.right
                         width: comboBoxWidth
-                        popup.z:1
                         height: propertieModel.rowHeight
-                        contentRowHeight: height*GC.standardComboContentScale
+                        pointSize: root.pointSize
                     }
                 }
 
@@ -213,11 +210,9 @@ Popup {
                                 height: propertieModel.rowHeight
                                 anchors.right: parent.right
                                 width: comboBoxWidth
-                                contentRowHeight: height*1.2
                                 model: ["","/sqrt(3)"]
                                 imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
                                 automaticIndexChange: true
-                                popup.z: 1
                                 currentIndex:{
                                     if(secEntity.PAR_DutConstantUScaleDenom.includes("/sqrt(3)")){
                                         return 1;
@@ -254,11 +249,9 @@ Popup {
                                 height: propertieModel.rowHeight
                                 anchors.right: parent.right
                                 width: comboBoxWidth
-                                contentRowHeight: height*1.2
                                 model: ["","/sqrt(3)"]
                                 imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
                                 automaticIndexChange: true
-                                popup.z: 1
                                 currentIndex:{
                                     if(secEntity.PAR_DutConstantUScaleNum.includes("/sqrt(3)")){
                                         return 1;
@@ -270,13 +263,9 @@ Popup {
                                 }
                             }
                         }
-
                     }
-
                 }
-
             }
-
 
 
             ListView{

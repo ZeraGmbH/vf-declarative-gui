@@ -62,7 +62,6 @@ Item {
             }
             VFComboBox {
                 id: cbRefInput
-
                 arrayMode: true
 
                 entity: logicalParent.errCalEntity
@@ -71,13 +70,9 @@ Item {
 
                 x: parent.width*col1Width
                 width: parent.width*col2Width - GC.standardMarginWithMin
-
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                currentIndex: 0
-                contentRowHeight: height*GC.standardComboContentScale
-
+                pointSize: root.pointSize
             }
             VFComboBox {
                 id: cbRefMeasMode
@@ -105,11 +100,9 @@ Item {
 
                 anchors.right: parent.right
                 width: parent.width*col3Width
-
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                contentRowHeight: height*GC.standardComboContentScale
+                pointSize: root.pointSize
             }
         }
         Rectangle {
@@ -129,7 +122,6 @@ Item {
             }
             VFComboBox {
                 id: cbMode
-
                 arrayMode: true
 
                 entity: logicalParent.errCalEntity
@@ -139,12 +131,9 @@ Item {
 
                 x: parent.width*col1Width
                 width: parent.width*col2Width-GC.standardMarginWithMin
-
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                currentIndex: 0
-                contentRowHeight: height*GC.standardComboContentScale
+                pointSize: root.pointSize
             }
         }
         Rectangle {
@@ -268,9 +257,9 @@ Item {
 
                 height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
-                contentRowHeight: height*0.5*GC.standardComboContentScale
                 anchors.right: parent.right
                 width: parent.width*col3Width
+                pointSize: root.pointSize
             }
         }
         Rectangle {

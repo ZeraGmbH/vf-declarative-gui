@@ -78,11 +78,9 @@ Item {
 
                 x: parent.width*col1Width
                 width: parent.width*col2Width - GC.standardMarginWithMin
-
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                contentRowHeight: height*GC.standardComboContentScale
+                pointSize: root.pointSize
             }
 
             VFComboBox {
@@ -93,28 +91,23 @@ Item {
                     return Z.tr(text)
                 }
                 model: {
-                    if(usePower2) {
+                    if(usePower2)
                         return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    }
                     let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
                     return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
                 }
-
                 entity: {
-                    if(usePower2) {
+                    if(usePower2)
                         return root.p2m1
-                    }
                     let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
                     return PwrModVeinGetter.getEntity(moduleNo)
                 }
 
                 anchors.right: parent.right
                 width: parent.width*col3Width
-
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                contentRowHeight: height*GC.standardComboContentScale
+                pointSize: root.pointSize
             }
         }
         Rectangle {
@@ -142,11 +135,9 @@ Item {
 
                 x: parent.width*col1Width
                 width: parent.width*col2Width-GC.standardMarginWithMin
-
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                contentRowHeight: height*GC.standardComboContentScale
+                pointSize: root.pointSize
             }
         }
         Rectangle {
@@ -247,8 +238,7 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
                 width: parent.width*col3Width
-
-                contentRowHeight: height*GC.standardComboContentScale
+                pointSize: root.pointSize
             }
         }
         Loader {
@@ -348,8 +338,8 @@ Item {
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     width: parent.width*col3Width
+                    pointSize: root.pointSize
 
-                    contentRowHeight: height*GC.standardComboContentScale
                     onCurrentFactorChanged: {
                         // Hmm unitCombo does not fire onCurrentIndexChanged so use onCurrentFactorChanged...
                         GC.setEnergyScaleSelection(targetIndex)
