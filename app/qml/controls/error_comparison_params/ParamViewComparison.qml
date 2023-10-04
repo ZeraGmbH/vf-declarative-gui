@@ -204,10 +204,7 @@ Item {
                  focus: true
                  visible: false
                  closePolicy: Popup.NoAutoClose
-                 z: 1
-             }
-
-
+            }
 
             VFLineEdit {
                 entity: logicalParent.errCalEntity

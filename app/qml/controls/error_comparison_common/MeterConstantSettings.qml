@@ -17,7 +17,7 @@ Popup {
     property QtObject secEntity: VeinEntity.getEntity("SEC1Module1")
     readonly property real pointSize: height > 0.0 ? height/30 : 10
     property int newConst: secEntity["PAR_DutConstant"]
-    readonly property int comboBoxWidth : 80
+    readonly property int comboBoxWidth : root.width * 0.12
 
     function setDefault(){
         secEntity["PAR_DutTypeMeasurePoint"]="CsIsUs"
@@ -27,9 +27,7 @@ Popup {
         secEntity["PAR_DutConstantUScaleDenom"]="1"
     }
 
-
-
-        Item{
+        Item {
             id: page1
             anchors.top: parent.top
             anchors.left: parent.left
@@ -67,6 +65,7 @@ Popup {
                         model: ["PRIM", "SEC"]
                         arrayMode: true
                         automaticIndexChange: true
+                        pointSize: root.pointSize
                         currentIndex: {
                             if(secEntity["PAR_DutTypeMeasurePoint"].includes("Cp")){
                                     return 0;
