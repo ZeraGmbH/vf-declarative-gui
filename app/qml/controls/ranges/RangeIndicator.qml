@@ -88,10 +88,10 @@ Loader {
                     opacity: (overload || preScale) ? 1.0 : 0.2
                     color:  {
                         if(overload)
-                            return Material.color(Material.Yellow);
+                            return Material.color(Material.Yellow)
                         if(preScale)
-                            return Material.color(Material.Amber);
-                        return Material.color(Material.Grey);
+                            return Qt.lighter(Material.color(Material.Amber))
+                        return Material.color(Material.Grey)
                     }
                 }
             }

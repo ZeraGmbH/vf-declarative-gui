@@ -15,9 +15,11 @@ Item {
     readonly property var groupValues: rangeModule[groupComponentName].split("*")[0].split("/")
     readonly property real ratioEditWidth: width * 0.15
     readonly property real sqrtComboWidth: width * 0.125
+    readonly property color enableTextColor: enableRatio.checked ? Qt.lighter(Material.color(Material.Amber)) : Material.foreground
     function setRatioValueComponents(nominator, denominator, sqrtText) {
         rangeModule[groupComponentName] = nominator + "/" + denominator + (hasSqrtFactor ? sqrtText : "")
     }
+
     VFSwitch{
         id: enableRatio
         anchors.left: parent.left
@@ -37,6 +39,7 @@ Item {
         pointSize: root.pointSize
 
         text: groupValues[0]
+        textField.color: enableTextColor
         validator: IntValidator{bottom: 1; top: 999999 }
         function doApplyInput(newText) {
             setRatioValueComponents(newText, editDenominator.text, sqrtComb.currentText)
@@ -57,6 +60,7 @@ Item {
         pointSize: root.pointSize
 
         text: groupValues[1]
+        textField.color: enableTextColor
         validator: IntValidator{bottom: 1; top: 999999 }
         function doApplyInput(newText) {
             setRatioValueComponents(editNominator.text, newText, sqrtComb.currentText)
