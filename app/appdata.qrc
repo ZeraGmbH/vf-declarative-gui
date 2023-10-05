@@ -105,7 +105,6 @@
         <file>qml/controls/ranges/RangeLine.qml</file>
         <file>qml/controls/ranges/RangeIndicator.qml</file>
         <file>qml/controls/ranges/RatioLine.qml</file>
-        <file>qml/controls/ranges/RatioPopup.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>staticdata/resources/MeterPrim.gif</file>

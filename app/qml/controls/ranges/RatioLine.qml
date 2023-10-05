@@ -10,11 +10,6 @@ Item {
     property int prescalingGroup
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
-    RatioPopup {
-        id: ratioPopup
-
-    }
-
     Label {
         id: ratioLabel
         anchors.top: parent.top
@@ -56,6 +51,6 @@ Item {
         width: height
         text: FAQ.fa_edit
         font.pointSize: pointSize
-        onClicked: ratioPopup.open()
+        //onClicked: ratioPopup.open()
     }
 }
