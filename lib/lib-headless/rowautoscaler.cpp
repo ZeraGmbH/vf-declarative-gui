@@ -37,6 +37,8 @@ RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double val)
 {
     double absVal = fabs(val);
     TSingleScaleResult singleResult;
+    if(scaleSingleValForPrefix(absVal, 1e15, "P", singleResult))
+        return singleResult;
     if(scaleSingleValForPrefix(absVal, 1e12, "T", singleResult))
         return singleResult;
     if(scaleSingleValForPrefix(absVal, 1e9, "G", singleResult))
