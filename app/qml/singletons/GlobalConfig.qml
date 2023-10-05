@@ -211,7 +211,6 @@ Item {
     readonly property real standardMarginWithMin: 1
     readonly property real standardTextHorizMargin: 8
     readonly property real standardTextBottomMargin: 8
-    readonly property real standardComboContentScale: 1.2
     property real vkeyboardHeight: 0
 
     /////////////////////////////////////////////////////////////////////////////
@@ -654,7 +653,6 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // Misc settings / status
 
-    readonly property string serverIpAddress: Settings.getOption("modulemanagerIp", "127.0.0.1");
     // not saved to settings
     property string currentSelectedStoragePath: "/home/operator/logger"; //default
 
