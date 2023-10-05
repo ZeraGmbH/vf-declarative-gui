@@ -70,16 +70,15 @@ ListView {
             height: vuHeight
             anchors.left: parent.left
             anchors.right: parent.right
-
             horizontal: true
 
             readonly property real preScale: {
                 let ret = 1.0
                 // maybe I am missing something but scale from range module is 1/scale here...
                 if(channelsRow.channelNo <= 3)
-                    ret = 1 / rangeModule[`INF_PreScalingInfoGroup0`]
+                    ret = 1 / rangeModule["INF_PreScalingInfoGroup0"]
                 else if(channelsRow.channelNo <= 6)
-                    ret = 1 / rangeModule[`INF_PreScalingInfoGroup1`]
+                    ret = 1 / rangeModule["INF_PreScalingInfoGroup1"]
                 return ret
             }
             // TODO:
