@@ -75,7 +75,7 @@ Item {
             width: parent.width
             height: rowHeight/3
             Label {
-                text: Z.tr("Range automatic:")
+                text: Z.tr("Range automatic") + ":"
                 anchors.left: parent.left
                 verticalAlignment: Label.AlignVCenter
                 anchors.verticalCenter: parent.verticalCenter
@@ -97,7 +97,7 @@ Item {
             width: leftList.width
             height: rowHeight
             Label {
-                text: Z.tr("Range grouping:")
+                text: Z.tr("Range grouping") + ":"
                 anchors.left: parent.left
                 verticalAlignment: Label.AlignVCenter
                 anchors.verticalCenter: parent.verticalCenter
