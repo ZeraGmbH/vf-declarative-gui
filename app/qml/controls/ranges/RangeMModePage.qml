@@ -38,19 +38,13 @@ Item {
             anchors.left: parent.left
             width: leftWidth * 0.5
             height: rowHeight
-            Label {
-                text: Z.tr("Range automatic:")
-                anchors.left: parent.left
-                anchors.leftMargin: frameMargin
-                verticalAlignment: Label.AlignVCenter
-                height: rowHeight
-                font.pointSize: pointSize
-                color: enableRangeAutomaticAndGrouping ? Material.primaryTextColor : Material.hintTextColor
-            }
             VFSwitch {
                 id: autoMode
+                text: Z.tr("Range automatic:")
+                anchors.left: parent.left
                 anchors.right: parent.right
                 height: rowHeight
+                font.pointSize: pointSize
                 entity: rangeModule
                 enabled: enableRangeAutomaticAndGrouping
                 controlPropertyName: "PAR_RangeAutomatic"
@@ -61,19 +55,13 @@ Item {
             anchors.left: parent.left
             width: leftWidth * 0.5
             height: rowHeight
-            Label {
-                text: Z.tr("Range grouping:")
-                anchors.left: parent.left
-                anchors.leftMargin: frameMargin
-                verticalAlignment: Label.AlignVCenter
-                height: rowHeight
-                font.pointSize: pointSize
-                color: enableRangeAutomaticAndGrouping ? Material.primaryTextColor : Material.hintTextColor
-            }
             VFSwitch {
                 id: groupingMode
+                text: Z.tr("Range grouping:")
+                anchors.left: parent.left
                 anchors.right: parent.right
                 height: rowHeight
+                font.pointSize: pointSize
                 entity: rangeModule
                 enabled: enableRangeAutomaticAndGrouping
                 controlPropertyName: "PAR_ChannelGrouping"
