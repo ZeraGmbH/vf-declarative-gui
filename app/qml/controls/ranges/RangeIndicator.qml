@@ -82,7 +82,7 @@ Loader {
                         if(overload)
                             return FAQ.fa_exclamation_triangle
                         if(preScale)
-                            return FAQ.fa_percent
+                            return FAQ.fa_anchor
                         return FAQ.fa_exclamation_triangle
                     }
                     opacity: (overload || preScale) ? 1.0 : 0.2
