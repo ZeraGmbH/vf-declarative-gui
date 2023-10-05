@@ -723,7 +723,6 @@ Item {
                 arrayMode: true
                 model: ["DIN410", "IEC387"]
                 targetIndex: GC.vectorIecMode
-                property bool popupOpened: popup.opened
                 onPopupOpenedChanged: {
                     if(!popupOpened) {
                         phasorViewPopup.close()
@@ -750,7 +749,6 @@ Item {
                 arrayMode: true
                 model: ["U  PN", "U  △", "U  ∠"]
                 targetIndex: GC.vectorMode
-                property bool popupOpened: popup.opened
                 onPopupOpenedChanged: {
                     if(!popupOpened) {
                         phasorViewPopup.close()
