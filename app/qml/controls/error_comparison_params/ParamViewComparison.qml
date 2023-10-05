@@ -100,7 +100,7 @@ Item {
                     if(usePower2)
                         return root.p2m1
                     let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                    return PwrModVeinGetter.getEntity(moduleNo)
+                    return PwrModVeinGetter.getPowerModuleEntity(moduleNo)
                 }
 
                 anchors.right: parent.right
