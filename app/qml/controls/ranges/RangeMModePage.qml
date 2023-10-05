@@ -107,7 +107,7 @@ Item {
                 anchors.top: uRangeLine.bottom
                 height: rowHeight
                 anchors.left: parent.left
-                width: leftWidth * 0.52
+                anchors.right: parent.right
                 anchors.margins: frameMargin
                 anchors.topMargin: 1.5*frameMargin
                 prescalingGroup: 0
@@ -133,7 +133,7 @@ Item {
                 anchors.top: iRangeLine.bottom
                 height: rowHeight
                 anchors.left: parent.left
-                width: leftWidth * 0.52
+                anchors.right: parent.right
                 anchors.margins: frameMargin
                 anchors.topMargin: 1.55*frameMargin
                 prescalingGroup: 1
