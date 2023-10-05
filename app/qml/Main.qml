@@ -77,9 +77,9 @@ ApplicationWindow {
             case 2:
                 height = 800;
                 break
-            default:
+            /*default:
                 height = Screen.height
-                break;
+                break;*/
             }
         }
         return height
