@@ -40,8 +40,9 @@ Item {
             height: rowHeight
             VFSwitch {
                 id: autoMode
-                text: Z.tr("Range automatic:")
+                text: Z.tr("Range automatic")
                 anchors.left: parent.left
+                anchors.leftMargin: frameMargin
                 anchors.right: parent.right
                 height: rowHeight
                 font.pointSize: pointSize
@@ -57,8 +58,9 @@ Item {
             height: rowHeight
             VFSwitch {
                 id: groupingMode
-                text: Z.tr("Range grouping:")
+                text: Z.tr("Range grouping")
                 anchors.left: parent.left
+                anchors.leftMargin: frameMargin
                 anchors.right: parent.right
                 height: rowHeight
                 font.pointSize: pointSize
