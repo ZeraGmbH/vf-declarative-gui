@@ -8,7 +8,7 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // Color helper function
     function getColorByIndex(rangIndex, grouping) {
-        var retVal;
+        var retVal = GC.currentColorTable[rangIndex-1]
         if(grouping) {
             var channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
             var group1 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1;
@@ -24,12 +24,6 @@ Item {
             else if(group3 !== undefined && group3.indexOf(channelName)>-1) {
                 retVal = GC.groupColorReference
             }
-            else { //index is not in group
-                retVal = GC.currentColorTable[rangIndex-1]
-            }
-        }
-        else {
-            retVal = GC.currentColorTable[rangIndex-1]
         }
         return retVal;
     }
