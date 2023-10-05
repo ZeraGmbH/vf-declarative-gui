@@ -18,7 +18,7 @@ ListView {
 
     readonly property real headerHeight: height * 0.2
     readonly property real comboHeight: height * 0.6
-    readonly property real vuHeight: height * 0.1
+    readonly property real vuHeight: height * 0.15
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
 
     delegate: Item {
@@ -67,10 +67,16 @@ ListView {
         }
         SimpleAndCheapVu {
             anchors.top : rangeCombo.bottom
+            anchors.topMargin: vuHeight*0.3
             height: vuHeight
             anchors.left: parent.left
             anchors.right: parent.right
             horizontal: true
+            // We cannot use Material colors: They often just add opacity
+            vuBackColor: Qt.darker("dimgray", 1.5)
+            vuEndRadius: 4
+            vuOvershootIndicatorColor: "yellow"
+            property real overshoot1Start: 0.2
 
             readonly property real preScale: {
                 let ret = 1.0
