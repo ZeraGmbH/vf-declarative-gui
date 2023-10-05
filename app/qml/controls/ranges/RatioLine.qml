@@ -21,7 +21,7 @@ Item {
     VFSwitch{
         id: enableRatio
         anchors.left: parent.left
-        width: implicitWidth + frameMargin * 0.3
+        width: implicitWidth * 1.03
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         font.pointSize: pointSize

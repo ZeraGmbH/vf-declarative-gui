@@ -296,10 +296,10 @@ ApplicationWindow {
         Component {
             id: rangePeak
             Item {
-                /*RangeMModePage {
+                RangeMModePage {
                     showMeasModes: !refSession
-                    enableRangeAutomaticAndGrouping: !refSession*/
-                RangeMenu {
+                    enableRangeAutomaticAndGrouping: !refSession
+                //RangeMenu {
                     id: rangeMenu
                     anchors.fill: parent
                 }
