@@ -26,7 +26,7 @@ Item {
         // fallback
         return 0
     }
-    function getEntity(powerModuleNo) {
+    function getPowerModuleEntity(powerModuleNo) {
         let retVal;
         switch(powerModuleNo) {
         case 0:

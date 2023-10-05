@@ -10,7 +10,7 @@ VFComboBox {
         return Z.tr(text)
     }
     property int power1ModuleIdx // setter
-    entity: PwrModVeinGetter.getEntity(power1ModuleIdx)
+    entity: PwrModVeinGetter.getPowerModuleEntity(power1ModuleIdx)
     controlPropertyName: "PAR_MeasuringMode"
     model: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx).ComponentInfo[controlPropertyName].Validation.Data
     arrayMode: true
