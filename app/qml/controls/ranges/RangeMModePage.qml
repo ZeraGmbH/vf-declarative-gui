@@ -3,6 +3,7 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import ModuleIntrospection 1.0
 import MeasChannelInfo 1.0
+import PowerModuleVeinGetter 1.0
 import ZeraTranslation  1.0
 import VeinEntity 1.0
 import ZeraVeinComponents 1.0
@@ -14,7 +15,7 @@ import "../../controls/measurement_modes"
 Item {
     id: root
 
-    property bool showMeasModes: true
+    property bool showMeasModes: PwrModVeinGetter.canSessionChangeMMode
     property bool enableRangeAutomaticAndGrouping: true
 
     readonly property int rowCount: 10
