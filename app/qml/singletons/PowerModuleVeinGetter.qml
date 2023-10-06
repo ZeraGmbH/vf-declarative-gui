@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick 2.14
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
+import GlobalConfig 1.0
 
 // Note: in here we are zero based
 Item {
@@ -11,6 +12,17 @@ Item {
         "POWER1Module3",
         "POWER1Module4"
     ]
+    readonly property var powerModuleEntitiesAvailable: {
+        let avail = []
+        if(GC.entityInitializationDone) {
+            for(let i=0; i<powerModulesHandledInGUI.length; i++) {
+                let moduleName = powerModulesHandledInGUI[i]
+                if(VeinEntity.hasEntity(moduleName))
+                    avail.push(moduleName)
+            }
+        }
+        return avail
+    }
     // INF_ModuleInterface
     readonly property var powerModuleIntrospectionInGUI: [
         ModuleIntrospection.p1m1Introspection,
