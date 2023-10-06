@@ -296,7 +296,6 @@ ApplicationWindow {
             id: rangePeak
             Item {
                 RangeMModePage {
-                    showMeasModes: !refSession
                     enableRangeAutomaticAndGrouping: !refSession
                 //RangeMenu {
                     id: rangeMenu
