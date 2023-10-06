@@ -76,7 +76,6 @@ ListView {
             vuBackColor: Qt.darker("dimgray", 1.5)
             vuEndRadius: 4
             vuOvershootIndicatorColor: "yellow"
-            property real overshoot1Start: 0.2
 
             readonly property real preScale: {
                 let ret = 1.0
