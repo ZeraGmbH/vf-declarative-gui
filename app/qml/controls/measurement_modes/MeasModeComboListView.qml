@@ -2,10 +2,11 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
+import PowerModuleVeinGetter 1.0
 import FontAwesomeQml 1.0
 
 ListView {
-    model: VeinEntity.hasEntity("POWER1Module4") ? 4 : 3
+    model: PwrModVeinGetter.powerModuleEntitiesAvailable
     delegate: Item {
         id: mmodeEntry
         anchors.left: parent.left
@@ -21,23 +22,12 @@ ListView {
             verticalAlignment: Label.AlignBottom
             font.pointSize: pointSize
             text: {
-                let labelText = ""
-                switch(index) {
-                case 0:
-                    labelText = VeinEntity.getEntity("POWER1Module1").ACT_PowerDisplayName
-                    break
-                case 1:
-                    labelText = VeinEntity.getEntity("POWER1Module2").ACT_PowerDisplayName
-                    break
-                case 2:
-                    labelText = VeinEntity.getEntity("POWER1Module3").ACT_PowerDisplayName
-                    break
-                case 3:
-                    let power4Name = VeinEntity.getEntity("POWER1Module4").ACT_PowerDisplayName
-                    let power4NameColored = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>" + power4Name + "</font>"
-                    labelText = String("P/Q/S").replace(power4Name, power4NameColored)
-                    break
-                }
+                let availTypes = PwrModVeinGetter.getPowerModuleEntity(index).INF_ModeTypes
+                let currentType = PwrModVeinGetter.getPowerModuleEntity(index).ACT_PowerDisplayName
+                let colorPrefix = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>"
+                let colorPostfix = "</font>"
+                let labelText = availTypes.join("/")
+                labelText = labelText.replace(currentType, colorPrefix + currentType + colorPostfix)
                 return labelText + ":"
             }
         }
