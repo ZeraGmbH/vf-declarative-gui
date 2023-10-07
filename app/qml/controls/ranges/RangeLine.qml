@@ -77,7 +77,7 @@ ListView {
             id: rangeCombo
             height: comboHeight
             anchors.left: parent.left
-            anchors.right: parent.right
+            width: parent.width
             anchors.top: label.bottom
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
