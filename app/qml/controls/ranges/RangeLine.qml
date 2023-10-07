@@ -43,6 +43,7 @@ ListView {
             anchors.top : parent.top
             height: label.height * 0.75
             anchors.left: label.right
+            anchors.leftMargin: parent.width * 0.025
             anchors.right: parent.right
             horizontal: true
             // We cannot use Material colors: They often just add opacity (not worst ideea to react on dark/light)
