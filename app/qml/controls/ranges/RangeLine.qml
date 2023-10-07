@@ -12,7 +12,8 @@ import ZeraVeinComponents 1.0
 ListView {
     id: ranges
     property var channels: []
-    model: channels.length
+    readonly property int channelCount: channels.length
+    model: channelCount
 
     boundsBehavior: Flickable.StopAtBounds
     orientation: ListView.Horizontal
@@ -21,14 +22,24 @@ ListView {
     readonly property real comboHeight: height * 0.6
     readonly property real vuHeight: height * 0.15
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
+    readonly property int groupMemberCount: {
+        let count = 0
+        for(let i=0; i<channelCount; i++) {
+            if(MeasChannelInfo.isGroupMember(channels[i]))
+                count++
+        }
+        return count
+    }
 
     delegate: Item {
         id: channelsRow
-        width: (ranges.width - (channels.length-1)*spacing) / channels.length
+        width: (ranges.width - (channelCount-1)*spacing) / channelCount
         height: ranges.height
-        readonly property int channelNo: channels[index]
-        readonly property string channelRange: "PAR_Channel"+parseInt(channelNo)+"Range"
-        readonly property string channelName: ModuleIntrospection.rangeIntrospection.ComponentInfo[channelRange].ChannelName
+        readonly property int systemChannelNo: channels[index] // 1-based!!
+        readonly property string channelName: MeasChannelInfo.channelNames[systemChannelNo-1]
+        readonly property string rangeComponentName: "PAR_Channel"+parseInt(systemChannelNo)+"Range"
+        readonly property bool isGroupLeader: systemChannelNo === MeasChannelInfo.voltageGroupLeaderIdx || systemChannelNo === MeasChannelInfo.currentGroupLeaderIdx
+        readonly property real leaderWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
 
         Label {
             id: label
@@ -38,7 +49,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
             text: Z.tr(channelsRow.channelName) + ":"
-            color: FT.getColorByIndex(channelsRow.channelNo, MeasChannelInfo.rangeGroupingActive)
+            color: FT.getColorByIndex(channelsRow.systemChannelNo, MeasChannelInfo.rangeGroupingActive)
         }
 
         SimpleAndCheapVu {
@@ -56,17 +67,17 @@ ListView {
             readonly property real preScale: {
                 let ret = 1.0
                 // maybe I am missing something but scale from range module is 1/scale here...
-                if(channelsRow.channelNo <= 3)
+                if(channelsRow.systemChannelNo <= 3)
                     ret = 1 / rangeModule["INF_PreScalingInfoGroup0"]
-                else if(channelsRow.channelNo <= 6)
+                else if(channelsRow.systemChannelNo <= 6)
                     ret = 1 / rangeModule["INF_PreScalingInfoGroup1"]
                 return ret
             }
             // TODO:
             // * DC displays too small values: peak / sqrt2
             // * Don't hardcode overshoot
-            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
-            actual: Number(rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
+            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"]) * preScale
+            actual: Number(rangeModule["ACT_Channel"+(channelsRow.systemChannelNo)+"Peak"])
             overshootFactor: 1.25
 
             MouseArea {
@@ -79,21 +90,21 @@ ListView {
             id: rangeCombo
             height: comboHeight
             anchors.left: parent.left
-            width: parent.width
+            readonly property bool amGroupLeader: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader
+            width: amGroupLeader ? channelsRow.leaderWidth : parent.width
             anchors.top: label.bottom
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
             contentMaxRows: 5
             visible: !MeasChannelInfo.rangeGroupingActive ||
-                     channelsRow.channelName === GC.groupLeaderNameVoltage || // U
-                     channelsRow.channelName === GC.groupLeaderNameCurrent || // I
-                     !MeasChannelInfo.isGroupMember(channelsRow.channelName)  // AUX
+                     amGroupLeader ||
+                     !MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)  // non group as AUX
 
             // TODO: Get this to vf-qmllibs
             // To flash once only we set model only on content change
             // because metadata is JSON and that reports change on all channels
             flashOnContentChange: true
-            readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo[channelsRow.channelRange].Validation.Data
+            readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo[channelsRow.rangeComponentName].Validation.Data
             property string validdationDataStr
             onValidationDataChanged: {
                 let newValidationData = JSON.stringify(validationData)
@@ -105,7 +116,7 @@ ListView {
 
             arrayMode: true
             entity: rangeModule
-            controlPropertyName: channelsRow.channelRange
+            controlPropertyName: channelsRow.rangeComponentName
         }
     }
 }

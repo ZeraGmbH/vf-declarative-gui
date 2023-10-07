@@ -354,10 +354,6 @@ Item {
     property color colorUAux1: Settings.getOption(arrayJsonColorNames[6], initialColorTable[6])
     property color colorIAux1: Settings.getOption(arrayJsonColorNames[7], initialColorTable[7])
 
-    // * No option for group leaders yet - range dialog would freak out...
-    // * In case of change don't forget group colors below
-    readonly property string groupLeaderNameVoltage: "UL1"
-    readonly property string groupLeaderNameCurrent: "IL1"
     // Looks nice often so no option for default group colors
     readonly property color groupColorVoltage: colorUL1
     readonly property color groupColorCurrent: colorIL1
