@@ -21,7 +21,6 @@ Item {
         return GC.currentColorTable[rangIndex-1]
     }
 
-
     /////////////////////////////////////////////////////////////////////////////
     // Time helpers ms <-> string
     function msToTime(t_mSeconds) {
