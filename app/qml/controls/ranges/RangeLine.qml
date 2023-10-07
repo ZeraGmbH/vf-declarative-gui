@@ -38,6 +38,40 @@ ListView {
             text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].ChannelName) + ":"
             color: FT.getColorByIndex(channelsRow.channelNo, MeasChannelInfo.rangeGroupingActive)
         }
+
+        SimpleAndCheapVu {
+            anchors.top : parent.top
+            height: label.height * 0.75
+            anchors.left: label.right
+            anchors.right: parent.right
+            horizontal: true
+            // We cannot use Material colors: They often just add opacity (not worst ideea to react on dark/light)
+            vuBackColor: Qt.darker("dimgray", 1.5)
+            vuEndRadius: 4
+            vuOvershootIndicatorColor: "yellow"
+
+            readonly property real preScale: {
+                let ret = 1.0
+                // maybe I am missing something but scale from range module is 1/scale here...
+                if(channelsRow.channelNo <= 3)
+                    ret = 1 / rangeModule["INF_PreScalingInfoGroup0"]
+                else if(channelsRow.channelNo <= 6)
+                    ret = 1 / rangeModule["INF_PreScalingInfoGroup1"]
+                return ret
+            }
+            // TODO:
+            // * DC displays too small values: peak / sqrt2
+            // * Don't hardcode overshoot
+            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
+            actual: Number(rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
+            overshootFactor: 1.25
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: rangeCombo.openDropList()
+            }
+        }
+
         VFComboBox {
             id: rangeCombo
             height: comboHeight
@@ -64,39 +98,6 @@ ListView {
             arrayMode: true
             entity: rangeModule
             controlPropertyName: parChannelRange
-        }
-        SimpleAndCheapVu {
-            anchors.top : rangeCombo.bottom
-            anchors.topMargin: vuHeight*0.3
-            height: vuHeight
-            anchors.left: parent.left
-            anchors.right: parent.right
-            horizontal: true
-            // We cannot use Material colors: They often just add opacity
-            vuBackColor: Qt.darker("dimgray", 1.5)
-            vuEndRadius: 4
-            vuOvershootIndicatorColor: "yellow"
-
-            readonly property real preScale: {
-                let ret = 1.0
-                // maybe I am missing something but scale from range module is 1/scale here...
-                if(channelsRow.channelNo <= 3)
-                    ret = 1 / rangeModule["INF_PreScalingInfoGroup0"]
-                else if(channelsRow.channelNo <= 6)
-                    ret = 1 / rangeModule["INF_PreScalingInfoGroup1"]
-                return ret
-            }
-            // TODO:
-            // * DC displays too small values: peak / sqrt2
-            // * Don't hardcode overshoot
-            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.channelNo)+"ActREJ"]) * preScale
-            actual: Number(rangeModule["ACT_Channel"+(channelsRow.channelNo)+"Peak"])
-            overshootFactor: 1.25
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: rangeCombo.openDropList()
-            }
         }
     }
 }
