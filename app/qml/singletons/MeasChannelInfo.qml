@@ -18,6 +18,15 @@ Item {
     readonly property var rangeGroupVoltage: rangeGroupCount >= 1 ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1 : []
     readonly property var rangeGroupCurrent: rangeGroupCount >= 2 ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2 : []
     readonly property var rangeGroupRef: rangeGroupCount >= 3 ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3 : []
+    function isGroupMember(channelName) {
+        if(rangeGroupVoltage.indexOf(channelName) >= 0)
+            return true
+        if(rangeGroupCurrent.indexOf(channelName) >= 0)
+            return true
+        if(rangeGroupRef.indexOf(channelName) >= 0)
+            return true
+        return false
+    }
 
     readonly property bool rangeAutoActive: GC.entityInitializationDone ? VeinEntity.getEntity("RangeModule1").PAR_RangeAutomatic : false
 }
