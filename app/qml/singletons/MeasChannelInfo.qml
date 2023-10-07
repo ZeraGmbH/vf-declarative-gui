@@ -14,5 +14,10 @@ Item {
     readonly property var currentChannelIds: channelCountTotal >= 8 ? [4,5,6,8] : [4,5,6]
 
     readonly property bool rangeGroupingActive: GC.entityInitializationDone ? VeinEntity.getEntity("RangeModule1").PAR_ChannelGrouping : false
+    readonly property int rangeGroupCount: GC.entityInitializationDone ? ModuleIntrospection.rangeIntrospection.ModuleInfo.GroupCount : 0
+    readonly property var rangeGroupVoltage: rangeGroupCount >= 1 ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1 : []
+    readonly property var rangeGroupCurrent: rangeGroupCount >= 2 ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2 : []
+    readonly property var rangeGroupRef: rangeGroupCount >= 3 ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3 : []
+
     readonly property bool rangeAutoActive: GC.entityInitializationDone ? VeinEntity.getEntity("RangeModule1").PAR_RangeAutomatic : false
 }

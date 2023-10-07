@@ -2,30 +2,23 @@ pragma Singleton
 import QtQuick 2.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
+import MeasChannelInfo 1.0
 import ZeraLocale 1.0
 
 Item {
     /////////////////////////////////////////////////////////////////////////////
     // Color helper function
     function getColorByIndex(rangIndex, grouping) {
-        var retVal = GC.currentColorTable[rangIndex-1]
         if(grouping) {
-            var channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
-            var group1 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup1;
-            var group2 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup2;
-            var group3 = ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelGroup3;
-
-            if(group1 !== undefined && group1.indexOf(channelName)>-1) {
-                retVal = GC.groupColorVoltage
-            }
-            else if(group2 !== undefined && group2.indexOf(channelName)>-1) {
-                retVal = GC.groupColorCurrent
-            }
-            else if(group3 !== undefined && group3.indexOf(channelName)>-1) {
-                retVal = GC.groupColorReference
-            }
+            let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
+            if(MeasChannelInfo.rangeGroupVoltage.indexOf(channelName) >= 0)
+                return GC.groupColorVoltage
+            if(MeasChannelInfo.rangeGroupCurrent.indexOf(channelName) >= 0)
+                return GC.groupColorCurrent
+            if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
+                return GC.groupColorReference
         }
-        return retVal;
+        return GC.currentColorTable[rangIndex-1]
     }
 
 
