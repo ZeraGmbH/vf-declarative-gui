@@ -2,6 +2,7 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
+import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraTranslation 1.0
 import MeasChannelInfo 1.0
@@ -26,7 +27,8 @@ ListView {
         width: (ranges.width - (channels.length-1)*spacing) / channels.length
         height: ranges.height
         readonly property int channelNo: channels[index]
-        readonly property string parChannelRange: "PAR_Channel"+parseInt(channelNo)+"Range"
+        readonly property string channelRange: "PAR_Channel"+parseInt(channelNo)+"Range"
+        readonly property string channelName: ModuleIntrospection.rangeIntrospection.ComponentInfo[channelRange].ChannelName
 
         Label {
             id: label
@@ -35,7 +37,7 @@ ListView {
             height: headerHeight
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
-            text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].ChannelName) + ":"
+            text: Z.tr(channelsRow.channelName) + ":"
             color: FT.getColorByIndex(channelsRow.channelNo, MeasChannelInfo.rangeGroupingActive)
         }
 
@@ -82,11 +84,16 @@ ListView {
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
             contentMaxRows: 5
+            visible: !MeasChannelInfo.rangeGroupingActive ||
+                     channelsRow.channelName === GC.groupLeaderNameVoltage || // U
+                     channelsRow.channelName === GC.groupLeaderNameCurrent || // I
+                     !MeasChannelInfo.isGroupMember(channelsRow.channelName)  // AUX
 
+            // TODO: Get this to vf-qmllibs
             // To flash once only we set model only on content change
             // because metadata is JSON and that reports change on all channels
             flashOnContentChange: true
-            readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo[parChannelRange].Validation.Data
+            readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo[channelsRow.channelRange].Validation.Data
             property string validdationDataStr
             onValidationDataChanged: {
                 let newValidationData = JSON.stringify(validationData)
@@ -98,7 +105,7 @@ ListView {
 
             arrayMode: true
             entity: rangeModule
-            controlPropertyName: parChannelRange
+            controlPropertyName: channelsRow.channelRange
         }
     }
 }
