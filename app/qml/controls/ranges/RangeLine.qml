@@ -31,6 +31,43 @@ ListView {
         return count
     }
 
+    readonly property bool groupingActive: MeasChannelInfo.rangeGroupingActive
+    readonly property int animationDuration: 250
+    property bool ignoreFirstGroupOnChange: groupingActive
+    onGroupingActiveChanged: {
+        if(groupingActive) {
+            if(ignoreFirstGroupOnChange) {
+                groupAnimationValue = 1
+                ignoreFirstGroupOnChange = false
+                return
+            }
+            groupinChangeAnimationDown.stop()
+            groupinChangeAnimationUp.from = groupAnimationValue
+            groupinChangeAnimationUp.start()
+        }
+        else {
+            groupinChangeAnimationUp.stop()
+            groupinChangeAnimationDown.from = groupAnimationValue
+            groupinChangeAnimationDown.start()
+        }
+    }
+    NumberAnimation {
+        id: groupinChangeAnimationUp
+        duration: animationDuration
+        to: 1
+        target: ranges
+        property: "groupAnimationValue"
+    }
+    NumberAnimation {
+        id: groupinChangeAnimationDown
+        duration: animationDuration
+        to: 0
+        target: ranges
+        property: "groupAnimationValue"
+    }
+    property real groupAnimationValue: 0
+    readonly property bool groupAnimationRunning: groupinChangeAnimationUp.running || groupinChangeAnimationDown.running
+
     delegate: Item {
         id: channelsRow
         width: (ranges.width - (channelCount-1)*spacing) / channelCount
@@ -90,16 +127,19 @@ ListView {
             id: rangeCombo
             height: comboHeight
             anchors.left: parent.left
-            readonly property bool amGroupLeader: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader
-            width: amGroupLeader ? channelsRow.leaderWidth : parent.width
+            width: channelsRow.isGroupLeader ? parent.width+(channelsRow.leaderWidth-parent.width)*groupAnimationValue : parent.width
             anchors.top: label.bottom
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
-            popupKeepHorizontalSize: amGroupLeader
+            popupKeepHorizontalSize: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader
             contentMaxRows: 5
-            visible: !MeasChannelInfo.rangeGroupingActive ||
-                     amGroupLeader ||
-                     !MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)  // non group as AUX
+            visible: {
+                if(channelsRow.isGroupLeader) // leader
+                    return true
+                if(!MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)) // AUX
+                    return true
+                return !MeasChannelInfo.rangeGroupingActive && !groupAnimationRunning
+            }
 
             // TODO: Get this to vf-qmllibs
             // To flash once only we set model only on content change
