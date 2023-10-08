@@ -48,7 +48,7 @@ ListView {
     property real groupAnimationValue: 0
     NumberAnimation {
         id: groupinChangeAnimation
-        duration: 600
+        duration: 1000
         target: ranges
         property: "groupAnimationValue"
         easing.type: Easing.OutCubic
@@ -66,6 +66,7 @@ ListView {
         readonly property real leaderCurrWidth: width+(leaderMaxWidth-width)*groupAnimationValue
         readonly property real relLeaderXPos: - index * (width+spacing)
         readonly property bool groupingComboTouchesMe: leaderCurrWidth + relLeaderXPos > 0
+        readonly property bool groupingComboCoversMe: leaderCurrWidth + relLeaderXPos >= width * 0.999
 
         Label {
             id: label
@@ -128,7 +129,7 @@ ListView {
                 if(!MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)) // AUX
                     return true
                 // followers
-                return !channelsRow.groupingComboTouchesMe
+                return !channelsRow.groupingComboCoversMe
             }
 
             // TODO: Get this to vf-qmllibs
