@@ -65,6 +65,7 @@ ListView {
         readonly property bool isGroupLeader: systemChannelNo === MeasChannelInfo.voltageGroupLeaderIdx || systemChannelNo === MeasChannelInfo.currentGroupLeaderIdx
         readonly property real leaderMaxWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
         readonly property real leaderCurrWidth: width+(leaderMaxWidth-width)*groupAnimationValue
+        readonly property real relLeaderXPos: - index * (width+spacing)
 
         Label {
             id: label
@@ -127,8 +128,7 @@ ListView {
                 if(!MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)) // AUX
                     return true
                 // followers
-                let relLeaderXPos = - index * (parent.width+spacing)
-                return leaderCurrWidth+relLeaderXPos <= 0
+                return leaderCurrWidth + channelsRow.relLeaderXPos <= 0
             }
 
             // TODO: Get this to vf-qmllibs
