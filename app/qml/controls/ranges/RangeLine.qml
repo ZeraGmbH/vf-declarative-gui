@@ -35,21 +35,15 @@ ListView {
     readonly property int animationDuration: 250
     property bool ignoreFirstGroupOnChange: groupingActive
     onGroupingActiveChanged: {
-        if(groupingActive) {
-            if(ignoreFirstGroupOnChange) {
-                groupAnimationValue = 1
-                ignoreFirstGroupOnChange = false
-                return
-            }
-            groupinChangeAnimationDown.stop()
-            groupinChangeAnimationUp.from = groupAnimationValue
-            groupinChangeAnimationUp.start()
+        groupinChangeAnimationUp.stop()
+        if(groupingActive && ignoreFirstGroupOnChange) {
+            groupAnimationValue = 1
+            ignoreFirstGroupOnChange = false
+            return
         }
-        else {
-            groupinChangeAnimationUp.stop()
-            groupinChangeAnimationDown.from = groupAnimationValue
-            groupinChangeAnimationDown.start()
-        }
+        groupinChangeAnimationUp.from = groupAnimationValue
+        groupinChangeAnimationUp.to = groupingActive ? 1 : 0
+        groupinChangeAnimationUp.start()
     }
     NumberAnimation {
         id: groupinChangeAnimationUp
@@ -58,15 +52,7 @@ ListView {
         target: ranges
         property: "groupAnimationValue"
     }
-    NumberAnimation {
-        id: groupinChangeAnimationDown
-        duration: animationDuration
-        to: 0
-        target: ranges
-        property: "groupAnimationValue"
-    }
     property real groupAnimationValue: 0
-    readonly property bool groupAnimationRunning: groupinChangeAnimationUp.running || groupinChangeAnimationDown.running
 
     delegate: Item {
         id: channelsRow
@@ -138,7 +124,7 @@ ListView {
                     return true
                 if(!MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)) // AUX
                     return true
-                return !MeasChannelInfo.rangeGroupingActive && !groupAnimationRunning
+                return !MeasChannelInfo.rangeGroupingActive && !groupinChangeAnimationUp.running
             }
 
             // TODO: Get this to vf-qmllibs
