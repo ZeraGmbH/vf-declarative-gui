@@ -32,7 +32,8 @@ ListView {
     }
 
     readonly property bool groupingActive: MeasChannelInfo.rangeGroupingActive
-    readonly property int animationDuration: 250
+    readonly property int animationDuration: 600
+    // Vein reports grouping 'on' late causing animation on load. Hack that away:
     property bool ignoreFirstGroupOnChange: groupingActive
     onGroupingActiveChanged: {
         groupinChangeAnimationUp.stop()
@@ -45,6 +46,7 @@ ListView {
         groupinChangeAnimationUp.to = groupingActive ? 1 : 0
         groupinChangeAnimationUp.start()
     }
+    property real groupAnimationValue: 0
     NumberAnimation {
         id: groupinChangeAnimationUp
         duration: animationDuration
@@ -52,7 +54,6 @@ ListView {
         property: "groupAnimationValue"
         easing.type: Easing.OutCubic
     }
-    property real groupAnimationValue: 0
 
     delegate: Item {
         id: channelsRow
@@ -126,7 +127,8 @@ ListView {
                 if(!MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)) // AUX
                     return true
                 // followers
-                return groupAnimationValue <= 0
+                let relLeaderXPos = - index * (parent.width+spacing)
+                return leaderCurrWidth+relLeaderXPos <= 0
             }
 
             // TODO: Get this to vf-qmllibs
