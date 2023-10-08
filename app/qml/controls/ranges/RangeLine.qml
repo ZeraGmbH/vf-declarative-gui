@@ -62,7 +62,8 @@ ListView {
         readonly property string channelName: MeasChannelInfo.channelNames[systemChannelNo-1]
         readonly property string rangeComponentName: "PAR_Channel"+parseInt(systemChannelNo)+"Range"
         readonly property bool isGroupLeader: systemChannelNo === MeasChannelInfo.voltageGroupLeaderIdx || systemChannelNo === MeasChannelInfo.currentGroupLeaderIdx
-        readonly property real leaderWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
+        readonly property real leaderMaxWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
+        readonly property real leaderCurrWidth: width+(leaderMaxWidth-width)*groupAnimationValue
 
         Label {
             id: label
@@ -113,7 +114,7 @@ ListView {
             id: rangeCombo
             height: comboHeight
             anchors.left: parent.left
-            width: channelsRow.isGroupLeader ? parent.width+(channelsRow.leaderWidth-parent.width)*groupAnimationValue : parent.width
+            width: channelsRow.isGroupLeader ? leaderCurrWidth : parent.width
             anchors.top: label.bottom
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
@@ -124,7 +125,8 @@ ListView {
                     return true
                 if(!MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)) // AUX
                     return true
-                return !MeasChannelInfo.rangeGroupingActive && !groupinChangeAnimationUp.running
+                // followers
+                return groupAnimationValue <= 0
             }
 
             // TODO: Get this to vf-qmllibs
