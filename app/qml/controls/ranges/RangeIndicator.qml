@@ -4,6 +4,7 @@ import VeinEntity 1.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
+import MeasChannelInfo 1.0
 import FunctionTools 1.0
 import FontAwesomeQml 1.0
 import ZeraTranslation  1.0
@@ -19,39 +20,6 @@ Loader {
             id: root
 
             readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-            // convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
-            readonly property var upperChannels: {
-                var retVal = [];
-                for(var channelNum=0; channelNum<channelCount; ++channelNum) {
-                    var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
-                    if(name.startsWith("REF")) {
-                        if(channelNum<3) { // REF1..REF3
-                            retVal.push(channelNum);
-                        }
-                    }
-                    else if(name.startsWith("U")) {
-                        retVal.push(channelNum)
-                    }
-                }
-                return retVal;
-            }
-
-            readonly property var lowerChannels: {
-                var retVal = [];
-                for(var channelNum=0; channelNum<channelCount; ++channelNum) {
-                    var name = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(channelNum+1)+"Range"].ChannelName;
-                    if(name.startsWith("REF")) {
-                        if(channelNum>=3) { // REF4..REF6
-                            retVal.push(channelNum);
-                        }
-                    }
-                    else if(name.startsWith("I")) {
-                        retVal.push(channelNum)
-                    }
-                }
-                return retVal;
-            }
-
             readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
             property int contentWidth: root.width/(root.channelCount/2)*0.9
             readonly property int rangeGrouping: rangeModule.PAR_ChannelGrouping
@@ -98,7 +66,7 @@ Loader {
 
             ListView {
                 id: voltageList
-                model: root.upperChannels
+                model: MeasChannelInfo.voltageChannelIds
                 anchors.left: parent.left
                 anchors.leftMargin: root.contentWidth*0.1
                 anchors.right: parent.right
@@ -119,8 +87,8 @@ Loader {
                         font.pixelSize: parent.height/1.3
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
-                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName) + ": "
-                        color: FT.getColorByIndex(modelData+1, rangeGrouping)
+                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
+                        color: FT.getColorByIndex(modelData, rangeGrouping)
                         font.bold: true
                     }
                     Label {
@@ -130,10 +98,10 @@ Loader {
                         font.pixelSize: parent.height/1.3
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
-                        text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
+                        text: root.rangeModule["PAR_Channel"+parseInt(modelData)+"Range"]
                         color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
                     }
-                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
+                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].Validation.Data
                     property string validdationDataStr
                     onValidationDataChanged: {
                         let newValidationData = JSON.stringify(validationData)
@@ -149,7 +117,7 @@ Loader {
                 }
             }
             ListView {
-                model: root.lowerChannels
+                model: MeasChannelInfo.currentChannelIds
                 anchors.left: parent.left
                 anchors.leftMargin: root.contentWidth*0.1
                 anchors.right: parent.right
@@ -170,8 +138,8 @@ Loader {
                         font.pixelSize: parent.height/1.3
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
-                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].ChannelName) + ": "
-                        color: FT.getColorByIndex(modelData+1, rangeGrouping)
+                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
+                        color: FT.getColorByIndex(modelData, rangeGrouping)
                         font.bold: true
                     }
                     Label {
@@ -181,10 +149,10 @@ Loader {
                         font.pixelSize: parent.height/1.3
                         fontSizeMode: Label.HorizontalFit
                         anchors.verticalCenter: parent.verticalCenter
-                        text: root.rangeModule["PAR_Channel"+parseInt(modelData+1)+"Range"]
+                        text: root.rangeModule["PAR_Channel"+parseInt(modelData)+"Range"]
                         color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
                     }
-                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData+1)+"Range"].Validation.Data
+                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].Validation.Data
                     property string validdationDataStr
                     onValidationDataChanged: {
                         let newValidationData = JSON.stringify(validationData)
