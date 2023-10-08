@@ -65,6 +65,7 @@ ListView {
         readonly property real leaderMaxWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
         readonly property real leaderCurrWidth: width+(leaderMaxWidth-width)*groupAnimationValue
         readonly property real relLeaderXPos: - index * (width+spacing)
+        readonly property bool groupingComboTouchesMe: leaderCurrWidth + relLeaderXPos > 0
 
         Label {
             id: label
@@ -74,7 +75,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
             text: Z.tr(channelsRow.channelName) + ":"
-            color: FT.getColorByIndex(channelsRow.systemChannelNo, MeasChannelInfo.rangeGroupingActive)
+            color: FT.getColorByIndex(channelsRow.systemChannelNo, channelsRow.groupingComboTouchesMe)
         }
 
         SimpleAndCheapVu {
@@ -127,7 +128,7 @@ ListView {
                 if(!MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)) // AUX
                     return true
                 // followers
-                return leaderCurrWidth + channelsRow.relLeaderXPos <= 0
+                return !channelsRow.groupingComboTouchesMe
             }
 
             // TODO: Get this to vf-qmllibs
