@@ -48,9 +48,9 @@ ListView {
     NumberAnimation {
         id: groupinChangeAnimationUp
         duration: animationDuration
-        to: 1
         target: ranges
         property: "groupAnimationValue"
+        easing.type: Easing.OutCubic
     }
     property real groupAnimationValue: 0
 
