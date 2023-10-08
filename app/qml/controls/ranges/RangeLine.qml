@@ -95,6 +95,7 @@ ListView {
             anchors.top: label.bottom
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
+            popupKeepHorizontalSize: amGroupLeader
             contentMaxRows: 5
             visible: !MeasChannelInfo.rangeGroupingActive ||
                      amGroupLeader ||
