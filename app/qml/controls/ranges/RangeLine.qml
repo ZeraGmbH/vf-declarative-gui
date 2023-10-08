@@ -32,7 +32,6 @@ ListView {
     }
 
     readonly property bool groupingActive: MeasChannelInfo.rangeGroupingActive
-    readonly property int animationDuration: 600
     // Vein reports grouping 'on' late causing animation on load. Hack that away:
     property bool ignoreFirstGroupOnChange: groupingActive
     onGroupingActiveChanged: {
@@ -49,7 +48,7 @@ ListView {
     property real groupAnimationValue: 0
     NumberAnimation {
         id: groupinChangeAnimation
-        duration: animationDuration
+        duration: 600
         target: ranges
         property: "groupAnimationValue"
         easing.type: Easing.OutCubic
