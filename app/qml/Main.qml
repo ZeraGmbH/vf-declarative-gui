@@ -17,7 +17,6 @@ import Notifications 1.0
 import "controls"
 import "helpers"
 
-import "controls/range_module"
 import "controls/ranges"
 import "controls/logger"
 import "controls/appinfo"
@@ -249,7 +248,7 @@ ApplicationWindow {
                 asynchronous: true
             }
             Loader {
-                sourceComponent: rangePeak
+                sourceComponent: rangeCmp
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutRangeIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item) {
@@ -293,12 +292,10 @@ ApplicationWindow {
         }
 
         Component {
-            id: rangePeak
+            id: rangeCmp
             Item {
                 RangeMModePage {
                     enableRangeAutomaticAndGrouping: !refSession
-                //RangeMenu {
-                    id: rangeMenu
                     anchors.fill: parent
                 }
             }

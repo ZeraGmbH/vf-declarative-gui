@@ -97,9 +97,6 @@
         <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
-        <file>qml/controls/range_module/RangeView.qml</file>
-        <file>qml/controls/range_module/RangeMenu.qml</file>
-        <file>qml/controls/range_module/RangePeak.qml</file>
         <file>qml/controls/ranges/OverloadButton.qml</file>
         <file>qml/controls/ranges/RangeMModePage.qml</file>
         <file>qml/controls/ranges/RangeLine.qml</file>

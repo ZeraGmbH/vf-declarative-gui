@@ -11,7 +11,6 @@ import AdjustmentState 1.0
 import VeinEntity 1.0
 import FontAwesomeQml 1.0
 import ZeraComponents 1.0
-import "range_module"
 import "ranges"
 import "logger"
 
