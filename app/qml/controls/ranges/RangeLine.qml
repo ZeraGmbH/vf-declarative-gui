@@ -36,19 +36,19 @@ ListView {
     // Vein reports grouping 'on' late causing animation on load. Hack that away:
     property bool ignoreFirstGroupOnChange: groupingActive
     onGroupingActiveChanged: {
-        groupinChangeAnimationUp.stop()
+        groupinChangeAnimation.stop()
         if(groupingActive && ignoreFirstGroupOnChange) {
             groupAnimationValue = 1
             ignoreFirstGroupOnChange = false
             return
         }
-        groupinChangeAnimationUp.from = groupAnimationValue
-        groupinChangeAnimationUp.to = groupingActive ? 1 : 0
-        groupinChangeAnimationUp.start()
+        groupinChangeAnimation.from = groupAnimationValue
+        groupinChangeAnimation.to = groupingActive ? 1 : 0
+        groupinChangeAnimation.start()
     }
     property real groupAnimationValue: 0
     NumberAnimation {
-        id: groupinChangeAnimationUp
+        id: groupinChangeAnimation
         duration: animationDuration
         target: ranges
         property: "groupAnimationValue"
