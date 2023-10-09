@@ -64,7 +64,7 @@ ListView {
         readonly property bool isGroupLeader: systemChannelNo === MeasChannelInfo.voltageGroupLeaderIdx || systemChannelNo === MeasChannelInfo.currentGroupLeaderIdx
         readonly property bool isLeaderOrNotInGroup: isGroupLeader || !MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)
         readonly property real leaderMaxWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
-        readonly property real leaderCurrWidth: width+(leaderMaxWidth-width)*groupAnimationValue
+        readonly property real leaderCurrWidth: width + (leaderMaxWidth-width)*groupAnimationValue
         readonly property real relLeaderXPos: - index * (width+spacing)
         readonly property real leaderLenLeftEnter: -relLeaderXPos
 
@@ -120,7 +120,7 @@ ListView {
             id: rangeCombo
             height: comboHeight
             anchors.left: parent.left
-            width: channelsRow.isGroupLeader ? leaderCurrWidth : parent.width
+            width: channelsRow.isGroupLeader ? channelsRow.leaderCurrWidth : parent.width
             anchors.top: label.bottom
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
@@ -134,7 +134,7 @@ ListView {
             opacity: {
                 if(channelsRow.isLeaderOrNotInGroup || width === 0.0)
                     return opacityDefault
-                let relOverlap = (leaderCurrWidth-leaderLenLeftEnter) / width
+                let relOverlap = (channelsRow.leaderCurrWidth-channelsRow.leaderLenLeftEnter) / width
                 let opa = 1-relOverlap
                 if(opa < 0.0)
                     opa = 0.0
