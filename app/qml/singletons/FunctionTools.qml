@@ -20,6 +20,21 @@ Item {
         }
         return GC.currentColorTable[rangIndex-1]
     }
+    function gradientColor(color0, color1, zeroOneVal) {
+        let red = (1-zeroOneVal)*color0.r + zeroOneVal*color1.r
+        if(red > 1)
+            red = 1
+        let green = (1-zeroOneVal)*color0.g + zeroOneVal*color1.g
+        if(green > 1)
+            green = 1
+        let blue = (1-zeroOneVal)*color0.b + zeroOneVal*color1.b
+        if(blue > 1)
+            blue = 1
+        let alpha = (1-zeroOneVal)*color0.a + zeroOneVal*color1.a
+        if(alpha > 1)
+            alpha = 1
+        return Qt.rgba(red, green, blue, alpha)
+    }
 
     /////////////////////////////////////////////////////////////////////////////
     // Time helpers ms <-> string
