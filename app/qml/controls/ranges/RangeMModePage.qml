@@ -16,6 +16,7 @@ Item {
     id: root
 
     property bool showMeasModes: PwrModVeinGetter.canSessionChangeMMode
+    property bool showRatioLines: true
     property bool enableRangeAutomaticAndGrouping: true
 
     readonly property int rowCount: 10
@@ -104,14 +105,22 @@ Item {
                 spacing: frameMargin
                 channels: MeasChannelInfo.voltageChannelIds
             }
-            RatioLine {
+            Loader {
+                sourceComponent: uRatio
+                active: showRatioLines
                 anchors.top: uRangeLine.bottom
                 height: rowHeight
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
                 anchors.topMargin: 1.5*frameMargin
-                prescalingGroup: 0
+            }
+            Component {
+                id: uRatio
+                RatioLine {
+                    anchors.fill: parent
+                    prescalingGroup: 0
+                }
             }
         }
         GridRect {
@@ -130,14 +139,22 @@ Item {
                 spacing: frameMargin
                 channels: MeasChannelInfo.currentChannelIds
             }
-            RatioLine {
+            Loader {
+                sourceComponent: iRatio
+                active: showRatioLines
                 anchors.top: iRangeLine.bottom
                 height: rowHeight
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: frameMargin
                 anchors.topMargin: 1.55*frameMargin
-                prescalingGroup: 1
+            }
+            Component {
+                id: iRatio
+                RatioLine {
+                    anchors.fill: parent
+                    prescalingGroup: 1
+                }
             }
         }
     }

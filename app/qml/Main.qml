@@ -296,6 +296,7 @@ ApplicationWindow {
             Item {
                 RangeMModePage {
                     enableRangeAutomaticAndGrouping: !refSession
+                    showRatioLines: !refSession
                     anchors.fill: parent
                 }
             }
