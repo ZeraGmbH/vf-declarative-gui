@@ -34,6 +34,8 @@ Item {
             return true
         if(rangeGroupCurrent.indexOf(channelNames[systemChannelNo-1]) >= 0)
             return true
+        if(rangeGroupRef.indexOf(channelNames[systemChannelNo-1]) >= 0)
+            return true
         return false
     }
 
