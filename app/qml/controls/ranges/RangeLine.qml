@@ -66,6 +66,8 @@ ListView {
         readonly property real leaderMaxWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
         readonly property real leaderCurrWidth: width+(leaderMaxWidth-width)*groupAnimationValue
         readonly property real relLeaderXPos: - index * (width+spacing)
+        readonly property real leaderLenLeftEnter: -relLeaderXPos
+
         readonly property bool groupingComboTouchesMe: leaderCurrWidth + relLeaderXPos > 0
         readonly property bool groupingComboCoversMe: leaderCurrWidth + relLeaderXPos >= width * 0.999
 
@@ -128,6 +130,18 @@ ListView {
                 if(channelsRow.isLeaderOrNotInGroup)
                     return true
                 return !channelsRow.groupingComboCoversMe
+            }
+            opacity: {
+                let untouchedOpa = enabled ? 1.0 : 0.7 // maybe we should make this acessibla by ZComboBox
+                if(channelsRow.isLeaderOrNotInGroup || width === 0.0)
+                    return untouchedOpa
+                let relOverlap = (leaderCurrWidth-leaderLenLeftEnter) / width
+                let opa = 1-relOverlap
+                if(opa < 0.0)
+                    opa = 0.0
+                if(opa > untouchedOpa)
+                    opa = untouchedOpa
+                return opa
             }
 
             // TODO: Get this to vf-qmllibs
