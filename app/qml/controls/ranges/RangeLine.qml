@@ -48,10 +48,9 @@ ListView {
     property real groupAnimationValue: 0
     NumberAnimation {
         id: groupinChangeAnimation
-        duration: 1000
+        duration: 250
         target: ranges
         property: "groupAnimationValue"
-        easing.type: Easing.OutCubic
     }
 
     delegate: Item {
