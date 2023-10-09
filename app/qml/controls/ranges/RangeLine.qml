@@ -132,15 +132,14 @@ ListView {
                 return !channelsRow.groupingComboCoversMe
             }
             opacity: {
-                let untouchedOpa = enabled ? 1.0 : 0.7 // maybe we should make this acessibla by ZComboBox
                 if(channelsRow.isLeaderOrNotInGroup || width === 0.0)
-                    return untouchedOpa
+                    return opacityDefault
                 let relOverlap = (leaderCurrWidth-leaderLenLeftEnter) / width
                 let opa = 1-relOverlap
                 if(opa < 0.0)
                     opa = 0.0
-                if(opa > untouchedOpa)
-                    opa = untouchedOpa
+                if(opa > opacityDefault)
+                    opa = opacityDefault
                 return opa
             }
 
