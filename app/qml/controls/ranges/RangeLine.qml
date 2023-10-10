@@ -117,8 +117,8 @@ ListView {
             // TODO:
             // * DC displays too small values: peak / sqrt2
             // * Don't hardcode overshoot
-            nominal: Math.SQRT2 * Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"]) * preScale
-            actual: Number(rangeModule["ACT_Channel"+(channelsRow.systemChannelNo)+"Peak"])
+            nominal: Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"]) * preScale
+            actual: Number(rangeModule["ACT_Channel"+(channelsRow.systemChannelNo)+"Rms"])
             overshootFactor: 1.25
 
             MouseArea {
