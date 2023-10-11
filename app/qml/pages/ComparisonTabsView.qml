@@ -48,7 +48,7 @@ BaseTabPage {
         }
         return ret
     }
-    function comparisonPass(entity) {
+    function comparisonPass(entity, running) {
         let pass = false
         let jsonResults = JSON.parse(entity.ACT_MulResult)
         if(jsonResults.values.length === 1) {
@@ -83,7 +83,7 @@ BaseTabPage {
                 height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
+                Material.foreground: comparisonPass(entity, errMeasHelper.sec1mod1Running) ? Material.White : Material.Red
             }
             ActivityAnimation {
                 targetItem: tabButtonPulse
