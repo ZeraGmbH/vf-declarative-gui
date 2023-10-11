@@ -35,35 +35,6 @@ Loader {
                 opacity: 0
             }
 
-            Item {
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                width: height*1.3
-
-                Label {
-                    anchors.centerIn: parent
-                    font.pointSize: pointSize
-                    property bool overload: rangeModule.PAR_Overload === 1
-                    property bool preScale: rangeModule.PAR_PreScalingEnabledGroup0 || rangeModule.PAR_PreScalingEnabledGroup1
-                    text: {
-                        if(overload)
-                            return FAQ.fa_exclamation_triangle
-                        if(preScale)
-                            return FAQ.fa_anchor
-                        return FAQ.fa_exclamation_triangle
-                    }
-                    opacity: (overload || preScale) ? 1.0 : 0.2
-                    color:  {
-                        if(overload)
-                            return Material.color(Material.Yellow)
-                        if(preScale)
-                            return Qt.lighter(Material.color(Material.Amber))
-                        return Material.color(Material.Grey)
-                    }
-                }
-            }
-
             ListView {
                 id: voltageList
                 model: MeasChannelInfo.voltageChannelIds
@@ -164,6 +135,34 @@ Loader {
                     ZFlashingRipple {
                         anchor: itemCurrent
                         id: currentRangeRipple
+                    }
+                }
+            }
+            Item {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: height*1.3
+
+                Label {
+                    anchors.centerIn: parent
+                    font.pointSize: pointSize
+                    property bool overload: rangeModule.PAR_Overload === 1
+                    property bool preScale: rangeModule.PAR_PreScalingEnabledGroup0 || rangeModule.PAR_PreScalingEnabledGroup1
+                    text: {
+                        if(overload)
+                            return FAQ.fa_exclamation_triangle
+                        if(preScale)
+                            return FAQ.fa_anchor
+                        return FAQ.fa_exclamation_triangle
+                    }
+                    opacity: (overload || preScale) ? 1.0 : 0.2
+                    color:  {
+                        if(overload)
+                            return Material.color(Material.Yellow)
+                        if(preScale)
+                            return Qt.lighter(Material.color(Material.Amber))
+                        return Material.color(Material.Grey)
                     }
                 }
             }
