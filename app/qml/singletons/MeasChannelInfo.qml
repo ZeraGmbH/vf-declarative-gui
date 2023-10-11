@@ -20,7 +20,6 @@ Item {
     readonly property var voltageChannelIds: channelCountTotal >= 7 ? [1,2,3,7] : [1,2,3]
     readonly property var currentChannelIds: channelCountTotal >= 8 ? [4,5,6,8] : [4,5,6]
     // Hard codings - RangeLine is not prepared for other than first group member
-    // Once we make this more flexible: don't forget GC.groupLeaderNameVoltage / GC.groupColorCurrent
     readonly property int voltageGroupLeaderIdx: voltageChannelIds.length > 0 ? voltageChannelIds[0] : 0
     readonly property int currentGroupLeaderIdx: currentChannelIds.length > 0 ? currentChannelIds[0] : 0
 

@@ -78,19 +78,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
             text: Z.tr(channelsRow.channelName) + ":"
-            readonly property real colorGradient: {
-                if(channelsRow.isLeaderOrNotInGroup || width === 0.0)
-                    return 0.0
-                let relOverlap = (channelsRow.leaderCurrWidth-channelsRow.leaderLenLeftEnter) / parent.width
-                if(relOverlap < 0.0)
-                    relOverlap = 0.0
-                if(relOverlap > 1.0)
-                    relOverlap = 1.0
-                return relOverlap
-            }
-            color: FT.gradientColor(FT.getColorByIndex(channelsRow.systemChannelNo, false),
-                                    FT.getColorByIndex(channelsRow.systemChannelNo, true),
-                                    colorGradient)
+            color: FT.getColorByIndex(channelsRow.systemChannelNo)
         }
 
         SimpleAndCheapVu {

@@ -355,8 +355,6 @@ Item {
     property color colorIAux1: Settings.getOption(arrayJsonColorNames[7], initialColorTable[7])
 
     // Looks nice often so no option for default group colors
-    readonly property color groupColorVoltage: colorUL1
-    readonly property color groupColorCurrent: colorIL1
     readonly property color groupColorReference: Settings.getOption("groupColor3", "darkorange")
 
     readonly property color tableShadeColor: "#003040"

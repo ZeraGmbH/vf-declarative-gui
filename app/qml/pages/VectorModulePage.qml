@@ -176,7 +176,7 @@ Item {
             let valUnitArr = FT.doAutoScale(maxVoltage / (1000*phasorDiagram.maxNominalFactor * Math.SQRT2), "V")
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
-        text: "<font color='" + GC.groupColorVoltage + "'>"+ "U: " + valueStr + " * √2" + "</font>"
+        text: "<font color='" + GC.colorUL1 + "'>"+ "U: " + valueStr + " * √2" + "</font>"
         anchors.bottom: currentIndicator.top
         anchors.bottomMargin: GC.standardTextBottomMargin
         anchors.left: circleIndicator.right
@@ -192,7 +192,7 @@ Item {
             let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * phasorDiagram.maxNominalFactor * Math.SQRT2), "A")
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
-        text: "<font color='" + GC.groupColorCurrent + "'>"+ "I: " + valueStr + " * √2" + "</font>"
+        text: "<font color='" + GC.colorIL1 + "'>"+ "I: " + valueStr + " * √2" + "</font>"
         anchors.bottom: root.bottom;
         anchors.bottomMargin: GC.standardTextBottomMargin
         anchors.left: circleIndicator.right

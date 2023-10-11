@@ -8,44 +8,11 @@ import ZeraLocale 1.0
 Item {
     /////////////////////////////////////////////////////////////////////////////
     // Color helper function
-    function getColorByIndex(rangIndex, grouping) {
-        if(grouping) {
-            let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
-            if(MeasChannelInfo.rangeGroupVoltage.indexOf(channelName) >= 0)
-                return GC.groupColorVoltage
-            if(MeasChannelInfo.rangeGroupCurrent.indexOf(channelName) >= 0)
-                return GC.groupColorCurrent
-            if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
-                return GC.groupColorReference
-        }
+    function getColorByIndex(rangIndex) {
+        let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
+        if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
+            return GC.groupColorReference
         return GC.currentColorTable[rangIndex-1]
-    }
-    function gradientColor(color0, color1, zeroOneVal) {
-        let brightnessSquare0 = color0.r*color0.r + color0.g*color0.g + color0.b*color0.b
-        let brightnessSquare1 = color1.r*color1.r + color1.g*color1.g + color1.b*color1.b
-        let brightnessSquareDesired = (1-zeroOneVal)*brightnessSquare0 + zeroOneVal*brightnessSquare1
-
-        let red = (1-zeroOneVal)*color0.r + zeroOneVal*color1.r
-        let green = (1-zeroOneVal)*color0.g + zeroOneVal*color1.g
-        let blue = (1-zeroOneVal)*color0.b + zeroOneVal*color1.b
-        let alpha = (1-zeroOneVal)*color0.a + zeroOneVal*color1.a
-
-        let brightnessSquareAfterLinear = red*red + blue*blue + green*green
-        let brightnessScale = Math.sqrt(brightnessSquareDesired / brightnessSquareAfterLinear)
-
-        red = red*brightnessScale
-        green = green*brightnessScale
-        blue = blue*brightnessScale
-
-        if(red > 1)
-            red = 1
-        if(green > 1)
-            green = 1
-        if(blue > 1)
-            blue = 1
-        if(alpha > 1)
-            alpha = 1
-        return Qt.rgba(red, green, blue, alpha)
     }
 
     /////////////////////////////////////////////////////////////////////////////

@@ -23,7 +23,6 @@ Loader {
             readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
             readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
             property int contentWidth: root.width/(root.channelCount/2)*0.9
-            readonly property int rangeGrouping: rangeModule.PAR_ChannelGrouping
 
             signal sigOverloadHintClicked();
 
@@ -60,7 +59,7 @@ Loader {
                         font.pointSize: smallPointSize
                         anchors.verticalCenter: parent.verticalCenter
                         text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
-                        color: FT.getColorByIndex(modelData, rangeGrouping)
+                        color: FT.getColorByIndex(modelData)
                         font.bold: true
                     }
                     Label {
@@ -109,7 +108,7 @@ Loader {
                         font.pointSize: smallPointSize
                         anchors.verticalCenter: parent.verticalCenter
                         text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
-                        color: FT.getColorByIndex(modelData, rangeGrouping)
+                        color: FT.getColorByIndex(modelData)
                         font.bold: true
                     }
                     Label {
