@@ -126,6 +126,7 @@ int main(int argc, char *argv[])
     QmlAppStarterForWebGL *pWGLSingleon = QmlAppStarterForWebGL::getStaticInstance();
     pWGLSingleon->setIsServer(webGlServer);
     pWGLSingleon->setEnableSource(enableSourceControl);
+    qputenv("QT_QUICK_CONTROLS_HOVER_ENABLED", QByteArray(webGlServer? "1" : "0"));
 
     JsonSettingsFile *globalSettingsFile = JsonSettingsFile::getInstance();
     loadSettings(globalSettingsFile, webGlServer);
