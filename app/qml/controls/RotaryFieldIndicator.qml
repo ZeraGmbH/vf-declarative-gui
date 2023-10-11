@@ -7,8 +7,7 @@ import ZeraTranslation 1.0
 
 Item {
     id: root
-    property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
-    property var rotaryField: dftModule.ACT_RFIELD !== undefined ? String(dftModule.ACT_RFIELD).split("") : []
+    property var rotaryField: GC.entityInitializationDone ? String(VeinEntity.getEntity("DFTModule1").ACT_RFIELD).split("") : []
 
     Repeater {
         model: rotaryField.length
