@@ -39,7 +39,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignBottom
             text: FAQ.fa_dot_circle
-            visible: measModeCombo.entity.PAR_FOUT0 !== undefined
+            visible: measModeCombo.entity.PAR_FOUT0 !== undefined && measModeCombo.entity.PAR_FOUT0 !== ""
         }
         MeasModeCombo {
             id: measModeCombo

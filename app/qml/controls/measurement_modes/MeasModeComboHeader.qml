@@ -16,7 +16,7 @@ Rectangle {
     property var entityIntrospection
     property real visibleHeight
 
-    visible: entity.PAR_FOUT0 !== undefined
+    visible: entity.PAR_FOUT0 !== undefined && entity.PAR_FOUT0 !== ""
     height: visible ? visibleHeight : 0
     width: parent.width
     color: "white"
