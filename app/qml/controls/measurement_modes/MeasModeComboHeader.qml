@@ -16,8 +16,8 @@ Rectangle {
     property var entityIntrospection
     property real visibleHeight
 
-    visible: entity.PAR_FOUT0 !== ""
-    height: entity.PAR_FOUT0 !== "" ? visibleHeight : 0
+    visible: entity.PAR_FOUT0 !== undefined
+    height: visible ? visibleHeight : 0
     width: parent.width
     color: "white"
     property real pointSize: height > 0 ? height * 0.115 : 5
@@ -33,7 +33,7 @@ Rectangle {
             font.pointSize: pointSize
         }
         Text {
-            text: root.entity.PAR_FOUT0
+            text: root.visible ?  entity.PAR_FOUT0 : ""
             font.pointSize: pointSize
         }
         Text {
@@ -56,7 +56,7 @@ Rectangle {
         }
         Text {
             text: {
-                let meterConstant = Number(root.entity.PAR_FOUTConstant0)
+                let meterConstant = entity.PAR_FOUTConstant0 !== undefined ? Number(entity.PAR_FOUTConstant0) : 0
                 // at the time of writing module does not update unit on mode
                 // change. Maybe it never will...
                 //let unit = entityIntrospection.ComponentInfo[String("ACT_PQS1")].Unit
