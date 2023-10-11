@@ -14,7 +14,8 @@ Loader {
     id: invisibleRoot
     active: false
     property bool highlighted: false
-    property real pointSize: 18
+    property real pointSize
+    property real smallPointSize: pointSize*0.625
     sourceComponent: Component {
         Item {
             id: root
@@ -53,10 +54,10 @@ Loader {
                     id: itemVoltage
                     width: root.contentWidth*0.9
                     height: root.height/2
+
                     Label {
                         width: parent.width*0.5
-                        font.pixelSize: parent.height/1.3
-                        fontSizeMode: Label.HorizontalFit
+                        font.pointSize: smallPointSize
                         anchors.verticalCenter: parent.verticalCenter
                         text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
                         color: FT.getColorByIndex(modelData, rangeGrouping)
@@ -66,8 +67,7 @@ Loader {
                         width: parent.width*0.5
                         anchors.right: parent.right
                         horizontalAlignment: Label.AlignRight
-                        font.pixelSize: parent.height/1.3
-                        fontSizeMode: Label.HorizontalFit
+                        font.pointSize: smallPointSize
                         anchors.verticalCenter: parent.verticalCenter
                         text: root.rangeModule["PAR_Channel"+parseInt(modelData)+"Range"]
                         color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
@@ -106,8 +106,7 @@ Loader {
                     height: root.height/2
                     Label {
                         width: parent.width*0.5
-                        font.pixelSize: parent.height/1.3
-                        fontSizeMode: Label.HorizontalFit
+                        font.pointSize: smallPointSize
                         anchors.verticalCenter: parent.verticalCenter
                         text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
                         color: FT.getColorByIndex(modelData, rangeGrouping)
@@ -117,8 +116,7 @@ Loader {
                         width: parent.width*0.5
                         anchors.right: parent.right
                         horizontalAlignment: Label.AlignRight
-                        font.pixelSize: parent.height/1.3
-                        fontSizeMode: Label.HorizontalFit
+                        font.pointSize: smallPointSize
                         anchors.verticalCenter: parent.verticalCenter
                         text: root.rangeModule["PAR_Channel"+parseInt(modelData)+"Range"]
                         color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
