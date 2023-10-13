@@ -510,7 +510,7 @@ SettingsView {
                 }
             }
             RowLayout {
-                opacity: enabled ? 1.0 : 0.7
+                opacity: enabled ? 1.0 : 0.5
                 height: root.rowHeight;
                 width: root.rowWidth;
                 Label {

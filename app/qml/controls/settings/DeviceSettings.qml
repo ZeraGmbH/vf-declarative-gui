@@ -46,7 +46,7 @@ SettingsView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
-                opacity: enabled ? 1.0 : 0.7
+                opacity: enabled ? 1.0 : 0.5
             }
             Item {
                 Layout.fillWidth: true
@@ -62,7 +62,7 @@ SettingsView {
                 model: ModuleIntrospection.sampleIntrospection.ComponentInfo.PAR_PllChannel.Validation.Data
                 Layout.preferredWidth: root.rowWidth/4
                 Layout.preferredHeight: root.rowHeight*0.9
-                opacity: enabled ? 1.0 : 0.7
+                opacity: enabled ? 1.0 : 0.5
                 pointSize: root.pointSize
             }
         }
@@ -79,7 +79,7 @@ SettingsView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
-                opacity: enabled ? 1.0 : 0.7
+                opacity: enabled ? 1.0 : 0.5
             }
             Item {
                 Layout.fillWidth: true
@@ -95,7 +95,7 @@ SettingsView {
                 model: ModuleIntrospection.dftIntrospection.ComponentInfo.PAR_RefChannel.Validation.Data
                 Layout.preferredWidth: root.rowWidth/4
                 Layout.preferredHeight: root.rowHeight*0.9
-                opacity: enabled ? 1.0 : 0.7
+                opacity: enabled ? 1.0 : 0.5
                 pointSize: root.pointSize
             }
         }
