@@ -61,8 +61,7 @@ ListView {
         readonly property string channelName: MeasChannelInfo.channelNames[systemChannelNo-1]
         readonly property string rangeComponentName: "PAR_Channel"+parseInt(systemChannelNo)+"Range"
         readonly property bool isGroupLeader: systemChannelNo === MeasChannelInfo.voltageGroupLeaderIdx || systemChannelNo === MeasChannelInfo.currentGroupLeaderIdx
-        readonly property bool isNotInGroup: !MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)
-        readonly property bool isLeaderOrNotInGroup: isGroupLeader || isNotInGroup
+        readonly property bool isLeaderOrNotInGroup: isGroupLeader || !MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)
         readonly property real leaderMaxWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
         readonly property real leaderCurrWidth: width + (leaderMaxWidth-width)*groupAnimationValue
         readonly property real relLeaderXPos: - index * (width+spacing)
@@ -123,7 +122,7 @@ ListView {
             width: channelsRow.isGroupLeader ? channelsRow.leaderCurrWidth : parent.width
             anchors.top: label.bottom
             pointSize: root.pointSize
-            enabled: channelsRow.isNotInGroup || !MeasChannelInfo.rangeAutoActive
+            enabled: !MeasChannelInfo.rangeAutoActive
             popupKeepHorizontalSize: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader
             contentMaxRows: 5
             visible: {
