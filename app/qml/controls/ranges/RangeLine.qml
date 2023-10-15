@@ -81,7 +81,7 @@ ListView {
             color: FT.getColorByIndex(channelsRow.systemChannelNo)
         }
 
-        SimpleAndCheapVu {
+        SacVuUnsigned {
             anchors.top : parent.top
             height: label.height * 0.75
             anchors.left: label.right
