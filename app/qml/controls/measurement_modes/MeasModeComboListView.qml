@@ -13,13 +13,14 @@ ListView {
         anchors.right: parent.right
         height: rowHeight * 2
         readonly property real headerHeight: height * 0.2
+        readonly property real headerComboMargin: headerHeight * 0.3
         readonly property real comboHeight: height * 0.6
         Label {
             id: mmodeLabel
             height: mmodeEntry.headerHeight
             anchors.left: parent.left
             anchors.top: parent.top
-            verticalAlignment: Label.AlignBottom
+            verticalAlignment: Label.AlignVCenter
             font.pointSize: pointSize
             text: {
                 let availTypes = PwrModVeinGetter.getPowerModuleEntity(index).INF_ModeTypes
@@ -28,7 +29,7 @@ ListView {
                 let colorPostfix = "</font>"
                 let labelText = availTypes.join("/")
                 labelText = labelText.replace(currentType, colorPrefix + currentType + colorPostfix)
-                return labelText + ":"
+                return labelText
             }
         }
         Label {
@@ -37,7 +38,7 @@ ListView {
             anchors.top: parent.top
             height: headerHeight
             font.pointSize: pointSize
-            verticalAlignment: Label.AlignBottom
+            verticalAlignment: Label.AlignVCenter
             text: FAQ.fa_dot_circle
             visible: measModeCombo.entity.PAR_FOUT0 !== undefined && measModeCombo.entity.PAR_FOUT0 !== ""
         }
@@ -46,6 +47,7 @@ ListView {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: mmodeLabel.bottom
+            anchors.topMargin: mmodeEntry.headerComboMargin
             height: mmodeEntry.comboHeight
             power1ModuleIdx: index
             pointSize: root.pointSize

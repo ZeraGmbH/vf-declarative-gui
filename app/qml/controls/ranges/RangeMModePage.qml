@@ -14,10 +14,10 @@ import "../../controls/measurement_modes"
 
 Item {
     id: root
-
     property bool showMeasModes: PwrModVeinGetter.canSessionChangeMMode
     property bool showRatioLines: true
     property bool enableRangeAutomaticAndGrouping: true
+    anchors.rightMargin: showMeasModes ? -8 : 0 // hack to compensate Main.Qml global margin in StackLayout
 
     readonly property int rowCount: 10
     readonly property real rowHeight: height / rowCount
@@ -169,7 +169,7 @@ Item {
     }
     Component {
         id: measModeComponent
-        GridRect {
+        Item {
             anchors.fill: parent
             Item {
                 id: upperAreaRight
@@ -178,7 +178,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 Label {
-                    text: Z.tr("Measurement modes:")
+                    text: Z.tr("Measurement modes")
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom

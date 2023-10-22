@@ -19,8 +19,8 @@ ListView {
     orientation: ListView.Horizontal
 
     readonly property real headerHeight: height * 0.2
+    readonly property real headerComboMargin: headerHeight * 0.3
     readonly property real comboHeight: height * 0.6
-    readonly property real vuHeight: height * 0.15
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
     readonly property int groupMemberCount: {
         let count = 0
@@ -76,14 +76,14 @@ ListView {
             anchors.top: parent.top
             height: headerHeight
             font.pointSize: pointSize
-            verticalAlignment: Label.AlignBottom
-            text: Z.tr(channelsRow.channelName) + ":"
+            verticalAlignment: Label.AlignVCenter
+            text: Z.tr(channelsRow.channelName)
             color: FT.getColorByIndex(channelsRow.systemChannelNo)
         }
 
         SacVuUnsigned {
             anchors.top : parent.top
-            height: label.height * 0.75
+            height: headerHeight
             anchors.left: label.right
             anchors.leftMargin: parent.width * 0.025
             anchors.right: parent.right
@@ -116,6 +116,7 @@ ListView {
             anchors.left: parent.left
             width: channelsRow.isGroupLeader ? channelsRow.leaderCurrWidth : parent.width
             anchors.top: label.bottom
+            anchors.topMargin: headerComboMargin
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
             popupKeepHorizontalSize: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader

@@ -27,7 +27,7 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         font.pointSize: pointSize
-        text: Z.tr("Ratio") + ":"
+        text: Z.tr("Ratio")
         entity: rangeModule
         controlPropertyName: "PAR_PreScalingEnabledGroup" + prescalingGroup
     }
