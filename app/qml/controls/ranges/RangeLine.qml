@@ -88,11 +88,6 @@ ListView {
             anchors.leftMargin: parent.width * 0.025
             anchors.right: parent.right
             horizontal: true
-            // We cannot use Material colors: They often just add opacity (not worst ideea to react on dark/light)
-            vuBackColor: Qt.darker("dimgray", 1.5)
-            vuEndRadius: 4
-            vuOvershootIndicatorColor: "yellow"
-
             readonly property real preScale: {
                 let ret = 1.0
                 // maybe I am missing something but scale from range module is 1/scale here...
