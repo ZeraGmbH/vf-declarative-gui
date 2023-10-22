@@ -21,9 +21,9 @@ Item {
 
     readonly property int rowCount: 10
     readonly property real rowHeight: height / rowCount
-    readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.325 : 10
+    readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.36 : 10
     readonly property real upperAreaHeight: rowHeight*2
-    readonly property real leftWidth: root.width * (showMeasModes ? 0.8 : 1)
+    readonly property real leftWidth: root.width * (showMeasModes ? 0.775 : 1)
     readonly property real frameMargin: rowHeight * 0.3
 
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
@@ -38,13 +38,14 @@ Item {
             id: rangeAutomaticLine
             anchors.top: parent.top
             anchors.left: parent.left
-            width: leftWidth * 0.5
+            width: leftWidth * 0.66
             height: rowHeight
             VFSwitch {
                 id: autoMode
                 text: Z.tr("Range automatic")
                 anchors.left: parent.left
                 anchors.leftMargin: frameMargin
+                leftPadding: 0
                 anchors.right: parent.right
                 height: rowHeight
                 font.pointSize: pointSize
@@ -56,13 +57,14 @@ Item {
         Item {
             anchors.top: rangeAutomaticLine.bottom
             anchors.left: parent.left
-            width: leftWidth * 0.5
+            width: leftWidth * 0.66
             height: rowHeight
             VFSwitch {
                 id: groupingMode
                 text: Z.tr("Range grouping")
                 anchors.left: parent.left
                 anchors.leftMargin: frameMargin
+                leftPadding: 0
                 anchors.right: parent.right
                 height: rowHeight
                 font.pointSize: pointSize
@@ -73,7 +75,7 @@ Item {
         }
         OverloadButton {
             id: overloadButton
-            anchors.left: rangeAutomaticLine.right
+            width: parent.width * 0.33
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: frameMargin

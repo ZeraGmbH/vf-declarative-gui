@@ -14,7 +14,7 @@ Item {
     readonly property string groupComponentName: "PAR_PreScalingGroup" + prescalingGroup
     readonly property var groupValues: rangeModule[groupComponentName].split("*")[0].split("/")
     readonly property real ratioEditWidth: width * 0.15
-    readonly property real sqrtComboWidth: width * 0.125
+    readonly property real sqrtComboWidth: width * 0.12
     readonly property color enableTextColor: enableRatio.checked ? Qt.lighter(Material.color(Material.Amber)) : Material.foreground
     function setRatioValueComponents(nominator, denominator, sqrtText) {
         rangeModule[groupComponentName] = nominator + "/" + denominator + (hasSqrtFactor ? sqrtText : "")
@@ -23,7 +23,8 @@ Item {
     VFSwitch{
         id: enableRatio
         anchors.left: parent.left
-        width: implicitWidth * 1.03
+        leftPadding: 0
+        width: implicitWidth * 1.05
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         font.pointSize: pointSize
