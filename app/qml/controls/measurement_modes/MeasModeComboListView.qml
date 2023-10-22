@@ -27,7 +27,7 @@ ListView {
                 let currentType = PwrModVeinGetter.getPowerModuleEntity(index).ACT_PowerDisplayName
                 let colorPrefix = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>"
                 let colorPostfix = "</font>"
-                let labelText = availTypes.join("/")
+                let labelText = availTypes.join("")
                 labelText = labelText.replace(currentType, colorPrefix + currentType + colorPostfix)
                 return labelText
             }
