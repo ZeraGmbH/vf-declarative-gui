@@ -15,7 +15,7 @@ Loader {
     active: false
     property bool highlighted: false
     property real pointSize
-    property real smallPointSize: pointSize*0.625
+    property real smallPointSize: pointSize*0.6
     sourceComponent: Component {
         Item {
             id: root
