@@ -191,7 +191,7 @@ Item {
         if(typeof num === "string") //parsing strings as number is not desired
             return num;
         if(isNaN(num))
-            return "---";
+            return "--";
         let dec = _decimalPlaces
         let leadDigits = Math.floor(Math.abs(num)).toString()
         // leading zero is not a digit
