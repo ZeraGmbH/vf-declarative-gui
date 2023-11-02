@@ -14,6 +14,7 @@ Item {
     id: root
 
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount : Math.min(ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount, 6)
+    readonly property bool displayAuxPhases: channelCount > 6
     readonly property int row1stHeight: Math.floor(height/8)
     readonly property int rowHeight: Math.floor((height-row1stHeight)/4)
     readonly property int columnWidth1st: pixelSize * 2.3
@@ -23,7 +24,7 @@ Item {
 
     SortFilterProxyModel {
         id: filteredActualValueModel
-        sourceModel: GC.showAuxPhases ? ZGL.ActualValueModelWithAux : ZGL.ActualValueModel
+        sourceModel: displayAuxPhases ? ZGL.ActualValueModelWithAux : ZGL.ActualValueModel
         filters: [
             RegExpFilter {
                 roleName: "Name"
@@ -33,7 +34,6 @@ Item {
             }
         ]
     }
-
     Item {
         anchors.fill: parent
         ListView {
@@ -79,10 +79,10 @@ Item {
                         width: root.columnWidth
                         height: parent.height
                         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                        text: FT.formatNumberForScaledValues(AUX)
+                        text: displayAuxPhases ? FT.formatNumberForScaledValues(AUX) : ""
                         textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
                         font.pixelSize: root.pixelSize
-                        visible: channelCount > 6
+                        visible: displayAuxPhases
                     }
                     GridItem {
                         width: root.columnWidthLast
