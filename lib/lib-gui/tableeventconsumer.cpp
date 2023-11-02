@@ -1,5 +1,6 @@
 #include "tableeventconsumer.h"
 #include "actualvaluemodel.h"
+#include "actualvaluemodelwithaux.h"
 #include "actualvalueemobacmodel.h"
 #include "actualvalueemob4thphasedcmodel.h"
 #include "actualvalueemobacsummodel.h"
@@ -16,8 +17,10 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
     m_propertyMap(t_propertyMap),
     m_translation(ZeraTranslation::getInstance()),
     m_actValueData(new ActualValueModel),
+    m_actValueDataWithAux(new ActualValueModelWithAux),
     m_actValueModels(QList<TableEventItemModelBase*>()
             << m_actValueData
+            << m_actValueDataWithAux
             << new ActualValueEmobAcModel
             << new ActualValueEmob4thPhaseDcModel
             << new ActualValueEmobAcSumModel
@@ -40,12 +43,10 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
 
     setLabelsAndUnits();
 
-    for(const auto &itemModel : qAsConst(m_actValueModels)) {
+    for(const auto &itemModel : qAsConst(m_actValueModels))
         itemModel->setupMapping();
-    }
-    for(const auto &item : qAsConst(m_osciValueModels)) {
+    for(const auto &item : qAsConst(m_osciValueModels))
         item.m_model->setupMapping();
-    }
     m_burden1Data->setupMapping();
     m_burden2Data->setupMapping();
     setupFftData();
@@ -56,12 +57,10 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
 
 TableEventConsumer::~TableEventConsumer()
 {
-    for(const auto &itemModel : qAsConst(m_actValueModels)) {
+    for(const auto &itemModel : qAsConst(m_actValueModels))
         delete itemModel;
-    }
-    for(const auto &item : qAsConst(m_osciValueModels)) {
+    for(const auto &item : qAsConst(m_osciValueModels))
         delete item.m_model;
-    }
     m_osciValueModels.clear();
 
     delete m_burden1Data;

@@ -23,8 +23,7 @@ Item {
 
   SortFilterProxyModel {
     id: filteredActualValueModel
-    sourceModel: ZGL.ActualValueModel
-
+    sourceModel: GC.showAuxPhases ? ZGL.ActualValueModelWithAux : ZGL.ActualValueModel
     filters: [
       RegExpFilter {
         roleName: "Name"
@@ -39,7 +38,7 @@ Item {
     anchors.fill: parent
     ListView {
       anchors.fill: parent
-      model: filteredActualValueModel //ZGL.ActualValueModel
+      model: filteredActualValueModel
       boundsBehavior: Flickable.StopAtBounds
 
       delegate: Component {
