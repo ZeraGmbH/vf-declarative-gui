@@ -100,26 +100,19 @@ void TableEventConsumer::setAngleUI(int t_systemNumber)
     Q_ASSERT(t_systemNumber==-1 || (t_systemNumber>0 && t_systemNumber<4));
     double tmpAngle = 0;
     QModelIndex tmpIndex;
-
     switch(t_systemNumber)
     {
     case -1:
         return; //angle calculation is currently not supported for ACT_DFTPN(7/8) so skip this function
     case 1:
-    {
         tmpAngle = m_angleI1-m_angleU1;
         break;
-    }
     case 2:
-    {
         tmpAngle = m_angleI2-m_angleU2;
         break;
-    }
     case 3:
-    {
         tmpAngle = m_angleI3-m_angleU3;
         break;
-    }
     }
 
     tmpIndex = m_burden1Data->index(3,0);
@@ -127,39 +120,30 @@ void TableEventConsumer::setAngleUI(int t_systemNumber)
     tmpIndex = m_burden2Data->index(3,0);
     m_burden2Data->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
 
-
     if(tmpAngle > 180) //display as negative
-    {
         tmpAngle -= 360;
-    }
     else if(tmpAngle < -180) //display as positive
-    {
         tmpAngle += 360;
-    }
-
     tmpIndex = m_actValueData->index(8, 0);
-    m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
+    m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber);
+    tmpIndex = m_actValueDataWithAux->index(8, 0);
+    m_actValueDataWithAux->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber);
 }
 
 void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
 {
     QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
-    for(auto model : qAsConst(allBaseItemModels)) {
+    for(auto model : qAsConst(allBaseItemModels))
         model->handleComponentChange(cData);
-    }
 
     switch(static_cast<Modules>(cData->entityId()))
     {
     case Modules::FftModule:
-    {
         handleFftValues(cData);
         break;
-    }
     case Modules::Power3Module:
-    {
         handleHarmonicPowerValues(cData);
         break;
-    }
     case Modules::Burden1Module:
     {
         const auto burdenMapping = m_burden1Data->getValueMapping().value(cData->entityId(), nullptr);
