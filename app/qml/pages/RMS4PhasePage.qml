@@ -14,17 +14,17 @@ Item {
     id: root
 
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount : Math.min(ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount, 6)
-    readonly property bool displayAuxPhases: channelCount > 6
+    readonly property bool displayAuxColumn: channelCount > 6
     readonly property int row1stHeight: Math.floor(height/8)
     readonly property int rowHeight: Math.floor((height-row1stHeight)/4)
     readonly property int columnWidth1st: pixelSize * 2.3
     readonly property int columnWidthLast: pixelSize * 1.3
     readonly property int columnWidth: (width-(columnWidth1st+columnWidthLast))/(channelCount/2)
-    readonly property int pixelSize: (channelCount>6 ? rowHeight*0.36 : rowHeight*0.45)
+    readonly property int pixelSize: (displayAuxColumn ? rowHeight*0.36 : rowHeight*0.45)
 
     SortFilterProxyModel {
         id: filteredActualValueModel
-        sourceModel: displayAuxPhases ? ZGL.ActualValueModelWithAux : ZGL.ActualValueModel
+        sourceModel: displayAuxColumn ? ZGL.ActualValueModelWithAux : ZGL.ActualValueModel
         filters: [
             RegExpFilter {
                 roleName: "Name"
@@ -79,10 +79,10 @@ Item {
                         width: root.columnWidth
                         height: parent.height
                         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                        text: displayAuxPhases ? FT.formatNumberForScaledValues(AUX) : ""
+                        text: displayAuxColumn ? FT.formatNumberForScaledValues(AUX) : ""
                         textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
                         font.pixelSize: root.pixelSize
-                        visible: displayAuxPhases
+                        visible: displayAuxColumn
                     }
                     GridItem {
                         width: root.columnWidthLast
