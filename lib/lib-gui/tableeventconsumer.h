@@ -36,6 +36,7 @@ private:
     ZeraTranslation *m_translation = nullptr;
 
     TableEventItemModelBase *m_actValueData;
+    TableEventItemModelBase *m_actValueDataWithAux;
     QList<TableEventItemModelBase*> m_actValueModels;
     struct TQmlLabelModelPair {
         TQmlLabelModelPair(QString qmlName, TableEventItemModelBase* model);
