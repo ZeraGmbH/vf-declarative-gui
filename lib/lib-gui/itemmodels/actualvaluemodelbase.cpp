@@ -16,7 +16,8 @@ void ActualValueModelBase::setLabelsAndUnits()
     setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
     setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
     setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
-    setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
+    if(m_withAuxColumsInAutoScale)
+        setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
     setData(mIndex, "Σ", RoleIndexes::SUM);
     setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
@@ -82,7 +83,8 @@ void ActualValueModelBase::setupMapping()
     rmsMap->insert("ACT_RMSPN1", QPoint(RoleIndexes::L1, 1));
     rmsMap->insert("ACT_RMSPN2", QPoint(RoleIndexes::L2, 1));
     rmsMap->insert("ACT_RMSPN3", QPoint(RoleIndexes::L3, 1));
-    rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::AUX, 1));
+    if(m_withAuxColumsInAutoScale)
+        rmsMap->insert("ACT_RMSPN7", QPoint(RoleIndexes::AUX, 1));
     m_autoScaleRows.mapValueColumns(1, m_withAuxColumsInAutoScale
                                     ? QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::AUX
                                     : QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
@@ -97,7 +99,8 @@ void ActualValueModelBase::setupMapping()
     dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, 3));
     dftMap->insert("ACT_DFTPN2", QPoint(RoleIndexes::L2, 3));
     dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, 3));
-    dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::AUX, 3));
+    if(m_withAuxColumsInAutoScale)
+        dftMap->insert("ACT_DFTPN7", QPoint(RoleIndexes::AUX, 3));
 
     QHash<QString, QPoint> *thdnMap = new QHash<QString, QPoint>();
     thdnMap->insert("ACT_THDR1", QPoint(RoleIndexes::L1, 4));
@@ -107,7 +110,8 @@ void ActualValueModelBase::setupMapping()
     rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, 5));
     rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, 5));
     rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, 5));
-    rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::AUX, 5));
+    if(m_withAuxColumsInAutoScale)
+        rmsMap->insert("ACT_RMSPN8", QPoint(RoleIndexes::AUX, 5));
     m_autoScaleRows.mapValueColumns(5, m_withAuxColumsInAutoScale
                                     ? QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3 << RoleIndexes::AUX
                                     : QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
@@ -186,7 +190,8 @@ QHash<int, QByteArray> ActualValueModelBase::roleNames() const
     roles.insert(RoleIndexes::L1, "L1");
     roles.insert(RoleIndexes::L2, "L2");
     roles.insert(RoleIndexes::L3, "L3");
-    roles.insert(RoleIndexes::AUX, "AUX");
+    if(m_withAuxColumsInAutoScale)
+        roles.insert(RoleIndexes::AUX, "AUX");
     roles.insert(RoleIndexes::SUM, "Sum");
     roles.insert(RoleIndexes::UNIT, "Unit");
     roles.insert(RoleIndexes::TYPE, "Type");
