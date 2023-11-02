@@ -4,11 +4,6 @@
 
 ActualValueModelBase::ActualValueModelBase(bool withAuxColumsInAutoScale) :
     TableEventItemModelBase(14, 1),
-    /* This requires explanation:
-     * To avoid copying the code here for tables with and without AUX
-     * columns m_auxRoleScale points to RoleIndexes::NOTDISPLAYED in the non
-     * AUX case. So it which won't receive values. The dance is necessary to keep AUX
-     * out of auto-scale rows */
     m_withAuxColumsInAutoScale(withAuxColumsInAutoScale)
 {
 }
@@ -226,7 +221,6 @@ void ActualValueModelBase::handleComponentChangeCoord(const VeinComponent::Compo
         QString newValue = cData->newValue().toString();
         insertPowerName(valueCoordiates.y(), newValue);
     }
-
     else if(cData->componentName() == QLatin1String("INF_ModuleInterface")) {
         QString newValue = cData->newValue().toString();
         const auto json = QJsonDocument::fromJson(newValue.toUtf8());
@@ -255,4 +249,3 @@ void ActualValueModelBase::updateMModeTranslations()
                                            m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
     m_autoScaleRows.setUnitInfo(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString(), RoleIndexes::UNIT);
 }
-
