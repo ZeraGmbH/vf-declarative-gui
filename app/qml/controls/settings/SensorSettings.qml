@@ -40,7 +40,7 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
-                text: Z.tr("Temperature (°C):")
+                text: Z.tr("Temperature [°C]:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
                 Layout.fillWidth: true
@@ -53,6 +53,66 @@ SettingsView {
             Label {
                 font.pointSize: root.pointSize
                 text: parseFloat(bleSensorEnt.ACT_TemperatureC)
+            }
+        }
+
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
+                text: Z.tr("Temperature [°F]:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+            Label {
+                font.pointSize: root.pointSize
+                text: parseFloat(bleSensorEnt.ACT_TemperatureF)
+            }
+        }
+
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
+                text: Z.tr("Humidity [%]:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+            Label {
+                font.pointSize: root.pointSize
+                text: parseFloat(bleSensorEnt.ACT_Humidity)
+            }
+        }
+
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
+                text: Z.tr("Airpressure [hPa]:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+            Label {
+                font.pointSize: root.pointSize
+                text: parseFloat(bleSensorEnt.ACT_AirPressure)
             }
         }
     }
