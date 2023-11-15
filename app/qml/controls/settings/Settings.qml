@@ -49,6 +49,14 @@ BaseTabPage {
             height: tabHeight
         }
     }
+    Component{
+        id: sensorTab
+        TabButton {
+            text: Z.tr("Sensor settings")
+            font.pointSize: tabPointSize
+            height: tabHeight
+        }
+    }
 
     // Views
     Component{
@@ -73,6 +81,11 @@ BaseTabPage {
         }
     }
 
+    Component{
+        id: sensorPage
+        SensorSettings { }
+    }
+
     // create tabs/pages dynamic
     Component.onCompleted: {
         tabBar.addItem(appTab.createObject(tabBar))
@@ -85,6 +98,11 @@ BaseTabPage {
             tabBar.addItem(netTab.createObject(tabBar))
             swipeView.addItem(netPage.createObject(swipeView))
         }
+
+        tabBar.addItem(sensorTab.createObject(tabBar))
+        swipeView.addItem(sensorPage.createObject(swipeView))
+
+
         finishInit()
     }
 }
