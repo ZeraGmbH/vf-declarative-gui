@@ -12,6 +12,7 @@ import ZeraVeinComponents 1.0
 SettingsView {
     id: root
 
+    readonly property QtObject bleSensorEnt: VeinEntity.getEntity("BleModule1");
     readonly property real safeHeight: height > 0.0 ? height : 10
     rowHeight: safeHeight/8.5
     readonly property real pointSize: rowHeight * 0.34
@@ -45,6 +46,13 @@ SettingsView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+            Label {
+                font.pointSize: root.pointSize
+                text: parseFloat(bleSensorEnt.ACT_TemperatureC)
             }
         }
     }
