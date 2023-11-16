@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.1
 import QtQuick.Controls.Material 2.0
+import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
@@ -80,7 +81,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: parseFloat(bleSensorEnt.ACT_TemperatureC)
+                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_TemperatureC))
             }
         }
 
@@ -100,7 +101,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: parseFloat(bleSensorEnt.ACT_TemperatureF)
+                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_TemperatureF))
             }
         }
 
@@ -120,7 +121,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: parseFloat(bleSensorEnt.ACT_Humidity)
+                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_Humidity))
             }
         }
 
@@ -140,7 +141,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: parseFloat(bleSensorEnt.ACT_AirPressure)
+                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_AirPressure))
             }
         }
     }
