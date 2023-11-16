@@ -31,8 +31,36 @@ SettingsView {
             }
             VFSwitch {
                 Layout.fillHeight: true
-                entity: VeinEntity.getEntity("BleModule1")
+                entity: bleSensorEnt
                 controlPropertyName: "PAR_BluetoothOn"
+            }
+        }
+
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
+                text: Z.tr("MAC Address:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            VFLineEdit {
+                id: macAddress
+                // overrides
+                function hasValidInput() {
+                    var regex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$|^$/
+                    return regex.test(textField.text)
+                }
+                entity: bleSensorEnt
+                controlPropertyName: "PAR_MacAddress"
+                inputMethodHints: Qt.ImhNoAutoUppercase
+                Layout.fillHeight: true
+                pointSize: root.pointSize
+                width: 220
+                enabled: true
             }
         }
 
