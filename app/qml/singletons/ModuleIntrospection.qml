@@ -28,6 +28,7 @@ Item {
     property var burden2Introspection: VeinEntity.hasEntity("Burden1Module2") ? JSON.parse(VeinEntity.getEntity("Burden1Module2").INF_ModuleInterface) : 0
     property var transformer1Introspection: VeinEntity.hasEntity("Transformer1Module1") ? JSON.parse(VeinEntity.getEntity("Transformer1Module1").INF_ModuleInterface) : 0
     property var customerdataIntrospection: VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0
+    property var bleIntrospection: VeinEntity.hasEntity("BleModule1") ? JSON.parse(VeinEntity.getEntity("BleModule1").INF_ModuleInterface) : 0
     property var introMap: ({})
 
     function reloadIntrospection() {
@@ -52,6 +53,7 @@ Item {
         burden2Introspection = Qt.binding(function() { return VeinEntity.hasEntity("Burden1Module2") ? JSON.parse(VeinEntity.getEntity("Burden1Module2").INF_ModuleInterface) : 0; })
         transformer1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("Transformer1Module1") ? JSON.parse(VeinEntity.getEntity("Transformer1Module1").INF_ModuleInterface) : 0; })
         customerdataIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("CustomerData") ? JSON.parse(VeinEntity.getEntity("CustomerData").INF_ModuleInterface) : 0; })
+        bleIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("BleModule1") ? JSON.parse(VeinEntity.getEntity("BleModule1").INF_ModuleInterface) : 0; })
         setMapping()
     }
 
