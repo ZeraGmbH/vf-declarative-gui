@@ -52,7 +52,7 @@ BaseTabPage {
     Component{
         id: sensorTab
         TabButton {
-            text: Z.tr("Sensor settings")
+            text: Z.tr("BLE sensor settings")
             font.pointSize: tabPointSize
             height: tabHeight
         }

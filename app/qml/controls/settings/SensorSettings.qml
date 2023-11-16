@@ -23,7 +23,7 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
-                text: Z.tr("Sensor environment (BLE):")
+                text: Z.tr("Bluetooth:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
                 Layout.fillWidth: true
@@ -41,7 +41,7 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
-                text: Z.tr("MAC Address:")
+                text: Z.tr("MAC address:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
                 Layout.fillWidth: true
@@ -129,7 +129,7 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
-                text: Z.tr("Airpressure [hPa]:")
+                text: Z.tr("Air pressure [hPa]:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
                 Layout.fillWidth: true
