@@ -76,9 +76,6 @@ SettingsView {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
-            Item {
-                Layout.fillWidth: true
-            }
             Label {
                 font.pointSize: root.pointSize
                 text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_TemperatureC))
@@ -95,9 +92,6 @@ SettingsView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
-            }
-            Item {
-                Layout.fillWidth: true
             }
             Label {
                 font.pointSize: root.pointSize
@@ -116,9 +110,6 @@ SettingsView {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
-            Item {
-                Layout.fillWidth: true
-            }
             Label {
                 font.pointSize: root.pointSize
                 text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_Humidity))
@@ -135,9 +126,6 @@ SettingsView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
-            }
-            Item {
-                Layout.fillWidth: true
             }
             Label {
                 font.pointSize: root.pointSize
