@@ -5,6 +5,7 @@ import QtQml.Models 2.1
 import QtQuick.Controls.Material 2.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
@@ -17,7 +18,7 @@ SettingsView {
     readonly property real safeHeight: height > 0.0 ? height : 10
     rowHeight: safeHeight/8.5
     readonly property real pointSize: rowHeight * 0.34
-
+    readonly property int decimalPlaces: 1
     model: VisualItemModel {
         RowLayout {
             height: root.rowHeight
@@ -77,7 +78,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_TemperatureC))
+                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureC), GC.digitsTotal, decimalPlaces)
             }
         }
 
@@ -94,7 +95,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_TemperatureF))
+                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureF), GC.digitsTotal, decimalPlaces)
             }
         }
 
@@ -111,7 +112,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_Humidity))
+                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_Humidity), GC.digitsTotal, decimalPlaces)
             }
         }
 
@@ -128,7 +129,7 @@ SettingsView {
             }
             Label {
                 font.pointSize: root.pointSize
-                text: FT.formatNumber(parseFloat(bleSensorEnt.ACT_AirPressure))
+                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_AirPressure), GC.digitsTotal, decimalPlaces)
             }
         }
     }
