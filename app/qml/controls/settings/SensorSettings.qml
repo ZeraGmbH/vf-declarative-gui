@@ -51,7 +51,7 @@ SettingsView {
                 id: macAddress
                 // overrides
                 function hasValidInput() {
-                    var regex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$|^$/
+                    var regex = RegExp(ModuleIntrospection.bleIntrospection.ComponentInfo.PAR_MacAddress.Validation.Data)
                     return regex.test(textField.text)
                 }
                 entity: bleSensorEnt
