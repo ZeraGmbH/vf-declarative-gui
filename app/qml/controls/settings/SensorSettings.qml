@@ -60,8 +60,7 @@ SettingsView {
                 inputMethodHints: Qt.ImhNoAutoUppercase
                 Layout.fillHeight: true
                 pointSize: root.pointSize
-                width: 220
-                enabled: true
+                Layout.preferredWidth: root.rowWidth/3.25
             }
         }
 
