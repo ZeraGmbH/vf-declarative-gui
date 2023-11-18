@@ -585,7 +585,6 @@ Item {
 
         PhasorDiagramEx {
             id: phasorDiagram
-            readonly property bool showActualValues: showActual.checked
             readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
             maxNominalFactor: 1.2
             vector2Color: currentColorTable[1]
@@ -614,7 +613,7 @@ Item {
             }
             readonly property var arrRmsXY: { // rms + phase on -> x/y
                 let arr = []
-                if(showActualValues) {
+                if(showActual.isActive) {
                     for(let phase=1; phase<=6; phase++)
                         arr.push(getVectorFromActual(phase))
                 }
@@ -684,13 +683,36 @@ Item {
             din410: !GC.vectorIecMode
         }
         Button {
+            id: showActual
+            property bool isActive: false
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            height: lineHeight
+            width: buttonWidth
+            topInset: 1
+            bottomInset: 1
+            rightInset: topInset
+            leftInset: topInset
+            font.pointSize: pointSize
+            text: {
+                let ret = FAQ.fa_binoculars
+                if(isActive) {
+                    let colorPrefix = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>"
+                    let colorPostfix = "</font>"
+                    ret = colorPrefix + ret + colorPostfix
+                }
+                return ret
+            }
+            onClicked: isActive = !isActive
+        }
+        Button {
             id: phasorViewSettingsButton
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             height: lineHeight
             width: buttonWidth
             topInset: 1
-            bottomInset: 2
+            bottomInset: 1
             rightInset: topInset
             leftInset: topInset
             font.pointSize: pointSize
@@ -698,13 +720,6 @@ Item {
             onClicked: {
                 phasorViewPopup.open()
             }
-        }
-        ZCheckBox {
-            id: showActual
-            text: FAQ.fa_eye
-            anchors.top: parent.top
-            anchors.left: parent.left
-            height: lineHeight
         }
         Popup {
             id: phasorViewPopup
