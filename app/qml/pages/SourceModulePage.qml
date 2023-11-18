@@ -1056,22 +1056,7 @@ Item {
                     anchors.topMargin: bottomRow.topFreeSpace
                     color: "red"
                     visible: declarativeJsonItem.on && !jsonState.busy
-                    // on-target animations take 20% CPU - disable for now
                     opacity: 0.35
-                    /*SequentialAnimation on opacity {
-                        running: visible
-                        loops: Animation.Infinite
-                        NumberAnimation {
-                            from: 0.20
-                            to: 0.35
-                            duration: 1500
-                        }
-                        NumberAnimation {
-                            from: 0.35
-                            to: 0.20
-                            duration: 1500
-                        }
-                    }*/
                 }
             }
             ZCheckBox {
