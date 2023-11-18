@@ -631,8 +631,8 @@ Item {
                 let max = 1e-6 // avoid division by 0
                 let phase
                 if(showActual.isActive) {
-                    let phaseOffsetForActual = isUNotI ? 0 : 3
-                    for(phase=1+phaseOffsetForActual; phase<=3+phaseOffsetForActual; phase++) {
+                    let phaseOffset = isUNotI ? 0 : 3
+                    for(phase=1+phaseOffset; phase<=3+phaseOffset; phase++) {
                         let vector = getVectorFromActual(phase)
                         let amplitude = Math.sqrt(Math.pow(vector[0], 2) + Math.pow(vector[1], 2))
                         max = Math.max(max, amplitude)
@@ -648,15 +648,8 @@ Item {
                 }
                 return max
             }
-
-            readonly property var maxVoltageRaw: {
-                return calcMax(true)
-            }
-            readonly property var maxCurrentRaw: {
-                return calcMax(false)
-            }
-            maxVoltage: maxVoltageRaw * maxNominalFactor
-            maxCurrent: maxCurrentRaw * maxNominalFactor
+            maxVoltage: calcMax(true) * maxNominalFactor
+            maxCurrent: calcMax(false) * maxNominalFactor
 
             vector1Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
                              [arrVectors[0][0],arrVectors[0][1]] :
