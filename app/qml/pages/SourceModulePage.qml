@@ -599,7 +599,7 @@ Item {
             vector6Color: currentColorTableVectors[5]
             forceI1Top: symmetricCheckbox.checked
 
-            function appendAmplitude(arrAmplitudes, isUNotI) {
+            function appendAmplitudeJson(arrAmplitudes, isUNotI) {
                 let phaseNameTemplate = isUNotI ? 'U%1' : 'I%1'
                 for(var phase=1; phase<=3; phase++) {
                     let jsonPhaseName = phaseNameTemplate.arg(phase)
@@ -610,14 +610,14 @@ Item {
             }
             readonly property var arrAmplitudes: { // 0.0 for phase off
                 let arr = []
-                appendAmplitude(arr, true)
-                appendAmplitude(arr, false)
+                appendAmplitudeJson(arr, true)
+                appendAmplitudeJson(arr, false)
                 return arr
             }
             function getVectorFromActual(phase) {
                 return dftModule["ACT_DFTPN" + parseInt(phase)]
             }
-            readonly property var arrRmsXY: { // rms + phase on -> x/y
+            readonly property var arrVectors: {
                 let arr = []
                 if(showActual.isActive) {
                     for(let phase=1; phase<=6; phase++)
@@ -677,15 +677,15 @@ Item {
             maxCurrent: maxCurrentRaw * maxNominalFactor
 
             vector1Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
-                             [arrRmsXY[0][0],arrRmsXY[0][1]] :
-                             [arrRmsXY[0][0]-arrRmsXY[1][0], arrRmsXY[0][1]-arrRmsXY[1][1]] /* UL1-UL2 */
+                             [arrVectors[0][0],arrVectors[0][1]] :
+                             [arrVectors[0][0]-arrVectors[1][0], arrVectors[0][1]-arrVectors[1][1]] /* UL1-UL2 */
             vector2Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
-                             [arrRmsXY[1][0],arrRmsXY[1][1]] :
-                             [arrRmsXY[2][0]-arrRmsXY[1][0], arrRmsXY[2][1]-arrRmsXY[1][1]] /* UL3-UL2 */
-            vector3Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrRmsXY[2][0],arrRmsXY[2][1]] : [0,0]
-            vector4Data: [arrRmsXY[3][0],arrRmsXY[3][1]]
-            vector5Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrRmsXY[4][0],arrRmsXY[4][1]] : [0,0]
-            vector6Data: [arrRmsXY[5][0],arrRmsXY[5][1]]
+                             [arrVectors[1][0],arrVectors[1][1]] :
+                             [arrVectors[2][0]-arrVectors[1][0], arrVectors[2][1]-arrVectors[1][1]] /* UL3-UL2 */
+            vector3Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[2][0],arrVectors[2][1]] : [0,0]
+            vector4Data: [arrVectors[3][0],arrVectors[3][1]]
+            vector5Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[4][0],arrVectors[4][1]] : [0,0]
+            vector6Data: [arrVectors[5][0],arrVectors[5][1]]
 
             vector1Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL1") : Z.tr("UL1") + "-" + Z.tr("UL2")
             vector2Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL2") : Z.tr("UL3") + "-" + Z.tr("UL2") // same as ACT_DFTPP2
