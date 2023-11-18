@@ -585,6 +585,8 @@ Item {
 
         PhasorDiagramEx {
             id: phasorDiagram
+            readonly property bool showActualValues: showActual.checked
+            readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
             maxNominalFactor: 1.2
             vector2Color: currentColorTable[1]
             vector3Color: currentColorTable[2]
@@ -596,63 +598,69 @@ Item {
                 for(var phase=1; phase<=3; phase++) {
                     let jsonPhaseName = 'U%1'.arg(phase)
                     let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                    let rmsVal = jsonDataBase && jsonDataBase.on ?
-                            jsonDataBase.rms : 0.0
+                    let rmsVal = jsonDataBase && jsonDataBase.on ? jsonDataBase.rms : 0.0
                     arr.push(rmsVal)
                 }
                 for(phase=1; phase<=3; phase++) {
                     let jsonPhaseName = 'I%1'.arg(phase)
                     let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                    let rmsVal = jsonDataBase && jsonDataBase.on ?
-                            jsonDataBase.rms : 0.0
+                    let rmsVal = jsonDataBase && jsonDataBase.on ? jsonDataBase.rms : 0.0
                     arr.push(rmsVal)
                 }
                 return arr
+            }
+            function getVectorFromActual(phase) {
+                return dftModule["ACT_DFTPN" + parseInt(phase)]
             }
             readonly property var arrRmsXY: { // rms + phase on -> x/y
                 let arr = []
-                for(var phase=1; phase<=3; phase++) {
-                    let jsonPhaseName = 'U%1'.arg(phase)
-                    let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                    let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
-                    let xyArr = []
-                    xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase-1]
-                    xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase-1]
-                    arr.push(xyArr)
+                if(showActualValues) {
+                    for(let phase=1; phase<=6; phase++)
+                        arr.push(getVectorFromActual(phase))
                 }
-                for(phase=1; phase<=3; phase++) {
-                    let jsonPhaseName = 'I%1'.arg(phase)
-                    let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                    let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
-                    let xyArr = []
-                    xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase+3-1]
-                    xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase+3-1]
-                    arr.push(xyArr)
+                else {
+                    for(var phase=1; phase<=3; phase++) {
+                        let jsonPhaseName = 'U%1'.arg(phase)
+                        let jsonDataBase = declarativeJsonItem[jsonPhaseName]
+                        let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
+                        let xyArr = []
+                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase-1]
+                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase-1]
+                        arr.push(xyArr)
+                    }
+                    for(phase=1; phase<=3; phase++) {
+                        let jsonPhaseName = 'I%1'.arg(phase)
+                        let jsonDataBase = declarativeJsonItem[jsonPhaseName]
+                        let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
+                        let xyArr = []
+                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase+3-1]
+                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase+3-1]
+                        arr.push(xyArr)
+                    }
                 }
                 return arr
             }
-            readonly property var maxVoltageVal: {
+            // base max values on values set and see how it looks in real
+            readonly property var maxVoltageRaw: {
                 let max = 1e-6 // avoid division by 0
                 for(let phase=1; phase<=3; phase++) {
                     let jsonPhaseNameU = 'U%1'.arg(phase)
-                    if(declarativeJsonItem[jsonPhaseNameU]) {
+                    if(declarativeJsonItem[jsonPhaseNameU])
                         max = Math.max(max, declarativeJsonItem[jsonPhaseNameU].rms)
-                    }
                 }
                 return max
             }
-            readonly property var maxCurrentVal: {
+            readonly property var maxCurrentRaw: {
                 let max = 1e-6 // avoid division by 0
                 for(let phase=1; phase<=3; phase++) {
                     let jsonPhaseNameI = 'I%1'.arg(phase)
-                    if(declarativeJsonItem[jsonPhaseNameI]) {
+                    if(declarativeJsonItem[jsonPhaseNameI])
                         max = Math.max(max, declarativeJsonItem[jsonPhaseNameI].rms)
-                    }
                 }
                 return max
             }
-            maxVoltage: maxVoltageVal * maxNominalFactor
-            maxCurrent: maxCurrentVal * maxNominalFactor
+            maxVoltage: maxVoltageRaw * maxNominalFactor
+            maxCurrent: maxCurrentRaw * maxNominalFactor
 
             vector1Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
                              [arrRmsXY[0][0],arrRmsXY[0][1]] :
@@ -690,6 +698,13 @@ Item {
             onClicked: {
                 phasorViewPopup.open()
             }
+        }
+        ZCheckBox {
+            id: showActual
+            text: FAQ.fa_eye
+            anchors.top: parent.top
+            anchors.left: parent.left
+            height: lineHeight
         }
         Popup {
             id: phasorViewPopup
