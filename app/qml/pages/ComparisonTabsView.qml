@@ -85,7 +85,7 @@ BaseTabPage {
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
             }
-            ActivityAnimation {
+            AnimationActivity {
                 targetItem: tabButtonPulse
                 running: errMeasHelper.sec1mod1Running
             }
@@ -108,7 +108,7 @@ BaseTabPage {
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
             }
-            ActivityAnimation {
+            AnimationActivity {
                 targetItem: tabButtonPulseEnergy
                 running: errMeasHelper.sec1mod2Running
             }
@@ -131,7 +131,7 @@ BaseTabPage {
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
             }
-            ActivityAnimation {
+            AnimationActivity {
                 targetItem: tabButtonEnergy
                 running: errMeasHelper.sem1mod1Running
             }
@@ -154,7 +154,7 @@ BaseTabPage {
                 verticalAlignment: Text.AlignVCenter
                 Material.foreground: registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
             }
-            ActivityAnimation {
+            AnimationActivity {
                 targetItem: tabButtonPower
                 running: errMeasHelper.spm1mod1Running
             }

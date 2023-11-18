@@ -147,7 +147,7 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
             enabled: root.entityInitializationDone === true
             visible: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
-            ActivityAnimation {
+            AnimationActivity {
                 targetItem: logStartButton
                 running: loggingActive
             }

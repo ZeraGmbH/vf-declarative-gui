@@ -8,8 +8,8 @@ import SortFilterProxyModel 0.2
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import FontAwesomeQml 1.0
-import "../../helpers"
 import ".."
+import "../../helpers"
 
 Item {
     id: root
