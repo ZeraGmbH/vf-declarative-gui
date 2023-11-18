@@ -599,23 +599,21 @@ Item {
             vector6Color: currentColorTableVectors[5]
             forceI1Top: symmetricCheckbox.checked
 
-            function appendAmplitudeJson(arrAmplitudes, isUNotI) {
+            function getVectorFromActual(phase) {
+                return dftModule["ACT_DFTPN" + parseInt(phase)]
+            }
+            function appendVectorJson(arrVectors, isUNotI) {
                 let phaseNameTemplate = isUNotI ? 'U%1' : 'I%1'
                 for(var phase=1; phase<=3; phase++) {
                     let jsonPhaseName = phaseNameTemplate.arg(phase)
                     let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                    let rmsVal = jsonDataBase && jsonDataBase.on ? jsonDataBase.rms : 0.0
-                    arrAmplitudes.push(rmsVal)
+                    let amplitude = jsonDataBase && jsonDataBase.on ? jsonDataBase.rms : 0.0
+                    let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
+                    let xyArr = []
+                    xyArr[0] = Math.sin(toRadianFactor * angleVal) * amplitude
+                    xyArr[1] = -Math.cos(toRadianFactor * angleVal) * amplitude
+                    arrVectors.push(xyArr)
                 }
-            }
-            readonly property var arrAmplitudes: { // 0.0 for phase off
-                let arr = []
-                appendAmplitudeJson(arr, true)
-                appendAmplitudeJson(arr, false)
-                return arr
-            }
-            function getVectorFromActual(phase) {
-                return dftModule["ACT_DFTPN" + parseInt(phase)]
             }
             readonly property var arrVectors: {
                 let arr = []
@@ -624,24 +622,8 @@ Item {
                         arr.push(getVectorFromActual(phase))
                 }
                 else {
-                    for(var phase=1; phase<=3; phase++) {
-                        let jsonPhaseName = 'U%1'.arg(phase)
-                        let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                        let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
-                        let xyArr = []
-                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrAmplitudes[phase-1]
-                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrAmplitudes[phase-1]
-                        arr.push(xyArr)
-                    }
-                    for(phase=1; phase<=3; phase++) {
-                        let jsonPhaseName = 'I%1'.arg(phase)
-                        let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                        let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
-                        let xyArr = []
-                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrAmplitudes[phase+3-1]
-                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrAmplitudes[phase+3-1]
-                        arr.push(xyArr)
-                    }
+                    appendVectorJson(arr, true)
+                    appendVectorJson(arr, false)
                 }
                 return arr
             }
