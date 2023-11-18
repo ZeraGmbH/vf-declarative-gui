@@ -109,7 +109,6 @@ Item {
         anchors.topMargin: root.topMargin
 
         vectorView: viewMode
-        currentVisible: currentOnOffSelector.displayCurrents
 
         vector1Data: vectorU1
         vector2Data: vectorU2
@@ -220,37 +219,11 @@ Item {
         }
 
         anchors.bottomMargin: comboMargin
-        anchors.bottom: currentOnOffSelector.top;
-        anchors.right: root.right
-        anchors.rightMargin: horizMarign
-        height: root.height/10
-        width: comboWidth
-    }
-
-    Label {
-        text: "➚"
-        anchors.right: currentOnOffSelector.left
-        anchors.verticalCenter: currentOnOffSelector.verticalCenter
-        anchors.rightMargin: GC.standardTextHorizMargin
-        font.pointSize: pointSize * 1.5
-    }
-    ZComboBox {
-        id: currentOnOffSelector
-        arrayMode: true
-        model: ["I  "+Z.tr("On"), "I  "+Z.tr("Off")]
-
-        anchors.bottomMargin: comboMargin
         anchors.bottom: dinIECSelector.top;
         anchors.right: root.right
         anchors.rightMargin: horizMarign
         height: root.height/10
         width: comboWidth
-        targetIndex: GC.vectorShowI ? 0 : 1
-        onTargetIndexChanged: {
-            GC.setVectorShowI(targetIndex == 0)
-        }
-
-        readonly property bool displayCurrents: targetIndex===0
     }
 
     Label {

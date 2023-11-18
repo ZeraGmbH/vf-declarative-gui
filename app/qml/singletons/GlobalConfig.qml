@@ -116,12 +116,6 @@ Item {
         vectorMode = mode
         Settings.setOption("vector_mode", mode);
     }
-    property bool vectorShowI: parseInt(Settings.getOption("vector_show_i", "1"))
-    function setVectorShowI(show) {
-        vectorShowI = show
-        var setValue = show ? 1 : 0
-        Settings.setOption("vector_show_i", setValue);
-    }
     property bool vectorIecMode: parseInt(Settings.getOption("vector_iecmode", "0"))
     function setVectorIecMode(mode) {
         vectorIecMode = mode
