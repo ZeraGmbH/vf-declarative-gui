@@ -25,8 +25,6 @@ import '../controls'
 // * Feature: Introduce two-finger rotate gesture for vector diagram
 // * Feature: Add an indicator right to 'ON' button to show that user has made
 //   changes since last (active) switch on
-// * Feature: Add an option to fade Phase 2 & 3 for better understanding of angle
-//   quadrant
 // * Feature: Add harmonics editor...
 // * Feature: Add sound on clicks particularly on sequence of clicks caused by
 //   long press of +-15°
