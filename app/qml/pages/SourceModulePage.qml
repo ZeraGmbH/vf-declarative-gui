@@ -187,27 +187,6 @@ Item {
             defaultAngle += 120
         }
     }
-    // Phasor diagramm max values
-    readonly property var maxVoltage: {
-        let max = 1e-6 // avoid division by 0
-        for(let phase=1; phase<=3; phase++) {
-            let jsonPhaseNameU = 'U%1'.arg(phase)
-            if(declarativeJsonItem[jsonPhaseNameU]) {
-                max = Math.max(max, declarativeJsonItem[jsonPhaseNameU].rms)
-            }
-        }
-        return max
-    }
-    readonly property var maxCurrent: {
-        let max = 1e-6 // avoid division by 0
-        for(let phase=1; phase<=3; phase++) {
-            let jsonPhaseNameI = 'I%1'.arg(phase)
-            if(declarativeJsonItem[jsonPhaseNameI]) {
-                max = Math.max(max, declarativeJsonItem[jsonPhaseNameI].rms)
-            }
-        }
-        return max
-    }
 
     // --------------------- Items Layout ------------------------------
     //
@@ -652,9 +631,28 @@ Item {
                 }
                 return arr
             }
-
-            maxVoltage: root.maxVoltage * maxNominalFactor
-            maxCurrent: root.maxCurrent * maxNominalFactor
+            readonly property var maxVoltageVal: {
+                let max = 1e-6 // avoid division by 0
+                for(let phase=1; phase<=3; phase++) {
+                    let jsonPhaseNameU = 'U%1'.arg(phase)
+                    if(declarativeJsonItem[jsonPhaseNameU]) {
+                        max = Math.max(max, declarativeJsonItem[jsonPhaseNameU].rms)
+                    }
+                }
+                return max
+            }
+            readonly property var maxCurrentVal: {
+                let max = 1e-6 // avoid division by 0
+                for(let phase=1; phase<=3; phase++) {
+                    let jsonPhaseNameI = 'I%1'.arg(phase)
+                    if(declarativeJsonItem[jsonPhaseNameI]) {
+                        max = Math.max(max, declarativeJsonItem[jsonPhaseNameI].rms)
+                    }
+                }
+                return max
+            }
+            maxVoltage: maxVoltageVal * maxNominalFactor
+            maxCurrent: maxCurrentVal * maxNominalFactor
 
             vector1Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
                              [arrRmsXY[0][0],arrRmsXY[0][1]] :
