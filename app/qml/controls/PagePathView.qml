@@ -40,7 +40,7 @@ Item {
                 font.pointSize: root.height * 0.035
                 color: (wrapper.PathView.isCurrentItem ? Material.accentColor : Material.primaryTextColor)
                 opacity: 1
-                ActivityAnimation {
+                AnimationActivity {
                     targetItem: nameText
                     running: typeof activeItem !== 'undefined' ? activeItem.oneOrMoreRunning : false
                 }

@@ -8,8 +8,8 @@ import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraLocale 1.0
-import "../../helpers"
 import ".."
+import "../../helpers"
 
 Item {
     id: root

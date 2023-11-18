@@ -2,8 +2,6 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/Main.qml</file>
-        <file>qml/controls/ActivityAnimation.qml</file>
-        <file>qml/controls/AnimationSlowBits.qml</file>
         <file>qml/controls/BatteryToolButton.qml</file>
         <file>qml/controls/DebugRectangle.qml</file>
         <file>qml/controls/FpsItem.qml</file>
@@ -15,6 +13,13 @@
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/WaitTransaction.qml</file>
         <file>qml/controls/actual_values/ActualValuesRow.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowDc.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowDcPerPhase.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowDcOnePhase.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
+        <file>qml/controls/AnimationActivity.qml</file>
+        <file>qml/controls/AnimationSlowBits.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
         <file>qml/controls/appinfo/StatusView.qml</file>
@@ -91,11 +96,6 @@
         <file>qml/controls/PageView.qml</file>
         <file>qml/controls/error_comparison_common/MeterConstantSettings.qml</file>
         <file>qml/controls/ScrollGroup.qml</file>
-        <file>qml/controls/actual_values/ActualValuesRowDc.qml</file>
-        <file>qml/controls/actual_values/ActualValuesRowDcPerPhase.qml</file>
-        <file>qml/controls/actual_values/ActualValuesRowDcOnePhase.qml</file>
-        <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
-        <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
         <file>qml/controls/ranges/OverloadButton.qml</file>
         <file>qml/controls/ranges/RangeMModePage.qml</file>

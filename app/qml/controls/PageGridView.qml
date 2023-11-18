@@ -60,7 +60,7 @@ Item {
                 wrapMode: Label.Wrap
                 font.pointSize: 14
                 color: (gridView.currentItem === gridWrapper ? Material.accentColor : Material.primaryTextColor)
-                ActivityAnimation {
+                AnimationActivity {
                     targetItem: nameText
                     running: typeof activeItem !== 'undefined' ? activeItem.oneOrMoreRunning : false
                 }
