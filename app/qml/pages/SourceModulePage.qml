@@ -674,8 +674,6 @@ Item {
 
             vectorView: GC.vectorMode
             din410: !GC.vectorIecMode
-            currentVisible: true
-
         }
         Button {
             id: phasorViewSettingsButton
