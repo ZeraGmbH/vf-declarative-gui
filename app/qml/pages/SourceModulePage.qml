@@ -119,20 +119,27 @@ Item {
         // may cause negative angles
         return (angle+36000) % 360
     }
-    property var baseColorTable: GC.currentColorTable
-    onBaseColorTableChanged: darkenColorsForSymmetric()
-    property var currentColorTable: []
-    function darkenColorsForSymmetric() {
-        let colorTable = [...GC.currentColorTable]
-        if(symmetricCheckbox.checked) {
-            let darken = 2.1
-            colorTable[1] = Qt.darker(GC.currentColorTable[1], darken) // U2
-            colorTable[2] = Qt.darker(GC.currentColorTable[2], darken) // U3
-            colorTable[4] = Qt.darker(GC.currentColorTable[4], darken) // I2
-            colorTable[5] = Qt.darker(GC.currentColorTable[5], darken) // I2
-        }
-        currentColorTable = colorTable
+
+    function darkenColorTable(colorTable) {
+        let darken = 2.1
+        colorTable[1] = Qt.darker(colorTable[1], darken) // U2
+        colorTable[2] = Qt.darker(colorTable[2], darken) // U3
+        colorTable[4] = Qt.darker(colorTable[4], darken) // I2
+        colorTable[5] = Qt.darker(colorTable[5], darken) // I2
     }
+    property var currentColorTable: {
+        let colorTable = [...GC.currentColorTable]
+        if(symmetricCheckbox.checked)
+            darkenColorTable(colorTable)
+        return colorTable
+    }
+    property var currentColorTableVectors: {
+        let colorTable = [...GC.currentColorTable]
+        if(symmetricCheckbox.checked && !showActual.isActive)
+            darkenColorTable(colorTable)
+        return colorTable
+    }
+
     function symmetrize() {
         if(symmetricCheckbox.checked) {
             let angleOffset = 120.0
@@ -156,7 +163,6 @@ Item {
                 angleOffset += 120
             }
         }
-        darkenColorsForSymmetric()
     }
     function autoAngle(isAbs, diffAngleSet) {
         let defaultAngle = 0.0
@@ -587,10 +593,10 @@ Item {
             id: phasorDiagram
             readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
             maxNominalFactor: 1.2
-            vector2Color: currentColorTable[1]
-            vector3Color: currentColorTable[2]
-            vector5Color: currentColorTable[4]
-            vector6Color: currentColorTable[5]
+            vector2Color: currentColorTableVectors[1]
+            vector3Color: currentColorTableVectors[2]
+            vector5Color: currentColorTableVectors[4]
+            vector6Color: currentColorTableVectors[5]
             forceI1Top: symmetricCheckbox.checked
             readonly property var arrRms: { // rms + phase on
                 let arr = []
