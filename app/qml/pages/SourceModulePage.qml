@@ -598,6 +598,7 @@ Item {
             vector5Color: currentColorTableVectors[4]
             vector6Color: currentColorTableVectors[5]
             forceI1Top: symmetricCheckbox.checked
+
             readonly property var arrRms: { // rms + phase on
                 let arr = []
                 for(var phase=1; phase<=3; phase++) {
@@ -645,24 +646,33 @@ Item {
                 }
                 return arr
             }
-            // base max values on values set and see how it looks in real
-            readonly property var maxVoltageRaw: {
+            function calcMax(isUNotI) {
                 let max = 1e-6 // avoid division by 0
-                for(let phase=1; phase<=3; phase++) {
-                    let jsonPhaseNameU = 'U%1'.arg(phase)
-                    if(declarativeJsonItem[jsonPhaseNameU])
-                        max = Math.max(max, declarativeJsonItem[jsonPhaseNameU].rms)
+                let phase
+                if(showActual.isActive) {
+                    let phaseOffsetForActual = isUNotI ? 0 : 3
+                    for(phase=1+phaseOffsetForActual; phase<=3+phaseOffsetForActual; phase++) {
+                        let vector = getVectorFromActual(phase)
+                        let amplitude = Math.sqrt(Math.pow(vector[0], 2) + Math.pow(vector[1], 2))
+                        max = Math.max(max, amplitude)
+                    }
+                }
+                else {
+                    let phaseNameTemplate = isUNotI ? 'U%1' : 'I%1'
+                    for(phase=1; phase<=3; phase++) {
+                        let jsonPhaseNameU = phaseNameTemplate.arg(phase)
+                        if(declarativeJsonItem[jsonPhaseNameU])
+                            max = Math.max(max, declarativeJsonItem[jsonPhaseNameU].rms)
+                    }
                 }
                 return max
             }
+
+            readonly property var maxVoltageRaw: {
+                return calcMax(true)
+            }
             readonly property var maxCurrentRaw: {
-                let max = 1e-6 // avoid division by 0
-                for(let phase=1; phase<=3; phase++) {
-                    let jsonPhaseNameI = 'I%1'.arg(phase)
-                    if(declarativeJsonItem[jsonPhaseNameI])
-                        max = Math.max(max, declarativeJsonItem[jsonPhaseNameI].rms)
-                }
-                return max
+                return calcMax(false)
             }
             maxVoltage: maxVoltageRaw * maxNominalFactor
             maxCurrent: maxCurrentRaw * maxNominalFactor
