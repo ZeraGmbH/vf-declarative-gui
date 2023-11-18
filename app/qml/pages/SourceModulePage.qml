@@ -599,20 +599,19 @@ Item {
             vector6Color: currentColorTableVectors[5]
             forceI1Top: symmetricCheckbox.checked
 
-            readonly property var arrRms: { // rms + phase on
-                let arr = []
+            function appendAmplitude(arrAmplitudes, isUNotI) {
+                let phaseNameTemplate = isUNotI ? 'U%1' : 'I%1'
                 for(var phase=1; phase<=3; phase++) {
-                    let jsonPhaseName = 'U%1'.arg(phase)
+                    let jsonPhaseName = phaseNameTemplate.arg(phase)
                     let jsonDataBase = declarativeJsonItem[jsonPhaseName]
                     let rmsVal = jsonDataBase && jsonDataBase.on ? jsonDataBase.rms : 0.0
-                    arr.push(rmsVal)
+                    arrAmplitudes.push(rmsVal)
                 }
-                for(phase=1; phase<=3; phase++) {
-                    let jsonPhaseName = 'I%1'.arg(phase)
-                    let jsonDataBase = declarativeJsonItem[jsonPhaseName]
-                    let rmsVal = jsonDataBase && jsonDataBase.on ? jsonDataBase.rms : 0.0
-                    arr.push(rmsVal)
-                }
+            }
+            readonly property var arrAmplitudes: { // 0.0 for phase off
+                let arr = []
+                appendAmplitude(arr, true)
+                appendAmplitude(arr, false)
                 return arr
             }
             function getVectorFromActual(phase) {
@@ -630,8 +629,8 @@ Item {
                         let jsonDataBase = declarativeJsonItem[jsonPhaseName]
                         let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
                         let xyArr = []
-                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase-1]
-                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase-1]
+                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrAmplitudes[phase-1]
+                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrAmplitudes[phase-1]
                         arr.push(xyArr)
                     }
                     for(phase=1; phase<=3; phase++) {
@@ -639,8 +638,8 @@ Item {
                         let jsonDataBase = declarativeJsonItem[jsonPhaseName]
                         let angleVal = jsonDataBase ? jsonDataBase.angle : 0.0
                         let xyArr = []
-                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrRms[phase+3-1]
-                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrRms[phase+3-1]
+                        xyArr[0] = Math.sin(toRadianFactor * angleVal) * arrAmplitudes[phase+3-1]
+                        xyArr[1] = -Math.cos(toRadianFactor * angleVal) * arrAmplitudes[phase+3-1]
                         arr.push(xyArr)
                     }
                 }
