@@ -169,22 +169,18 @@ Item {
         for(let phase=1; phase<=3; phase++) {
             let jsonPhaseNameU = 'U%1'.arg(phase)
             let angleUCurr = defaultAngle
-            if(declarativeJsonItem[jsonPhaseNameU]) {
+            if(declarativeJsonItem[jsonPhaseNameU])
                 angleUCurr = declarativeJsonItem[jsonPhaseNameU].angle
-            }
             let jsonPhaseNameI = 'I%1'.arg(phase)
             let angleICurr = defaultAngle
-            if(declarativeJsonItem[jsonPhaseNameI]) {
+            if(declarativeJsonItem[jsonPhaseNameI])
                 angleICurr = declarativeJsonItem[jsonPhaseNameI].angle
-            }
 
             let angleINew
-            if(isAbs) {
+            if(isAbs)
                 angleINew = angleUCurr + diffAngleSet
-            }
-            else {
+            else
                 angleINew = angleICurr + diffAngleSet
-            }
 
             if(declarativeJsonItem[jsonPhaseNameI]) {
                 let decimals = jsonParamInfo[jsonPhaseNameI]['zj_params']['angle'].decimals
@@ -200,9 +196,9 @@ Item {
     //  /                                    /
     //  ----------------------------------------------------------------
     // | |                       PhaseOnOff | |                        |
-    // | |             U         RMS        | |                        |
+    // | |             U         RMS        | |     phasorView         |
     // | |                       Angles     | |                        |
-    // | |         dataTable                | |     phasorView         |
+    // | |         dataTable                | |                        |
     // | |                       PhaseOnOff | |------------------------|
     // | |             I         RMS      <-|-|->       pqRow          |
     // | |                       Angles     | |     angleQuickRow      |
@@ -405,7 +401,8 @@ Item {
                                             implicitWidth: 120
                                             height: textField.activeFocus ? 2 : 1
                                             color: {
-                                                if(textField.enabled) return textField.activeFocus ? textField.Material.accentColor : textField.Material.hintTextColor;
+                                                if(textField.enabled)
+                                                    return textField.activeFocus ? textField.Material.accentColor : textField.Material.hintTextColor;
                                                 return textField.Material.background
                                             }
                                         }
@@ -417,9 +414,8 @@ Item {
                                                 newText = FT.formatNumberCLocale(angle, jsonParamInfoBase['angle'].decimals)
                                             }
                                             jsonDataBase[arrJsonTypeKey[rowIndex]] = parseFloat(newText)
-                                            if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1') {
+                                            if(jsonPhaseName == 'U1' || jsonPhaseName == 'I1')
                                                 symmetrize()
-                                            }
                                             discardInput() // Long reasoning for this at sin/cos field
                                             return false
                                         }
@@ -707,9 +703,7 @@ Item {
             leftInset: topInset
             font.pointSize: pointSize
             text: FAQ.fa_cogs
-            onClicked: {
-                phasorViewPopup.open()
-            }
+            onClicked: phasorViewPopup.open()
         }
         Popup {
             id: phasorViewPopup
@@ -742,9 +736,7 @@ Item {
                         phasorViewPopup.close()
                     }
                 }
-                onTargetIndexChanged: {
-                    GC.setVectorIecMode(targetIndex)
-                }
+                onTargetIndexChanged: GC.setVectorIecMode(targetIndex)
             }
             Label {
                 text: "➚"
@@ -764,13 +756,10 @@ Item {
                 model: ["U  PN", "U  △", "U  ∠"]
                 targetIndex: GC.vectorMode
                 onPopupOpenedChanged: {
-                    if(!popupOpened) {
+                    if(!popupOpened)
                         phasorViewPopup.close()
-                    }
                 }
-                onTargetIndexChanged: {
-                    GC.setVectorMode(targetIndex)
-                }
+                onTargetIndexChanged: GC.setVectorMode(targetIndex)
             }
         }
     }
@@ -796,9 +785,8 @@ Item {
                 angleDiff = angleModulo(angleValI - angleValU)
                 arrAngleDiff.push(angleDiff)
                 defaultAngle += 120.0
-                if(jsonDataU || jsonDataI) {
+                if(jsonDataU || jsonDataI)
                     ++activePhases
-                }
             }
             let angleDiffSum = 0.0
             arrAngleDiff.forEach(element => angleDiffSum+=element)
