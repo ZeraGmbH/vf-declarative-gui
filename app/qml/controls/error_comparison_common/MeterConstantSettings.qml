@@ -14,6 +14,7 @@ import ZeraVeinComponents 1.0
 
 Popup {
     id: root
+    parent: Overlay.overlay
     property QtObject secEntity: VeinEntity.getEntity("SEC1Module1")
     readonly property real pointSize: height > 0.0 ? height/30 : 10
     property int newConst: secEntity["PAR_DutConstant"]
