@@ -497,7 +497,9 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
+        anchors.bottomMargin: -parent.height * 0.035
+        anchors.rightMargin: -parent.width * 0.035
+        anchors.leftMargin: anchors.rightMargin
         property bool textEntered: Qt.inputMethod.visible
         onHeightChanged: GC.vkeyboardHeight = height
         opacity: 0
