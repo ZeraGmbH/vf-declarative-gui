@@ -110,26 +110,17 @@ ApplicationWindow {
         var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
 
         var oldIdList = VeinEntity.getEntityList();
-        for(var oldIdIterator in oldIdList) {
+        for(var oldIdIterator in oldIdList)
             VeinEntity.entityUnsubscribeById(oldIdList[oldIdIterator]);
-        }
 
-        if(availableEntityIds !== undefined) {
+        if(availableEntityIds !== undefined)
             availableEntityIds.push(0);
-        }
-        else {
+        else
             availableEntityIds = [0];
-        }
 
-        for(var newIdIterator in availableEntityIds) {
+        for(var newIdIterator in availableEntityIds)
             VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
-        }
     }
-
-    //  FontLoader {
-    //    //init fontawesome
-    //    source: "qrc:/data/3rdparty/font-awesome-4.6.1/fonts/fontawesome-webfont.ttf"
-    //  }
 
     Connections {
         target: VeinEntity
@@ -143,22 +134,19 @@ ApplicationWindow {
 
                 // rescue dyn sources binding over session change
                 dynamicPageModel.countActiveSources = Qt.binding(function() {
-                    if(ModuleIntrospection.hasDependentEntities(["SourceModule1"])) {
+                    if(ModuleIntrospection.hasDependentEntities(["SourceModule1"]))
                         return VeinEntity.getEntity("SourceModule1").ACT_CountSources
-                    } else {
+                    else
                         return 0
-                    }
-                });
+                })
 
                 pageLoader.active = true;
                 controlsBar.rangeIndicatorDependenciesReady = true;
                 let lastPageSelected = GC.lastPageViewIndexSelected
-                if(lastPageSelected >= pageView.model.count) {
+                if(lastPageSelected >= pageView.model.count)
                     lastPageSelected = 0
-                }
-                if(pageView.model.count) {
+                if(pageView.model.count)
                     pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
-                }
                 loadingScreen.close();
                 GC.entityInitializationDone = true
                 controlsBar.pageViewVisible = false
@@ -212,7 +200,7 @@ ApplicationWindow {
             if(accuDown)
                 notificationManager.notify("Message", Z.tr("Battery low !\nPlease charge the device before it turns down"));
             else
-                    notificationManager.close();
+                notificationManager.close();
         }
         property bool accuCharging: AccuState.accuCharging
         onAccuChargingChanged: {
