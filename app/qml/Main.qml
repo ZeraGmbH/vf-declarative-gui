@@ -506,8 +506,6 @@ ApplicationWindow {
 
     InputPanel {
         id: inputPanel
-        parent: Overlay.overlay
-        z:100
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -516,25 +514,16 @@ ApplicationWindow {
         onHeightChanged: GC.vkeyboardHeight = height
         opacity: 0
         NumberAnimation on opacity {
-            id: keyboardAnimation
+            id: keyboardOpacityAnimation
             onStarted: {
-                if(to === 1) {
+                if(to === 1)
                     inputPanel.visible = GC.showVirtualKeyboard
-                }
             }
             onFinished: {
-                if(to === 0) {
+                if(to === 0)
                     inputPanel.visible = false
-                }
             }
         }
-        // keyboard is an Overlay child. Overlay is shifted if keyboard is over textelement.
-        // Animation shifts keyboard in opposite direction of Overlay to keep absolute position static.
-        NumberAnimation on anchors.bottomMargin {
-            duration: 300
-            id: keyboardAnimation2
-        }
-
         onTextEnteredChanged: {
             var rectInput = Qt.inputMethod.anchorRectangle
             if(inputPanel.textEntered) {
@@ -542,38 +531,31 @@ ApplicationWindow {
                     if(rectInput.bottom > inputPanel.y) {
                         // shift flickable (normal elements)
                         flickableAnimation.to = rectInput.bottom - inputPanel.y + 10
+                        flickableAnimation.start()
                         // shift overlay (Popup)
                         overlayAnimation.to = -(rectInput.bottom - inputPanel.y + 10)
-                        // shift keyboard (keep static)
-                        keyboardAnimation2.to = -(rectInput.bottom - inputPanel.y + 10)
-
                         overlayAnimation.start()
-                        keyboardAnimation2.start()
-                        flickableAnimation.start()
                     }
-                    keyboardAnimation.to = 1
-                    keyboardAnimation.duration = 500
-                    keyboardAnimation.start()
+                    keyboardOpacityAnimation.to = 1
+                    keyboardOpacityAnimation.duration = 500
+                    keyboardOpacityAnimation.start()
                 }
             }
             else {
                 if(flickable.contentY !== 0) {
                     // shift everything back
                     overlayAnimation.to = 0
-                    keyboardAnimation2.to = 0
-                    flickableAnimation.to = 0
                     overlayAnimation.start()
-                    keyboardAnimation2.start()
+                    flickableAnimation.to = 0
                     flickableAnimation.start()
                 }
-                keyboardAnimation.to = 0
-                keyboardAnimation.duration = 0
-                keyboardAnimation.start()
+                keyboardOpacityAnimation.to = 0
+                keyboardOpacityAnimation.duration = 0
+                keyboardOpacityAnimation.start()
             }
         }
     }
-
-    // Overlay animation. Shift overlay if textfield is under keyboard (for popups)
+    // Overlay animation. Shift overlay for popups (required: 'parent: Overlay.overlay')
     NumberAnimation on Overlay.overlay.y {
         duration: 300
         id: overlayAnimation
