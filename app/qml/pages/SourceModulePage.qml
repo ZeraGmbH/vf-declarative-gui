@@ -54,6 +54,7 @@ Item {
     // On/off wait popup
     onJsonStateChanged: {
         if(jsonState.busy) {
+            handleParamsUnchanged()
             waitPopup.startWait((declarativeJsonItem.on ? Z.tr("Switching on %1...") : Z.tr("Switching off %1...")).arg(jsonParamInfo.Name))
         }
         else {
@@ -73,6 +74,24 @@ Item {
 
     Component.onCompleted: {
         symmetrize()
+        paramsChangedAtPowerOn = false
+    }
+
+    // helpers to track user load PropertyChanges
+    readonly property int paramChangeCount: declarativeJsonItem.changedValueCount
+    onParamChangeCountChanged: {
+        handleParamsChanged()
+    }
+    property bool paramsChangedAtPowerOn: false
+    function handleParamsChanged() {
+        showActual.isActive = false
+        if(declarativeJsonItem.on) {
+            paramsChangedAtPowerOn = true
+        }
+    }
+    function handleParamsUnchanged() {
+        paramsChangedAtPowerOn = false
+        showActual.isActive = declarativeJsonItem.on
     }
 
     // convenient properties for layout vertical
@@ -83,12 +102,10 @@ Item {
     readonly property int linesI: jsonParamInfo.IPhaseMax ? (jsonParamInfo.supportsHarmonicsI ? 4: 3) : 0
     readonly property var uiModel: {
         let retArr = []
-        if(linesU > 0) {
+        if(linesU > 0)
             retArr.push('U')
-        }
-        if(linesI > 0) {
+        if(linesI > 0)
             retArr.push('I')
-        }
         return retArr
     }
     // convenient properties for layout horizontal
@@ -668,6 +685,13 @@ Item {
             vectorView: GC.vectorMode
             din410: !GC.vectorIecMode
         }
+        Label {
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.leftMargin: GC.standardTextHorizMargin
+            text: showActual.isActive ? Z.tr("Actual values") : Z.tr("Preview")
+            font.pointSize: pointSize * 0.9
+        }
         Button {
             id: showActual
             property bool isActive: false
@@ -1030,7 +1054,7 @@ Item {
             anchors.right: frequencyRow.left
             height: parent.height
             Button {
-                text: Z.tr("On")
+                text: Z.tr("On") + (paramsChangedAtPowerOn ? "*" : "")
                 width: buttonWidth
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -1042,6 +1066,7 @@ Item {
                 onClicked: {
                     declarativeJsonItem.on = true
                     sendParamsToServer()
+                    handleParamsUnchanged() // if we switch same load as on after back & force modifcations
                 }
                 Rectangle {
                     id: buttonOnRect
