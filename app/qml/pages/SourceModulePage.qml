@@ -689,7 +689,7 @@ Item {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.leftMargin: GC.standardTextHorizMargin
-            text: showActual.isActive ? Z.tr("Actual values") : Z.tr("Preview")
+            text: showActual.isActive ? Z.tr("Measured") : Z.tr("Preview")
             font.pointSize: pointSize * 0.8
         }
         Button {
