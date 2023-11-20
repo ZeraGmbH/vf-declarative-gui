@@ -704,6 +704,8 @@ Item {
             rightInset: topInset
             leftInset: topInset
             font.pointSize: pointSize
+            font.family: FAQ.fontFamily
+            font.styleName: "Solid"
             text: {
                 let ret = FAQ.fa_search
                 if(isActive) {
