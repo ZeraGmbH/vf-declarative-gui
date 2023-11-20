@@ -71,7 +71,7 @@ Popup {
             id: previewRow
             Label {
                 id: previewLabel
-                text: Z.tr("Preview:");
+                text: Z.tr("Preview") + ":";
                 font.pointSize: root.pointSize
             }
             Item {
