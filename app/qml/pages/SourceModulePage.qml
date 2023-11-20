@@ -59,11 +59,11 @@ Item {
         }
         else {
             if(waitPopup.opened) {
-                waitPopup.stopWait(Z.tr(jsonState.warnings), Z.tr(jsonState.errors), null)
+                waitPopup.stopWait(Z.trArr(jsonState.warnings), Z.trArr(jsonState.errors), null)
             }
             else if(jsonState.errors.length !== 0) { // poll
                 waitPopup.startWait(Z.tr("Status error on %1...").arg(jsonParamInfo.Name))
-                waitPopup.stopWait(Z.tr(jsonState.warnings), Z.tr(jsonState.errors), null)
+                waitPopup.stopWait(Z.trArr(jsonState.warnings), Z.trArr(jsonState.errors), null)
             }
         }
     }
