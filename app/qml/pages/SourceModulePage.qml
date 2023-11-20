@@ -690,7 +690,7 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: GC.standardTextHorizMargin
             text: showActual.isActive ? Z.tr("Actual values") : Z.tr("Preview")
-            font.pointSize: pointSize * 0.9
+            font.pointSize: pointSize * 0.8
         }
         Button {
             id: showActual
@@ -705,7 +705,7 @@ Item {
             leftInset: topInset
             font.pointSize: pointSize
             text: {
-                let ret = FAQ.fa_binoculars
+                let ret = FAQ.fa_search
                 if(isActive) {
                     let colorPrefix = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>"
                     let colorPostfix = "</font>"
