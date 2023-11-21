@@ -99,9 +99,10 @@ BaseTabPage {
             swipeView.addItem(netPage.createObject(swipeView))
         }
 
-        tabBar.addItem(sensorTab.createObject(tabBar))
-        swipeView.addItem(sensorPage.createObject(swipeView))
-
+        if(VeinEntity.hasEntity("BleModule1")) {
+            tabBar.addItem(sensorTab.createObject(tabBar))
+            swipeView.addItem(sensorPage.createObject(swipeView))
+        }
 
         finishInit()
     }
