@@ -27,6 +27,8 @@ Item {
     // either energy or mrate
     property var validatorEnergy
     property var validatorMrate
+    readonly property bool isMeterTest: validatorMrate !== undefined
+    readonly property bool isEnergyComparison: validatorEnergy !== undefined
 
     property var validatorUpperLimit
     property var validatorLowerLimit
@@ -236,7 +238,7 @@ Item {
             }
         }
         Loader {
-            active: validatorEnergy !== undefined
+            active: isEnergyComparison
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: "transparent"
@@ -342,7 +344,7 @@ Item {
             }
         }
         Loader {
-            active: validatorMrate !== undefined
+            active: isMeterTest
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: "transparent"
