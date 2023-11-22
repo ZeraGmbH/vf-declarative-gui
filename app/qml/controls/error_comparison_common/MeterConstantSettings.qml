@@ -53,7 +53,7 @@ Popup {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
                         font.pointSize: root.pointSize
-                        text: Z.tr("DUT constant:")
+                        text: Z.tr("Constant") + ":"
                         width: parent.width/3
                     }
 
