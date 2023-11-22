@@ -35,7 +35,7 @@ Item {
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
 
-    readonly property real rowHeight: height > 0 ? height/6 : 10
+    readonly property real rowHeight: height > 0 ? height/7 : 10
     readonly property real pointSize: rowHeight/2.5
 
     readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject
@@ -105,6 +105,36 @@ Item {
 
                 anchors.right: parent.right
                 width: parent.width*col3Width
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                pointSize: root.pointSize
+            }
+        }
+        Rectangle {
+            color: "transparent"
+            border.color: Material.dividerColor
+            height: root.rowHeight
+            width: root.width
+            enabled: logicalParent.canStartMeasurement
+
+            Label {
+                textFormat: Text.PlainText
+                anchors.left: parent.left
+                anchors.leftMargin: GC.standardTextHorizMargin
+                width: parent.width*col1Width
+                anchors.verticalCenter: parent.verticalCenter
+                text: Z.tr("Device input:")
+                font.pointSize: root.pointSize
+            }
+            VFComboBox {
+                arrayMode: true
+
+                entity: logicalParent.errCalEntity
+                controlPropertyName: "PAR_DutInput"
+                model: validatorDutInput.Data;
+
+                x: parent.width*col1Width
+                width: parent.width*col2Width-GC.standardMarginWithMin
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 pointSize: root.pointSize
