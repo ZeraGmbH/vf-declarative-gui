@@ -33,7 +33,7 @@ ApplicationWindow {
     // for development: current resolution
     property int screenResolution: GC.screenResolution
 
-    readonly property bool dcSession : String(currentSession).includes('dc-session')
+    readonly property bool dcSession : String(currentSession).includes('-dc')
     readonly property bool emobSession : String(currentSession).includes('emob-session')
     readonly property bool refSession : String(currentSession).includes('ref-session')
     readonly property bool demoSession: String(currentSession).includes('demo-session')
@@ -380,10 +380,12 @@ ApplicationWindow {
                 controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !dcSession
                 let iconName = ""
                 if(emobSession) {
-                    if(!ASWGL.isServer) {
+                    if(!ASWGL.isServer)
                         iconName = "qrc:/data/staticdata/resources/act_values.png"
-                    }
-                    append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
+                    if(!dcSession)
+                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
+                    else
+                        append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"});
                 }
                 else if(dcSession) {
                     if(!ASWGL.isServer) {
