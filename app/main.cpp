@@ -50,6 +50,7 @@ static void registerQmlInt()
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/SessionState.qml"), "SessionState", 1, 0, "SessionState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GlobalConfig.qml"), "GlobalConfig", 1, 0, "GC");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/FunctionTools.qml"), "FunctionTools", 1, 0, "FT");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/AccumulatorState.qml"), "AccumulatorState", 1, 0, "AccuState");

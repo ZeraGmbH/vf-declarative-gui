@@ -8,6 +8,7 @@ import QtQuick.VirtualKeyboard.Settings 2.2
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
+import SessionState 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AccumulatorState 1.0
@@ -28,14 +29,9 @@ ApplicationWindow {
 
     // used to display the fps and other debug infos
     property bool debugBypass: false;
-    // used to notify about the com5003 meas/CED/REF session change
-    property string currentSession;
     // for development: current resolution
     property int screenResolution: GC.screenResolution
 
-    readonly property bool dcSession : String(currentSession).includes('-dc')
-    readonly property bool emobSession : String(currentSession).includes('emob-session')
-    readonly property bool refSession : String(currentSession).includes('ref-session')
 
     visible: true
     // Notes on resolutions:
@@ -89,12 +85,9 @@ ApplicationWindow {
     Material.accent: "#339966"
 
     Component.onCompleted: {
-        currentSession = Qt.binding(function() {
+        SessionState.currentSession = Qt.binding(function() {
             return VeinEntity.getEntity("_System").Session;
         })
-        GC.currentSession = Qt.binding(function() {
-            return currentSession
-        });
     }
 
     function prepareSessionChange() {
@@ -104,23 +97,6 @@ ApplicationWindow {
         GC.entityInitializationDone = false;
     }
 
-    onCurrentSessionChanged: {
-        prepareSessionChange();
-        var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
-
-        var oldIdList = VeinEntity.getEntityList();
-        for(var oldIdIterator in oldIdList)
-            VeinEntity.entityUnsubscribeById(oldIdList[oldIdIterator]);
-
-        if(availableEntityIds !== undefined)
-            availableEntityIds.push(0);
-        else
-            availableEntityIds = [0];
-
-        for(var newIdIterator in availableEntityIds)
-            VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
-    }
-
     Connections {
         target: VeinEntity
         function onSigStateChanged(t_state) {
@@ -128,7 +104,7 @@ ApplicationWindow {
                 dynamicPageModel.initModel();
                 pageView.model = dynamicPageModel;
 
-                console.log("Loaded session: ", currentSession);
+                console.log("Loaded session: ", SessionState.currentSession);
                 ModuleIntrospection.reloadIntrospection();
 
                 // rescue dyn sources binding over session change
@@ -156,14 +132,11 @@ ApplicationWindow {
             var checkRequired = false;
             var entId = VeinEntity.getEntity(t_entityName).entityId()
             if(entId === 0) {
-                currentSession = Qt.binding(function() {
-                    return VeinEntity.getEntity("_System").Session;
-                });
-                GC.currentSession = Qt.binding(function() {
-                    return currentSession;
+                SessionState.currentSession = Qt.binding(function() {
+                    return VeinEntity.getEntity("_System").Session
                 });
                 pageView.sessionComponent = Qt.binding(function() {
-                    return currentSession;
+                    return SessionState.currentSession
                 });
             }
         }
@@ -282,8 +255,8 @@ ApplicationWindow {
             id: rangeCmp
             Item {
                 RangeMModePage {
-                    enableRangeAutomaticAndGrouping: !refSession
-                    showRatioLines: !refSession
+                    enableRangeAutomaticAndGrouping: !SessionState.refSession
+                    showRatioLines: !SessionState.refSession
                     anchors.fill: parent
                 }
             }
@@ -376,17 +349,17 @@ ApplicationWindow {
                 clear()
                 let dftAvail = ModuleIntrospection.hasDependentEntities(["DFTModule1"])
                 let isReference = ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"])
-                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !dcSession
+                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !SessionState.dcSession
                 let iconName = ""
-                if(emobSession) {
+                if(SessionState.emobSession) {
                     if(!ASWGL.isServer)
                         iconName = "qrc:/data/staticdata/resources/act_values.png"
-                    if(!dcSession)
+                    if(!SessionState.dcSession)
                         append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
                     else
                         append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"});
                 }
-                else if(dcSession) {
+                else if(SessionState.dcSession) {
                     if(!ASWGL.isServer) {
                         iconName = "qrc:/data/staticdata/resources/act_values.png"
                     }
@@ -413,7 +386,7 @@ ApplicationWindow {
                     }
                     append({name: "Harmonic power values", icon: iconName, elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"});
                 }
-                if(!String(currentSession).includes('ref-session')) {
+                if(!SessionState.refSession) {
                     if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
                         if(!ASWGL.isServer) {
                             iconName = "qrc:/data/staticdata/resources/error_calc.png"

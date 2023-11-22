@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.1
 import QtQuick.Controls.Material 2.0
+import SessionState 1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
@@ -152,7 +153,7 @@ SettingsView {
         }
 
         RowLayout {
-            visible: currentSession !== "com5003-ref-session.json" ///@todo replace hardcoded
+            visible: SessionState.refSession
             height: root.rowHeight
             width: root.rowWidth
             Label {

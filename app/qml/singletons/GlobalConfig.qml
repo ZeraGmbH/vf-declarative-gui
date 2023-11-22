@@ -1,13 +1,14 @@
 pragma Singleton
 import QtQuick 2.0
+import QtQuick.VirtualKeyboard.Settings 2.2
 import ModuleIntrospection 1.0
 import ZeraSettings 1.0
+import SessionState 1.0
 import ZeraTranslation 1.0
 import VeinEntity 1.0
 import AppStarterForWebGLSingleton 1.0
 import ZeraComponentsConfig 1.0
 import ZeraLocale 1.0
-import QtQuick.VirtualKeyboard.Settings 2.2
 
 
 Item {
@@ -24,7 +25,7 @@ Item {
     // by a specific property to avoid cross property change activities: settings
     // has just one single notification for ALL settings-entries
 
-    property string currentSession
+    readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
         lastPageViewIndexSelectedVolatile = -1
         lastTabSelectedVolatile = -1
@@ -33,24 +34,21 @@ Item {
     property int lastPageViewIndexSelectedVolatile: 0
     property int lastPageViewIndexSelected: {
         let index = lastPageViewIndexSelectedVolatile
-        if(currentSession !== "") {
+        if(currentSession !== "")
             index = parseInt(Settings.getOption(sessionNamePrefix + "pageIndex", "0"))
-        }
         return index
     }
     function setLastPageViewIndexSelected(index) {
-        if(currentSession !== "") {
+        if(currentSession !== "")
             Settings.setOption(sessionNamePrefix + "pageIndex", index);
-        }
         lastPageViewIndexSelectedVolatile = index
     }
 
     property int lastTabSelectedVolatile: 0
     property int lastTabSelected: {
         let tab = lastTabSelectedVolatile
-        if(currentSession !== "") {
+        if(currentSession !== "")
             tab = parseInt(Settings.getOption(sessionNamePrefix + "page" + lastPageViewIndexSelected + "Tab", "0"))
-        }
         return tab
     }
     function setLastTabSelected(tabNo) {
