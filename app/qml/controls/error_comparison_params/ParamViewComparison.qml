@@ -37,7 +37,13 @@ Item {
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
 
-    readonly property real rowHeight: height > 0 ? height/7 : 10
+    readonly property int rowsDisplayed: {
+        let baseRows = 6
+        if(isEnergyComparison)
+            baseRows++
+        return baseRows
+    }
+    readonly property real rowHeight: height > 0 ? height/rowsDisplayed : 10
     readonly property real pointSize: rowHeight/2.5
 
     readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject
@@ -115,9 +121,10 @@ Item {
         Rectangle {
             color: "transparent"
             border.color: Material.dividerColor
-            height: root.rowHeight
+            height: isEnergyComparison ? root.rowHeight : 0
             width: root.width
             enabled: logicalParent.canStartMeasurement
+            visible: isEnergyComparison
 
             Label {
                 textFormat: Text.PlainText
