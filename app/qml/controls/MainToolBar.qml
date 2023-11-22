@@ -19,7 +19,7 @@ ToolBar {
     property alias rotaryFieldDependenciesReady: rotaryFieldIndicatorLoader.active;
     property alias rangeIndicatorDependenciesReady: rangeIndicator.active;
 
-    property bool entityInitializationDone: GC.entityInitializationDone
+    readonly property bool entityInitializationDone: GC.entityInitializationDone
     onEntityInitializationDoneChanged: {
         if(entityInitializationDone) {
             measurementPaused = Qt.binding(function() {

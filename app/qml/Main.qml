@@ -286,7 +286,6 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             width: displayWindow.width
 
-            entityInitializationDone: GC.entityInitializationDone;
             layoutStackObj: layoutStack
             loggerSettingsStackObj: loggerSettingsLoader.item
         }
