@@ -66,6 +66,7 @@
         <file>qml/pages/EMOBActualValueTabsPage.qml</file>
         <file>qml/pages/EMOBActualValueTabsPageDC.qml</file>
         <file>qml/pages/EMOBActualValuesPage.qml</file>
+        <file>qml/pages/EMOBActualValuesPageDC.qml</file>
         <file>qml/pages/BaseTabPage.qml</file>
         <file>qml/pages/BurdenModulePage.qml</file>
         <file>qml/pages/CEDModulePage.qml</file>
