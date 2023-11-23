@@ -32,8 +32,6 @@ void ActualValueEmobAcModel::setLabelsAndUnits()
     setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
     setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
     setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
-    setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
-    setData(mIndex, "Σ", RoleIndexes::SUM);
     setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     // 1st column: row names
