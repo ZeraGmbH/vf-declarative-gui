@@ -352,7 +352,10 @@ ApplicationWindow {
                 if(SessionState.emobSession) {
                     if(!ASWGL.isServer)
                         iconName = "qrc:/data/staticdata/resources/act_values.png"
-                    if(!SessionState.dcSession)
+
+                    if(SessionState.currentSession.includes('-ac')) //should be removed once EMOB-AC & EMOB-DC are on production
+                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"});
+                    else if(!SessionState.dcSession)
                         append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
                     else
                         append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"});
