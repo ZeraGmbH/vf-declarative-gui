@@ -12,6 +12,7 @@ import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
 import "../settings"
+import "../error_comparison_common"
 
 Item {
     id: root
@@ -24,6 +25,13 @@ Item {
     property var validatorTxUnit
     property var validatorUpperLimit
     property var validatorLowerLimit
+    readonly property var measModeModel: {
+        if(usePower2)
+            return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data
+        let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(logicalParent.errCalEntity["PAR_RefInput"])
+        return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
+    }
+    readonly property bool canChangeRefInputOrMMode: validatorRefInput.Data.length > 1 || measModeModel.length > 1
 
     // hack to determine if we are in ced-session and have to use POWER2Module1
     // to get/set measurement-modes
@@ -45,65 +53,8 @@ Item {
     VisualItemModel {
         id: parameterModel
 
-        Rectangle {
-            color: "transparent"
-            border.color: Material.dividerColor
-            height: root.rowHeight
-            width: root.width
-            enabled: logicalParent.canStartMeasurement
-            Label {
-                textFormat: Text.PlainText
-                anchors.left: parent.left
-                anchors.leftMargin: GC.standardTextHorizMargin
-                width: parent.width * col1Width
-                anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("Reference input:")
-                font.pointSize: root.pointSize
-            }
-            VFComboBox {
-                id: cbRefInput
-                arrayMode: true
-
-                entity: logicalParent.errCalEntity
-                controlPropertyName: "PAR_RefInput"
-                model: validatorRefInput.Data
-
-                x: parent.width*col1Width
-                width: parent.width*col2Width - GC.standardMarginWithMin
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                pointSize: root.pointSize
-            }
-            VFComboBox {
-                id: cbRefMeasMode
-                arrayMode: true
-                controlPropertyName: "PAR_MeasuringMode"
-                // override
-                function translateText(text){
-                    return Z.tr(text)
-                }
-                model: {
-                    if(usePower2) {
-                        return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    }
-                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                    return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
-                }
-
-                entity: {
-                    if(usePower2) {
-                        return root.p2m1
-                    }
-                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                    return PwrModVeinGetter.getPowerModuleEntity(moduleNo)
-                }
-
-                anchors.right: parent.right
-                width: parent.width*col3Width
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                pointSize: root.pointSize
-            }
+        ParamLineRefInputAndMMode {
+            active: canChangeRefInputOrMMode
         }
         Rectangle {
             color: "transparent"
