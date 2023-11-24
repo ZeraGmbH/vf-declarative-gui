@@ -60,7 +60,7 @@ Item {
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
-                ActualValuesRowDc {
+                ActualValuesRowEmobDc {
                     rowHeight: root.rowHeight
                     rowWidth: root.width
                     leftColumWithsScale: root.leftColumWithsScale
