@@ -11,8 +11,6 @@ import "../../controls"
 Row {
     property real rowHeight
     property real rowWidth
-    property real leftColumWithsScale
-    property real rightColumWithsScale
     property color colorU
     property color colorI
 
