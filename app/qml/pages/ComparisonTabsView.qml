@@ -8,6 +8,7 @@ import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import "../controls"
+import "../controls/error_comparison_common"
 import "../helpers"
 
 BaseTabPage {
@@ -20,94 +21,34 @@ BaseTabPage {
     // TabButtons
     Component {
         id: tabPulse
-        TabButton {
-            id: tabButtonPulse
-            font.pointSize: tabPointSize
-            height: tabHeight
-
-            readonly property var entity: errMeasHelper.sec1mod1Entity
-            contentItem: Label {
-                text: Z.tr("Meter test") + errMeasHelper.comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
-                font.capitalization: Font.AllUppercase
-                font.pointSize: tabPointSize
-                height: tabHeight
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                Material.foreground: errMeasHelper.comparisonPass(entity) ? Material.White : Material.Red
-            }
-            AnimationActivity {
-                targetItem: tabButtonPulse
-                running: errMeasHelper.sec1mod1Running
-            }
+        TabButtonComparison {
+            entity: errMeasHelper.sec1mod1Entity
+            baseLabel: Z.tr("Meter test")
+            running: errMeasHelper.sec1mod1Running
         }
     }
     Component {
         id: tabPulseEnergy
-        TabButton {
-            id: tabButtonPulseEnergy
-            font.pointSize: tabPointSize
-            height: tabHeight
-
-            readonly property var entity: errMeasHelper.sec1mod2Entity
-            contentItem: Label {
-                text: Z.tr("Energy comparison") + errMeasHelper.comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
-                font.capitalization: Font.AllUppercase
-                font.pointSize: tabPointSize
-                height: tabHeight
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                Material.foreground: errMeasHelper.comparisonPass(entity) ? Material.White : Material.Red
-            }
-            AnimationActivity {
-                targetItem: tabButtonPulseEnergy
-                running: errMeasHelper.sec1mod2Running
-            }
+        TabButtonComparison {
+            entity: errMeasHelper.sec1mod2Entity
+            baseLabel: Z.tr("Energy comparison")
+            running: errMeasHelper.sec1mod2Running
         }
     }
     Component {
         id: tabEnergy
-        TabButton {
-            id: tabButtonEnergy
-            font.pointSize: tabPointSize
-            height: tabHeight
-
-            readonly property var entity: errMeasHelper.sem1mod1Entity
-            contentItem: Label {
-                text: Z.tr("Energy register") + errMeasHelper.registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
-                font.capitalization: Font.AllUppercase
-                font.pointSize: tabPointSize
-                height: tabHeight
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                Material.foreground: errMeasHelper.registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
-            }
-            AnimationActivity {
-                targetItem: tabButtonEnergy
-                running: errMeasHelper.sem1mod1Running
-            }
+        TabButtonComparison {
+            entity: errMeasHelper.sem1mod1Entity
+            baseLabel: Z.tr("Energy register")
+            running: errMeasHelper.sem1mod1Running
         }
     }
     Component {
         id: tabPower
-        TabButton {
-            id: tabButtonPower
-            font.pointSize: tabPointSize
-            height: tabHeight
-
-            readonly property var entity: errMeasHelper.spm1mod1Entity
-            contentItem: Label {
-                text: Z.tr("Power register") + errMeasHelper.registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
-                font.capitalization: Font.AllUppercase
-                font.pointSize: tabPointSize
-                height: tabHeight
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                Material.foreground: errMeasHelper.registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
-            }
-            AnimationActivity {
-                targetItem: tabButtonPower
-                running: errMeasHelper.spm1mod1Running
-            }
+        TabButtonComparison {
+            entity: errMeasHelper.spm1mod1Entity
+            baseLabel: Z.tr("Power register")
+            running: errMeasHelper.spm1mod1Running
         }
     }
 

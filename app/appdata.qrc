@@ -28,6 +28,7 @@
         <file>qml/controls/error_comparison_common/MeterConstantSettings.qml</file>
         <file>qml/controls/error_comparison_common/MultipleErrorView.qml</file>
         <file>qml/controls/error_comparison_common/ParamLineRefInputAndMMode.qml</file>
+        <file>qml/controls/error_comparison_common/TabButtonComparison.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewComparison.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewQuartz.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewRegister.qml</file>
