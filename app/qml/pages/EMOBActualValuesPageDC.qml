@@ -11,7 +11,7 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    readonly property int rowCount: ZGL.ActualValueEmobDcModel.rowCount()
+    readonly property int rowCount: ZGL.ActualValueEmobDcModel.rowCount() /* Temp TODO */ +8
     readonly property real rowHeight: height/rowCount
 
     ListView {
