@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick 2.14
 import VeinEntity 1.0
 import ModuleIntrospection 1.0
+import SessionState 1.0
 import GlobalConfig 1.0
 
 // Note: in here we are zero based
@@ -83,6 +84,10 @@ Item {
         case "P 3":
             return 2
         case "P DC":
+            if(SessionState.emobSessionAcDc)
+                return 3
+            else
+                return 0
         case "P AUX":
             return 3
         }
