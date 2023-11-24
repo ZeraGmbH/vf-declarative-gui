@@ -67,7 +67,7 @@ Item {
         id: parameterModel
 
         ParamLineRefInputAndMMode {
-
+            active: canChangeRefInputOrMMode
         }
         Loader {
             active: isEnergyComparison
