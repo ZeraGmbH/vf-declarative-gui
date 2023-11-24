@@ -354,11 +354,11 @@ ApplicationWindow {
                         iconName = "qrc:/data/staticdata/resources/act_values.png"
 
                     if(SessionState.currentSession.includes('-ac')) //should be removed once EMOB-AC & EMOB-DC are on production
-                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"});
-                    else if(!SessionState.dcSession)
-                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
+                        append({name: "Actual & Comparison", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"});
+                    else if(SessionState.dcSession)
+                        append({name: "Actual & Comparison", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"});
                     else
-                        append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"});
+                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
                 }
                 else if(SessionState.dcSession) {
                     if(!ASWGL.isServer) {
@@ -388,11 +388,13 @@ ApplicationWindow {
                     append({name: "Harmonic power values", icon: iconName, elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"});
                 }
                 if(!SessionState.refSession) {
-                    if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
-                        if(!ASWGL.isServer) {
-                            iconName = "qrc:/data/staticdata/resources/error_calc.png"
+                    if(!SessionState.emobSession || SessionState.emobSessionAcDc) {
+                        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
+                            if(!ASWGL.isServer) {
+                                iconName = "qrc:/data/staticdata/resources/error_calc.png"
+                            }
+                            append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                         }
-                        append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                     }
                 }
                 else {
