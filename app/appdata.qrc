@@ -14,6 +14,7 @@
         <file>qml/controls/WaitTransaction.qml</file>
         <file>qml/controls/actual_values/ActualValuesRow.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowEmobDc.qml</file>
+        <file>qml/controls/actual_values/ActualValuesRowEmobDcForAcDc.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowDcPerPhase.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowDcOnePhase.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
