@@ -44,68 +44,66 @@ Item {
     }
     VisualItemModel {
         id: parameterModel
-        Loader {
-            active: validatorRefInput.Data.length > 1
-            sourceComponent: Rectangle {
-                color: "transparent"
-                border.color: Material.dividerColor
-                height: root.rowHeight
-                width: root.width
-                enabled: logicalParent.canStartMeasurement
-                Label {
-                    textFormat: Text.PlainText
-                    anchors.left: parent.left
-                    anchors.leftMargin: GC.standardTextHorizMargin
-                    width: parent.width * col1Width
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: Z.tr("Reference input:")
-                    font.pointSize: root.pointSize
+
+        Rectangle {
+            color: "transparent"
+            border.color: Material.dividerColor
+            height: root.rowHeight
+            width: root.width
+            enabled: logicalParent.canStartMeasurement
+            Label {
+                textFormat: Text.PlainText
+                anchors.left: parent.left
+                anchors.leftMargin: GC.standardTextHorizMargin
+                width: parent.width * col1Width
+                anchors.verticalCenter: parent.verticalCenter
+                text: Z.tr("Reference input:")
+                font.pointSize: root.pointSize
+            }
+            VFComboBox {
+                id: cbRefInput
+                arrayMode: true
+
+                entity: logicalParent.errCalEntity
+                controlPropertyName: "PAR_RefInput"
+                model: validatorRefInput.Data
+
+                x: parent.width*col1Width
+                width: parent.width*col2Width - GC.standardMarginWithMin
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                pointSize: root.pointSize
+            }
+            VFComboBox {
+                id: cbRefMeasMode
+                arrayMode: true
+                controlPropertyName: "PAR_MeasuringMode"
+                // override
+                function translateText(text){
+                    return Z.tr(text)
                 }
-                VFComboBox {
-                    id: cbRefInput
-                    arrayMode: true
-
-                    entity: logicalParent.errCalEntity
-                    controlPropertyName: "PAR_RefInput"
-                    model: validatorRefInput.Data
-
-                    x: parent.width*col1Width
-                    width: parent.width*col2Width - GC.standardMarginWithMin
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    pointSize: root.pointSize
+                model: {
+                    if(usePower2) {
+                        return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
+                    }
+                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
+                    return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
                 }
-                VFComboBox {
-                    id: cbRefMeasMode
-                    arrayMode: true
-                    controlPropertyName: "PAR_MeasuringMode"
-                    // override
-                    function translateText(text){
-                        return Z.tr(text)
-                    }
-                    model: {
-                        if(usePower2) {
-                            return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                        }
-                        let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                        return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
-                    }
 
-                    entity: {
-                        if(usePower2) {
-                            return root.p2m1
-                        }
-                        let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                        return PwrModVeinGetter.getPowerModuleEntity(moduleNo)
+                entity: {
+                    if(usePower2) {
+                        return root.p2m1
                     }
-
-                    anchors.right: parent.right
-                    width: parent.width*col3Width
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    pointSize: root.pointSize
+                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
+                    return PwrModVeinGetter.getPowerModuleEntity(moduleNo)
                 }
-             }
+
+                anchors.right: parent.right
+                width: parent.width*col3Width
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                pointSize: root.pointSize
+            }
         }
         Rectangle {
             color: "transparent"
