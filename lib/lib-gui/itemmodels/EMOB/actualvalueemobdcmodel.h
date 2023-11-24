@@ -1,13 +1,13 @@
-#ifndef ACTUALVALUE4THPHASEDCMODEL_H
-#define ACTUALVALUE4THPHASEDCMODEL_H
+#ifndef ACTUALVALUEDCMODEL_H
+#define ACTUALVALUEDCMODEL_H
 
 #include "tableeventitemmodelbase.h"
 
-class ActualValueEmob4thPhaseDcModel : public TableEventItemModelBase
+class ActualValueEmobDcModel : public TableEventItemModelBase
 {
     Q_OBJECT
 public:
-    ActualValueEmob4thPhaseDcModel();
+    ActualValueEmobDcModel();
 
     void setLabelsAndUnits() override;
     void setupMapping() override;
@@ -27,4 +27,4 @@ private:
     RowAutoScaler m_autoScalerP;
 };
 
-#endif // ACTUALVALUE4THPHASEDCMODEL_H
+#endif // ACTUALVALUEDCMODEL_H

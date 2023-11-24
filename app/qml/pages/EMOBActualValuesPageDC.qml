@@ -11,15 +11,14 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    readonly property int rowCount:
-        ZGL.ActualValueEmob4thPhaseDcModel.rowCount()
+    readonly property int rowCount: ZGL.ActualValueEmobDcModel.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
     readonly property real rightColumWithsScale: 0.4
 
     ListView {
         id: dcTable
-        model: ZGL.ActualValueEmob4thPhaseDcModel
+        model: ZGL.ActualValueEmobDcModel
         height: model.rowCount() * rowHeight
         boundsBehavior: Flickable.StopAtBounds
         delegate: Component {

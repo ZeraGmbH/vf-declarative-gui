@@ -14,7 +14,7 @@ Item {
     readonly property int rowCount:
         ZGL.ActualValueEmobAcModel.rowCount() +
         ZGL.ActualValueEmobAcSumModel.rowCount() +
-        ZGL.ActualValueEmob4thPhaseDcModel.rowCount()
+        ZGL.ActualValueEmobDcModel.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
     readonly property real rightColumWithsScale: 0.4
@@ -55,7 +55,7 @@ Item {
         }
         ListView {
             id: dcTable
-            model: ZGL.ActualValueEmob4thPhaseDcModel
+            model: ZGL.ActualValueEmobDcModel
             anchors.top: acSumTable.bottom
             height: model.rowCount() * rowHeight
             boundsBehavior: Flickable.StopAtBounds
