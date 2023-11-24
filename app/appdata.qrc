@@ -25,7 +25,9 @@
         <file>qml/controls/appinfo/StatusView.qml</file>
         <file>qml/controls/error_comparison_common/ErrorMarginView.qml</file>
         <file>qml/controls/error_comparison_common/MeasurementView.qml</file>
+        <file>qml/controls/error_comparison_common/MeterConstantSettings.qml</file>
         <file>qml/controls/error_comparison_common/MultipleErrorView.qml</file>
+        <file>qml/controls/error_comparison_common/ParamLineRefInputAndMMode.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewComparison.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewQuartz.qml</file>
         <file>qml/controls/error_comparison_params/ParamViewRegister.qml</file>
@@ -99,7 +101,6 @@
         <file>qml/controls/MainToolBar.qml</file>
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
-        <file>qml/controls/error_comparison_common/MeterConstantSettings.qml</file>
         <file>qml/controls/ScrollGroup.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
         <file>qml/controls/ranges/OverloadButton.qml</file>
