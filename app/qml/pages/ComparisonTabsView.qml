@@ -17,56 +17,6 @@ BaseTabPage {
         id: errMeasHelper
     }
 
-    readonly property int aborted: (1<<3)
-
-    function comparisonProgress(entity, show) {
-        let ret = ""
-        if(show) {
-            let progress = parseInt(entity.ACT_Progress)
-            let measCount = entity.PAR_MeasCount
-            let continuous = entity.PAR_Continuous === 1
-            if(measCount > 1 || continuous) {
-                let measNum = entity.ACT_MeasNum + 1
-                if(continuous) {
-                    ret = ` ${progress}% (${measNum})`
-                }
-                else {
-                    ret = ` ${progress}% (${measNum}/${measCount})`
-                }
-            }
-            else {
-                ret = ` ${progress}%`
-            }
-        }
-        return ret
-    }
-    function registerProgress(entity, show) {
-        let ret = ""
-        if(show) {
-            let progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
-            ret = ` ${progress}%`
-        }
-        return ret
-    }
-    function comparisonPass(entity) {
-        let pass = false
-        let jsonResults = JSON.parse(entity.ACT_MulResult)
-        if(jsonResults.values.length === 1) {
-            pass = entity.ACT_Rating !== 0
-        }
-        else {
-            pass = jsonResults.countPass === jsonResults.values.length
-        }
-        return pass
-    }
-    function registerPass(entity, running) {
-        let pass = false
-        let abortFlag = (1<<3)
-        let aborted = entity.ACT_Status & root.aborted
-        pass = entity.ACT_Rating !== 0 || running || aborted
-        return pass
-    }
-
     // TabButtons
     Component {
         id: tabPulse
@@ -77,13 +27,13 @@ BaseTabPage {
 
             readonly property var entity: errMeasHelper.sec1mod1Entity
             contentItem: Label {
-                text: Z.tr("Meter test") + comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
+                text: Z.tr("Meter test") + errMeasHelper.comparisonProgress(entity, errMeasHelper.sec1mod1Running && !checked)
                 font.capitalization: Font.AllUppercase
                 font.pointSize: tabPointSize
                 height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
+                Material.foreground: errMeasHelper.comparisonPass(entity) ? Material.White : Material.Red
             }
             AnimationActivity {
                 targetItem: tabButtonPulse
@@ -100,13 +50,13 @@ BaseTabPage {
 
             readonly property var entity: errMeasHelper.sec1mod2Entity
             contentItem: Label {
-                text: Z.tr("Energy comparison") + comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
+                text: Z.tr("Energy comparison") + errMeasHelper.comparisonProgress(entity, errMeasHelper.sec1mod2Running && !checked)
                 font.capitalization: Font.AllUppercase
                 font.pointSize: tabPointSize
                 height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                Material.foreground: comparisonPass(entity) ? Material.White : Material.Red
+                Material.foreground: errMeasHelper.comparisonPass(entity) ? Material.White : Material.Red
             }
             AnimationActivity {
                 targetItem: tabButtonPulseEnergy
@@ -123,13 +73,13 @@ BaseTabPage {
 
             readonly property var entity: errMeasHelper.sem1mod1Entity
             contentItem: Label {
-                text: Z.tr("Energy register") + registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
+                text: Z.tr("Energy register") + errMeasHelper.registerProgress(entity, errMeasHelper.sem1mod1Running && !checked)
                 font.capitalization: Font.AllUppercase
                 font.pointSize: tabPointSize
                 height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                Material.foreground: registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
+                Material.foreground: errMeasHelper.registerPass(entity, errMeasHelper.sem1mod1Running) ? Material.White : Material.Red
             }
             AnimationActivity {
                 targetItem: tabButtonEnergy
@@ -146,13 +96,13 @@ BaseTabPage {
 
             readonly property var entity: errMeasHelper.spm1mod1Entity
             contentItem: Label {
-                text: Z.tr("Power register") + registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
+                text: Z.tr("Power register") + errMeasHelper.registerProgress(entity, errMeasHelper.spm1mod1Running && !checked)
                 font.capitalization: Font.AllUppercase
                 font.pointSize: tabPointSize
                 height: tabHeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                Material.foreground: registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
+                Material.foreground: errMeasHelper.registerPass(entity, errMeasHelper.spm1mod1Running) ? Material.White : Material.Red
             }
             AnimationActivity {
                 targetItem: tabButtonPower
