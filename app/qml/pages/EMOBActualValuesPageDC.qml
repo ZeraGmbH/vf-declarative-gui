@@ -13,8 +13,6 @@ Item {
     id: root
     readonly property int rowCount: ZGL.ActualValueEmobDcModel.rowCount()
     readonly property real rowHeight: height/rowCount
-    readonly property real leftColumWithsScale: 0.4
-    readonly property real rightColumWithsScale: 0.4
 
     ListView {
         id: dcTable
@@ -25,8 +23,6 @@ Item {
             ActualValuesRowEmobDc {
                 rowHeight: root.rowHeight
                 rowWidth: root.width
-                leftColumWithsScale: root.leftColumWithsScale
-                rightColumWithsScale: root.leftColumWithsScale
                 colorU: GC.colorUAux1
                 colorI: GC.colorIAux1
             }
