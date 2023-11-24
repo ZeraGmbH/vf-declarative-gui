@@ -53,13 +53,16 @@ Item {
     }
     function comparisonPass(entity) {
         let pass = false
-        let jsonResults = JSON.parse(entity.ACT_MulResult)
-        if(jsonResults.values.length === 1) {
+        let evalDone = false
+        if(entity.hasComponent('ACT_MulResult')) {
+            let jsonResults = JSON.parse(entity.ACT_MulResult)
+            if(jsonResults.values.length > 1) {
+                pass = jsonResults.countPass === jsonResults.values.length
+                evalDone = true
+            }
+        }
+        if(!evalDone)
             pass = entity.ACT_Rating !== 0
-        }
-        else {
-            pass = jsonResults.countPass === jsonResults.values.length
-        }
         return pass
     }
     function registerPass(entity, running) {
