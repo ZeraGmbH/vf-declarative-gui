@@ -19,4 +19,54 @@ Item {
     readonly property var spm1mod1Running: hasSPM1 && spm1mod1Entity.PAR_StartStop === 1
 
     property bool oneOrMoreRunning: sec1mod1Running || sec1mod2Running || sem1mod1Running || spm1mod1Running
+
+    readonly property int aborted: (1<<3)
+
+    function comparisonProgress(entity, show) {
+        let ret = ""
+        if(show) {
+            let progress = parseInt(entity.ACT_Progress)
+            let measCount = entity.PAR_MeasCount
+            let continuous = entity.PAR_Continuous === 1
+            if(measCount > 1 || continuous) {
+                let measNum = entity.ACT_MeasNum + 1
+                if(continuous) {
+                    ret = ` ${progress}% (${measNum})`
+                }
+                else {
+                    ret = ` ${progress}% (${measNum}/${measCount})`
+                }
+            }
+            else {
+                ret = ` ${progress}%`
+            }
+        }
+        return ret
+    }
+    function registerProgress(entity, show) {
+        let ret = ""
+        if(show) {
+            let progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
+            ret = ` ${progress}%`
+        }
+        return ret
+    }
+    function comparisonPass(entity) {
+        let pass = false
+        let jsonResults = JSON.parse(entity.ACT_MulResult)
+        if(jsonResults.values.length === 1) {
+            pass = entity.ACT_Rating !== 0
+        }
+        else {
+            pass = jsonResults.countPass === jsonResults.values.length
+        }
+        return pass
+    }
+    function registerPass(entity, running) {
+        let pass = false
+        let abortFlag = (1<<3)
+        let aborted = entity.ACT_Status & root.aborted
+        pass = entity.ACT_Rating !== 0 || running || aborted
+        return pass
+    }
 }
