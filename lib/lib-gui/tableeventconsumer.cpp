@@ -2,7 +2,7 @@
 #include "actualvaluemodel.h"
 #include "actualvaluemodelwithaux.h"
 #include "actualvalueemobacmodel.h"
-#include "actualvalueemob4thphasedcmodel.h"
+#include "actualvalueemobdcmodel.h"
 #include "actualvalueemobacsummodel.h"
 #include "actualvaluelemdcperphaseumodel.h"
 #include "actualvaluelemdcsingleimodel.h"
@@ -22,7 +22,7 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
             << m_actValueData
             << m_actValueDataWithAux
             << new ActualValueEmobAcModel
-            << new ActualValueEmob4thPhaseDcModel
+            << new ActualValueEmobDcModel
             << new ActualValueEmobAcSumModel
             << new ActualValueLemDCPerPhaseUModel
             << new ActualValueLemDcSingleIModel

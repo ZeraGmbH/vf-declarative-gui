@@ -1,4 +1,4 @@
-#include "actualvalueemob4thphasedcmodel.h"
+#include "actualvalueemobdcmodel.h"
 #include "vfcomponenteventdispatcher.h"
 
 enum class LineDefinitions : int {
@@ -10,12 +10,12 @@ enum class LineDefinitions : int {
 
 #define lineVal(val) static_cast<int>(LineDefinitions::val)
 
-ActualValueEmob4thPhaseDcModel::ActualValueEmob4thPhaseDcModel() :
+ActualValueEmobDcModel::ActualValueEmobDcModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
 }
 
-void ActualValueEmob4thPhaseDcModel::setLabelsAndUnits()
+void ActualValueEmobDcModel::setLabelsAndUnits()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
@@ -25,7 +25,7 @@ void ActualValueEmob4thPhaseDcModel::setLabelsAndUnits()
     setData(mIndex, "P [W]", RoleIndexes::DC_P);
 }
 
-void ActualValueEmob4thPhaseDcModel::setupMapping()
+void ActualValueEmobDcModel::setupMapping()
 {
     QHash<QString, QPoint> *fftMap = new QHash<QString, QPoint>();
     fftMap->insert("ACT_DC7", QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES)));
@@ -38,7 +38,7 @@ void ActualValueEmob4thPhaseDcModel::setupMapping()
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module4), p1m4Map);
 }
 
-QHash<int, QByteArray> ActualValueEmob4thPhaseDcModel::roleNames() const
+QHash<int, QByteArray> ActualValueEmobDcModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleIndexes::NAME, "NAME");
@@ -48,7 +48,7 @@ QHash<int, QByteArray> ActualValueEmob4thPhaseDcModel::roleNames() const
     return roles;
 }
 
-void ActualValueEmob4thPhaseDcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void ActualValueEmobDcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     RowAutoScaler::TSingleScaleResult singleResult;
     int columnRole = 0;
