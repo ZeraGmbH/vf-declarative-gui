@@ -29,6 +29,13 @@ Item {
     property var validatorMrate
     readonly property bool isMeterTest: validatorMrate !== undefined
     readonly property bool isEnergyComparison: validatorEnergy !== undefined
+    readonly property var measModeModel: {
+        if(usePower2)
+            return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data
+        let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(logicalParent.errCalEntity["PAR_RefInput"])
+        return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
+    }
+    readonly property bool canChangeRefInputOrMMode: validatorRefInput.Data.length > 1 || measModeModel.length > 1
 
     property var validatorUpperLimit
     property var validatorLowerLimit
@@ -58,64 +65,62 @@ Item {
     }
     VisualItemModel {
         id: parameterModel
-        Rectangle {
-            color: "transparent"
-            border.color: Material.dividerColor
-            height: root.rowHeight
-            width: root.width
-            enabled: logicalParent.canStartMeasurement
-            Label {
-                textFormat: Text.PlainText
-                anchors.left: parent.left
-                anchors.leftMargin: GC.standardTextHorizMargin
-                width: parent.width*col1Width
-                anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("Reference input:")
-                font.pointSize: root.pointSize
-            }
-            VFComboBox {
-                id: cbRefInput
-                // override
-                function translateText(text) {
-                    return Z.tr(text)
+        Loader {
+            active: canChangeRefInputOrMMode
+            sourceComponent:  Rectangle {
+                color: "transparent"
+                border.color: Material.dividerColor
+                height: root.rowHeight
+                width: root.width
+                enabled: logicalParent.canStartMeasurement
+                Label {
+                    textFormat: Text.PlainText
+                    anchors.left: parent.left
+                    anchors.leftMargin: GC.standardTextHorizMargin
+                    width: parent.width*col1Width
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: Z.tr("Reference input:")
+                    font.pointSize: root.pointSize
                 }
-                arrayMode: true
-                entity: logicalParent.errCalEntity
-                controlPropertyName: "PAR_RefInput"
-                model: validatorRefInput.Data
+                VFComboBox {
+                    id: cbRefInput
+                    // override
+                    function translateText(text) {
+                        return Z.tr(text)
+                    }
+                    arrayMode: true
+                    entity: logicalParent.errCalEntity
+                    controlPropertyName: "PAR_RefInput"
+                    model: validatorRefInput.Data
 
-                x: parent.width*col1Width
-                width: parent.width*col2Width - GC.standardMarginWithMin
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                pointSize: root.pointSize
-            }
-
-            VFComboBox {
-                arrayMode: true
-                controlPropertyName: "PAR_MeasuringMode"
-                // override
-                function translateText(text){
-                    return Z.tr(text)
-                }
-                model: {
-                    if(usePower2)
-                        return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data;
-                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                    return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
-                }
-                entity: {
-                    if(usePower2)
-                        return root.p2m1
-                    let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                    return PwrModVeinGetter.getPowerModuleEntity(moduleNo)
+                    x: parent.width*col1Width
+                    width: parent.width*col2Width - GC.standardMarginWithMin
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    pointSize: root.pointSize
                 }
 
-                anchors.right: parent.right
-                width: parent.width*col3Width
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                pointSize: root.pointSize
+                VFComboBox {
+                    arrayMode: true
+                    controlPropertyName: "PAR_MeasuringMode"
+                    // override
+                    function translateText(text){
+                        return Z.tr(text)
+                    }
+                    model: measModeModel
+                    entity: {
+                        if(usePower2)
+                            return root.p2m1
+                        let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
+                        return PwrModVeinGetter.getPowerModuleEntity(moduleNo)
+                    }
+
+                    anchors.right: parent.right
+                    width: parent.width*col3Width
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    pointSize: root.pointSize
+                }
             }
         }
         Loader {
@@ -322,7 +327,7 @@ Item {
                     currentIndex: GC.energyScaleSelection
                     // entity base unit is kWh (maybe we add some magic later - for now use harcoding)
                     arrEntries: {
-                        switch(cbRefInput.currentText) {
+                        switch(logicalParent.errCalEntity["PAR_RefInput"]) {
                         case "P":
                         case "+P":
                         case "-P":
