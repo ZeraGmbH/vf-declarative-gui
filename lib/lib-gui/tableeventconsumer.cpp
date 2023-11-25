@@ -144,42 +144,13 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     case Modules::Power3Module:
         handleHarmonicPowerValues(cData);
         break;
-    case Modules::Burden1Module:
-    {
-        const auto burdenMapping = m_burden1Data->getValueMapping().value(cData->entityId(), nullptr);
-        if(Q_UNLIKELY(burdenMapping != nullptr)) {
-            handleBurdenValues(m_burden1Data, burdenMapping, cData);
-        }
-        break;
-    }
-    case Modules::Burden2Module:
-    {
-        const auto burdenMapping = m_burden2Data->getValueMapping().value(cData->entityId(), nullptr);
-        if(Q_UNLIKELY(burdenMapping != nullptr)) {
-            handleBurdenValues(m_burden2Data, burdenMapping, cData);
-        }
-        break;
-    }
     default: /// @note values handled earlier in the switch case will not show up in the actual values table!
-    {
         for(const auto &itemModel : qAsConst(m_actValueModels)) {
             const auto avMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
-            if(Q_UNLIKELY(avMapping != nullptr)) {
+            if(Q_UNLIKELY(avMapping != nullptr))
                 handleActualValues(itemModel, avMapping, cData);
-            }
-        }
-
-        QList<TableEventItemModelBase*> burdenModels = QList<TableEventItemModelBase*>()
-                << m_burden1Data
-                << m_burden2Data;
-        for(auto model : qAsConst(burdenModels)) {
-            const auto burdenMapping = model->getValueMapping().value(cData->entityId(), nullptr);
-            if(Q_UNLIKELY(burdenMapping != nullptr)) { //rms values
-                handleBurdenValues(model, burdenMapping, cData);
-            }
         }
         break;
-    }
     }
 }
 
@@ -204,20 +175,6 @@ bool TableEventConsumer::handleActualValues(TableEventItemModelBase *itemModel, 
         }
         retVal = true;
     }
-    return retVal;
-}
-
-bool TableEventConsumer::handleBurdenValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint> *t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
-{
-    bool retVal = false;
-    const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
-    if(valueCoordiates.isNull() == false) //nothing is at 0, 0
-    {
-        QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0); // QML doesn't understand columns!
-        //uses the mapped coordinates to insert the data in the model at x,y -> column,row position
-        itemModel->setData(mIndex, t_cmpData->newValue(), valueCoordiates.x()); // QML doesn't understand columns, so use roles
-    }
-
     return retVal;
 }
 
