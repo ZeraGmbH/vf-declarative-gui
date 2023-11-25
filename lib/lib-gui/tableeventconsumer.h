@@ -20,7 +20,7 @@ public:
     void handleComponentChange(const VeinComponent::ComponentData *cData) override;
 
 private:
-    void setupFftData();
+    void setupFftMappings();
     void setAngleUI(int systemNumber);
     void setupPropertyMap();
     void setupDftDispatchTable();
