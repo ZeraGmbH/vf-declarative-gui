@@ -100,11 +100,11 @@ Item {
         Settings.setOption("fft_table_as_relative", setValue);
     }
 
-    property int showFftTablePhase: parseInt(Settings.getOption("fft_table_show_phase", "0"))
-    function setShowFftTablePhase(showPhase) {
-        showFftTablePhase = showPhase
-        var setValue = showPhase ? 1 : 0
-        Settings.setOption("fft_table_show_phase", setValue);
+    property int showFftTableAngle: parseInt(Settings.getOption("fft_table_show_angle", "0"))
+    function setShowFftTableAngle(showAngle) {
+        showFftTableAngle = showAngle
+        var setValue = showAngle ? 1 : 0
+        Settings.setOption("fft_table_show_angle", setValue);
     }
 
     /////////////////////////////////////////////////////////////////////////////
