@@ -178,44 +178,35 @@ void TableEventConsumer::handleDftValues(const VeinComponent::ComponentData *cDa
 
 void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *cData)
 {
-    int fftTableRole=m_fftTableRoleMapping.value(cData->componentName(), 0);
+    int fftTableRole = m_fftTableRoleMapping.value(cData->componentName(), 0);
     if(fftTableRole != 0) {
         const QList<double> tmpData = qvariant_cast<QList<double> >(cData->newValue());
-        /**
-         * @note The size check fixes:
-         * Alignment trap: not handling instruction edd21b00 at [<000523ae>]
-         * Unhandled fault: alignment exception (0x001) at 0x65747379
-         */
-        if(tmpData.length() > 3) { //base oscillation imaginary part is at index 3
-            //set ampBaseOscillation
-            const double re = tmpData.at(2);
-            const double im = tmpData.at(3);
-            double ampBaseOscillation = calcVectorLength(re, im);
-            if(ampBaseOscillation == 0.0) //avoid division by zero
-                ampBaseOscillation = 1e-15;
-
-            m_fftTableData->setRowCount(tmpData.length()/2);
-            m_fftRelativeTableData->setRowCount(tmpData.length()/2);
+        if(tmpData.length() > 3) { // base harmonic is mandatory: re idx=2 / im idx=3
+            double ampBaseHarmonic = calcVectorLength(tmpData.at(2), tmpData.at(3));
+            if(ampBaseHarmonic == 0.0) // avoid division by zero
+                ampBaseHarmonic = 1e-15;
+            const int harmonicCount = tmpData.length() / 2;
+            m_fftTableData->setRowCount(harmonicCount);
+            m_fftRelativeTableData->setRowCount(harmonicCount);
             for(int i=0; i<tmpData.length(); i+=2) {
                 const double re = tmpData.at(i);
                 const double im = tmpData.at(i+1);
                 const double length = calcVectorLength(re, im);
-
-                int harmonicNo = i/2;
-                QModelIndex fftTableIndex = m_fftTableData->index(harmonicNo, 0);
-                m_fftTableData->setData(fftTableIndex, length, fftTableRole);
-
-                QModelIndex fftRelativeTableIndex = m_fftRelativeTableData->index(harmonicNo, 0);
-                if(Q_UNLIKELY(harmonicNo==1)) //base oscillation is shown as absolute value (i=0 is DC)
-                    m_fftRelativeTableData->setData(fftRelativeTableIndex, length, fftTableRole); //absolute value
-                else
-                    m_fftRelativeTableData->setData(fftRelativeTableIndex, 100.0*length/ampBaseOscillation, fftTableRole); //value relative to the amplitude of the base oscillation
-
-                double vectorAngle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
+                double vectorAngle = (i != 0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
                 if(vectorAngle < 0)
                     vectorAngle += 360;
-                m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole+100);
-                m_fftRelativeTableData->setData(fftRelativeTableIndex, vectorAngle, fftTableRole+100);
+
+                int harmonicIdx = i / 2;
+                QModelIndex fftTableIndex = m_fftTableData->index(harmonicIdx, 0);
+                m_fftTableData->setData(fftTableIndex, length, fftTableRole);
+                m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole + FftTableModel::ampVectorOffset);
+
+                QModelIndex fftRelativeTableIndex = m_fftRelativeTableData->index(harmonicIdx, 0);
+                if(Q_UNLIKELY(harmonicIdx == 1)) // base harmonic is shown as absolute value
+                    m_fftRelativeTableData->setData(fftRelativeTableIndex, length, fftTableRole); // absolute value
+                else
+                    m_fftRelativeTableData->setData(fftRelativeTableIndex, 100.0*length / ampBaseHarmonic, fftTableRole); //value relative to the amplitude of the base oscillation
+                m_fftRelativeTableData->setData(fftRelativeTableIndex, vectorAngle, fftTableRole + FftTableModel::ampVectorOffset);
             }
         }
     }
@@ -223,31 +214,29 @@ void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *cDa
 
 void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::ComponentData *cData)
 {
-    const int tableRole=m_hpwTableRoleMapping.value(cData->componentName(), 0);
+    const int tableRole = m_hpwTableRoleMapping.value(cData->componentName(), 0);
     if(tableRole != 0) {
         const QList<double> tmpData = qvariant_cast<QList<double> >(cData->newValue());
         if(!tmpData.isEmpty()) {
-            QModelIndex tmpIndex, tmpRelativeIndex;
             QSignalBlocker blocker(m_hpTableData);
             QSignalBlocker relativeBlocker(m_hpRelativeTableData);
-            double ampBaseOscillation, currentValue;
-            //set ampBaseOscillation
-            ampBaseOscillation = tmpData.at(1);
-            if(ampBaseOscillation == 0.0) //avoid division by zero
-                ampBaseOscillation = pow(10, -15);
+            double ampBaseHarmonic = tmpData.at(1);
+            if(ampBaseHarmonic == 0.0) //avoid division by zero
+                ampBaseHarmonic = 1e-15;
 
-            m_hpTableData->setRowCount(tmpData.length());
-            m_hpRelativeTableData->setRowCount(tmpData.length());
-            for(int i=0; i<tmpData.length(); ++i) {
-                currentValue = tmpData.at(i);
-                tmpIndex = m_hpTableData->index(i, 0);
+            const int harmonicCount = tmpData.length();
+            m_hpTableData->setRowCount(harmonicCount);
+            m_hpRelativeTableData->setRowCount(harmonicCount);
+            for(int i=0; i<harmonicCount; ++i) {
+                double currentValue = tmpData.at(i);
+                QModelIndex tmpIndex = m_hpTableData->index(i, 0);
                 m_hpTableData->setData(tmpIndex, currentValue, tableRole);
 
-                tmpRelativeIndex = m_hpRelativeTableData->index(i, 0);
-                if(Q_UNLIKELY(i==1)) //base oscillation is shown as absolute value (i=0 is DC)
-                    m_hpRelativeTableData->setData(tmpRelativeIndex, ampBaseOscillation, tableRole); //absolute value
+                QModelIndex tmpRelativeIndex = m_hpRelativeTableData->index(i, 0);
+                if(Q_UNLIKELY(i == 1)) //base oscillation is shown as absolute value (i=0 is DC)
+                    m_hpRelativeTableData->setData(tmpRelativeIndex, ampBaseHarmonic, tableRole); //absolute value
                 else
-                    m_hpRelativeTableData->setData(tmpRelativeIndex, 100.0*currentValue/ampBaseOscillation, tableRole); //value relative to the amplitude of the base oscillation
+                    m_hpRelativeTableData->setData(tmpRelativeIndex, 100.0*currentValue/ampBaseHarmonic, tableRole); //value relative to the amplitude of the base oscillation
             }
             blocker.unblock();
             relativeBlocker.unblock();
