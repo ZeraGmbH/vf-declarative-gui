@@ -21,10 +21,9 @@ public:
 
 private:
     void setupFftData();
-    void setAngleUI(int t_systemNumber);
+    void setAngleUI(int systemNumber);
 
     void handleDftValues(const VeinComponent::ComponentData *cData);
-    void handleDftAngles(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     void handleFftValues(const VeinComponent::ComponentData *t_cmpData);
     void handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData);
 
