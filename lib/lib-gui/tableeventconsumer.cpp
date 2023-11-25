@@ -144,31 +144,31 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     case Modules::Power3Module:
         handleHarmonicPowerValues(cData);
         break;
-    default: /// @note values handled earlier in the switch case will not show up in the actual values table!
+    case Modules::DftModule:
         for(const auto &itemModel : qAsConst(m_actValueModels)) {
             const auto avMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
             if(Q_UNLIKELY(avMapping != nullptr))
-                handleActualValues(itemModel, avMapping, cData);
+                handleDftAngles(itemModel, avMapping, cData);
         }
+        break;
+    default:
         break;
     }
 }
 
-void TableEventConsumer::handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+void TableEventConsumer::handleDftAngles(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
 {
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
     if(valueCoordiates.isNull() == false) { //nothing is at 0, 0
         QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
-        if(t_cmpData->entityId() == static_cast<int>(Modules::DftModule)) {
-            QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
-            if(tmpVector.isEmpty() == false) {
-                double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
-                if(vectorAngle < 0)
-                    vectorAngle = 360 + vectorAngle;
-                itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
-                //use lookup table to call the right lambda that returns the id to update the angles
-                setAngleUI(m_dftDispatchTable.value(t_cmpData->componentName())(vectorAngle));
-            }
+        QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
+        if(tmpVector.isEmpty() == false) {
+            double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
+            if(vectorAngle < 0)
+                vectorAngle = 360 + vectorAngle;
+            itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
+            //use lookup table to call the right lambda that returns the id to update the angles
+            setAngleUI(m_dftDispatchTable.value(t_cmpData->componentName())(vectorAngle));
         }
     }
 }
