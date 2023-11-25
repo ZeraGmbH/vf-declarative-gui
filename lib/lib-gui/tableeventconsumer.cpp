@@ -154,28 +154,23 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     }
 }
 
-bool TableEventConsumer::handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+void TableEventConsumer::handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
 {
-    bool retVal = false;
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
-    if(valueCoordiates.isNull() == false) //nothing is at 0, 0
-    {
+    if(valueCoordiates.isNull() == false) { //nothing is at 0, 0
         QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
         if(t_cmpData->entityId() == static_cast<int>(Modules::DftModule)) {
             QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
             if(tmpVector.isEmpty() == false) {
                 double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
-                if(vectorAngle < 0) {
+                if(vectorAngle < 0)
                     vectorAngle = 360 + vectorAngle;
-                }
                 itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
                 //use lookup table to call the right lambda that returns the id to update the angles
                 setAngleUI(m_dftDispatchTable.value(t_cmpData->componentName())(vectorAngle));
             }
         }
-        retVal = true;
     }
-    return retVal;
 }
 
 bool TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_cmpData)
