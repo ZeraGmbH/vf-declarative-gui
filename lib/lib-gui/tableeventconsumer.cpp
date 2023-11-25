@@ -9,9 +9,8 @@
 #include "actualvaluelemdcperphasepmodel.h"
 #include "burdenvaluemodel.h"
 #include "oscimodel.h"
-#include <math.h>
-
 #include <QVector2D>
+#include <math.h>
 
 TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     m_propertyMap(propertyMap),
@@ -49,7 +48,7 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
         item.m_model->setupMapping();
     m_burden1Data->setupMapping();
     m_burden2Data->setupMapping();
-    setupFftData();
+    setupFftMappings();
     setupPropertyMap();
     setupDftDispatchTable();
 }
@@ -70,7 +69,7 @@ TableEventConsumer::~TableEventConsumer()
     delete m_fftRelativeTableData;
 }
 
-void TableEventConsumer::setupFftData()
+void TableEventConsumer::setupFftMappings()
 {
     m_fftTableRoleMapping.insert("ACT_FFT1", FftTableModel::AMP_L1);
     m_fftTableRoleMapping.insert("ACT_FFT2", FftTableModel::AMP_L2);
@@ -81,15 +80,12 @@ void TableEventConsumer::setupFftData()
     m_fftTableRoleMapping.insert("ACT_FFT7", FftTableModel::AMP_L7);
     m_fftTableRoleMapping.insert("ACT_FFT8", FftTableModel::AMP_L8);
 
-    //harmonic power values
     m_hpwTableRoleMapping.insert("ACT_HPP1", HarmonicPowerTableModel::POWER_S1_P);
     m_hpwTableRoleMapping.insert("ACT_HPP2", HarmonicPowerTableModel::POWER_S2_P);
     m_hpwTableRoleMapping.insert("ACT_HPP3", HarmonicPowerTableModel::POWER_S3_P);
-
     m_hpwTableRoleMapping.insert("ACT_HPQ1", HarmonicPowerTableModel::POWER_S1_Q);
     m_hpwTableRoleMapping.insert("ACT_HPQ2", HarmonicPowerTableModel::POWER_S2_Q);
     m_hpwTableRoleMapping.insert("ACT_HPQ3", HarmonicPowerTableModel::POWER_S3_Q);
-
     m_hpwTableRoleMapping.insert("ACT_HPS1", HarmonicPowerTableModel::POWER_S1_S);
     m_hpwTableRoleMapping.insert("ACT_HPS2", HarmonicPowerTableModel::POWER_S2_S);
     m_hpwTableRoleMapping.insert("ACT_HPS3", HarmonicPowerTableModel::POWER_S3_S);
@@ -221,7 +217,7 @@ void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::Componen
             QSignalBlocker blocker(m_hpTableData);
             QSignalBlocker relativeBlocker(m_hpRelativeTableData);
             double ampBaseHarmonic = tmpData.at(1);
-            if(ampBaseHarmonic == 0.0) //avoid division by zero
+            if(ampBaseHarmonic == 0.0) // avoid division by zero
                 ampBaseHarmonic = 1e-15;
 
             const int harmonicCount = tmpData.length();
