@@ -70,28 +70,6 @@ TableEventConsumer::~TableEventConsumer()
     delete m_fftRelativeTableData;
 }
 
-void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
-{
-    QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
-    for(auto model : qAsConst(allBaseItemModels))
-        model->handleComponentChange(cData);
-
-    switch(static_cast<Modules>(cData->entityId()))
-    {
-    case Modules::FftModule:
-        handleFftValues(cData);
-        break;
-    case Modules::Power3Module:
-        handleHarmonicPowerValues(cData);
-        break;
-    case Modules::DftModule:
-        handleDftValues(cData);
-        break;
-    default:
-        break;
-    }
-}
-
 void TableEventConsumer::setupFftData()
 {
     m_fftTableRoleMapping.insert("ACT_FFT1", FftTableModel::AMP_L1);
@@ -117,64 +95,84 @@ void TableEventConsumer::setupFftData()
     m_hpwTableRoleMapping.insert("ACT_HPS3", HarmonicPowerTableModel::POWER_S3_S);
 }
 
-void TableEventConsumer::setAngleUI(int t_systemNumber)
+void TableEventConsumer::setupPropertyMap()
 {
-    Q_ASSERT(t_systemNumber==-1 || (t_systemNumber>0 && t_systemNumber<4));
-    double tmpAngle = 0;
-    QModelIndex tmpIndex;
-    switch(t_systemNumber)
-    {
-    case -1:
-        return; //angle calculation is currently not supported for ACT_DFTPN(7/8) so skip this function
-    case 1:
-        tmpAngle = m_angleI1-m_angleU1;
-        break;
-    case 2:
-        tmpAngle = m_angleI2-m_angleU2;
-        break;
-    case 3:
-        tmpAngle = m_angleI3-m_angleU3;
-        break;
-    }
+    for(const auto &itemModel : qAsConst(m_actValueModels))
+        m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
 
-    tmpIndex = m_burden1Data->index(3,0);
-    m_burden1Data->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
-    tmpIndex = m_burden2Data->index(3,0);
-    m_burden2Data->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber); // QML doesn't understand columns, so use roles
-
-    if(tmpAngle > 180) //display as negative
-        tmpAngle -= 360;
-    else if(tmpAngle < -180) //display as positive
-        tmpAngle += 360;
-    tmpIndex = m_actValueData->index(8, 0);
-    m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber);
-    tmpIndex = m_actValueDataWithAux->index(8, 0);
-    m_actValueDataWithAux->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber);
+    m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
+    m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
+    for(const auto &item : qAsConst(m_osciValueModels))
+        m_propertyMap->insert(item.m_qmlName, QVariant::fromValue<QObject*>(item.m_model));
+    m_propertyMap->insert("FFTTableModel", QVariant::fromValue<QObject*>(m_fftTableData));
+    m_propertyMap->insert("FFTRelativeTableModel", QVariant::fromValue<QObject*>(m_fftRelativeTableData));
+    m_propertyMap->insert("HPWTableModel", QVariant::fromValue<QObject*>(m_hpTableData));
+    m_propertyMap->insert("HPWRelativeTableModel", QVariant::fromValue<QObject*>(m_hpRelativeTableData));
 }
 
-void TableEventConsumer::handleDftAngles(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
+void TableEventConsumer::setupDftDispatchTable()
 {
-    const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
-    if(valueCoordiates.isNull() == false) { //nothing is at 0, 0
-        QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
-        QList<double> tmpVector = qvariant_cast<QList<double> >(t_cmpData->newValue());
-        if(tmpVector.isEmpty() == false) {
-            double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
-            if(vectorAngle < 0)
-                vectorAngle = 360 + vectorAngle;
-            itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
-            //use lookup table to call the right lambda that returns the id to update the angles
-            setAngleUI(m_dftDispatchTable.value(t_cmpData->componentName())(vectorAngle));
-        }
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN1"), [this](double vectorAngle) -> int { m_angleU1 = vectorAngle; return 1; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN2"), [this](double vectorAngle) -> int { m_angleU2 = vectorAngle; return 2; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN3"), [this](double vectorAngle) -> int { m_angleU3 = vectorAngle; return 3; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN4"), [this](double vectorAngle) -> int { m_angleI1 = vectorAngle; return 1; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN5"), [this](double vectorAngle) -> int { m_angleI2 = vectorAngle; return 2; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN6"), [this](double vectorAngle) -> int { m_angleI3 = vectorAngle; return 3; });
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN7"), [](double) -> int { return -1; }); //currently the angle is not calculated
+    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN8"), [](double) -> int { return -1; }); //currently the angle is not calculated
+}
+
+void TableEventConsumer::setLabelsAndUnits()
+{
+    for(const auto &itemModel : qAsConst(m_actValueModels))
+        itemModel->setLabelsAndUnits();
+    for(const auto &item : qAsConst(m_osciValueModels))
+        item.m_model->setLabelsAndUnits();
+    m_burden1Data->setLabelsAndUnits();
+    m_burden2Data->setLabelsAndUnits();
+}
+
+void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
+{
+    QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
+    for(auto model : qAsConst(allBaseItemModels))
+        model->handleComponentChange(cData);
+
+    switch(static_cast<Modules>(cData->entityId()))
+    {
+    case Modules::FftModule:
+        handleFftValues(cData);
+        break;
+    case Modules::Power3Module:
+        handleHarmonicPowerValues(cData);
+        break;
+    case Modules::DftModule:
+        handleDftValues(cData);
+        break;
+    default:
+        break;
     }
 }
 
 void TableEventConsumer::handleDftValues(const VeinComponent::ComponentData *cData)
 {
     for(const auto &itemModel : qAsConst(m_actValueModels)) {
-        const auto avMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
-        if(Q_UNLIKELY(avMapping != nullptr))
-            handleDftAngles(itemModel, avMapping, cData);
+        const auto componentMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
+        if(Q_UNLIKELY(componentMapping != nullptr)) {
+            const QPoint valueCoordiates = componentMapping->value(cData->componentName());
+            if(valueCoordiates.isNull() == false) { //nothing is at 0, 0
+                QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
+                QList<double> tmpVector = qvariant_cast<QList<double> >(cData->newValue());
+                if(tmpVector.isEmpty() == false) {
+                    double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
+                    if(vectorAngle < 0)
+                        vectorAngle = 360 + vectorAngle;
+                    itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
+                    //use lookup table to call the right lambda that returns the id to update the angles
+                    setAngleUI(m_dftDispatchTable.value(cData->componentName())(vectorAngle));
+                }
+            }
+        }
     }
 }
 
@@ -266,45 +264,38 @@ void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::Componen
     }
 }
 
-void TableEventConsumer::setupPropertyMap()
+void TableEventConsumer::setAngleUI(int systemNumber)
 {
-    for(const auto &itemModel : qAsConst(m_actValueModels)) {
-        m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
+    Q_ASSERT(systemNumber==-1 || (systemNumber>0 && systemNumber<4));
+    double tmpAngle = 0;
+    switch(systemNumber)
+    {
+    case -1:
+        return; //angle calculation is currently not supported for ACT_DFTPN(7/8) so skip this function
+    case 1:
+        tmpAngle = m_angleI1-m_angleU1;
+        break;
+    case 2:
+        tmpAngle = m_angleI2-m_angleU2;
+        break;
+    case 3:
+        tmpAngle = m_angleI3-m_angleU3;
+        break;
     }
 
-    m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
-    m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
-    for(const auto &item : qAsConst(m_osciValueModels)) {
-        m_propertyMap->insert(item.m_qmlName, QVariant::fromValue<QObject*>(item.m_model));
-    }
-    m_propertyMap->insert("FFTTableModel", QVariant::fromValue<QObject*>(m_fftTableData));
-    m_propertyMap->insert("FFTRelativeTableModel", QVariant::fromValue<QObject*>(m_fftRelativeTableData));
-    m_propertyMap->insert("HPWTableModel", QVariant::fromValue<QObject*>(m_hpTableData));
-    m_propertyMap->insert("HPWRelativeTableModel", QVariant::fromValue<QObject*>(m_hpRelativeTableData));
-}
+    QModelIndex tmpIndex = m_burden1Data->index(3,0);
+    m_burden1Data->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber); // QML doesn't understand columns, so use roles
+    tmpIndex = m_burden2Data->index(3,0);
+    m_burden2Data->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber); // QML doesn't understand columns, so use roles
 
-void TableEventConsumer::setupDftDispatchTable()
-{
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN1"), [this](double vectorAngle) -> int { m_angleU1 = vectorAngle; return 1; });
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN2"), [this](double vectorAngle) -> int { m_angleU2 = vectorAngle; return 2; });
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN3"), [this](double vectorAngle) -> int { m_angleU3 = vectorAngle; return 3; });
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN4"), [this](double vectorAngle) -> int { m_angleI1 = vectorAngle; return 1; });
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN5"), [this](double vectorAngle) -> int { m_angleI2 = vectorAngle; return 2; });
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN6"), [this](double vectorAngle) -> int { m_angleI3 = vectorAngle; return 3; });
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN7"), [](double) -> int { return -1; }); //currently the angle is not calculated
-    m_dftDispatchTable.insert(QLatin1String("ACT_DFTPN8"), [](double) -> int { return -1; }); //currently the angle is not calculated
-}
-
-void TableEventConsumer::setLabelsAndUnits()
-{
-    for(const auto &itemModel : qAsConst(m_actValueModels)) {
-        itemModel->setLabelsAndUnits();
-    }
-    for(const auto &item : qAsConst(m_osciValueModels)) {
-        item.m_model->setLabelsAndUnits();
-    }
-    m_burden1Data->setLabelsAndUnits();
-    m_burden2Data->setLabelsAndUnits();
+    if(tmpAngle > 180) //display as negative
+        tmpAngle -= 360;
+    else if(tmpAngle < -180) //display as positive
+        tmpAngle += 360;
+    tmpIndex = m_actValueData->index(8, 0);
+    m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber);
+    tmpIndex = m_actValueDataWithAux->index(8, 0);
+    m_actValueDataWithAux->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber);
 }
 
 TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)
