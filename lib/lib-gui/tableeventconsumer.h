@@ -31,6 +31,7 @@ private:
     void handleHarmonicPowerValues(const VeinComponent::ComponentData *cData);
 
     double calcVectorLength(double re, double im);
+    double avoidDivisionByZero(double val);
 
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
@@ -49,10 +50,10 @@ private:
     TableEventItemModelBase *m_burden2Data;
 
     FftTableModel *m_fftTableData;
-    FftTableModel *m_fftRelativeTableData;
+    FftTableModel *m_fftTableDataRelative;
 
-    HarmonicPowerTableModel *m_hpTableData;
-    HarmonicPowerTableModel *m_hpRelativeTableData;
+    HarmonicPowerTableModel *m_harmonicPowerTableData;
+    HarmonicPowerTableModel *m_harmonicPowerTableDataRelative;
 
     QHash<QString, int> m_fftTableRoleMapping;
     QHash<QString, int> m_hpwTableRoleMapping;
