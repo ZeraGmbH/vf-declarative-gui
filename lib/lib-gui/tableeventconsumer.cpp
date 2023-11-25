@@ -173,20 +173,17 @@ void TableEventConsumer::handleActualValues(TableEventItemModelBase *itemModel, 
     }
 }
 
-bool TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_cmpData)
+void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_cmpData)
 {
-    bool retVal = false;
     int fftTableRole=m_fftTableRoleMapping.value(t_cmpData->componentName(), 0);
-    if(fftTableRole != 0)
-    {
+    if(fftTableRole != 0) {
         const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
         /**
-   * @note The size check fixes:
-   * Alignment trap: not handling instruction edd21b00 at [<000523ae>]
-   * Unhandled fault: alignment exception (0x001) at 0x65747379
-   */
-        if(tmpData.length() > 3) //base oscillation imaginary part is at index 3
-        {
+         * @note The size check fixes:
+         * Alignment trap: not handling instruction edd21b00 at [<000523ae>]
+         * Unhandled fault: alignment exception (0x001) at 0x65747379
+         */
+        if(tmpData.length() > 3) { //base oscillation imaginary part is at index 3
             QModelIndex fftTableIndex, fftRelativeTableIndex;
             QVector2D tmpVec2d;
             double re, im, vectorAngle, length, ampBaseOscillation;
@@ -200,14 +197,11 @@ bool TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_c
 
             ampBaseOscillation = length;
             if(ampBaseOscillation == 0.0) //avoid division by zero
-            {
                 ampBaseOscillation = pow(10, -15);
-            }
 
             m_fftTableData->setRowCount(tmpData.length()/2);
             m_fftRelativeTableData->setRowCount(tmpData.length()/2);
-            for(int i=0; i<tmpData.length(); i+=2)
-            {
+            for(int i=0; i<tmpData.length(); i+=2) {
                 re = tmpData.at(i);
                 im = tmpData.at(i+1);
                 tmpVec2d.setX(re);
@@ -219,26 +213,18 @@ bool TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_c
 
                 fftRelativeTableIndex = m_fftRelativeTableData->index(i/2, 0);
                 if(Q_UNLIKELY(i/2==1)) //base oscillation is shown as absolute value (i=0 is DC)
-                {
                     m_fftRelativeTableData->setData(fftRelativeTableIndex, length, fftTableRole); //absolute value
-                }
                 else
-                {
                     m_fftRelativeTableData->setData(fftRelativeTableIndex, 100.0*length/ampBaseOscillation, fftTableRole); //value relative to the amplitude of the base oscillation
-                }
 
                 vectorAngle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
                 if(vectorAngle < 0)
-                {
                     vectorAngle = 360 + vectorAngle;
-                }
                 m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole+100);
                 m_fftRelativeTableData->setData(fftRelativeTableIndex, vectorAngle, fftTableRole+100);
             }
-            retVal = true;
         }
     }
-    return retVal;
 }
 
 bool TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData)
