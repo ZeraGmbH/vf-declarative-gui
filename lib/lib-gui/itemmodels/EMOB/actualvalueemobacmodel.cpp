@@ -1,4 +1,5 @@
 #include "actualvalueemobacmodel.h"
+#include "vfcomponenteventdispatcher.h"
 
 enum class LineDefinitions : int {
     LINE_HEADER,
