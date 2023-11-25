@@ -227,15 +227,12 @@ void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_c
     }
 }
 
-bool TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData)
+void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData)
 {
-    bool retVal = false;
     const int tableRole=m_hpwTableRoleMapping.value(t_cmpData->componentName(), 0);
-    if(tableRole != 0)
-    {
+    if(tableRole != 0) {
         const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
-        if(tmpData.isEmpty()==false)
-        {
+        if(!tmpData.isEmpty()) {
             QModelIndex tmpIndex, tmpRelativeIndex;
             QSignalBlocker blocker(m_hpTableData);
             QSignalBlocker relativeBlocker(m_hpRelativeTableData);
@@ -243,34 +240,25 @@ bool TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::Componen
             //set ampBaseOscillation
             ampBaseOscillation = tmpData.at(1);
             if(ampBaseOscillation == 0.0) //avoid division by zero
-            {
                 ampBaseOscillation = pow(10, -15);
-            }
 
             m_hpTableData->setRowCount(tmpData.length());
             m_hpRelativeTableData->setRowCount(tmpData.length());
-            for(int i=0; i<tmpData.length(); ++i)
-            {
+            for(int i=0; i<tmpData.length(); ++i) {
                 currentValue = tmpData.at(i);
                 tmpIndex = m_hpTableData->index(i, 0);
                 m_hpTableData->setData(tmpIndex, currentValue, tableRole);
 
                 tmpRelativeIndex = m_hpRelativeTableData->index(i, 0);
                 if(Q_UNLIKELY(i==1)) //base oscillation is shown as absolute value (i=0 is DC)
-                {
                     m_hpRelativeTableData->setData(tmpRelativeIndex, ampBaseOscillation, tableRole); //absolute value
-                }
                 else
-                {
                     m_hpRelativeTableData->setData(tmpRelativeIndex, 100.0*currentValue/ampBaseOscillation, tableRole); //value relative to the amplitude of the base oscillation
-                }
             }
-            retVal = true;
             blocker.unblock();
             relativeBlocker.unblock();
         }
     }
-    return retVal;
 }
 
 void TableEventConsumer::setupPropertyMap()

@@ -25,7 +25,7 @@ private:
 
     void handleActualValues(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData);
     void handleFftValues(const VeinComponent::ComponentData *t_cmpData);
-    bool handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData);
+    void handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData);
 
     void setupPropertyMap();
     void setupDftDispatchTable();
