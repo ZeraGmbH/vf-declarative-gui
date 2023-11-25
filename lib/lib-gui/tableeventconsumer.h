@@ -14,7 +14,7 @@ class TableEventConsumer : public QObject, public VfEventConsumerInterface
 {
     Q_OBJECT
 public:
-    TableEventConsumer(GlueLogicPropertyMap *t_propertyMap);
+    TableEventConsumer(GlueLogicPropertyMap *propertyMap);
     ~TableEventConsumer();
 
     void handleComponentChange(const VeinComponent::ComponentData *cData) override;
@@ -22,14 +22,15 @@ public:
 private:
     void setupFftData();
     void setAngleUI(int systemNumber);
-
-    void handleDftValues(const VeinComponent::ComponentData *cData);
-    void handleFftValues(const VeinComponent::ComponentData *t_cmpData);
-    void handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData);
-
     void setupPropertyMap();
     void setupDftDispatchTable();
     void setLabelsAndUnits();
+
+    void handleDftValues(const VeinComponent::ComponentData *cData);
+    void handleFftValues(const VeinComponent::ComponentData *cData);
+    void handleHarmonicPowerValues(const VeinComponent::ComponentData *cData);
+
+    double calcVectorLength(double re, double im);
 
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;

@@ -13,8 +13,8 @@
 
 #include <QVector2D>
 
-TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *t_propertyMap) :
-    m_propertyMap(t_propertyMap),
+TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
+    m_propertyMap(propertyMap),
     m_translation(ZeraTranslation::getInstance()),
     m_actValueData(new ActualValueModel),
     m_actValueDataWithAux(new ActualValueModelWithAux),
@@ -158,15 +158,15 @@ void TableEventConsumer::handleDftValues(const VeinComponent::ComponentData *cDa
 {
     for(const auto &itemModel : qAsConst(m_actValueModels)) {
         const auto componentMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
-        if(Q_UNLIKELY(componentMapping != nullptr)) {
+        if(Q_UNLIKELY(componentMapping)) {
             const QPoint valueCoordiates = componentMapping->value(cData->componentName());
-            if(valueCoordiates.isNull() == false) { //nothing is at 0, 0
+            if(!valueCoordiates.isNull()) { //nothing is at 0, 0
                 QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
                 QList<double> tmpVector = qvariant_cast<QList<double> >(cData->newValue());
-                if(tmpVector.isEmpty() == false) {
+                if(!tmpVector.isEmpty()) {
                     double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
                     if(vectorAngle < 0)
-                        vectorAngle = 360 + vectorAngle;
+                        vectorAngle += 360;
                     itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
                     //use lookup table to call the right lambda that returns the id to update the angles
                     setAngleUI(m_dftDispatchTable.value(cData->componentName())(vectorAngle));
@@ -176,53 +176,44 @@ void TableEventConsumer::handleDftValues(const VeinComponent::ComponentData *cDa
     }
 }
 
-void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_cmpData)
+void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *cData)
 {
-    int fftTableRole=m_fftTableRoleMapping.value(t_cmpData->componentName(), 0);
+    int fftTableRole=m_fftTableRoleMapping.value(cData->componentName(), 0);
     if(fftTableRole != 0) {
-        const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
+        const QList<double> tmpData = qvariant_cast<QList<double> >(cData->newValue());
         /**
          * @note The size check fixes:
          * Alignment trap: not handling instruction edd21b00 at [<000523ae>]
          * Unhandled fault: alignment exception (0x001) at 0x65747379
          */
         if(tmpData.length() > 3) { //base oscillation imaginary part is at index 3
-            QModelIndex fftTableIndex, fftRelativeTableIndex;
-            QVector2D tmpVec2d;
-            double re, im, vectorAngle, length, ampBaseOscillation;
-
             //set ampBaseOscillation
-            re = tmpData.at(2);
-            im = tmpData.at(3);
-            tmpVec2d.setX(re);
-            tmpVec2d.setY(im);
-            length = tmpVec2d.length();
-
-            ampBaseOscillation = length;
+            const double re = tmpData.at(2);
+            const double im = tmpData.at(3);
+            double ampBaseOscillation = calcVectorLength(re, im);
             if(ampBaseOscillation == 0.0) //avoid division by zero
-                ampBaseOscillation = pow(10, -15);
+                ampBaseOscillation = 1e-15;
 
             m_fftTableData->setRowCount(tmpData.length()/2);
             m_fftRelativeTableData->setRowCount(tmpData.length()/2);
             for(int i=0; i<tmpData.length(); i+=2) {
-                re = tmpData.at(i);
-                im = tmpData.at(i+1);
-                tmpVec2d.setX(re);
-                tmpVec2d.setY(im);
-                length = tmpVec2d.length();
+                const double re = tmpData.at(i);
+                const double im = tmpData.at(i+1);
+                const double length = calcVectorLength(re, im);
 
-                fftTableIndex = m_fftTableData->index(i/2, 0);
+                int harmonicNo = i/2;
+                QModelIndex fftTableIndex = m_fftTableData->index(harmonicNo, 0);
                 m_fftTableData->setData(fftTableIndex, length, fftTableRole);
 
-                fftRelativeTableIndex = m_fftRelativeTableData->index(i/2, 0);
-                if(Q_UNLIKELY(i/2==1)) //base oscillation is shown as absolute value (i=0 is DC)
+                QModelIndex fftRelativeTableIndex = m_fftRelativeTableData->index(harmonicNo, 0);
+                if(Q_UNLIKELY(harmonicNo==1)) //base oscillation is shown as absolute value (i=0 is DC)
                     m_fftRelativeTableData->setData(fftRelativeTableIndex, length, fftTableRole); //absolute value
                 else
                     m_fftRelativeTableData->setData(fftRelativeTableIndex, 100.0*length/ampBaseOscillation, fftTableRole); //value relative to the amplitude of the base oscillation
 
-                vectorAngle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
+                double vectorAngle = (i!=0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
                 if(vectorAngle < 0)
-                    vectorAngle = 360 + vectorAngle;
+                    vectorAngle += 360;
                 m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole+100);
                 m_fftRelativeTableData->setData(fftRelativeTableIndex, vectorAngle, fftTableRole+100);
             }
@@ -230,11 +221,11 @@ void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *t_c
     }
 }
 
-void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::ComponentData *t_cmpData)
+void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::ComponentData *cData)
 {
-    const int tableRole=m_hpwTableRoleMapping.value(t_cmpData->componentName(), 0);
+    const int tableRole=m_hpwTableRoleMapping.value(cData->componentName(), 0);
     if(tableRole != 0) {
-        const QList<double> tmpData = qvariant_cast<QList<double> >(t_cmpData->newValue());
+        const QList<double> tmpData = qvariant_cast<QList<double> >(cData->newValue());
         if(!tmpData.isEmpty()) {
             QModelIndex tmpIndex, tmpRelativeIndex;
             QSignalBlocker blocker(m_hpTableData);
@@ -296,6 +287,12 @@ void TableEventConsumer::setAngleUI(int systemNumber)
     m_actValueData->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber);
     tmpIndex = m_actValueDataWithAux->index(8, 0);
     m_actValueDataWithAux->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber);
+}
+
+double TableEventConsumer::calcVectorLength(double re, double im)
+{
+    QVector2D tmpVec2d(re, im);
+    return tmpVec2d.length();
 }
 
 TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)
