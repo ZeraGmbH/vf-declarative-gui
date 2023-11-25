@@ -18,7 +18,7 @@ Item {
     readonly property int rowsDisplayedTotal: 14
     readonly property int rowHeight: Math.floor(height/rowsDisplayedTotal)
     readonly property int columnWidth: width/7
-    readonly property bool hasHorizScroll: GC.showFftTablePhase ? channelCount > 3 : channelCount > 6
+    readonly property bool hasHorizScroll: GC.showFftTableAngle ? channelCount > 3 : channelCount > 6
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
 
@@ -113,7 +113,7 @@ Item {
             Repeater {
                 model: root.channelCount
                 delegate: GridRect {
-                    width: root.columnWidth*(GC.showFftTablePhase ? 2 : 1)
+                    width: root.columnWidth*(GC.showFftTableAngle ? 2 : 1)
                     height: root.rowHeight
                     color: GC.tableShadeColor
                     border.color: "#444" //disable border transparency
@@ -156,7 +156,7 @@ Item {
             Repeater {
                 model: root.channelCount
                 GridItem {
-                    width: root.columnWidth* (GC.showFftTablePhase ? 2 : 1)
+                    width: root.columnWidth* (GC.showFftTableAngle ? 2 : 1)
                     height: root.rowHeight
                     readonly property string componentName: String("ACT_THDN%1").arg(index+1);
                     readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
@@ -190,7 +190,7 @@ Item {
             Repeater {
                 model: root.channelCount
                 delegate: Row {
-                    width: root.columnWidth*(GC.showFftTablePhase ? 2 : 1)
+                    width: root.columnWidth*(GC.showFftTableAngle ? 2 : 1)
                     height: root.rowHeight
                     GridItem {
                         width: root.columnWidth
@@ -204,7 +204,7 @@ Item {
                         font.bold: true
                     }
                     Loader {
-                        active: GC.showFftTablePhase
+                        active: GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -224,7 +224,7 @@ Item {
             id: lvHarmonics
             z: -1
             y: root.rowHeight*3
-            width: root.columnWidth*(GC.showFftTablePhase ? channelCount*2+1 : channelCount+1) - vBar.width
+            width: root.columnWidth*(GC.showFftTableAngle ? channelCount*2+1 : channelCount+1) - vBar.width
             height: root.rowHeight*(fftOrder+3)
 
             model: relativeView ? ZGL.FFTRelativeTableModel : ZGL.FFTTableModel
@@ -257,7 +257,7 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     Loader {
-                        active: GC.showFftTablePhase
+                        active: GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -275,7 +275,7 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     Loader {
-                        active: GC.showFftTablePhase
+                        active: GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -293,7 +293,7 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     Loader {
-                        active: GC.showFftTablePhase
+                        active: GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -311,7 +311,7 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     Loader {
-                        active: GC.showFftTablePhase
+                        active: GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -329,7 +329,7 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     Loader {
-                        active: GC.showFftTablePhase
+                        active: GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -347,7 +347,7 @@ Item {
                         font.pixelSize: rowHeight*0.5
                     }
                     Loader {
-                        active: GC.showFftTablePhase
+                        active: GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -368,7 +368,7 @@ Item {
                         }
                     }
                     Loader {
-                        active: root.channelCount>6 && GC.showFftTablePhase
+                        active: root.channelCount>6 && GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -389,7 +389,7 @@ Item {
                         }
                     }
                     Loader {
-                        active: root.channelCount>7 && GC.showFftTablePhase
+                        active: root.channelCount>7 && GC.showFftTableAngle
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
