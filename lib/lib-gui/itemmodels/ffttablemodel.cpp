@@ -21,14 +21,14 @@ QHash<int, QByteArray> FftTableModel::roleNames() const
     roles.insert(AMP_L6, "AmplitudeL6");
     roles.insert(AMP_L7, "AmplitudeL7");
     roles.insert(AMP_L8, "AmplitudeL8");
-    roles.insert(VECTOR_L1, "VectorL1");
-    roles.insert(VECTOR_L2, "VectorL2");
-    roles.insert(VECTOR_L3, "VectorL3");
-    roles.insert(VECTOR_L4, "VectorL4");
-    roles.insert(VECTOR_L5, "VectorL5");
-    roles.insert(VECTOR_L6, "VectorL6");
-    roles.insert(VECTOR_L7, "VectorL7");
-    roles.insert(VECTOR_L8, "VectorL8");
+    roles.insert(VECTOR_L1, "AngleL1");
+    roles.insert(VECTOR_L2, "AngleL2");
+    roles.insert(VECTOR_L3, "AngleL3");
+    roles.insert(VECTOR_L4, "AngleL4");
+    roles.insert(VECTOR_L5, "AngleL5");
+    roles.insert(VECTOR_L6, "AngleL6");
+    roles.insert(VECTOR_L7, "AngleL7");
+    roles.insert(VECTOR_L8, "AngleL8");
 
     return roles;
 }

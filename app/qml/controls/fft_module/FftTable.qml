@@ -261,7 +261,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL1)
+                            text: FT.formatNumber(AngleL1)
                             textColor: GC.colorUL1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -279,7 +279,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL2)
+                            text: FT.formatNumber(AngleL2)
                             textColor: GC.colorUL2
                             font.pixelSize: rowHeight*0.5
                         }
@@ -297,7 +297,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL3)
+                            text: FT.formatNumber(AngleL3)
                             textColor: GC.colorUL3
                             font.pixelSize: rowHeight*0.5
                         }
@@ -315,7 +315,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL4)
+                            text: FT.formatNumber(AngleL4)
                             textColor: GC.colorIL1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -333,7 +333,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL5)
+                            text: FT.formatNumber(AngleL5)
                             textColor: GC.colorIL2
                             font.pixelSize: rowHeight*0.5
                         }
@@ -351,7 +351,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL6)
+                            text: FT.formatNumber(AngleL6)
                             textColor: GC.colorIL3
                             font.pixelSize: rowHeight*0.5
                         }
@@ -372,7 +372,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL7)
+                            text: FT.formatNumber(AngleL7)
                             textColor: GC.colorUAux1
                             font.pixelSize: rowHeight*0.5
                         }
@@ -393,7 +393,7 @@ Item {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            text: FT.formatNumber(VectorL8)
+                            text: FT.formatNumber(AngleL8)
                             textColor: GC.colorIAux1
                             font.pixelSize: rowHeight*0.5
                         }

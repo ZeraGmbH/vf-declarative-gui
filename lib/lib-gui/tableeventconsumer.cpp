@@ -34,9 +34,9 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     m_burden1Data(new BurdenValueModel(Modules::Burden1Module)),
     m_burden2Data(new BurdenValueModel(Modules::Burden2Module)),
     m_fftTableData(new FftTableModel(1, 1, nullptr)), //dynamic size
-    m_fftRelativeTableData(new FftTableModel(1, 1, nullptr)), //dynamic size
-    m_hpTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
-    m_hpRelativeTableData(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
+    m_fftTableDataRelative(new FftTableModel(1, 1, nullptr)), //dynamic size
+    m_harmonicPowerTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
+    m_harmonicPowerTableDataRelative(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
 {
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setLabelsAndUnits();});
 
@@ -66,7 +66,7 @@ TableEventConsumer::~TableEventConsumer()
     delete m_burden2Data;
 
     delete m_fftTableData;
-    delete m_fftRelativeTableData;
+    delete m_fftTableDataRelative;
 }
 
 void TableEventConsumer::setupFftMappings()
@@ -101,9 +101,9 @@ void TableEventConsumer::setupPropertyMap()
     for(const auto &item : qAsConst(m_osciValueModels))
         m_propertyMap->insert(item.m_qmlName, QVariant::fromValue<QObject*>(item.m_model));
     m_propertyMap->insert("FFTTableModel", QVariant::fromValue<QObject*>(m_fftTableData));
-    m_propertyMap->insert("FFTRelativeTableModel", QVariant::fromValue<QObject*>(m_fftRelativeTableData));
-    m_propertyMap->insert("HPWTableModel", QVariant::fromValue<QObject*>(m_hpTableData));
-    m_propertyMap->insert("HPWRelativeTableModel", QVariant::fromValue<QObject*>(m_hpRelativeTableData));
+    m_propertyMap->insert("FFTRelativeTableModel", QVariant::fromValue<QObject*>(m_fftTableDataRelative));
+    m_propertyMap->insert("HPWTableModel", QVariant::fromValue<QObject*>(m_harmonicPowerTableData));
+    m_propertyMap->insert("HPWRelativeTableModel", QVariant::fromValue<QObject*>(m_harmonicPowerTableDataRelative));
 }
 
 void TableEventConsumer::setupDftDispatchTable()
@@ -178,12 +178,10 @@ void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *cDa
     if(fftTableRole != 0) {
         const QList<double> tmpData = qvariant_cast<QList<double> >(cData->newValue());
         if(tmpData.length() > 3) { // base harmonic is mandatory: re idx=2 / im idx=3
-            double ampBaseHarmonic = calcVectorLength(tmpData.at(2), tmpData.at(3));
-            if(ampBaseHarmonic == 0.0) // avoid division by zero
-                ampBaseHarmonic = 1e-15;
             const int harmonicCount = tmpData.length() / 2;
             m_fftTableData->setRowCount(harmonicCount);
-            m_fftRelativeTableData->setRowCount(harmonicCount);
+            m_fftTableDataRelative->setRowCount(harmonicCount);
+            double ampBaseHarmonic = calcVectorLength(tmpData.at(2), tmpData.at(3));
             for(int i=0; i<tmpData.length(); i+=2) {
                 const double re = tmpData.at(i);
                 const double im = tmpData.at(i+1);
@@ -193,16 +191,16 @@ void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *cDa
                     vectorAngle += 360;
 
                 int harmonicIdx = i / 2;
-                QModelIndex fftTableIndex = m_fftTableData->index(harmonicIdx, 0);
-                m_fftTableData->setData(fftTableIndex, length, fftTableRole);
-                m_fftTableData->setData(fftTableIndex, vectorAngle, fftTableRole + FftTableModel::ampVectorOffset);
+                QModelIndex tableIndex = m_fftTableData->index(harmonicIdx, 0);
+                m_fftTableData->setData(tableIndex, vectorAngle, fftTableRole + FftTableModel::ampAngleOffset);
+                m_fftTableData->setData(tableIndex, length, fftTableRole);
 
-                QModelIndex fftRelativeTableIndex = m_fftRelativeTableData->index(harmonicIdx, 0);
+                QModelIndex tableIndexRelative = m_fftTableDataRelative->index(harmonicIdx, 0);
+                m_fftTableDataRelative->setData(tableIndexRelative, vectorAngle, fftTableRole + FftTableModel::ampAngleOffset);
                 if(Q_UNLIKELY(harmonicIdx == 1)) // base harmonic is shown as absolute value
-                    m_fftRelativeTableData->setData(fftRelativeTableIndex, length, fftTableRole); // absolute value
+                    m_fftTableDataRelative->setData(tableIndexRelative, length, fftTableRole); // absolute value
                 else
-                    m_fftRelativeTableData->setData(fftRelativeTableIndex, 100.0*length / ampBaseHarmonic, fftTableRole); //value relative to the amplitude of the base oscillation
-                m_fftRelativeTableData->setData(fftRelativeTableIndex, vectorAngle, fftTableRole + FftTableModel::ampVectorOffset);
+                    m_fftTableDataRelative->setData(tableIndexRelative, 100.0*length / avoidDivisionByZero(ampBaseHarmonic), fftTableRole);
             }
         }
     }
@@ -214,25 +212,22 @@ void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::Componen
     if(tableRole != 0) {
         const QList<double> tmpData = qvariant_cast<QList<double> >(cData->newValue());
         if(!tmpData.isEmpty()) {
-            QSignalBlocker blocker(m_hpTableData);
-            QSignalBlocker relativeBlocker(m_hpRelativeTableData);
-            double ampBaseHarmonic = tmpData.at(1);
-            if(ampBaseHarmonic == 0.0) // avoid division by zero
-                ampBaseHarmonic = 1e-15;
-
+            QSignalBlocker blocker(m_harmonicPowerTableData);
+            QSignalBlocker relativeBlocker(m_harmonicPowerTableDataRelative);
             const int harmonicCount = tmpData.length();
-            m_hpTableData->setRowCount(harmonicCount);
-            m_hpRelativeTableData->setRowCount(harmonicCount);
+            m_harmonicPowerTableData->setRowCount(harmonicCount);
+            m_harmonicPowerTableDataRelative->setRowCount(harmonicCount);
+            double ampBaseHarmonic = tmpData.at(1);
             for(int i=0; i<harmonicCount; ++i) {
                 double currentValue = tmpData.at(i);
-                QModelIndex tmpIndex = m_hpTableData->index(i, 0);
-                m_hpTableData->setData(tmpIndex, currentValue, tableRole);
+                QModelIndex tableIndex = m_harmonicPowerTableData->index(i, 0);
+                m_harmonicPowerTableData->setData(tableIndex, currentValue, tableRole);
 
-                QModelIndex tmpRelativeIndex = m_hpRelativeTableData->index(i, 0);
-                if(Q_UNLIKELY(i == 1)) //base oscillation is shown as absolute value (i=0 is DC)
-                    m_hpRelativeTableData->setData(tmpRelativeIndex, ampBaseHarmonic, tableRole); //absolute value
+                QModelIndex tableIndexRelative = m_harmonicPowerTableDataRelative->index(i, 0);
+                if(Q_UNLIKELY(i == 1)) // base harmonic is shown as absolute value
+                    m_harmonicPowerTableDataRelative->setData(tableIndexRelative, ampBaseHarmonic, tableRole); //absolute value
                 else
-                    m_hpRelativeTableData->setData(tmpRelativeIndex, 100.0*currentValue/ampBaseHarmonic, tableRole); //value relative to the amplitude of the base oscillation
+                    m_harmonicPowerTableDataRelative->setData(tableIndexRelative, 100.0*currentValue / avoidDivisionByZero(ampBaseHarmonic), tableRole);
             }
             blocker.unblock();
             relativeBlocker.unblock();
@@ -278,6 +273,14 @@ double TableEventConsumer::calcVectorLength(double re, double im)
 {
     QVector2D tmpVec2d(re, im);
     return tmpVec2d.length();
+}
+
+double TableEventConsumer::avoidDivisionByZero(double val)
+{
+    if(val == 0.0)
+        return 1e-15;
+    return val;
+
 }
 
 TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)

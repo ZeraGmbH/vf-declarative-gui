@@ -10,7 +10,7 @@ class FftTableModel : public QStandardItemModel
 public:
     FftTableModel(int t_rows, int t_columns, QObject *t_parent);
     virtual ~FftTableModel() override;
-    static constexpr int ampVectorOffset = 100;
+    static constexpr int ampAngleOffset = 100;
 public:
     QHash<int, QByteArray> roleNames() const override;
     enum RoleIndexes
@@ -23,7 +23,7 @@ public:
         AMP_L6,
         AMP_L7,
         AMP_L8,
-        VECTOR_L1 = AMP_L1 + ampVectorOffset,
+        VECTOR_L1 = AMP_L1 + ampAngleOffset,
         VECTOR_L2,
         VECTOR_L3,
         VECTOR_L4,
