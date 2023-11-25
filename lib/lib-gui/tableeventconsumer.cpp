@@ -70,6 +70,28 @@ TableEventConsumer::~TableEventConsumer()
     delete m_fftRelativeTableData;
 }
 
+void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
+{
+    QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
+    for(auto model : qAsConst(allBaseItemModels))
+        model->handleComponentChange(cData);
+
+    switch(static_cast<Modules>(cData->entityId()))
+    {
+    case Modules::FftModule:
+        handleFftValues(cData);
+        break;
+    case Modules::Power3Module:
+        handleHarmonicPowerValues(cData);
+        break;
+    case Modules::DftModule:
+        handleDftValues(cData);
+        break;
+    default:
+        break;
+    }
+}
+
 void TableEventConsumer::setupFftData()
 {
     m_fftTableRoleMapping.insert("ACT_FFT1", FftTableModel::AMP_L1);
@@ -130,32 +152,6 @@ void TableEventConsumer::setAngleUI(int t_systemNumber)
     m_actValueDataWithAux->setData(tmpIndex, tmpAngle, Qt::UserRole+t_systemNumber);
 }
 
-void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
-{
-    QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
-    for(auto model : qAsConst(allBaseItemModels))
-        model->handleComponentChange(cData);
-
-    switch(static_cast<Modules>(cData->entityId()))
-    {
-    case Modules::FftModule:
-        handleFftValues(cData);
-        break;
-    case Modules::Power3Module:
-        handleHarmonicPowerValues(cData);
-        break;
-    case Modules::DftModule:
-        for(const auto &itemModel : qAsConst(m_actValueModels)) {
-            const auto avMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
-            if(Q_UNLIKELY(avMapping != nullptr))
-                handleDftAngles(itemModel, avMapping, cData);
-        }
-        break;
-    default:
-        break;
-    }
-}
-
 void TableEventConsumer::handleDftAngles(TableEventItemModelBase *itemModel, QHash<QString, QPoint>* t_componentMapping, const VeinComponent::ComponentData *t_cmpData)
 {
     const QPoint valueCoordiates = t_componentMapping->value(t_cmpData->componentName());
@@ -170,6 +166,15 @@ void TableEventConsumer::handleDftAngles(TableEventItemModelBase *itemModel, QHa
             //use lookup table to call the right lambda that returns the id to update the angles
             setAngleUI(m_dftDispatchTable.value(t_cmpData->componentName())(vectorAngle));
         }
+    }
+}
+
+void TableEventConsumer::handleDftValues(const VeinComponent::ComponentData *cData)
+{
+    for(const auto &itemModel : qAsConst(m_actValueModels)) {
+        const auto avMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
+        if(Q_UNLIKELY(avMapping != nullptr))
+            handleDftAngles(itemModel, avMapping, cData);
     }
 }
 
