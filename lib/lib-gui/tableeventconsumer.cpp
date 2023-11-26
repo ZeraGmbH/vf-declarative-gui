@@ -152,17 +152,18 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
 
 void TableEventConsumer::handleDftValues(const VeinComponent::ComponentData *cData)
 {
-    for(const auto &itemModel : qAsConst(m_actValueModels)) {
-        const auto componentMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
-        if(Q_UNLIKELY(componentMapping)) {
-            const QPoint valueCoordiates = componentMapping->value(cData->componentName());
-            if(!valueCoordiates.isNull()) { //nothing is at 0, 0
-                QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
-                QList<double> tmpVector = qvariant_cast<QList<double> >(cData->newValue());
-                if(!tmpVector.isEmpty()) {
-                    double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
-                    if(vectorAngle < 0)
-                        vectorAngle += 360;
+    QList<double> tmpVector = qvariant_cast<QList<double> >(cData->newValue());
+    if(!tmpVector.isEmpty()) {
+        double vectorAngle = atan2(tmpVector.at(1), tmpVector.at(0)) / M_PI * 180; //y=im, x=re converted to degree
+        if(vectorAngle < 0)
+            vectorAngle += 360;
+
+        for(const auto &itemModel : qAsConst(m_actValueModels)) {
+            const auto componentMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
+            if(Q_UNLIKELY(componentMapping)) {
+                const QPoint valueCoordiates = componentMapping->value(cData->componentName());
+                if(!valueCoordiates.isNull()) { //nothing is at 0, 0
+                    QModelIndex mIndex = itemModel->index(valueCoordiates.y(), 0);
                     itemModel->setData(mIndex, vectorAngle, valueCoordiates.x());
                     //use lookup table to call the right lambda that returns the id to update the angles
                     setAngleUI(m_dftDispatchTable.value(cData->componentName())(vectorAngle));
