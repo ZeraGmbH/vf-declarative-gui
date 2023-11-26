@@ -26,7 +26,7 @@ private:
     void setupDftDispatchTable();
     void setLabelsAndUnits();
 
-    void handleDftValues(const VeinComponent::ComponentData *cData);
+    void handleDftValue(const VeinComponent::ComponentData *cData);
     void handleFftValues(const VeinComponent::ComponentData *cData);
     void handleHarmonicPowerValues(const VeinComponent::ComponentData *cData);
 
