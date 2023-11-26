@@ -30,6 +30,7 @@ private:
     void handleFftValues(const VeinComponent::ComponentData *cData);
     void handleHarmonicPowerValues(const VeinComponent::ComponentData *cData);
 
+    void distributeAngleValue(double vectorAngle, const VeinComponent::ComponentData *cData);
     double calcVectorLength(double re, double im);
     double avoidDivisionByZero(double val);
 
