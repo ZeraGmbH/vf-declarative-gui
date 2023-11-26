@@ -285,7 +285,6 @@ double TableEventConsumer::avoidDivisionByZero(double val)
     if(val == 0.0)
         return 1e-15;
     return val;
-
 }
 
 TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)
