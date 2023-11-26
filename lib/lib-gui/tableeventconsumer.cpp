@@ -143,14 +143,14 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
         handleHarmonicPowerValues(cData);
         break;
     case Modules::DftModule:
-        handleDftValues(cData);
+        handleDftValue(cData);
         break;
     default:
         break;
     }
 }
 
-void TableEventConsumer::handleDftValues(const VeinComponent::ComponentData *cData)
+void TableEventConsumer::handleDftValue(const VeinComponent::ComponentData *cData)
 {
     QList<double> tmpVector = qvariant_cast<QList<double> >(cData->newValue());
     if(!tmpVector.isEmpty()) {
