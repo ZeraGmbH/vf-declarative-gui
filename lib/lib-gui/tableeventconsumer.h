@@ -18,7 +18,7 @@ public:
 private:
     void setupFftMappings();
     void setAngleUI(int systemNumber);
-    void setupPropertyMap();
+    void setupPropertyMapForCustomModels();
     void setupDftDispatchTable();
     void setLabelsAndUnits();
 

@@ -30,8 +30,8 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
 
     for(const auto &item : qAsConst(m_osciValueModels))
         item.m_model->setupMapping();
+    setupPropertyMapForCustomModels();
     setupFftMappings();
-    setupPropertyMap();
     setupDftDispatchTable();
 }
 
@@ -68,7 +68,7 @@ void TableEventConsumer::setupFftMappings()
     m_hpwTableRoleMapping.insert("ACT_HPS3", HarmonicPowerTableModel::POWER_S3_S);
 }
 
-void TableEventConsumer::setupPropertyMap()
+void TableEventConsumer::setupPropertyMapForCustomModels()
 {
     for(const auto &item : qAsConst(m_osciValueModels))
         m_propertyMap->insert(item.m_qmlName, QVariant::fromValue<QObject*>(item.m_model));
