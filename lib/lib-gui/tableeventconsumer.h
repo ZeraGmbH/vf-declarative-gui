@@ -2,13 +2,10 @@
 #define TABLEEVENTCONSUMER_H
 
 #include "vfcomponenteventdispatcher.h"
+#include "gluelogicpropertymap.h"
 #include "tableeventitemmodelbase.h"
 #include "ffttablemodel.h"
 #include "harmonicpowertablemodel.h"
-#include "vfeventconsumerinterface.h"
-#include "gluelogicpropertymap.h"
-
-#include <ve_eventdata.h>
 
 class TableEventConsumer : public QObject, public VfEventConsumerInterface
 {
@@ -30,6 +27,8 @@ private:
     void handleFftValues(const VeinComponent::ComponentData *cData);
     void handleHarmonicPowerValues(const VeinComponent::ComponentData *cData);
 
+    void createActualValueModels();
+    void cleanupActualValueModels();
     void distributeAngleValue(double vectorAngle, const VeinComponent::ComponentData *cData);
     double calcVectorLength(double re, double im);
     double avoidDivisionByZero(double val);
@@ -60,8 +59,6 @@ private:
     QHash<QString, int> m_fftTableRoleMapping;
     QHash<QString, int> m_hpwTableRoleMapping;
 
-    double m_dftReferenceValue; //vector diagram reference angle
-
     QHash<QString, std::function<int(double)> > m_dftDispatchTable;
 
     double m_angleU1=0;
@@ -71,8 +68,6 @@ private:
     double m_angleI1=0;
     double m_angleI2=0;
     double m_angleI3=0;
-    void createActualValueModels();
-    void cleanupActualValueModels();
 };
 
 
