@@ -73,6 +73,8 @@ private:
     double m_angleI1=0;
     double m_angleI2=0;
     double m_angleI3=0;
+    void createActualValueModels();
+    void cleanupActualValueModels();
 };
 
 
