@@ -8,13 +8,14 @@ class BurdenValueModel : public TableEventItemModelBase
 {
     Q_OBJECT
 public:
-    BurdenValueModel(Modules modulVeinId);
     virtual ~BurdenValueModel() override;
 
     void setLabelsAndUnits() override;
     void setupMapping() override;
 
     QHash<int, QByteArray> roleNames() const override;
+protected:
+    BurdenValueModel(Modules modulVeinId);
 private:
     Modules m_modulVeinId;
 };

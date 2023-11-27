@@ -125,7 +125,10 @@ void ActualValueModelBase::setupMapping()
     thdnMap->insert("ACT_THDR5", QPoint(RoleIndexes::L2, 7));
     thdnMap->insert("ACT_THDR6", QPoint(RoleIndexes::L3, 7));
 
-    //(8) ∠UI is a calculated value
+    //(8) ∠UI is a calculated value - see TableEventConsumer::setAngleUI
+    dftMap->insert("CALC_ANGLEDIFF1", QPoint(RoleIndexes::L1, 8));
+    dftMap->insert("CALC_ANGLEDIFF2", QPoint(RoleIndexes::L2, 8));
+    dftMap->insert("CALC_ANGLEDIFF3", QPoint(RoleIndexes::L3, 8));
 
     QHash<QString, QPoint> *lambdaMap = new QHash<QString, QPoint>();
     lambdaMap->insert("ACT_Lambda1", QPoint(RoleIndexes::L1, 9));
