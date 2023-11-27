@@ -11,6 +11,7 @@ import PowerModuleVeinGetter 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import FontAwesomeQml 1.0
+import SessionState 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
 import "../settings"
@@ -24,6 +25,7 @@ Item {
     property var validatorDutInput
     property var validatorDutConstant
     property var validatorDutConstUnit
+    property bool disableTransformerScale: SessionState.emobSession || SessionState.dcSession // would love to see default true...
     // either energy or mrate
     property var validatorEnergy
     property var validatorMrate
@@ -120,26 +122,35 @@ Item {
                 font.pointSize: root.pointSize
             }
 
-            Button{
-                id: popButton
-                text: FAQ.fa_cogs
+            Loader {
+                active: !disableTransformerScale
                 anchors.right: autoDutButton.left
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: parent.width/240
-                font.pointSize: pointSize
                 width: parent.width/12
-                Material.foreground: {
-                    if(logicalParent.errCalEntity["PAR_DutTypeMeasurePoint"] === "CsIsUs"){
-                        return "white";
-                    }else{
-                        return Material.color(Material.Amber) // show settings are not default
+                sourceComponent: Button {
+                    text: FAQ.fa_cogs
+                    font.pointSize: pointSize
+                    Material.foreground: {
+                        if(logicalParent.errCalEntity["PAR_DutTypeMeasurePoint"] === "CsIsUs")
+                            return "white";
+                        else
+                            return Material.color(Material.Amber) // show settings are not default
+                    }
+                    onPressed: meterConstSettings.open()
+                    MeterConstantSettings {
+                         id: meterConstSettings
+                         parent: Overlay.overlay
+                         width: parent.width
+                         height: parent.height
+                         modal: false
+                         focus: true
+                         visible: false
+                         closePolicy: Popup.NoAutoClose
                     }
                 }
-                onPressed: {
-                    meterConstSettings.open()
-                }
             }
-            Button{
+            Button {
                 id: autoDutButton
                 text: FAQ.fa_hand_point_right
                 font.pointSize: pointSize
@@ -152,17 +163,6 @@ Item {
                     VeinEntity.getEntity("SEC1Module1").PAR_DutConstantAuto = 1
                     enabled: false
                 }
-            }
-
-            MeterConstantSettings {
-                 id: meterConstSettings
-                 parent: Overlay.overlay
-                 width: parent.width
-                 height: parent.height
-                 modal: false
-                 focus: true
-                 visible: false
-                 closePolicy: Popup.NoAutoClose
             }
 
             VFLineEdit {
