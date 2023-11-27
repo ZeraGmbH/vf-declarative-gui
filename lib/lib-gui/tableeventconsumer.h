@@ -33,9 +33,12 @@ private:
     void distributeAngleValue(double vectorAngle, const VeinComponent::ComponentData *cData);
     double calcVectorLength(double re, double im);
     double avoidDivisionByZero(double val);
+    void sessionNameReceived(QString sessionName);
+    void onSessionChange();
 
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
+    QString m_currentSessionName;
 
     TableEventItemModelBase *m_actValueData;
     TableEventItemModelBase *m_actValueDataWithAux;
