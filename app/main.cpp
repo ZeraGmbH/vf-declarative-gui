@@ -137,9 +137,6 @@ int main(int argc, char *argv[])
 
     QmlFileIO::setStaticInstance(new QmlFileIO(&app));
 
-    GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
-    GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
-
     QQmlApplicationEngine engine;
     registerQmlExt(engine);
     registerQmlInt();
@@ -170,6 +167,9 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
     engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
+
+    GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
+    GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
 
     VeinEvent::EventHandler *evHandler = new VeinEvent::EventHandler(&app);
     std::shared_ptr<TableEventConsumer> consumer = std::make_shared<TableEventConsumer>(glueLogicMap);
