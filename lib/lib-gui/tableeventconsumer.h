@@ -42,16 +42,14 @@ private:
     QString m_currentSessionName;
 
     QList<TableEventItemModelBase*> m_actValueModels;
+    QList<TableEventItemModelBase*> m_actValueModelsWithAngle;
+
     struct TQmlLabelModelPair {
         TQmlLabelModelPair(QString qmlName, TableEventItemModelBase* model);
         QString m_qmlName;
         TableEventItemModelBase* m_model;
     };
     QList<TQmlLabelModelPair> m_osciValueModels;
-
-    QList<TableEventItemModelBase*> m_actValueModelsWithAngle;
-    TableEventItemModelBase *m_burden1Data;
-    TableEventItemModelBase *m_burden2Data;
 
     FftTableModel *m_fftTableData;
     FftTableModel *m_fftTableDataRelative;

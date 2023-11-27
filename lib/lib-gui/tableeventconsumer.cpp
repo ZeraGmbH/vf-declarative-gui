@@ -7,7 +7,8 @@
 #include "actualvaluelemdcperphaseumodel.h"
 #include "actualvaluelemdcsingleimodel.h"
 #include "actualvaluelemdcperphasepmodel.h"
-#include "burdenvaluemodel.h"
+#include "burdenmodelu.h"
+#include "burdenmodeli.h"
 #include "oscimodel.h"
 #include <QVector2D>
 #include <math.h>
@@ -20,8 +21,6 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
             << TQmlLabelModelPair("OSCIP2Model", new OsciModel(QStringList() << "ACT_OSCI2" << "ACT_OSCI5"))
             << TQmlLabelModelPair("OSCIP3Model", new OsciModel(QStringList() << "ACT_OSCI3" << "ACT_OSCI6"))
             << TQmlLabelModelPair("OSCIPNModel", new OsciModel(QStringList() << "ACT_OSCI7" << "ACT_OSCI8"))),
-    m_burden1Data(new BurdenValueModel(Modules::Burden1Module)),
-    m_burden2Data(new BurdenValueModel(Modules::Burden2Module)),
     m_fftTableData(new FftTableModel(1, 1, nullptr)), //dynamic size
     m_fftTableDataRelative(new FftTableModel(1, 1, nullptr)), //dynamic size
     m_harmonicPowerTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
@@ -31,8 +30,6 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
 
     for(const auto &item : qAsConst(m_osciValueModels))
         item.m_model->setupMapping();
-    m_burden1Data->setupMapping();
-    m_burden2Data->setupMapping();
     setupFftMappings();
     setupPropertyMap();
     setupDftDispatchTable();
@@ -44,9 +41,6 @@ TableEventConsumer::~TableEventConsumer()
     for(const auto &item : qAsConst(m_osciValueModels))
         delete item.m_model;
     m_osciValueModels.clear();
-
-    delete m_burden1Data;
-    delete m_burden2Data;
 
     delete m_fftTableData;
     delete m_fftTableDataRelative;
@@ -76,8 +70,6 @@ void TableEventConsumer::setupFftMappings()
 
 void TableEventConsumer::setupPropertyMap()
 {
-    m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
-    m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
     for(const auto &item : qAsConst(m_osciValueModels))
         m_propertyMap->insert(item.m_qmlName, QVariant::fromValue<QObject*>(item.m_model));
     m_propertyMap->insert("FFTTableModel", QVariant::fromValue<QObject*>(m_fftTableData));
@@ -105,8 +97,6 @@ void TableEventConsumer::setLabelsAndUnits()
         itemModel->setLabelsAndUnits();
     for(const auto &item : qAsConst(m_osciValueModels))
         item.m_model->setLabelsAndUnits();
-    m_burden1Data->setLabelsAndUnits();
-    m_burden2Data->setLabelsAndUnits();
 }
 
 void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
@@ -247,19 +237,21 @@ void TableEventConsumer::setAngleUI(int systemNumber)
         break;
     }
 
-    QModelIndex tmpIndex = m_burden1Data->index(3,0);
-    m_burden1Data->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber); // QML doesn't understand columns, so use roles
-    tmpIndex = m_burden2Data->index(3,0);
-    m_burden2Data->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber); // QML doesn't understand columns, so use roles
-
     if(tmpAngle > 180) //display as negative
         tmpAngle -= 360;
     else if(tmpAngle < -180) //display as positive
         tmpAngle += 360;
 
+    QString fakeCalcedComponentName = QString("CALC_ANGLEDIFF%1").arg(systemNumber);
     for(const auto &itemModel : qAsConst(m_actValueModelsWithAngle)) {
-        tmpIndex = itemModel->index(8, 0);
-        itemModel->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber);
+        const auto componentMapping = itemModel->getValueMapping().value(static_cast<int>(Modules::DftModule), nullptr);
+        if(componentMapping) {
+            const QPoint valueCoordiates = componentMapping->value(fakeCalcedComponentName);
+            if(!valueCoordiates.isNull()) { //nothing is at 0, 0
+                QModelIndex tmpIndex = itemModel->index(valueCoordiates.y(), 0);
+                itemModel->setData(tmpIndex, tmpAngle, Qt::UserRole+systemNumber);
+            }
+        }
     }
 }
 
@@ -304,19 +296,14 @@ void TableEventConsumer::createActualValueModels()
     }
     else {
         m_actValueModelsWithAngle = QList<TableEventItemModelBase*>()
-                           << new ActualValueModel
-                           << new ActualValueModelWithAux;
+                                    << new ActualValueModel
+                                    << new ActualValueModelWithAux
+                                    << new BurdenModelU
+                                    << new BurdenModelI;
     }
     qInfo("Session changed: '%s' / Model count after %i",
           qPrintable(m_currentSessionName),
           TableEventItemModelBase::getAllBaseModels().count());
-
-    const QList<TableEventItemModelBase *> allActModels = getAllActualModels();
-    for(const auto &itemModel : qAsConst(allActModels))
-        m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
-    for(const auto &itemModel : qAsConst(allActModels))
-        itemModel->setupMapping();
-    setLabelsAndUnits();
 }
 
 void TableEventConsumer::cleanupActualValueModels()
@@ -332,6 +319,12 @@ void TableEventConsumer::onSessionChange()
 {
     cleanupActualValueModels();
     createActualValueModels();
+    setLabelsAndUnits();
+    const QList<TableEventItemModelBase *> allActModels = getAllActualModels();
+    for(const auto &itemModel : qAsConst(allActModels)) {
+        m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
+        itemModel->setupMapping();
+    }
 }
 
 QList<TableEventItemModelBase *> TableEventConsumer::getAllActualModels() const

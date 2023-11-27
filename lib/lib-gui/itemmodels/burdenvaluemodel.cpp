@@ -62,7 +62,11 @@ void BurdenValueModel::setupMapping()
     m_autoScaleRows.mapValueColumns(2,
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
-    //(3) ∠UI is a calculated value
+    //(3) ∠UI is a calculated value - see TableEventConsumer::setAngleUI
+    QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
+    dftMap->insert("CALC_ANGLEDIFF1", QPoint(RoleIndexes::L1, 3));
+    dftMap->insert("CALC_ANGLEDIFF2", QPoint(RoleIndexes::L2, 3));
+    dftMap->insert("CALC_ANGLEDIFF3", QPoint(RoleIndexes::L3, 3));
 
     QHash<QString, QPoint> *burdenMap = new QHash<QString, QPoint>();
     burdenMap->insert("ACT_Burden1", QPoint(RoleIndexes::L1, 4));
@@ -80,6 +84,7 @@ void BurdenValueModel::setupMapping()
     burdenMap->insert("ACT_Ratio3", QPoint(RoleIndexes::L3, 6));
 
     m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
+    m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
     m_valueMapping.insert(static_cast<int>(m_modulVeinId), burdenMap);
 
 }
