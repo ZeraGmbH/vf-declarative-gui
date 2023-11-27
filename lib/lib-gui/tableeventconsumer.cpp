@@ -27,11 +27,6 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     m_harmonicPowerTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
     m_harmonicPowerTableDataRelative(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
 {
-    createActualValueModels();
-    for(const auto &itemModel : qAsConst(m_actValueModels))
-        itemModel->setupMapping();
-    setLabelsAndUnits();
-
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setLabelsAndUnits();});
 
     for(const auto &item : qAsConst(m_osciValueModels))
@@ -41,30 +36,6 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     setupFftMappings();
     setupPropertyMap();
     setupDftDispatchTable();
-}
-
-void TableEventConsumer::createActualValueModels()
-{
-    m_actValueData = new ActualValueModel;
-    m_actValueDataWithAux = new ActualValueModelWithAux;
-    m_actValueModels = QList<TableEventItemModelBase*>()
-                       << m_actValueData
-                       << m_actValueDataWithAux
-                       << new ActualValueEmobAcModel
-                       << new ActualValueEmobDcModel
-                       << new ActualValueEmobAcSumModel
-                       << new ActualValueLemDCPerPhaseUModel
-                       << new ActualValueLemDcSingleIModel
-                       << new ActualValueLemDcPerPhasePModel;
-}
-
-void TableEventConsumer::cleanupActualValueModels()
-{
-    for(const auto &itemModel : qAsConst(m_actValueModels))
-        delete itemModel;
-    m_actValueData = nullptr;
-    m_actValueDataWithAux = nullptr;
-    m_actValueModels.clear();
 }
 
 TableEventConsumer::~TableEventConsumer()
@@ -105,9 +76,6 @@ void TableEventConsumer::setupFftMappings()
 
 void TableEventConsumer::setupPropertyMap()
 {
-    for(const auto &itemModel : qAsConst(m_actValueModels))
-        m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
-
     m_propertyMap->insert("BurdenModelI", QVariant::fromValue<QObject*>(m_burden1Data));
     m_propertyMap->insert("BurdenModelU", QVariant::fromValue<QObject*>(m_burden2Data));
     for(const auto &item : qAsConst(m_osciValueModels))
@@ -313,9 +281,43 @@ void TableEventConsumer::sessionNameReceived(QString sessionName)
     }
 }
 
+void TableEventConsumer::createActualValueModels()
+{
+    m_actValueData = new ActualValueModel;
+    m_actValueDataWithAux = new ActualValueModelWithAux;
+    m_actValueModels = QList<TableEventItemModelBase*>()
+                       << m_actValueData
+                       << m_actValueDataWithAux
+                       << new ActualValueEmobAcModel
+                       << new ActualValueEmobDcModel
+                       << new ActualValueEmobAcSumModel
+                       << new ActualValueLemDCPerPhaseUModel
+                       << new ActualValueLemDcSingleIModel
+                       << new ActualValueLemDcPerPhasePModel;
+}
+
+void TableEventConsumer::cleanupActualValueModels()
+{
+    for(const auto &itemModel : qAsConst(m_actValueModels))
+        delete itemModel;
+    m_actValueData = nullptr;
+    m_actValueDataWithAux = nullptr;
+    m_actValueModels.clear();
+}
+
 void TableEventConsumer::onSessionChange()
 {
-    qInfo("Session changed: '%s'", qPrintable(m_currentSessionName));
+    cleanupActualValueModels();
+    createActualValueModels();
+    qInfo("Session changed: '%s' / Model count %i",
+          qPrintable(m_currentSessionName),
+          TableEventItemModelBase::getAllBaseModels().count());
+    for(const auto &itemModel : qAsConst(m_actValueModels))
+        m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
+
+    for(const auto &itemModel : qAsConst(m_actValueModels))
+        itemModel->setupMapping();
+    setLabelsAndUnits();
 }
 
 TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)
