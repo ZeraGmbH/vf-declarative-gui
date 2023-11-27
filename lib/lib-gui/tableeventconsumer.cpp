@@ -92,8 +92,7 @@ void TableEventConsumer::setupDftDispatchTable()
 
 void TableEventConsumer::setLabelsAndUnits()
 {
-    const QList<TableEventItemModelBase *> allActModels = getAllActualModels();
-    for(const auto &itemModel : qAsConst(allActModels))
+    for(const auto &itemModel : qAsConst(m_sessionSpecificActualValueModels))
         itemModel->setLabelsAndUnits();
     for(const auto &item : qAsConst(m_osciValueModels))
         item.m_model->setLabelsAndUnits();
@@ -203,8 +202,7 @@ void TableEventConsumer::handleHarmonicPowerValues(const VeinComponent::Componen
 
 void TableEventConsumer::distributeAngleValue(double vectorAngle, const VeinComponent::ComponentData *cData)
 {
-    const QList<TableEventItemModelBase *> allActModels = getAllActualModels();
-    for(const auto &itemModel : qAsConst(allActModels)) {
+    for(const auto &itemModel : qAsConst(m_sessionSpecificActualValueModels)) {
         const auto componentMapping = itemModel->getValueMapping().value(cData->entityId(), nullptr);
         if(Q_UNLIKELY(componentMapping)) {
             const QPoint valueCoordiates = componentMapping->value(cData->componentName());
@@ -243,7 +241,7 @@ void TableEventConsumer::setAngleUI(int systemNumber)
         tmpAngle += 360;
 
     QString fakeCalcedComponentName = QString("CALC_ANGLEDIFF%1").arg(systemNumber);
-    for(const auto &itemModel : qAsConst(m_actValueModelsWithAngle)) {
+    for(const auto &itemModel : qAsConst(m_sessionSpecificActualValueModels)) {
         const auto componentMapping = itemModel->getValueMapping().value(static_cast<int>(Modules::DftModule), nullptr);
         if(componentMapping) {
             const QPoint valueCoordiates = componentMapping->value(fakeCalcedComponentName);
@@ -278,41 +276,37 @@ void TableEventConsumer::sessionNameReceived(QString sessionName)
 
 void TableEventConsumer::createActualValueModels()
 {
-    qInfo("Session changed: '%s' / Model count before %i",
-          qPrintable(m_currentSessionName),
-          TableEventItemModelBase::getAllBaseModels().count());
-
+    int modelCountBeforeAdd = TableEventItemModelBase::getAllBaseModels().count();
     if(m_currentSessionName == "mt310s2-dc-session.json") {
-        m_actValueModels = QList<TableEventItemModelBase*>()
+        m_sessionSpecificActualValueModels = QList<TableEventItemModelBase*>()
                            << new ActualValueLemDCPerPhaseUModel
                            << new ActualValueLemDcSingleIModel
                            << new ActualValueLemDcPerPhasePModel;
     }
     else if(m_currentSessionName.contains("emob-session")) {
-        m_actValueModels = QList<TableEventItemModelBase*>()
+        m_sessionSpecificActualValueModels = QList<TableEventItemModelBase*>()
                            << new ActualValueEmobAcModel
                            << new ActualValueEmobDcModel
                            << new ActualValueEmobAcSumModel;
     }
     else {
-        m_actValueModelsWithAngle = QList<TableEventItemModelBase*>()
-                                    << new ActualValueModel
-                                    << new ActualValueModelWithAux
-                                    << new BurdenModelU
-                                    << new BurdenModelI;
+        m_sessionSpecificActualValueModels = QList<TableEventItemModelBase*>()
+                           << new ActualValueModel
+                           << new ActualValueModelWithAux
+                           << new BurdenModelU
+                           << new BurdenModelI;
     }
-    qInfo("Session changed: '%s' / Model count after %i",
+    qInfo("TableEventConsumer session change: '%s' / Model count before %i / after %i",
           qPrintable(m_currentSessionName),
+          modelCountBeforeAdd,
           TableEventItemModelBase::getAllBaseModels().count());
 }
 
 void TableEventConsumer::cleanupActualValueModels()
 {
-    const QList<TableEventItemModelBase *> allActModels = getAllActualModels();
-    for(const auto &itemModel : qAsConst(allActModels))
+    for(const auto &itemModel : qAsConst(m_sessionSpecificActualValueModels))
         delete itemModel;
-    m_actValueModels.clear();
-    m_actValueModelsWithAngle.clear();
+    m_sessionSpecificActualValueModels.clear();
 }
 
 void TableEventConsumer::onSessionChange()
@@ -320,16 +314,10 @@ void TableEventConsumer::onSessionChange()
     cleanupActualValueModels();
     createActualValueModels();
     setLabelsAndUnits();
-    const QList<TableEventItemModelBase *> allActModels = getAllActualModels();
-    for(const auto &itemModel : qAsConst(allActModels)) {
+    for(const auto &itemModel : qAsConst(m_sessionSpecificActualValueModels)) {
         m_propertyMap->insert(itemModel->metaObject()->className(), QVariant::fromValue<QObject*>(itemModel));
         itemModel->setupMapping();
     }
-}
-
-QList<TableEventItemModelBase *> TableEventConsumer::getAllActualModels() const
-{
-    return m_actValueModels + m_actValueModelsWithAngle;
 }
 
 TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)

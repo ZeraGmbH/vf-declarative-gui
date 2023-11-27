@@ -1,7 +1,6 @@
 #ifndef TABLEEVENTCONSUMER_H
 #define TABLEEVENTCONSUMER_H
 
-#include "vfcomponenteventdispatcher.h"
 #include "gluelogicpropertymap.h"
 #include "tableeventitemmodelbase.h"
 #include "ffttablemodel.h"
@@ -34,41 +33,37 @@ private:
     double avoidDivisionByZero(double val);
     void sessionNameReceived(QString sessionName);
     void onSessionChange();
-    QList<TableEventItemModelBase *> getAllActualModels() const;
 
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
     QString m_currentSessionName;
 
-    QList<TableEventItemModelBase*> m_actValueModels;
-    QList<TableEventItemModelBase*> m_actValueModelsWithAngle;
+    QList<TableEventItemModelBase*> m_sessionSpecificActualValueModels;
 
+    // item models that require tailored handling:
+    // * loaded once in ctor
+    // * sessions using them use one view implementation
     struct TQmlLabelModelPair {
         TQmlLabelModelPair(QString qmlName, TableEventItemModelBase* model);
         QString m_qmlName;
         TableEventItemModelBase* m_model;
     };
     QList<TQmlLabelModelPair> m_osciValueModels;
-
     FftTableModel *m_fftTableData;
     FftTableModel *m_fftTableDataRelative;
-
     HarmonicPowerTableModel *m_harmonicPowerTableData;
     HarmonicPowerTableModel *m_harmonicPowerTableDataRelative;
 
+    // helpers for tailored handling
     QHash<QString, int> m_fftTableRoleMapping;
     QHash<QString, int> m_hpwTableRoleMapping;
-
     QHash<QString, std::function<int(double)> > m_dftDispatchTable;
-
-    double m_angleU1=0;
-    double m_angleU2=0;
-    double m_angleU3=0;
-
-    double m_angleI1=0;
-    double m_angleI2=0;
-    double m_angleI3=0;
+    double m_angleU1 = 0;
+    double m_angleU2 = 0;
+    double m_angleU3 = 0;
+    double m_angleI1 = 0;
+    double m_angleI2 = 0;
+    double m_angleI3 = 0;
 };
-
 
 #endif // TABLEEVENTCONSUMER_H
