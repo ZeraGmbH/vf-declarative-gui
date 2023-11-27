@@ -35,13 +35,12 @@ private:
     double avoidDivisionByZero(double val);
     void sessionNameReceived(QString sessionName);
     void onSessionChange();
+    QList<TableEventItemModelBase *> getAllActualModels() const;
 
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
     QString m_currentSessionName;
 
-    TableEventItemModelBase *m_actValueData;
-    TableEventItemModelBase *m_actValueDataWithAux;
     QList<TableEventItemModelBase*> m_actValueModels;
     struct TQmlLabelModelPair {
         TQmlLabelModelPair(QString qmlName, TableEventItemModelBase* model);
@@ -50,6 +49,7 @@ private:
     };
     QList<TQmlLabelModelPair> m_osciValueModels;
 
+    QList<TableEventItemModelBase*> m_actValueModelsWithAngle;
     TableEventItemModelBase *m_burden1Data;
     TableEventItemModelBase *m_burden2Data;
 
