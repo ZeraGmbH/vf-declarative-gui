@@ -146,7 +146,7 @@ Item {
                          modal: false
                          focus: true
                          visible: false
-                         closePolicy: Popup.NoAutoClose
+                         closePolicy: Popup.CloseOnEscape
                     }
                 }
             }
