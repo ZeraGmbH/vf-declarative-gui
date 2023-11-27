@@ -15,17 +15,6 @@
 TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     m_propertyMap(propertyMap),
     m_translation(ZeraTranslation::getInstance()),
-    m_actValueData(new ActualValueModel),
-    m_actValueDataWithAux(new ActualValueModelWithAux),
-    m_actValueModels(QList<TableEventItemModelBase*>()
-            << m_actValueData
-            << m_actValueDataWithAux
-            << new ActualValueEmobAcModel
-            << new ActualValueEmobDcModel
-            << new ActualValueEmobAcSumModel
-            << new ActualValueLemDCPerPhaseUModel
-            << new ActualValueLemDcSingleIModel
-            << new ActualValueLemDcPerPhasePModel),
     m_osciValueModels(QList<TQmlLabelModelPair>()
             << TQmlLabelModelPair("OSCIP1Model", new OsciModel(QStringList() << "ACT_OSCI1" << "ACT_OSCI4"))
             << TQmlLabelModelPair("OSCIP2Model", new OsciModel(QStringList() << "ACT_OSCI2" << "ACT_OSCI5"))
@@ -38,6 +27,18 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     m_harmonicPowerTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
     m_harmonicPowerTableDataRelative(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
 {
+    m_actValueData = new ActualValueModel;
+    m_actValueDataWithAux = new ActualValueModelWithAux;
+    m_actValueModels = QList<TableEventItemModelBase*>()
+                         << m_actValueData
+                         << m_actValueDataWithAux
+                         << new ActualValueEmobAcModel
+                         << new ActualValueEmobDcModel
+                         << new ActualValueEmobAcSumModel
+                         << new ActualValueLemDCPerPhaseUModel
+                         << new ActualValueLemDcSingleIModel
+                         << new ActualValueLemDcPerPhasePModel;
+
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setLabelsAndUnits();});
 
     setLabelsAndUnits();
