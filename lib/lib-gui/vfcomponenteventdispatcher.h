@@ -21,6 +21,7 @@ enum RoleIndexes
 }
 
 enum class Modules : int {
+    SystemModule = 0,
     ModeModule = 1000,
     ReferenceModule = 1001,
     RangeModule = 1020,

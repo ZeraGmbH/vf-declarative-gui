@@ -131,11 +131,17 @@ void TableEventConsumer::setLabelsAndUnits()
 
 void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentData *cData)
 {
+    Modules entityId = static_cast<Modules>(cData->entityId());
+    if(entityId == Modules::SystemModule) {
+        if(cData->componentName() == "Session")
+            sessionNameReceived(cData->newValue().toString());
+        return;
+    }
     QList<TableEventItemModelBase *> allBaseItemModels = TableEventItemModelBase::getAllBaseModels();
     for(auto model : qAsConst(allBaseItemModels))
         model->handleComponentChange(cData);
 
-    switch(static_cast<Modules>(cData->entityId()))
+    switch(entityId)
     {
     case Modules::FftModule:
         handleFftValues(cData);
@@ -286,6 +292,19 @@ double TableEventConsumer::avoidDivisionByZero(double val)
     if(val == 0.0)
         return 1e-15;
     return val;
+}
+
+void TableEventConsumer::sessionNameReceived(QString sessionName)
+{
+    if(sessionName != m_currentSessionName) {
+        m_currentSessionName = sessionName;
+        onSessionChange();
+    }
+}
+
+void TableEventConsumer::onSessionChange()
+{
+    qInfo("Session changed: '%s'", qPrintable(m_currentSessionName));
 }
 
 TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)
