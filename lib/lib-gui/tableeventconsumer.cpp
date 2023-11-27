@@ -27,24 +27,13 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     m_harmonicPowerTableData(new HarmonicPowerTableModel(1, 1, nullptr)), //dynamic size
     m_harmonicPowerTableDataRelative(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
 {
-    m_actValueData = new ActualValueModel;
-    m_actValueDataWithAux = new ActualValueModelWithAux;
-    m_actValueModels = QList<TableEventItemModelBase*>()
-                         << m_actValueData
-                         << m_actValueDataWithAux
-                         << new ActualValueEmobAcModel
-                         << new ActualValueEmobDcModel
-                         << new ActualValueEmobAcSumModel
-                         << new ActualValueLemDCPerPhaseUModel
-                         << new ActualValueLemDcSingleIModel
-                         << new ActualValueLemDcPerPhasePModel;
+    createActualValueModels();
+    for(const auto &itemModel : qAsConst(m_actValueModels))
+        itemModel->setupMapping();
+    setLabelsAndUnits();
 
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setLabelsAndUnits();});
 
-    setLabelsAndUnits();
-
-    for(const auto &itemModel : qAsConst(m_actValueModels))
-        itemModel->setupMapping();
     for(const auto &item : qAsConst(m_osciValueModels))
         item.m_model->setupMapping();
     m_burden1Data->setupMapping();
@@ -54,11 +43,33 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     setupDftDispatchTable();
 }
 
+void TableEventConsumer::createActualValueModels()
+{
+    m_actValueData = new ActualValueModel;
+    m_actValueDataWithAux = new ActualValueModelWithAux;
+    m_actValueModels = QList<TableEventItemModelBase*>()
+                       << m_actValueData
+                       << m_actValueDataWithAux
+                       << new ActualValueEmobAcModel
+                       << new ActualValueEmobDcModel
+                       << new ActualValueEmobAcSumModel
+                       << new ActualValueLemDCPerPhaseUModel
+                       << new ActualValueLemDcSingleIModel
+                       << new ActualValueLemDcPerPhasePModel;
+}
 
-TableEventConsumer::~TableEventConsumer()
+void TableEventConsumer::cleanupActualValueModels()
 {
     for(const auto &itemModel : qAsConst(m_actValueModels))
         delete itemModel;
+    m_actValueData = nullptr;
+    m_actValueDataWithAux = nullptr;
+    m_actValueModels.clear();
+}
+
+TableEventConsumer::~TableEventConsumer()
+{
+    cleanupActualValueModels();
     for(const auto &item : qAsConst(m_osciValueModels))
         delete item.m_model;
     m_osciValueModels.clear();
