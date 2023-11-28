@@ -11,7 +11,8 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    readonly property int rowCount: ZGL.ActualValueEmobDcModel.rowCount() /* Temp TODO */ +8
+    readonly property int rowCount: ZGL.ActualValueEmobDcModel.rowCount() +
+                                    ZGL.TempHumidityPressureModel.rowCount() + 6
     readonly property real rowHeight: height/rowCount
 
     ListView {
@@ -25,6 +26,19 @@ Item {
                 rowWidth: root.width
                 colorU: GC.colorUAux1
                 colorI: GC.colorIAux1
+            }
+        }
+    }
+    ListView {
+        id: tempHumPressTable
+        model: ZGL.TempHumidityPressureModel
+        anchors.top: dcTable.bottom
+        height: model.rowCount() * rowHeight
+        boundsBehavior: Flickable.StopAtBounds
+        delegate: Component {
+            TempHumidityPressureRow {
+                rowHeight: root.rowHeight
+                rowWidth: root.width
             }
         }
     }
