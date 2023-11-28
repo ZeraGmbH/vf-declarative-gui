@@ -46,6 +46,7 @@ enum class Modules : int {
     //TranformerModule = 1170,
     //AdjustmentModule = 1190,
     //ScpiModule = 9999,
+    BleModule1 = 1400
 };
 
 class VfComponentEventDispatcher : public VeinEvent::EventSystem

@@ -13,7 +13,8 @@ Item {
     id: root
     readonly property int rowCount:
         ZGL.ActualValueEmobAcModel.rowCount() +
-        ZGL.ActualValueEmobAcSumModel.rowCount()
+        ZGL.ActualValueEmobAcSumModel.rowCount() +
+        ZGL.TempHumidityPressureModel.rowCount()
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
     readonly property real rightColumWithsScale: 0.4
@@ -45,6 +46,21 @@ Item {
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
                 ActualValuesRowAcSum {
+                    rowHeight: root.rowHeight
+                    rowWidth: root.width
+                    leftColumWithsScale: root.leftColumWithsScale
+                    rightColumWithsScale: root.leftColumWithsScale
+                }
+            }
+        }
+        ListView {
+            id: tempHumPressTable
+            model: ZGL.TempHumidityPressureModel
+            anchors.top: acSumTable.bottom
+            height: model.rowCount() * rowHeight
+            boundsBehavior: Flickable.StopAtBounds
+            delegate: Component {
+                TempHumidityPressureRow {
                     rowHeight: root.rowHeight
                     rowWidth: root.width
                     leftColumWithsScale: root.leftColumWithsScale

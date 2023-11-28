@@ -19,6 +19,7 @@
         <file>qml/controls/actual_values/ActualValuesRowDcOnePhase.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowAcSum.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowNoSum.qml</file>
+        <file>qml/controls/actual_values/TempHumidityPressureRow.qml</file>
         <file>qml/controls/AnimationActivity.qml</file>
         <file>qml/controls/AnimationSlowBits.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>

@@ -9,6 +9,7 @@
 #include "actualvaluelemdcperphasepmodel.h"
 #include "burdenmodelu.h"
 #include "burdenmodeli.h"
+#include "temphumiditypressuremodel.h"
 #include "oscimodel.h"
 #include <QVector2D>
 #include <math.h>
@@ -287,7 +288,8 @@ void TableEventConsumer::createActualValueModels()
         m_sessionSpecificActualValueModels = QList<TableEventItemModelBase*>()
                            << new ActualValueEmobAcModel
                            << new ActualValueEmobDcModel
-                           << new ActualValueEmobAcSumModel;
+                           << new ActualValueEmobAcSumModel
+                           << new TempHumidityPressureModel;
     }
     else {
         m_sessionSpecificActualValueModels = QList<TableEventItemModelBase*>()
