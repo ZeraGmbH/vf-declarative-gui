@@ -16,6 +16,7 @@ SettingsView {
 
     readonly property QtObject bleSensorEnt: VeinEntity.getEntity("BleModule1");
     readonly property real safeHeight: height > 0.0 ? height : 10
+    readonly property bool notEmobSession: VeinEntity.getEntity("_System").Session !== "mt310s2-emob-session-ac.json" && VeinEntity.getEntity("_System").Session !== "mt310s2-emob-session-dc.json"
     rowHeight: safeHeight/8.5
     readonly property real pointSize: rowHeight * 0.34
     readonly property int decimalPlaces: 1
@@ -65,71 +66,103 @@ SettingsView {
             }
         }
 
-        RowLayout {
-            height: root.rowHeight
-            width: root.rowWidth
-            Label {
-                text: Z.tr("Temperature [°C]:")
-                textFormat: Text.PlainText
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureC), GC.digitsTotal, decimalPlaces)
-            }
-        }
-
-        RowLayout {
-            height: root.rowHeight
-            width: root.rowWidth
-            Label {
-                text: Z.tr("Temperature [°F]:")
-                textFormat: Text.PlainText
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureF), GC.digitsTotal, decimalPlaces)
+        Loader {
+            width: parent.width
+            active: notEmobSession
+            sourceComponent:  Rectangle {
+                color: "transparent"
+                height: root.rowHeight
+                RowLayout {
+                    height: root.rowHeight
+                    width: root.rowWidth
+                    Label {
+                        text: Z.tr("Temperature [°C]:")
+                        textFormat: Text.PlainText
+                        font.pointSize: pointSize
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureC), GC.digitsTotal, decimalPlaces)
+                    }
+                }
             }
         }
 
-        RowLayout {
-            height: root.rowHeight
-            width: root.rowWidth
-            Label {
-                text: Z.tr("Humidity [%]:")
-                textFormat: Text.PlainText
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_Humidity), GC.digitsTotal, decimalPlaces)
+        Loader {
+            width: parent.width
+            active: notEmobSession
+            sourceComponent:  Rectangle {
+                color: "transparent"
+                height: root.rowHeight
+                RowLayout {
+                    height: root.rowHeight
+                    width: root.rowWidth
+                    Label {
+                        text: Z.tr("Temperature [°F]:")
+                        textFormat: Text.PlainText
+                        font.pointSize: pointSize
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureF), GC.digitsTotal, decimalPlaces)
+                    }
+                }
             }
         }
 
-        RowLayout {
-            height: root.rowHeight
-            width: root.rowWidth
-            Label {
-                text: Z.tr("Air pressure [hPa]:")
-                textFormat: Text.PlainText
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
+        Loader {
+            width: parent.width
+            active: notEmobSession
+            sourceComponent:  Rectangle {
+                color: "transparent"
+                height: root.rowHeight
+                RowLayout {
+                    height: root.rowHeight
+                    width: root.rowWidth
+                    Label {
+                        text: Z.tr("Humidity [%]:")
+                        textFormat: Text.PlainText
+                        font.pointSize: pointSize
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_Humidity), GC.digitsTotal, decimalPlaces)
+                    }
+                }
             }
-            Label {
-                font.pointSize: root.pointSize
-                text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_AirPressure), GC.digitsTotal, decimalPlaces)
+        }
+
+        Loader {
+            width: parent.width
+            active: notEmobSession
+            sourceComponent:  Rectangle {
+                color: "transparent"
+                height: root.rowHeight
+                RowLayout {
+                    height: root.rowHeight
+                    width: root.rowWidth
+                    Label {
+                        text: Z.tr("Air pressure [hPa]:")
+                        textFormat: Text.PlainText
+                        font.pointSize: pointSize
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    Label {
+                        font.pointSize: root.pointSize
+                        text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_AirPressure), GC.digitsTotal, decimalPlaces)
+                    }
+                }
             }
         }
     }
