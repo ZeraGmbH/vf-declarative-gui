@@ -30,16 +30,12 @@ void TempHumidityPressureModel::setLabelsAndUnits()
 
 void TempHumidityPressureModel::setupMapping()
 {
-    QHash<QString, QPoint> *tempMap = new QHash<QString, QPoint>();
-    tempMap->insert("ACT_TemperatureC", QPoint(RoleIndexes::Temperature, lineVal(LINE_VALUES)));
-    QHash<QString, QPoint> *humidityMap = new QHash<QString, QPoint>();
-    humidityMap->insert("ACT_Humidity", QPoint(RoleIndexes::Humidity, lineVal(LINE_VALUES)));
-    QHash<QString, QPoint> *pressureMap  = new QHash<QString, QPoint>();
-    pressureMap->insert("ACT_AirPressure", QPoint(RoleIndexes::Pressure, lineVal(LINE_VALUES)));
+    QHash<QString, QPoint> *bleMap = new QHash<QString, QPoint>();
+    bleMap->insert("ACT_TemperatureC", QPoint(RoleIndexes::Temperature, lineVal(LINE_VALUES)));
+    bleMap->insert("ACT_Humidity", QPoint(RoleIndexes::Humidity, lineVal(LINE_VALUES)));
+    bleMap->insert("ACT_AirPressure", QPoint(RoleIndexes::Pressure, lineVal(LINE_VALUES)));
 
-    m_valueMapping.insert(static_cast<int>(Modules::BleModule1), tempMap);
-    m_valueMapping.insert(static_cast<int>(Modules::BleModule1), humidityMap);
-    m_valueMapping.insert(static_cast<int>(Modules::BleModule1), pressureMap);
+    m_valueMapping.insert(static_cast<int>(Modules::BleModule1), bleMap);
 }
 
 QHash<int, QByteArray> TempHumidityPressureModel::roleNames() const
