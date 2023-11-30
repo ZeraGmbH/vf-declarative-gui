@@ -186,7 +186,7 @@ Item {
                 anchors.leftMargin: GC.standardTextHorizMargin
                 width: parent.width*col1Width
                 anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("Upper error margin:")
+                text: Z.tr("Upper error limit:")
                 font.pointSize: root.pointSize
             }
             VFLineEdit {
@@ -227,7 +227,7 @@ Item {
                 anchors.leftMargin: GC.standardTextHorizMargin
                 width: parent.width*col1Width
                 anchors.verticalCenter: parent.verticalCenter
-                text: Z.tr("Lower error margin:")
+                text: Z.tr("Lower error limit:")
                 font.pointSize: root.pointSize
             }
             VFLineEdit {
