@@ -17,32 +17,51 @@ Row {
     readonly property int dataColums: 3
     readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
 
-    GridItem {
-        width: columnWidth * leftColumWithsScale
-        height: rowHeight
-        color: GC.tableShadeColor
+    readonly property bool noTemp: isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC)
+    readonly property bool noHumidity: isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity)
+    readonly property bool noPressure: isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
+
+    Loader {
+        active: !noTemp || !noHumidity || !noPressure
+        sourceComponent: GridItem {
+            width: columnWidth * leftColumWithsScale
+            height: rowHeight
+            color: GC.tableShadeColor
+        }
     }
-    GridItem {
-        width: columnWidth
-        height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberForScaledValues(Temperature)
+    Loader {
+        active: !noTemp
+        sourceComponent: GridItem {
+            width: columnWidth
+            height: rowHeight
+            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+            text: FT.formatNumberForScaledValues(Temperature)
+        }
     }
-    GridItem {
-        width: columnWidth
-        height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberForScaledValues(Humidity)
+    Loader {
+        active: !noHumidity
+        sourceComponent: GridItem {
+            width: columnWidth
+            height: rowHeight
+            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+            text: FT.formatNumberForScaledValues(Humidity)
+        }
     }
-    GridItem {
-        width: columnWidth
-        height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberForScaledValues(Pressure)
+    Loader {
+        active: !noPressure
+        sourceComponent: GridItem {
+            width: columnWidth
+            height: rowHeight
+            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+            text: FT.formatNumberForScaledValues(Pressure)
+        }
     }
-    GridItem {
-        width: columnWidth * rightColumWithsScale
-        height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+    Loader {
+        active: !noTemp && !noHumidity && !noPressure
+        sourceComponent: GridItem {
+            width: columnWidth * rightColumWithsScale
+            height: rowHeight
+            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        }
     }
 }
