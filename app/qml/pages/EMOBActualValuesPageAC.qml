@@ -11,10 +11,20 @@ import "../controls/actual_values"
 
 Item {
     id: root
-    readonly property int rowCount:
-        ZGL.ActualValueEmobAcModel.rowCount() +
-        ZGL.ActualValueEmobAcSumModel.rowCount() +
-        ZGL.TempHumidityPressureModel.rowCount()
+    readonly property int rowCount: {
+        if(noBle)
+            return ZGL.ActualValueEmobAcModel.rowCount() +
+                   ZGL.ActualValueEmobAcSumModel.rowCount()
+        else
+            return ZGL.ActualValueEmobAcModel.rowCount() +
+                   ZGL.ActualValueEmobAcSumModel.rowCount() +
+                   ZGL.TempHumidityPressureModel.rowCount()
+    }
+
+    readonly property bool noBle: isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC) &&
+                                  isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity) &&
+                                  isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
+
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
     readonly property real rightColumWithsScale: 0.4
