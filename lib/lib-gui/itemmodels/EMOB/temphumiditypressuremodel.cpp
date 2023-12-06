@@ -13,6 +13,7 @@ enum class LineDefinitions : int {
 TempHumidityPressureModel::TempHumidityPressureModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
 {
+    connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setupMapping();});
 }
 
 TempHumidityPressureModel::~TempHumidityPressureModel()
@@ -23,7 +24,7 @@ void TempHumidityPressureModel::setLabelsAndUnits()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
-    setData(mIndex, "T [°C]", RoleIndexes::Temperature);
+    setData(mIndex, m_translation->TrValue("T [°C]"), RoleIndexes::Temperature);
     setData(mIndex, "H [%]", RoleIndexes::Humidity);
     setData(mIndex, "P [hPa]", RoleIndexes::Pressure);
 }
@@ -31,7 +32,11 @@ void TempHumidityPressureModel::setLabelsAndUnits()
 void TempHumidityPressureModel::setupMapping()
 {
     QHash<QString, QPoint> *bleMap = new QHash<QString, QPoint>();
-    bleMap->insert("ACT_TemperatureC", QPoint(RoleIndexes::Temperature, lineVal(LINE_VALUES)));
+    QString currentLanguage = m_translation->getCurrentLanguage();
+    if(currentLanguage == "en_US")
+        bleMap->insert("ACT_TemperatureF", QPoint(RoleIndexes::Temperature, lineVal(LINE_VALUES)));
+    else
+        bleMap->insert("ACT_TemperatureC", QPoint(RoleIndexes::Temperature, lineVal(LINE_VALUES)));
     bleMap->insert("ACT_Humidity", QPoint(RoleIndexes::Humidity, lineVal(LINE_VALUES)));
     bleMap->insert("ACT_AirPressure", QPoint(RoleIndexes::Pressure, lineVal(LINE_VALUES)));
 
