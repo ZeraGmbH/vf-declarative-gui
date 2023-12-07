@@ -152,7 +152,7 @@ Item {
     }
     property var currentColorTableVectors: {
         let colorTable = [...GC.currentColorTable]
-        if(symmetricCheckbox.checked && !showActual.isActive)
+        if(symmetricCheckbox.checked)
             darkenColorTable(colorTable)
         return colorTable
     }
