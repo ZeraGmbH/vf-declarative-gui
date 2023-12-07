@@ -436,6 +436,13 @@ Item {
                     top: validatorUpperLimit.Data[1];
                     decimals: Math.min(FT.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]), GC.decimalPlaces);
                 }
+                function doApplyInput(newText) {
+                    let value = parseInt(newText, 10)
+                    entity[controlPropertyName] = value
+                    if(value > 0)
+                        lowLimit.entity[lowLimit.controlPropertyName] = -value
+                    return false
+                }
             }
             Label {
                 textFormat: Text.PlainText
@@ -463,6 +470,7 @@ Item {
                 font.pointSize: root.pointSize
             }
             VFLineEdit {
+                id: lowLimit
                 entity: logicalParent.errCalEntity
                 controlPropertyName: "PAR_Lolimit"
                 x: parent.width*col1Width
