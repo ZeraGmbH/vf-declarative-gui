@@ -20,6 +20,10 @@ Item {
         model: ZGL.ActualValueEmobDcModel
         height: model.rowCount() * rowHeight
         boundsBehavior: Flickable.StopAtBounds
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
         delegate: Component {
             ActualValuesRowEmobDc {
                 rowHeight: root.rowHeight
