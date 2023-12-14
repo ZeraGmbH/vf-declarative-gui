@@ -36,7 +36,7 @@ Item {
     ListView {
         id: tempHumPressTable
         model: ZGL.TempHumidityPressureModel
-        anchors.top: dcTable.bottom
+        anchors.bottom: parent.bottom
         height: model.rowCount() * rowHeight
         boundsBehavior: Flickable.StopAtBounds
         delegate: Component {
