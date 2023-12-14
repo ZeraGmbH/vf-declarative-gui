@@ -410,7 +410,7 @@ Item {
             border.color: Material.dividerColor
             height: root.rowHeight
             width: root.width
-            enabled: logicalParent.canStartMeasurement || errCalEntity.PAR_Continuous !== 0
+            enabled: logicalParent.canStartMeasurement
 
             Label {
                 textFormat: Text.PlainText
@@ -458,7 +458,7 @@ Item {
             border.color: Material.dividerColor
             height: root.rowHeight
             width: root.width
-            enabled: logicalParent.canStartMeasurement || errCalEntity.PAR_Continuous !== 0
+            enabled: logicalParent.canStartMeasurement
 
             Label {
                 textFormat: Text.PlainText
