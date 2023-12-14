@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.1
 import QtQuick.Controls.Material 2.0
+import FontAwesomeQml 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
@@ -20,6 +21,16 @@ SettingsView {
     rowHeight: safeHeight/8.5
     readonly property real pointSize: rowHeight * 0.34
     readonly property int decimalPlaces: 1
+    readonly property bool bluetoothOn: bleSensorEnt.PAR_BluetoothOn !== 0
+
+    function valuesFound() {
+        var retVal = false;
+        if(!isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC))
+            retVal = true;
+        return retVal
+    }
+
+
     model: VisualItemModel {
         RowLayout {
             height: root.rowHeight
@@ -68,8 +79,37 @@ SettingsView {
 
         Loader {
             width: parent.width
+            active: !notEmobSession && bluetoothOn
+            sourceComponent: RowLayout {
+                height: root.rowHeight
+                width: root.rowWidth
+                Label {
+                    text: {
+                        if(valuesFound())
+                            return "Effento sensor found " + FAQ.fa_check;
+                        else
+                            return "Effento sensor not found " + FAQ.fa_times;
+                    }
+                    color: {
+                        if(valuesFound())
+                            return "green";
+                        else
+                            return "red";
+                    }
+                    textFormat: Text.PlainText
+                    font.pointSize: pointSize
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
+                    font.bold: true
+                }
+            }
+        }
+
+        Loader {
+            width: parent.width
             active: notEmobSession
-            sourceComponent:  Rectangle {
+            sourceComponent: Rectangle {
                 color: "transparent"
                 height: root.rowHeight
                 RowLayout {
