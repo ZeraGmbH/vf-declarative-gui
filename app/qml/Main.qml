@@ -274,9 +274,8 @@ ApplicationWindow {
             id: dynamicPageModel
             property int countActiveSources: 0
             function updateSourceView() {
-                if((ASWGL.isServer && !ASWGL.sourceEnabled)) {
+                if((ASWGL.isServer && !ASWGL.sourceEnabled))
                     return
-                }
                 let sourceViewQml = "qrc:/qml/pages/SourceModuleTabPage.qml"
                 // search source view currently added
                 let sourceViewPosition = -1
@@ -290,117 +289,79 @@ ApplicationWindow {
                     }
                 }
                 // add view?
-                if(countActiveSources > 0 && sourceViewPosition === -1) {
-                    let iconName = ""
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/source.png"
-                    }
-                    append({name: "Source control", icon: iconName, elementValue: sourceViewQml});
-                }
+                if(countActiveSources > 0 && sourceViewPosition === -1)
+                    append({name: "Source control", icon: "qrc:/data/staticdata/resources/source.png", elementValue: sourceViewQml});
                 // remove view?
                 else if(countActiveSources === 0 && sourceViewPosition >= 0) {
                     remove(sourceViewPosition)
                     if(GC.lastPageViewIndexSelected === sourceViewPosition) {
-                        if(pageView.model.count) {
+                        if(pageView.model.count)
                             pageView.pageLoaderSource = pageView.model.get(0).elementValue
-                        }
-                        else {
+                        else
                             pageView.pageLoaderSource = ""
-                        }
                         GC.setLastPageViewIndexSelected(0)
                     }
                 }
             }
-            onCountActiveSourcesChanged: {
-                updateSourceView()
-            }
+            onCountActiveSourcesChanged: updateSourceView()
 
             function initModel() {
                 clear()
                 let dftAvail = ModuleIntrospection.hasDependentEntities(["DFTModule1"])
                 let isReference = ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"])
+
                 controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !SessionState.dcSession
-                let iconName = ""
+
+                let iconName = "qrc:/data/staticdata/resources/act_values.png"
                 if(SessionState.emobSession) {
-                    if(!ASWGL.isServer)
-                        iconName = "qrc:/data/staticdata/resources/act_values.png"
-
                     if(SessionState.currentSession.includes('-ac')) //should be removed once EMOB-AC & EMOB-DC are on production
-                        append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"});
+                        append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
                     else if(SessionState.dcSession)
-                        append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"});
+                        append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
                     else
-                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"});
+                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"})
                 }
-                else if(SessionState.dcSession) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/act_values.png"
-                    }
-                    append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"});
-                }
-                else {
-                    if(ModuleIntrospection.hasDependentEntities(["RMSModule1", "LambdaModule1", "THDNModule1", "DFTModule1", "POWER1Module1", "POWER1Module2", "POWER1Module3", "RangeModule1"])) {
-                        if(!ASWGL.isServer) {
-                            iconName = "qrc:/data/staticdata/resources/act_values.png"
-                        }
-                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"});
-                    }
-                }
+                else if(SessionState.dcSession)
+                    append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
+                else if(ModuleIntrospection.hasDependentEntities(["RMSModule1",
+                                                                  "LambdaModule1",
+                                                                  "THDNModule1",
+                                                                  "DFTModule1",
+                                                                  "POWER1Module1",
+                                                                  "POWER1Module2",
+                                                                  "POWER1Module3",
+                                                                  "RangeModule1"]))
+                    append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"})
 
-                if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/osci.png"
-                    }
-                    append({name: "Harmonics & Curves", icon: iconName, elementValue: "qrc:/qml/pages/FftTabPage.qml"});
-                }
-                if(ModuleIntrospection.hasDependentEntities(["Power3Module1"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/hpower.png"
-                    }
-                    append({name: "Harmonic power values", icon: iconName, elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"});
-                }
+                if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
+                    append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/FftTabPage.qml"})
+
+                if(ModuleIntrospection.hasDependentEntities(["Power3Module1"]))
+                    append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"})
+
                 if(!SessionState.refSession) {
                     if(!SessionState.emobSession || SessionState.emobSessionAcDc) {
-                        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) || ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) || ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) || ModuleIntrospection.hasDependentEntities(["SPM1Module1"])) {
-                            if(!ASWGL.isServer) {
-                                iconName = "qrc:/data/staticdata/resources/error_calc.png"
-                            }
-                            append({name: "Comparison measurements", icon: iconName, elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
-                        }
+                        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) ||
+                                ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) ||
+                                ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) ||
+                                ModuleIntrospection.hasDependentEntities(["SPM1Module1"]))
+                            append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                     }
                 }
-                else {
-                    if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"])) {
-                        if(!ASWGL.isServer) {
-                            iconName = "qrc:/data/staticdata/resources/error_calc.png"
-                        }
-                        append({name: "Quartz reference measurement", icon: iconName, elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
-                    }
-                }
-                if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/burden.png"
-                    }
-                    append({name: "Burden values", icon: iconName, elementValue: "qrc:/qml/pages/BurdenModulePage.qml"});
-                }
-                if(ModuleIntrospection.hasDependentEntities(["Transformer1Module1"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/transformer.png"
-                    }
-                    append({name: "Transformer values", icon: iconName, elementValue: "qrc:/qml/pages/TransformerModulePage.qml"});
-                }
-                if(ModuleIntrospection.hasDependentEntities(["POWER2Module1"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/ced_power_values.png"
-                    }
-                    append({name: "CED power values", icon: iconName, elementValue: "qrc:/qml/pages/CEDModulePage.qml"});
-                }
-                if(ModuleIntrospection.hasDependentEntities(["REFERENCEModule1", "DFTModule1"])) {
-                    if(!ASWGL.isServer) {
-                        iconName = "qrc:/data/staticdata/resources/ref_values.png"
-                    }
-                    append({name: "DC reference values", icon: iconName, elementValue: "qrc:/qml/pages/RefModulePage.qml"});
-                }
+                else if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]))
+                    append({name: "Quartz reference measurement", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
+
+                if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"]))
+                    append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"})
+
+                if(ModuleIntrospection.hasDependentEntities(["Transformer1Module1"]))
+                    append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"})
+
+                if(ModuleIntrospection.hasDependentEntities(["POWER2Module1"]))
+                    append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"})
+
+                if(ModuleIntrospection.hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
+                    append({name: "DC reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"})
             }
         }
 

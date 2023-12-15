@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import AppStarterForWebGLSingleton 1.0
 
 /**
   * @b A selection of the available pages/views laid out in an elliptic path
@@ -63,13 +64,15 @@ Item {
                 border.width: 3
                 color: "transparent"
                 radius: 4
-                Image {
-                    id: image
+                Loader {
+                    active: !ASWGL.isServer
                     anchors.fill: parent
                     anchors.margins: 3
-                    source: icon
-                    mipmap: false
-                    fillMode: Image.PreserveAspectFit
+                    sourceComponent: Image {
+                        source: icon
+                        mipmap: false
+                        fillMode: Image.PreserveAspectFit
+                    }
                 }
             }
             MouseArea {

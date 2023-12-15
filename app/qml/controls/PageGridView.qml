@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import AppStarterForWebGLSingleton 1.0
 
 /**
   * @b A selection of the available pages/views laid out in an elliptic path
@@ -38,15 +39,18 @@ Item {
                     root.elementSelected({"elementIndex": index, "value": elementValue})
                 }
             }
-            Image {
+            Loader {
                 id: listImage
+                active: !ASWGL.isServer
                 width: height*1.83 // image form factor
                 height: parent.height-8
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 4
-                source: icon
-                mipmap: true
+                sourceComponent: Image {
+                    source: icon
+                    mipmap: true
+                }
             }
             Label {
                 id: nameText
