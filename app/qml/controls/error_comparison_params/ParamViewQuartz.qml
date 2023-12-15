@@ -23,7 +23,8 @@ Item {
     property var validatorUpperLimit
     property var validatorLowerLimit
 
-    readonly property real rowHeight: height > 0 ? height/7 : 10
+    readonly property int rowsDisplayed: 5
+    readonly property real rowHeight: height > 0 ? height/rowsDisplayed : 10
     readonly property real pointSize: rowHeight/2.5
 
     readonly property real col1Width: 10/20

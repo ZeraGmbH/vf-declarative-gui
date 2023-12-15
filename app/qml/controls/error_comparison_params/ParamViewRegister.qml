@@ -32,12 +32,18 @@ Item {
         return PwrModVeinGetter.getEntityJsonInfo(moduleNo).ComponentInfo.PAR_MeasuringMode.Validation.Data
     }
     readonly property bool canChangeRefInputOrMMode: validatorRefInput.Data.length > 1 || measModeModel.length > 1
+    readonly property int rowsDisplayed: {
+        let baseRows = 6
+        if(canChangeRefInputOrMMode)
+            baseRows++
+        return baseRows
+    }
 
     // hack to determine if we are in ced-session and have to use POWER2Module1
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
 
-    readonly property real rowHeight: height > 0 ? height/7 : 10
+    readonly property real rowHeight: height > 0 ? height/rowsDisplayed : 10
     readonly property real pointSize: rowHeight/2.5
 
     readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject

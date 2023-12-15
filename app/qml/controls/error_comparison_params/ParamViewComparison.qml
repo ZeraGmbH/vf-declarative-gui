@@ -47,8 +47,10 @@ Item {
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
 
     readonly property int rowsDisplayed: {
-        let baseRows = 6
+        let baseRows = 5
         if(isEnergyComparison)
+            baseRows++
+        if(canChangeRefInputOrMMode)
             baseRows++
         return baseRows
     }
