@@ -264,14 +264,12 @@ ApplicationWindow {
             loggerSettingsStackObj: loggerSettingsLoader.item
         }
 
-        // Note: The only way to pass complex stuff ListModel below is to pass
-        // ids of items.
-
-        // running state items
         EntityErrorMeasHelper {
             id: errMeasHelper
         }
 
+        // Note: The only way to pass complex stuff ListModel below is to pass
+        // ids of items.
         ListModel {
             id: dynamicPageModel
             property int countActiveSources: 0
