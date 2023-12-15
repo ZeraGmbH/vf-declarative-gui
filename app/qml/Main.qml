@@ -207,12 +207,14 @@ ApplicationWindow {
                 asynchronous: true
             }
             Loader {
-                sourceComponent: rangeCmp
+                sourceComponent: RangeMModePage {
+                    enableRangeAutomaticAndGrouping: !SessionState.refSession
+                    showRatioLines: !SessionState.refSession
+                }
                 active: layoutStack.currentIndex===GC.layoutStackEnum.layoutRangeIndex
                 onActiveChanged: {
-                    if(!active && pageLoader.item) {
+                    if(!active && pageLoader.item)
                         pageLoader.item.forceActiveFocus()
-                    }
                 }
             }
             Loader {
@@ -249,18 +251,6 @@ ApplicationWindow {
             }
             ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
         }
-
-        Component {
-            id: rangeCmp
-            Item {
-                RangeMModePage {
-                    enableRangeAutomaticAndGrouping: !SessionState.refSession
-                    showRatioLines: !SessionState.refSession
-                    anchors.fill: parent
-                }
-            }
-        }
-
 
         Component {
             id: statusCmp
