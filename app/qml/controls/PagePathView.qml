@@ -70,21 +70,21 @@ Item {
                     source: icon
                     mipmap: false
                     fillMode: Image.PreserveAspectFit
-                    MouseArea {
-                        anchors.fill: parent
-                        onPressed: {
-                            if(wrapper.PathView.isCurrentItem &&
-                               // prevents unexpected user activation of items while they move around
-                               (pathView.offset - Math.floor(pathView.offset)) == 0) {
-                                GC.setLastPageViewIndexSelected(index)
-                                elementSelected({"elementIndex": index, "value": elementValue})
-                            }
-                            else {
-                                pathView.currentIndex = index
-                                delayedCloseTimer.elementValue = elementValue
-                                delayedCloseTimer.start()
-                            }
-                        }
+                }
+            }
+            MouseArea {
+                anchors.fill: parent
+                onPressed: {
+                    if(wrapper.PathView.isCurrentItem &&
+                       // prevents unexpected user activation of items while they move around
+                       (pathView.offset - Math.floor(pathView.offset)) == 0) {
+                        GC.setLastPageViewIndexSelected(index)
+                        elementSelected({"elementIndex": index, "value": elementValue})
+                    }
+                    else {
+                        pathView.currentIndex = index
+                        delayedCloseTimer.elementValue = elementValue
+                        delayedCloseTimer.start()
                     }
                 }
             }
