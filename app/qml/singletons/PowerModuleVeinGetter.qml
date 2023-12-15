@@ -63,10 +63,14 @@ Item {
         return retVal
     }
     function getEntityJsonInfo(powerModuleNo) {
-        let retVal
+        // another hack for WinSAM-scripts compatibilty on for EMOB DC session:
+        if(SessionState.emobSession && SessionState.dcSession)
+            return ModuleIntrospection.p1m4Introspection
+
         if(powerModuleNo < powerModuleIntrospectionInGUI.length)
-            retVal = powerModuleIntrospectionInGUI[powerModuleNo]
-        return retVal
+            return powerModuleIntrospectionInGUI[powerModuleNo]
+
+        return undefined
     }
 
     // This is a hack: We put deep knowledge of how power/sec modules are
