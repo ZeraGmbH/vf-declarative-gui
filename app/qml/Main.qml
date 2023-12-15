@@ -235,33 +235,23 @@ ApplicationWindow {
                 }
             }
             Loader {
-                sourceComponent: statusCmp
-                active: layoutStack.currentIndex===GC.layoutStackEnum.layoutStatusIndex
+                sourceComponent: StatusView {}
+                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
                 onActiveChanged: {
-                    if(!active && pageLoader.item) {
+                    if(!active && pageLoader.item)
                         pageLoader.item.forceActiveFocus()
-                    }
                 }
             }
             Loader {
-                sourceComponent: splashCmp
-                active: layoutStack.currentIndex===GC.layoutStackEnum.layoutSplashIndex
+                sourceComponent: Image {
+                    anchors.fill: parent
+                    anchors.margins: parent.height / 4
+                    source: "qrc:/data/staticdata/resources/ZERA-old-school-large.png"
+                    fillMode: Image.PreserveAspectFit
+                }
+                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSplashIndex
             }
             ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
-        }
-
-        Component {
-            id: statusCmp
-            StatusView {}
-        }
-        Component {
-            id: splashCmp
-            Image {
-                anchors.fill: parent
-                anchors.margins: parent.height / 4
-                source: "qrc:/data/staticdata/resources/ZERA-old-school-large.png"
-                fillMode: Image.PreserveAspectFit
-            }
         }
 
         MainToolBar {
