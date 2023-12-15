@@ -11,9 +11,8 @@ Item {
     id: root
     property var model;
     onModelChanged: {
-        if(model && model.count > 0) {
+        if(model && model.count > 0)
             pageLoaderSource = model.get(0).elementValue;
-        }
     }
     property alias sessionComponent: sessionSelector.intermediate
     property string pageLoaderSource;
@@ -66,25 +65,21 @@ Item {
         PageGridView {
             model: root.model
             onElementSelected: {
-                if(elementValue !== "")  {
+                if(elementValue !== "")
                     root.elementSelected(elementValue.value);
-                }
             }
         }
     }
-
     Component {
         id: pagePathViewCmp
         PagePathView {
             model: root.model
             onElementSelected: {
-                if(elementValue !== "") {
+                if(elementValue !== "")
                     root.elementSelected(elementValue.value);
-                }
             }
         }
     }
-
     Loader {
         anchors.fill: parent
         sourceComponent: root.gridViewEnabled ? pageGridViewCmp : pagePathViewCmp;
@@ -123,16 +118,14 @@ Item {
             arrayMode: true
             onIntermediateChanged: {
                 let tmpIndex = arrJSONFileNames.indexOf(intermediate)
-                if(tmpIndex >= 0) {
+                if(tmpIndex >= 0)
                     sessionSelector.currentIndex = tmpIndex
-                }
             }
 
             onSelectedTextChanged: {
                 var tmpIndex = model.indexOf(selectedText)
-                if(systemEntity && systemEntity.SessionsAvailable) {
-                    systemEntity.Session = arrJSONFileNames[tmpIndex];
-                }
+                if(systemEntity && systemEntity.SessionsAvailable)
+                    systemEntity.Session = arrJSONFileNames[tmpIndex]
                 root.sessionChanged()
             }
 
@@ -151,23 +144,20 @@ Item {
                                 break;
                             }
                         }
-                        if(!replaced) {
+                        if(!replaced)
                             retVal.push(sessionFile)
-                        }
                     }
                 }
-                else {
+                else
                     retVal = ["Unsupprted"] //fallback
-                }
                 return retVal
             }
 
             Connections {
                 target: VeinEntity
                 function onSigEntityAvailable(t_entityName) {
-                    if(t_entityName === "_System") {
+                    if(t_entityName === "_System")
                         sessionSelector.systemEntity = VeinEntity.getEntity("_System");
-                    }
                 }
             }
         }
