@@ -9,7 +9,6 @@ Item {
 
     property alias swipeView: swipeView
     property alias tabBar: tabBar
-    property alias initTimer: initTimer
     // We default to what most views (measurement pages) do. Other type
     // of views can override getLastTabSelected and setLastTabSelected
     function getLastTabSelected() {
