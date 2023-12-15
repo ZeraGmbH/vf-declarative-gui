@@ -211,7 +211,7 @@ ApplicationWindow {
                     enableRangeAutomaticAndGrouping: !SessionState.refSession
                     showRatioLines: !SessionState.refSession
                 }
-                active: layoutStack.currentIndex===GC.layoutStackEnum.layoutRangeIndex
+                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item)
                         pageLoader.item.forceActiveFocus()
@@ -220,20 +220,18 @@ ApplicationWindow {
             Loader {
                 id: loggerSettingsLoader
                 sourceComponent: LoggerSettingsStack { }
-                active: layoutStack.currentIndex===GC.layoutStackEnum.layoutLoggerIndex
+                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
                 onActiveChanged: {
-                    if(!active && pageLoader.item) {
+                    if(!active && pageLoader.item)
                         pageLoader.item.forceActiveFocus()
-                    }
                 }
             }
             Loader {
-                sourceComponent: settingsCmp
-                active: layoutStack.currentIndex===GC.layoutStackEnum.layoutSettingsIndex
+                sourceComponent: Settings {}
+                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
                 onActiveChanged: {
-                    if(!active && pageLoader.item) {
+                    if(!active && pageLoader.item)
                         pageLoader.item.forceActiveFocus()
-                    }
                 }
             }
             Loader {
@@ -255,10 +253,6 @@ ApplicationWindow {
         Component {
             id: statusCmp
             StatusView {}
-        }
-        Component {
-            id: settingsCmp
-            Settings {}
         }
         Component {
             id: splashCmp
