@@ -277,7 +277,6 @@ void TableEventConsumer::sessionNameReceived(QString sessionName)
 
 void TableEventConsumer::createActualValueModels()
 {
-    int modelCountBeforeAdd = TableEventItemModelBase::getAllBaseModels().count();
     if(m_currentSessionName == "mt310s2-dc-session.json") {
         m_sessionSpecificActualValueModels = QList<TableEventItemModelBase*>()
                            << new ActualValueLemDCPerPhaseUModel
@@ -298,10 +297,6 @@ void TableEventConsumer::createActualValueModels()
                            << new BurdenModelU
                            << new BurdenModelI;
     }
-    qInfo("TableEventConsumer session change: '%s' / Model count before %i / after %i",
-          qPrintable(m_currentSessionName),
-          modelCountBeforeAdd,
-          TableEventItemModelBase::getAllBaseModels().count());
 }
 
 void TableEventConsumer::cleanupActualValueModels()
