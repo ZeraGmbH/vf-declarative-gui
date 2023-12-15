@@ -153,7 +153,7 @@ SettingsView {
         }
 
         RowLayout {
-            visible: SessionState.refSession
+            visible: !SessionState.refSession
             height: root.rowHeight
             width: root.rowWidth
             Label {
