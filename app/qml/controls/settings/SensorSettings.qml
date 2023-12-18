@@ -24,8 +24,11 @@ SettingsView {
     readonly property bool bluetoothOn: bleSensorEnt.PAR_BluetoothOn !== 0
 
     function valuesFound() {
+        let onValueAvail = !isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC) ||
+                           !isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity) ||
+                           !isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
         var retVal = false;
-        if(!isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC))
+        if(onValueAvail)
             retVal = true;
         return retVal
     }
