@@ -17,12 +17,13 @@ Row {
     readonly property int dataColums: 3
     readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
 
-    readonly property bool noTemp: isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC)
-    readonly property bool noHumidity: isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity)
-    readonly property bool noPressure: isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
+    readonly property bool bleAvail: VeinEntity.hasEntity("BleModule1")
+    readonly property bool tempAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC)
+    readonly property bool humidityAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity)
+    readonly property bool pressureAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
 
     Loader {
-        active: !noTemp || !noHumidity || !noPressure
+        active: tempAvail && humidityAvail && pressureAvail
         sourceComponent: GridItem {
             width: columnWidth * leftColumWithsScale
             height: rowHeight
@@ -30,7 +31,7 @@ Row {
         }
     }
     Loader {
-        active: !noTemp
+        active: tempAvail
         sourceComponent: GridItem {
             width: columnWidth
             height: rowHeight
@@ -39,7 +40,7 @@ Row {
         }
     }
     Loader {
-        active: !noHumidity
+        active: humidityAvail
         sourceComponent: GridItem {
             width: columnWidth
             height: rowHeight
@@ -48,7 +49,7 @@ Row {
         }
     }
     Loader {
-        active: !noPressure
+        active: pressureAvail
         sourceComponent: GridItem {
             width: columnWidth
             height: rowHeight
@@ -57,7 +58,7 @@ Row {
         }
     }
     Loader {
-        active: !noTemp && !noHumidity && !noPressure
+        active: tempAvail || humidityAvail || pressureAvail
         sourceComponent: GridItem {
             width: columnWidth * rightColumWithsScale
             height: rowHeight

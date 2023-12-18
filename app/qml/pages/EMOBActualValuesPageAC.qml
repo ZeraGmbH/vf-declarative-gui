@@ -12,18 +12,16 @@ import "../controls/actual_values"
 Item {
     id: root
     readonly property int rowCount: {
-        if(noBle)
-            return ZGL.ActualValueEmobAcModel.rowCount() +
-                   ZGL.ActualValueEmobAcSumModel.rowCount()
-        else
+        let showTempHumidPressure = tempHumPressTable.bleAvail &&
+            (tempHumPressTable.tempAvail || tempHumPressTable.humidityAvail || tempHumPressTable.pressureAvail)
+        if(showTempHumidPressure)
             return ZGL.ActualValueEmobAcModel.rowCount() +
                    ZGL.ActualValueEmobAcSumModel.rowCount() +
                    ZGL.TempHumidityPressureModel.rowCount()
+        else
+            return ZGL.ActualValueEmobAcModel.rowCount() +
+                   ZGL.ActualValueEmobAcSumModel.rowCount()
     }
-
-    readonly property bool noBle: isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC) &&
-                                  isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity) &&
-                                  isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
 
     readonly property real rowHeight: height/rowCount
     readonly property real leftColumWithsScale: 0.4
