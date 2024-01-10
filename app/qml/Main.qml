@@ -13,7 +13,6 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AccumulatorState 1.0
 import ZeraSettings 1.0
-import Notifications 1.0
 
 import "controls"
 import "helpers"
@@ -31,7 +30,6 @@ ApplicationWindow {
     property bool debugBypass: false;
     // for development: current resolution
     property int screenResolution: GC.screenResolution
-
 
     visible: true
     // Notes on resolutions:
@@ -162,21 +160,14 @@ ApplicationWindow {
 
     NotificationManager {
         id: notificationManager
-        window: displayWindow
-        ySpacing: 20
-        notificationWidth: 300
-        maxOnScreen: 20
-        property bool accuDown: AccuState.accuDown
-        onAccuDownChanged: {
-            if(accuDown)
-                notificationManager.notify("Message", Z.tr("Battery low !\nPlease charge the device before it turns down"));
-            else
-                notificationManager.close();
-        }
+        windowWidth: parent.height/2
+        windowHeight: parent.height/6
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
         property bool accuCharging: AccuState.accuCharging
         onAccuChargingChanged: {
             if(accuCharging)
-                notificationManager.close();
+                notificationManager.close("Battery low");
         }
     }
     Flickable {
