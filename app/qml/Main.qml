@@ -161,7 +161,7 @@ ApplicationWindow {
     NotificationManager {
         id: notificationManager
         windowWidth: parent.height/2
-        windowHeight: parent.height/6
+        windowHeight: parent.height/4
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         property bool accuCharging: AccuState.accuCharging
