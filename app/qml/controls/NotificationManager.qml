@@ -51,7 +51,7 @@ Item {
         modal: false
         focus: false
         width: text.length + root.windowWidth
-        height : text.length + root.windowHeight
+        height : root.windowHeight
         anchors.centerIn: parent
         property string text
         closePolicy: Popup.NoAutoClose
