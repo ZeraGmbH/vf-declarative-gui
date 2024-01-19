@@ -21,7 +21,7 @@ Item {
         }
     }
 
-    readonly property string notifList: GC.entityInitializationDone ? VeinEntity.getEntity("StatusModule1")["INF_NotifList"] : ""
+    readonly property string notifList: GC.entityInitializationDone ? VeinEntity.getEntity("StatusModule1")["INF_ExpiringNotifList"] : ""
     onNotifListChanged:
         notifTextsList = retrieveText(notifList)
 
