@@ -15,7 +15,7 @@ Item {
     onNotifTextsListChanged: {
         if(Object.keys(notifTextsList).length !== 0) {
             for(let notif in notifTextsList) {
-                popup.text = notifTextsList[notif]
+                popup.text = Z.tr(notifTextsList[notif])
                 popup.open()
             }
         }
