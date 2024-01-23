@@ -30,7 +30,8 @@ Item {
             let jsonNotifs = JSON.parse(notifsList)
             for(let jsonEntry in jsonNotifs) {
                 let item = jsonNotifs[jsonEntry]
-                notifTextsList.push(item)
+                if(!notifTextsList.includes(item))
+                    notifTextsList.push(item)
             }
         }
         return notifTextsList
@@ -39,7 +40,7 @@ Item {
     function close(msg){
         for(var i = 0; i < notifTextsList.length; i++) {
             const notif = notifTextsList[i]
-            while(notif.includes(msg)) {
+            if(notif.includes(msg)) {
                 popup.close()
                 notifTextsList.splice(i,1);
             }
@@ -80,7 +81,7 @@ Item {
                 }
                 Button {
                     text : "Ok"
-                    onClicked: popup.close()
+                    onClicked: close(txt.text)
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
