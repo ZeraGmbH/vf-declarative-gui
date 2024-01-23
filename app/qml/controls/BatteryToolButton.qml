@@ -5,132 +5,44 @@ import ZeraFa 1.0
 import FontAwesomeQml 1.0
 
 ToolButton {
+    readonly property real redLimitVal: 10
+    readonly property real orangeLimitVal: 25
+    readonly property real chargingMinDisplayedVal: 15
+    readonly property real actValLimited: Math.max(0, Math.min(100, AccuState.accumulatorChargeValue))
+    readonly property real chargingVal: Math.max(chargingMinDisplayedVal, actValLimited) * chargeAnimationVal
+    readonly property real displayedVal: AccuState.accuCharging ? chargingVal : actValLimited
     Text {
         id: battery
         font.family: FA.old
         font.pointSize: pointSize * 0.9
-        color: "white"
+        color: {
+            if(!AccuState.accuCharging) {
+                if(AccuState.accumulatorChargeValue <= redLimitVal)
+                    return "red"
+                else if(AccuState.accumulatorChargeValue <= orangeLimitVal)
+                    return "orange"
+            }
+            return "white"
+        }
         verticalAlignment: Text.AlignVCenter
-        text: {
-            if(AccuState.accuAvail && !AccuState.accuCharging) {
-                if(AccuState.accumulatorChargeValue <= 10)
-                    FAQ.colorize(FAQ.fa_battery_empty, "red")
-                else if(AccuState.accumulatorChargeValue >= 11 && AccuState.accumulatorChargeValue <= 40)
-                    FAQ.colorize(FAQ.fa_battery_quarter, "orange")
-                else if(AccuState.accumulatorChargeValue >= 41 && AccuState.accumulatorChargeValue <= 60)
-                    FAQ.fa_battery_half
-                else if(AccuState.accumulatorChargeValue >= 61 && AccuState.accumulatorChargeValue <= 89)
-                    FAQ.fa_battery_three_quarters
-                else
-                    FAQ.fa_battery_full
-                }
-            else {
-                FAQ.colorize(FAQ.fa_battery_empty, "white")
+        text: FAQ.fa_battery_empty
+        Item {
+            anchors.fill: parent
+            anchors { topMargin: parent.height * 0.36; bottomMargin: parent.height * 0.315 }
+            anchors { leftMargin: parent.width * 0.1; rightMargin: parent.width * 0.175 }
+            Rectangle {
+                color: battery.color
+                anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
+                width: parent.width * displayedVal / 100
             }
         }
     }
-    SequentialAnimation {
-        id: chargingAnimationQuarter
+    property real chargeAnimationVal: 0
+    NumberAnimation on chargeAnimationVal {
+        running: AccuState.accuCharging
         loops: Animation.Infinite
-        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 0 && AccuState.accumulatorChargeValue <= 30
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_empty
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_quarter
-            duration: 500
-        }
-    }
-    SequentialAnimation {
-        id: chargingAnimationHalf
-        loops: Animation.Infinite
-        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 31 && AccuState.accumulatorChargeValue <= 60
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_empty
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_quarter
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_half
-            duration: 500
-        }
-    }
-    SequentialAnimation {
-        id: chargingAnimationThreeQuarters
-        loops: Animation.Infinite
-        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 61 && AccuState.accumulatorChargeValue <= 80
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_empty
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_quarter
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_half
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_three_quarters
-            duration: 500
-        }
-    }
-    SequentialAnimation {
-        id: chargingAnimationFull
-        loops: Animation.Infinite
-        running: AccuState.accuCharging && AccuState.accumulatorChargeValue >= 81
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_empty
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_quarter
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_half
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_three_quarters
-            duration: 500
-        }
-        PropertyAnimation {
-            target: battery
-            property: "text"
-            to: FAQ.fa_battery_full
-            duration: 500
-        }
+        from: 0
+        to: 1
+        duration: 2500
     }
 }
