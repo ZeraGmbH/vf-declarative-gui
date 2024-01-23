@@ -38,7 +38,8 @@ Item {
 
     function close(msg){
         for(var i = 0; i < notifTextsList.length; i++) {
-            while(notifTextsList[i].includes(msg)) {
+            const notif = notifTextsList[i]
+            while(notif.includes(msg)) {
                 popup.close()
                 notifTextsList.splice(i,1);
             }
