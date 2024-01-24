@@ -8,9 +8,13 @@ ToolButton {
     readonly property real redLimitVal: 10
     readonly property real orangeLimitVal: 25
     readonly property real chargingMinDisplayedVal: 15
+
+    property real chargeAnimationPortion: 0
     readonly property real actValLimited: Math.max(0, Math.min(100, AccuState.accumulatorChargeValue))
-    readonly property real chargingVal: Math.max(chargingMinDisplayedVal, actValLimited) * chargeAnimationVal
+    readonly property real chargingVal: Math.max(chargingMinDisplayedVal, actValLimited) * chargeAnimationPortion
     readonly property real displayedVal: AccuState.accuCharging ? chargingVal : actValLimited
+    readonly property bool accuLow: AccuState.accuLowWarning || AccuState.accuLowAlert
+    opacity: !accuLow || lowAccuBlinker.show ? 1 : 0
     Text {
         id: battery
         font.family: FA.old
@@ -18,7 +22,7 @@ ToolButton {
         color: {
             if(!AccuState.accuCharging) {
                 if(AccuState.accumulatorChargeValue <= redLimitVal)
-                    return "red"
+                    return "#F44336" // Material.red -> https://doc.qt.io/qt-5/qtquickcontrols2-material.html
                 else if(AccuState.accumulatorChargeValue <= orangeLimitVal)
                     return "orange"
             }
@@ -37,12 +41,22 @@ ToolButton {
             }
         }
     }
-    property real chargeAnimationVal: 0
-    NumberAnimation on chargeAnimationVal {
+    NumberAnimation on chargeAnimationPortion {
         running: AccuState.accuCharging
         loops: Animation.Infinite
         from: 0
         to: 1
         duration: 2500
     }
+    Timer {
+        id: lowAccuBlinker
+        interval: AccuState.accuLowAlert ? 150 : 300
+        repeat: true
+        running: accuLow
+        property bool show: true
+        onTriggered: {
+            show = !show
+        }
+    }
+
 }
