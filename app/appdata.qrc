@@ -102,7 +102,6 @@
         <file>qml/singletons/SchnubbelState.qml</file>
         <file>qml/singletons/SessionState.qml</file>
         <file>qml/controls/MainToolBar.qml</file>
-        <file>qml/controls/NotificationManager.qml</file>
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
         <file>qml/controls/ScrollGroup.qml</file>
