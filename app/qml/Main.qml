@@ -158,18 +158,6 @@ ApplicationWindow {
         }
     }
 
-    NotificationManager {
-        id: notificationManager
-        windowWidth: parent.height/2
-        windowHeight: parent.height/4
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        property bool accuCharging: AccuState.accuCharging
-        onAccuChargingChanged: {
-            if(accuCharging)
-                notificationManager.close("Battery low");
-        }
-    }
     Flickable {
         // main view displaying pages and other stuff - (flickable for virtual keyboard)
         id: flickable
