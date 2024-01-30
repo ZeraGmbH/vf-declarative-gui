@@ -50,7 +50,6 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::zeraveincomponents
     Zera::qwtcharts
     zera-json-qml
-    Zera::notificationmanager
     Zera::ZVKeyboardLayout
     "-Wl,--as-needed"
     #Other Libs
