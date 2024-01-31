@@ -6,7 +6,7 @@ import FontAwesomeQml 1.0
 
 ToolButton {
     readonly property real redLimitVal: 10
-    readonly property real orangeLimitVal: 25
+    readonly property real orangeLimitVal: 20
     readonly property real chargingMinDisplayedVal: 15
 
     property real chargeAnimationPortion: 0
