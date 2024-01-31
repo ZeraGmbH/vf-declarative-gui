@@ -32,7 +32,7 @@ ToolButton {
         text: FAQ.fa_battery_empty
         Item {
             anchors.fill: parent
-            anchors { topMargin: parent.height * 0.36; bottomMargin: parent.height * 0.315 }
+            anchors { topMargin: parent.height * 0.35; bottomMargin: parent.height * 0.315 }
             anchors { leftMargin: parent.width * 0.1; rightMargin: parent.width * 0.175 }
             Rectangle {
                 color: battery.color
