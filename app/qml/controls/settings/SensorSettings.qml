@@ -89,9 +89,9 @@ SettingsView {
                 Label {
                     text: {
                         if(valuesFound())
-                            return "Effento sensor found " + FAQ.fa_check;
+                            return "Sensor TPH100 found";
                         else
-                            return "Effento sensor not found " + FAQ.fa_times;
+                            return "Sensor TPH100 not found";
                     }
                     color: {
                         if(valuesFound())
