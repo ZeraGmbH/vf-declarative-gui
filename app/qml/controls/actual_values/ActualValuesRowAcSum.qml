@@ -33,7 +33,7 @@ Row {
         width: columnWidth
         height: rowHeight
         color: Material.backgroundColor
-        text: FT.formatNumberForScaledValues(SUM_LAMDA)
+        text: FT.formatNumberForScaledValues(SUM_LAMDA) + FT.getLambdaPowerTypeString(SUM_LAMDA_LOAD_TYPE)
     }
     GridItem {
         width: columnWidth

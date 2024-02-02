@@ -17,6 +17,10 @@ enum RoleIndexes
     SUM=Qt::UserRole+1000,
     UNIT=Qt::UserRole+1001,
     TYPE=Qt::UserRole+1002,
+    LOAD_TYPE1=Qt::UserRole+1003,
+    LOAD_TYPE2=Qt::UserRole+1004,
+    LOAD_TYPE3=Qt::UserRole+1005,
+    LOAD_TYPE_SUM=Qt::UserRole+1006,
 };
 }
 

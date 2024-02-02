@@ -33,6 +33,7 @@ void ActualValueEmobAcSumModel::setupMapping()
 {
     QHash<QString, QPoint> *lambdaMap = new QHash<QString, QPoint>();
     lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM_LAMDA, lineVal(LINE_VALUES)));
+    lambdaMap->insert("ACT_Load4", QPoint(RoleIndexes::SUM_LAMDA_LOAD_TYPE, lineVal(LINE_VALUES)));
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
     p1m1Map->insert("ACT_PQS4", QPoint(RoleIndexes::SUM_P, lineVal(LINE_VALUES)));
     QHash<QString, QPoint> *rangeMap  = new QHash<QString, QPoint>();
@@ -49,6 +50,7 @@ QHash<int, QByteArray> ActualValueEmobAcSumModel::roleNames() const
     roles.insert(RoleIndexes::NAME, "NAME");
     roles.insert(RoleIndexes::SUM_P, "SUM_P");
     roles.insert(RoleIndexes::SUM_LAMDA, "SUM_LAMDA");
+    roles.insert(RoleIndexes::SUM_LAMDA_LOAD_TYPE, "SUM_LAMDA_LOAD_TYPE");
     roles.insert(RoleIndexes::FREQ, "FREQ");
     return roles;
 }

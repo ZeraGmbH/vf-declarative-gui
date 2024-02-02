@@ -23,6 +23,7 @@ private:
         NAME=Qt::UserRole+1,
         SUM_P,
         SUM_LAMDA,
+        SUM_LAMDA_LOAD_TYPE,
         FREQ
     };
     RowAutoScaler m_autoScalerP;

@@ -135,6 +135,10 @@ void ActualValueModelBase::setupMapping()
     lambdaMap->insert("ACT_Lambda2", QPoint(RoleIndexes::L2, 9));
     lambdaMap->insert("ACT_Lambda3", QPoint(RoleIndexes::L3, 9));
     lambdaMap->insert("ACT_Lambda4", QPoint(RoleIndexes::SUM, 9));
+    lambdaMap->insert("ACT_Load1", QPoint(RoleIndexes::LOAD_TYPE1, 9));
+    lambdaMap->insert("ACT_Load2", QPoint(RoleIndexes::LOAD_TYPE2, 9));
+    lambdaMap->insert("ACT_Load3", QPoint(RoleIndexes::LOAD_TYPE3, 9));
+    lambdaMap->insert("ACT_Load4", QPoint(RoleIndexes::LOAD_TYPE_SUM, 9));
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
     p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, 10));
@@ -198,6 +202,10 @@ QHash<int, QByteArray> ActualValueModelBase::roleNames() const
     roles.insert(RoleIndexes::SUM, "Sum");
     roles.insert(RoleIndexes::UNIT, "Unit");
     roles.insert(RoleIndexes::TYPE, "Type");
+    roles.insert(RoleIndexes::LOAD_TYPE1, "LOAD_TYPE1");
+    roles.insert(RoleIndexes::LOAD_TYPE2, "LOAD_TYPE2");
+    roles.insert(RoleIndexes::LOAD_TYPE3, "LOAD_TYPE3");
+    roles.insert(RoleIndexes::LOAD_TYPE_SUM, "LOAD_TYPE_SUM");
     return roles;
 }
 
