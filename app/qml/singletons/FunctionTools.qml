@@ -4,6 +4,7 @@ import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import MeasChannelInfo 1.0
 import ZeraLocale 1.0
+import ZeraTranslation 1.0
 
 Item {
     /////////////////////////////////////////////////////////////////////////////
@@ -213,4 +214,11 @@ Item {
         return formatNumberParamForScaledValues(num, GC.digitsTotal, decimalPlacesSet).replace(",", ".")
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    // Lambda
+    function getLambdaPowerTypeString(loadType) {
+        if(loadType === undefined || loadType === "")
+            return ""
+        return " (" + Z.tr(loadType) + ")"
+    }
 }

@@ -94,6 +94,9 @@ void ActualValueEmobAcModel::setupMapping()
     lambdaMap->insert("ACT_Lambda1", QPoint(RoleIndexes::L1, lineVal(LINE_LAMBDA)));
     lambdaMap->insert("ACT_Lambda2", QPoint(RoleIndexes::L2, lineVal(LINE_LAMBDA)));
     lambdaMap->insert("ACT_Lambda3", QPoint(RoleIndexes::L3, lineVal(LINE_LAMBDA)));
+    lambdaMap->insert("ACT_Load1", QPoint(RoleIndexes::LOAD_TYPE1, lineVal(LINE_LAMBDA)));
+    lambdaMap->insert("ACT_Load2", QPoint(RoleIndexes::LOAD_TYPE2, lineVal(LINE_LAMBDA)));
+    lambdaMap->insert("ACT_Load3", QPoint(RoleIndexes::LOAD_TYPE3, lineVal(LINE_LAMBDA)));
 
     QHash<QString, QPoint> *p1m1Map = new QHash<QString, QPoint>();
     p1m1Map->insert("PAR_MeasuringMode", QPoint(RoleIndexes::NAME, lineVal(LINE_POWER)));
@@ -118,6 +121,9 @@ QHash<int, QByteArray> ActualValueEmobAcModel::roleNames() const
     roles.insert(RoleIndexes::L2, "L2");
     roles.insert(RoleIndexes::L3, "L3");
     roles.insert(RoleIndexes::UNIT, "Unit");
+    roles.insert(RoleIndexes::LOAD_TYPE1, "LOAD_TYPE1");
+    roles.insert(RoleIndexes::LOAD_TYPE2, "LOAD_TYPE2");
+    roles.insert(RoleIndexes::LOAD_TYPE3, "LOAD_TYPE3");
     return roles;
 }
 

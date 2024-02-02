@@ -5,7 +5,7 @@ import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
-import ZeraTranslation  1.0
+import ZeraTranslation 1.0
 import "../../controls"
 
 Row {
@@ -29,21 +29,21 @@ Row {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberForScaledValues(L1)
+        text: FT.formatNumberForScaledValues(L1) + FT.getLambdaPowerTypeString(LOAD_TYPE1)
         textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberForScaledValues(L2)
+        text: FT.formatNumberForScaledValues(L2) + FT.getLambdaPowerTypeString(LOAD_TYPE2)
         textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
     }
     GridItem {
         width: columnWidth
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-        text: FT.formatNumberForScaledValues(L3)
+        text: FT.formatNumberForScaledValues(L3) + FT.getLambdaPowerTypeString(LOAD_TYPE3)
         textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
     }
     GridItem {
