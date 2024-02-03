@@ -222,21 +222,6 @@ Item {
                 text: AdjState.adjustmentStatusDescription
             }
         }
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("Adjustment checksum:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_AdjChksum
-            }
-        }
         ColumnLayout {
             width: parent.width
             spacing: rowHeight/2
