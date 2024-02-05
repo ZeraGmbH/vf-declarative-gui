@@ -36,7 +36,7 @@ Row {
             width: columnWidth
             height: rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: FT.formatNumberParamForScaledValues(Temperature, GC.digitsTotal, GC.decimalPlaces-5)
+            text: FT.formatNumberParamForScaledValues(Temperature, GC.digitsTotal, 1)
         }
     }
     Loader {
@@ -45,7 +45,7 @@ Row {
             width: columnWidth
             height: rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: FT.formatNumberParamForScaledValues(Humidity, GC.digitsTotal, GC.decimalPlaces-5)
+            text: FT.formatNumberParamForScaledValues(Humidity, GC.digitsTotal, 1)
         }
     }
     Loader {
@@ -54,7 +54,7 @@ Row {
             width: columnWidth
             height: rowHeight
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-            text: FT.formatNumberParamForScaledValues(Pressure, GC.digitsTotal, GC.decimalPlaces-5)
+            text: FT.formatNumberParamForScaledValues(Pressure, GC.digitsTotal, 1)
         }
     }
     Loader {
