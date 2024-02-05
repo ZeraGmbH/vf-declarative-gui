@@ -219,6 +219,6 @@ Item {
     function getLambdaPowerTypeString(loadType) {
         if(loadType === undefined || loadType === "")
             return ""
-        return " (" + Z.tr(loadType) + ")"
+        return Z.tr(loadType)
     }
 }
