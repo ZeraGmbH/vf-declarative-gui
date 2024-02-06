@@ -12,13 +12,15 @@ import "../controls/actual_values"
 Item {
     id: root
     readonly property bool bleAvail: VeinEntity.hasEntity("BleModule1")
-    readonly property bool tempAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC)
-    readonly property bool humidityAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity)
-    readonly property bool pressureAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
+    //readonly property bool tempAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC)
+    //readonly property bool humidityAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity)
+    //readonly property bool pressureAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
+
+    readonly property bool bluetoothOn: VeinEntity.getEntity("BleModule1").PAR_BluetoothOn
 
     readonly property int rowCount: {
-        let showTempHumidPressure = root.bleAvail &&
-            (root.tempAvail || root.humidityAvail || root.pressureAvail)
+        ///let showTempHumidPressure = root.bleAvail && (root.tempAvail || root.humidityAvail || root.pressureAvail)
+        let showTempHumidPressure = root.bleAvail && root.bluetoothOn
         if(showTempHumidPressure)
             return ZGL.ActualValueEmobAcModel.rowCount() +
                    ZGL.ActualValueEmobAcSumModel.rowCount() +
