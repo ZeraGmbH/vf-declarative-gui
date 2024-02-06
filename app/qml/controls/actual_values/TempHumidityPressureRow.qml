@@ -18,10 +18,63 @@ Row {
     readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
 
     readonly property bool bleAvail: VeinEntity.hasEntity("BleModule1")
-    readonly property bool tempAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC)
-    readonly property bool humidityAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity)
-    readonly property bool pressureAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
+    //readonly property bool tempAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC)
+    //readonly property bool humidityAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity)
+    //readonly property bool pressureAvail: bleAvail && !isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
 
+    readonly property bool bluetoothOn: bleAvail && VeinEntity.getEntity("BleModule1").PAR_BluetoothOn
+
+    Loader {
+        active: bluetoothOn
+        sourceComponent: GridItem {
+            width: columnWidth * leftColumWithsScale
+            height: rowHeight
+            color: GC.tableShadeColor
+        }
+    }
+
+    Loader {
+       active: bluetoothOn
+       sourceComponent: GridItem {
+           width: columnWidth
+           height: rowHeight
+           color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+           text: FT.formatNumberParamForScaledValues(Temperature, GC.digitsTotal, 1)
+       }
+    }
+    Loader {
+       active: bluetoothOn
+       sourceComponent: GridItem {
+           width: columnWidth
+           height: rowHeight
+           color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+           text: FT.formatNumberParamForScaledValues(Humidity, GC.digitsTotal, 1)
+        }
+    }
+    Loader {
+       active: bluetoothOn
+       sourceComponent: GridItem {
+           width: columnWidth
+           height: rowHeight
+           color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+           text: FT.formatNumberParamForScaledValues(Pressure, GC.digitsTotal, 1)
+       }
+    }
+    Loader {
+       active: bluetoothOn
+       sourceComponent: GridItem {
+           width: columnWidth * rightColumWithsScale
+           height: rowHeight
+           color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+       }
+    }
+
+
+
+
+
+
+    /*
     Loader {
         active: tempAvail && humidityAvail && pressureAvail
         sourceComponent: GridItem {
@@ -65,4 +118,5 @@ Row {
             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
         }
     }
+    */
 }
