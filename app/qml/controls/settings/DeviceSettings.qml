@@ -121,10 +121,11 @@ SettingsView {
         }
     }
 
+    readonly property bool showPll: VeinEntity.hasEntity("SampleModule1") && !VeinEntity.getEntity("SampleModule1").ACT_PllFixed
     model: VisualItemModel {
         Loader {
             sourceComponent: swPllAutomatic
-            active: VeinEntity.hasEntity("SampleModule1")
+            active: showPll
             asynchronous: true
 
             height: active ? root.rowHeight : 0
@@ -133,7 +134,7 @@ SettingsView {
         }
         Loader {
             sourceComponent: cbPllChannel
-            active: VeinEntity.hasEntity("SampleModule1")
+            active: showPll
             asynchronous: true
 
             height: active ? root.rowHeight : 0
