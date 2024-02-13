@@ -4,9 +4,7 @@
 enum class LineDefinitions : int {
     LINE_HEADER,
     LINE_UPN,
-    LINE_UANGLE,
     LINE_I,
-    LINE_IANGLE,
     LINE_POWER,
     LINE_LAMBDA,
 
@@ -38,12 +36,8 @@ void ActualValueEmobAcModel::setLabelsAndUnits()
     // 1st column: row names
     mIndex = index(lineVal(LINE_UPN), 0);
     setData(mIndex, m_translation->TrValue("U"), RoleIndexes::NAME);
-    mIndex = index(lineVal(LINE_UANGLE), 0);
-    setData(mIndex, m_translation->TrValue("∠U"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_I), 0);
     setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
-    mIndex = index(lineVal(LINE_IANGLE), 0);
-    setData(mIndex, m_translation->TrValue("∠I"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_LAMBDA), 0);
     setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_POWER), 0);
@@ -52,12 +46,8 @@ void ActualValueEmobAcModel::setLabelsAndUnits()
     // last column unit names
     mIndex = index(lineVal(LINE_UPN), 0);
     m_autoScaleRows.setUnitInfo(mIndex.row(), "V", RoleIndexes::UNIT);
-    mIndex = index(lineVal(LINE_UANGLE), 0);
-    setData(mIndex, "°", RoleIndexes::UNIT);
     mIndex = index(lineVal(LINE_I), 0);
     m_autoScaleRows.setUnitInfo(mIndex.row(), "A", RoleIndexes::UNIT);
-    mIndex = index(lineVal(LINE_IANGLE), 0);
-    setData(mIndex, "°", RoleIndexes::UNIT);
     mIndex = index(lineVal(LINE_POWER), 0);
     m_autoScaleRows.setUnitInfo(mIndex.row(), "W", RoleIndexes::UNIT);
     //mIndex = index(lineVal(LINE_LAMBDA), 0); //none
@@ -75,20 +65,11 @@ void ActualValueEmobAcModel::setupMapping()
     m_autoScaleRows.mapValueColumns(lineVal(LINE_UPN),
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
-    QHash<QString, QPoint> *dftMap = new QHash<QString, QPoint>();
-    dftMap->insert("ACT_DFTPN1", QPoint(RoleIndexes::L1, lineVal(LINE_UANGLE)));
-    dftMap->insert("ACT_DFTPN2", QPoint(RoleIndexes::L2, lineVal(LINE_UANGLE)));
-    dftMap->insert("ACT_DFTPN3", QPoint(RoleIndexes::L3, lineVal(LINE_UANGLE)));
-
     rmsMap->insert("ACT_RMSPN4", QPoint(RoleIndexes::L1, lineVal(LINE_I)));
     rmsMap->insert("ACT_RMSPN5", QPoint(RoleIndexes::L2, lineVal(LINE_I)));
     rmsMap->insert("ACT_RMSPN6", QPoint(RoleIndexes::L3, lineVal(LINE_I)));
     m_autoScaleRows.mapValueColumns(lineVal(LINE_I),
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
-
-    dftMap->insert("ACT_DFTPN4", QPoint(RoleIndexes::L1, lineVal(LINE_IANGLE)));
-    dftMap->insert("ACT_DFTPN5", QPoint(RoleIndexes::L2, lineVal(LINE_IANGLE)));
-    dftMap->insert("ACT_DFTPN6", QPoint(RoleIndexes::L3, lineVal(LINE_IANGLE)));
 
     QHash<QString, QPoint> *lambdaMap = new QHash<QString, QPoint>();
     lambdaMap->insert("ACT_Lambda1", QPoint(RoleIndexes::L1, lineVal(LINE_LAMBDA)));
@@ -107,7 +88,6 @@ void ActualValueEmobAcModel::setupMapping()
                     QList<int>() << RoleIndexes::L1 << RoleIndexes::L2 << RoleIndexes::L3);
 
     m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
-    m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
     m_valueMapping.insert(static_cast<int>(Modules::LambdaModule), lambdaMap);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
 }
