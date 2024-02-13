@@ -1,4 +1,5 @@
 #include "actualvalueemobacsummodel.h"
+#include "vfcomponenteventdispatcher.h"
 
 enum class LineDefinitions : int {
     LINE_HEADER,
@@ -11,10 +12,6 @@ enum class LineDefinitions : int {
 
 ActualValueEmobAcSumModel::ActualValueEmobAcSumModel() :
     TableEventItemModelBase(lineVal(LINE_COUNT), 1)
-{
-}
-
-ActualValueEmobAcSumModel::~ActualValueEmobAcSumModel()
 {
 }
 

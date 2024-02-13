@@ -8,7 +8,6 @@ class ActualValueEmobAcModel : public TableEventItemModelBase
     Q_OBJECT
 public:
     ActualValueEmobAcModel();
-    virtual ~ActualValueEmobAcModel() override;
 
     void setLabelsAndUnits() override;
     void setupMapping() override;

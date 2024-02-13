@@ -16,10 +16,6 @@ TempHumidityPressureModel::TempHumidityPressureModel() :
     connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setupMapping();});
 }
 
-TempHumidityPressureModel::~TempHumidityPressureModel()
-{
-}
-
 void TempHumidityPressureModel::setLabelsAndUnits()
 {
     // header line

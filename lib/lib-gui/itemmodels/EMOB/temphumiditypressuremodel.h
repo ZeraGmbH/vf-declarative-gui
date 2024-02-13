@@ -8,7 +8,6 @@ class TempHumidityPressureModel : public TableEventItemModelBase
     Q_OBJECT
 public:
     TempHumidityPressureModel();
-    ~TempHumidityPressureModel() override;
 
     void setLabelsAndUnits() override;
     void setupMapping() override;

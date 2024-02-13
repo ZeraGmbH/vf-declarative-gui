@@ -18,10 +18,6 @@ ActualValueEmobAcModel::ActualValueEmobAcModel() :
 {
 }
 
-ActualValueEmobAcModel::~ActualValueEmobAcModel()
-{
-}
-
 void ActualValueEmobAcModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
@@ -113,9 +109,8 @@ void ActualValueEmobAcModel::handleComponentChangeCoord(const VeinComponent::Com
         QString newValue = cData->newValue().toString();
         insertMeasMode(valueCoordiates.y(), newValue);
     }
-    else {
+    else
         TableEventItemModelBase::handleComponentChangeCoord(cData, valueCoordiates);
-    }
 }
 
 void ActualValueEmobAcModel::insertMeasMode(int yCoordinate, QString measMode)
