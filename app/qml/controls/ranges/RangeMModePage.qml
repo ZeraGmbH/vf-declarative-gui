@@ -30,23 +30,19 @@ Item {
 
     GridRect {
         id: upperAreaLeft
-        anchors.top: parent.top
+        anchors { top: parent.top; left: parent.left }
         height: upperAreaHeight
-        anchors.left: parent.left
         width: leftWidth
         Item {
             id: rangeAutomaticLine
-            anchors.top: parent.top
-            anchors.left: parent.left
+            anchors { top: parent.top; left: parent.left }
             width: leftWidth * 0.66
             height: rowHeight
             VFSwitch {
                 id: autoMode
                 text: Z.tr("Range automatic")
-                anchors.left: parent.left
-                anchors.leftMargin: frameMargin
+                anchors { left: parent.left; leftMargin: frameMargin; right: parent.right }
                 leftPadding: 0
-                anchors.right: parent.right
                 height: rowHeight
                 font.pointSize: pointSize
                 entity: rangeModule
@@ -55,17 +51,14 @@ Item {
             }
         }
         Item {
-            anchors.top: rangeAutomaticLine.bottom
-            anchors.left: parent.left
+            anchors { top: rangeAutomaticLine.bottom; left: parent.left }
             width: leftWidth * 0.66
             height: rowHeight
             VFSwitch {
                 id: groupingMode
                 text: Z.tr("Range grouping")
-                anchors.left: parent.left
-                anchors.leftMargin: frameMargin
+                anchors { left: parent.left; leftMargin: frameMargin; right: parent.right }
                 leftPadding: 0
-                anchors.right: parent.right
                 height: rowHeight
                 font.pointSize: pointSize
                 entity: rangeModule
@@ -75,47 +68,33 @@ Item {
         }
         OverloadButton {
             id: overloadButton
+            anchors { margins: frameMargin; right: parent.right; verticalCenter: parent.verticalCenter }
             width: parent.width * 0.33
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.margins: frameMargin
             height: rowHeight
             font.pointSize: pointSize
         }
-
     }
 
     GridRect {
         id: lowerAreaLeft
-        anchors.top: upperAreaLeft.bottom
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
+        anchors { top: upperAreaLeft.bottom; bottom: parent.bottom; left: parent.left }
         width: leftWidth
         GridRect {
             id: uArea
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
+            anchors { top: parent.top; left: parent.left; right: parent.right }
             height: lowerAreaLeft.height * 0.5
             RangeLine {
                 id: uRangeLine
-                anchors.top: parent.top
+                anchors { top:parent.top; margins: frameMargin; left: parent.left; right: parent.right }
                 height: rowHeight * 2
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: frameMargin
                 spacing: frameMargin
                 channels: MeasChannelInfo.voltageChannelIds
             }
             Loader {
                 sourceComponent: uRatio
                 active: showRatioLines
-                anchors.top: uRangeLine.bottom
+                anchors { top: uRangeLine.bottom; topMargin: 1.5*frameMargin; margins: frameMargin; left: parent.left; right: parent.right }
                 height: rowHeight
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: frameMargin
-                anchors.topMargin: 1.5*frameMargin
             }
             Component {
                 id: uRatio
@@ -127,29 +106,20 @@ Item {
         }
         GridRect {
             id: iArea
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: uArea.bottom
+            anchors { top: uArea.bottom; left: parent.left; right: parent.right }
             height: lowerAreaLeft.height * 0.5
             RangeLine {
                 id: iRangeLine
-                anchors.top: parent.top
+                anchors { top: parent.top; left: parent.left; right: parent.right; margins: frameMargin }
                 height: rowHeight * 2
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: frameMargin
                 spacing: frameMargin
                 channels: MeasChannelInfo.currentChannelIds
             }
             Loader {
                 sourceComponent: iRatio
                 active: showRatioLines
-                anchors.top: iRangeLine.bottom
+                anchors { top: iRangeLine.bottom; topMargin: 1.55*frameMargin; margins: frameMargin; left: parent.left; right: parent.right }
                 height: rowHeight
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: frameMargin
-                anchors.topMargin: 1.55*frameMargin
             }
             Component {
                 id: iRatio
@@ -164,10 +134,7 @@ Item {
     Loader {
         sourceComponent: measModeComponent
         active: showMeasModes
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: upperAreaLeft.right
-        anchors.right: parent.right
+        anchors { top: parent.top; bottom: parent.bottom; left: upperAreaLeft.right; right: parent.right }
     }
     Component {
         id: measModeComponent
@@ -175,28 +142,19 @@ Item {
             anchors.fill: parent
             Item {
                 id: upperAreaRight
-                anchors.top: parent.top
+                anchors { top: parent.top; left: parent.left; right: parent.right }
                 height: upperAreaHeight
-                anchors.left: parent.left
-                anchors.right: parent.right
                 Label {
                     text: Z.tr("Measurement modes")
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
+                    anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: frameMargin }
                     height: rowHeight*2
                     wrapMode: Label.WordWrap
-                    anchors.margins: frameMargin
                     verticalAlignment: Label.AlignBottom
                     font.pointSize: pointSize
                 }
             }
             MeasModeComboListView {
-                anchors.top: upperAreaRight.bottom
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: frameMargin
+                anchors { top: upperAreaRight.bottom; bottom: parent.bottom; left: parent.left; right: parent.right; margins: frameMargin }
             }
         }
     }
