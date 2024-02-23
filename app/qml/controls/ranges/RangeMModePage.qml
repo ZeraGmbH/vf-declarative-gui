@@ -36,12 +36,11 @@ Item {
         Item {
             id: rangeAutomaticLine
             anchors { top: parent.top; left: parent.left }
-            width: leftWidth * 0.66
             height: rowHeight
             VFSwitch {
                 id: autoMode
                 text: Z.tr("Range automatic")
-                anchors { left: parent.left; leftMargin: frameMargin; right: parent.right }
+                anchors { left: parent.left; leftMargin: frameMargin }
                 leftPadding: 0
                 height: rowHeight
                 font.pointSize: pointSize
@@ -52,12 +51,11 @@ Item {
         }
         Item {
             anchors { top: rangeAutomaticLine.bottom; left: parent.left }
-            width: leftWidth * 0.66
             height: rowHeight
             VFSwitch {
                 id: groupingMode
                 text: Z.tr("Range grouping")
-                anchors { left: parent.left; leftMargin: frameMargin; right: parent.right }
+                anchors { left: parent.left; leftMargin: frameMargin }
                 leftPadding: 0
                 height: rowHeight
                 font.pointSize: pointSize
