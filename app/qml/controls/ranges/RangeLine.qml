@@ -67,7 +67,6 @@ ListView {
         readonly property real relLeaderXPos: - index * (width+spacing)
         readonly property real leaderLenLeftEnter: -relLeaderXPos
 
-        readonly property bool groupingComboTouchesMe: leaderCurrWidth + relLeaderXPos > 0
         readonly property bool groupingComboCoversMe: leaderCurrWidth + relLeaderXPos >= width * 0.999
 
         Label {
