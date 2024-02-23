@@ -71,8 +71,7 @@ ListView {
 
         Label {
             id: label
-            anchors.left: parent.left
-            anchors.top: parent.top
+            anchors { left: parent.left; top: parent.top }
             height: headerHeight
             font.pointSize: pointSize
             verticalAlignment: Label.AlignVCenter
@@ -81,11 +80,8 @@ ListView {
         }
 
         SacVuUnsigned {
-            anchors.top : parent.top
+            anchors { top : parent.top; left: label.right; leftMargin: parent.width * 0.025; right: parent.right }
             height: headerHeight
-            anchors.left: label.right
-            anchors.leftMargin: parent.width * 0.025
-            anchors.right: parent.right
             horizontal: true
             readonly property real preScale: {
                 let ret = 1.0
@@ -112,10 +108,8 @@ ListView {
         VFComboBox {
             id: rangeCombo
             height: comboHeight
-            anchors.left: parent.left
+            anchors { left: parent.left; top: label.bottom; topMargin: headerComboMargin }
             width: channelsRow.isGroupLeader ? channelsRow.leaderCurrWidth : parent.width
-            anchors.top: label.bottom
-            anchors.topMargin: headerComboMargin
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
             popupKeepHorizontalSize: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader
