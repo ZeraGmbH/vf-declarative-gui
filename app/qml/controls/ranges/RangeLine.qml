@@ -12,6 +12,7 @@ import ZeraVeinComponents 1.0
 ListView {
     id: ranges
     property var channels: []
+    property int rangeComboRows: 5
     readonly property int channelCount: channels.length
     model: channelCount
 
@@ -113,7 +114,7 @@ ListView {
             pointSize: root.pointSize
             enabled: !MeasChannelInfo.rangeAutoActive
             popupKeepHorizontalSize: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader
-            contentMaxRows: 5
+            contentMaxRows: rangeComboRows
             visible: {
                 if(channelsRow.isLeaderOrNotInGroup)
                     return true

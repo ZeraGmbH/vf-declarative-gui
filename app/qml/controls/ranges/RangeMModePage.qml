@@ -89,6 +89,7 @@ Item {
                 height: rowHeight * 2
                 spacing: frameMargin
                 channels: MeasChannelInfo.voltageChannelIds
+                rangeComboRows: 6
             }
             Loader {
                 sourceComponent: uRatio
@@ -114,6 +115,7 @@ Item {
                 height: rowHeight * 2
                 spacing: frameMargin
                 channels: MeasChannelInfo.currentChannelIds
+                rangeComboRows: 5
             }
             Loader {
                 sourceComponent: iRatio
