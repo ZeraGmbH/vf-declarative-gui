@@ -8,12 +8,17 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
+import ZeraComponents 1.0
+import FunctionTools 1.0
+
 
 SettingsView {
     id: root
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: height > 0 ? height * 0.11 : 10
+    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo.PAR_IgnoreRmsValues.Validation.Data
     readonly property real pointSize: rowHeight * 0.36
+
 
     Component {
         id: swPllAutomatic
@@ -121,6 +126,35 @@ SettingsView {
         }
     }
 
+    Component {
+        id: vfignorePower
+        RowLayout {
+            anchors.fill: parent
+            Label {
+                textFormat: Text.PlainText
+                text: Z.tr("Percentage to ignore power [%]:")
+                font.pointSize: root.pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            VFSpinBox {
+                spinBox.width: root.width / 4
+                pointSize: root.pointSize
+                Layout.fillHeight: true
+                entity: VeinEntity.getEntity("RangeModule1")
+                controlPropertyName: "PAR_IgnoreRmsValues"
+                stepSize: ModuleIntrospection.rangeIntrospection.ComponentInfo.PAR_IgnoreRmsValues.Validation.Data[2] * Math.pow(10, validator.decimals)
+                validator: ZDoubleValidator{
+                    id: validator
+                    bottom: ModuleIntrospection.rangeIntrospection.ComponentInfo.PAR_IgnoreRmsValues.Validation.Data[0];
+                    top: ModuleIntrospection.rangeIntrospection.ComponentInfo.PAR_IgnoreRmsValues.Validation.Data[1];
+                    decimals: FT.ceilLog10Of1DividedByX(ModuleIntrospection.rangeIntrospection.ComponentInfo.PAR_IgnoreRmsValues.Validation.Data[2]);
+                }
+            }
+        }
+    }
+
     readonly property bool showPll: VeinEntity.hasEntity("SampleModule1") && !VeinEntity.getEntity("SampleModule1").ACT_PllFixed
     model: VisualItemModel {
         Loader {
@@ -169,6 +203,15 @@ SettingsView {
             rowHeight: root.rowHeight
             width: root.rowWidth;
             pointSize: root.pointSize
+        }
+        Loader {
+            sourceComponent: vfignorePower
+            active: VeinEntity.hasEntity("RangeModule1")
+            asynchronous: true
+
+            height: active ? root.rowHeight : 0
+            anchors.left: parent.left
+            anchors.right: parent.right
         }
     }
 }
