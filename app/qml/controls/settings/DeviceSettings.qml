@@ -127,16 +127,22 @@ SettingsView {
     }
 
     Component {
-        id: vfignorePower
+        id: vfignoreRmsValues
         RowLayout {
             anchors.fill: parent
+            property bool enableIgnoreRmsValues: VeinEntity.getEntity("RangeModule1").PAR_IgnoreRmsValuesOnOff === 1
             Label {
                 textFormat: Text.PlainText
-                text: Z.tr("Percentage to ignore power [%]:")
+                text: Z.tr("Limit to ignore RMS values [%]:")
                 font.pointSize: root.pointSize
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
+            }
+            VFSwitch {
+                Layout.fillHeight: true
+                entity: VeinEntity.getEntity("RangeModule1")
+                controlPropertyName: "PAR_IgnoreRmsValuesOnOff"
             }
             VFSpinBox {
                 spinBox.width: root.width / 4
@@ -144,6 +150,8 @@ SettingsView {
                 Layout.fillHeight: true
                 entity: VeinEntity.getEntity("RangeModule1")
                 controlPropertyName: "PAR_IgnoreRmsValues"
+                opacity: enableIgnoreRmsValues ? 1.0 : 0.5
+                enabled: enableIgnoreRmsValues ? true : false
                 stepSize: ModuleIntrospection.rangeIntrospection.ComponentInfo.PAR_IgnoreRmsValues.Validation.Data[2] * Math.pow(10, validator.decimals)
                 validator: ZDoubleValidator{
                     id: validator
@@ -205,7 +213,7 @@ SettingsView {
             pointSize: root.pointSize
         }
         Loader {
-            sourceComponent: vfignorePower
+            sourceComponent: vfignoreRmsValues
             active: VeinEntity.hasEntity("RangeModule1")
             asynchronous: true
 
