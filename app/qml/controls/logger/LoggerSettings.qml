@@ -35,12 +35,16 @@ SettingsView {
     property bool fetchOnDbSet: false
     onCurrentDbFileChanged: {
         GC.setCurrDatabaseFileName(currentDbFile)
-        GC.setCurrDatabaseSessionName("")
+
         if(fetchOnDbSet && currentDbFile !== "") {
             fetchOnDbSet = false
+            let sessionName = Z.tr("no customer")
+            loggerEntity.sessionName = sessionName
+            GC.setCurrDatabaseSessionName(sessionName)
             startRpcSearch()
         }
         else {
+            GC.setCurrDatabaseSessionName("")
             selectorDelayHelper.restart()
         }
     }
