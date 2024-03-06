@@ -187,15 +187,31 @@ Item {
             }
         }
     }
+
+    Button {
+        id: buttonBack
+        visible: !goBackExport
+        text: Z.tr("Back")
+        font.pointSize: root.pointSize
+        anchors.bottom: parent.bottom
+        anchors.left: parent.horizontalCenter
+        anchors.leftMargin: GC.standardTextHorizMargin
+        onClicked: {
+            menuStackLayout.goBack()
+        }
+    }
+
     Button {
         id: buttonAdd
         // when coming from export it does not make sense to add a
         // new (=empty) session and export it
         visible: !goBackExport
         text: "+"
+        font.pointSize: root.pointSize
+        width: buttonBack.width
         anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.leftMargin: GC.standardTextHorizMargin
+        anchors.right: parent.horizontalCenter
+        anchors.rightMargin: GC.standardTextHorizMargin
         onClicked: {
             menuStackLayout.showSessionNew()
         }
