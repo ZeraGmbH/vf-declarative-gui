@@ -19,7 +19,6 @@ SettingsView {
     readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo.PAR_IgnoreRmsValues.Validation.Data
     readonly property real pointSize: rowHeight * 0.36
 
-
     Component {
         id: swPllAutomatic
         RowLayout {
@@ -214,7 +213,7 @@ SettingsView {
         }
         Loader {
             sourceComponent: vfignoreRmsValues
-            active: VeinEntity.hasEntity("RangeModule1")
+            active: VeinEntity.hasEntity("RangeModule1") && VeinEntity.getEntity("_System").DevMode
             asynchronous: true
 
             height: active ? root.rowHeight : 0
