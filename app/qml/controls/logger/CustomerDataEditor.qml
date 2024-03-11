@@ -2,10 +2,12 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
+import QtQml.Models 2.14
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
+import DeclarativeJson 1.0
 
 Item {
     id: dataEditor
@@ -42,9 +44,18 @@ Item {
         editableDataObject = ({});
     }
 
+    DeclarativeJsonItem { id: interactiveVisibility }
     function initModel() {
+        let visibility = {}
+        visibility["Basic"] = true
+        visibility["Customer"] = false
+        visibility["Power grid"] = false
+        visibility["Location"] = false
+        visibility["Meter information"] = false
+        interactiveVisibility.fromJson(visibility)
+
         for(var gpIndex in generalProperties) {
-            objModel.append({ propertyName: generalProperties[gpIndex], section: "" });
+            objModel.append({ propertyName: generalProperties[gpIndex], section: "Basic" });
         }
         for(var cIndex in customerProperties) {
             objModel.append({ propertyName: customerProperties[cIndex], section: "Customer" });
@@ -75,9 +86,10 @@ Item {
     }
 
     ListView {
-        id: generalView
-        model: objModel
 
+        id: generalView
+
+        model: objModel
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -93,17 +105,19 @@ Item {
 
         delegate: RowLayout {
             property string propName: propertyName;
-            height: dataEditor.rowHeight*1.2
+
+            height: interactiveVisibility[section] ? dataEditor.rowHeight*1.2 : 0
+
             width: dataEditor.width - (generalView.vBarVisible ? gvScrollBar.width : 0)
             Label {
                 text: Z.tr(propName);
                 Layout.minimumWidth: dataEditor.width / 4;
-                height: dataEditor.rowHeight
+                height: interactiveVisibility[section] ? dataEditor.rowHeight : 0
             }
             ZLineEdit {
                 text: customerData[propName];
                 Layout.fillWidth: true;
-                height: dataEditor.rowHeight*1.2;
+                height: interactiveVisibility[section] ? dataEditor.rowHeight*1.2 : 0
                 onTextChanged: updateDataObject(propName, text);
                 textField.horizontalAlignment: Text.AlignLeft
             }
@@ -111,12 +125,23 @@ Item {
 
         section.property: "section"
         section.criteria: ViewSection.FullString
-        section.delegate: Label {
-            height: dataEditor.rowHeight*1.5
-            verticalAlignment: Text.AlignBottom
-            text: Z.tr(section)
-            font.pointSize: 16
-            font.bold: true
+        section.delegate: RowLayout {
+            width: dataEditor.width - (generalView.vBarVisible ? gvScrollBar.width : 0)
+            Label {
+                height: dataEditor.rowHeight*1.5
+                verticalAlignment: Text.AlignBottom
+                text: Z.tr(section)
+                font.pointSize: 16
+                font.bold: true
+            }
+            Item {Layout.fillWidth: true}
+            CheckBox {
+                text: Z.tr("Show")
+                checked: interactiveVisibility[section]
+                onCheckedChanged: {
+                    interactiveVisibility[section] = checked
+                }
+            }
         }
 
         ScrollBar.vertical: ScrollBar {
