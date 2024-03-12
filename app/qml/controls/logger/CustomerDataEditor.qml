@@ -86,7 +86,6 @@ Item {
     }
 
     ListView {
-
         id: generalView
 
         model: objModel
@@ -105,19 +104,18 @@ Item {
 
         delegate: RowLayout {
             property string propName: propertyName;
-
             height: interactiveVisibility[section] ? dataEditor.rowHeight*1.2 : 0
-
             width: dataEditor.width - (generalView.vBarVisible ? gvScrollBar.width : 0)
             Label {
-                text: Z.tr(propName);
+                text: interactiveVisibility[section] ? Z.tr(propName) : ""
                 Layout.minimumWidth: dataEditor.width / 4;
-                height: interactiveVisibility[section] ? dataEditor.rowHeight : 0
+                height: 3 //dataEditor.rowHeight
             }
             ZLineEdit {
-                text: customerData[propName];
-                Layout.fillWidth: true;
-                height: interactiveVisibility[section] ? dataEditor.rowHeight*1.2 : 0
+                text: customerData[propName]
+                Layout.fillWidth: true
+                height: dataEditor.rowHeight*1.2
+                visible: interactiveVisibility[section]
                 onTextChanged: updateDataObject(propName, text);
                 textField.horizontalAlignment: Text.AlignLeft
             }
