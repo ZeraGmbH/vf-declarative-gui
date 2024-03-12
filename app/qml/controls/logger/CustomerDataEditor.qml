@@ -109,7 +109,7 @@ Item {
             Label {
                 text: interactiveVisibility[section] ? Z.tr(propName) : ""
                 Layout.minimumWidth: dataEditor.width / 4;
-                height: 3 //dataEditor.rowHeight
+                height: dataEditor.rowHeight
             }
             ZLineEdit {
                 text: customerData[propName]
