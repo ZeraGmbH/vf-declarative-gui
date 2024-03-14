@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
@@ -14,9 +14,8 @@ import ZeraFa 1.0
 import "../controls/error_comparison_common"
 import "../controls/error_comparison_params"
 
-Item {
+Rectangle {
     id: root
-    clip: true
 
     property QtObject errCalEntity
     property var moduleIntrospection
@@ -29,6 +28,7 @@ Item {
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: root.height > 0 ? root.height * 0.03 : 10
+    color: Material.backgroundColor
 
     QtObject {
         id: stateEnum
