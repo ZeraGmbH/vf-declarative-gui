@@ -121,7 +121,7 @@ Item {
                     max: minMax
                     tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
-                    minorGridLineColor: Material.dividerColor
+                    minorGridLineColor: GC.dividerColor
                     gridLineColor: Material.frameColor
                     labelsColor: FT.getColorByIndex(leftChannels[index]+1)
                     color: FT.getColorByIndex(leftChannels[index]+1)
@@ -136,7 +136,7 @@ Item {
                     max: minMax
                     tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
-                    minorGridLineColor: Material.dividerColor
+                    minorGridLineColor: GC.dividerColor
                     gridLineColor: Material.frameColor
                     labelsColor: FT.getColorByIndex(rightChannels[index]+1)
                     color: FT.getColorByIndex(rightChannels[index]+1)

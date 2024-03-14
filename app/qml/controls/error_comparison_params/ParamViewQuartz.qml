@@ -40,7 +40,7 @@ Item {
 
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -71,7 +71,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -112,7 +112,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement && errCalEntity.PAR_Continuous !== 1
@@ -176,7 +176,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -224,7 +224,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement

@@ -64,7 +64,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -96,7 +96,7 @@ Item {
         Rectangle {
             enabled: logicalParent.canStartMeasurement && cbMode.currentIndex !== 0
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
 
@@ -137,7 +137,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight * 2
             width: root.width
             Label {
@@ -171,7 +171,7 @@ Item {
             // This is a line
             Rectangle {
                 color: "transparent"
-                border.color: Material.dividerColor
+                border.color: GC.dividerColor
                 height: 1
                 width: parent.width*(col1Width+col2Width)
                 anchors.left: parent.left
@@ -221,7 +221,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
 
@@ -268,7 +268,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
 

@@ -10,7 +10,7 @@ Loader {
     width: parent.width
     sourceComponent:  Rectangle {
         color: "transparent"
-        border.color: Material.dividerColor
+        border.color: GC.dividerColor
         height: root.rowHeight
         enabled: logicalParent.canStartMeasurement
         Label {
