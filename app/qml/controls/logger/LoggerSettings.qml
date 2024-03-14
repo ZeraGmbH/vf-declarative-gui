@@ -444,7 +444,7 @@ SettingsView {
                                 verticalAlignment: Label.AlignVCenter
                             }
                             Button { // Eject / make current
-                                text: dbListDelegate.isCurrentDb ? FAQ.fa_eject : FAQ.fa_check_circle
+                                text: dbListDelegate.isCurrentDb ? FAQ.fa_eject : ""
                                 font.pointSize: pointSize * 1.25
                                 enabled: loggerEntity.LoggingEnabled === false
                                 Layout.fillHeight: true
