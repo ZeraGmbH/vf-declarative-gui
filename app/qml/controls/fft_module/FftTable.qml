@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
@@ -9,7 +9,7 @@ import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ".."
 
-Item {
+Rectangle {
     id: root
 
     readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
@@ -21,6 +21,7 @@ Item {
     readonly property bool hasHorizScroll: GC.showFftTableAngle ? channelCount > 3 : channelCount > 6
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
+    color: Material.backgroundColor
 
     Keys.forwardTo: [fftFlickable]
 
