@@ -176,28 +176,13 @@ Item {
                             loggerEntity.sessionName = modelData
                             GC.setCurrDatabaseSessionName(modelData)
                         }
-                        if(goBackExport) {
+                        if(goBackExport)
                             menuStackLayout.showExportView()
-                        }
-                        else {
+                        else
                             menuStackLayout.pleaseCloseMe(true)
-                        }
                     }
                 }
             }
-        }
-    }
-
-    Button {
-        id: buttonBack
-        visible: !goBackExport
-        text: Z.tr("Back")
-        font.pointSize: root.pointSize
-        anchors.bottom: parent.bottom
-        anchors.left: parent.horizontalCenter
-        anchors.leftMargin: GC.standardTextHorizMargin
-        onClicked: {
-            menuStackLayout.goBack()
         }
     }
 
@@ -209,11 +194,15 @@ Item {
         text: "+"
         font.pointSize: root.pointSize
         width: buttonBack.width
-        anchors.bottom: parent.bottom
-        anchors.right: parent.horizontalCenter
-        anchors.rightMargin: GC.standardTextHorizMargin
-        onClicked: {
-            menuStackLayout.showSessionNew()
-        }
+        anchors { left: parent.left; leftMargin: GC.standardTextHorizMargin; bottom: parent.bottom }
+        onClicked: menuStackLayout.showSessionNew()
+    }
+    Button {
+        id: buttonBack
+        visible: !goBackExport
+        text: Z.tr("Back")
+        font.pointSize: root.pointSize
+        anchors { right: parent.right; rightMargin: GC.standardTextHorizMargin; bottom: parent.bottom }
+        onClicked: menuStackLayout.pleaseCloseMe(true)
     }
 }
