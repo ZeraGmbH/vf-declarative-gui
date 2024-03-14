@@ -42,7 +42,7 @@ Rectangle {
         lowerErrorMarginLine.append(1, minValue);
     }
 
-    border.color: Material.dividerColor
+    border.color: GC.dividerColor
     color: rating !== 0 || (measNum==0 && !finished) ? "transparent" : "#11FF0000";
 
     ChartView {
@@ -83,7 +83,7 @@ Rectangle {
 
             tickCount: 7
 
-            minorGridLineColor: Material.dividerColor
+            minorGridLineColor: GC.dividerColor
             gridLineColor: Material.frameColor
             labelsColor: Material.primaryTextColor
             color: Material.frameColor

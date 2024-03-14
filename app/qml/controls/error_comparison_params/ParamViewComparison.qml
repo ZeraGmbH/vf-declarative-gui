@@ -77,7 +77,7 @@ Item {
             active: isEnergyComparison
             sourceComponent: Rectangle {
                 color: "transparent"
-                border.color: Material.dividerColor
+                border.color: GC.dividerColor
                 height: root.rowHeight
                 width: root.width
                 enabled: logicalParent.canStartMeasurement
@@ -108,7 +108,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -204,7 +204,7 @@ Item {
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: "transparent"
-                border.color: Material.dividerColor
+                border.color: GC.dividerColor
                 height: root.rowHeight
                 width: root.width
 
@@ -310,7 +310,7 @@ Item {
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: "transparent"
-                border.color: Material.dividerColor
+                border.color: GC.dividerColor
                 height: root.rowHeight
                 width: root.width
 
@@ -345,7 +345,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement && errCalEntity.PAR_Continuous !== 1
@@ -409,7 +409,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -457,7 +457,7 @@ Item {
         }
         Rectangle {
             color: "transparent"
-            border.color: Material.dividerColor
+            border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement

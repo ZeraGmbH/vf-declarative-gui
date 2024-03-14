@@ -1,6 +1,7 @@
 pragma Singleton
 import QtQuick 2.0
 import QtQuick.VirtualKeyboard.Settings 2.2
+import QtQuick.Controls.Material 2.14
 import ModuleIntrospection 1.0
 import ZeraSettings 1.0
 import SessionState 1.0
@@ -208,6 +209,7 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // Color settings...
 
+    readonly property color dividerColor: Material.dividerColor //Qt.darker("darkgrey", 2.5)
     readonly property var arrayJsonColorNames:
         ["colorUL1",     // 1
         "colorUL2",     // 2
