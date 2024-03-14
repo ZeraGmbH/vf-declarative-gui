@@ -205,6 +205,7 @@ SettingsView {
         onOpened: filenameField.forceActiveFocus()
         onClosed: filenameField.clear()
         function startAddDb() {
+            loggerEntity.sessionName = ""
             loggerEntity.DatabaseFile = fullNewDbName()
             fetchOnDbSet = true
             close()
