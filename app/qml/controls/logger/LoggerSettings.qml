@@ -31,6 +31,7 @@ SettingsView {
                                                   foundFiles.indexOf(fullNewDbName()) >= 0
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property string currentDbFile: loggerEntity.DatabaseFile
+    readonly property var existingSessions: loggerEntity.ExistingSessions
 
     property bool fetchOnDbSet: false
     onCurrentDbFileChanged: {
@@ -53,6 +54,11 @@ SettingsView {
         interval: 300; repeat: false
         onTriggered: {
             lvFileBrowser.currentIndex = foundFiles.indexOf(currentDbFile)
+            if(existingSessions.length === 1) {
+                let sessionName = existingSessions[0]
+                loggerEntity.sessionName = sessionName
+                GC.setCurrDatabaseSessionName(sessionName)
+            }
         }
     }
     Timer {
