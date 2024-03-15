@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
@@ -9,10 +9,11 @@ import ZeraTranslation  1.0
 import "../controls"
 import "../controls/actual_values"
 
-Item {
+Rectangle {
     id: root
     readonly property bool bleAvail: VeinEntity.hasEntity("BleModule1")
     readonly property bool bluetoothOn: VeinEntity.getEntity("BleModule1").PAR_BluetoothOn
+    color: Material.backgroundColor
 
     readonly property int rowCount: {
         let showTempHumidPressure = root.bleAvail && root.bluetoothOn
