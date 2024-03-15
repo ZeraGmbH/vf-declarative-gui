@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
@@ -9,11 +9,12 @@ import ZeraTranslation  1.0
 import "../controls"
 import "../controls/actual_values"
 
-Item {
+Rectangle {
     id: root
     readonly property int rowCount: ZGL.ActualValueEmobDcModel.rowCount() +
                                     ZGL.TempHumidityPressureModel.rowCount() + 6
     readonly property real rowHeight: height/rowCount
+    color: Material.backgroundColor
 
     ListView {
         id: dcTable
