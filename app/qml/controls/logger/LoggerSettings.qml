@@ -45,7 +45,6 @@ SettingsView {
             startRpcSearch()
         }
         else {
-            GC.setCurrDatabaseSessionName("")
             selectorDelayHelper.restart()
         }
     }
