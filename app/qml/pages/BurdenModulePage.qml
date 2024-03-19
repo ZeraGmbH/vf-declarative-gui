@@ -70,6 +70,12 @@ BaseTabPage {
                     Row {
                         width: page.width
                         height: page.rowHeight
+                        function valueText(value, name) {
+                            if(name === "Sn")
+                                return FT.formatNumber(value)
+                            return FT.formatNumberForScaledValues(value)
+                        }
+
                         GridItem {
                             width: page.columnWidth*0.7
                             height: page.rowHeight
@@ -81,7 +87,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: FT.formatNumberForScaledValues(L1)
+                            text: valueText(L1, Name)
                             textColor: isVoltagePage ? GC.colorUL1 : GC.colorIL1
                             font.bold: index === 0
                         }
@@ -89,7 +95,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: FT.formatNumberForScaledValues(L2)
+                            text: valueText(L2, Name)
                             textColor: isVoltagePage ? GC.colorUL2 : GC.colorIL2
                             font.bold: index === 0
                         }
@@ -97,7 +103,7 @@ BaseTabPage {
                             width: page.columnWidth
                             height: page.rowHeight
                             color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
-                            text: FT.formatNumberForScaledValues(L3)
+                            text: valueText(L3, Name)
                             textColor: isVoltagePage ? GC.colorUL3 : GC.colorIL3
                             font.bold: index === 0
                         }
