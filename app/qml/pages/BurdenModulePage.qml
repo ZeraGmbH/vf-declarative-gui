@@ -43,7 +43,7 @@ BaseTabPage {
             id: page
             property bool isVoltagePage
             readonly property QtObject burdenModule: isVoltagePage ? VeinEntity.getEntity("Burden1Module2") : VeinEntity.getEntity("Burden1Module1")
-            readonly property var burdenIntrospection: isVoltagePage ? ModuleIntrospection.burden2Introspection : ModuleIntrospection.burden1Introspection
+            readonly property var burdenIntrospection: isVoltagePage ? ModuleIntrospection.burdenUIntrospection : ModuleIntrospection.burdenIIntrospection
             readonly property int rowCount: settingsView.model.count + burdenValueView.model.rowCount();
             readonly property int rowHeight: Math.floor(height/rowCount)
             readonly property int columnWidth: width/4.2 //0.7 + 3 + 0.5
