@@ -30,9 +30,13 @@ Loader {
             height: invisibleRoot.height
 
             Rectangle {
-                anchors.fill: parent
-                color: Material.background
-                opacity: 0
+                anchors { left: parent.left; leftMargin: root.contentWidth*0.1 }
+                width: root.contentWidth * 3 * MeasChannelInfo.groupAnimationValue
+                anchors { verticalCenter: parent.verticalCenter;  }
+                height: parent.height * 0.05
+                radius: height * 0.5
+                color: Material.foreground
+                opacity: 0.3
             }
 
             ListView {
