@@ -19,6 +19,8 @@ Loader {
     sourceComponent: Component {
         Item {
             id: root
+            width: invisibleRoot.width
+            height: invisibleRoot.height
 
             readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
             readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
@@ -26,118 +28,32 @@ Loader {
 
             signal sigOverloadHintClicked();
 
-            width: invisibleRoot.width
-            height: invisibleRoot.height
-
-            Rectangle {
-                anchors { left: parent.left; leftMargin: root.contentWidth*0.1 }
-                width: root.contentWidth * 3 * MeasChannelInfo.groupAnimationValue
-                anchors { verticalCenter: parent.verticalCenter;  }
-                height: parent.height * 0.05
-                radius: height * 0.5
-                color: Material.foreground
-                opacity: 0.3
-            }
-
-            ListView {
+            RangeIndicatorLine {
                 id: voltageList
                 model: MeasChannelInfo.voltageChannelIds
                 anchors.left: parent.left
                 anchors.leftMargin: root.contentWidth*0.1
                 anchors.right: parent.right
-                interactive: false
-
                 height: root.height/2
 
-                boundsBehavior: ListView.StopAtBounds
-                orientation: Qt.Horizontal
-                spacing: root.contentWidth*0.1
-
-                delegate: Item {
-                    id: itemVoltage
-                    width: root.contentWidth*0.9
-                    height: root.height/2
-
-                    Label {
-                        width: parent.width*0.5
-                        font.pointSize: smallPointSize
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
-                        color: FT.getColorByIndex(modelData)
-                        font.bold: true
-                    }
-                    Label {
-                        width: parent.width*0.5
-                        anchors.right: parent.right
-                        horizontalAlignment: Label.AlignRight
-                        font.pointSize: smallPointSize
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: root.rangeModule["PAR_Channel"+parseInt(modelData)+"Range"]
-                        color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
-                    }
-                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].Validation.Data
-                    property string validdationDataStr
-                    onValidationDataChanged: {
-                        let newValidationData = JSON.stringify(validationData)
-                        if(validdationDataStr !== newValidationData) {
-                            validdationDataStr = newValidationData
-                            voltageRangeRipple.startFlash()
-                        }
-                    }
-                    ZFlashingRipple {
-                        anchor: itemVoltage
-                        id: voltageRangeRipple
-                    }
-                }
+                contentWidth: root.contentWidth
+                highlighted: invisibleRoot.highlighted
+                groupTrailerIdx: MeasChannelInfo.voltageGroupTrailerIdx
             }
-            ListView {
+
+            RangeIndicatorLine {
+                id: currentList
                 model: MeasChannelInfo.currentChannelIds
                 anchors.left: parent.left
                 anchors.leftMargin: root.contentWidth*0.1
                 anchors.right: parent.right
                 height: root.height/2
                 anchors.top: voltageList.bottom
-                interactive: false
 
-                boundsBehavior: ListView.StopAtBounds
-                orientation: Qt.Horizontal
-                spacing: root.contentWidth*0.1
+                contentWidth: root.contentWidth
+                highlighted: invisibleRoot.highlighted
+                groupTrailerIdx: MeasChannelInfo.currentGroupTrailerIdx
 
-                delegate: Item {
-                    id: itemCurrent
-                    width: root.contentWidth*0.9
-                    height: root.height/2
-                    Label {
-                        width: parent.width*0.5
-                        font.pointSize: smallPointSize
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName) + ": "
-                        color: FT.getColorByIndex(modelData)
-                        font.bold: true
-                    }
-                    Label {
-                        width: parent.width*0.5
-                        anchors.right: parent.right
-                        horizontalAlignment: Label.AlignRight
-                        font.pointSize: smallPointSize
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: root.rangeModule["PAR_Channel"+parseInt(modelData)+"Range"]
-                        color: invisibleRoot.highlighted ? Material.accentColor : Material.primaryTextColor
-                    }
-                    readonly property var validationData: ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].Validation.Data
-                    property string validdationDataStr
-                    onValidationDataChanged: {
-                        let newValidationData = JSON.stringify(validationData)
-                        if(validdationDataStr !== newValidationData) {
-                            validdationDataStr = newValidationData
-                            currentRangeRipple.startFlash()
-                        }
-                    }
-                    ZFlashingRipple {
-                        anchor: itemCurrent
-                        id: currentRangeRipple
-                    }
-                }
             }
             Item {
                 anchors.right: parent.right

@@ -110,6 +110,7 @@
         <file>qml/controls/ranges/RangeMModePage.qml</file>
         <file>qml/controls/ranges/RangeLine.qml</file>
         <file>qml/controls/ranges/RangeIndicator.qml</file>
+        <file>qml/controls/ranges/RangeIndicatorLine.qml</file>
         <file>qml/controls/ranges/RatioLine.qml</file>
         <file>qml/controls/settings/SensorSettings.qml</file>
     </qresource>
