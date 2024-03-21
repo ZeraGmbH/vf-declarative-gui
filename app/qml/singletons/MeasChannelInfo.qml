@@ -5,6 +5,7 @@ import VeinEntity 1.0
 import ModuleIntrospection 1.0
 
 Item {
+    id: measChannelInfo
     readonly property int channelCountTotal: GC.entityInitializationDone ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : 0
     readonly property var channelNames: {
         let names = []
@@ -39,4 +40,19 @@ Item {
     }
 
     readonly property bool rangeAutoActive: GC.entityInitializationDone ? VeinEntity.getEntity("RangeModule1").PAR_RangeAutomatic : false
+
+    onRangeGroupingActiveChanged: {
+        groupinChangeAnimation.stop()
+        groupinChangeAnimation.from = groupAnimationValue
+        groupinChangeAnimation.to = rangeGroupingActive ? 1 : 0
+        groupinChangeAnimation.start()
+    }
+    property real groupAnimationValue: 0
+    NumberAnimation {
+        id: groupinChangeAnimation
+        duration: 250
+        target: measChannelInfo
+        property: "groupAnimationValue"
+    }
+
 }
