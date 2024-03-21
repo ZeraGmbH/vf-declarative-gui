@@ -22,7 +22,9 @@ Item {
     readonly property var currentChannelIds: channelCountTotal >= 8 ? [4,5,6,8] : [4,5,6]
     // Hard codings - RangeLine is not prepared for other than first group member
     readonly property int voltageGroupLeaderIdx: voltageChannelIds.length > 0 ? voltageChannelIds[0] : 0
+    readonly property int voltageGroupTrailerIdx: voltageChannelIds.length > 0 ? 3 : 0
     readonly property int currentGroupLeaderIdx: currentChannelIds.length > 0 ? currentChannelIds[0] : 0
+    readonly property int currentGroupTrailerIdx: currentChannelIds.length > 0 ? 6 : 0
 
     readonly property bool rangeGroupingActive: GC.entityInitializationDone ? VeinEntity.getEntity("RangeModule1").PAR_ChannelGrouping : false
     readonly property int rangeGroupCount: GC.entityInitializationDone ? ModuleIntrospection.rangeIntrospection.ModuleInfo.GroupCount : 0
