@@ -38,11 +38,11 @@ Item {
             anchors { top: parent.top; left: parent.left }
             height: rowHeight
             VFSwitch {
-                id: autoMode
                 text: Z.tr("Range automatic")
                 anchors { left: parent.left; leftMargin: frameMargin }
                 leftPadding: 0
                 height: rowHeight
+                width: implicitWidth * 1.05
                 font.pointSize: pointSize
                 entity: rangeModule
                 enabled: enableRangeAutomaticAndGrouping
@@ -53,11 +53,11 @@ Item {
             anchors { top: rangeAutomaticLine.bottom; left: parent.left }
             height: rowHeight
             VFSwitch {
-                id: groupingMode
                 text: Z.tr("Range grouping")
                 anchors { left: parent.left; leftMargin: frameMargin }
                 leftPadding: 0
                 height: rowHeight
+                width: implicitWidth * 1.05
                 font.pointSize: pointSize
                 entity: rangeModule
                 enabled: enableRangeAutomaticAndGrouping
@@ -67,7 +67,7 @@ Item {
         OverloadButton {
             id: overloadButton
             anchors { margins: frameMargin; right: parent.right; verticalCenter: parent.verticalCenter }
-            width: parent.width * 0.33
+            implicitWidth: parent.width * 0.33
             height: rowHeight
             font.pointSize: pointSize
         }
