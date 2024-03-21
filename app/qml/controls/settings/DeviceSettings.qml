@@ -133,7 +133,7 @@ SettingsView {
             property bool enableIgnoreRmsValues: VeinEntity.getEntity("RangeModule1").PAR_IgnoreRmsValuesOnOff === 1
             Label {
                 textFormat: Text.PlainText
-                text: Z.tr("Limit to ignore RMS values [%]:")
+                text: Z.tr("Channel ignore limit [% of range]:")
                 font.pointSize: root.pointSize
                 Layout.fillWidth: true
                 Layout.fillHeight: true
