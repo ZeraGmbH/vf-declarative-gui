@@ -20,7 +20,7 @@ ListView {
     spacing: localRoot.contentWidth*0.1
 
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-    readonly property real groupSizeShrinkFactor: 1
+    readonly property real groupSizeShrinkFactor: 1.1
 
     delegate: Item {
         id: delegateItem
