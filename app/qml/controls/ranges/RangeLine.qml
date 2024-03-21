@@ -32,28 +32,6 @@ ListView {
         return count
     }
 
-    readonly property bool groupingActive: MeasChannelInfo.rangeGroupingActive
-    // Vein reports grouping 'on' late causing animation on load. Hack that away:
-    property bool ignoreFirstGroupOnChange: groupingActive
-    onGroupingActiveChanged: {
-        groupinChangeAnimation.stop()
-        if(groupingActive && ignoreFirstGroupOnChange) {
-            groupAnimationValue = 1
-            ignoreFirstGroupOnChange = false
-            return
-        }
-        groupinChangeAnimation.from = groupAnimationValue
-        groupinChangeAnimation.to = groupingActive ? 1 : 0
-        groupinChangeAnimation.start()
-    }
-    property real groupAnimationValue: 0
-    NumberAnimation {
-        id: groupinChangeAnimation
-        duration: 250
-        target: ranges
-        property: "groupAnimationValue"
-    }
-
     delegate: Item {
         id: channelsRow
         width: (ranges.width - (channelCount-1)*spacing) / channelCount
@@ -64,7 +42,7 @@ ListView {
         readonly property bool isGroupLeader: systemChannelNo === MeasChannelInfo.voltageGroupLeaderIdx || systemChannelNo === MeasChannelInfo.currentGroupLeaderIdx
         readonly property bool isLeaderOrNotInGroup: isGroupLeader || !MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)
         readonly property real leaderMaxWidth: width * groupMemberCount + (groupMemberCount-1)*spacing
-        readonly property real leaderCurrWidth: width + (leaderMaxWidth-width)*groupAnimationValue
+        readonly property real leaderCurrWidth: width + (leaderMaxWidth-width) * MeasChannelInfo.groupAnimationValue
         readonly property real relLeaderXPos: - index * (width+spacing)
         readonly property real leaderLenLeftEnter: -relLeaderXPos
 
