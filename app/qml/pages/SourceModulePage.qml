@@ -1089,6 +1089,7 @@ Item {
                 font.pointSize: pointSize * 0.9
                 checked: GC.sourceSymmetric
                 onCheckedChanged: {
+                    GC.setSourceSymmetric(checked)
                     symmetrize()
                 }
             }
