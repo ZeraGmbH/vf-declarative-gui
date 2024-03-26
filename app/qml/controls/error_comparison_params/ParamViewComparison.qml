@@ -126,7 +126,12 @@ Item {
 
             Loader {
                 active: !disableTransformerScale
-                anchors.right: autoDutButton.left
+                anchors.right: {
+                    if(autoDutButtonsec1)
+                        autoDutButtonsec1.left
+                    else if(autoDutButtonsec2)
+                        autoDutButtonsec2.left
+                }
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: parent.width/240
                 width: parent.width/12
@@ -152,18 +157,40 @@ Item {
                     }
                 }
             }
-            Button {
-                id: autoDutButton
-                text: FAQ.fa_hand_point_right
-                font.pointSize: pointSize
-                width: parent.width/12
+
+            Loader {
+                id: autoDutButtonsec1
+                active: !isEnergyComparison
                 anchors.right: meterConstLabel.right
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: 10
-                enabled: (VeinEntity.getEntity("SEC1Module1").ACT_Energy !== 0)
-                onPressed: {
-                    VeinEntity.getEntity("SEC1Module1").PAR_DutConstantAuto = 1
-                    enabled: false
+                width: parent.width/12
+                sourceComponent: Button {
+                    text: FAQ.fa_hand_point_right
+                    font.pointSize: pointSize
+                    enabled: (VeinEntity.getEntity("SEC1Module1").ACT_Energy !== 0)
+                    onPressed: {
+                        VeinEntity.getEntity("SEC1Module1").PAR_DutConstantAuto = 1
+                        enabled: false
+                    }
+                }
+            }
+
+            Loader {
+                id: autoDutButtonsec2
+                active: isEnergyComparison
+                anchors.right: meterConstLabel.right
+                anchors.verticalCenter: meterConstLabel.verticalCenter
+                anchors.rightMargin: 10
+                width: parent.width/12
+                sourceComponent: Button {
+                    text: FAQ.fa_hand_point_right
+                    font.pointSize: pointSize
+                    enabled: (VeinEntity.getEntity("SEC1Module2").ACT_Energy !== 0)
+                    onPressed: {
+                        VeinEntity.getEntity("SEC1Module2").PAR_DutConstantAuto = 1
+                        enabled: false
+                    }
                 }
             }
 
