@@ -14,7 +14,7 @@ VfComponentEventDispatcher::~VfComponentEventDispatcher()
 void VfComponentEventDispatcher::processEvent(QEvent *t_event)
 {
     using namespace VeinEvent;
-    if(t_event->type()==CommandEvent::eventType())
+    if(t_event->type()==CommandEvent::getQEventType())
     {
         CommandEvent *cEvent = static_cast<CommandEvent *>(t_event);
         Q_ASSERT(cEvent != nullptr);
