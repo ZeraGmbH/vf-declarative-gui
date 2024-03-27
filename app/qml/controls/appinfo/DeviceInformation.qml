@@ -24,6 +24,8 @@ Item {
     readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
     readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
 
+    property bool wait4Save: true
+
     function appendDynVersions(strJsonCpuInfo) {
         // Vein/JSON version lookup fields:
         // 1st: Text displayed in label
@@ -50,6 +52,40 @@ Item {
 
     VisualItemModel {
         id: statusModel
+
+
+        //height: root.height*0.1
+        //width: root.width
+        Button {
+            id: buttonStore
+            font.pointSize: root.pointSize
+            width: root.width * 0.4
+            height: 35
+            text: "Save logfile to USB"
+
+            //if(USB device available)
+             enabled: wait4Save
+            //else
+             //enabled: false
+
+
+
+            highlighted: true
+            anchors.centerIn: parent
+            onClicked: {
+                console.warn("Click Save")
+                wait4Save = false
+            }
+
+//              if (storeLogFile() == OK)
+//                  qWarning("Save logfile successfull");
+//               else
+//                  qWarning("Save logfile Error");
+//                }
+//            }
+
+        }
+
 
         RowLayout {
             width: parent.width
