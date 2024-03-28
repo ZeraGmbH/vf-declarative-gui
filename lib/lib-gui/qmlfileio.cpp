@@ -10,6 +10,9 @@
 #include <QDebug>
 #include <qqml.h>
 
+#include <QDir>
+#include <QDateTime>
+
 namespace QmlFileIOPrivate
 {
   void registerTypes()
@@ -193,5 +196,33 @@ bool QmlFileIO::checkFile(const QFile &t_file)
 
   return retVal;
 }
+
+
+bool QmlFileIO::checkUSBInserted()
+{
+    QDir dir("/media/sda1");
+    //QDir dir("/run/media/i.sundermann/VERBATIM");
+    bool dirExist = dir.exists();
+    return dirExist;
+}
+
+bool QmlFileIO::storeJournalctlOnUsb()
+{
+    QDateTime now = QDateTime::currentDateTime();
+    QString nowStr = now.toString("yyyy-MM-dd_HHmm_");
+    //QString fileName = "/run/media/i.sundermann/VERBATIM/" + nowStr + "_journalctl.log";
+    QString fileName = "/media/sda1/" + nowStr + "_journalctl.log";
+
+    QString command = "journalctl -b -o short-precise -S yesterday > " + fileName;
+    if(system(qPrintable(command)) == 0)
+    {
+        qWarning() << "QmlFileIO: system command OK";
+        return true;
+    }
+
+    qWarning() << "QmlFileIO: system command error";
+    return false;
+}
+
 
 QmlFileIO * QmlFileIO::s_instance = nullptr;

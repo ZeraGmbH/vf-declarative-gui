@@ -20,6 +20,9 @@ public:
   Q_INVOKABLE QVariant readJsonFile(const QString& t_fileName);
   Q_INVOKABLE bool writeJsonFile(const QString& t_fileName, const QVariant &t_content, bool t_overwrite = false);
 
+  Q_INVOKABLE bool checkUSBInserted();
+  Q_INVOKABLE bool storeJournalctlOnUsb();
+
   static QObject *getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine);
 
   static void setStaticInstance(QmlFileIO *t_instance);

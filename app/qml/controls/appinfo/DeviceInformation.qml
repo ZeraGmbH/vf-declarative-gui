@@ -6,6 +6,8 @@ import VeinEntity 1.0
 import AdjustmentState 1.0
 import ZeraTranslation  1.0
 
+import QmlFileIO 1.0
+
 Item {
     id: root
 
@@ -53,37 +55,19 @@ Item {
     VisualItemModel {
         id: statusModel
 
-
-        //height: root.height*0.1
-        //width: root.width
         Button {
             id: buttonStore
             font.pointSize: root.pointSize
-            width: root.width * 0.4
-            height: 35
-            text: "Save logfile to USB"
-
-            //if(USB device available)
-             enabled: wait4Save
-            //else
-             //enabled: false
-
-
-
+            width: root.width * 0.35
+            height: tabHeight * 1.3
+            text: Z.tr("Save logfile to USB")
+            enabled: wait4Save === QmlFileIO.checkUSBInserted()
             highlighted: true
             anchors.centerIn: parent
             onClicked: {
                 console.warn("Click Save")
-                wait4Save = false
+                QmlFileIO.storeJournalctlOnUsb()
             }
-
-//              if (storeLogFile() == OK)
-//                  qWarning("Save logfile successfull");
-//               else
-//                  qWarning("Save logfile Error");
-//                }
-//            }
-
         }
 
 
