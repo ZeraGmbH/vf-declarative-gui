@@ -26,8 +26,6 @@ Item {
     readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
     readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
 
-    property bool wait4Save: true
-
     function appendDynVersions(strJsonCpuInfo) {
         // Vein/JSON version lookup fields:
         // 1st: Text displayed in label
@@ -55,21 +53,27 @@ Item {
     VisualItemModel {
         id: statusModel
 
-        Button {
-            id: buttonStore
-            font.pointSize: root.pointSize
-            width: root.width * 0.35
-            height: tabHeight * 1.3
-            text: Z.tr("Save logfile to USB")
-            enabled: wait4Save === QmlFileIO.checkUSBInserted()
-            highlighted: true
-            anchors.centerIn: parent
-            onClicked: {
-                console.warn("Click Save")
-                QmlFileIO.storeJournalctlOnUsb()
+        RowLayout {
+            width: parent.width
+            height: root.rowHeight * 1.5
+
+            Button {
+                id: buttonStore
+                font.pointSize: root.pointSize
+                width: root.width * 0.35
+                //height: root.height * 0.5  //tabHeight * 0.8
+                text: Z.tr("Save logfile to USB")
+                enabled: QmlFileIO.checkUSBInserted()
+                highlighted: true
+                Layout.alignment: Qt.AlignCenter
+                //anchors.horizontalCenter: 200 //root.horizontalCenter
+
+                onClicked: {
+                    console.warn("Click Save")
+                    QmlFileIO.storeJournalctlOnUsb()
+                }
             }
         }
-
 
         RowLayout {
             width: parent.width

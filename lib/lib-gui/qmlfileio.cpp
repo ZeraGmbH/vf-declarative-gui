@@ -209,9 +209,8 @@ bool QmlFileIO::checkUSBInserted()
 bool QmlFileIO::storeJournalctlOnUsb()
 {
     QDateTime now = QDateTime::currentDateTime();
-    QString nowStr = now.toString("yyyy-MM-dd_HHmm_");
     //QString fileName = "/run/media/i.sundermann/VERBATIM/" + nowStr + "_journalctl.log";
-    QString fileName = "/media/sda1/" + nowStr + "_journalctl.log";
+    QString fileName = "/media/sda1/" + now.toString("yyyy-MM-dd_HHmm") + "_journalctl.log";
 
     QString command = "journalctl -b -o short-precise -S yesterday > " + fileName;
     if(system(qPrintable(command)) == 0)
