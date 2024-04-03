@@ -19,6 +19,7 @@ find_package(SortFilterProxyModel REQUIRED)
 find_package(ZeraTranslation REQUIRED)
 find_Package(zera-json-qml REQUIRED)
 find_Package(VfQmlLibs REQUIRED)
+find_package(VfFiles REQUIRED)
 
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wsuggest-attribute=const -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
