@@ -10,6 +10,9 @@
 #include <QDebug>
 #include <qqml.h>
 
+#include <QDir>
+#include <QDateTime>
+
 namespace QmlFileIOPrivate
 {
   void registerTypes()
@@ -23,7 +26,9 @@ namespace QmlFileIOPrivate
 
 QmlFileIO::QmlFileIO(QObject *t_parent) : QObject(t_parent)
 {
-
+    m_mountWatcher.create("/etc/mtab", QString(USB_STICK_PATH));
+    connect(&m_mountWatcher, &vfFiles::MountWatcherEntryBase::sigMountsChanged,
+            this, &QmlFileIO::onMountPathsChanged);
 }
 
 QString QmlFileIO::readTextFile(const QString &t_fileName)
@@ -193,5 +198,32 @@ bool QmlFileIO::checkFile(const QFile &t_file)
 
   return retVal;
 }
+
+const QStringList &QmlFileIO::mountedPaths() const
+{
+    return m_mountedPaths;
+}
+
+void QmlFileIO::onMountPathsChanged(QStringList mountPaths)
+{
+    m_mountedPaths = mountPaths;
+    emit sigMountedPathsChanged();
+}
+
+bool QmlFileIO::storeJournalctlOnUsb()
+{
+    if(m_mountedPaths.size()) {
+        QDateTime now = QDateTime::currentDateTime();
+        QString fileName = m_mountedPaths[0] + "/zenux-" + now.toString("yyyy-MM-dd_HHmm") + ".log";
+        fileName = QDir::cleanPath(fileName);
+
+        QString command = "journalctl -o short-precise -S yesterday > " + fileName;
+        if(system(qPrintable(command)) == 0)
+            return true;
+    }
+    qWarning() << "QmlFileIO: System command 'journalctl' error";
+    return false;
+}
+
 
 QmlFileIO * QmlFileIO::s_instance = nullptr;

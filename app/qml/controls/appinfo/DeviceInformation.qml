@@ -6,6 +6,8 @@ import VeinEntity 1.0
 import AdjustmentState 1.0
 import ZeraTranslation  1.0
 
+import QmlFileIO 1.0
+
 Item {
     id: root
 
@@ -50,6 +52,21 @@ Item {
 
     VisualItemModel {
         id: statusModel
+
+        RowLayout {
+            width: parent.width
+            height: root.rowHeight * 2
+            Button {
+                font.pointSize: root.pointSize
+                text: Z.tr("Save logfile to USB")
+                enabled: QmlFileIO.mountedPaths.length > 0
+                highlighted: true
+                Layout.alignment: Qt.AlignCenter
+                onClicked: {
+                    QmlFileIO.storeJournalctlOnUsb()
+                }
+            }
+        }
 
         RowLayout {
             width: parent.width
