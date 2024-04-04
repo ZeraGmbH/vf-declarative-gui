@@ -26,7 +26,6 @@ Item {
     readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
     readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
 
-    property bool buttonEnabled: true
     function appendDynVersions(strJsonCpuInfo) {
         // Vein/JSON version lookup fields:
         // 1st: Text displayed in label
@@ -58,6 +57,8 @@ Item {
             width: parent.width
             height: root.rowHeight * 2
             Button {
+                id: buttonStoreLog
+                property bool buttonEnabled: true
                 font.pointSize: root.pointSize
                 text: Z.tr("Save logfile to USB")
                 enabled: (QmlFileIO.mountedPaths.length > 0) && buttonEnabled
@@ -72,10 +73,10 @@ Item {
 
             Timer {
                 id: buttonTimer
-                interval: 2000
+                interval: 1000
                 repeat: false
                 onTriggered: {
-                    buttonEnabled = true
+                    buttonStoreLog.buttonEnabled = true
                 }
             }
         }
