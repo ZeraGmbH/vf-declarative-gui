@@ -26,6 +26,7 @@ Item {
     readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
     readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
 
+    property bool buttonEnabled: true
     function appendDynVersions(strJsonCpuInfo) {
         // Vein/JSON version lookup fields:
         // 1st: Text displayed in label
@@ -59,11 +60,22 @@ Item {
             Button {
                 font.pointSize: root.pointSize
                 text: Z.tr("Save logfile to USB")
-                enabled: QmlFileIO.mountedPaths.length > 0
+                enabled: (QmlFileIO.mountedPaths.length > 0) && buttonEnabled
                 highlighted: true
                 Layout.alignment: Qt.AlignCenter
                 onClicked: {
                     QmlFileIO.storeJournalctlOnUsb()
+                    buttonEnabled = false
+                    buttonTimer.start()
+                }
+            }
+
+            Timer {
+                id: buttonTimer
+                interval: 2000
+                repeat: false
+                onTriggered: {
+                    buttonEnabled = true
                 }
             }
         }
