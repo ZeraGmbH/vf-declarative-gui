@@ -14,19 +14,19 @@ class QmlFileIO : public QObject
 {
     Q_OBJECT
 public:
-    QmlFileIO(QObject *t_parent=0);
+    QmlFileIO(QObject *parent=0);
 
     Q_PROPERTY(QStringList mountedPaths READ mountedPaths NOTIFY sigMountedPathsChanged);
 
-    Q_INVOKABLE QString readTextFile(const QString& t_fileName);
-    Q_INVOKABLE bool writeTextFile(const QString& t_fileName, const QString &t_content, bool t_overwrite = false, bool t_truncate = true);
-    Q_INVOKABLE QVariant readJsonFile(const QString& t_fileName);
-    Q_INVOKABLE bool writeJsonFile(const QString& t_fileName, const QVariant &t_content, bool t_overwrite = false);
+    Q_INVOKABLE QString readTextFile(const QString& fileName);
+    Q_INVOKABLE bool writeTextFile(const QString& fileName, const QString &content, bool overwrite = false, bool truncate = true);
+    Q_INVOKABLE QVariant readJsonFile(const QString& fileName);
+    Q_INVOKABLE bool writeJsonFile(const QString& fileName, const QVariant &content, bool overwrite = false);
     Q_INVOKABLE bool storeJournalctlOnUsb();
 
-    static QObject *getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine);
+    static QObject *getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
 
-    static void setStaticInstance(QmlFileIO *t_instance);
+    static void setStaticInstance(QmlFileIO *instance);
 
     const QStringList &mountedPaths() const;
 
@@ -37,7 +37,7 @@ private slots:
     void onMountPathsChanged(QStringList mountPaths);
 
 private:
-    bool checkFile(const QFile &t_file);
+    bool checkFile(const QFile &file);
 
     vfFiles::MountWatcherEntryBase m_mountWatcher;
     QStringList m_mountedPaths;

@@ -24,19 +24,18 @@ void registerTypes()
 Q_COREAPP_STARTUP_FUNCTION(registerTypes)
 }
 
-QmlFileIO::QmlFileIO(QObject *t_parent) : QObject(t_parent)
+QmlFileIO::QmlFileIO(QObject *parent) : QObject(parent)
 {
     m_mountWatcher.create("/etc/mtab", QString(USB_STICK_PATH));
     connect(&m_mountWatcher, &vfFiles::MountWatcherEntryBase::sigMountsChanged,
             this, &QmlFileIO::onMountPathsChanged);
 }
 
-QString QmlFileIO::readTextFile(const QString &t_fileName)
+QString QmlFileIO::readTextFile(const QString &fileName)
 {
-    QFile textFile(t_fileName);
+    QFile textFile(fileName);
     QString retVal;
-    if(checkFile(textFile) && textFile.open(QFile::ReadOnly | QFile::Text))
-    {
+    if(checkFile(textFile) && textFile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream textStream(&textFile);
         retVal = textStream.readAll();
         textFile.close();
@@ -44,157 +43,118 @@ QString QmlFileIO::readTextFile(const QString &t_fileName)
     return retVal;
 }
 
-bool QmlFileIO::writeTextFile(const QString &t_fileName, const QString &t_content, bool t_overwrite, bool t_truncate)
+bool QmlFileIO::writeTextFile(const QString &fileName, const QString &content, bool overwrite, bool truncate)
 {
-    QFile textFile(t_fileName);
+    QFile textFile(fileName);
     bool retVal = false;
-    if(textFile.exists() == false || t_overwrite == true)
-    {
+    if(textFile.exists() == false || overwrite == true) {
         bool fileIsOpen = false;
-        if(t_truncate == true)
-        {
+        if(truncate == true)
             fileIsOpen = textFile.open(QFile::WriteOnly);
-        }
         else
-        {
             fileIsOpen = textFile.open(QFile::Append);
-        }
 
-        if(fileIsOpen == true)
-        {
+        if(fileIsOpen == true) {
             retVal = true;
             QTextStream textStream(&textFile);
-            textStream << t_content;
+            textStream << content;
             textFile.close();
         }
         else
-        {
-            qWarning() << "QmlFileIO: Error opening file:" << t_fileName << "error:" << textFile.errorString();
-        }
+            qWarning() << "QmlFileIO: Error opening file:" << fileName << "error:" << textFile.errorString();
     }
     else
-    {
-        qWarning() << "QmlFileIO: Skipped writing existing file because of missing override flag" << t_fileName;
-    }
+        qWarning() << "QmlFileIO: Skipped writing existing file because of missing override flag" << fileName;
 
     return retVal;
 }
 
-QVariant QmlFileIO::readJsonFile(const QString &t_fileName)
+QVariant QmlFileIO::readJsonFile(const QString &fileName)
 {
-    QFile jsonFile(t_fileName);
+    QFile jsonFile(fileName);
     QVariant retVal;
-    if(checkFile(jsonFile))
-    {
-        if(jsonFile.open(QFile::ReadOnly))
-        {
+    if(checkFile(jsonFile)) {
+        if(jsonFile.open(QFile::ReadOnly)) {
             QJsonParseError errorObj;
             QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonFile.readAll(), &errorObj);
-            if(errorObj.error == QJsonParseError::NoError)
-            {
+            if(errorObj.error == QJsonParseError::NoError) {
                 if(jsonDoc.isObject())
-                {
                     retVal = jsonDoc.object().toVariantMap();
-                }
                 else if(jsonDoc.isArray())
-                {
                     retVal = jsonDoc.array().toVariantList();
-                }
             }
             else
-            {
-                qWarning() << "QmlFileIO: Error parsing JSON file:" << t_fileName << "error:" << errorObj.errorString();
-            }
+                qWarning() << "QmlFileIO: Error parsing JSON file:" << fileName << "error:" << errorObj.errorString();
         }
         else
-        {
-            qWarning() << "QmlFileIO: Error opening file:" << t_fileName << "error:" << jsonFile.errorString();
-        }
+            qWarning() << "QmlFileIO: Error opening file:" << fileName << "error:" << jsonFile.errorString();
     }
 
     return retVal;
 }
 
-bool QmlFileIO::writeJsonFile(const QString &t_fileName, const QVariant &t_content, bool t_overwrite)
+bool QmlFileIO::writeJsonFile(const QString &fileName, const QVariant &content, bool overwrite)
 {
     bool retVal = false;
-    QFile jsonFile(t_fileName);
+    QFile jsonFile(fileName);
     QJsonDocument jsonDoc;
-    if(jsonFile.exists() == false || t_overwrite == true)
-    {
+    if(jsonFile.exists() == false || overwrite == true) {
         bool dataIsValid = false;
 
-        if(t_content.type() == QVariant::Map)
-        {
-            QJsonObject jsonObj = QJsonObject::fromVariantMap(t_content.toMap());
+        if(content.type() == QVariant::Map) {
+            QJsonObject jsonObj = QJsonObject::fromVariantMap(content.toMap());
             jsonDoc.setObject(jsonObj);
             dataIsValid = true;
         }
-        else if(t_content.type() == QVariant::List)
-        {
-            QJsonArray jsonArray = QJsonArray::fromVariantList(t_content.toList());
+        else if(content.type() == QVariant::List) {
+            QJsonArray jsonArray = QJsonArray::fromVariantList(content.toList());
             jsonDoc.setArray(jsonArray);
             dataIsValid = true;
         }
         else
-        {
-            qWarning() << "QmlFileIO: Expected list or object type to write JSON document:" << t_fileName << "instead provided type is:" << t_content.typeName();
-        }
+            qWarning() << "QmlFileIO: Expected list or object type to write JSON document:" << fileName << "instead provided type is:" << content.typeName();
 
-        if(jsonFile.open(QFile::WriteOnly) && dataIsValid == true)
-        {
+        if(jsonFile.open(QFile::WriteOnly) && dataIsValid == true) {
             jsonFile.write(jsonDoc.toJson(QJsonDocument::Indented));
             jsonFile.close();
             retVal = true;
         }
         else
-        {
-            qWarning() << "QmlFileIO: Error opening file:" << t_fileName << "error:" << jsonFile.errorString();
-        }
+            qWarning() << "QmlFileIO: Error opening file:" << fileName << "error:" << jsonFile.errorString();
     }
     else
-    {
-        qWarning() << "QmlFileIO: Skipped writing existing file because of missing override flag" << t_fileName;
-    }
+        qWarning() << "QmlFileIO: Skipped writing existing file because of missing override flag" << fileName;
+
     return retVal;
 }
 
-QObject *QmlFileIO::getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine)
+QObject *QmlFileIO::getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_UNUSED(t_engine)
-    Q_UNUSED(t_scriptEngine)
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
 
     return s_instance;
 }
 
-void QmlFileIO::setStaticInstance(QmlFileIO *t_instance)
+void QmlFileIO::setStaticInstance(QmlFileIO *instance)
 {
     if(s_instance == nullptr)
-    {
-        s_instance = t_instance;
-    }
+        s_instance = instance;
 }
 
-bool QmlFileIO::checkFile(const QFile &t_file)
+bool QmlFileIO::checkFile(const QFile &file)
 {
     bool retVal = false;
-    if(t_file.exists())
-    {
-        QFileInfo fInfo(t_file);
+    if(file.exists()) {
+        QFileInfo fInfo(file);
         const qint64 fileSize = fInfo.size();
-        if(fileSize > 0 && fileSize < UINT32_MAX) //sanity check
-        {
+        if(fileSize > 0 && fileSize < UINT32_MAX)  //sanity check
             retVal = true;
-        }
         else
-        {
-            qWarning() << "QmlFileIO: Only files with 0 < size < 4GB are supported:" << t_file.fileName() << "has:" << fileSize << "bytes";
-        }
+            qWarning() << "QmlFileIO: Only files with 0 < size < 4GB are supported:" << file.fileName() << "has:" << fileSize << "bytes";
     }
     else
-    {
-        qWarning() << "QmlFileIO: File can not be read:" << t_file.fileName();
-    }
+        qWarning() << "QmlFileIO: File can not be read:" << file.fileName();
 
     return retVal;
 }
@@ -216,7 +176,6 @@ bool QmlFileIO::storeJournalctlOnUsb()
         QDateTime now = QDateTime::currentDateTime();
         QString fileName = m_mountedPaths[0] + "/zenux-" + now.toString("yyyy-MM-dd_HHmm") + ".log";
         fileName = QDir::cleanPath(fileName);
-
         QString command = "journalctl -o short-precise -S yesterday > " + fileName;
         if(system(qPrintable(command)) == 0)
             return true;
@@ -224,6 +183,5 @@ bool QmlFileIO::storeJournalctlOnUsb()
     qWarning() << "QmlFileIO: System command 'journalctl' error";
     return false;
 }
-
 
 QmlFileIO * QmlFileIO::s_instance = nullptr;
