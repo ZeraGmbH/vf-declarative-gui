@@ -28,7 +28,7 @@ BaseTabPage {
     Component {
         id: appTab
         TabButton {
-            text: Z.tr("Application Settings")
+            text: Z.tr("Application")
             font.pointSize: tabPointSize
             height: tabHeight
         }
@@ -36,7 +36,7 @@ BaseTabPage {
     Component{
         id: devTab
         TabButton {
-            text: Z.tr("Device settings")
+            text: Z.tr("Device")
             font.pointSize: tabPointSize
             height: tabHeight
         }
@@ -44,7 +44,7 @@ BaseTabPage {
     Component{
         id: netTab
         TabButton {
-            text: Z.tr("Network settings")
+            text: Z.tr("Network")
             font.pointSize: tabPointSize
             height: tabHeight
         }
@@ -52,7 +52,7 @@ BaseTabPage {
     Component{
         id: sensorTab
         TabButton {
-            text: Z.tr("BLE sensor settings")
+            text: Z.tr("BLE sensor")
             font.pointSize: tabPointSize
             height: tabHeight
         }
