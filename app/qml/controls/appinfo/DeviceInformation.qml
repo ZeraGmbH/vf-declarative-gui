@@ -50,6 +50,11 @@ Item {
         }
     }
 
+    property var versionMap: ({})
+    function appendVersions(strLabel, version) {
+        versionMap[strLabel] = version
+    }
+
     VisualItemModel {
         id: statusModel
 
@@ -65,7 +70,7 @@ Item {
                 highlighted: true
                 Layout.alignment: Qt.AlignCenter
                 onClicked: {
-                    QmlFileIO.storeJournalctlOnUsb()
+                    QmlFileIO.storeJournalctlOnUsb(root.versionMap)
                     buttonEnabled = false
                     buttonTimer.start()
                 }
@@ -95,6 +100,10 @@ Item {
                 font.pointSize: root.pointSize
                 text: statusEnt.PAR_SerialNr
             }
+            Component.onCompleted: {
+                root.appendVersions("Serial number:", statusEnt.PAR_SerialNr)
+            }
+
         }
         RowLayout {
             width: parent.width
@@ -109,6 +118,9 @@ Item {
             Label {
                 font.pointSize: root.pointSize
                 text: statusEnt.INF_ReleaseNr
+            }
+            Component.onCompleted: {
+                root.appendVersions("Operating system version:", statusEnt.INF_ReleaseNr)
             }
         }
         ColumnLayout {
@@ -140,6 +152,9 @@ Item {
                         font.pointSize: root.pointSize
                         text: modelData[1]
                     }
+                    Component.onCompleted: {
+                        root.appendVersions(modelData[0] + ":", modelData[1])
+                    }
                 }
             }
         }
@@ -158,6 +173,9 @@ Item {
                 font.pointSize: root.pointSize
                 text: statusEnt.INF_PCBServerVersion
             }
+            Component.onCompleted: {
+                root.appendVersions("PCB server version:", statusEnt.INF_PCBServerVersion)
+            }
         }
         RowLayout {
             width: parent.width
@@ -172,6 +190,9 @@ Item {
             Label {
                 font.pointSize: root.pointSize
                 text: statusEnt.INF_DSPServerVersion
+            }
+            Component.onCompleted: {
+                root.appendVersions("DSP server version:", statusEnt.INF_DSPServerVersion)
             }
         }
         RowLayout {
@@ -188,6 +209,9 @@ Item {
                 font.pointSize: root.pointSize
                 text: statusEnt.INF_DSPVersion
             }
+            Component.onCompleted: {
+                root.appendVersions("DSP firmware version:", statusEnt.INF_DSPVersion)
+            }
         }
         RowLayout {
             width: parent.width
@@ -203,6 +227,10 @@ Item {
                 font.pointSize: root.pointSize
                 text: statusEnt.INF_FPGAVersion
             }
+            Component.onCompleted: {
+                root.appendVersions("FPGA firmware version:", statusEnt.INF_FPGAVersion)
+            }
+
         }
         ColumnLayout {
             width: parent.width
@@ -233,6 +261,9 @@ Item {
                         font.pointSize: root.pointSize
                         text: modelData[1]
                     }
+                    Component.onCompleted: {
+                        root.appendVersions(modelData[0] + ":", modelData[1])
+                    }
                 }
             }
         }
@@ -251,6 +282,10 @@ Item {
                 font.pointSize: root.pointSize
                 text: AdjState.adjustmentStatusDescription
             }
+            Component.onCompleted: {
+                root.appendVersions("Adjustment status:", AdjState.adjustmentStatusDescription)
+            }
+
         }
         ColumnLayout {
             width: parent.width
@@ -270,6 +305,9 @@ Item {
                     Label {
                         font.pointSize: root.pointSize
                         text: modelData[1]
+                    }
+                    Component.onCompleted: {
+                        root.appendVersions(modelData[0] + ":", modelData[1])
                     }
                 }
             }

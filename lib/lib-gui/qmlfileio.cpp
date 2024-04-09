@@ -12,6 +12,7 @@
 
 #include <QDir>
 #include <QDateTime>
+#include <QJsonObject>
 
 namespace QmlFileIOPrivate
 {
@@ -170,17 +171,23 @@ void QmlFileIO::onMountPathsChanged(QStringList mountPaths)
     emit sigMountedPathsChanged();
 }
 
-bool QmlFileIO::storeJournalctlOnUsb()
+bool QmlFileIO::storeJournalctlOnUsb(QVariant versionMap)
 {
     if(m_mountedPaths.size()) {
+        QJsonDocument jsonDoc(QJsonObject::fromVariantMap(versionMap.toMap()));
         QDateTime now = QDateTime::currentDateTime();
         QString fileName = m_mountedPaths[0] + "/zenux-" + now.toString("yyyy-MM-dd_HHmm") + ".log";
         fileName = QDir::cleanPath(fileName);
-        QString command = "journalctl -o short-precise -S yesterday > " + fileName;
-        if(system(qPrintable(command)) == 0)
-            return true;
+        QString command = "journalctl -o short-precise -S yesterday >> " + fileName;
+        if (writeTextFile(fileName, jsonDoc.toJson(QJsonDocument::Indented), true, true)) {
+            if(system(qPrintable(command)) == 0)
+                return true;
+            else
+                qWarning() << "QmlFileIO: System command 'journalctl' error";
+        }
+        else
+            qWarning("QmlFileIO: writeTextFile ERROR");
     }
-    qWarning() << "QmlFileIO: System command 'journalctl' error";
     return false;
 }
 
