@@ -131,7 +131,7 @@ BaseTabPage {
                         width: page.width*0.9;
 
                         description.text: Z.tr("Nominal burden:")
-                        description.width: page.width/4
+                        description.width: page.width * 0.5
                         entity: page.burdenModule
                         controlPropertyName: "PAR_NominalBurden"
                         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
@@ -149,7 +149,7 @@ BaseTabPage {
                         width: page.width*0.9;
 
                         description.text: Z.tr("Nominal range:")
-                        description.width: page.width/4
+                        description.width: page.width * 0.5
                         entity: page.burdenModule
                         controlPropertyName: "PAR_NominalRange"
                         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
@@ -205,7 +205,7 @@ BaseTabPage {
                         width: page.width*0.9;
 
                         description.text: Z.tr("Wire crosssection:")
-                        description.width: page.width/4
+                        description.width: page.width * 0.5
                         entity: page.burdenModule
                         controlPropertyName: "PAR_WCrosssection"
                         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
@@ -223,7 +223,7 @@ BaseTabPage {
                         width: page.width*0.9;
 
                         description.text: Z.tr("Wire length:")
-                        description.width: page.width/4
+                        description.width: page.width * 0.5
                         entity: page.burdenModule
                         controlPropertyName: "PAR_WireLength"
                         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
