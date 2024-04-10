@@ -49,7 +49,7 @@ ToolBar {
     property QtObject loggerSettingsStackObj // bound to LoggerSettingsStack
 
     function goHomeToPages() {
-        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutPageIndex
+        root.layoutStackObj.currentIndex = GC.entityInitializationDone ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutSplashIndex
     }
 
     background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
