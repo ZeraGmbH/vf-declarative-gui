@@ -162,7 +162,7 @@ ApplicationWindow {
         // main view displaying pages and other stuff - (flickable for virtual keyboard)
         id: flickable
         anchors.fill: parent
-        enabled: GC.entityInitializationDone === true
+        enabled: true
         contentWidth: parent.width;
         contentHeight: parent.height
         boundsBehavior: Flickable.StopAtBounds

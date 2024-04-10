@@ -11,7 +11,6 @@ import "../../pages"
 
 BaseTabPage {
     id: root
-    readonly property bool hasStatus: VeinEntity.hasEntity("StatusModule1")
     // Overrides
     function getLastTabSelected() {
         return GC.lastInfoTabSelected
@@ -68,10 +67,8 @@ BaseTabPage {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
-        if(hasStatus) {
-            tabBar.addItem(tabStatus.createObject(tabBar))
-            swipeView.addItem(pageStatus.createObject(swipeView))
-        }
+        tabBar.addItem(tabStatus.createObject(tabBar))
+        swipeView.addItem(pageStatus.createObject(swipeView))
         tabBar.addItem(tabLicense.createObject(tabBar))
         swipeView.addItem(pageLicense.createObject(swipeView))
 
