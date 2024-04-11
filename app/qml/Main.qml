@@ -121,6 +121,8 @@ ApplicationWindow {
                 if(pageView.model.count)
                     pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
                 loadingScreen.close();
+                sessionChangeTimeout.stop();
+                layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
                 GC.entityInitializationDone = true
                 controlsBar.pageViewVisible = false
             }
@@ -353,6 +355,18 @@ ApplicationWindow {
             onSessionChanged: {
                 prepareSessionChange();
                 loadingScreen.open();
+                sessionChangeTimeout.start();
+            }
+            Timer {
+                id: sessionChangeTimeout
+                interval: 10000
+                repeat: false
+                running: true
+                onTriggered: {
+                    loadingScreen.close();
+                    layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
+                    controlsBar.pageViewVisible = false
+                }
             }
         }
     }
