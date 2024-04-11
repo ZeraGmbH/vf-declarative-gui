@@ -228,6 +228,9 @@ int main(int argc, char *argv[])
     tcpSystem->connectToServer(netHost, netPort);
 
     QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
+        //server connection failed. Modulemanager is perhaps not runninng. Start gui anyway. It opens in splash screen (zera logo + info button) to log journlctl.
+        loadQmlEngine(engine);
+        //try connecting again incase Modulemanager is appearing late
         tcpSystem->connectToServer(netHost, netPort);
     });
 
