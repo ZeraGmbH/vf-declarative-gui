@@ -81,6 +81,14 @@ static void loadSettings(JsonSettingsFile *globalSettingsFile, bool webGlServer)
     }
 }
 
+static void loadQmlEngine(QQmlApplicationEngine &engine)
+{
+    static bool loadedOnce = false;
+    if(!loadedOnce)
+        engine.load(QUrl(QStringLiteral("qrc:/qml/Main.qml")));
+    loadedOnce = true;
+}
+
 int main(int argc, char *argv[])
 {
     //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
@@ -180,10 +188,9 @@ int main(int argc, char *argv[])
     QList<VeinEvent::EventSystem*> subSystems;
 
     QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
-        if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_LOADED && loadedOnce == false)
+        if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_LOADED)
         {
-            engine.load(QUrl(QStringLiteral("qrc:/qml/Main.qml")));
-            loadedOnce = true;
+            loadQmlEngine(engine);
         }
         else if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
         {
