@@ -187,12 +187,9 @@ int main(int argc, char *argv[])
     VeinApiQml::VeinQml::setStaticInstance(qmlApi);
     QList<VeinEvent::EventSystem*> subSystems;
 
+    loadQmlEngine(engine);
     QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
-        if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_LOADED)
-        {
-            loadQmlEngine(engine);
-        }
-        else if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
+        if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
         {
             engine.quit();
         }
@@ -228,9 +225,6 @@ int main(int argc, char *argv[])
     tcpSystem->connectToServer(netHost, netPort);
 
     QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
-        //server connection failed. Modulemanager is perhaps not runninng. Start gui anyway. It opens in splash screen (zera logo + info button) to log journlctl.
-        loadQmlEngine(engine);
-        //try connecting again incase Modulemanager is appearing late
         tcpSystem->connectToServer(netHost, netPort);
     });
 
