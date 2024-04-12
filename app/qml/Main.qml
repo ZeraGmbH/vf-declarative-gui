@@ -353,7 +353,6 @@ ApplicationWindow {
                 id: sessionChangeTimeout
                 interval: 10000
                 repeat: false
-                running: true
                 onTriggered: {
                     loadingScreen.close();
                     layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
