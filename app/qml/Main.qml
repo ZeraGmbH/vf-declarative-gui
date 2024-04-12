@@ -128,9 +128,6 @@ ApplicationWindow {
                 SessionState.currentSession = Qt.binding(function() {
                     return VeinEntity.getEntity("_System").Session
                 });
-                pageView.sessionComponent = Qt.binding(function() {
-                    return SessionState.currentSession
-                });
             }
         }
     }
@@ -346,6 +343,7 @@ ApplicationWindow {
             ///@note do not break binding by setting visible directly
             visible: controlsBar.pageViewVisible;
             onCloseView: controlsBar.pageViewVisible = false;
+            sessionComponent: SessionState.currentSession
             onSessionChanged: {
                 prepareSessionChange();
                 loadingScreen.open();
