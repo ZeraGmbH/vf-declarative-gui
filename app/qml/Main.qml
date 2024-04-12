@@ -82,12 +82,6 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: "#339966"
 
-    Component.onCompleted: {
-        SessionState.currentSession = Qt.binding(function() {
-            return VeinEntity.getEntity("_System").Session;
-        })
-    }
-
     function prepareSessionChange() {
         layoutStack.currentIndex=0;
         controlsBar.rangeIndicatorDependenciesReady = false;
