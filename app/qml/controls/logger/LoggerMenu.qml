@@ -65,7 +65,7 @@ Item {
     }
 
     // Vein reports contentSets changed by change of LoggedComponents
-    readonly property var loggedComponents: systemEntity.LoggedComponents
+    readonly property var loggedComponents: loggerEntity.LoggedComponents
     onLoggedComponentsChanged: { handleVeinRecordingStartReply() }
 
     readonly property var vtransactionName: loggerEntity.transactionName
