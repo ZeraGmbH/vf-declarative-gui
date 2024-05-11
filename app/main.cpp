@@ -125,7 +125,6 @@ int main(int argc, char *argv[])
 
     QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
 
-    bool loadedOnce = false;
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
