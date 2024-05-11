@@ -31,6 +31,7 @@
 
 static void registerQmlExt(QQmlApplicationEngine &engine)
 {
+    qInfo("Register QML external dependencies...");
     ZeraTranslationPlugin::registerQml();
     FontAwesomeQml::registerFonts(true, true, false);
     FontAwesomeQml::registerFAQml(&engine);
@@ -39,10 +40,12 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
     ZeraVeinComponents::registerQml(engine);
     QwtCharts::registerQml();
     UiVectorgraphics::registerQml();
+    qInfo("External QML external dependencies registered.");
 }
 
 static void registerQmlInt()
 {
+    qInfo("Register QML internal dependencies...");
     QmlAppStarterForWebGL::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", JsonSettingsFile::getStaticInstance);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
@@ -57,10 +60,12 @@ static void registerQmlInt()
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/AdjustmentState.qml"), "AdjustmentState", 1, 0, "AdjState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/PowerModuleVeinGetter.qml"), "PowerModuleVeinGetter", 1, 0, "PwrModVeinGetter");
     qmlRegisterSingletonType(QUrl("qrc:/qml/controls/settings/SlowMachineSettingsHelperSingleton.qml"), "SlowMachineSettingsHelper", 1, 0, "SlwMachSettingsHelper");
+    qInfo("External QML internal dependencies registered.");
 }
 
 static void loadSettings(JsonSettingsFile *globalSettingsFile, bool webGlServer)
 {
+    qInfo("Load settings..");
     globalSettingsFile->setAutoWriteBackEnabled(true);
     QString settingsFile = QStringLiteral("settings.json");
     if(webGlServer)
@@ -79,18 +84,23 @@ static void loadSettings(JsonSettingsFile *globalSettingsFile, bool webGlServer)
             globalSettingsFile->loadFromStandardLocation(settingsFile);
         }
     }
+    qInfo("Settings loaded.");
 }
 
 static void loadQmlEngine(QQmlApplicationEngine &engine)
 {
     static bool loadedOnce = false;
-    if(!loadedOnce)
+    if(!loadedOnce) {
+        qInfo("Loading QML engine...");
         engine.load(QUrl(QStringLiteral("qrc:/qml/Main.qml")));
+        qInfo("QML engine loaded.");
+    }
     loadedOnce = true;
 }
 
 int main(int argc, char *argv[])
 {
+    qInfo("vf-declarative-gui starts...");
     //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
     //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
 
@@ -219,10 +229,12 @@ int main(int argc, char *argv[])
     tcpSystem->connectToServer(netHost, netPort);
 
     QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
+        qInfo("Connecting to modman...");
         tcpSystem->connectToServer(netHost, netPort);
     });
 
     QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, [&]() {
+        qInfo("Subscribe system entity...");
         qmlApi->entitySubscribeById(0);
     });
 
@@ -237,5 +249,6 @@ int main(int argc, char *argv[])
         }
         subSystems.clear();
     });
+    qInfo("Starting app...");
     return app.exec();
 }
