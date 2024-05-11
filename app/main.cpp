@@ -164,14 +164,7 @@ int main(int argc, char *argv[])
 #ifdef QT_DEBUG
     engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
 #else
-    if(qgetenv("VF_GUI_DEBUG") == QByteArray("debug_enabled")) //enviroment variable override
-    {
-        engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
-    }
-    else
-    {
-        engine.rootContext()->setContextProperty("BUILD_TYPE", "release");
-    }
+    engine.rootContext()->setContextProperty("BUILD_TYPE", "release");
 #endif //QT_DEBUG
 
 #ifdef Q_OS_ANDROID
