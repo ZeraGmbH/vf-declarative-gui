@@ -100,7 +100,7 @@ static void loadQmlEngine(QQmlApplicationEngine &engine)
 
 int main(int argc, char *argv[])
 {
-    qInfo("vf-declarative-gui starts...");
+    qInfo("Application starts...");
     //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
     //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
 
@@ -240,7 +240,7 @@ int main(int argc, char *argv[])
             toDelete->deleteLater();
         }
         subSystems.clear();
+        qInfo("About to quit application.");
     });
-    qInfo("Starting app...");
     return app.exec();
 }
