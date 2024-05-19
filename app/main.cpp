@@ -218,10 +218,11 @@ int main(int argc, char *argv[])
     netHost = globalSettingsFile->getOption("modulemanagerIp", "127.0.0.1");
     netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort", "12000").toUInt());
 
+    qInfo("Connecting to modman...");
     tcpSystem->connectToServer(netHost, netPort);
 
     QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
-        qInfo("Connecting to modman...");
+        qInfo("Repeat connecting to modman...");
         tcpSystem->connectToServer(netHost, netPort);
     });
 
