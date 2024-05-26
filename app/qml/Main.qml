@@ -32,6 +32,13 @@ ApplicationWindow {
     property int screenResolution: GC.screenResolution
 
     visible: true
+    visibility: {
+        console.info("Desktop Session:", DESKTOP_SESSION)
+        if(String(DESKTOP_SESSION) === "Zera GUI session")
+            return "FullScreen"
+        return "Windowed"
+    }
+
     // Notes on resolutions:
     // * for production we use desktop sizes: We have one monitor & bars
     // * for debug we use screen sizes for multi monitor environments

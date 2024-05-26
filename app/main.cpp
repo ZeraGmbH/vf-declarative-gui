@@ -156,6 +156,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     registerQmlExt(engine);
     registerQmlInt();
+    engine.rootContext()->setContextProperty("DESKTOP_SESSION", qgetenv("DESKTOP_SESSION"));
 
     QTimer networkWatchdog;
     networkWatchdog.setInterval(3000);
