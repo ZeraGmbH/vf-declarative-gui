@@ -121,7 +121,8 @@ int main(int argc, char *argv[])
                                                   QString("%1.debug=false").arg(VEIN_NET_INTRO_VERBOSE().categoryName()) << //< Introspection logging is still enabled
                                                   QString("%1.debug=false").arg(VEIN_NET_TCP_VERBOSE().categoryName()) <<
                                                   QString("%1.debug=false").arg(VEIN_API_QML_INTROSPECTION().categoryName()) <<
-                                                  QString("%1.debug=false").arg(VEIN_API_QML_VERBOSE().categoryName());// << "qt.qml.binding.removal.info=true"; //debug binding overrides
+                                                  QString("%1.debug=false").arg(VEIN_API_QML_VERBOSE().categoryName()) << // << "qt.qml.binding.removal.info=true"; //debug binding overrides
+                                                  QString("qt.virtualkeyboard.debug=true");
 
     QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
 
