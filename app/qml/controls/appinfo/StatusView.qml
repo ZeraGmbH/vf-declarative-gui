@@ -45,6 +45,16 @@ BaseTabPage {
             }
         }
     }
+
+    Component {
+        id: tabServiceSupport
+        TabButton {
+            font.pointSize: tabPointSize
+            height: tabHeight
+            text: FAQ.fa_wrench + " " +Z.tr("Service Support")
+        }
+    }
+
     Component {
         id: tabLicense
         TabButton {
@@ -59,16 +69,22 @@ BaseTabPage {
         id: pageStatus
         DeviceInformation { }
     }
+
+    Component {
+        id: pageServiceSupport
+        ServiceSupport { }
+    }
     Component {
         id: pageLicense
         LicenseInformation { }
     }
 
-
     // create tabs/pages dynamic
     Component.onCompleted: {
         tabBar.addItem(tabStatus.createObject(tabBar))
         swipeView.addItem(pageStatus.createObject(swipeView))
+        tabBar.addItem(tabServiceSupport.createObject(tabBar))
+         swipeView.addItem(pageServiceSupport.createObject(swipeView))
         tabBar.addItem(tabLicense.createObject(tabBar))
         swipeView.addItem(pageLicense.createObject(swipeView))
 
