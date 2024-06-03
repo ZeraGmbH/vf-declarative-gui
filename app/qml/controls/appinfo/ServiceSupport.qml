@@ -12,6 +12,13 @@ Item {
     id: root
     readonly property real rowHeight: height > 0 ? height/20 : 10
     readonly property real pointSize: rowHeight * 0.7
+    readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
+
+    property var versionMap: ({})
+      function appendVersions(strLabel, version) {
+          versionMap[strLabel] = version
+      }
+
 
     VisualItemModel {
         id: supportModel
@@ -29,6 +36,52 @@ Item {
                 enabled: (QmlFileIO.mountedPaths.length > 0) && buttonEnabled
                 highlighted: true
                 Layout.alignment: Qt.AlignHCenter
+                // code repetition from here....
+                Component.onCompleted: {
+                    root.appendVersions("Serial number:", statusEnt.PAR_SerialNr)
+                    root.appendVersions("Operating system version:", statusEnt.INF_ReleaseNr)
+                    root.appendVersions("PCB server version:", statusEnt.INF_PCBServerVersion)
+                    root.appendVersions("DSP server version:", statusEnt.INF_DSPServerVersion)
+                    root.appendVersions("DSP firmware version:", statusEnt.INF_DSPVersion)
+                    root.appendVersions("FPGA firmware version:", statusEnt.INF_FPGAVersion)
+                    root.appendVersions("Adjustment status:", AdjState.adjustmentStatusDescription)
+                }
+                Repeater {
+                    id: repeaterPCBVersions
+                    model:  {
+                        let ctrlVersions = []
+                        if(pcbVersionInfo !== "") {
+                            let jsonInfo = JSON.parse(pcbVersionInfo)
+                            for(let jsonEntry in jsonInfo) {
+                                let item = [Z.tr(jsonEntry), jsonInfo[jsonEntry]]
+                                ctrlVersions.push(item)
+                            }
+                        }
+                        return ctrlVersions
+                    }
+                    Component.onCompleted: {
+                            root.appendVersions(modelData[0] + ":", modelData[1])
+                        }
+                }
+
+                Repeater {
+                    id: repeaterCtrlVersions
+                    model:  {
+                        let ctrlVersions = []
+                        if(ctrlVersionInfo !== "") {
+                            let jsonCpuInfo = JSON.parse(ctrlVersionInfo)
+                            for(let jsonEntry in jsonCpuInfo) {
+                                let item = [Z.tr(jsonEntry), jsonCpuInfo[jsonEntry]]
+                                ctrlVersions.push(item)
+                            }
+                        }
+                        return ctrlVersions
+                    }
+                    Component.onCompleted: {
+                        root.appendVersions(modelData[0] + ":", modelData[1])
+                    }
+                }
+                // code repetition until here....
                 onClicked: {
                     QmlFileIO.storeJournalctlOnUsb(root.versionMap)
                     buttonEnabled = false
@@ -47,7 +100,7 @@ Item {
 
         RowLayout {
             width: parent.width
-            height: root.rowHeight * 2
+            height: root.rowHeight
             Button {
                 id: buttonStartUpdate
                 property bool buttonUpdateEnabled: true
