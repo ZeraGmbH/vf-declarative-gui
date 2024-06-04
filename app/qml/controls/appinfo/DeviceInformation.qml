@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import AdjustmentState 1.0
 import ZeraTranslation  1.0
+import GlobalConfig 1.0
 
 Item {
     id: root
@@ -48,9 +49,8 @@ Item {
         }
     }
 
-    property var versionMap: ({})
     function appendVersions(strLabel, version) {
-        versionMap[strLabel] = version
+        GC.versionMap[strLabel] = version
     }
 
     VisualItemModel {

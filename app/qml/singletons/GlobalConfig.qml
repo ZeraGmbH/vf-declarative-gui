@@ -26,6 +26,8 @@ Item {
     // by a specific property to avoid cross property change activities: settings
     // has just one single notification for ALL settings-entries
 
+    property var versionMap: ({})
+
     readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
         lastPageViewIndexSelectedVolatile = -1
