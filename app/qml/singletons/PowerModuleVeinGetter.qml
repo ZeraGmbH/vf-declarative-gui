@@ -88,10 +88,7 @@ Item {
         case "P 3":
             return 2
         case "P DC":
-            if(SessionState.emobSessionAcDc)
-                return 3
-            else
-                return 0
+            return 0
         case "P AUX":
             return 3
         }

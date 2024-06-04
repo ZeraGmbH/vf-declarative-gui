@@ -23,7 +23,4 @@ Item {
     readonly property bool dcSession: String(currentSession).includes('-dc')
     readonly property bool emobSession: String(currentSession).includes('emob-session')
     readonly property bool refSession: String(currentSession).includes('ref-session')
-
-    // Hack: Just as long as mt310s2-emob-session lives
-    readonly property bool emobSessionAcDc: String(currentSession).includes('mt310s2-emob-session.')
 }

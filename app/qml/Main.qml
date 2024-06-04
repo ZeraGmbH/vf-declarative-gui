@@ -297,8 +297,6 @@ ApplicationWindow {
                         append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
                     else if(SessionState.dcSession)
                         append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
-                    else
-                        append({name: "Actual values", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPage.qml"})
                 }
                 else if(SessionState.dcSession)
                     append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
@@ -319,7 +317,7 @@ ApplicationWindow {
                     append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"})
 
                 if(!SessionState.refSession) {
-                    if(!SessionState.emobSession || SessionState.emobSessionAcDc) {
+                    if(!SessionState.emobSession) {
                         if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) ||
                                 ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) ||
                                 ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) ||

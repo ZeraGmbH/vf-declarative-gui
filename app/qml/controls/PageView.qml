@@ -110,8 +110,8 @@ Item {
 
             property QtObject systemEntity;
             property string intermediate
-            property var arrDisplayStrings: [Z.tr("Default"), Z.tr("Changing energy direction"), Z.tr("Reference"), Z.tr("DC: 4*Voltage / 1*Current"), "EMOB AC/DC", "EMOB AC", "EMOB DC", Z.tr("3 Systems / 2 Wires")]
-            property var arrJSONDetectStrings: ["meas-session.json", "ced-session.json", "ref-session.json", "dc-session.json", "emob-session.json", "emob-session-ac.json", "emob-session-dc.json", "perphase-session.json"]
+            property var arrDisplayStrings: [Z.tr("Default"), Z.tr("Changing energy direction"), Z.tr("Reference"), Z.tr("DC: 4*Voltage / 1*Current"), "EMOB AC", "EMOB DC", Z.tr("3 Systems / 2 Wires")]
+            property var arrJSONDetectStrings: ["meas-session.json", "ced-session.json", "ref-session.json", "dc-session.json", "emob-session-ac.json", "emob-session-dc.json", "perphase-session.json"]
             property var arrJSONFileNames: []
 
             anchors.fill: parent
