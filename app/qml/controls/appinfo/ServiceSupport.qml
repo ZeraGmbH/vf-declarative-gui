@@ -9,57 +9,13 @@ import ZeraComponents 1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
 
-
 Item {
     id: root
     readonly property real rowHeight: height > 0 ? height/20 : 10
     readonly property real pointSize: rowHeight * 0.7
-    readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
-
-    readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
-    readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
-
-    property var dynVersions: []
-    readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
-    onHasCpuInfoChanged: {
-        if(hasCpuInfo) {
-            appendDynVersions(VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"])
-        }
-    }
-
-    function appendDynVersions(strJsonCpuInfo) {
-        // Vein/JSON version lookup fields:
-        // 1st: Text displayed in label
-        // 2nd: JSON input field name
-        let dynVersionLookup = [
-            [Z.tr("CPU-board number"),   "PartNumber"],
-            [Z.tr("CPU-board assembly"),  "Assembly"],
-            [Z.tr("CPU-board date"),    "Date"],
-        ];
-        // 1st: Text displayed in label
-        // 2nd: version
-        if(strJsonCpuInfo !== "") {
-            let jsonCpuInfo = JSON.parse(strJsonCpuInfo)
-            for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
-                let jsonVerName = dynVersionLookup[lookupItem][1]
-                if(jsonVerName in jsonCpuInfo) {
-                    let item = [dynVersionLookup[lookupItem][0], jsonCpuInfo[jsonVerName]]
-                    dynVersions.push(item)
-                }
-            }
-            repeaterVersions.model = dynVersions
-        }
-    }
-
-    property var versionMap: ({})
-      function appendVersions(strLabel, version) {
-          versionMap[strLabel] = version
-      }
-
 
     VisualItemModel {
         id: supportModel
-
         RowLayout {
             width: parent.width
             height: root.rowHeight * 4
@@ -81,7 +37,7 @@ Item {
             }
             Timer {
                 id: buttonTimer
-                interval: 1000
+                interval: 1500
                 repeat: false
                 onTriggered: {
                     buttonStoreLog.buttonEnabled = true
@@ -114,4 +70,3 @@ Item {
         model: supportModel
     }
 }
-

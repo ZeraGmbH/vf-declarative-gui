@@ -56,7 +56,6 @@ Item {
     VisualItemModel {
         id: statusModel
 
-
         RowLayout {
             width: parent.width
             height: root.rowHeight
@@ -74,7 +73,6 @@ Item {
             Component.onCompleted: {
                 root.appendVersions("Serial number:", statusEnt.PAR_SerialNr)
             }
-
         }
         RowLayout {
             width: parent.width
