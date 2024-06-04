@@ -17,7 +17,6 @@ Item {
     readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
     readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
 
-
     property var dynVersions: []
     readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
     onHasCpuInfoChanged: {
@@ -117,6 +116,15 @@ Item {
                         root.appendVersions(modelData[0] + ":", modelData[1])
                     }
                 }
+
+                Repeater {
+                    id: repeaterVersions
+                    model: []
+                        Component.onCompleted: {
+                            root.appendVersions(modelData[0] + ":", modelData[1])
+                        }
+                }
+
                 // code repetition until here....
                 onClicked: {
                     QmlFileIO.storeJournalctlOnUsb(root.versionMap)
