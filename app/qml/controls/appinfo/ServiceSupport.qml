@@ -14,6 +14,9 @@ Item {
     readonly property real pointSize: rowHeight * 0.7
     readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
 
+    readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
+    readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
+
     property var versionMap: ({})
       function appendVersions(strLabel, version) {
           versionMap[strLabel] = version
