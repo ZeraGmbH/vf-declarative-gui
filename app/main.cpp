@@ -240,11 +240,17 @@ int main(int argc, char *argv[])
     periodicLogTimer.setSingleShot(false);
     QObject::connect(&periodicLogTimer, &QTimer::timeout, [] {
         qDebug("Application ping");
+        static int runs = 0;
         constexpr int amount = 50000000;
         char* dummy = new char[amount];
-        memset(dummy, 0, amount);
-        for (int i = 0; i < amount; i++)
-            dummy[i] = rand();
+        runs++;
+        if(runs < 10) {
+            memset(dummy, 0, amount);
+            for (int i = 0; i < amount; i++)
+                dummy[i] = rand();
+        }
+        else
+            memset(nullptr, 0, amount);
     });
     periodicLogTimer.start(5000);
 
