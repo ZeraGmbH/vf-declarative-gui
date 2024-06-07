@@ -13,6 +13,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AccumulatorState 1.0
 import ZeraSettings 1.0
+import ZeraComponents 1.0
 
 import "controls"
 import "helpers"
@@ -24,7 +25,6 @@ import "controls/settings"
 
 ApplicationWindow {
     id: displayWindow
-
 
     // used to display the fps and other debug infos
     property bool debugBypass: false;
@@ -158,19 +158,20 @@ ApplicationWindow {
         }
     }
 
-    Flickable {
-        // main view displaying pages and other stuff - (flickable for virtual keyboard)
-        id: flickable
-        anchors.fill: parent
-        enabled: true
-        contentWidth: parent.width;
-        contentHeight: parent.height
-        boundsBehavior: Flickable.StopAtBounds
-        interactive: false
-        NumberAnimation on contentY {
-            duration: 300
-            id: flickableAnimation
-        }
+    // Overlay animation. Shift overlay for popups (required: 'parent: Overlay.overlay')
+    NumberAnimation on Overlay.overlay.y {
+        id: zvkOverlayAnimation
+        duration: 300
+    }
+    ZvKeyboardInputPanel {
+        id: inputPanel
+        flickable: zvkFlickable
+        showVirtualKeyboard: GC.showVirtualKeyboard
+        overlayAnimation: zvkOverlayAnimation
+        onHeightChanged: GC.vkeyboardHeight = inputPanel.height
+    }
+    ZvKeyboardFlickable {
+        id: zvkFlickable
 
         StackLayout {
             id: layoutStack
@@ -382,65 +383,6 @@ ApplicationWindow {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
-    }
-
-    InputPanel {
-        id: inputPanel
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: -parent.height * 0.035
-        anchors.rightMargin: -parent.width * 0.035
-        anchors.leftMargin: anchors.rightMargin
-        property bool textEntered: Qt.inputMethod.visible
-        onHeightChanged: GC.vkeyboardHeight = height
-        opacity: 0
-        NumberAnimation on opacity {
-            id: keyboardOpacityAnimation
-            onStarted: {
-                if(to === 1)
-                    inputPanel.visible = GC.showVirtualKeyboard
-            }
-            onFinished: {
-                if(to === 0)
-                    inputPanel.visible = false
-            }
-        }
-        onTextEnteredChanged: {
-            var rectInput = Qt.inputMethod.anchorRectangle
-            if(inputPanel.textEntered) {
-                if(GC.showVirtualKeyboard) {
-                    if(rectInput.bottom > inputPanel.y) {
-                        // shift flickable (normal elements)
-                        flickableAnimation.to = rectInput.bottom - inputPanel.y + 10
-                        flickableAnimation.start()
-                        // shift overlay (Popup)
-                        overlayAnimation.to = -(rectInput.bottom - inputPanel.y + 10)
-                        overlayAnimation.start()
-                    }
-                    keyboardOpacityAnimation.to = 1
-                    keyboardOpacityAnimation.duration = 500
-                    keyboardOpacityAnimation.start()
-                }
-            }
-            else {
-                if(flickable.contentY !== 0) {
-                    // shift everything back
-                    overlayAnimation.to = 0
-                    overlayAnimation.start()
-                    flickableAnimation.to = 0
-                    flickableAnimation.start()
-                }
-                keyboardOpacityAnimation.to = 0
-                keyboardOpacityAnimation.duration = 0
-                keyboardOpacityAnimation.start()
-            }
-        }
-    }
-    // Overlay animation. Shift overlay for popups (required: 'parent: Overlay.overlay')
-    NumberAnimation on Overlay.overlay.y {
-        duration: 300
-        id: overlayAnimation
     }
 
     Popup {
