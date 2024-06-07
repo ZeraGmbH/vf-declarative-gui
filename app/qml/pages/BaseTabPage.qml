@@ -1,9 +1,17 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import GlobalConfig 1.0
+import ScreenCapture 1.0
 
 Item {
     id: root
+
+    focus: true
+    Keys.onPressed: {
+        if(event.key === Qt.Key_Insert)
+            screencapture.capture();
+        }
+
     readonly property real tabPointSize: height * 0.0225
     readonly property real tabHeight: height * 0.07
 
@@ -59,6 +67,10 @@ Item {
                 swipeView.forceActiveFocus()
             }
         }
+    }
+
+    ScreenCapture {
+        id: screencapture
     }
 
     property bool initialized: false
