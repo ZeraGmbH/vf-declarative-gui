@@ -47,15 +47,42 @@ Item {
 
     Keys.onPressed: {
         if(event.key === Qt.Key_Print) {
-            if(QmlFileIO.mountedPaths.length > 0)
+            if(QmlFileIO.mountedPaths.length > 0) {
                 QmlFileIO.storeScreenShotOnUsb()
+                successfulWindow.open()
+                timer.start()
+            }
             else
-                popupWindow.open()
+                unseccessfulWindow.open()
         }
     }
 
     Popup {
-        id : popupWindow
+        id : successfulWindow
+        anchors.centerIn: parent
+        width: parent.width/2
+        height: parent.height/6
+        modal: true
+        ColumnLayout {
+            anchors.fill: parent
+            Label {
+                font.pointSize: root.height/40
+                text: Z.tr("Screenshot taken and saved on USB-stick")
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+            }
+        }
+    }
+
+    Timer {
+        id: timer
+        interval: 1200
+        repeat: false
+        onTriggered: successfulWindow.close()
+    }
+
+    Popup {
+        id : unseccessfulWindow
         anchors.centerIn: parent
         width: parent.width/3
         height: parent.height/5
@@ -72,7 +99,7 @@ Item {
                 text: "OK"
                 font.pointSize: root.height/50
                 Layout.alignment: Qt.AlignHCenter
-                onClicked: popupWindow.close()
+                onClicked: unseccessfulWindow.close()
             }
         }
     }
