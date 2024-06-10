@@ -46,7 +46,7 @@ Item {
     onInitializedChanged: forceActiveFocus()
 
     Keys.onPressed: {
-        if(event.key === Qt.Key_Insert) {
+        if(event.key === Qt.Key_Print) {
             if(QmlFileIO.mountedPaths.length > 0)
                 QmlFileIO.storeScreenShotOnUsb()
             else
