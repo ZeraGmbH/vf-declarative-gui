@@ -177,9 +177,10 @@ bool QmlFileIO::storeJournalctlOnUsb(QVariant versionMap)
         QJsonDocument jsonDoc(QJsonObject::fromVariantMap(versionMap.toMap()));
         QDateTime now = QDateTime::currentDateTime();
         QString fileName = m_mountedPaths[0] + "/zenux-" + now.toString("yyyy-MM-dd_HHmm") + ".log";
+
         fileName = QDir::cleanPath(fileName);
-        QString command = "journalctl -o short-precise -S yesterday >> " + fileName;
         if (writeTextFile(fileName, jsonDoc.toJson(QJsonDocument::Indented), true, true)) {
+            QString command = "journalctl -o short-precise --boot >> " + fileName;
             if(system(qPrintable(command)) == 0)
                 return true;
             else
