@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE QVariant readJsonFile(const QString& fileName);
     Q_INVOKABLE bool writeJsonFile(const QString& fileName, const QVariant &content, bool overwrite = false);
     Q_INVOKABLE bool storeJournalctlOnUsb(QVariant versionMap);
+    Q_INVOKABLE bool storeScreenShotOnUsb();
 
     static QObject *getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
 

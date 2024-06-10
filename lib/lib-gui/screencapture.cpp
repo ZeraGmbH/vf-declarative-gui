@@ -8,12 +8,14 @@ ScreenCapture::ScreenCapture(QObject *parent)
     : QObject{parent}
 {}
 
-void ScreenCapture::capture()
+bool ScreenCapture::capture(QString path)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QPixmap pixmap = screen->grabWindow(0);
-    QFile file("/home/operator/Desktop/ScreenFile.PNG");
-    file.open(QIODevice::WriteOnly);
-    if(file.isOpen())
+    QFile file(path);
+    if(file.open(QIODevice::WriteOnly)) {
         pixmap.save(&file, "PNG");
+        return true;
+    }
+    return false;
 }
