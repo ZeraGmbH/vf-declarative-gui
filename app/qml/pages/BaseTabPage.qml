@@ -60,7 +60,7 @@ Item {
     Popup {
         id : successfulWindow
         anchors.centerIn: parent
-        width: parent.width/2
+        width: parent.width/1.8
         height: parent.height/6
         modal: true
         ColumnLayout {
