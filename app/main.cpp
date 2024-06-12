@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     signal(SIGINT, signalHandler);
     //signal(SIGKILL, signalHandler);
     signal(SIGPIPE, signalHandler);
-    signal(SIGSEGV, signalHandler);
+    //signal(SIGSEGV, signalHandler);
     //signal(SIGSTOP, signalHandler);
     signal(SIGTERM, signalHandler);
     // The signals SIGKILL and SIGSTOP cannot be caught, blocked, or
