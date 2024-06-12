@@ -29,8 +29,6 @@
 #include <declarativejsonitem.h>
 #include <zvkeyboardlayout.h>
 #include <jsonsettingsfile.h>
-#include <csignal>
-#include <QAbstractEventDispatcher>
 
 static void registerQmlExt(QQmlApplicationEngine &engine)
 {
@@ -102,27 +100,9 @@ static void loadQmlEngine(QQmlApplicationEngine &engine)
     loadedOnce = true;
 }
 
-void signalHandler(int sig)
-{
-    qWarning("Application received %s signal\n", strsignal(sig));
-    while( QThread::currentThread()->eventDispatcher()->processEvents(QEventLoop::AllEvents) );
-    ::exit(-1);
-}
-
 int main(int argc, char *argv[])
 {
     qInfo("Application starts...");
-    signal(SIGABRT, signalHandler);
-    signal(SIGFPE, signalHandler);
-    signal(SIGHUP, signalHandler);
-    signal(SIGINT, signalHandler);
-    //signal(SIGKILL, signalHandler);
-    signal(SIGPIPE, signalHandler);
-    //signal(SIGSEGV, signalHandler);
-    //signal(SIGSTOP, signalHandler);
-    signal(SIGTERM, signalHandler);
-    // The signals SIGKILL and SIGSTOP cannot be caught, blocked, or
-    // ignored - see https://www.man7.org/linux/man-pages/man7/signal.7.html
 
     //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
     //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
