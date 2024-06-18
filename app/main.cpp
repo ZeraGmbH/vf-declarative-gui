@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
     QObject::connect(&periodicLogTimer, &QTimer::timeout, [] {
         qDebug("Application ping");
     });
-    periodicLogTimer.start(5000);
+    periodicLogTimer.start(10000);
 
     QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
         engine.quit();
