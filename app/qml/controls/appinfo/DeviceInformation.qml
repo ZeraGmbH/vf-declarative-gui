@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import AdjustmentState 1.0
 import ZeraTranslation  1.0
-
+import '../../controls'
 import QmlFileIO 1.0
 
 Item {
@@ -55,6 +55,11 @@ Item {
         versionMap[strLabel] = version
     }
 
+    WaitTransaction {
+        id: waitPopup
+        animationComponent: AnimationSlowBits { }
+    }
+
     VisualItemModel {
         id: statusModel
 
@@ -65,10 +70,23 @@ Item {
                 id: buttonStoreLog
                 font.pointSize: root.pointSize
                 text: Z.tr("Save logfile to USB")
-                enabled: (QmlFileIO.mountedPaths.length > 0) && !QmlFileIO.writingLogsToUsb
+                readonly property bool writingLogsToUsb: QmlFileIO.writingLogsToUsb
+                enabled: (QmlFileIO.mountedPaths.length > 0) && !writingLogsToUsb
                 highlighted: true
                 Layout.alignment: Qt.AlignCenter
-                onClicked: QmlFileIO.startWriteJournalctlOnUsb(root.versionMap)
+                onClicked: {
+                    QmlFileIO.startWriteJournalctlOnUsb(root.versionMap)
+                }
+                onWritingLogsToUsbChanged: {
+                    if(writingLogsToUsb)
+                        waitPopup.startWait(Z.tr("Saving logs and dumps to external drive..."))
+                    else {
+                        if(QmlFileIO.lastWriteLogsOk)
+                            waitPopup.stopWait([], [], null)
+                        else
+                            waitPopup.stopWait([], [Z.tr("Could not save logs and dumps")], null)
+                    }
+                }
             }
         }
 
