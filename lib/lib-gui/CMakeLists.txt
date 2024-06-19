@@ -56,6 +56,7 @@ target_link_libraries(vf-declarative-gui-lib
     zera-json-qml
     Zera::ZVKeyboardLayout
     VeinMeta::VfFiles
+    simplecmdio-client
     "-Wl,--as-needed"
     #Other Libs
     ${QWT_LIBRARIES}
