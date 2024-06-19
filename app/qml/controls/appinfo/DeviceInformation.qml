@@ -63,26 +63,12 @@ Item {
             height: root.rowHeight * 2
             Button {
                 id: buttonStoreLog
-                property bool buttonEnabled: true
                 font.pointSize: root.pointSize
                 text: Z.tr("Save logfile to USB")
-                enabled: (QmlFileIO.mountedPaths.length > 0) && buttonEnabled
+                enabled: (QmlFileIO.mountedPaths.length > 0) && !QmlFileIO.writingLogsToUsb
                 highlighted: true
                 Layout.alignment: Qt.AlignCenter
-                onClicked: {
-                    QmlFileIO.storeJournalctlOnUsb(root.versionMap)
-                    buttonEnabled = false
-                    buttonTimer.start()
-                }
-            }
-
-            Timer {
-                id: buttonTimer
-                interval: 1000
-                repeat: false
-                onTriggered: {
-                    buttonStoreLog.buttonEnabled = true
-                }
+                onClicked: QmlFileIO.startWriteJournalctlOnUsb(root.versionMap)
             }
         }
 

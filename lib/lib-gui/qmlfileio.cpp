@@ -172,25 +172,51 @@ void QmlFileIO::onMountPathsChanged(QStringList mountPaths)
     emit sigMountedPathsChanged();
 }
 
-bool QmlFileIO::storeJournalctlOnUsb(QVariant versionMap)
+bool QmlFileIO::getWritingLogsToUsb() const
+{
+    return m_writingLogsToUsb;
+}
+
+bool QmlFileIO::getLastWriteLogsOk() const
+{
+    return m_lastWriteLogsOk;
+}
+
+
+bool QmlFileIO::startWriteJournalctlOnUsb(QVariant versionMap)
 {
     if(m_mountedPaths.size()) {
         QJsonDocument jsonDoc(QJsonObject::fromVariantMap(versionMap.toMap()));
-        QDateTime now = QDateTime::currentDateTime();
-        QString fileName = m_mountedPaths[0] + "/zenux-" + now.toString("yyyy-MM-dd_HHmm") + ".log";
-
-        fileName = QDir::cleanPath(fileName);
-        if (writeTextFile(fileName, jsonDoc.toJson(QJsonDocument::Indented), true, true)) {
-            QString command = "journalctl -o short-precise --boot >> " + fileName;
-            if(system(qPrintable(command)) == 0)
-                return true;
-            else
-                qWarning() << "QmlFileIO: System command 'journalctl' error";
+        QByteArray jsonData = jsonDoc.toJson(QJsonDocument::Indented);
+        QString jsonPath("/tmp/zenux-version.json");
+        QFile jsonFile(jsonPath);
+        if(jsonFile.open(QFile::WriteOnly)) {
+            jsonFile.write(jsonData);
+            jsonFile.close();
         }
         else
-            qWarning("QmlFileIO: writeTextFile ERROR");
+            jsonPath = ""; // service accepts empty version parameter
+
+        m_simpleCmdIoClient = std::make_unique<SimpleCmdIoClient>("127.0.0.1", 5000, 25000);
+        connect(m_simpleCmdIoClient.get(), &SimpleCmdIoClient::sigCmdFinish,
+                this, &QmlFileIO::onSimpleCmdFinish);
+        QString cmd = QString("SaveLogAndDumps,%1,%2").arg(m_mountedPaths[0], jsonPath);
+        m_simpleCmdIoClient->startCmd(cmd);
+        m_writingLogsToUsb = true;
+        emit sigWritingLogsToUsbChanged();
+        return true;
     }
     return false;
+}
+
+void QmlFileIO::onSimpleCmdFinish(bool ok)
+{
+    if(m_lastWriteLogsOk != ok) {
+        m_lastWriteLogsOk = ok;
+        emit sigLastWriteLogsOkChanged();
+    }
+    m_writingLogsToUsb = false;
+    emit sigWritingLogsToUsbChanged();
 }
 
 bool QmlFileIO::storeScreenShotOnUsb()
