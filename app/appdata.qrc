@@ -91,6 +91,7 @@
         <file>qml/pages/VectorModulePage.qml</file>
         <file>qml/singletons/AccumulatorState.qml</file>
         <file>qml/singletons/AdjustmentState.qml</file>
+        <file>qml/singletons/DeviceVersions.qml</file>
         <file>qml/singletons/FunctionTools.qml</file>
         <file>qml/singletons/GlobalConfig.qml</file>
         <file>qml/singletons/MeasChannelInfo.qml</file>
