@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import AdjustmentState 1.0
 import ZeraTranslation  1.0
+import DeviceVersions 1.0
 import '../../controls'
 import QmlFileIO 1.0
 
@@ -15,40 +16,8 @@ Item {
     readonly property real rowHeight: height > 0 ? height/20 : 10
     readonly property real pointSize: rowHeight * 0.7
 
-    property var dynVersions: []
-    readonly property bool hasCpuInfo: statusEnt.hasComponent("INF_CpuInfo")
-    onHasCpuInfoChanged: {
-        if(hasCpuInfo) {
-            appendDynVersions(VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"])
-        }
-    }
-
     readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
     readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
-
-    function appendDynVersions(strJsonCpuInfo) {
-        // Vein/JSON version lookup fields:
-        // 1st: Text displayed in label
-        // 2nd: JSON input field name
-        let dynVersionLookup = [
-            [Z.tr("CPU-board number"),   "PartNumber"],
-            [Z.tr("CPU-board assembly"),  "Assembly"],
-            [Z.tr("CPU-board date"),    "Date"],
-        ];
-        // 1st: Text displayed in label
-        // 2nd: version
-        if(strJsonCpuInfo !== "") {
-            let jsonCpuInfo = JSON.parse(strJsonCpuInfo)
-            for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
-                let jsonVerName = dynVersionLookup[lookupItem][1]
-                if(jsonVerName in jsonCpuInfo) {
-                    let item = [dynVersionLookup[lookupItem][0], jsonCpuInfo[jsonVerName]]
-                    dynVersions.push(item)
-                }
-            }
-            repeaterVersions.model = dynVersions
-        }
-    }
 
     property var versionMap: ({})
     function appendVersions(strLabel, version) {
@@ -296,7 +265,7 @@ Item {
             spacing: rowHeight/2
             Repeater {
                 id: repeaterVersions
-                model: []
+                model: DevVersions.dynVersions
                 RowLayout {
                     height: root.rowHeight
                     Label {

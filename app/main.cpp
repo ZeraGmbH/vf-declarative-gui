@@ -60,6 +60,7 @@ static void registerQmlInt()
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/MeasChannelInfo.qml"), "MeasChannelInfo", 1, 0, "MeasChannelInfo");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/SchnubbelState.qml"), "SchnubbelState", 1, 0, "SchnubbState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/AdjustmentState.qml"), "AdjustmentState", 1, 0, "AdjState");
+    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/DeviceVersions.qml"), "DeviceVersions", 1, 0, "DevVersions");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/PowerModuleVeinGetter.qml"), "PowerModuleVeinGetter", 1, 0, "PwrModVeinGetter");
     qmlRegisterSingletonType(QUrl("qrc:/qml/controls/settings/SlowMachineSettingsHelperSingleton.qml"), "SlowMachineSettingsHelper", 1, 0, "SlwMachSettingsHelper");
     qInfo("External QML internal dependencies registered.");
