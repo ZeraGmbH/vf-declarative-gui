@@ -6,7 +6,7 @@ import ZeraTranslation  1.0
 Item {
     readonly property var cpuVersions: { // Variscite
         let versions = []
-        let veinCpuInfo = VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"]
+        let veinCpuInfo = statusEntity["INF_CpuInfo"]
         if(veinCpuInfo !== "") {
             let dynVersionLookup = [
                 [Z.tr("CPU-board number"),   "PartNumber"],
@@ -26,7 +26,7 @@ Item {
     }
     readonly property var controllerVersions: { // Relais/System/EMOB µController
         let versions = []
-        let veinCpuInfo = VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
+        let veinCpuInfo = statusEntity["INF_CTRLVersion"]
         if(veinCpuInfo !== "") {
             let jsonCpuInfo = JSON.parse(veinCpuInfo)
             for(let jsonEntry in jsonCpuInfo) {
@@ -42,5 +42,5 @@ Item {
     // Vein/JSON version lookup fields:
     // 1st: Text displayed in label
     // 2nd: JSON input field name
-    readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
+    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
 }
