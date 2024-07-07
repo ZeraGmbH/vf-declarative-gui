@@ -2,8 +2,6 @@ import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
-import VeinEntity 1.0
-import AdjustmentState 1.0
 import ZeraTranslation  1.0
 import DeviceVersions 1.0
 import '../../controls'
@@ -12,8 +10,8 @@ import QmlFileIO 1.0
 Item {
     id: root
 
-    readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
-    readonly property real rowHeight: height > 0 ? height/20 : 10
+    readonly property real rowHeight: height > 0 ? height/(saveButtonHeightRows+DevVersions.allVersionsTr.length) : 10
+    readonly property real saveButtonHeightRows: 2
     readonly property real pointSize: rowHeight * 0.7
 
     property var versionMap: ({})
@@ -31,7 +29,7 @@ Item {
 
         RowLayout {
             width: parent.width
-            height: root.rowHeight * 2
+            height: root.rowHeight * saveButtonHeightRows
             Button {
                 id: buttonStoreLog
                 font.pointSize: root.pointSize
@@ -56,49 +54,11 @@ Item {
             }
         }
 
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("Serial number:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.PAR_SerialNr
-            }
-            Component.onCompleted: {
-                root.appendVersions("Serial number:", statusEnt.PAR_SerialNr)
-            }
-
-        }
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("Operating system version:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_ReleaseNr
-            }
-            Component.onCompleted: {
-                root.appendVersions("Operating system version:", statusEnt.INF_ReleaseNr)
-            }
-        }
         ColumnLayout {
             width: parent.width
-            height: root.rowHeight * (repeaterPCBVersions.model.length) * 1.4
             Repeater {
                 id: repeaterPCBVersions
-                model: DevVersions.pcbVersions
+                model: DevVersions.allVersionsTr
                 RowLayout {
                     height: root.rowHeight
                     Label {
@@ -111,153 +71,6 @@ Item {
                     Label {
                         font.pointSize: root.pointSize
                         text: modelData[1]
-                    }
-                    Component.onCompleted: {
-                        root.appendVersions(modelData[0] + ":", modelData[1])
-                    }
-                }
-            }
-        }
-
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("PCB server version:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_PCBServerVersion
-            }
-            Component.onCompleted: {
-                root.appendVersions("PCB server version:", statusEnt.INF_PCBServerVersion)
-            }
-        }
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("DSP server version:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_DSPServerVersion
-            }
-            Component.onCompleted: {
-                root.appendVersions("DSP server version:", statusEnt.INF_DSPServerVersion)
-            }
-        }
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("DSP firmware version:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_DSPVersion
-            }
-            Component.onCompleted: {
-                root.appendVersions("DSP firmware version:", statusEnt.INF_DSPVersion)
-            }
-        }
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("FPGA firmware version:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: statusEnt.INF_FPGAVersion
-            }
-            Component.onCompleted: {
-                root.appendVersions("FPGA firmware version:", statusEnt.INF_FPGAVersion)
-            }
-
-        }
-        ColumnLayout {
-            width: parent.width
-            height: root.rowHeight * (repeaterCtrlVersions.model.length) * 1.4
-            Repeater {
-                id: repeaterCtrlVersions
-                model: DevVersions.controllerVersionsTr
-                RowLayout {
-                    height: root.rowHeight
-                    Label {
-                        font.pointSize: root.pointSize
-                        text: modelData[0] + ":"
-                    }
-                    Item {
-                        Layout.fillWidth: true
-                    }
-                    Label {
-                        font.pointSize: root.pointSize
-                        text: modelData[1]
-                    }
-                    Component.onCompleted: {
-                        root.appendVersions(modelData[0] + ":", modelData[1])
-                    }
-                }
-            }
-        }
-        RowLayout {
-            width: parent.width
-            height: root.rowHeight
-            Material.foreground: AdjState.adjusted ? Material.White : Material.Red
-            Label {
-                font.pointSize: root.pointSize
-                text: Z.tr("Adjustment status:")
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Label {
-                font.pointSize: root.pointSize
-                text: AdjState.adjustmentStatusDescription
-            }
-            Component.onCompleted: {
-                root.appendVersions("Adjustment status:", AdjState.adjustmentStatusDescription)
-            }
-
-        }
-        ColumnLayout {
-            width: parent.width
-            spacing: rowHeight/2
-            Repeater {
-                id: repeaterVersions
-                model: DevVersions.cpuVersionsTr
-                RowLayout {
-                    height: root.rowHeight
-                    Label {
-                        text: modelData[0] + ":"
-                        font.pointSize: root.pointSize
-                    }
-                    Item {
-                        Layout.fillWidth: true
-                    }
-                    Label {
-                        font.pointSize: root.pointSize
-                        text: modelData[1]
-                    }
-                    Component.onCompleted: {
-                        root.appendVersions(modelData[0] + ":", modelData[1])
                     }
                 }
             }
