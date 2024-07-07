@@ -16,8 +16,6 @@ Item {
     readonly property real rowHeight: height > 0 ? height/20 : 10
     readonly property real pointSize: rowHeight * 0.7
 
-    readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
-
     property var versionMap: ({})
     function appendVersions(strLabel, version) {
         versionMap[strLabel] = version
@@ -100,17 +98,7 @@ Item {
             height: root.rowHeight * (repeaterPCBVersions.model.length) * 1.4
             Repeater {
                 id: repeaterPCBVersions
-                model:  {
-                    let ctrlVersions = []
-                    if(pcbVersionInfo !== "") {
-                        let jsonInfo = JSON.parse(pcbVersionInfo)
-                        for(let jsonEntry in jsonInfo) {
-                            let item = [Z.tr(jsonEntry), jsonInfo[jsonEntry]]
-                            ctrlVersions.push(item)
-                        }
-                    }
-                    return ctrlVersions
-                }
+                model: DevVersions.pcbVersions
                 RowLayout {
                     height: root.rowHeight
                     Label {
@@ -209,7 +197,7 @@ Item {
             height: root.rowHeight * (repeaterCtrlVersions.model.length) * 1.4
             Repeater {
                 id: repeaterCtrlVersions
-                model: DevVersions.controllerVersions
+                model: DevVersions.controllerVersionsTr
                 RowLayout {
                     height: root.rowHeight
                     Label {
@@ -254,7 +242,7 @@ Item {
             spacing: rowHeight/2
             Repeater {
                 id: repeaterVersions
-                model: DevVersions.cpuVersions
+                model: DevVersions.cpuVersionsTr
                 RowLayout {
                     height: root.rowHeight
                     Label {
