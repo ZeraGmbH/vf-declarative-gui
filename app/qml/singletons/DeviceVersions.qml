@@ -1,9 +1,29 @@
 pragma Singleton
 import QtQuick 2.0
 import VeinEntity 1.0
+import AdjustmentState 1.0
 import ZeraTranslation  1.0
 
 Item {
+    readonly property var allVersions: {
+        let versions = []
+        // TODO: Fix trailing ':' in translations
+        versions.push(["Serial number", statusEntity["PAR_SerialNr"]])
+        versions.push(["Operating system version", statusEntity["INF_ReleaseNr"]])
+        pushArray(versions, pcbVersions)
+        versions.push(["PCB server version", statusEntity["INF_PCBServerVersion"]])
+        versions.push(["DSP server version", statusEntity["INF_DSPServerVersion"]])
+        versions.push(["DSP firmware version", statusEntity["INF_DSPVersion"]])
+        versions.push(["FPGA firmware version", statusEntity["INF_FPGAVersion"]])
+        pushArray(versions, controllerVersions)
+        versions.push(["Adjustment status", AdjState.adjustmentStatusDescription])
+        pushArray(versions, cpuVersions)
+        return versions
+    }
+    readonly property var allVersionsTr: translateJson(allVersions)
+
+
+
     readonly property var controllerVersions: veinJsonToJsonObject("INF_CTRLVersion") // Relais/System/EMOB µController
     readonly property var pcbVersions: veinJsonToJsonObject("INF_PCBVersion")         // Relais/System/EMOB PCB
     readonly property var cpuVersions: {                                              // Variscite SOM
@@ -26,7 +46,7 @@ Item {
         }
         return versions
     }
-    // localized
+    // localized - TODO intermediate / will go
     readonly property var controllerVersionsTr: translateJson(controllerVersions)
     readonly property var pcbVersionsTr: translateJson(pcbVersions)
     readonly property var cpuVersionsTr: translateJson(cpuVersions)
@@ -56,5 +76,12 @@ Item {
         }
         return versions
     }
+    function pushArray(jsonVersionArray, arrPush) {
+        for(let jsonEntry in arrPush) {
+            let item = arrPush[jsonEntry]
+            jsonVersionArray.push(item)
+        }
+    }
+
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
 }
