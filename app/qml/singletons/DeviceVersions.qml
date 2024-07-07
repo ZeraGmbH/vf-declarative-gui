@@ -4,10 +4,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 
 Item {
-    // Vein/JSON version lookup fields:
-    // 1st: Text displayed in label
-    // 2nd: JSON input field name
-    readonly property var cpuVersions: {
+    readonly property var cpuVersions: { // Variscite
         let versions = []
         let veinCpuInfo = VeinEntity.getEntity("StatusModule1")["INF_CpuInfo"]
         if(veinCpuInfo !== "") {
@@ -27,7 +24,23 @@ Item {
         }
         return versions
     }
+    readonly property var controllerVersions: { // Relais/System/EMOB µController
+        let versions = []
+        let veinCpuInfo = VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
+        if(veinCpuInfo !== "") {
+            let jsonCpuInfo = JSON.parse(veinCpuInfo)
+            for(let jsonEntry in jsonCpuInfo) {
+                let item = [Z.tr(jsonEntry), jsonCpuInfo[jsonEntry]]
+                versions.push(item)
+            }
+        }
+        return versions
+    }
 
     // private
+
+    // Vein/JSON version lookup fields:
+    // 1st: Text displayed in label
+    // 2nd: JSON input field name
     readonly property QtObject statusEnt: VeinEntity.getEntity("StatusModule1");
 }

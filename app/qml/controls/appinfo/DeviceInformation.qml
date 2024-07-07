@@ -16,7 +16,6 @@ Item {
     readonly property real rowHeight: height > 0 ? height/20 : 10
     readonly property real pointSize: rowHeight * 0.7
 
-    readonly property string ctrlVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_CTRLVersion"]
     readonly property string pcbVersionInfo: VeinEntity.getEntity("StatusModule1")["INF_PCBVersion"]
 
     property var versionMap: ({})
@@ -210,17 +209,7 @@ Item {
             height: root.rowHeight * (repeaterCtrlVersions.model.length) * 1.4
             Repeater {
                 id: repeaterCtrlVersions
-                model:  {
-                    let ctrlVersions = []
-                    if(ctrlVersionInfo !== "") {
-                        let jsonCpuInfo = JSON.parse(ctrlVersionInfo)
-                        for(let jsonEntry in jsonCpuInfo) {
-                            let item = [Z.tr(jsonEntry), jsonCpuInfo[jsonEntry]]
-                            ctrlVersions.push(item)
-                        }
-                    }
-                    return ctrlVersions
-                }
+                model: DevVersions.controllerVersions
                 RowLayout {
                     height: root.rowHeight
                     Label {
