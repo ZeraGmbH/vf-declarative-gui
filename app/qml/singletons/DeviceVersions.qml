@@ -22,8 +22,8 @@ Item {
     }
     readonly property var allVersionsTr: translateJson(allVersions)
 
-
-
+    // private
+    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property var controllerVersions: veinJsonToJsonObject("INF_CTRLVersion") // Relais/System/EMOB µController
     readonly property var pcbVersions: veinJsonToJsonObject("INF_PCBVersion")         // Relais/System/EMOB PCB
     readonly property var cpuVersions: {                                              // Variscite SOM
@@ -46,12 +46,7 @@ Item {
         }
         return versions
     }
-    // localized - TODO intermediate / will go
-    readonly property var controllerVersionsTr: translateJson(controllerVersions)
-    readonly property var pcbVersionsTr: translateJson(pcbVersions)
-    readonly property var cpuVersionsTr: translateJson(cpuVersions)
 
-    // private
     // Vein/JSON version lookup array fields:
     // 1st: Text displayed in label
     // 2nd: JSON input field name
@@ -82,6 +77,4 @@ Item {
             jsonVersionArray.push(item)
         }
     }
-
-    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
 }
