@@ -265,7 +265,7 @@ Item {
             spacing: rowHeight/2
             Repeater {
                 id: repeaterVersions
-                model: DevVersions.dynVersions
+                model: DevVersions.cpuVersions
                 RowLayout {
                     height: root.rowHeight
                     Label {
