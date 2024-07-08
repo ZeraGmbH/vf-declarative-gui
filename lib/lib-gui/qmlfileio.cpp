@@ -183,7 +183,7 @@ bool QmlFileIO::getLastWriteLogsOk() const
 }
 
 
-bool QmlFileIO::startWriteJournalctlOnUsb(QVariant versionMap)
+bool QmlFileIO::startWriteJournalctlOnUsb(QVariant versionMap, QString serverIp)
 {
     if(m_mountedPaths.size()) {
         QJsonDocument jsonDoc(QJsonObject::fromVariantMap(versionMap.toMap()));
@@ -197,7 +197,7 @@ bool QmlFileIO::startWriteJournalctlOnUsb(QVariant versionMap)
         else
             jsonPath = ""; // service accepts empty version parameter
 
-        m_simpleCmdIoClient = std::make_unique<SimpleCmdIoClient>("127.0.0.1", 5000, 25000);
+        m_simpleCmdIoClient = std::make_unique<SimpleCmdIoClient>(serverIp, 5000, 25000);
         connect(m_simpleCmdIoClient.get(), &SimpleCmdIoClient::sigCmdFinish,
                 this, &QmlFileIO::onSimpleCmdFinish);
         QString unescapedPath = m_mountedPaths[0].replace("\\040", " ");
