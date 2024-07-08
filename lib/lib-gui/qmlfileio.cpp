@@ -200,7 +200,8 @@ bool QmlFileIO::startWriteJournalctlOnUsb(QVariant versionMap)
         m_simpleCmdIoClient = std::make_unique<SimpleCmdIoClient>("127.0.0.1", 5000, 25000);
         connect(m_simpleCmdIoClient.get(), &SimpleCmdIoClient::sigCmdFinish,
                 this, &QmlFileIO::onSimpleCmdFinish);
-        QString cmd = QString("SaveLogAndDumps,%1,%2").arg(m_mountedPaths[0], jsonPath);
+        QString unescapedPath = m_mountedPaths[0].replace("\\040", " ");
+        QString cmd = QString("SaveLogAndDumps,%1,%2").arg(unescapedPath, jsonPath);
         m_simpleCmdIoClient->startCmd(cmd);
         m_writingLogsToUsb = true;
         emit sigWritingLogsToUsbChanged();
