@@ -26,6 +26,8 @@ Item {
     // by a specific property to avoid cross property change activities: settings
     // has just one single notification for ALL settings-entries
 
+    readonly property string serverIp: Settings.getOption("modulemanagerIp", "127.0.0.1")
+
     readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
         lastPageViewIndexSelectedVolatile = -1

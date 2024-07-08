@@ -22,7 +22,7 @@ public:
 
     Q_PROPERTY(bool writingLogsToUsb READ getWritingLogsToUsb NOTIFY sigWritingLogsToUsbChanged);
     Q_PROPERTY(bool lastWriteLogsOk READ getLastWriteLogsOk NOTIFY sigLastWriteLogsOkChanged);
-    Q_INVOKABLE bool startWriteJournalctlOnUsb(QVariant versionMap);
+    Q_INVOKABLE bool startWriteJournalctlOnUsb(QVariant versionMap, QString serverIp);
 
     Q_INVOKABLE QString readTextFile(const QString& fileName);
     Q_INVOKABLE bool writeTextFile(const QString& fileName, const QString &content, bool overwrite = false, bool truncate = true);
