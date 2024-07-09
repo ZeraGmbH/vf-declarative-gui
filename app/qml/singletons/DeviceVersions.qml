@@ -26,7 +26,7 @@ Item {
         versions.push(["DSP firmware version", statusEntity["INF_DSPVersion"]])
         versions.push(["FPGA firmware version", statusEntity["INF_FPGAVersion"]])
         pushArray(versions, controllerVersions)
-        versions.push(["Adjustment status", AdjState.adjustmentStatusDescription])
+        versions.push(["Adjustment status", AdjState.adjustmentStatusBare])
         pushArray(versions, cpuVersions)
         return versions
     }
@@ -73,7 +73,13 @@ Item {
         let versions = []
         for(let jsonEntry in jsonVersionArray) {
             let item = jsonVersionArray[jsonEntry]
-            let itemTr = [Z.tr(item[0]), item[1]]
+            let labelBare = item[0]
+            let value
+            if(labelBare !== "Adjustment status")
+                value = item[1]
+            else
+                value = AdjState.adjustmentStatusDisplay
+            let itemTr = [Z.tr(labelBare), value]
             versions.push(itemTr)
         }
         return versions

@@ -6,29 +6,35 @@ import ZeraTranslation 1.0
 
 Item {
     readonly property bool adjusted: privProps.adjustmentValue === 0
-    readonly property string adjustmentStatusDescription : {
-        var strStatus = "OK"
-        if(!adjusted) {
-            strStatus = ""
-            // see mt310s2d/com5003d / adjustment.h for flags definition
-            if(privProps.adjustmentValue & (1<<0))
-                strStatus += Z.tr("Not adjusted")
-            if(privProps.adjustmentValue & (1<<1)) {
-                if(strStatus !== "")
-                    strStatus += " / "
-                strStatus += Z.tr("Wrong version")
-            }
-            if(privProps.adjustmentValue & (1<<2)) {
-                if(strStatus !== "")
-                    strStatus += " / "
-                strStatus += Z.tr("Wrong serial number")
-            }
-        }
-        return strStatus;
+    readonly property string adjustmentStatusBare : {
+        if(adjusted)
+            return "OK"
+        let errors = bareErrors()
+        return errors.join(" / ")
     }
+    readonly property string adjustmentStatusDisplay : {
+        if(adjusted)
+            return "OK"
+        let trErrors = []
+        for(let error of bareErrors())
+            trErrors.push("<font color='red'>" + Z.tr(error) + "</font>")
+        return trErrors.join(" / ")
+    }
+    function bareErrors() {
+        let errors = []
+        // see mt310s2d/com5003d / adjustment.h for flags definition
+        if(privProps.adjustmentValue & (1<<0))
+            errors.push("Not adjusted")
+        if(privProps.adjustmentValue & (1<<1))
+            errors.push("Wrong version")
+        if(privProps.adjustmentValue & (1<<2))
+            errors.push("Wrong serial number")
+        return errors
+    }
+
     QtObject {
         id: privProps
-        // INF_Adjusted is a bitmask - see adjustmentStatusDescription / 0 is OK
+        // INF_Adjusted is a bitmask - see adjustmentStatusBare / 0 is OK
         readonly property int adjustmentValue: parseInt(GC.entityInitializationDone ? VeinEntity.getEntity("StatusModule1").INF_Adjusted : "1")
     }
 }
