@@ -23,8 +23,6 @@ Item {
         versions.push(["Serial number", statusEntity["PAR_SerialNr"]])
         versions.push(["Operating system version", statusEntity["INF_ReleaseNr"]])
         pushArray(versions, pcbVersions)
-        versions.push(["PCB server version", statusEntity["INF_PCBServerVersion"]])
-        versions.push(["DSP server version", statusEntity["INF_DSPServerVersion"]])
         versions.push(["DSP firmware version", statusEntity["INF_DSPVersion"]])
         versions.push(["FPGA firmware version", statusEntity["INF_FPGAVersion"]])
         pushArray(versions, controllerVersions)
