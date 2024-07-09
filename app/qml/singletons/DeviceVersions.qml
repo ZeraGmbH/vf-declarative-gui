@@ -38,9 +38,9 @@ Item {
         let veinCpuInfo = statusEntity["INF_CpuInfo"]
         if(veinCpuInfo !== "") {
             let dynVersionLookup = [
+                ["CPU-board date",     "Date"],
                 ["CPU-board number",   "PartNumber"],
                 ["CPU-board assembly", "Assembly"],
-                ["CPU-board date",     "Date"],
             ]
             let jsonCpuInfo = JSON.parse(veinCpuInfo)
             for(let lookupItem=0; lookupItem < dynVersionLookup.length; lookupItem++) {
