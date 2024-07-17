@@ -1,7 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
 import QtCharts 2.15
 import VeinEntity 1.0
 
@@ -96,35 +95,41 @@ Item {
         LineSeries {
             id: lineSeriesU
             name: "U"
-
+            color: "dodgerblue"
             axisX: DateTimeAxis {
                 format: "hh:mm:ss"
             }
             axisY: ValueAxis {
+                color: "dodgerblue"
+                labelsColor: "dodgerblue"
             }
         }
         LineSeries {
             id: lineSeriesI
             name: "I"
-
+            color: "green"
             axisX: DateTimeAxis {
                 format: "hh:mm:ss"
                 labelsVisible: false
                 lineVisible: false
             }
             axisY: ValueAxis {
+                color: "green"
+                labelsColor: "green"
             }
         }
         LineSeries {
             id: lineSeriesP
             name: "P"
-
+            color: "firebrick"
             axisX: DateTimeAxis {
                 format: "hh:mm:ss"
                 labelsVisible: false
                 lineVisible: false
             }
             axisY: ValueAxis {
+                color: "firebrick"
+                labelsColor: "firebrick"
             }
         }
     }
