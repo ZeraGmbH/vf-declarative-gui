@@ -12,14 +12,12 @@ Item {
 
     function loadData() {
         // Convert JSON data to arrays of points
-        var timeFormat = Qt.formatDateTime
         var actValI = []
         var actValU = []
         var actValP = []
         var timestamps = Object.keys(jsonData).sort()
 
         for (var i = 0; i < timestamps.length; i++) {
-            var valuesSameTime = []
             var timestamp = timestamps[i]
             var data = jsonData[timestamp]
             var time = convertStrTimestampToMsecsSinceEpoch(timestamp)
@@ -39,19 +37,16 @@ Item {
         }
 
         // append points to splineSeries
-        for (var j = 0; j < actValU.length; j++) {
-            lineSeriesU.append(actValU[j].x, actValU[j].y)
-        }
+        var lastElt = actValU[actValU.length - 1]
+        lineSeriesU.append(lastElt.x, lastElt.y)
         setAxisMinMax(actValU, lineSeriesU)
 
-        for (var l = 0; l < actValI.length; l++) {
-            lineSeriesI.append(actValI[l].x, actValI[l].y)
-        }
+        lastElt = actValI[actValI.length - 1]
+        lineSeriesI.append(lastElt.x, lastElt.y)
         setAxisMinMax(actValI, lineSeriesI)
 
-        for (var k = 0; k < actValP.length; k++) {
-            lineSeriesP.append(actValP[k].x, actValP[k].y)
-        }
+        lastElt = actValP[actValP.length - 1]
+        lineSeriesP.append(lastElt.x, lastElt.y)
         setAxisMinMax(actValP, lineSeriesP)
     }
 
