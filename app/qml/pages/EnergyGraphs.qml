@@ -101,8 +101,12 @@ Item {
 
     ChartView {
         id: chartView
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         anchors.fill: parent
         antialiasing: true
+        theme: ChartView.ChartThemeDark
+        animationOptions: ChartView.SeriesAnimations
 
         LineSeries {
             id: lineSeriesU
@@ -114,8 +118,10 @@ Item {
             axisY: ValueAxis {
                 color: "dodgerblue"
                 labelsColor: "dodgerblue"
+                minorGridVisible: false
             }
         }
+
         LineSeries {
             id: lineSeriesI
             name: "I"
@@ -144,8 +150,31 @@ Item {
                 labelsColor: "firebrick"
             }
         }
-    }
 
+        Rectangle {
+            id: horizontalScrollMask
+            width: 50
+            height: 20
+            visible: true
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton
+
+            onMouseXChanged: {
+                if ((mouse.buttons & Qt.LeftButton) == Qt.LeftButton) {
+                    chartView.scrollLeft(mouseX - horizontalScrollMask.x);
+                    horizontalScrollMask.x = mouseX;
+                }
+            }
+            onPressed: {
+                if (mouse.button == Qt.LeftButton) {
+                    horizontalScrollMask.x = mouseX;
+                }
+            }
+        }
+    }
 
     Timer {
         id:mytimer1
