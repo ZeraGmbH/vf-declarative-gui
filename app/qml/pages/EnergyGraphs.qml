@@ -6,14 +6,16 @@ import VeinEntity 1.0
 
 Item {
     id:  root
+    property int timeStep: 0
+    property bool timerHasTriggered: false
     property var jsonData
     onJsonDataChanged:
         loadData()
 
     function loadData() {
         // Convert JSON data to arrays of points
-        var actValI = []
         var actValU = []
+        var actValI = []
         var actValP = []
         var timestamps = Object.keys(jsonData).sort()
 
@@ -58,17 +60,32 @@ Item {
                 timeArray.push(actData[l].x)
                 actDataArray.push(actData[l].y)
             }
-            var minValue = Math.min(...timeArray)
-            var maxValue = Math.max(...timeArray)
-            lineSeries.axisX.min = new Date(minValue)
-            lineSeries.axisX.max = new Date(maxValue)
+            var maxTimeValue = Math.max(...timeArray)
+            lineSeries.axisX.max = new Date(maxTimeValue)
 
-            minValue = Math.min(...actDataArray)
-            maxValue = Math.max(...actDataArray)
+            var minValue = Math.min(...actDataArray)
+            var maxValue = Math.max(...actDataArray)
             lineSeries.axisY.min = minValue
             lineSeries.axisY.max = maxValue
-            lineSeries.applyNiceNumbers()
+
+            if(timerHasTriggered === true) {
+                timeStep++;
+            }
+            if(timeStep > 10){
+                increaseXaxisTimeScale(lineSeries)
+            }
+            else {
+                var minTimeValue = Math.min(...timeArray)
+                lineSeries.axisX.min = new Date(minTimeValue)
+            }
         }
+    }
+
+    function increaseXaxisTimeScale(lineSeries) {
+        var maxTimeValue = lineSeries.axisX.max
+        var minTimeValue = lineSeries.axisX.min
+        minTimeValue = maxTimeValue - 10000
+        lineSeries.axisX.min = new Date(minTimeValue)
     }
 
     function convertStrTimestampToMsecsSinceEpoch(strTimestamp) {
@@ -129,4 +146,14 @@ Item {
         }
     }
 
+
+    Timer {
+        id:mytimer1
+        interval: 10000
+        repeat: true
+        running: true
+        onTriggered: {
+            timerHasTriggered = true
+        }
+    }
 }
