@@ -40,44 +40,48 @@ Item {
 
         // append points to splineSeries
         var lastElt = actValU[actValU.length - 1]
-        lineSeriesU.append(lastElt.x, lastElt.y)
-        setAxisMinMax(actValU, lineSeriesU)
+        if(lastElt !== undefined) {
+            lineSeriesU.append(lastElt.x, lastElt.y)
+            setAxisMinMax(actValU, lineSeriesU)
+        }
 
         lastElt = actValI[actValI.length - 1]
-        lineSeriesI.append(lastElt.x, lastElt.y)
-        setAxisMinMax(actValI, lineSeriesI)
+        if(lastElt !== undefined) {
+            lineSeriesI.append(lastElt.x, lastElt.y)
+            setAxisMinMax(actValI, lineSeriesI)
+        }
 
         lastElt = actValP[actValP.length - 1]
-        lineSeriesP.append(lastElt.x, lastElt.y)
-        setAxisMinMax(actValP, lineSeriesP)
+        if(lastElt !== undefined) {
+            lineSeriesP.append(lastElt.x, lastElt.y)
+            setAxisMinMax(actValP, lineSeriesP)
+        }
     }
 
     function setAxisMinMax(actData, lineSeries) {
         var timeArray = []
         var actDataArray = []
-        if(actData.length !== 0) {
-            for (var l = 0; l < actData.length; l++) {
-                timeArray.push(actData[l].x)
-                actDataArray.push(actData[l].y)
-            }
-            var maxTimeValue = Math.max(...timeArray)
-            lineSeries.axisX.max = new Date(maxTimeValue)
+        for (var l = 0; l < actData.length; l++) {
+            timeArray.push(actData[l].x)
+            actDataArray.push(actData[l].y)
+        }
+        var maxTimeValue = Math.max(...timeArray)
+        lineSeries.axisX.max = new Date(maxTimeValue)
 
-            var minValue = Math.min(...actDataArray)
-            var maxValue = Math.max(...actDataArray)
-            lineSeries.axisY.min = minValue
-            lineSeries.axisY.max = maxValue
+        var minValue = Math.min(...actDataArray)
+        var maxValue = Math.max(...actDataArray)
+        lineSeries.axisY.min = minValue
+        lineSeries.axisY.max = maxValue
 
-            if(timerHasTriggered === true) {
-                timeStep++;
-            }
-            if(timeStep > 10){
-                increaseXaxisTimeScale(lineSeries)
-            }
-            else {
-                var minTimeValue = Math.min(...timeArray)
-                lineSeries.axisX.min = new Date(minTimeValue)
-            }
+        if(timerHasTriggered === true) {
+            timeStep++;
+        }
+        if(timeStep > 10){
+            increaseXaxisTimeScale(lineSeries)
+        }
+        else {
+            var minTimeValue = Math.min(...timeArray)
+            lineSeries.axisX.min = new Date(minTimeValue)
         }
     }
 
@@ -106,7 +110,7 @@ Item {
         anchors.fill: parent
         antialiasing: true
         theme: ChartView.ChartThemeDark
-        animationOptions: ChartView.SeriesAnimations
+        //animationOptions: ChartView.SeriesAnimations
 
         LineSeries {
             id: lineSeriesU
