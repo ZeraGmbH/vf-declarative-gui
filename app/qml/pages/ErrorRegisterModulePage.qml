@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import FontAwesomeQml 1.0
 import ZeraFa 1.0
 import "../controls/error_comparison_common"
 import "../controls/error_comparison_params"
@@ -15,12 +16,15 @@ Item {
     clip: true
 
     property QtObject errCalEntity
+    property var storageEntity: VeinEntity.getEntity("Storage")
     property var moduleIntrospection
     property int status: errCalEntity.ACT_Status
     property string actualValue
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: height > 0 ? height * 0.03 : 10
+    readonly property var jsonEnergy: { "foo":[{ "EntityId":1040, "Component":[ "ACT_RMSPN1", "ACT_RMSPN2"]},
+                                               { "EntityId":1070, "Component":["ACT_PQS4"]} ]}
 
     QtObject {
         id: stateEnum
@@ -52,19 +56,29 @@ Item {
             height: root.height*0.7
             width: root.width
 
-            ParamViewRegister {
-                logicalParent: root
-                validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
-                validatorMeasTime: moduleIntrospection.ComponentInfo.PAR_MeasTime.Validation
-                validatorT0Input: moduleIntrospection.ComponentInfo.PAR_T0Input.Validation
-                validatorT1Input: moduleIntrospection.ComponentInfo.PAR_T1input.Validation
-                validatorTxUnit: moduleIntrospection.ComponentInfo.PAR_TXUNIT.Validation
-                validatorUpperLimit: moduleIntrospection.ComponentInfo.PAR_Uplimit.Validation
-                validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
-
+            SwipeView {
+                id: multiSwipe
                 width: parent.width*0.8
                 height: parent.height
+                interactive: false
+                orientation: Qt.Vertical
+                clip: true
+                ParamViewRegister {
+                    logicalParent: root
+                    validatorRefInput: moduleIntrospection.ComponentInfo.PAR_RefInput.Validation
+                    validatorMeasTime: moduleIntrospection.ComponentInfo.PAR_MeasTime.Validation
+                    validatorT0Input: moduleIntrospection.ComponentInfo.PAR_T0Input.Validation
+                    validatorT1Input: moduleIntrospection.ComponentInfo.PAR_T1input.Validation
+                    validatorTxUnit: moduleIntrospection.ComponentInfo.PAR_TXUNIT.Validation
+                    validatorUpperLimit: moduleIntrospection.ComponentInfo.PAR_Uplimit.Validation
+                    validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
+                }
+                EnergyGraphs {
+                    id: energyChart
+                    jsonData: storageEntity.StoredValues0
+                }
             }
+
             ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
                 width: parent.width*0.2
@@ -80,6 +94,7 @@ Item {
             height: root.height*0.1
             width: root.width
             Button {
+                id: startButton
                 text: Z.tr("Start")
                 font.pointSize: pointSize
                 width: root.width/5
@@ -94,10 +109,16 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
+                    storageEntity.PAR_JsonWithEntities0 = JSON.stringify(jsonEnergy)
+                    storageEntity.PAR_StartStopLogging0 = true
+                    multiSwipe.currentIndex = 1
+                    if(stopButton.enabled === false)
+                        storageEntity.PAR_StartStopLogging0 = false
                 }
             }
 
             Button {
+                id: stopButton
                 text: Z.tr("Stop")
                 font.pointSize: pointSize
                 width: root.width/5
@@ -112,6 +133,26 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 0) {
                         errCalEntity.PAR_StartStop=0;
                     }
+                    storageEntity.PAR_StartStopLogging0 = false
+                }
+            }
+            Button {
+                id: graphicsWindow
+                text: FAQ.fa_chevron_up
+                font.pointSize: pointSize
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: stopButton.left
+                anchors.left: startButton.right
+                anchors.rightMargin: parent.width / 8
+                anchors.leftMargin: parent.width / 8
+                highlighted: multiSwipe.currentIndex !== 0
+                onClicked: {
+                    multiSwipe.currentIndex = !multiSwipe.currentIndex
+                    if(graphicsWindow.text === FAQ.fa_chevron_up)
+                        graphicsWindow.text = FAQ.fa_chevron_down
+                    else
+                        graphicsWindow.text = FAQ.fa_chevron_up
                 }
             }
         }
