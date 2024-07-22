@@ -6,7 +6,6 @@ import VeinEntity 1.0
 
 Item {
     id:  root
-    property int timeStep: 0
     property bool timerHasTriggered: false
     property var jsonData
     onJsonDataChanged:
@@ -42,54 +41,47 @@ Item {
         var lastElt = actValU[actValU.length - 1]
         if(lastElt !== undefined) {
             lineSeriesU.append(lastElt.x, lastElt.y)
-            setAxisMinMax(actValU, lineSeriesU)
+            setAxisMinMax(actValU, lineSeriesU, axisYLeft)
         }
 
         lastElt = actValI[actValI.length - 1]
         if(lastElt !== undefined) {
             lineSeriesI.append(lastElt.x, lastElt.y)
-            setAxisMinMax(actValI, lineSeriesI)
+            setAxisMinMax(actValI, lineSeriesI, axisYRight)
         }
 
         lastElt = actValP[actValP.length - 1]
         if(lastElt !== undefined) {
             lineSeriesP.append(lastElt.x, lastElt.y)
-            setAxisMinMax(actValP, lineSeriesP)
+            setAxisMinMax(actValP, lineSeriesP, axisYPower)
         }
     }
 
-    function setAxisMinMax(actData, lineSeries) {
+    function setAxisMinMax(actData, lineSeries, axisY) {
         var timeArray = []
         var actDataArray = []
         for (var l = 0; l < actData.length; l++) {
             timeArray.push(actData[l].x)
             actDataArray.push(actData[l].y)
         }
-        var maxTimeValue = Math.max(...timeArray)
-        lineSeries.axisX.max = new Date(maxTimeValue)
-
         var minValue = Math.min(...actDataArray)
         var maxValue = Math.max(...actDataArray)
-        lineSeries.axisY.min = minValue
-        lineSeries.axisY.max = maxValue
+        axisY.min = minValue
+        axisY.max = maxValue
 
-        if(timerHasTriggered === true) {
-            timeStep++;
-        }
-        if(timeStep > 10){
-            increaseXaxisTimeScale(lineSeries)
+        var maxTimeValue = Math.max(...timeArray)
+        axisXPower.max = new Date(maxTimeValue)
+        axisX.max = new Date(maxTimeValue)
+        if(timerHasTriggered === true){
+            var minTimeValue = maxTimeValue - 10000
+            axisX.min = new Date(minTimeValue)
+            axisXPower.min = new Date(minTimeValue)
         }
         else {
-            var minTimeValue = Math.min(...timeArray)
-            lineSeries.axisX.min = new Date(minTimeValue)
+            minTimeValue = Math.min(...timeArray)
+            axisX.min = new Date(minTimeValue)
+            axisXPower.min = new Date(minTimeValue)
         }
-    }
-
-    function increaseXaxisTimeScale(lineSeries) {
-        var maxTimeValue = lineSeries.axisX.max
-        var minTimeValue = lineSeries.axisX.min
-        minTimeValue = maxTimeValue - 10000
-        lineSeries.axisX.min = new Date(minTimeValue)
     }
 
     function convertStrTimestampToMsecsSinceEpoch(strTimestamp) {
@@ -105,83 +97,79 @@ Item {
 
     ChartView {
         id: chartView
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-        anchors.fill: parent
+        height: root.height/2
+        width: root.width * 1.09
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 0
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 0
+        anchors.rightMargin: 0
         antialiasing: true
         theme: ChartView.ChartThemeDark
+        legend.visible: false
         //animationOptions: ChartView.SeriesAnimations
+
+        ValueAxis {
+            id: axisYLeft
+            color: "dodgerblue"
+            labelsColor: "dodgerblue"
+            titleText: "U"
+        }
+        ValueAxis {
+            id: axisYRight
+            color: "green"
+            labelsColor: "green"
+            titleText: "I"
+        }
+        DateTimeAxis {
+            id: axisX
+            format: "hh:mm:ss"
+        }
 
         LineSeries {
             id: lineSeriesU
-            name: "U"
-            color: "dodgerblue"
-            axisX: DateTimeAxis {
-                format: "hh:mm:ss"
-            }
-            axisY: ValueAxis {
-                color: "dodgerblue"
-                labelsColor: "dodgerblue"
-                minorGridVisible: false
-            }
+            axisX: axisX
+            axisY: axisYLeft
         }
-
         LineSeries {
             id: lineSeriesI
-            name: "I"
-            color: "green"
-            axisX: DateTimeAxis {
-                format: "hh:mm:ss"
-                labelsVisible: false
-                lineVisible: false
-            }
-            axisY: ValueAxis {
-                color: "green"
-                labelsColor: "green"
-            }
+            axisXTop: axisX
+            axisYRight: axisYRight
+        }
+    }
+
+    ChartView {
+        id: chartViewPower
+        height: root.height/2
+        width: root.width * 1.08
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 0
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 0
+        anchors.rightMargin: 0
+        anchors.top: chartView.bottom
+        antialiasing: true
+        theme: ChartView.ChartThemeDark
+        legend.visible: false
+
+        ValueAxis {
+            id: axisYPower
+            color: "firebrick"
+            labelsColor: "firebrick"
+            titleText: "P"
+        }
+        DateTimeAxis {
+            id: axisXPower
+            format: "hh:mm:ss"
         }
         LineSeries {
             id: lineSeriesP
-            name: "P"
-            color: "firebrick"
-            axisX: DateTimeAxis {
-                format: "hh:mm:ss"
-                labelsVisible: false
-                lineVisible: false
-            }
-            axisY: ValueAxis {
-                color: "firebrick"
-                labelsColor: "firebrick"
-            }
-        }
-
-        Rectangle {
-            id: horizontalScrollMask
-            width: 50
-            height: 20
-            visible: true
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.LeftButton
-
-            onMouseXChanged: {
-                if ((mouse.buttons & Qt.LeftButton) == Qt.LeftButton) {
-                    chartView.scrollLeft(mouseX - horizontalScrollMask.x);
-                    horizontalScrollMask.x = mouseX;
-                }
-            }
-            onPressed: {
-                if (mouse.button == Qt.LeftButton) {
-                    horizontalScrollMask.x = mouseX;
-                }
-            }
+            axisX: axisXPower
+            axisY: axisYPower
         }
     }
 
     Timer {
-        id:mytimer1
         interval: 10000
         repeat: true
         running: true
