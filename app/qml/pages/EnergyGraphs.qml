@@ -1,12 +1,14 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
-import QtCharts 2.15
+import QtCharts 2.0
 import VeinEntity 1.0
 
 
 Item {
     id:  root
+    property var graphHeight
+    property var graphWidth
     property bool timerHasTriggered: false
     property var jsonData
     onJsonDataChanged:
@@ -107,8 +109,8 @@ Item {
 
         ChartView {
             id: chartView
-            height: root.height/2
-            width: root.width * 1.08
+            height: root.graphHeight /4
+            width: root.graphWidth * 1.08
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 0
             anchors.bottomMargin: 0
@@ -147,11 +149,10 @@ Item {
                 axisYRight: axisYRight
             }
         }
-
         ChartView {
             id: chartViewPower
-            height: root.height /2
-            width: root.width * 1.08
+            height: root.graphHeight /4
+            width: root.graphWidth * 1.08
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 0
             anchors.bottomMargin: 0
@@ -186,16 +187,16 @@ Item {
         onPinchUpdated: {
             let pinchScale = pinch.scale * pinch.previousScale
             if(pinchScale > 1.0) {
-                chartView.height = root.height
-                chartView.width = root.width
-                chartViewPower.height = root.height
-                chartViewPower.width = root.width
+                chartView.height = root.graphHeight /2
+                chartView.width = root.graphWidth
+                chartViewPower.height = root.graphHeight / 2
+                chartViewPower.width = root.graphWidth
             }
             else if (pinchScale < 1.0) {
-                chartView.height = root.height / 2
-                chartView.width = root.width * 1.08
-                chartViewPower.height = root.height / 2
-                chartViewPower.width = root.width * 1.08
+                chartView.height = root.graphHeight / 4
+                chartView.width = root.graphWidth * 1.08
+                chartViewPower.height = root.graphHeight / 4
+                chartViewPower.width = root.graphWidth * 1.08
             }
         }
     }
