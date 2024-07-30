@@ -75,6 +75,8 @@ Item {
                 }
                 EnergyGraphs {
                     id: energyChart
+                    graphHeight: parent.height
+                    graphWidth: parent.width
                     jsonData: storageEntity.StoredValues0
                 }
             }
