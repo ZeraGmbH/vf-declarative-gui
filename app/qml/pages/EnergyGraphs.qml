@@ -69,6 +69,9 @@ Item {
         }
         var minValue = Math.min(...actDataArray)
         var maxValue = Math.max(...actDataArray)
+        minValue = Math.floor(minValue/ 10) * 10
+        maxValue = Math.ceil(maxValue/ 10) * 10
+
         axisY.min = minValue
         axisY.max = maxValue
 
@@ -125,6 +128,7 @@ Item {
                 labelsColor: "gold"
                 titleText: "U"
                 labelsFont.pixelSize: height * 0.03
+                labelFormat: "%d"
             }
             ValueAxis {
                 id: axisYRight
@@ -132,6 +136,7 @@ Item {
                 labelsColor: "green"
                 titleText: "I"
                 labelsFont.pixelSize: height * 0.03
+                labelFormat: "%d"
             }
             DateTimeAxis {
                 id: axisX
@@ -167,6 +172,7 @@ Item {
                 labelsColor: "dodgerblue"
                 titleText: "P"
                 labelsFont.pixelSize: height * 0.03
+                labelFormat: "%d"
             }
             DateTimeAxis {
                 id: axisXPower
