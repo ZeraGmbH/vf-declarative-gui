@@ -114,10 +114,6 @@ Item {
             height: root.graphHeight /4
             width: root.graphWidth * 1.08
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: 0
-            anchors.bottomMargin: 0
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
@@ -125,15 +121,17 @@ Item {
 
             ValueAxis {
                 id: axisYLeft
-                color: "dodgerblue"
-                labelsColor: "dodgerblue"
+                color: "gold"
+                labelsColor: "gold"
                 titleText: "U"
+                labelsFont.pixelSize: height * 0.03
             }
             ValueAxis {
                 id: axisYRight
                 color: "green"
                 labelsColor: "green"
                 titleText: "I"
+                labelsFont.pixelSize: height * 0.03
             }
             DateTimeAxis {
                 id: axisX
@@ -144,11 +142,13 @@ Item {
                 id: lineSeriesU
                 axisX: axisX
                 axisY: axisYLeft
+                color: "gold"
             }
             LineSeries {
                 id: lineSeriesI
                 axisXTop: axisX
                 axisYRight: axisYRight
+                color: "green"
             }
         }
         ChartView {
@@ -156,10 +156,6 @@ Item {
             height: root.graphHeight /4
             width: root.graphWidth * 1.08
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: 0
-            anchors.bottomMargin: 0
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
             anchors.top: chartView.bottom
             antialiasing: true
             theme: ChartView.ChartThemeDark
@@ -167,9 +163,10 @@ Item {
 
             ValueAxis {
                 id: axisYPower
-                color: "firebrick"
-                labelsColor: "firebrick"
+                color: "dodgerblue"
+                labelsColor: "dodgerblue"
                 titleText: "P"
+                labelsFont.pixelSize: height * 0.03
             }
             DateTimeAxis {
                 id: axisXPower
@@ -179,6 +176,7 @@ Item {
                 id: lineSeriesP
                 axisX: axisXPower
                 axisY: axisYPower
+                color: "dodgerblue"
             }
         }
     }
