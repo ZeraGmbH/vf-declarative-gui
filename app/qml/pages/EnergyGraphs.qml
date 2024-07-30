@@ -98,14 +98,16 @@ Item {
         return date.getTime();
     }
 
-
-    ScrollView {
-        id: scrollbar
+    Flickable {
+        id: flickable
         anchors.fill: parent
-        clip: true
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
-        ScrollBar.vertical.width: 8
         contentHeight: chartView.height + chartViewPower.height
+        flickableDirection: Flickable.VerticalFlick
+        clip: true
+        ScrollBar.vertical: ScrollBar {
+            width: 8
+            policy : flickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
+        }
 
         ChartView {
             id: chartView
