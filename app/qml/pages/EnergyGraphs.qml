@@ -41,21 +41,21 @@ Item {
         }
 
         // append points to splineSeries
-        var lastElt = actValU[actValU.length - 1]
-        if(lastElt !== undefined) {
-            lineSeriesU.append(lastElt.x, lastElt.y)
+        lineSeriesU.clear()
+        for (var l = 0; l < actValU.length; l++) {
+            lineSeriesU.append(actValU[l].x, actValU[l].y)
             setAxisMinMax(actValU, lineSeriesU, axisYLeft)
         }
 
-        lastElt = actValI[actValI.length - 1]
-        if(lastElt !== undefined) {
-            lineSeriesI.append(lastElt.x, lastElt.y)
+        lineSeriesI.clear()
+        for (var l = 0; l < actValI.length; l++) {
+            lineSeriesI.append(actValI[l].x, actValI[l].y)
             setAxisMinMax(actValI, lineSeriesI, axisYRight)
         }
 
-        lastElt = actValP[actValP.length - 1]
-        if(lastElt !== undefined) {
-            lineSeriesP.append(lastElt.x, lastElt.y)
+        lineSeriesP.clear()
+        for (var l = 0; l < actValP.length; l++) {
+            lineSeriesP.append(actValP[l].x, actValP[l].y)
             setAxisMinMax(actValP, lineSeriesP, axisYPower)
         }
     }
