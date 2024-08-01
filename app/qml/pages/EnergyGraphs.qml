@@ -104,13 +104,41 @@ Item {
     Flickable {
         id: flickable
         anchors.fill: parent
+        boundsBehavior: Flickable.StopAtBounds
         contentHeight: chartView.height + chartViewPower.height
+        width: root.width
+        height: root.height
         flickableDirection: Flickable.VerticalFlick
         clip: true
+
         ScrollBar.vertical: ScrollBar {
             width: 8
             policy : flickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
         }
+
+        PinchArea {
+            id: pinchArea
+            MouseArea {
+                anchors.fill: parent
+            }
+            anchors.fill: parent
+            pinch.dragAxis: Pinch.YAxis
+            onPinchUpdated: {
+                let pinchScale = pinch.scale * pinch.previousScale
+                if (pinchScale > 1.0) {
+                    chartView.height = root.graphHeight /2
+                    chartView.width = root.graphWidth
+                    chartViewPower.height = root.graphHeight / 2
+                    chartViewPower.width = root.graphWidth
+                } else if (pinchScale < 1.0) {
+                    chartView.height = root.graphHeight / 4
+                    chartView.width = root.graphWidth * 1.08
+                    chartViewPower.height = root.graphHeight / 4
+                    chartViewPower.width = root.graphWidth * 1.08
+                }
+            }
+        }
+        Item {}
 
         ChartView {
             id: chartView
@@ -183,26 +211,6 @@ Item {
                 axisX: axisXPower
                 axisY: axisYPower
                 color: "dodgerblue"
-            }
-        }
-    }
-
-    PinchArea {
-        id: pinchArea
-        anchors.fill: root
-        onPinchUpdated: {
-            let pinchScale = pinch.scale * pinch.previousScale
-            if(pinchScale > 1.0) {
-                chartView.height = root.graphHeight /2
-                chartView.width = root.graphWidth
-                chartViewPower.height = root.graphHeight / 2
-                chartViewPower.width = root.graphWidth
-            }
-            else if (pinchScale < 1.0) {
-                chartView.height = root.graphHeight / 4
-                chartView.width = root.graphWidth * 1.08
-                chartViewPower.height = root.graphHeight / 4
-                chartViewPower.width = root.graphWidth * 1.08
             }
         }
     }
