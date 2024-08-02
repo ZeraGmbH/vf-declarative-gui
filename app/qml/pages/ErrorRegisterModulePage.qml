@@ -7,6 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import FontAwesomeQml 1.0
+import SessionState 1.0
 import ZeraFa 1.0
 import "../controls/error_comparison_common"
 import "../controls/error_comparison_params"
@@ -27,12 +28,14 @@ Item {
                                                { "EntityId":1070, "Component":["ACT_PQS4"]} ]}
     property int parStartStop: errCalEntity.PAR_StartStop
     onParStartStopChanged: {
-        if(parStartStop === 1) {
-            storageEntity.PAR_JsonWithEntities0 = JSON.stringify(jsonEnergy)
-            storageEntity.PAR_StartStopLogging0 = true
-        }
-        else if(parStartStop === 0) {
-            storageEntity.PAR_StartStopLogging0 = false
+        if(SessionState.emobSession) {
+            if(parStartStop === 1) {
+                storageEntity.PAR_JsonWithEntities0 = JSON.stringify(jsonEnergy)
+                storageEntity.PAR_StartStopLogging0 = true
+            }
+            else if(parStartStop === 0) {
+                storageEntity.PAR_StartStopLogging0 = false
+            }
         }
     }
 
@@ -121,7 +124,8 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
-                    multiSwipe.currentIndex = 1
+                    if(SessionState.emobSession)
+                        multiSwipe.currentIndex = 1
                 }
             }
 
@@ -147,6 +151,7 @@ Item {
                 id: graphicsWindow
                 text: FAQ.fa_chevron_up
                 font.pointSize: pointSize
+                visible: SessionState.emobSession
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.right: stopButton.left
