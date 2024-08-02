@@ -112,6 +112,7 @@ Item {
         clip: true
 
         ScrollBar.vertical: ScrollBar {
+            id: verticalScroll
             width: 8
             policy : flickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
         }
@@ -183,6 +184,46 @@ Item {
                 axisYRight: axisYRight
                 color: "green"
             }
+
+            MouseArea {
+                id: mA
+                anchors.fill: parent
+                drag.target: dragTarget
+                drag.axis: Drag.XAxis
+                property bool chartNotZoomed: true
+                onDoubleClicked: {
+                    if(chartNotZoomed) {
+                        var zoomFactor = 2
+                        var center_x = mouse.x
+                        var center_y = mouse.y
+                        var width_zoom = width/ zoomFactor;
+                        var height_zoom = height/ zoomFactor;
+                        var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
+                        chartView.zoomIn(rect)
+                        chartNotZoomed = false
+                        mA.drag.axis = Drag.XAndYAxis
+                    }
+                    else {
+                        chartView.zoomReset();
+                        chartNotZoomed = true
+                        mA.drag.axis = Drag.XAxis
+                    }
+                }
+
+                Item {
+                   id: dragTarget
+                   property real oldX : x
+                   property real oldY : y
+                   onXChanged: {
+                       chartView.scrollLeft( x - oldX );
+                       oldX = x;
+                    }
+                   onYChanged: {
+                       chartView.scrollUp( y - oldY );
+                       oldY = y;
+                    }
+                }
+            }
         }
         ChartView {
             id: chartViewPower
@@ -211,6 +252,46 @@ Item {
                 axisX: axisXPower
                 axisY: axisYPower
                 color: "dodgerblue"
+            }
+
+            MouseArea {
+                id: mAPower
+                anchors.fill: parent
+                drag.target: dragTargetPower
+                drag.axis: Drag.XAxis
+                property bool chartNotZoomed: true
+                onDoubleClicked: {
+                    if(chartNotZoomed) {
+                        var zoomFactor = 2
+                        var center_x = mouse.x
+                        var center_y = mouse.y
+                        var width_zoom = width/ zoomFactor;
+                        var height_zoom = height/ zoomFactor;
+                        var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
+                        chartViewPower.zoomIn(rect)
+                        chartNotZoomed = false
+                        mAPower.drag.axis = Drag.XAndYAxis
+                    }
+                    else {
+                        chartViewPower.zoomReset();
+                        chartNotZoomed = true
+                        mAPower.drag.axis = Drag.XAxis
+                    }
+                }
+
+                Item {
+                   id: dragTargetPower
+                   property real oldX : x
+                   property real oldY : y
+                   onXChanged: {
+                       chartViewPower.scrollLeft( x - oldX );
+                       oldX = x;
+                    }
+                   onYChanged: {
+                       chartViewPower.scrollUp( y - oldY );
+                       oldY = y;
+                    }
+                }
             }
         }
     }
