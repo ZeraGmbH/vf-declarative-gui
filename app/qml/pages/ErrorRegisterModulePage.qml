@@ -25,6 +25,16 @@ Item {
     readonly property real pointSize: height > 0 ? height * 0.03 : 10
     readonly property var jsonEnergy: { "foo":[{ "EntityId":1040, "Component":[ "ACT_RMSPN1", "ACT_RMSPN2"]},
                                                { "EntityId":1070, "Component":["ACT_PQS4"]} ]}
+    property int parStartStop: errCalEntity.PAR_StartStop
+    onParStartStopChanged: {
+        if(parStartStop === 1) {
+            storageEntity.PAR_JsonWithEntities0 = JSON.stringify(jsonEnergy)
+            storageEntity.PAR_StartStopLogging0 = true
+        }
+        else if(parStartStop === 0) {
+            storageEntity.PAR_StartStopLogging0 = false
+        }
+    }
 
     QtObject {
         id: stateEnum
@@ -111,11 +121,7 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
-                    storageEntity.PAR_JsonWithEntities0 = JSON.stringify(jsonEnergy)
-                    storageEntity.PAR_StartStopLogging0 = true
                     multiSwipe.currentIndex = 1
-                    if(stopButton.enabled === false)
-                        storageEntity.PAR_StartStopLogging0 = false
                 }
             }
 
@@ -135,7 +141,6 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 0) {
                         errCalEntity.PAR_StartStop=0;
                     }
-                    storageEntity.PAR_StartStopLogging0 = false
                 }
             }
             Button {
