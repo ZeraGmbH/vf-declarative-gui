@@ -2,8 +2,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import QtCharts 2.0
-import VeinEntity 1.0
-
+import GlobalConfig 1.0
 
 Item {
     id:  root
@@ -153,16 +152,16 @@ Item {
 
             ValueAxis {
                 id: axisYLeft
-                color: "gold"
-                labelsColor: "gold"
+                color: GC.colorUAux1
+                labelsColor: GC.colorUAux1
                 titleText: "U"
                 labelsFont.pixelSize: height * 0.03
                 labelFormat: "%d"
             }
             ValueAxis {
                 id: axisYRight
-                color: "green"
-                labelsColor: "green"
+                color: GC.colorIAux1
+                labelsColor: GC.colorIAux1
                 titleText: "I"
                 labelsFont.pixelSize: height * 0.03
                 labelFormat: "%d"
@@ -176,13 +175,13 @@ Item {
                 id: lineSeriesU
                 axisX: axisX
                 axisY: axisYLeft
-                color: "gold"
+                color: GC.colorUAux1
             }
             LineSeries {
                 id: lineSeriesI
                 axisXTop: axisX
                 axisYRight: axisYRight
-                color: "green"
+                color: GC.colorIAux1
             }
 
             MouseArea {
@@ -237,8 +236,8 @@ Item {
 
             ValueAxis {
                 id: axisYPower
-                color: "dodgerblue"
-                labelsColor: "dodgerblue"
+                color: GC.colorUAux1
+                labelsColor: GC.colorUAux1
                 titleText: "P"
                 labelsFont.pixelSize: height * 0.03
                 labelFormat: "%d"
@@ -251,7 +250,7 @@ Item {
                 id: lineSeriesP
                 axisX: axisXPower
                 axisY: axisYPower
-                color: "dodgerblue"
+                color: GC.colorUAux1
             }
 
             MouseArea {
