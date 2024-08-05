@@ -35,5 +35,6 @@ Row {
         height: rowHeight
         color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(DC_P)
+        textColor: colorU
     }
 }
