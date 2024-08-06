@@ -23,6 +23,7 @@
         <file>qml/controls/AnimationSlowBits.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
+        <file>qml/controls/appinfo/ServiceSupport.qml</file>
         <file>qml/controls/appinfo/StatusView.qml</file>
         <file>qml/controls/error_comparison_common/ErrorMarginView.qml</file>
         <file>qml/controls/error_comparison_common/MeasurementView.qml</file>
