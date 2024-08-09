@@ -78,6 +78,7 @@
         <file>qml/pages/DCActualValueTabsPage.qml</file>
         <file>qml/pages/ErrorCalculatorModulePage.qml</file>
         <file>qml/pages/ErrorRegisterModulePage.qml</file>
+        <file>qml/pages/EnergyGraphs.qml</file>
         <file>qml/pages/ComparisonTabsView.qml</file>
         <file>qml/pages/FftTabPage.qml</file>
         <file>qml/pages/HarmonicPowerTabPage.qml</file>
