@@ -4,6 +4,7 @@ import QtQuick.Controls 2.14
 import QtCharts 2.0
 import GlobalConfig 1.0
 import SessionState 1.0
+import JsonHelper 1.0
 
 Item {
     id:  root
@@ -19,10 +20,10 @@ Item {
         let lineSeriesList = []
         for(var component in componentsList) {
             if(componentsList[component].includes("ACT_PQS1") || componentsList[component].includes("ACT_PQS2") || componentsList[component].includes("ACT_PQS3")) {
-                var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower);
+                var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
             }
             else {
-                series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX);
+                series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
             }
             lineSeriesList.push(series)
         }
@@ -81,36 +82,37 @@ Item {
         var timestamps = Object.keys(jsonData).sort()
         for (var i = 0; i < timestamps.length; i++) {
             var timestamp = timestamps[i]
-            var data = jsonData[timestamp]
-            var time = convertStrTimestampToMsecsSinceEpoch(timestamp)
-            for (var entity in data) {
-                var components = Object.keys(data[entity])
-                for(var v = 0 ; v <components.length; v++) {
-                    if(components[v].includes("ACT_RMSPN1") || components[v].includes("ACT_RMSPN2") || components[v].includes("ACT_RMSPN3") || components[v].includes("ACT_DC7")) {
-                        for(var k = 0; k < lineSeriesList.length; k++) {
-                            if(lineSeriesList[k].name === components[v]) {
-                                lineSeriesList[k].append(time, data[entity][components[v]])
-                                lineSeriesList[k].axisY = axisYLeft
-                                setMinMax(lineSeriesList[k], axisYLeft)
-                            }
+            var time = jsonHelper.convertTimestampToMs(timestamp)
+            var components = jsonHelper.getComponents(jsonData, time)
+            for(var v = 0 ; v <components.length; v++) {
+                if(components[v].includes("ACT_RMSPN1") || components[v].includes("ACT_RMSPN2") || components[v].includes("ACT_RMSPN3") || components[v].includes("ACT_DC7")) {
+                    for(var k = 0; k < lineSeriesList.length; k++) {
+                        if(lineSeriesList[k].name === components[v]) {
+                            let value = jsonHelper.getValue(jsonData, time, components[v])
+                            lineSeriesList[k].append(time, value)
+                            lineSeriesList[k].axisY = axisYLeft
+                            setMinMax(lineSeriesList[k], axisYLeft)
                         }
                     }
-                    if(components[v].includes("ACT_RMSPN4") || components[v].includes("ACT_RMSPN5") || components[v].includes("ACT_RMSPN6") || components[v].includes("ACT_DC8")) {
-                        for(var k = 0; k < lineSeriesList.length; k++) {
-                            if(lineSeriesList[k].name === components[v]) {
-                                lineSeriesList[k].append(time, data[entity][components[v]])
-                                lineSeriesList[k].axisYRight = axisYRight
-                                setMinMax(lineSeriesList[k], lineSeriesList[k].axisYRight) //axisYRight
-                            }
+                }
+                if(components[v].includes("ACT_RMSPN4") || components[v].includes("ACT_RMSPN5") || components[v].includes("ACT_RMSPN6") || components[v].includes("ACT_DC8")) {
+                    for(var k = 0; k < lineSeriesList.length; k++) {
+                        if(lineSeriesList[k].name === components[v]) {
+                            let value = jsonHelper.getValue(jsonData, time, components[v])
+                            lineSeriesList[k].append(time, value)
+                            lineSeriesList[k].axisYRight = axisYRight
+                            setMinMax(lineSeriesList[k], lineSeriesList[k].axisYRight) //axisYRight
                         }
                     }
-                    if(components[v].includes("ACT_PQS1") || components[v].includes("ACT_PQS2") || components[v].includes("ACT_PQS3")) {
-                        for(var k = 0; k < lineSeriesList.length; k++) {
-                            if(lineSeriesList[k].name === components[v]) {
-                                lineSeriesList[k].append(time, data[entity][components[v]])
-                                lineSeriesList[k].axisY = axisYPower
-                                setMinMax(lineSeriesList[k], axisYPower) //lineSeriesList[k].axisY
-                            }
+                }
+                if(components[v].includes("ACT_PQS1") || components[v].includes("ACT_PQS2") || components[v].includes("ACT_PQS3")) {
+                    for(var k = 0; k < lineSeriesList.length; k++) {
+                        if(lineSeriesList[k].name === components[v]) {
+                            let value = jsonHelper.getValue(jsonData, time, components[v])
+                            lineSeriesList[k].append(time, value)
+                            //lineSeriesList[k].width = 1
+                            lineSeriesList[k].axisY = axisYPower
+                            setMinMax(lineSeriesList[k], axisYPower) //lineSeriesList[k].axisY
                         }
                     }
                 }
@@ -148,15 +150,8 @@ Item {
         }
     }
 
-    function convertStrTimestampToMsecsSinceEpoch(strTimestamp) {
-        var parts = strTimestamp.split(" ");
-        var dateParts = parts[0].split("-");
-        var timeParts = parts[1].split(":");
-        var splitMs = timeParts[2].split(".");
-        var milliseconds = splitMs[1]
-        timeParts[2] = parseInt(timeParts[2]);
-        var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0], timeParts[0], timeParts[1], timeParts[2], milliseconds);
-        return date.getTime();
+    JsonHelper {
+        id: jsonHelper
     }
 
     Flickable {
