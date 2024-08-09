@@ -3,68 +3,127 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import QtCharts 2.0
 import GlobalConfig 1.0
+import SessionState 1.0
 
 Item {
     id:  root
     property var graphHeight
     property var graphWidth
     property bool timerHasTriggered: false
+    property var componentsList
     property var jsonData
     onJsonDataChanged:
         loadData()
 
-    function loadData() {
-        // Convert JSON data to arrays of points
-        var actValU = []
-        var actValI = []
-        var actValP = []
-        var timestamps = Object.keys(jsonData).sort()
+    function createLineSeries() {
+        let lineSeriesList = []
+        for(var component in componentsList) {
+            if(componentsList[component].includes("ACT_PQS1") || componentsList[component].includes("ACT_PQS2") || componentsList[component].includes("ACT_PQS3")) {
+                var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower);
+            }
+            else {
+                series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX);
+            }
+            lineSeriesList.push(series)
+        }
+        return lineSeriesList
+    }
 
+    function setColors(lineSeriesList) {
+        for(var k = 0; k < lineSeriesList.length; k++) {
+            lineSeriesList[k].width = 1
+            switch(lineSeriesList[k].name) {
+            case "ACT_RMSPN1":
+                lineSeriesList[k].color = GC.colorUL1;
+                break;
+            case "ACT_RMSPN2":
+                lineSeriesList[k].color = GC.colorUL2;
+                break;
+            case "ACT_RMSPN3":
+                lineSeriesList[k].color = GC.colorUL3;
+                break;
+            case "ACT_RMSPN4":
+                lineSeriesList[k].color = GC.colorIL1;
+                break;
+            case "ACT_RMSPN5":
+                lineSeriesList[k].color = GC.colorIL2;
+                break;
+            case "ACT_RMSPN6":
+                lineSeriesList[k].color = GC.colorIL3;
+                break;
+            case "ACT_DC7":
+                lineSeriesList[k].color = GC.colorUAux1;
+                break;
+            case "ACT_DC8":
+                lineSeriesList[k].color = GC.colorIAux1;
+                break;
+            case "ACT_PQS1":
+                if(SessionState.emobSession && SessionState.dcSession)
+                    lineSeriesList[k].color = GC.colorUAux1;
+                else
+                    lineSeriesList[k].color = GC.colorUL1;
+                break;
+            case "ACT_PQS2":
+                lineSeriesList[k].color = GC.colorUL2;
+                break;
+            case "ACT_PQS3":
+                lineSeriesList[k].color = GC.colorUL3;
+                break;
+            }
+        }
+    }
+
+    function loadData() {
+        let lineSeriesList = []
+        lineSeriesList = createLineSeries()
+        setColors(lineSeriesList)
+
+        var timestamps = Object.keys(jsonData).sort()
         for (var i = 0; i < timestamps.length; i++) {
             var timestamp = timestamps[i]
             var data = jsonData[timestamp]
             var time = convertStrTimestampToMsecsSinceEpoch(timestamp)
-
             for (var entity in data) {
-                var values = Object.keys(data[entity])
-                if(values.includes("ACT_RMSPN1")) {
-                    actValU.push({x: time, y: data[entity]["ACT_RMSPN1"]})
-                }
-                if(values.includes("ACT_RMSPN2")) {
-                    actValI.push({x: time, y: data[entity]["ACT_RMSPN2"]})
-                }
-                if(values.includes("ACT_PQS4")) {
-                    actValP.push({x: time, y: data[entity]["ACT_PQS4"]})
+                var components = Object.keys(data[entity])
+                for(var v = 0 ; v <components.length; v++) {
+                    if(components[v].includes("ACT_RMSPN1") || components[v].includes("ACT_RMSPN2") || components[v].includes("ACT_RMSPN3") || components[v].includes("ACT_DC7")) {
+                        for(var k = 0; k < lineSeriesList.length; k++) {
+                            if(lineSeriesList[k].name === components[v]) {
+                                lineSeriesList[k].append(time, data[entity][components[v]])
+                                lineSeriesList[k].axisY = axisYLeft
+                                setMinMax(lineSeriesList[k], axisYLeft)
+                            }
+                        }
+                    }
+                    if(components[v].includes("ACT_RMSPN4") || components[v].includes("ACT_RMSPN5") || components[v].includes("ACT_RMSPN6") || components[v].includes("ACT_DC8")) {
+                        for(var k = 0; k < lineSeriesList.length; k++) {
+                            if(lineSeriesList[k].name === components[v]) {
+                                lineSeriesList[k].append(time, data[entity][components[v]])
+                                lineSeriesList[k].axisYRight = axisYRight
+                                setMinMax(lineSeriesList[k], lineSeriesList[k].axisYRight) //axisYRight
+                            }
+                        }
+                    }
+                    if(components[v].includes("ACT_PQS1") || components[v].includes("ACT_PQS2") || components[v].includes("ACT_PQS3")) {
+                        for(var k = 0; k < lineSeriesList.length; k++) {
+                            if(lineSeriesList[k].name === components[v]) {
+                                lineSeriesList[k].append(time, data[entity][components[v]])
+                                lineSeriesList[k].axisY = axisYPower
+                                setMinMax(lineSeriesList[k], axisYPower) //lineSeriesList[k].axisY
+                            }
+                        }
+                    }
                 }
             }
         }
-
-        // append points to splineSeries
-        lineSeriesU.clear()
-        for (var l = 0; l < actValU.length; l++) {
-            lineSeriesU.append(actValU[l].x, actValU[l].y)
-            setAxisMinMax(actValU, lineSeriesU, axisYLeft)
-        }
-
-        lineSeriesI.clear()
-        for (var l = 0; l < actValI.length; l++) {
-            lineSeriesI.append(actValI[l].x, actValI[l].y)
-            setAxisMinMax(actValI, lineSeriesI, axisYRight)
-        }
-
-        lineSeriesP.clear()
-        for (var l = 0; l < actValP.length; l++) {
-            lineSeriesP.append(actValP[l].x, actValP[l].y)
-            setAxisMinMax(actValP, lineSeriesP, axisYPower)
-        }
     }
 
-    function setAxisMinMax(actData, lineSeries, axisY) {
+    function setMinMax(LineSeries, axisY) {
         var timeArray = []
         var actDataArray = []
-        for (var l = 0; l < actData.length; l++) {
-            timeArray.push(actData[l].x)
-            actDataArray.push(actData[l].y)
+        for (var l = 0; l < LineSeries.count; l++) {
+            timeArray.push(LineSeries.at(l).x)
+            actDataArray.push(LineSeries.at(l).y)
         }
         var minValue = Math.min(...actDataArray)
         var maxValue = Math.max(...actDataArray)
