@@ -24,19 +24,43 @@ Item {
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: height > 0 ? height * 0.03 : 10
-    readonly property var jsonEnergy: { "foo":[{ "EntityId":1040, "Component":[ "ACT_RMSPN1", "ACT_RMSPN2"]},
-                                               { "EntityId":1070, "Component":["ACT_PQS4"]} ]}
+    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2"]},
+                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]} //"ACT_DC7" / "ACT_DC8"
+    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":[ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
+                                                 { "EntityId":1071, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3"]} ]} // , "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"
+
     property int parStartStop: errCalEntity.PAR_StartStop
     onParStartStopChanged: {
         if(SessionState.emobSession) {
             if(parStartStop === 1) {
-                storageEntity.PAR_JsonWithEntities0 = JSON.stringify(jsonEnergy)
+                if(SessionState.dcSession) {
+                    var data = jsonEnergyDC
+                    storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
+                }
+                else {
+                    data = jsonEnergyAC
+                    storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
+                }
                 storageEntity.PAR_StartStopLogging0 = true
             }
             else if(parStartStop === 0) {
                 storageEntity.PAR_StartStopLogging0 = false
             }
         }
+    }
+
+    function extractComponents(data) {
+        if(data.length !== 0 ) {
+            data = JSON.parse(data)
+            data = data.foo
+            var compoList = []
+            for(var i = 0; i < data.length; i++) {
+                compoList.push(data[i].Component)
+            }
+            var flatCompoList = [].concat.apply([], compoList);
+            return flatCompoList
+        }
+        return []
     }
 
     QtObject {
@@ -90,6 +114,11 @@ Item {
                     id: energyChart
                     graphHeight: parent.height
                     graphWidth: parent.width
+                    property var jsonIn: VeinEntity.getEntity("Storage").PAR_JsonWithEntities0
+                    onJsonInChanged: {
+                        var compoList = extractComponents(jsonIn)
+                        energyChart.componentsList = compoList
+                    }
                     jsonData: storageEntity.StoredValues0
                 }
             }
