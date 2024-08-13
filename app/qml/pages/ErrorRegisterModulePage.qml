@@ -119,7 +119,6 @@ Item {
                         var compoList = extractComponents(jsonIn)
                         energyChart.componentsList = compoList
                     }
-                    jsonData: storageEntity.StoredValues0
                 }
             }
 
