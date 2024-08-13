@@ -45,8 +45,8 @@ QString JsonHelper::getValue(QJsonObject json, qint64 date, QString component)
 QVariant JsonHelper::findLastElementOfCompo(QList<QVariant> actVal, QString compoName)
 {
     if(!actVal.isEmpty()) {
-        for(auto iter = actVal.cend()-1; iter != actVal.cbegin(); --iter) {
-            QVariantMap map = iter->toMap();
+        for(int i = 0; i < actVal.size(); i++) {
+            QVariantMap map = actVal[i].toMap();
             if(map.value("y") == compoName)
                 return map.value("x");
         }
