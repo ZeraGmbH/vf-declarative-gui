@@ -8,29 +8,34 @@ import JsonHelper 1.0
 
 Item {
     id:  root
+    readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
+    readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
+    readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3"]
+
     property var graphHeight
     property var graphWidth
     property bool timerHasTriggered: false
+    property var lineSeriesList: []
     property var componentsList
+    onComponentsListChanged: {
+        createLineSeries()
+        setColors()
+    }
     property var jsonData
     onJsonDataChanged:
         loadData()
 
     function createLineSeries() {
-        let lineSeriesList = []
         for(var component in componentsList) {
-            if(componentsList[component].includes("ACT_PQS1") || componentsList[component].includes("ACT_PQS2") || componentsList[component].includes("ACT_PQS3")) {
+            if(powerComponents.includes(componentsList[component]))
                 var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
-            }
-            else {
+            else
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
-            }
             lineSeriesList.push(series)
         }
-        return lineSeriesList
     }
 
-    function setColors(lineSeriesList) {
+    function setColors() {
         for(var k = 0; k < lineSeriesList.length; k++) {
             lineSeriesList[k].width = 1
             switch(lineSeriesList[k].name) {
@@ -75,46 +80,38 @@ Item {
     }
 
     function loadData() {
-        let lineSeriesList = []
-        lineSeriesList = createLineSeries()
-        setColors(lineSeriesList)
+        var actValU = []
+        var actValI = []
+        var actValP = []
 
         var timestamps = Object.keys(jsonData).sort()
-        for (var i = 0; i < timestamps.length; i++) {
-            var timestamp = timestamps[i]
-            var time = jsonHelper.convertTimestampToMs(timestamp)
-            var components = jsonHelper.getComponents(jsonData, time)
-            for(var v = 0 ; v <components.length; v++) {
-                if(components[v].includes("ACT_RMSPN1") || components[v].includes("ACT_RMSPN2") || components[v].includes("ACT_RMSPN3") || components[v].includes("ACT_DC7")) {
-                    for(var k = 0; k < lineSeriesList.length; k++) {
-                        if(lineSeriesList[k].name === components[v]) {
-                            let value = jsonHelper.getValue(jsonData, time, components[v])
-                            lineSeriesList[k].append(time, value)
-                            lineSeriesList[k].axisY = axisYLeft
-                            setMinMax(lineSeriesList[k], axisYLeft)
-                        }
-                    }
-                }
-                if(components[v].includes("ACT_RMSPN4") || components[v].includes("ACT_RMSPN5") || components[v].includes("ACT_RMSPN6") || components[v].includes("ACT_DC8")) {
-                    for(var k = 0; k < lineSeriesList.length; k++) {
-                        if(lineSeriesList[k].name === components[v]) {
-                            let value = jsonHelper.getValue(jsonData, time, components[v])
-                            lineSeriesList[k].append(time, value)
-                            lineSeriesList[k].axisYRight = axisYRight
-                            setMinMax(lineSeriesList[k], lineSeriesList[k].axisYRight) //axisYRight
-                        }
-                    }
-                }
-                if(components[v].includes("ACT_PQS1") || components[v].includes("ACT_PQS2") || components[v].includes("ACT_PQS3")) {
-                    for(var k = 0; k < lineSeriesList.length; k++) {
-                        if(lineSeriesList[k].name === components[v]) {
-                            let value = jsonHelper.getValue(jsonData, time, components[v])
-                            lineSeriesList[k].append(time, value)
-                            //lineSeriesList[k].width = 1
-                            lineSeriesList[k].axisY = axisYPower
-                            setMinMax(lineSeriesList[k], axisYPower) //lineSeriesList[k].axisY
-                        }
-                    }
+        var timestamp = timestamps[timestamps.length - 1]
+        var time = jsonHelper.convertTimestampToMs(timestamp)
+        var components = jsonHelper.getComponents(jsonData, time)
+        for(var v = 0 ; v <components.length; v++) {
+            if(voltageComponents.includes(components[v]))
+                actValU.push({x: time, y: components[v]})
+            if(currentComponents.includes(components[v]))
+                actValI.push({x: time, y: components[v]})
+            if(powerComponents.includes(components[v]))
+                actValP.push({x: time, y: components[v]})
+        }
+        for(let vCompo in voltageComponents)
+            appendLastElemt(actValU, voltageComponents[vCompo], axisYLeft)
+        for(let iCompo in currentComponents)
+            appendLastElemt(actValI, currentComponents[iCompo], axisYRight)
+        for(let pCompo in powerComponents)
+            appendLastElemt(actValP, powerComponents[pCompo], axisYPower)
+    }
+
+    function appendLastElemt(actVal, compoName, axisY) {
+        var lastEltTime = jsonHelper.findLastElementOfCompo(actVal, compoName)
+        if(lastEltTime !== "0") {
+            for(var k = 0; k < lineSeriesList.length; k++) {
+                if(lineSeriesList[k].name === compoName) {
+                    let value = jsonHelper.getValue(jsonData, lastEltTime, compoName)
+                    lineSeriesList[k].append(lastEltTime, value)
+                    setMinMax(lineSeriesList[k], axisY)
                 }
             }
         }
@@ -145,6 +142,9 @@ Item {
         }
         else {
             minTimeValue = Math.min(...timeArray)
+            if(maxTimeValue === minTimeValue) {
+                minTimeValue = minTimeValue - 10000
+            }
             axisX.min = new Date(minTimeValue)
             axisXPower.min = new Date(minTimeValue)
         }
@@ -347,6 +347,10 @@ Item {
                 }
             }
         }
+    }
+    Component.onCompleted: {
+        for(let i = 0; i < lineSeriesList.length; i++ )
+            lineSeriesList[i].clear()
     }
 
     Timer {
