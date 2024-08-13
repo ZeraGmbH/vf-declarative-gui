@@ -41,3 +41,15 @@ QString JsonHelper::getValue(QJsonObject json, qint64 date, QString component)
     }
     return value;
 }
+
+QVariant JsonHelper::findLastElementOfCompo(QList<QVariant> actVal, QString compoName)
+{
+    if(!actVal.isEmpty()) {
+        for(auto iter = actVal.cend()-1; iter != actVal.cbegin(); --iter) {
+            QVariantMap map = iter->toMap();
+            if(map.value("y") == compoName)
+                return map.value("x");
+        }
+    }
+    return "0";
+}
