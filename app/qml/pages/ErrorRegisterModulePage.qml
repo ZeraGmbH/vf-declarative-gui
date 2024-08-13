@@ -24,10 +24,10 @@ Item {
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: height > 0 ? height * 0.03 : 10
-    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2"]},
-                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]} //"ACT_DC7" / "ACT_DC8"
-    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":[ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
-                                                 { "EntityId":1071, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3"]} ]} // , "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"
+    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
+                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
+    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
+                                                 { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3"]} ]}
 
     property int parStartStop: errCalEntity.PAR_StartStop
     onParStartStopChanged: {
