@@ -42,6 +42,7 @@ Item {
         var actValI = []
         var actValP = []
 
+        GraphFunctions.prepareCharts(Object.keys(jsonData))
         var timestamps = Object.keys(jsonData).sort()
         var timestamp = timestamps[timestamps.length - 1]
         var time = jsonHelper.convertTimestampToMs(timestamp)
@@ -260,9 +261,4 @@ Item {
             }
         }
     }
-    Component.onCompleted: {
-        for(let i = 0; i < lineSeriesList.length; i++ )
-            lineSeriesList[i].clear()
-    }
-
 }
