@@ -104,6 +104,15 @@ Item {
         }
     }
 
+    function prepareCharts(timestamps) {
+        if(timestamps.length <= 1) {
+            for(let i = 0; i < lineSeriesList.length; i++ )
+                lineSeriesList[i].clear()
+            timer.restart()
+            timerHasTriggered = false
+        }
+    }
+
     JsonHelper {
         id : jsonHelper
     }
