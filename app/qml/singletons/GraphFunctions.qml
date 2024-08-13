@@ -9,6 +9,7 @@ import JsonHelper 1.0
 
 Item {
     property var lineSeriesList: []
+    property bool timerHasTriggered: false
 
     function setColors(lineSeriesList) {
         for(var k = 0; k < lineSeriesList.length; k++) {
@@ -54,7 +55,7 @@ Item {
         }
     }
 
-    function setMinMax(LineSeries, axisY,axisX, axisXPower, timerHasTriggered) {
+    function setMinMax(LineSeries, axisY,axisX, axisXPower) {
         var timeArray = []
         var actDataArray = []
         for (var l = 0; l < LineSeries.count; l++) {
@@ -90,14 +91,14 @@ Item {
         }
     }
 
-    function appendLastElemt(actVal, compoName, jsonData, axisY, axisX, axisXPower, timerHasTriggered) {
+    function appendLastElemt(actVal, compoName, jsonData, axisY, axisX, axisXPower) {
         var lastEltTime = jsonHelper.findLastElementOfCompo(actVal, compoName)
         if(lastEltTime !== "0") {
             for(var k = 0; k < lineSeriesList.length; k++) {
                 if(lineSeriesList[k].name === compoName) {
                     let value = jsonHelper.getValue(jsonData, lastEltTime, compoName)
                     lineSeriesList[k].append(lastEltTime, value)
-                    setMinMax(lineSeriesList[k], axisY, axisX, axisXPower, timerHasTriggered)
+                    setMinMax(lineSeriesList[k], axisY, axisX, axisXPower)
                 }
             }
         }
@@ -105,5 +106,15 @@ Item {
 
     JsonHelper {
         id : jsonHelper
+    }
+
+    Timer {
+        id: timer
+        interval: 10000
+        repeat: true
+        running: true
+        onTriggered: {
+            timerHasTriggered = true
+        }
     }
 }
