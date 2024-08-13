@@ -66,8 +66,11 @@ Item {
         minValue = Math.floor(minValue/ 10) * 10
         maxValue = Math.ceil(maxValue/ 10) * 10
 
-        axisY.min = minValue
-        axisY.max = maxValue
+        if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
+            axisY.min = minValue
+
+        if(axisY.max < maxValue)
+            axisY.max = maxValue
 
         var maxTimeValue = Math.max(...timeArray)
         axisXPower.max = new Date(maxTimeValue)
