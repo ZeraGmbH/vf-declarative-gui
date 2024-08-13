@@ -16,7 +16,6 @@ Item {
 
     property var graphHeight
     property var graphWidth
-    property bool timerHasTriggered: false
     property var lineSeriesList: []
     property var componentsList
     onComponentsListChanged: {
@@ -56,11 +55,11 @@ Item {
                 actValP.push({x: time, y: components[v]})
         }
         for(let vCompo in voltageComponents)
-            GraphFunctions.appendLastElemt(actValU, voltageComponents[vCompo], jsonData, axisYLeft, axisX, axisXPower, timerHasTriggered)
+            GraphFunctions.appendLastElemt(actValU, voltageComponents[vCompo], jsonData, axisYLeft, axisX, axisXPower)
         for(let iCompo in currentComponents)
-            GraphFunctions.appendLastElemt(actValI, currentComponents[iCompo], jsonData, axisYRight, axisX, axisXPower, timerHasTriggered)
+            GraphFunctions.appendLastElemt(actValI, currentComponents[iCompo], jsonData, axisYRight, axisX, axisXPower)
         for(let pCompo in powerComponents)
-            GraphFunctions.appendLastElemt(actValP, powerComponents[pCompo], jsonData, axisYPower, axisX, axisXPower, timerHasTriggered)
+            GraphFunctions.appendLastElemt(actValP, powerComponents[pCompo], jsonData, axisYPower, axisX, axisXPower)
     }
 
     JsonHelper {
@@ -266,12 +265,4 @@ Item {
             lineSeriesList[i].clear()
     }
 
-    Timer {
-        interval: 10000
-        repeat: true
-        running: true
-        onTriggered: {
-            timerHasTriggered = true
-        }
-    }
 }
