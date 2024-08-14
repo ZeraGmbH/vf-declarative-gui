@@ -18,10 +18,6 @@ Item {
     property var graphWidth
     property var lineSeriesList: []
     property var componentsList
-    onComponentsListChanged: {
-        createLineSeries()
-        GraphFunctions.setColors(lineSeriesList)
-    }
     property var jsonData : VeinEntity.getEntity("Storage").StoredValues0
     onJsonDataChanged:
         loadData()
@@ -30,8 +26,10 @@ Item {
         for(var component in componentsList) {
             if(powerComponents.includes(componentsList[component]))
                 var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
-            else
+            if(voltageComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
+            if(currentComponents.includes(componentsList[component]))
+                series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
             lineSeriesList.push(series)
         }
         GraphFunctions.lineSeriesList = lineSeriesList
@@ -146,7 +144,7 @@ Item {
             }
             LineSeries {
                 id: lineSeriesI
-                axisXTop: axisX
+                axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIAux1
             }
@@ -259,6 +257,10 @@ Item {
                     }
                 }
             }
+        }
+        Component.onCompleted: {
+            createLineSeries()
+            GraphFunctions.setColors(lineSeriesList)
         }
     }
 }
