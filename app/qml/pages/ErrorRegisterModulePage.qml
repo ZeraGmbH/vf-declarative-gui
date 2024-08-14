@@ -41,6 +41,7 @@ Item {
                     data = jsonEnergyAC
                     storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
                 }
+                disableLoggingTimer.start()
                 storageEntity.PAR_StartStopLogging0 = true
             }
             else if(parStartStop === 0) {
@@ -196,5 +197,19 @@ Item {
                 }
             }
         }
+    }
+    Timer {
+        id: disableLoggingTimer
+        interval: 120000
+        onTriggered: {
+            storageEntity.PAR_StartStopLogging0 = false
+            enableLoggingTimer.start()
+        }
+    }
+    Timer {
+        id: enableLoggingTimer
+        interval: 100
+        onTriggered:
+            storageEntity.PAR_StartStopLogging0 = true
     }
 }
