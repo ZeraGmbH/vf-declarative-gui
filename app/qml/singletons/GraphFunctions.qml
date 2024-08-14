@@ -11,7 +11,7 @@ Item {
     property var lineSeriesList: []
     property bool timerHasTriggered: false
 
-    function setColors(lineSeriesList) {
+    function setColors() {
         for(var k = 0; k < lineSeriesList.length; k++) {
             lineSeriesList[k].width = 1
             switch(lineSeriesList[k].name) {

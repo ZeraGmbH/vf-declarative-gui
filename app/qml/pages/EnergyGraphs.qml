@@ -16,13 +16,13 @@ Item {
 
     property var graphHeight
     property var graphWidth
-    property var lineSeriesList: []
     property var componentsList
     property var jsonData : VeinEntity.getEntity("Storage").StoredValues0
     onJsonDataChanged:
         loadData()
 
     function createLineSeries() {
+        var lineSeriesList = []
         for(var component in componentsList) {
             if(powerComponents.includes(componentsList[component]))
                 var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
@@ -260,7 +260,7 @@ Item {
         }
         Component.onCompleted: {
             createLineSeries()
-            GraphFunctions.setColors(lineSeriesList)
+            GraphFunctions.setColors()
         }
     }
 }
