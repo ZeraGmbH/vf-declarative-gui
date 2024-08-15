@@ -180,6 +180,8 @@ Item {
                    property real oldY : y
                    onXChanged: {
                        chartView.scrollLeft( x - oldX );
+                       chartViewPower.scrollLeft( x - oldX );
+                       rectHorScroll.x = rectHorScroll.xPosition - x
                        oldX = x;
                     }
                    onYChanged: {
@@ -249,6 +251,7 @@ Item {
                    property real oldY : y
                    onXChanged: {
                        chartViewPower.scrollLeft( x - oldX );
+                       chartView.scrollLeft( x - oldX );
                        rectHorScroll.x = rectHorScroll.xPosition - x
                        oldX = x;
                     }
