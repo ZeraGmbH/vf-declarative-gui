@@ -249,12 +249,42 @@ Item {
                    property real oldY : y
                    onXChanged: {
                        chartViewPower.scrollLeft( x - oldX );
+                       rectHorScroll.x = rectHorScroll.xPosition - x
                        oldX = x;
                     }
                    onYChanged: {
                        chartViewPower.scrollUp( y - oldY );
                        oldY = y;
                     }
+                }
+            }
+        }
+
+        Rectangle{
+            id:rectHorScrollBase
+            width:parent.width
+            height:parent.height * 0.10
+            anchors.bottom: parent.bottom
+            color:"transparent"
+
+            Rectangle {
+                id: rectHorScroll
+                property real xPosition: parent.width - margin
+                property real margin: {
+                    let lineSeriesList = GraphFunctions.lineSeriesList
+                    var points = []
+                    for(var i = 0; i<lineSeriesList.length; i++) {
+                        points.push(lineSeriesList[i].count)
+                    }
+                    var max = Math.max(...points)
+                    return ((flickable.width - max) * 1.02)
+                }
+                anchors.bottom : parent.bottom
+                color: "dimgray"
+                height: 9
+                width: margin
+                onWidthChanged: {
+                    rectHorScroll.x = xPosition
                 }
             }
         }
