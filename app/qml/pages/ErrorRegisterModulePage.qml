@@ -41,8 +41,9 @@ Item {
                     data = jsonEnergyAC
                     storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
                 }
-                disableLoggingTimer.start()
+                energyChart.componentsList = extractComponents(data)
                 storageEntity.PAR_StartStopLogging0 = true
+                disableLoggingTimer.start()
             }
             else if(parStartStop === 0) {
                 storageEntity.PAR_StartStopLogging0 = false
@@ -53,7 +54,6 @@ Item {
 
     function extractComponents(data) {
         if(data.length !== 0 ) {
-            data = JSON.parse(data)
             data = data.foo
             var compoList = []
             for(var i = 0; i < data.length; i++) {
@@ -116,11 +116,6 @@ Item {
                     id: energyChart
                     graphHeight: parent.height
                     graphWidth: parent.width
-                    property var jsonIn: VeinEntity.getEntity("Storage").PAR_JsonWithEntities0
-                    onJsonInChanged: {
-                        var compoList = extractComponents(jsonIn)
-                        energyChart.componentsList = compoList
-                    }
                 }
             }
 
