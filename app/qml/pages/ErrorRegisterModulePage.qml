@@ -46,6 +46,7 @@ Item {
             }
             else if(parStartStop === 0) {
                 storageEntity.PAR_StartStopLogging0 = false
+                disableLoggingTimer.stop()
             }
         }
     }
