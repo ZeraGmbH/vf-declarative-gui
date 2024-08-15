@@ -17,6 +17,11 @@ Item {
     property var graphHeight
     property var graphWidth
     property var componentsList
+    onComponentsListChanged: {
+        createLineSeries()
+        GraphFunctions.setColors()
+    }
+
     property var jsonData : VeinEntity.getEntity("Storage").StoredValues0
     onJsonDataChanged:
         loadData()
@@ -324,10 +329,6 @@ Item {
                     rectHorScroll.x = xPosition
                 }
             }
-        }
-        Component.onCompleted: {
-            createLineSeries()
-            GraphFunctions.setColors()
         }
     }
 }
