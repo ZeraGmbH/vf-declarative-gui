@@ -95,11 +95,14 @@ Item {
                     chartView.width = root.graphWidth
                     chartViewPower.height = root.graphHeight / 2
                     chartViewPower.width = root.graphWidth
-                } else if (pinchScale < 1.0) {
+                    rectHorScrollFirstChart.visible = true
+                }
+                else if (pinchScale < 1.0) {
                     chartView.height = root.graphHeight / 4
                     chartView.width = root.graphWidth * 1.08
                     chartViewPower.height = root.graphHeight / 4
                     chartViewPower.width = root.graphWidth * 1.08
+                    rectHorScrollFirstChart.visible = false
                 }
             }
         }
@@ -182,12 +185,42 @@ Item {
                        chartView.scrollLeft( x - oldX );
                        chartViewPower.scrollLeft( x - oldX );
                        rectHorScroll.x = rectHorScroll.xPosition - x
+                       rectHorScrollFirstChart.x = rectHorScrollFirstChart.xPosition - x
                        oldX = x;
                     }
                    onYChanged: {
                        chartView.scrollUp( y - oldY );
                        oldY = y;
                     }
+                }
+            }
+        }
+        Rectangle{
+            id:rectHorScrollBaseFirstChart
+            width:parent.width
+            height:parent.height * 0.10
+            anchors.bottom: chartView.bottom
+            color:"transparent"
+
+            Rectangle {
+                id: rectHorScrollFirstChart
+                property real xPosition: parent.width - margin
+                property real margin: {
+                    let lineSeriesList = GraphFunctions.lineSeriesList
+                    var points = []
+                    for(var i = 0; i<lineSeriesList.length; i++) {
+                        points.push(lineSeriesList[i].count)
+                    }
+                    var max = Math.max(...points)
+                    return ((flickable.width - max) * 1.02)
+                }
+                visible: false
+                anchors.bottom : parent.bottom
+                color: "dimgray"
+                height: 9
+                width: margin
+                onWidthChanged: {
+                    rectHorScroll.x = xPosition
                 }
             }
         }
@@ -253,6 +286,7 @@ Item {
                        chartViewPower.scrollLeft( x - oldX );
                        chartView.scrollLeft( x - oldX );
                        rectHorScroll.x = rectHorScroll.xPosition - x
+                       rectHorScrollFirstChart.x = rectHorScrollFirstChart.xPosition - x
                        oldX = x;
                     }
                    onYChanged: {
