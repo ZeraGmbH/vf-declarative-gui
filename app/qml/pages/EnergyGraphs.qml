@@ -128,6 +128,7 @@ Item {
                 color: GC.colorUAux1
                 labelsColor: GC.colorUAux1
                 titleText: "U"
+                titleFont.pixelSize: chartView.height * 0.08
                 labelsFont.pixelSize: height * 0.03
                 labelFormat: "%d"
             }
@@ -136,6 +137,7 @@ Item {
                 color: GC.colorIAux1
                 labelsColor: GC.colorIAux1
                 titleText: "I"
+                titleFont.pixelSize: chartView.height * 0.08
                 labelsFont.pixelSize: height * 0.03
                 labelFormat: "%d"
             }
@@ -244,6 +246,7 @@ Item {
                 color: GC.colorUAux1
                 labelsColor: GC.colorUAux1
                 titleText: "P"
+                titleFont.pixelSize: chartViewPower.height * 0.08
                 labelsFont.pixelSize: height * 0.03
                 labelFormat: "%d"
             }
