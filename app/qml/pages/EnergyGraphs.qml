@@ -97,16 +97,12 @@ Item {
                 let pinchScale = pinch.scale * pinch.previousScale
                 if (pinchScale > 1.0) {
                     chartView.height = root.graphHeight /2
-                    chartView.width = root.graphWidth
                     chartViewPower.height = root.graphHeight / 2
-                    chartViewPower.width = root.graphWidth
                     rectHorScrollPChart.visible = true
                 }
                 else if (pinchScale < 1.0) {
                     chartView.height = root.graphHeight / 4
-                    chartView.width = root.graphWidth * 1.08
                     chartViewPower.height = root.graphHeight / 4
-                    chartViewPower.width = root.graphWidth * 1.08
                     rectHorScrollPChart.visible = false
                 }
             }
@@ -116,8 +112,9 @@ Item {
         ChartView {
             id: chartViewPower
             height: root.graphHeight /4
-            width: root.graphWidth * 1.08
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.rightMargin: chartView.height * 0.1
+            anchors.left: chartView.left
+            anchors.right: chartView.right
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
