@@ -7,6 +7,8 @@ import GlobalConfig 1.0
 import SessionState 1.0
 import JsonHelper 1.0
 import GraphFunctions 1.0
+import ZeraComponents 1.0
+import ZeraTranslation  1.0
 
 Item {
     id:  root
@@ -21,7 +23,7 @@ Item {
     onJsonDataChanged:
         loadData()
 
-    function createLineSeries() {
+    function createLineSeries(componentsList) {
         var lineSeriesList = []
         for(var component in componentsList) {
             if(powerComponents.includes(componentsList[component]))
@@ -32,7 +34,33 @@ Item {
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
             lineSeriesList.push(series)
         }
-        GraphFunctions.lineSeriesList = lineSeriesList
+        var flatLineSeries = GraphFunctions.lineSeriesList
+        flatLineSeries.push(lineSeriesList)
+        flatLineSeries = [].concat.apply([], flatLineSeries )
+        GraphFunctions.lineSeriesList = flatLineSeries
+        GraphFunctions.setColors()
+    }
+
+    function removeLineSeries(componentsList) {
+        var lineSeries = GraphFunctions.lineSeriesList
+        for(var i= 0; i<componentsList.length; i++) {
+            if(powerComponents.includes(componentsList[i])) {
+                var series = chartViewPower.series(componentsList[i])
+                chartViewPower.removeSeries(series)
+            }
+            if(voltageComponents.includes(componentsList[i])) {
+                series = chartView.series(componentsList[i])
+                chartView.removeSeries(series)
+            }
+            if(currentComponents.includes(componentsList[i])) {
+                series = chartView.series(componentsList[i])
+                chartView.removeSeries(series)
+            }
+
+            for(var index = 0; index < lineSeries.length; index++)
+                if(lineSeries[index].name === componentsList[i])
+                    GraphFunctions.lineSeriesList.splice(index, 1)
+        }
     }
 
     function loadData() {
@@ -104,12 +132,73 @@ Item {
         }
         Item {}
 
+        Loader {
+            id: phasesLoader
+            height: 32  // root.graphHeight * 0.045
+            active: SessionState.emobSession && !SessionState.dcSession
+            sourceComponent: RowLayout {
+                id: phases
+                visible: SessionState.emobSession && !SessionState.dcSession
+                width: root.graphWidth
+                height: parent.height
+
+                Label {
+                    id: phaseLabel
+                    text: Z.tr("Select phase to display: ")
+                    textFormat: Text.PlainText
+                    font.pointSize: pointSize
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
+                }
+                ZCheckBox {
+                    text: Z.tr("L1")
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignTop
+                    checked: true
+                    onCheckStateChanged: {
+                        var phase1Compos = ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
+                        if(checked)
+                            createLineSeries(phase1Compos)
+                        else
+                            removeLineSeries(phase1Compos)
+                    }
+                }
+                ZCheckBox {
+                    text: Z.tr("L2")
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignTop
+                    checked: true
+                    onCheckStateChanged: {
+                        var phase2Compos = ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
+                        if(checked)
+                            createLineSeries(phase2Compos)
+                        else
+                            removeLineSeries(phase2Compos)
+                    }
+                }
+                ZCheckBox {
+                    text: Z.tr("L3")
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignTop
+                    checked: true
+                    onCheckStateChanged: {
+                        var phase3Compos = ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
+                        if(checked)
+                            createLineSeries(phase3Compos)
+                        else
+                            removeLineSeries(phase3Compos)
+                    }
+                }
+            }
+        }
         ChartView {
             id: chartViewPower
             height: root.graphHeight /4
             anchors.rightMargin: chartView.height * 0.1
             anchors.left: chartView.left
             anchors.right: chartView.right
+            anchors.top: phasesLoader.bottom
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
@@ -324,7 +413,6 @@ Item {
         }
     }
     Component.onCompleted: {
-        createLineSeries()
-        GraphFunctions.setColors()
+        createLineSeries(componentsList)
     }
 }
