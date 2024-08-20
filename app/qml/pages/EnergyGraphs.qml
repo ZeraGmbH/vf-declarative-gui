@@ -14,7 +14,7 @@ Item {
     id:  root
     readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
     readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
-    readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3"]
+    readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
 
     property var graphHeight
     property var graphWidth
