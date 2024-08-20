@@ -51,6 +51,9 @@ Item {
             case "ACT_PQS3":
                 lineSeriesList[k].color = GC.colorUL3;
                 break;
+            case "ACT_PQS4":
+                lineSeriesList[k].color = "white";
+                break;
             }
         }
     }
