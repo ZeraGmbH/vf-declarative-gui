@@ -41,7 +41,6 @@ Item {
                     data = jsonEnergyAC
                     storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
                 }
-                energyChart.componentsList = extractComponents(data)
                 storageEntity.PAR_StartStopLogging0 = true
                 disableLoggingTimer.start()
             }
@@ -116,6 +115,7 @@ Item {
                     id: energyChart
                     graphHeight: parent.height
                     graphWidth: parent.width
+                    componentsList: SessionState.emobSession && SessionState.dcSession ? extractComponents(jsonEnergyDC) : extractComponents(jsonEnergyAC)
                 }
             }
 
