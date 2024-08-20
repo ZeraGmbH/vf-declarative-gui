@@ -77,16 +77,16 @@ Item {
             axisY.max = maxValue
 
         var maxTimeValue = Math.max(...timeArray)
-        axisXPower.max = new Date(maxTimeValue)
-        axisX.max = new Date(maxTimeValue)
+        axisXPower.max = maxTimeValue
+        axisX.max = maxTimeValue
         if(timerHasTriggered === true){
-            var minTimeValue = maxTimeValue - 10000
-            axisX.min = new Date(minTimeValue)
-            axisXPower.min = new Date(minTimeValue)
+            var minTimeValue = maxTimeValue - 10
+            axisX.min = minTimeValue
+            axisXPower.min = minTimeValue
         }
         else {
-            axisX.min = new Date(0)
-            axisXPower.min = new Date(0)
+            axisX.min = 0
+            axisXPower.min = 0
         }
     }
 
@@ -94,12 +94,12 @@ Item {
         var timestamps = Object.keys(jsonData).sort()
         var firstTimestamp = jsonHelper.convertTimestampToMs(timestamps[0])
         var lastEltTime = jsonHelper.findLastElementOfCompo(actVal, compoName)
-        var testTime = lastEltTime - firstTimestamp
+        var testTimeSecs = (lastEltTime - firstTimestamp)/1000
         if(lastEltTime !== "0") {
             for(var k = 0; k < lineSeriesList.length; k++) {
                 if(lineSeriesList[k].name === compoName) {
                     let value = jsonHelper.getValue(jsonData, lastEltTime, compoName)
-                    lineSeriesList[k].append(testTime, value)
+                    lineSeriesList[k].append(testTimeSecs , value)
                     setMinMax(lineSeriesList[k], axisY, axisX, axisXPower)
                 }
             }
