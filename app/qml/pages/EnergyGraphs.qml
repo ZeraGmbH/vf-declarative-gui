@@ -97,7 +97,7 @@ Item {
         id: flickable
         anchors.fill: parent
         boundsBehavior: Flickable.StopAtBounds
-        contentHeight: chartView.height + chartViewPower.height
+        contentHeight: chartView.height + chartViewPower.height + phasesLoader.height
         width: root.width
         height: root.height
         flickableDirection: Flickable.VerticalFlick
@@ -120,12 +120,12 @@ Item {
                 let pinchScale = pinch.scale * pinch.previousScale
                 if (pinchScale > 1.0) {
                     chartView.height = root.graphHeight /2
-                    chartViewPower.height = root.graphHeight / 2
+                    chartViewPower.height = root.graphHeight / 2 - phasesLoader.height
                     rectHorScrollPChart.visible = true
                 }
                 else if (pinchScale < 1.0) {
-                    chartView.height = root.graphHeight / 4
-                    chartViewPower.height = root.graphHeight / 4
+                    chartView.height = root.graphHeight / 4 - phasesLoader.height/2
+                    chartViewPower.height = root.graphHeight / 4 - phasesLoader.height/2
                     rectHorScrollPChart.visible = false
                 }
             }
@@ -194,8 +194,10 @@ Item {
         }
         ChartView {
             id: chartViewPower
-            height: root.graphHeight /4
+            height: root.graphHeight/4 - phasesLoader.height/2
             anchors.rightMargin: chartView.height * 0.1
+            anchors.topMargin: 0
+            anchors.bottomMargin: 0
             anchors.left: chartView.left
             anchors.right: chartView.right
             anchors.top: phasesLoader.bottom
@@ -266,7 +268,7 @@ Item {
                 }
             }
         }
-        Rectangle{
+        Rectangle {
             width:parent.width
             height:parent.height * 0.10
             anchors.bottom: chartViewPower.bottom
@@ -296,14 +298,14 @@ Item {
         }
         ChartView {
             id: chartView
-            height: root.graphHeight /4
+            height: root.graphHeight/4 - phasesLoader.height/2
             width: root.graphWidth * 1.08
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: chartViewPower.bottom
+            anchors.topMargin: 0
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
-            //animationOptions: ChartView.SeriesAnimations
 
             ValueAxis {
                 id: axisYLeft
@@ -386,8 +388,8 @@ Item {
         }
         Rectangle{
             width:parent.width
-            height:parent.height * 0.10
-            anchors.bottom: parent.bottom
+            height: parent.height * 0.10
+            anchors.bottom: chartView.bottom
             color:"transparent"
 
             Rectangle {
