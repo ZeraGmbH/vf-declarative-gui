@@ -85,22 +85,21 @@ Item {
             axisXPower.min = new Date(minTimeValue)
         }
         else {
-            minTimeValue = Math.min(...timeArray)
-            if(maxTimeValue === minTimeValue) {
-                minTimeValue = minTimeValue - 10000
-            }
-            axisX.min = new Date(minTimeValue)
-            axisXPower.min = new Date(minTimeValue)
+            axisX.min = new Date(0)
+            axisXPower.min = new Date(0)
         }
     }
 
     function appendLastElemt(actVal, compoName, jsonData, axisY, axisX, axisXPower) {
+        var timestamps = Object.keys(jsonData).sort()
+        var firstTimestamp = jsonHelper.convertTimestampToMs(timestamps[0])
         var lastEltTime = jsonHelper.findLastElementOfCompo(actVal, compoName)
+        var testTime = lastEltTime - firstTimestamp
         if(lastEltTime !== "0") {
             for(var k = 0; k < lineSeriesList.length; k++) {
                 if(lineSeriesList[k].name === compoName) {
                     let value = jsonHelper.getValue(jsonData, lastEltTime, compoName)
-                    lineSeriesList[k].append(lastEltTime, value)
+                    lineSeriesList[k].append(testTime, value)
                     setMinMax(lineSeriesList[k], axisY, axisX, axisXPower)
                 }
             }
