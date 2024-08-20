@@ -214,11 +214,12 @@ Item {
                 labelsFont.pixelSize: chartViewPower.height * 0.06
                 labelFormat: "%d"
             }
-            DateTimeAxis {
+            ValueAxis {
                 id: axisXPower
-                format: "ss"
-                labelsFont.pixelSize: chartViewPower.height * 0.06
+                labelFormat: "%d"
+                labelsFont.pixelSize: chartView.height * 0.06
             }
+
             LineSeries {
                 id: lineSeriesP
                 axisX: axisXPower
@@ -326,9 +327,9 @@ Item {
                 labelsFont.pixelSize: chartView.height * 0.06
                 labelFormat: "%d"
             }
-            DateTimeAxis {
+            ValueAxis {
                 id: axisX
-                format: "ss"
+                labelFormat: "%d"
                 labelsFont.pixelSize: chartView.height * 0.06
             }
 
