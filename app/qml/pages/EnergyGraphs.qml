@@ -216,7 +216,7 @@ Item {
             }
             DateTimeAxis {
                 id: axisXPower
-                format: "hh:mm:ss"
+                format: "ss"
                 labelsFont.pixelSize: chartViewPower.height * 0.06
             }
             LineSeries {
@@ -328,7 +328,7 @@ Item {
             }
             DateTimeAxis {
                 id: axisX
-                format: "hh:mm:ss"
+                format: "ss"
                 labelsFont.pixelSize: chartView.height * 0.06
             }
 
