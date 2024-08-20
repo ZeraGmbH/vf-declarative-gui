@@ -211,12 +211,13 @@ Item {
                 labelsColor: GC.colorUAux1
                 titleText: "P"
                 titleFont.pixelSize: chartViewPower.height * 0.08
-                labelsFont.pixelSize: height * 0.03
+                labelsFont.pixelSize: chartViewPower.height * 0.06
                 labelFormat: "%d"
             }
             DateTimeAxis {
                 id: axisXPower
                 format: "hh:mm:ss"
+                labelsFont.pixelSize: chartViewPower.height * 0.06
             }
             LineSeries {
                 id: lineSeriesP
@@ -313,7 +314,7 @@ Item {
                 labelsColor: GC.colorUAux1
                 titleText: "U"
                 titleFont.pixelSize: chartView.height * 0.08
-                labelsFont.pixelSize: height * 0.03
+                labelsFont.pixelSize: chartView.height * 0.06
                 labelFormat: "%d"
             }
             ValueAxis {
@@ -322,12 +323,13 @@ Item {
                 labelsColor: GC.colorIAux1
                 titleText: "I"
                 titleFont.pixelSize: chartView.height * 0.08
-                labelsFont.pixelSize: height * 0.03
+                labelsFont.pixelSize: chartView.height * 0.06
                 labelFormat: "%d"
             }
             DateTimeAxis {
                 id: axisX
                 format: "hh:mm:ss"
+                labelsFont.pixelSize: chartView.height * 0.06
             }
 
             LineSeries {
