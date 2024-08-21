@@ -155,8 +155,9 @@ Item {
                     text: Z.tr("L1")
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
-                    checked: true
+                    checked: GC.showCurvePhaseOne
                     onCheckStateChanged: {
+                        GC.setPhaseOne(checked)
                         var phase1Compos = ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
                         if(checked)
                             createLineSeries(phase1Compos)
@@ -168,8 +169,9 @@ Item {
                     text: Z.tr("L2")
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
-                    checked: true
+                    checked: GC.showCurvePhaseTwo
                     onCheckStateChanged: {
+                        GC.setPhaseTwo(checked)
                         var phase2Compos = ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
                         if(checked)
                             createLineSeries(phase2Compos)
@@ -181,8 +183,9 @@ Item {
                     text: Z.tr("L3")
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
-                    checked: true
+                    checked: GC.showCurvePhaseThree
                     onCheckStateChanged: {
+                        GC.setPhaseThree(checked)
                         var phase3Compos = ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
                         if(checked)
                             createLineSeries(phase3Compos)
