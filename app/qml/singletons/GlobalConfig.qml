@@ -138,6 +138,26 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
+    // Graphics settings
+    property bool showCurvePhaseOne: parseInt(Settings.getOption("show_curve_phase1", "1"))
+    function setPhaseOne(phaseOne) {
+        showCurvePhaseOne = phaseOne
+        var setValue = phaseOne ? 1 : 0
+        Settings.setOption("show_curve_phase1", setValue);
+    }
+    property bool showCurvePhaseTwo: parseInt(Settings.getOption("show_curve_phase2", "1"))
+    function setPhaseTwo(phaseTwo) {
+        showCurvePhaseTwo = phaseTwo
+        var setValue = phaseTwo ? 1 : 0
+        Settings.setOption("show_curve_phase2", setValue);
+    }
+    property bool showCurvePhaseThree: parseInt(Settings.getOption("show_curve_phase3", "1"))
+    function setPhaseThree(phaseThree) {
+        showCurvePhaseThree = phaseThree
+        var setValue = phaseThree ? 1 : 0
+        Settings.setOption("show_curve_phase3", setValue);
+    }
+    /////////////////////////////////////////////////////////////////////////////
     // Pinch settings
     property real osciPinchScale: Number(Settings.getOption("osci_pinch_scale", "3"))
     function setOsciPinchScale(scale) {
