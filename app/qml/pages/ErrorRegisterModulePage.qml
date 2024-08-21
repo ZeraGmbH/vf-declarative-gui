@@ -197,6 +197,7 @@ Item {
     Timer {
         id: disableLoggingTimer
         interval: 120000
+        repeat: true
         onTriggered: {
             storageEntity.PAR_StartStopLogging0 = false
             enableLoggingTimer.start()
@@ -204,7 +205,7 @@ Item {
     }
     Timer {
         id: enableLoggingTimer
-        interval: 100
+        interval: 500
         onTriggered:
             storageEntity.PAR_StartStopLogging0 = true
     }
