@@ -156,7 +156,10 @@ Item {
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
                     checked: GC.showCurvePhaseOne
-                    onCheckStateChanged: {
+                    onCheckedChanged:
+                        checkCombo = checked
+                    property var checkCombo: GC.showCurvePhaseOne
+                    onCheckComboChanged: {
                         GC.setPhaseOne(checked)
                         var phase1Compos = ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
                         if(checked)
@@ -170,7 +173,10 @@ Item {
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
                     checked: GC.showCurvePhaseTwo
-                    onCheckStateChanged: {
+                    onCheckStateChanged:
+                        checkCombo = checked
+                    property var checkCombo: GC.showCurvePhaseTwo
+                    onCheckComboChanged: {
                         GC.setPhaseTwo(checked)
                         var phase2Compos = ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
                         if(checked)
@@ -178,13 +184,17 @@ Item {
                         else
                             removeLineSeries(phase2Compos)
                     }
+
                 }
                 ZCheckBox {
                     text: Z.tr("L3")
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
                     checked: GC.showCurvePhaseThree
-                    onCheckStateChanged: {
+                    onCheckStateChanged:
+                        checkCombo = checked
+                    property var checkCombo: GC.showCurvePhaseThree
+                    onCheckComboChanged: {
                         GC.setPhaseThree(checked)
                         var phase3Compos = ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
                         if(checked)
@@ -421,6 +431,7 @@ Item {
         }
     }
     Component.onCompleted: {
+        GraphFunctions.lineSeriesList = []
         createLineSeries(componentsList)
     }
 }
