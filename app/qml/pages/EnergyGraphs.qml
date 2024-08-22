@@ -39,24 +39,29 @@ Item {
 
     function removeLineSeries(componentsList) {
         var lineSeries = GraphFunctions.lineSeriesList
+        var indexOfCompoToRemove = []
         for(var i= 0; i<componentsList.length; i++) {
             if(powerComponents.includes(componentsList[i])) {
                 var series = chartViewPower.series(componentsList[i])
-                chartViewPower.removeSeries(series)
+                if(series !==null)
+                    chartViewPower.removeSeries(series)
             }
-            if(voltageComponents.includes(componentsList[i])) {
+            if(voltageComponents.includes(componentsList[i]) || currentComponents.includes(componentsList[i])) {
                 series = chartView.series(componentsList[i])
-                chartView.removeSeries(series)
+                if(series !==null)
+                    chartView.removeSeries(series)
             }
-            if(currentComponents.includes(componentsList[i])) {
-                series = chartView.series(componentsList[i])
-                chartView.removeSeries(series)
+            for(var k = 0; k < lineSeries.length; k++) {
+                if(lineSeries[k].name === componentsList[i]) {
+                    indexOfCompoToRemove.push(k)
+                }
             }
-
-            for(var index = 0; index < lineSeries.length; index++)
-                if(lineSeries[index].name === componentsList[i])
-                    GraphFunctions.lineSeriesList.splice(index, 1)
         }
+        while(indexOfCompoToRemove.length > 0) {
+            var index = indexOfCompoToRemove.pop()
+            lineSeries.splice(index, 1)
+        }
+        GraphFunctions.lineSeriesList = lineSeries
     }
 
     function loadData() {
