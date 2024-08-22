@@ -157,6 +157,12 @@ Item {
         var setValue = phaseThree ? 1 : 0
         Settings.setOption("show_curve_phase3", setValue);
     }
+    property bool showCurveSum: parseInt(Settings.getOption("show_curve_sum", "1"))
+    function setSum(sum) {
+        showCurveSum = sum
+        var setValue = sum ? 1 : 0
+        Settings.setOption("show_curve_sum", setValue);
+    }
     /////////////////////////////////////////////////////////////////////////////
     // Pinch settings
     property real osciPinchScale: Number(Settings.getOption("osci_pinch_scale", "3"))

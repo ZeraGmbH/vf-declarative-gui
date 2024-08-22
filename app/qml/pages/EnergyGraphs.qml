@@ -204,6 +204,23 @@ Item {
                             removeLineSeries(phase3Compos)
                     }
                 }
+                ZCheckBox {
+                    text: Z.tr("Sum")
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignTop
+                    checked: GC.showCurveSum
+                    onCheckStateChanged:
+                        checkCombo = checked
+                    property var checkCombo: GC.showCurveSum
+                    onCheckComboChanged: {
+                        GC.setSum(checked)
+                        var phaseSumCompos = ["ACT_PQS4"]
+                        if(checked)
+                            createLineSeries(phaseSumCompos)
+                        else
+                            removeLineSeries(phaseSumCompos)
+                    }
+                }
             }
         }
         ChartView {
