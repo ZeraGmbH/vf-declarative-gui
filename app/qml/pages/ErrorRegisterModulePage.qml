@@ -41,8 +41,10 @@ Item {
                     data = jsonEnergyAC
                     storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
                 }
-                storageEntity.PAR_StartStopLogging0 = true
-                disableLoggingTimer.start()
+                if(VeinEntity.getEntity("_System").DevMode) {
+                    storageEntity.PAR_StartStopLogging0 = true
+                    disableLoggingTimer.start()
+                }
             }
             else if(parStartStop === 0) {
                 storageEntity.PAR_StartStopLogging0 = false
@@ -149,7 +151,7 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
-                    if(SessionState.emobSession)
+                    if(SessionState.emobSession && VeinEntity.getEntity("_System").DevMode)
                         multiSwipe.currentIndex = 1
                 }
             }
@@ -172,24 +174,29 @@ Item {
                     }
                 }
             }
-            Button {
-                id: graphicsWindow
-                text: FAQ.fa_chevron_up
-                font.pointSize: pointSize
-                visible: SessionState.emobSession
+            Loader {
+                active: VeinEntity.getEntity("_System").DevMode
+                height: active ? root.rowHeight : 0
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.right: stopButton.left
                 anchors.left: startButton.right
                 anchors.rightMargin: parent.width / 8
                 anchors.leftMargin: parent.width / 8
-                highlighted: multiSwipe.currentIndex !== 0
-                onClicked: {
-                    multiSwipe.currentIndex = !multiSwipe.currentIndex
-                    if(graphicsWindow.text === FAQ.fa_chevron_up)
-                        graphicsWindow.text = FAQ.fa_chevron_down
-                    else
-                        graphicsWindow.text = FAQ.fa_chevron_up
+
+                sourceComponent: Button {
+                    id: graphicsWindow
+                    text: FAQ.fa_chevron_up
+                    font.pointSize: pointSize
+                    visible: SessionState.emobSession
+                    highlighted: multiSwipe.currentIndex !== 0
+                    onClicked: {
+                        multiSwipe.currentIndex = !multiSwipe.currentIndex
+                        if(graphicsWindow.text === FAQ.fa_chevron_up)
+                            graphicsWindow.text = FAQ.fa_chevron_down
+                        else
+                            graphicsWindow.text = FAQ.fa_chevron_up
+                    }
                 }
             }
         }
