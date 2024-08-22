@@ -115,6 +115,23 @@ Item {
         }
     }
 
+    function appendIfNotDuplicated(series) {
+        var appendSerie = true
+        if(lineSeriesList.length === 0)
+            appendSerie = true
+        else {
+            for(var index = 0; index < lineSeriesList.length; index++) {
+                if(lineSeriesList[index].name === series.name) {
+                    appendSerie = false
+                    break;
+                }
+            }
+        }
+        if(appendSerie)
+            lineSeriesList.push(series)
+        lineSeriesList = [].concat.apply([], lineSeriesList)
+    }
+
     JsonHelper {
         id : jsonHelper
     }

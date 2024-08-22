@@ -24,7 +24,6 @@ Item {
         loadData()
 
     function createLineSeries(componentsList) {
-        var lineSeriesList = []
         for(var component in componentsList) {
             if(powerComponents.includes(componentsList[component]))
                 var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
@@ -32,12 +31,9 @@ Item {
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
             if(currentComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
-            lineSeriesList.push(series)
+
+            GraphFunctions.appendIfNotDuplicated(series)
         }
-        var flatLineSeries = GraphFunctions.lineSeriesList
-        flatLineSeries.push(lineSeriesList)
-        flatLineSeries = [].concat.apply([], flatLineSeries )
-        GraphFunctions.lineSeriesList = flatLineSeries
         GraphFunctions.setColors()
     }
 
@@ -432,6 +428,5 @@ Item {
     }
     Component.onCompleted: {
         GraphFunctions.lineSeriesList = []
-        createLineSeries(componentsList)
     }
 }
