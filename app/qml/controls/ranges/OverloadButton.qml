@@ -13,8 +13,8 @@ Button {
         rangeModule.PAR_Overload = 0
     }
     background: Rectangle {
-        anchors.fill: parent
         radius: 2
+        height: parent.height
         color: rangeModule.PAR_Overload ? "darkorange" : Material.switchDisabledHandleColor
     }
 }
