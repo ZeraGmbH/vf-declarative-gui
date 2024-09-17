@@ -64,11 +64,19 @@ Item {
                 controlPropertyName: "PAR_ChannelGrouping"
             }
         }
+        InvertPhasesButton {
+            id: invertPhasesButton
+            anchors { margins: frameMargin; right: overloadButton.left; verticalCenter: parent.verticalCenter }
+            implicitWidth: parent.width * 0.25
+            height: rowHeight * 1.25
+            font.pointSize: pointSize
+        }
+
         OverloadButton {
             id: overloadButton
             anchors { margins: frameMargin; right: parent.right; verticalCenter: parent.verticalCenter }
-            implicitWidth: parent.width * 0.33
-            height: rowHeight
+            implicitWidth: parent.width * 0.25
+            height: rowHeight * 1.25
             font.pointSize: pointSize
         }
     }
