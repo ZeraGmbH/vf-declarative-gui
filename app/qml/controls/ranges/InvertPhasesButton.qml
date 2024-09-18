@@ -31,7 +31,6 @@ Button {
         Grid {
             id: grid
             columns: MeasChannelInfo.channelCountTotal / 2
-            spacing: 2
             Repeater {
                 model: MeasChannelInfo.channelCountTotal
                 delegate: ZCheckBox {
@@ -39,6 +38,8 @@ Button {
                     checked: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])]
                     text: "<font color=\"" + FT.getColorByIndex(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
                     height: invertPhasesButton.height
+                    width: invertPhasesButton.width * 0.8
+                    controlHeight: height * 0.3
                     onCheckedChanged: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])] = checked
                 }
             }
