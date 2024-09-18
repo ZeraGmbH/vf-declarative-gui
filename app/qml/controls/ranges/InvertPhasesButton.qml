@@ -23,8 +23,9 @@ Button {
 
     Popup {
         id: popup
-        anchors.centerIn: parent
-        topMargin: parent.height * 0.5
+        anchors.centerIn: Overlay.overlay
+        //overlay puts the popup in centre of screen, so we shift it upwards over 'invertPhasesButton'
+        bottomMargin: root.height * 0.75
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
@@ -37,7 +38,7 @@ Button {
                     checked: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])]
                     text: "<font color=\"" + FT.getColorByIndex(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
                     height: invertPhasesButton.height
-                    width: invertPhasesButton.width * 0.8
+                    width: root.width * 0.15
                     controlHeight: height * 0.3
                     onCheckedChanged: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])] = checked
                 }
