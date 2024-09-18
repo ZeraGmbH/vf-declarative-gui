@@ -10,16 +10,16 @@ import MeasChannelInfo 1.0
 Button {
     id: invertPhasesButton
     text: Z.tr("Invert")
-    property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-    property var order: MeasChannelInfo.channelCountTotal === 8 ? [1,2,3,7,4,5,6,8] : [1,2,3,4,5,6]
-    property var phaseNamesInOrder: []
-    onClicked: popup.open()
-
-    function populatePhaseNamesInOrder(count) {
-        for(var i = 0; i<count; i++){
-            phaseNamesInOrder.push([MeasChannelInfo.channelNames[order[i]-1],order[i]])
+    readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
+    readonly property var order: MeasChannelInfo.channelCountTotal === 8 ? [1,2,3,7,4,5,6,8] : [1,2,3,4,5,6]
+    readonly property var phaseNamesInOrder: {
+        let names = []
+        for(var i = 0; i < MeasChannelInfo.channelCountTotal; i++){
+            names.push([MeasChannelInfo.channelNames[order[i]-1],order[i]])
         }
+        return names
     }
+    onClicked: popup.open()
 
     Popup {
         id: popup
@@ -32,12 +32,6 @@ Button {
             id: grid
             columns: MeasChannelInfo.channelCountTotal / 2
             spacing: 2
-
-            Repeater {
-                model: MeasChannelInfo.channelCountTotal
-                delegate: invertPhasesButton.populatePhaseNamesInOrder(MeasChannelInfo.channelCountTotal)
-            }
-
             Repeater {
                 model: MeasChannelInfo.channelCountTotal
                 delegate: ZCheckBox {
