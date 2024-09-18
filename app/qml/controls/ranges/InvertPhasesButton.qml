@@ -34,7 +34,6 @@ Button {
             Repeater {
                 model: MeasChannelInfo.channelCountTotal
                 delegate: ZCheckBox {
-                    required property int index
                     checked: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])]
                     text: "<font color=\"" + FT.getColorByIndex(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
                     height: invertPhasesButton.height
