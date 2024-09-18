@@ -41,7 +41,8 @@ ListView {
             width: parent.width*0.5
             font.pointSize: smallPointSize
             anchors.verticalCenter: parent.verticalCenter
-            text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
+            readonly property var channelString: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
+            text: rangeModule["PAR_InvertPhase%1".arg(modelData)] === 1 ? "! " + channelString :  channelString
             color: FT.getColorByIndex(modelData)
             font.bold: true
         }
