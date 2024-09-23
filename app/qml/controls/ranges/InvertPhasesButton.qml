@@ -37,9 +37,11 @@ Button {
         id: popup
         anchors.centerIn: Overlay.overlay
         //overlay puts the popup in centre of screen, so we shift it upwards over 'invertPhasesButton'
-        bottomMargin: root.height * 0.75
+        bottomMargin: root.height * 0.63
         modal: true
         focus: true
+        contentWidth: grid.implicitWidth
+        contentHeight: grid.implicitHeight + invertCloseButton.implicitHeight
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         Grid {
             id: grid
@@ -55,6 +57,14 @@ Button {
                     onCheckedChanged: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])] = checked
                 }
             }
+        }
+        Button {
+            id: invertCloseButton
+            text: Z.tr("Close")
+            font.pointSize: root.pointSize
+            onClicked: popup.close()
+            anchors {top: grid.bottom; right: grid.right;}
+
         }
     }
 }
