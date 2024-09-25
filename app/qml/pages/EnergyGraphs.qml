@@ -242,7 +242,7 @@ Item {
                 labelsColor: GC.colorUAux1
                 titleText: "P"
                 titleFont.pixelSize: chartViewPower.height * 0.08
-                labelsFont.pixelSize: chartViewPower.height * 0.06
+                labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
             }
             ValueAxis {
@@ -346,7 +346,7 @@ Item {
                 labelsColor: GC.colorUAux1
                 titleText: "U"
                 titleFont.pixelSize: chartView.height * 0.08
-                labelsFont.pixelSize: chartView.height * 0.06
+                labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
             }
             ValueAxis {
