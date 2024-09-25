@@ -450,5 +450,9 @@ Item {
     }
     Component.onCompleted: {
         GraphFunctions.lineSeriesList = []
+        if(SessionState.emobSession && SessionState.dcSession) {
+            var compos = ["ACT_DC7", "ACT_DC8", "ACT_PQS1"]
+            createLineSeries(compos)
+        }
     }
 }
