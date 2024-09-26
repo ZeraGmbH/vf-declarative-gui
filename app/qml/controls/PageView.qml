@@ -21,7 +21,6 @@ Item {
     onGridViewEnabledChanged: GC.setPagesGridViewDisplay(gridViewEnabled);
 
     signal closeView();
-    signal sessionChanged();
     function elementSelected(elementValue) {
         pageLoaderSource = elementValue
         closeView();
@@ -126,7 +125,6 @@ Item {
                 var tmpIndex = model.indexOf(selectedText)
                 if(systemEntity && systemEntity.SessionsAvailable)
                     systemEntity.Session = arrJSONFileNames[tmpIndex]
-                root.sessionChanged()
             }
 
             model: {

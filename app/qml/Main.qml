@@ -349,7 +349,7 @@ ApplicationWindow {
             visible: controlsBar.pageViewVisible;
             onCloseView: controlsBar.pageViewVisible = false;
             sessionComponent: SessionState.currentSession
-            onSessionChanged: {
+            onSessionComponentChanged: {
                 prepareSessionChange();
                 loadingScreen.open();
                 sessionChangeTimeout.start();
