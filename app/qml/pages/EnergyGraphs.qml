@@ -225,7 +225,7 @@ Item {
         }
         ChartView {
             id: chartViewPower
-            height: root.graphHeight/4 - phasesLoader.height/2
+            height: root.graphHeight / 2 - phasesLoader.height
             anchors.rightMargin: chartView.height * 0.1
             anchors.topMargin: 0
             anchors.bottomMargin: 0
@@ -331,7 +331,7 @@ Item {
         }
         ChartView {
             id: chartView
-            height: root.graphHeight/4 - phasesLoader.height/2
+            height: root.graphHeight / 2
             width: root.graphWidth * 1.08
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: chartViewPower.bottom
