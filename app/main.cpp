@@ -78,7 +78,7 @@ static void loadSettings(JsonSettingsFile *globalSettingsFile, bool webGlServer)
         settingsFile = QStringLiteral("settings-remote.json");
     if(globalSettingsFile->loadFromStandardLocation(settingsFile) == false) {
         const QString standardPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-        const QString targetPath = QString("%1/%2").arg(standardPath).arg(settingsFile);
+        const QString targetPath = QString("%1/%2").arg(standardPath, settingsFile);
         QDir standardConfigDirectory;
         if(!standardConfigDirectory.exists(standardPath))
             standardConfigDirectory.mkdir(standardPath);
