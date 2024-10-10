@@ -198,6 +198,12 @@ int main(int argc, char *argv[])
     QList<VeinEvent::EventSystem*> subSystems;
 
     loadQmlEngine(engine);
+    QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
+        if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
+        {
+            engine.quit();
+        }
+    });
 
     QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigSendEvent, [&](QEvent *t_event){
         if(t_event->type()==VeinNet::NetworkStatusEvent::getQEventType())
