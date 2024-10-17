@@ -3,7 +3,8 @@
 
 JsonHelper::JsonHelper(QObject *parent)
     : QObject{parent}
-{}
+{
+}
 
 qint64 JsonHelper::convertTimestampToMs(QString dateTime)
 {
@@ -16,8 +17,8 @@ QStringList JsonHelper::getComponents(QJsonObject json, qint64 date)
     QString strDateTime = QDateTime::fromMSecsSinceEpoch(date).toString("dd-MM-yyyy hh:mm:ss.zzz");
     if(!json.isEmpty()) {
         QJsonObject dataWithoutTime = json.value(strDateTime).toObject();
-        QStringList list = dataWithoutTime.keys();
-        for (const QString &entity : list) {
+        const QStringList entities = dataWithoutTime.keys();
+        for (const QString &entity : entities) {
             QJsonObject components = dataWithoutTime[entity].toObject();
             componentList.append(components.keys());
         }
@@ -28,12 +29,14 @@ QStringList JsonHelper::getComponents(QJsonObject json, qint64 date)
 QString JsonHelper::getValue(QJsonObject json, qint64 date, QString component)
 {
     QString value;
-    QString strDateTime = QDateTime::fromMSecsSinceEpoch(date).toString("dd-MM-yyyy hh:mm:ss.zzz");
     if(!json.isEmpty()) {
+        QString strDateTime = QDateTime::fromMSecsSinceEpoch(date).toString("dd-MM-yyyy hh:mm:ss.zzz");
         QJsonObject dataWithoutTime = json.value(strDateTime).toObject();
-        for (const QString &entity : dataWithoutTime.keys()) {
+        const QStringList entities = dataWithoutTime.keys();
+        for (const QString &entity : entities) {
             QJsonObject components = dataWithoutTime[entity].toObject();
-            for(const QString componentName : components.keys()) {
+            const QStringList componentNames = components.keys();
+            for(const QString &componentName : componentNames) {
                 if(component == componentName)
                     value = components[component].toString();
             }
