@@ -240,15 +240,17 @@ Item {
                 id: axisYPower
                 color: GC.colorUAux1
                 labelsColor: GC.colorUAux1
-                titleText: "P"
-                titleFont.pixelSize: chartViewPower.height * 0.08
+                titleText: "P[W]"
+                titleFont.pixelSize: chartViewPower.height * 0.06
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
             }
             ValueAxis {
                 id: axisXPower
+                titleText: "T[s]"
+                titleFont.pointSize: chartViewPower.height * 0.04
+                labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
-                labelsFont.pixelSize: chartView.height * 0.06
             }
 
             LineSeries {
@@ -344,8 +346,8 @@ Item {
                 id: axisYLeft
                 color: GC.colorUAux1
                 labelsColor: GC.colorUAux1
-                titleText: "U"
-                titleFont.pixelSize: chartView.height * 0.08
+                titleText: "U[V]"
+                titleFont.pixelSize: chartView.height * 0.06
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
             }
@@ -353,15 +355,17 @@ Item {
                 id: axisYRight
                 color: GC.colorIAux1
                 labelsColor: GC.colorIAux1
-                titleText: "I"
-                titleFont.pixelSize: chartView.height * 0.08
-                labelsFont.pixelSize: chartView.height * 0.06
+                titleText: "I[A]"
+                titleFont.pixelSize: chartView.height * 0.06
+                labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
             }
             ValueAxis {
                 id: axisX
+                titleText: "T[s]"
+                titleFont.pointSize: chartView.height * 0.04
+                labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
-                labelsFont.pixelSize: chartView.height * 0.06
             }
 
             LineSeries {
