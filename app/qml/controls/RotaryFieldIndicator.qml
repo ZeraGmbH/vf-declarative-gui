@@ -7,13 +7,13 @@ import ZeraTranslation 1.0
 
 Item {
     id: root
-    property var rotaryField: GC.entityInitializationDone ? String(VeinEntity.getEntity("DFTModule1").ACT_RFIELD).split("") : []
+    readonly property string rotaryField: GC.entityInitializationDone ? VeinEntity.getEntity("DFTModule1").ACT_RFIELD : ""
 
     Repeater {
         model: rotaryField.length
         Text {
             text: Z.tr("Phase" + rotaryField[index])
-            color: GC.entityInitializationDone ? GC.currentColorTable[parseInt(rotaryField[index]-1)] : "black"
+            color: GC.currentColorTable[parseInt(rotaryField[index]-1)]
             font.pixelSize: root.height/1.8
             x: 2 + (root.width/3 * index)
             anchors.verticalCenter: parent.verticalCenter
