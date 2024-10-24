@@ -141,15 +141,6 @@ ApplicationWindow {
 
     Shortcut {
         enabled: BUILD_TYPE === "debug"
-        sequence: "F11"
-        autoRepeat: false
-        onActivated: {
-            debugBypass = !debugBypass;
-        }
-    }
-
-    Shortcut {
-        enabled: BUILD_TYPE === "debug"
         sequence: "F3"
         autoRepeat: false
         onActivated: {
@@ -361,23 +352,6 @@ ApplicationWindow {
                     layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
                     controlsBar.pageViewVisible = false
                 }
-            }
-        }
-    }
-
-    Loader {
-        active: debugBypass === true
-        sourceComponent: Item {
-            height: 100
-            Label {
-                id: windowSize
-                text: String("Window size: %1x%2").arg(displayWindow.width).arg(displayWindow.height)
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: 32
-            }
-            FpsItem {
-                anchors.left: windowSize.right
-                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }
