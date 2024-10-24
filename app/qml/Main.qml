@@ -163,8 +163,6 @@ ApplicationWindow {
         id: flickable
         anchors.fill: parent
         enabled: true
-        contentWidth: parent.width;
-        contentHeight: parent.height
         boundsBehavior: Flickable.StopAtBounds
         interactive: false
         NumberAnimation on contentY {
