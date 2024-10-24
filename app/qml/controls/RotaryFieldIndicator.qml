@@ -7,7 +7,9 @@ import ZeraTranslation 1.0
 
 Item {
     id: root
-    readonly property string rotaryField: GC.entityInitializationDone ? VeinEntity.getEntity("DFTModule1").ACT_RFIELD : ""
+    readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
+    readonly property bool valid: GC.entityInitializationDone && dftModule !== null && dftModule.ACT_RFIELD !== undefined
+    readonly property string rotaryField: valid ? dftModule.ACT_RFIELD : ""
 
     Repeater {
         model: rotaryField.length
