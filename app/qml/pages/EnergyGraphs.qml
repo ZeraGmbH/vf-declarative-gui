@@ -122,12 +122,10 @@ Item {
                 if (pinchScale > 1.0) {
                     chartView.height = root.graphHeight /2
                     chartViewPower.height = root.graphHeight / 2 - phasesLoader.height
-                    rectHorScrollPChart.visible = true
                 }
                 else if (pinchScale < 1.0) {
                     chartView.height = root.graphHeight / 4 - phasesLoader.height/2
                     chartViewPower.height = root.graphHeight / 4 - phasesLoader.height/2
-                    rectHorScrollPChart.visible = false
                 }
             }
         }
@@ -252,85 +250,69 @@ Item {
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
             }
-
-            LineSeries {
-                id: lineSeriesP
-                axisX: axisXPower
-                axisY: axisYPower
-                color: GC.colorUAux1
-            }
-
-            MouseArea {
-                id: mAPower
+            Flickable {
                 anchors.fill: parent
-                drag.target: dragTargetPower
-                drag.axis: Drag.XAxis
-                property bool chartNotZoomed: true
-                onDoubleClicked: {
-                    if(chartNotZoomed) {
-                        var zoomFactor = 2
-                        var center_x = mouse.x
-                        var center_y = mouse.y
-                        var width_zoom = width/ zoomFactor;
-                        var height_zoom = height/ zoomFactor;
-                        var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
-                        chartViewPower.zoomIn(rect)
-                        chartNotZoomed = false
-                        mAPower.drag.axis = Drag.XAndYAxis
-                    }
-                    else {
-                        chartViewPower.zoomReset();
-                        chartNotZoomed = true
-                        mAPower.drag.axis = Drag.XAxis
+                boundsBehavior: Flickable.StopAtBounds
+                width: root.width
+                height: root.height
+                flickableDirection: Flickable.HorizontalFlick
+                clip: true
+                contentWidth: {
+                    var lineSeriesList = GraphFunctions.lineSeriesList
+                    for(var k = 0 ; k < lineSeriesList.length; k++) {
+                        if(powerComponents.includes(lineSeriesList[k].name))
+                            graphWidth * lineSeriesList[k].count * 0.045
                     }
                 }
+                ScrollBar.horizontal: ScrollBar {
+                   height: 9
+                   policy: ScrollBar.AlwaysOn
+                   interactive: true
+                   property real oldPosition: 0
+                   onPositionChanged: {
+                       let axisXRange = axisXPower.max - axisXPower.min;
+                       let scrollAmount = (position - oldPosition) * axisXRange * 100;
+                       if(position > oldPosition)
+                           chartViewPower.scrollLeft(scrollAmount)
+                        else
+                           chartViewPower.scrollRight(-scrollAmount)
+                       oldPosition = position
+                   }
+                }
 
-                Item {
-                   id: dragTargetPower
-                   property real oldX : x
-                   property real oldY : y
-                   onXChanged: {
-                       chartViewPower.scrollLeft( x - oldX );
-                       chartView.scrollLeft( x - oldX );
-                       rectHorScrollPChart.x = rectHorScrollPChart.xPosition - x
-                       rectHorScrollUIChart.x = rectHorScrollUIChart.xPosition - x
-                       oldX = x;
-                    }
-                   onYChanged: {
-                       chartViewPower.scrollUp( y - oldY );
-                       oldY = y;
+                LineSeries {
+                    id: lineSeriesP
+                    axisX: axisXPower
+                    axisY: axisYPower
+                    color: GC.colorUAux1
+                }
+
+                MouseArea {
+                    id: mAPower
+                    anchors.fill: parent
+                    drag.axis: Drag.XAxis
+                    property bool chartNotZoomed: true
+                    onDoubleClicked: {
+                        if(chartNotZoomed) {
+                            var zoomFactor = 2
+                            var center_x = mouse.x
+                            var center_y = mouse.y
+                            var width_zoom = width/ zoomFactor;
+                            var height_zoom = height/ zoomFactor;
+                            var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
+                            chartViewPower.zoomIn(rect)
+                            chartNotZoomed = false
+                            mAPower.drag.axis = Drag.XAndYAxis
+                        }
+                        else {
+                            chartViewPower.zoomReset();
+                            chartNotZoomed = true
+                            mAPower.drag.axis = Drag.XAxis
+                        }
                     }
                 }
             }
-        }
-        Rectangle {
-            width:parent.width
-            height:parent.height * 0.10
-            anchors.bottom: chartViewPower.bottom
-            color:"transparent"
-
-            Rectangle {
-                id: rectHorScrollPChart
-                property real xPosition: parent.width - margin
-                property real margin: {
-                    let lineSeriesList = GraphFunctions.lineSeriesList
-                    var points = []
-                    for(var i = 0; i<lineSeriesList.length; i++) {
-                        points.push(lineSeriesList[i].count)
-                    }
-                    var max = Math.max(...points)
-                    return ((flickable.width - max) * 1.02)
-                }
-                visible: false
-                anchors.bottom : parent.bottom
-                color: "dimgray"
-                height: 9
-                width: margin
-                onWidthChanged: {
-                    rectHorScrollPChart.x = xPosition
-                }
-            }
-        }
+       }
         ChartView {
             id: chartView
             height: root.graphHeight / 2
@@ -352,6 +334,13 @@ Item {
                 labelFormat: "%d"
             }
             ValueAxis {
+                id: axisX
+                titleText: "T[s]"
+                titleFont.pointSize: chartView.height * 0.04
+                labelsFont.pixelSize: chartView.height * 0.04
+                labelFormat: "%d"
+            }
+            ValueAxis {
                 id: axisYRight
                 color: GC.colorIAux1
                 labelsColor: GC.colorIAux1
@@ -360,95 +349,76 @@ Item {
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
             }
-            ValueAxis {
-                id: axisX
-                titleText: "T[s]"
-                titleFont.pointSize: chartView.height * 0.04
-                labelsFont.pixelSize: chartView.height * 0.04
-                labelFormat: "%d"
-            }
 
-            LineSeries {
-                id: lineSeriesU
-                axisX: axisX
-                axisY: axisYLeft
-                color: GC.colorUAux1
+            Flickable {
+                anchors.fill: parent
+                boundsBehavior: Flickable.StopAtBounds
+                width: root.width
+                height: root.height
+                flickableDirection: Flickable.HorizontalFlick
+                clip: true
+                contentHeight: chartView.height
+                contentWidth: {
+                    var lineSeriesList = GraphFunctions.lineSeriesList;
+                    for (var i = 0; i < lineSeriesList.length; i++) {
+                        if (powerComponents.includes(lineSeriesList[i].name)) {
+                            graphWidth * lineSeriesList[i].count * 0.045;
+                        }
+                    }
+                }
+                ScrollBar.horizontal: ScrollBar {
+                    id: hbar
+                    policy: ScrollBar.AlwaysOn
+                    anchors.bottom: parent.bottom
+                    height: 9
+                    interactive: true
+                    property real oldPosition: 0
+                    onPositionChanged: {
+                        let axisXRange = axisX.max - axisX.min;
+                        let scrollAmount = (position - oldPosition) * axisXRange * 100;
+                        if(position > oldPosition)
+                            chartView.scrollLeft(scrollAmount)
+                         else
+                            chartView.scrollRight(-scrollAmount)
+                        oldPosition = position
+                    }
+                }
+                LineSeries {
+                    id: lineSeriesU
+                    axisX: axisX
+                    axisY: axisYLeft
+                    color: GC.colorUAux1
+                }
+                MouseArea {
+                    id: mA
+                    anchors.fill: parent
+                    drag.axis: Drag.XAxis
+                    property bool chartNotZoomed: true
+                    onDoubleClicked: {
+                        if(chartNotZoomed) {
+                            var zoomFactor = 2
+                            var center_x = mouse.x
+                            var center_y = mouse.y
+                            var width_zoom = width/ zoomFactor;
+                            var height_zoom = height/ zoomFactor;
+                            var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
+                            chartView.zoomIn(rect)
+                            chartNotZoomed = false
+                            mA.drag.axis = Drag.XAndYAxis
+                        }
+                        else {
+                            chartView.zoomReset();
+                            chartNotZoomed = true
+                            mA.drag.axis = Drag.XAxis
+                        }
+                    }
+                }
             }
             LineSeries {
                 id: lineSeriesI
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIAux1
-            }
-
-            MouseArea {
-                id: mA
-                anchors.fill: parent
-                drag.target: dragTarget
-                drag.axis: Drag.XAxis
-                property bool chartNotZoomed: true
-                onDoubleClicked: {
-                    if(chartNotZoomed) {
-                        var zoomFactor = 2
-                        var center_x = mouse.x
-                        var center_y = mouse.y
-                        var width_zoom = width/ zoomFactor;
-                        var height_zoom = height/ zoomFactor;
-                        var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
-                        chartView.zoomIn(rect)
-                        chartNotZoomed = false
-                        mA.drag.axis = Drag.XAndYAxis
-                    }
-                    else {
-                        chartView.zoomReset();
-                        chartNotZoomed = true
-                        mA.drag.axis = Drag.XAxis
-                    }
-                }
-
-                Item {
-                   id: dragTarget
-                   property real oldX : x
-                   property real oldY : y
-                   onXChanged: {
-                       chartView.scrollLeft( x - oldX );
-                       chartViewPower.scrollLeft( x - oldX );
-                       rectHorScrollPChart.x = rectHorScrollPChart.xPosition - x
-                       rectHorScrollUIChart.x = rectHorScrollUIChart.xPosition - x
-                       oldX = x;
-                    }
-                   onYChanged: {
-                       chartView.scrollUp( y - oldY );
-                       oldY = y;
-                    }
-                }
-            }
-        }
-        Rectangle{
-            width:parent.width
-            height: parent.height * 0.10
-            anchors.bottom: chartView.bottom
-            color:"transparent"
-
-            Rectangle {
-                id: rectHorScrollUIChart
-                property real xPosition: parent.width - margin
-                property real margin: {
-                    let lineSeriesList = GraphFunctions.lineSeriesList
-                    var points = []
-                    for(var i = 0; i<lineSeriesList.length; i++) {
-                        points.push(lineSeriesList[i].count)
-                    }
-                    var max = Math.max(...points)
-                    return ((flickable.width - max) * 1.02)
-                }
-                anchors.bottom : parent.bottom
-                color: "dimgray"
-                height: 9
-                width: margin
-                onWidthChanged: {
-                    rectHorScrollUIChart.x = xPosition
-                }
             }
         }
     }
