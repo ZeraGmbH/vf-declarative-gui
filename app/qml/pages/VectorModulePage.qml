@@ -25,17 +25,24 @@ Item {
     readonly property real comboMargin: 8
     property real topMargin: 0
 
-    readonly property var vectorU1 : getVector(0)
-    readonly property var vectorU2 : getVector(1)
-    readonly property var vectorU3 : getVector(2)
+    readonly property var vector0: getVector(0)
+    readonly property var vector1: getVector(1)
+    readonly property var vector2: getVector(2)
+    readonly property var vector3: getVector(3)
+    readonly property var vector4: getVector(4)
+    readonly property var vector5: getVector(5)
+
+    readonly property var vectorU1 : vector0 !== undefined ? vector0 : [0,0]
+    readonly property var vectorU2 : vector1 !== undefined ? vector1 : [0,0]
+    readonly property var vectorU3 : vector2 !== undefined ? vector2 : [0,0]
     readonly property real rmsU1: Math.sqrt(Math.pow(vectorU1[0], 2) + Math.pow(vectorU1[1], 2))
     readonly property real rmsU2: Math.sqrt(Math.pow(vectorU2[0], 2) + Math.pow(vectorU2[1], 2))
     readonly property real rmsU3: Math.sqrt(Math.pow(vectorU3[0], 2) + Math.pow(vectorU3[1], 2))
     readonly property real maxRmsU: Math.max(rmsU1, Math.max(rmsU2, rmsU3))
 
-    readonly property var vectorI1 : getVector(3)
-    readonly property var vectorI2 : getVector(4)
-    readonly property var vectorI3 : getVector(5)
+    readonly property var vectorI1 : vector3 !== undefined ? vector3 : [0,0]
+    readonly property var vectorI2 : vector4 !== undefined ? vector4 : [0,0]
+    readonly property var vectorI3 : vector5 !== undefined ? vector5 : [0,0]
     readonly property real rmsI1: Math.sqrt(Math.pow(vectorI1[0], 2) + Math.pow(vectorI1[1], 2))
     readonly property real rmsI2: Math.sqrt(Math.pow(vectorI2[0], 2) + Math.pow(vectorI2[1], 2))
     readonly property real rmsI3: Math.sqrt(Math.pow(vectorI3[0], 2) + Math.pow(vectorI3[1], 2))
