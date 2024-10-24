@@ -282,10 +282,11 @@ ApplicationWindow {
 
                 let iconName = "qrc:/data/staticdata/resources/act_values.png"
                 if(SessionState.emobSession) {
-                    if(SessionState.currentSession.includes('-ac')) //should be removed once EMOB-AC & EMOB-DC are on production
-                        append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
+                    let emobTitle = "Actual values & Meter tests"
+                    if(SessionState.currentSession.includes('-ac'))
+                        append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
                     else if(SessionState.dcSession)
-                        append({name: "Actual values & Meter tests", icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
+                        append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
                 }
                 else if(SessionState.dcSession)
                     append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
