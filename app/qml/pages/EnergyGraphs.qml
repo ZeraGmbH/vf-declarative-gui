@@ -286,31 +286,6 @@ Item {
                     axisY: axisYPower
                     color: GC.colorUAux1
                 }
-
-                MouseArea {
-                    id: mAPower
-                    anchors.fill: parent
-                    drag.axis: Drag.XAxis
-                    property bool chartNotZoomed: true
-                    onDoubleClicked: {
-                        if(chartNotZoomed) {
-                            var zoomFactor = 2
-                            var center_x = mouse.x
-                            var center_y = mouse.y
-                            var width_zoom = width/ zoomFactor;
-                            var height_zoom = height/ zoomFactor;
-                            var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
-                            chartViewPower.zoomIn(rect)
-                            chartNotZoomed = false
-                            mAPower.drag.axis = Drag.XAndYAxis
-                        }
-                        else {
-                            chartViewPower.zoomReset();
-                            chartNotZoomed = true
-                            mAPower.drag.axis = Drag.XAxis
-                        }
-                    }
-                }
             }
        }
         ChartView {
@@ -388,30 +363,6 @@ Item {
                     axisX: axisX
                     axisY: axisYLeft
                     color: GC.colorUAux1
-                }
-                MouseArea {
-                    id: mA
-                    anchors.fill: parent
-                    drag.axis: Drag.XAxis
-                    property bool chartNotZoomed: true
-                    onDoubleClicked: {
-                        if(chartNotZoomed) {
-                            var zoomFactor = 2
-                            var center_x = mouse.x
-                            var center_y = mouse.y
-                            var width_zoom = width/ zoomFactor;
-                            var height_zoom = height/ zoomFactor;
-                            var rect = Qt.rect(center_x-width_zoom/2, center_y - height_zoom/2, width_zoom, height_zoom)
-                            chartView.zoomIn(rect)
-                            chartNotZoomed = false
-                            mA.drag.axis = Drag.XAndYAxis
-                        }
-                        else {
-                            chartView.zoomReset();
-                            chartNotZoomed = true
-                            mA.drag.axis = Drag.XAxis
-                        }
-                    }
                 }
             }
             LineSeries {
