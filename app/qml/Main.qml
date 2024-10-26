@@ -25,7 +25,6 @@ import "controls/settings"
 ApplicationWindow {
     id: displayWindow
 
-
     // used to display the fps and other debug infos
     property bool debugBypass: false;
     // for development: current resolution
@@ -103,7 +102,6 @@ ApplicationWindow {
                 dynamicPageModel.initModel();
                 pageView.model = dynamicPageModel;
 
-                console.log("Loaded session: ", SessionState.currentSession);
                 ModuleIntrospection.reloadIntrospection();
 
                 // rescue dyn sources binding over session change
@@ -126,6 +124,7 @@ ApplicationWindow {
                 layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
                 GC.entityInitializationDone = true
                 controlsBar.pageViewVisible = false
+                console.info("Loaded session: ", SessionState.currentSession);
             }
         }
 
