@@ -172,6 +172,7 @@ ApplicationWindow {
                 id: pageLoader
                 source: pageView.pageLoaderSource
                 asynchronous: true
+                onLoaded: console.info("Pages loaded")
             }
             Loader {
                 sourceComponent: RangeMModePage {
