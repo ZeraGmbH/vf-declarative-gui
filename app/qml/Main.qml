@@ -124,7 +124,7 @@ ApplicationWindow {
                 layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
                 GC.entityInitializationDone = true
                 controlsBar.pageViewVisible = false
-                console.info("Loaded session: ", SessionState.currentSession);
+                console.info("Loaded session:", SessionState.currentSession);
             }
         }
 
