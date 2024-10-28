@@ -9,7 +9,6 @@ import JsonHelper 1.0
 
 Item {
     property var lineSeriesList: []
-    property bool timerHasTriggered: false
     property real axisXmax: 0
 
     function setColors() {
@@ -80,7 +79,7 @@ Item {
         axisXmax = Math.max(...timeArray)
         axisXPower.max = axisXmax
         axisX.max = axisXmax
-        if(timerHasTriggered === true){
+        if(axisXmax > 10){
             var minTimeValue = axisXmax - 10
             axisX.min = minTimeValue
             axisXPower.min = minTimeValue
@@ -120,15 +119,6 @@ Item {
         }
     }
 
-    function prepareCharts(timestamps) {
-        if(timestamps.length <= 1) {
-            for(let i = 0; i < lineSeriesList.length; i++ )
-                lineSeriesList[i].clear()
-            timer.restart()
-            timerHasTriggered = false
-        }
-    }
-
     function appendIfNotDuplicated(series) {
         var appendSerie = true
         if(lineSeriesList.length === 0)
@@ -150,13 +140,4 @@ Item {
         id : jsonHelper
     }
 
-    Timer {
-        id: timer
-        interval: 10000
-        repeat: true
-        running: true
-        onTriggered: {
-            timerHasTriggered = true
-        }
-    }
 }
