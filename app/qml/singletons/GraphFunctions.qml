@@ -10,6 +10,7 @@ import JsonHelper 1.0
 Item {
     property var lineSeriesList: []
     property bool timerHasTriggered: false
+    property real axisXmax: 0
 
     function setColors() {
         for(var k = 0; k < lineSeriesList.length; k++) {
@@ -76,11 +77,11 @@ Item {
         if(axisY.max < maxValue)
             axisY.max = maxValue
 
-        var maxTimeValue = Math.max(...timeArray)
-        axisXPower.max = maxTimeValue
-        axisX.max = maxTimeValue
+        axisXmax = Math.max(...timeArray)
+        axisXPower.max = axisXmax
+        axisX.max = axisXmax
         if(timerHasTriggered === true){
-            var minTimeValue = maxTimeValue - 10
+            var minTimeValue = axisXmax - 10
             axisX.min = minTimeValue
             axisXPower.min = minTimeValue
         }

@@ -266,8 +266,8 @@ Item {
                    interactive: true
                    property real oldPosition: 0
                    onPositionChanged: {
-                       let axisXRange = axisXPower.max - axisXPower.min;
-                       let scrollAmount = (position - oldPosition) * axisXRange * 100;
+                       let axisXRange = GraphFunctions.axisXmax;
+                       let scrollAmount = (position - oldPosition) * axisXRange * 50;
                        if(position > oldPosition)
                            chartViewPower.scrollLeft(scrollAmount)
                         else
@@ -346,8 +346,8 @@ Item {
                     interactive: true
                     property real oldPosition: 0
                     onPositionChanged: {
-                        let axisXRange = axisX.max - axisX.min;
-                        let scrollAmount = (position - oldPosition) * axisXRange * 100;
+                        let axisXRange = GraphFunctions.axisXmax;
+                        let scrollAmount = (position - oldPosition) * axisXRange * 50;
                         if(position > oldPosition)
                             chartView.scrollLeft(scrollAmount)
                          else
