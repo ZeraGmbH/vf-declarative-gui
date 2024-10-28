@@ -256,8 +256,10 @@ Item {
                 contentWidth: {
                     var lineSeriesList = GraphFunctions.lineSeriesList
                     for(var k = 0 ; k < lineSeriesList.length; k++) {
-                        if(powerComponents.includes(lineSeriesList[k].name))
-                            graphWidth * lineSeriesList[k].count * 0.045
+                        var numPts = []
+                        numPts.push(lineSeriesList[k].count)
+                        var maxPts = Math.max(numPts)
+                        return graphWidth * maxPts * 0.045;
                     }
                 }
                 ScrollBar.horizontal: ScrollBar {
@@ -333,9 +335,10 @@ Item {
                 contentWidth: {
                     var lineSeriesList = GraphFunctions.lineSeriesList;
                     for (var i = 0; i < lineSeriesList.length; i++) {
-                        if (powerComponents.includes(lineSeriesList[i].name)) {
-                            graphWidth * lineSeriesList[i].count * 0.045;
-                        }
+                        var numPts = []
+                        numPts.push(lineSeriesList[i].count)
+                        var maxPts = Math.max(numPts)
+                        return graphWidth * maxPts * 0.045;
                     }
                 }
                 ScrollBar.horizontal: ScrollBar {
