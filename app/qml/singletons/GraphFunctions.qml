@@ -106,12 +106,16 @@ Item {
         }
     }
 
-    function prepareCharts(timestamps) {
-        if(timestamps.length <= 1) {
-            for(let i = 0; i < lineSeriesList.length; i++ )
-                lineSeriesList[i].clear()
-            timer.restart()
-            timerHasTriggered = false
+    function appendPointToLineSerie(jsonData, time, compoName, axisY, axisX, axisXPower) {
+        var timestamps = Object.keys(jsonData).sort()
+        var firstTimestamp = jsonHelper.convertTimestampToMs(timestamps[0])
+        var testTimeSecs = (time - firstTimestamp)/1000
+        for(var k = 0; k < lineSeriesList.length; k++) {
+            if(lineSeriesList[k].name === compoName) {
+                let value = jsonHelper.getValue(jsonData, time, compoName)
+                lineSeriesList[k].append(testTimeSecs , value)
+                setMinMax(lineSeriesList[k], axisY, axisX, axisXPower)
+            }
         }
     }
 
@@ -130,6 +134,15 @@ Item {
         if(appendSerie)
             lineSeriesList.push(series)
         lineSeriesList = [].concat.apply([], lineSeriesList)
+    }
+
+    function prepareCharts(timestamps) {
+        if(timestamps.length <= 1) {
+            for(let i = 0; i < lineSeriesList.length; i++ )
+                lineSeriesList[i].clear()
+            timer.restart()
+            timerHasTriggered = false
+        }
     }
 
     JsonHelper {

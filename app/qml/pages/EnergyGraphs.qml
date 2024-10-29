@@ -21,20 +21,22 @@ Item {
     property var componentsList
     property var jsonData : VeinEntity.getEntity("Storage").StoredValues0
     onJsonDataChanged:
-        loadData()
+        loadLastElement()
 
     function createLineSeries(componentsList) {
         for(var component in componentsList) {
+            var series;
             if(powerComponents.includes(componentsList[component]))
-                var series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
+                series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
             if(voltageComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
             if(currentComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
 
             GraphFunctions.appendIfNotDuplicated(series)
+            loadAllElements(series)
+            GraphFunctions.setColors()
         }
-        GraphFunctions.setColors()
     }
 
     function removeLineSeries(componentsList) {
@@ -64,7 +66,7 @@ Item {
         GraphFunctions.lineSeriesList = lineSeries
     }
 
-    function loadData() {
+    function loadLastElement() {
         var actValU = []
         var actValI = []
         var actValP = []
@@ -88,6 +90,26 @@ Item {
             GraphFunctions.appendLastElemt(actValI, currentComponents[iCompo], jsonData, axisYRight, axisX, axisXPower)
         for(let pCompo in powerComponents)
             GraphFunctions.appendLastElemt(actValP, powerComponents[pCompo], jsonData, axisYPower, axisX, axisXPower)
+    }
+
+    function loadAllElements(LineSerie) {
+        var timestamps = Object.keys(jsonData).sort()
+        for (var i = 0; i < timestamps.length; i++) {
+            var timestamp = timestamps[i]
+            var data = jsonData[timestamp]
+            var time = jsonHelper.convertTimestampToMs(timestamp)
+            var components = jsonHelper.getComponents(jsonData, time)
+            for(var v = 0 ; v <components.length; v++) {
+                if (LineSerie.name === components[v]) {
+                    if(voltageComponents.includes(components[v]))
+                        GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYLeft, axisX, axisXPower)
+                    if(currentComponents.includes(components[v]))
+                        GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYRight, axisX, axisXPower)
+                    if(powerComponents.includes(components[v]))
+                        GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYPower, axisX, axisXPower)
+                }
+            }
+        }
     }
 
     JsonHelper {
