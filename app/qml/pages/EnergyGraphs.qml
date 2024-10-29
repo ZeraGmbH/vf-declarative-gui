@@ -65,25 +65,29 @@ Item {
     }
 
     function loadData() {
-        for(var k = 0; k < GraphFunctions.lineSeriesList.length; k++)
-            GraphFunctions.lineSeriesList[k].clear()
+        var actValU = []
+        var actValI = []
+        var actValP = []
 
+        GraphFunctions.prepareCharts(Object.keys(jsonData))
         var timestamps = Object.keys(jsonData).sort()
-        for (var i = 0; i < timestamps.length; i++) {
-            var timestamp = timestamps[i]
-            var data = jsonData[timestamp]
-            var time = jsonHelper.convertTimestampToMs(timestamp)
-
-            var components = jsonHelper.getComponents(jsonData, time)
-            for(var v = 0 ; v <components.length; v++) {
-                if(voltageComponents.includes(components[v]))
-                    GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYLeft, axisX, axisXPower)
-                if(currentComponents.includes(components[v]))
-                    GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYRight, axisX, axisXPower)
-                if(powerComponents.includes(components[v]))
-                    GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYPower, axisX, axisXPower)
-            }
+        var timestamp = timestamps[timestamps.length - 1]
+        var time = jsonHelper.convertTimestampToMs(timestamp)
+        var components = jsonHelper.getComponents(jsonData, time)
+        for(var v = 0 ; v <components.length; v++) {
+            if(voltageComponents.includes(components[v]))
+                actValU.push({x: time, y: components[v]})
+            if(currentComponents.includes(components[v]))
+                actValI.push({x: time, y: components[v]})
+            if(powerComponents.includes(components[v]))
+                actValP.push({x: time, y: components[v]})
         }
+        for(let vCompo in voltageComponents)
+            GraphFunctions.appendLastElemt(actValU, voltageComponents[vCompo], jsonData, axisYLeft, axisX, axisXPower)
+        for(let iCompo in currentComponents)
+            GraphFunctions.appendLastElemt(actValI, currentComponents[iCompo], jsonData, axisYRight, axisX, axisXPower)
+        for(let pCompo in powerComponents)
+            GraphFunctions.appendLastElemt(actValP, powerComponents[pCompo], jsonData, axisYPower, axisX, axisXPower)
     }
 
     JsonHelper {
@@ -286,7 +290,6 @@ Item {
                 }
             }
        }
-
         ChartView {
             id: chartView
             height: root.graphHeight / 2
