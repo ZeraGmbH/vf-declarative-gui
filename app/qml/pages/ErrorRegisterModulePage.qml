@@ -41,15 +41,11 @@ Item {
                     data = jsonEnergyAC
                     storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
                 }
-                if(VeinEntity.getEntity("_System").DevMode) {
+                if(VeinEntity.getEntity("_System").DevMode)
                     storageEntity.PAR_StartStopLogging0 = true
-                    disableLoggingTimer.start()
-                }
             }
-            else if(parStartStop === 0) {
+            else if(parStartStop === 0)
                 storageEntity.PAR_StartStopLogging0 = false
-                disableLoggingTimer.stop()
-            }
         }
     }
 
@@ -200,20 +196,5 @@ Item {
                 }
             }
         }
-    }
-    Timer {
-        id: disableLoggingTimer
-        interval: 120000
-        repeat: true
-        onTriggered: {
-            storageEntity.PAR_StartStopLogging0 = false
-            enableLoggingTimer.start()
-        }
-    }
-    Timer {
-        id: enableLoggingTimer
-        interval: 500
-        onTriggered:
-            storageEntity.PAR_StartStopLogging0 = true
     }
 }
