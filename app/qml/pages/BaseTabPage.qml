@@ -87,6 +87,7 @@ Item {
         width: parent.width/3
         height: parent.height/5
         modal: true
+        closePolicy: Popup.CloseOnEscape
         ColumnLayout {
             anchors.fill: parent
             Label {
