@@ -23,7 +23,7 @@ bool ScreenCapture::capture(QString path)
     return false;
 }
 
-bool ScreenCapture::captureMounted(QStringList mountedPaths)
+bool ScreenCapture::captureOnFirstMounted(QStringList mountedPaths)
 {
     if(mountedPaths.size()) {
         QDateTime now = QDateTime::currentDateTime();

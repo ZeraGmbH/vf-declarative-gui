@@ -10,7 +10,7 @@ class ScreenCapture : public QObject
 public:
     explicit ScreenCapture(QObject *parent = nullptr);
     Q_INVOKABLE bool capture(QString path);
-    Q_INVOKABLE bool captureMounted(QStringList mountedPaths);
+    Q_INVOKABLE bool captureOnFirstMounted(QStringList mountedPaths);
 };
 
 #endif // SCREENCAPTURE_H
