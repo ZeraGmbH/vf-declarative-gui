@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 
 include(FeatureSummary)
 
-find_package(Qt5 "5.12.0" COMPONENTS Core Widgets DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
+find_package(Qt5 "5.12.0" COMPONENTS Core DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
 find_package(Qt5QuickCompiler CONFIG REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(QWT REQUIRED Qt5Qwt6)
