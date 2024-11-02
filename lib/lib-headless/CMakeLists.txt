@@ -19,5 +19,9 @@ target_include_directories(vf-declarative-gui-lib-headless
 target_link_libraries(vf-declarative-gui-lib-headless
     PUBLIC
     Qt5::Core
+    VeinMeta::VfFiles
+    simplecmdio-client
     )
 
+set(SET_USB_STICK_PATH "/media/" CACHE STRING "Automount path")
+add_definitions(-DUSB_STICK_PATH="${SET_USB_STICK_PATH}")
