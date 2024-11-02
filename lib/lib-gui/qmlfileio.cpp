@@ -10,21 +10,9 @@
 #include <QJsonParseError>
 #include <QDebug>
 #include <qqml.h>
-
 #include <QDir>
 #include <QDateTime>
 #include <QJsonObject>
-
-namespace QmlFileIOPrivate
-{
-void registerTypes()
-{
-    // @uri QmlFileIO
-    qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", QmlFileIO::getStaticInstance);
-}
-
-Q_COREAPP_STARTUP_FUNCTION(registerTypes)
-}
 
 QmlFileIO::QmlFileIO(QObject *parent) : QObject(parent)
 {
@@ -130,18 +118,11 @@ bool QmlFileIO::writeJsonFile(const QString &fileName, const QVariant &content, 
     return retVal;
 }
 
-QObject *QmlFileIO::getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
+QmlFileIO *QmlFileIO::getInstance()
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-
+    if(!s_instance)
+        s_instance = new QmlFileIO;
     return s_instance;
-}
-
-void QmlFileIO::setStaticInstance(QmlFileIO *instance)
-{
-    if(s_instance == nullptr)
-        s_instance = instance;
 }
 
 bool QmlFileIO::checkFile(const QFile &file)
