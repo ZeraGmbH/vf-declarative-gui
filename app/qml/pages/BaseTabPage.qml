@@ -2,8 +2,6 @@ import QtQuick 2.14
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import GlobalConfig 1.0
-import ScreenCapture 1.0
-import QmlFileIO 1.0
 import ZeraTranslation  1.0
 
 Item {
@@ -45,66 +43,6 @@ Item {
     }
     onInitializedChanged: forceActiveFocus()
 
-    ScreenCapture {
-        id: screencapture
-        readonly property var mountedPaths: QmlFileIO.mountedPaths // bind to ensure valid on first key press
-    }
-    Keys.onPressed: {
-        if(event.key === Qt.Key_Print) {
-            if(screencapture.captureMounted(screencapture.mountedPaths)) {
-                successfulWindow.open()
-                timerCloseSucessfulWindow.start()
-            }
-            else
-                unseccessfulWindow.open()
-        }
-    }
-    Timer {
-        id: timerCloseSucessfulWindow
-        interval: 1200
-        repeat: false
-        onTriggered: successfulWindow.close()
-    }
-    Popup {
-        id : successfulWindow
-        anchors.centerIn: parent
-        width: parent.width/1.8
-        height: parent.height/6
-        modal: true
-        ColumnLayout {
-            anchors.fill: parent
-            Label {
-                font.pointSize: root.height/40
-                text: Z.tr("Screenshot taken and saved on USB-stick")
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-            }
-        }
-    }
-    Popup {
-        id : unseccessfulWindow
-        anchors.centerIn: parent
-        width: parent.width/3
-        height: parent.height/5
-        modal: true
-        closePolicy: Popup.CloseOnEscape
-        ColumnLayout {
-            anchors.fill: parent
-            Label {
-                font.pointSize: root.height/40
-                text: Z.tr("No USB-stick inserted")
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-            }
-            Button {
-                text: "OK"
-                font.pointSize: root.height/50
-                Layout.alignment: Qt.AlignHCenter
-                onClicked: unseccessfulWindow.close()
-            }
-        }
-    }
-
     SwipeView {
         id: swipeView
         visible: initialized
@@ -135,6 +73,5 @@ Item {
             initialized = true
         }
     }
-
 
 }

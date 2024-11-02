@@ -13,6 +13,8 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AccumulatorState 1.0
 import ZeraSettings 1.0
+import ScreenCapture 1.0
+import QmlFileIO 1.0
 
 import "controls"
 import "helpers"
@@ -87,6 +89,7 @@ ApplicationWindow {
     title: "ZeraGUI"
     Material.theme: Material.Dark
     Material.accent: "#339966"
+    readonly property real pointSize: height > 0 ? height * 0.035 : 10
 
     function prepareSessionChange() {
         layoutStack.currentIndex=0;
@@ -355,7 +358,69 @@ ApplicationWindow {
                 }
             }
         }
+
+        ScreenCapture {
+            id: screencapture
+            readonly property var mountedPaths: QmlFileIO.mountedPaths // bind to ensure valid on first key press
+        }
+        Keys.onPressed: {
+            if(event.key === Qt.Key_Print) {
+                if(screencapture.captureMounted(screencapture.mountedPaths)) {
+                    successfulWindow.open()
+                    timerCloseSucessfulWindow.start()
+                }
+                else
+                    unseccessfulWindow.open()
+            }
+        }
+        Timer {
+            id: timerCloseSucessfulWindow
+            interval: 1200
+            repeat: false
+            onTriggered: successfulWindow.close()
+        }
+        Popup {
+            id : successfulWindow
+            anchors.centerIn: parent
+            width: parent.width * 0.85
+            height: parent.height * 0.18
+            modal: true
+            ColumnLayout {
+                anchors.fill: parent
+                Label {
+                    font.pointSize: pointSize
+                    text: Z.tr("Screenshot taken and saved on USB-stick")
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.fillWidth: true
+                }
+            }
+        }
+
+        Popup {
+            id : unseccessfulWindow
+            anchors.centerIn: parent
+            width: parent.width * 0.45
+            height: parent.height * 0.27
+            modal: true
+            closePolicy: Popup.CloseOnEscape
+            ColumnLayout {
+                anchors.fill: parent
+                Label {
+                    font.pointSize: pointSize
+                    text: Z.tr("No USB-stick inserted")
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.fillWidth: true
+                }
+                Button {
+                    text: "OK"
+                    font.pointSize: pointSize
+                    Layout.alignment: Qt.AlignHCenter
+                    onClicked: unseccessfulWindow.close()
+                }
+            }
+        }
     }
+
 
     InputPanel {
         id: inputPanel
