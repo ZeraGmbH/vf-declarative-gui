@@ -50,11 +50,18 @@ Item {
             if(QmlFileIO.mountedPaths.length > 0) {
                 QmlFileIO.storeScreenShotOnUsb()
                 successfulWindow.open()
-                timer.start()
+                timerCloseSucessfulWindow.start()
             }
             else
                 unseccessfulWindow.open()
         }
+    }
+
+    Timer {
+        id: timerCloseSucessfulWindow
+        interval: 1200
+        repeat: false
+        onTriggered: successfulWindow.close()
     }
 
     Popup {
@@ -72,13 +79,6 @@ Item {
                 Layout.fillWidth: true
             }
         }
-    }
-
-    Timer {
-        id: timer
-        interval: 1200
-        repeat: false
-        onTriggered: successfulWindow.close()
     }
 
     Popup {
