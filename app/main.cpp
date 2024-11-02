@@ -45,11 +45,18 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
     qInfo("External QML external dependencies registered.");
 }
 
+JsonSettingsFile *getJsonSettingsFileInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return JsonSettingsFile::getInstance();
+}
+
 static void registerQmlInt()
 {
     qInfo("Register QML internal dependencies...");
     QmlAppStarterForWebGL::registerQMLSingleton();
-    qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", JsonSettingsFile::getStaticInstance);
+    qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
     qmlRegisterType<JsonHelper>("JsonHelper", 1, 0, "JsonHelper");
