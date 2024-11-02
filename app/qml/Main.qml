@@ -365,7 +365,7 @@ ApplicationWindow {
         }
         Keys.onPressed: {
             if(event.key === Qt.Key_Print) {
-                if(screencapture.captureMounted(screencapture.mountedPaths)) {
+                if(screencapture.captureOnFirstMounted(screencapture.mountedPaths)) {
                     successfulWindow.open()
                     timerCloseSucessfulWindow.start()
                 }
