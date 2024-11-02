@@ -1,6 +1,4 @@
 #include "qmlfileio.h"
-#include "screencapture.h"
-#include <QCoreApplication>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>

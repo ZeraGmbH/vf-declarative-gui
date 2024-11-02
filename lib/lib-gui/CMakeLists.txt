@@ -25,10 +25,6 @@ target_include_directories(vf-declarative-gui-lib
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/itemmodels/LEM_DC>
     )
 
-set(SET_USB_STICK_PATH "/media/" CACHE STRING "Automount path")
-add_definitions(-DUSB_STICK_PATH="${SET_USB_STICK_PATH}")
-
-
 target_link_libraries(vf-declarative-gui-lib
     PUBLIC
     Qt5::Core
@@ -54,8 +50,6 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::qwtcharts
     zera-json-qml
     Zera::ZVKeyboardLayout
-    VeinMeta::VfFiles
-    simplecmdio-client
     "-Wl,--as-needed"
     #Other Libs
     ${QWT_LIBRARIES}

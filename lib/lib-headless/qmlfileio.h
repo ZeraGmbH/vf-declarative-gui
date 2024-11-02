@@ -6,7 +6,6 @@
 #include <QObject>
 #include <QVariant>
 #include <QString>
-#include <QQuickItem>
 #include <memory>
 
 class QmlFileIO : public QObject
