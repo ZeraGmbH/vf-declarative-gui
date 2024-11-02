@@ -1,7 +1,7 @@
 #ifndef JSONSETTINGSFILE_H
 #define JSONSETTINGSFILE_H
 
-#include <QQmlEngine>
+#include <QObject>
 
 class JsonSettingsFilePrivate;
 
@@ -11,7 +11,6 @@ class JsonSettingsFile : public QObject
 public:
     explicit JsonSettingsFile(QObject *t_parent = nullptr);
     static JsonSettingsFile *getInstance();
-    static JsonSettingsFile *getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
     bool loadFromStandardLocation(const QString &fileName);
     void setAutoWriteBackEnabled(bool autoWriteBackEnabled=true);
 

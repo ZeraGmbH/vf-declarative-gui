@@ -55,13 +55,6 @@ JsonSettingsFile *JsonSettingsFile::getInstance()
     return s_globalSettings;
 }
 
-JsonSettingsFile *JsonSettingsFile::getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return getInstance();
-}
-
 bool JsonSettingsFile::loadFromStandardLocation(const QString &fileName)
 {
     return loadFromFile(QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(fileName));
