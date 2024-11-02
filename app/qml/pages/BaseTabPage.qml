@@ -45,10 +45,13 @@ Item {
     }
     onInitializedChanged: forceActiveFocus()
 
+    ScreenCapture {
+        id: screencapture
+        readonly property var mountedPaths: QmlFileIO.mountedPaths // bind to ensure valid on first key press
+    }
     Keys.onPressed: {
         if(event.key === Qt.Key_Print) {
-            if(QmlFileIO.mountedPaths.length > 0) {
-                QmlFileIO.storeScreenShotOnUsb()
+            if(screencapture.captureMounted(screencapture.mountedPaths)) {
                 successfulWindow.open()
                 timerCloseSucessfulWindow.start()
             }
@@ -56,14 +59,12 @@ Item {
                 unseccessfulWindow.open()
         }
     }
-
     Timer {
         id: timerCloseSucessfulWindow
         interval: 1200
         repeat: false
         onTriggered: successfulWindow.close()
     }
-
     Popup {
         id : successfulWindow
         anchors.centerIn: parent
@@ -80,7 +81,6 @@ Item {
             }
         }
     }
-
     Popup {
         id : unseccessfulWindow
         anchors.centerIn: parent
@@ -124,10 +124,6 @@ Item {
                 swipeView.forceActiveFocus()
             }
         }
-    }
-
-    ScreenCapture {
-        id: screencapture
     }
 
     property bool initialized: false
