@@ -3,10 +3,13 @@
 #include <QGuiApplication>
 #include <QFile>
 #include <QPixmap>
+#include <QDateTime>
+#include <QDir>
 
 ScreenCapture::ScreenCapture(QObject *parent)
     : QObject{parent}
-{}
+{
+}
 
 bool ScreenCapture::capture(QString path)
 {
@@ -18,4 +21,19 @@ bool ScreenCapture::capture(QString path)
         return true;
     }
     return false;
+}
+
+bool ScreenCapture::captureMounted(QStringList mountedPaths)
+{
+    if(mountedPaths.size()) {
+        QDateTime now = QDateTime::currentDateTime();
+        QString filePath = mountedPaths[0] + "/screenshot-" + now.toString("dd-MM-yyyy HH_mm") + ".PNG";
+        filePath = QDir::cleanPath(filePath);
+        if(capture(filePath))
+            return true;
+        else
+            qWarning("Error ScreenCapture");
+    }
+    return false;
+
 }

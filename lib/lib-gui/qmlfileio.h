@@ -26,7 +26,6 @@ public:
     Q_INVOKABLE bool writeTextFile(const QString& fileName, const QString &content, bool overwrite = false, bool truncate = true);
     Q_INVOKABLE QVariant readJsonFile(const QString& fileName);
     Q_INVOKABLE bool writeJsonFile(const QString& fileName, const QVariant &content, bool overwrite = false);
-    Q_INVOKABLE bool storeScreenShotOnUsb();
 
     const QStringList &mountedPaths() const;
     bool getWritingLogsToUsb() const;

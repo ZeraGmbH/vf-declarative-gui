@@ -9,9 +9,7 @@
 #include <QJsonArray>
 #include <QJsonParseError>
 #include <QDebug>
-#include <qqml.h>
 #include <QDir>
-#include <QDateTime>
 #include <QJsonObject>
 
 QmlFileIO::QmlFileIO(QObject *parent) : QObject(parent)
@@ -199,21 +197,6 @@ void QmlFileIO::onSimpleCmdFinish(bool ok)
     }
     m_writingLogsToUsb = false;
     emit sigWritingLogsToUsbChanged();
-}
-
-bool QmlFileIO::storeScreenShotOnUsb()
-{
-    if(m_mountedPaths.size()) {
-        QDateTime now = QDateTime::currentDateTime();
-        QString filePath = m_mountedPaths[0] + "/screenshot-" + now.toString("dd-MM-yyyy HH_mm") + ".PNG";
-        filePath = QDir::cleanPath(filePath);
-        ScreenCapture screen;
-        if(screen.capture(filePath))
-            return true;
-        else
-            qWarning("Error ScreenCapture");
-    }
-    return false;
 }
 
 QmlFileIO * QmlFileIO::s_instance = nullptr;
