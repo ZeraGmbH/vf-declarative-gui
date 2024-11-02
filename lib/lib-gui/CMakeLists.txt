@@ -32,7 +32,6 @@ add_definitions(-DUSB_STICK_PATH="${SET_USB_STICK_PATH}")
 target_link_libraries(vf-declarative-gui-lib
     PUBLIC
     Qt5::Core
-    Qt5::Widgets
     Qt5::Quick
     Qt5::QuickControls2
     Qt5::DBus
