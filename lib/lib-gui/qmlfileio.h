@@ -14,6 +14,7 @@ class QmlFileIO : public QObject
     Q_OBJECT
 public:
     QmlFileIO(QObject *parent=0);
+    static QmlFileIO *getInstance();
 
     Q_PROPERTY(QStringList mountedPaths READ mountedPaths NOTIFY sigMountedPathsChanged);
 
@@ -26,10 +27,6 @@ public:
     Q_INVOKABLE QVariant readJsonFile(const QString& fileName);
     Q_INVOKABLE bool writeJsonFile(const QString& fileName, const QVariant &content, bool overwrite = false);
     Q_INVOKABLE bool storeScreenShotOnUsb();
-
-    static QObject *getStaticInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
-
-    static void setStaticInstance(QmlFileIO *instance);
 
     const QStringList &mountedPaths() const;
     bool getWritingLogsToUsb() const;

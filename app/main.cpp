@@ -52,11 +52,19 @@ JsonSettingsFile *getJsonSettingsFileInstance(QQmlEngine *engine, QJSEngine *scr
     return JsonSettingsFile::getInstance();
 }
 
+QmlFileIO *getQmlFileIOInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return QmlFileIO::getInstance();
+}
+
 static void registerQmlInt()
 {
     qInfo("Register QML internal dependencies...");
     QmlAppStarterForWebGL::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
+    qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", getQmlFileIOInstance);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
     qmlRegisterType<JsonHelper>("JsonHelper", 1, 0, "JsonHelper");
@@ -163,8 +171,6 @@ int main(int argc, char *argv[])
     ZeraTranslation::setInitialLanguage(globalSettingsFile->getOption("locale", "en_GB"));
 
     app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
-
-    QmlFileIO::setStaticInstance(new QmlFileIO(&app));
 
     QQmlApplicationEngine engine;
     registerQmlExt(engine);
