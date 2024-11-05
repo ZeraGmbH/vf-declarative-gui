@@ -91,13 +91,6 @@ ApplicationWindow {
     Material.accent: "#339966"
     readonly property real pointSize: height > 0 ? height * 0.035 : 10
 
-    function prepareSessionChange() {
-        layoutStack.currentIndex=0;
-        controlsBar.rangeIndicatorDependenciesReady = false;
-        pageLoader.active = false;
-        GC.entityInitializationDone = false;
-    }
-
     Connections {
         target: VeinEntity
         function onSigStateChanged(t_state) {
@@ -341,6 +334,12 @@ ApplicationWindow {
             ///@note do not break binding by setting visible directly
             visible: controlsBar.pageViewVisible;
             onCloseView: controlsBar.pageViewVisible = false;
+            function prepareSessionChange() {
+                layoutStack.currentIndex=0;
+                controlsBar.rangeIndicatorDependenciesReady = false;
+                pageLoader.active = false;
+                GC.entityInitializationDone = false;
+            }
             sessionComponent: SessionState.currentSession
             onSessionComponentChanged: {
                 prepareSessionChange();
