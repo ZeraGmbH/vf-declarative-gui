@@ -1,0 +1,11 @@
+{
+   "foo":[
+      {
+        "EntityId":1070,
+        "Component":[
+            "ACT_PQS1",
+            "ACT_PQS2"
+        ]
+      }
+  ]
+}
