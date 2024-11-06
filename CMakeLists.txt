@@ -5,6 +5,7 @@ set(PROJECT_VERSION "1.4.0")
 
 cmake_policy(SET CMP0071 NEW)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 include(FeatureSummary)
 
@@ -26,6 +27,7 @@ find_package(simplecmdiobase REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
 
 enable_testing()
+
 add_subdirectory(app)
 add_subdirectory(lib)
 
