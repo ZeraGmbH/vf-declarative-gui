@@ -48,7 +48,6 @@ void Vf_Recorder::startStopLogging(QVariant value, int storageNum)
     bool onOff = value.toBool();
 
     if(onOff) {
-        prepareTimeRecording();
         m_JsonWithEntities[storageNum]->changeComponentReadWriteType(true);
         QString jsonString = m_JsonWithEntities[storageNum]->getValue().toString();
         QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
@@ -66,6 +65,7 @@ void Vf_Recorder::readJson(QVariant value, int storageNum)
     QJsonObject jsonObject = value.toJsonObject();
 
     if(!jsonObject.isEmpty()) {
+        prepareTimeRecording();
         QHash<int, QStringList> entitesAndComponents = extractEntitiesAndComponents(jsonObject);
         m_dataCollect[storageNum]->startLogging(entitesAndComponents);
     }
