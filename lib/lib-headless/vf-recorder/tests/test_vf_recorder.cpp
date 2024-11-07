@@ -99,6 +99,19 @@ void test_vf_recorder::storeValuesEmptyComponentsInJson()
     QCOMPARE(value, "5");
 }
 
+void test_vf_recorder::doNotStoreSigMeasuringNotAvailable()
+{
+    QVariantMap components = {{"ACT_RMSPN1", QVariant()}, {"ACT_RMSPN2", QVariant()}};
+    createModule(rmsEntityId, components);
+    startLoggingFromJson(":/empty-components.json", storageNum);
+
+    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 1);
+    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 2);
+    TimeMachineForTest::getInstance()->processTimers(100);
+
+    QVERIFY(getStoredValueWithoutTimeStamp(storageNum).isEmpty());
+}
+
 void test_vf_recorder::storeValuesCorrectEntitiesStartStopLoggingDisabled()
 {
     createMinimalRangeRmsModules();
