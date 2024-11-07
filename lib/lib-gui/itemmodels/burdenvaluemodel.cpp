@@ -6,10 +6,6 @@ BurdenValueModel::BurdenValueModel(Modules modulVeinId) :
 {
 }
 
-BurdenValueModel::~BurdenValueModel()
-{
-}
-
 void BurdenValueModel::setLabelsAndUnits()
 {
     using namespace CommonTable;

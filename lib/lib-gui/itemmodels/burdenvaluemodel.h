@@ -8,8 +8,6 @@ class BurdenValueModel : public TableEventItemModelBase
 {
     Q_OBJECT
 public:
-    virtual ~BurdenValueModel() override;
-
     void setLabelsAndUnits() override;
     void setupMapping() override;
 
