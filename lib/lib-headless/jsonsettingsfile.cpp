@@ -57,7 +57,7 @@ JsonSettingsFile *JsonSettingsFile::getInstance()
 
 bool JsonSettingsFile::loadFromStandardLocation(const QString &fileName)
 {
-    return loadFromFile(QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation)).arg(fileName));
+    return loadFromFile(QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation), fileName));
 }
 
 bool JsonSettingsFile::loadFromFile(const QString &t_filePath)
