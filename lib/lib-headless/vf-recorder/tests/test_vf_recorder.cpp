@@ -52,7 +52,7 @@ void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
 {
     for(int i = 0; i < maximumStorage; i++) {
         changeComponentValue(storageEntityId, QString("PAR_JsonWithEntities%1").arg(i), "");
-        changeComponentValue(storageEntityId, QString("PAR_StartStopLogging%1").arg(i), "");
+        changeComponentValue(storageEntityId, QString("PAR_StartStopLogging%1").arg(i), true);
 
         QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, QString("StoredValues%1").arg(i)).toJsonObject();
         QVERIFY(storedValues.isEmpty());
