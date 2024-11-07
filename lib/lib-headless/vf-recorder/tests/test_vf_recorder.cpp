@@ -59,8 +59,10 @@ void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
     }
 }
 
-void test_vf_recorder::storeValuesBasedOnIncorrectEntitiesInJson()
+void test_vf_recorder::storeValuesBasedOnNonexistingEntitiesInJson()
 {
+    QVariantMap components = {{"SIG_Measuring", QVariant(1)}};
+    createModule(rangeEntityId, components);
     startLoggingFromJson(":/incorrect-entities.json", 0);
     QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
 
