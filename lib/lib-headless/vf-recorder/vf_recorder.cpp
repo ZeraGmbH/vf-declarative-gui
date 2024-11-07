@@ -1,6 +1,7 @@
 #include "QJsonDocument"
 #include "vf_recorder.h"
 
+static constexpr int rangeEntityId = 1020;
 static constexpr int maximumStorages = 5;
 
 Vf_Recorder::Vf_Recorder(VeinStorage::AbstractEventSystem *storageSystem, QObject *parent, int entityId):
@@ -65,9 +66,10 @@ void Vf_Recorder::readJson(QVariant value, int storageNum)
     QJsonObject jsonObject = value.toJsonObject();
 
     if(!jsonObject.isEmpty()) {
-        prepareTimeRecording();
-        QHash<int, QStringList> entitesAndComponents = extractEntitiesAndComponents(jsonObject);
-        m_dataCollect[storageNum]->startLogging(entitesAndComponents);
+        if(prepareTimeRecording()){
+            QHash<int, QStringList> entitesAndComponents = extractEntitiesAndComponents(jsonObject);
+            m_dataCollect[storageNum]->startLogging(entitesAndComponents);
+        }
     }
     else {
         qInfo("Empty Json !");
@@ -111,14 +113,19 @@ void Vf_Recorder::ignoreComponents(QStringList *componentList)
     componentList->removeAll(componentToBeIgnored);
 }
 
-void Vf_Recorder::prepareTimeRecording()
+bool Vf_Recorder::prepareTimeRecording()
 {
-    int rangeModuleEntity = 1020;
-    VeinStorage::AbstractComponentPtr storageCompo = m_storageSystem->getDb()->findComponent(rangeModuleEntity, "SIG_Measuring");
-    connect(storageCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
-        if(newValue.toInt() == 1) { // 1 indicates RangeModule received new actual values
-            m_timeStamper->setTimestampToNow();
-        }
-    });
+    bool timeTracerAvailable = false;
+    VeinStorage::AbstractComponentPtr storageCompo = m_storageSystem->getDb()->findComponent(rangeEntityId, "SIG_Measuring");
+    if(storageCompo) {
+        connect(storageCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
+            if(newValue.toInt() == 1) // 1 indicates RangeModule received new actual values
+                m_timeStamper->setTimestampToNow();
+        });
+        timeTracerAvailable = true;
+    }
+    else
+        qInfo("Graphs recording can't work. RangeModule/SIG_Measuring component is missing.");
+    return timeTracerAvailable;
 }
 

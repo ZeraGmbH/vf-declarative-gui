@@ -18,6 +18,7 @@ private slots:
     void storeValuesBasedOnNoEntitiesInJson();
     void storeValuesBasedOnNonexistingEntitiesInJson();
     void storeValuesEmptyComponentsInJson();
+    void doNotStoreSigMeasuringNotAvailable();
     void storeValuesCorrectEntitiesStartStopLoggingDisabled();
     void loggingOnOffSequence0();
     void loggingOnOffSequence1();
