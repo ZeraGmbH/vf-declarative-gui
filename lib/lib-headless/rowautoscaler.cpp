@@ -12,7 +12,6 @@ void RowAutoScaler::setUnscaledValue(int columnRole, QVariant newValue)
 
 RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<int> roleIdxSingleValues)
 {
-    TRowScaleResult result;
     double maxAbsVal = 0.0;
     for(auto valColumnRole : roleIdxSingleValues) {
         if(m_unscaledColumnValues.contains(valColumnRole)) {
@@ -21,13 +20,14 @@ RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<i
                 maxAbsVal = absVal;
         }
     }
-    TSingleScaleResult res = scaleSingleVal(maxAbsVal);
+    const TSingleScaleResult res = scaleSingleVal(maxAbsVal);
+    TRowScaleResult result;
     result.scaledUnit = res.unitPrefix + baseUnit;
 
     for(auto iter = m_unscaledColumnValues.constBegin(); iter != m_unscaledColumnValues.constEnd(); ++iter) {
-        int columnRow = iter.key();
-        double unscaledValue = iter.value().toDouble();
-        double scaledValue = unscaledValue * res.scaleFactor;
+        const int columnRow = iter.key();
+        const double unscaledValue = iter.value().toDouble();
+        const double scaledValue = unscaledValue * res.scaleFactor;
         result.scaledColumnValues[columnRow] = scaledValue;
     }
     return result;
