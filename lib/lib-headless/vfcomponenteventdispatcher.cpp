@@ -7,26 +7,15 @@ VfComponentEventDispatcher::VfComponentEventDispatcher(std::shared_ptr<VfEventCo
 {
 }
 
-VfComponentEventDispatcher::~VfComponentEventDispatcher()
-{
-}
-
 void VfComponentEventDispatcher::processEvent(QEvent *t_event)
 {
     using namespace VeinEvent;
-    if(t_event->type()==CommandEvent::getQEventType())
-    {
-        CommandEvent *cEvent = static_cast<CommandEvent *>(t_event);
-        Q_ASSERT(cEvent != nullptr);
-
+    if(t_event->type() == CommandEvent::getQEventType()) {
+        const CommandEvent *cEvent = static_cast<CommandEvent *>(t_event);
         EventData *evData = cEvent->eventData();
-        Q_ASSERT(evData != nullptr);
-
-        if (cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION
-                && evData->type() == VeinComponent::ComponentData::dataType())
-        {
+        if(cEvent->eventSubtype() == CommandEvent::EventSubtype::NOTIFICATION &&
+            evData->type() == VeinComponent::ComponentData::dataType()) {
             const VeinComponent::ComponentData *cmpData = static_cast<VeinComponent::ComponentData *>(evData);
-            Q_ASSERT(cmpData != nullptr);
             m_consumer->handleComponentChange(cmpData);
         }
     }

@@ -58,7 +58,6 @@ class VfComponentEventDispatcher : public VeinEvent::EventSystem
     Q_OBJECT
 public:
     explicit VfComponentEventDispatcher(std::shared_ptr<VfEventConsumerInterface> consumer);
-    virtual ~VfComponentEventDispatcher();
     void processEvent(QEvent *t_event) override;
 private:
     std::shared_ptr<VfEventConsumerInterface> m_consumer;
