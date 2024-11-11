@@ -11,7 +11,6 @@ GridRect {
   property alias textColor: itemLabel.color
   property alias textFormat: itemLabel.textFormat
   property alias textHorizontalAlignment: itemLabel.horizontalAlignment
-  property alias textAnchors: itemLabel.anchors
   property alias font: itemLabel.font
   property alias fontSizeMode: itemLabel.fontSizeMode
   Label {

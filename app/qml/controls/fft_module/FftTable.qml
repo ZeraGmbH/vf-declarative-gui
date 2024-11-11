@@ -146,7 +146,6 @@ Rectangle {
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
                 width: root.columnWidth-vBar.width
-                textAnchors.rightMargin: 2
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: Z.tr("THDN:")
