@@ -26,6 +26,7 @@
 #include "qmlappstarterforwebgl.h"
 #include "screencapture.h"
 #include "jsonhelper.h"
+#include "vs_clientstorageeventsystem.h"
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboardlayout.h>
@@ -206,6 +207,7 @@ int main(int argc, char *argv[])
     VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
+    VeinStorage::ClientStorageEventSystem *storage = new VeinStorage::ClientStorageEventSystem(&app);
 
     VeinApiQml::VeinQml::setStaticInstance(qmlApi);
     QList<VeinEvent::EventSystem*> subSystems;
@@ -233,6 +235,7 @@ int main(int argc, char *argv[])
     subSystems.append(netSystem);
     subSystems.append(tcpSystem);
     subSystems.append(qmlApi);
+    subSystems.append(storage);
 
     evHandler->setSubsystems(subSystems);
 
