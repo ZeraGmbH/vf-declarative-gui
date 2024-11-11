@@ -7,22 +7,22 @@ import QtQuick.Controls.Material 2.0
   * @b used to display text in table like structures such as the ActualValuesPage
   */
 GridRect {
-  property alias text: itemLabel.text
-  property alias textColor: itemLabel.color
-  property alias textFormat: itemLabel.textFormat
-  property alias textHorizontalAlignment: itemLabel.horizontalAlignment
-  property alias font: itemLabel.font
-  property alias fontSizeMode: itemLabel.fontSizeMode
-  Label {
-    id: itemLabel
-    anchors.fill: parent
-    anchors.rightMargin: 8
-    horizontalAlignment: Label.AlignRight
-    verticalAlignment: Label.AlignVCenter
-    textFormat: Label.PlainText //Label.AutoText has a big performance cost and is not wanted in this context
-    font.pixelSize: height*0.65
-    fontSizeMode: Text.HorizontalFit
-    font.family: "Droid Sans Mono"
-    elide: Text.ElideRight
-  }
+    property alias text: itemLabel.text
+    property alias textColor: itemLabel.color
+    property alias textFormat: itemLabel.textFormat
+    property alias textHorizontalAlignment: itemLabel.horizontalAlignment
+    property alias font: itemLabel.font
+    property alias fontSizeMode: itemLabel.fontSizeMode
+    Label {
+        id: itemLabel
+        anchors.fill: parent
+        anchors.rightMargin: 8
+        horizontalAlignment: Label.AlignRight
+        verticalAlignment: Label.AlignVCenter
+        textFormat: Label.PlainText //Label.AutoText has a big performance cost and is not wanted in this context
+        font.pixelSize: height*0.65
+        fontSizeMode: Text.HorizontalFit
+        font.family: "Droid Sans Mono"
+        elide: Text.ElideRight
+    }
 }
