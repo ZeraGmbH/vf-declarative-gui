@@ -42,8 +42,10 @@ Item {
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
                 Row {
+                    id: row
                     height: index === 0 ? root.row1stHeight : root.rowHeight
                     readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
+                    readonly property string rowColor: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     GridItem {
                         width: root.columnWidth1st
                         height: parent.height
@@ -54,7 +56,7 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: parent.height
-                        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                        color: row.rowColor
                         text: FT.formatNumberForScaledValues(L1)
                         textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
                         font.pixelSize: root.pixelSize
@@ -62,7 +64,7 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: parent.height
-                        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                        color: row.rowColor
                         text: FT.formatNumberForScaledValues(L2)
                         textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
                         font.pixelSize: root.pixelSize
@@ -70,7 +72,7 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: parent.height
-                        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                        color: row.rowColor
                         text: FT.formatNumberForScaledValues(L3)
                         textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
                         font.pixelSize: root.pixelSize
@@ -78,7 +80,7 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: parent.height
-                        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                        color: row.rowColor
                         text: displayAuxColumn ? FT.formatNumberForScaledValues(AUX) : ""
                         textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
                         font.pixelSize: root.pixelSize
@@ -87,7 +89,7 @@ Item {
                     GridItem {
                         width: root.columnWidthLast
                         height: parent.height
-                        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                        color: row.rowColor
                         text: Unit ? Unit : ""
                         font.pixelSize: root.pixelSize
                     }
