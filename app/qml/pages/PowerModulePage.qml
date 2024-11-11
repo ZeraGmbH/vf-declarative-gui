@@ -53,7 +53,9 @@ Item {
 
         delegate: Component {
             Row {
+                id: row
                 height: index === 0 ? row1stHeight : rowHeight
+                readonly property string rowColor: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                 GridItem {
                     width: firstColumnWidth
                     height: parent.height
@@ -65,7 +67,7 @@ Item {
                     height: parent.height
                     text: FT.formatNumberForScaledValues(L1)
                     font.pixelSize: pixelSize
-                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                    color: row.rowColor
                     textColor: GC.colorUL1
                 }
                 GridItem {
@@ -73,7 +75,7 @@ Item {
                     height: parent.height
                     text: FT.formatNumberForScaledValues(L2)
                     font.pixelSize: pixelSize
-                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                    color: row.rowColor
                     textColor: GC.colorUL2
                 }
                 GridItem {
@@ -81,14 +83,14 @@ Item {
                     height: parent.height
                     text: FT.formatNumberForScaledValues(L3)
                     font.pixelSize: pixelSize
-                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                    color: row.rowColor
                     textColor: GC.colorUL3
                 }
                 GridItem {
                     width: valueColumnWidth
                     height: parent.height
                     font.pixelSize: pixelSize
-                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                    color: row.rowColor
                     text: FT.formatNumberForScaledValues(Sum)
                 }
                 GridItem {
@@ -96,7 +98,7 @@ Item {
                     height: parent.height
                     text: Unit
                     font.pixelSize: pixelSize*0.7
-                    color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                    color: row.rowColor
                 }
             }
         }
