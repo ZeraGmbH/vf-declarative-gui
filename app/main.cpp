@@ -61,12 +61,20 @@ QmlFileIO *getQmlFileIOInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return QmlFileIO::getInstance();
 }
 
+Vf_Recorder *getVfRecorderInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return Vf_Recorder::getInstance();
+}
+
 static void registerQmlInt()
 {
     qInfo("Register QML internal dependencies...");
     QmlAppStarterForWebGL::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
     qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", getQmlFileIOInstance);
+    qmlRegisterSingletonType<Vf_Recorder>("Vf_Recorder", 1, 0, "Vf_Recorder", getVfRecorderInstance);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
     qmlRegisterType<JsonHelper>("JsonHelper", 1, 0, "JsonHelper");
@@ -209,7 +217,8 @@ int main(int argc, char *argv[])
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
     VeinStorage::ClientStorageEventSystem *storage = new VeinStorage::ClientStorageEventSystem(&app);
-    Vf_Recorder *recorder = new Vf_Recorder(storage, &app);
+    Vf_Recorder::setStorageSystem(storage);
+    Vf_Recorder *recorder = Vf_Recorder::getInstance();
 
     VeinApiQml::VeinQml::setStaticInstance(qmlApi);
     QList<VeinEvent::EventSystem*> subSystems;

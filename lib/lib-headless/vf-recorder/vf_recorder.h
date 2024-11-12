@@ -8,7 +8,9 @@ class Vf_Recorder : public QObject
 {
     Q_OBJECT
 public:
-    explicit Vf_Recorder(VeinStorage::AbstractEventSystem* storageSystem, QObject *parent = nullptr);
+    explicit Vf_Recorder(QObject *parent = nullptr);
+    static void setStorageSystem(VeinStorage::AbstractEventSystem *storageSystem);
+    static Vf_Recorder *getInstance();
     void startLogging(int storageNum, QJsonObject inputJson);
     void stopLogging(int storageNum);
     QJsonObject getStoredValues(int storageNum);
@@ -21,10 +23,11 @@ private:
     QHash<int, QStringList> extractEntitiesAndComponents(QJsonObject jsonObject);
     void ignoreComponents(QStringList *componentList);
     bool prepareTimeRecording();
-    VeinStorage::AbstractEventSystem* m_storageSystem;
 
     QList<VeinDataCollector*> m_dataCollect;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
+    static Vf_Recorder *instance;
+    static VeinStorage::AbstractEventSystem* m_storageSystem;
 };
 
 #endif // VF_RECORDER_H

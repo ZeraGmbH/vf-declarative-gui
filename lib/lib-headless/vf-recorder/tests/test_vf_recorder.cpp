@@ -20,7 +20,8 @@ void test_vf_recorder::init()
     TimerFactoryQtForTest::enableTest();
     m_eventHandler = std::make_unique<VeinEvent::EventHandler>();
     m_storageEventSystem = std::make_shared<VeinStorage::StorageEventSystem>();
-    m_recorder = std::make_unique<Vf_Recorder>(m_storageEventSystem.get());
+    Vf_Recorder::setStorageSystem(m_storageEventSystem.get());
+    m_recorder = std::make_unique<Vf_Recorder>();
 
     m_eventHandler->addSubsystem(m_storageEventSystem.get());
     TimeMachineObject::feedEventLoop();
