@@ -15,6 +15,7 @@ public:
     explicit VeinDataCollector(VeinStorage::AbstractEventSystem* storage, VeinStorage::TimeStamperSettablePtr timeSetter);
     void startLogging(QHash<int, QStringList> entitesAndComponents);
     void stopLogging();
+    QJsonObject getStoredValues();
 signals:
     // Ideas:
     // * replace internal data QJsoonObject by

@@ -2,34 +2,28 @@
 #define VF_RECORDER_H
 
 #include "veindatacollector.h"
-#include <vf-cpp-entity.h>
-#include <vf-cpp-compproxy.h>
 #include <QObject>
 
 class Vf_Recorder : public QObject
 {
     Q_OBJECT
 public:
-    explicit Vf_Recorder(VeinStorage::AbstractEventSystem* storageSystem, QObject *parent = nullptr, int entityId = 1);
-    bool initOnce();
-    VfCpp::VfCppEntity *getVeinEntity() const;
+    explicit Vf_Recorder(VeinStorage::AbstractEventSystem* storageSystem, QObject *parent = nullptr);
+    void startLogging(int storageNum, QJsonObject inputJson);
+    void stopLogging(int storageNum);
+    QJsonObject getStoredValues(int storageNum);
+
+signals:
+    void newStoredValues(int storageNumber, QJsonObject value);
 
 private:
-    void prepareStartStopLogging(QVariant value, int storageNum);
-    void startStopLogging(bool onOff, int storageNum, QJsonObject inputJson);
     void readJson(QJsonObject jsonValue, int storageNum);
     QHash<int, QStringList> extractEntitiesAndComponents(QJsonObject jsonObject);
     void ignoreComponents(QStringList *componentList);
     bool prepareTimeRecording();
     VeinStorage::AbstractEventSystem* m_storageSystem;
-    VfCpp::VfCppEntity *m_entity;
-    bool m_isInitalized;
-    VfCpp::VfCppComponent::Ptr m_maximumLoggingComponents;
-    QList<VfCpp::VfCppComponent::Ptr> m_storedValues;
-    QList<VfCpp::VfCppComponent::Ptr> m_JsonWithEntities;
-    QList<VfCpp::VfCppComponent::Ptr> m_startStopLogging;
 
-    QList<VeinDataCollector*> m_dataCollect; //unique ptr ?
+    QList<VeinDataCollector*> m_dataCollect;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
 };
 

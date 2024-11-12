@@ -1,13 +1,14 @@
 #include "test_vf_recorder.h"
+#include "vf-cpp-entity.h"
 #include "vf_client_component_setter.h"
 #include <timemachineobject.h>
 #include <timemachinefortest.h>
 #include <timerfactoryqtfortest.h>
 #include <QTest>
+#include <QJsonDocument>
 
 QTEST_MAIN(test_vf_recorder)
 
-static constexpr int storageEntityId = 1;
 static constexpr int rangeEntityId = 1020;
 static constexpr int rmsEntityId = 1040;
 static constexpr int powerEntityId = 1070;
@@ -22,8 +23,6 @@ void test_vf_recorder::init()
     m_recorder = std::make_unique<Vf_Recorder>(m_storageEventSystem.get());
 
     m_eventHandler->addSubsystem(m_storageEventSystem.get());
-    m_eventHandler->addSubsystem(m_recorder->getVeinEntity());
-    m_recorder->initOnce();
     TimeMachineObject::feedEventLoop();
 }
 
@@ -35,27 +34,12 @@ void test_vf_recorder::cleanup()
     TimeMachineObject::feedEventLoop();
 }
 
-void test_vf_recorder::componentsFound()
-{
-    QList<QString> storageComponents = m_storageEventSystem->getDb()->getComponentList(storageEntityId);
-
-    QCOMPARE(storageComponents.count(), 17);
-    QVERIFY(storageComponents.contains("EntityName"));
-    for(int i = 0; i < maximumStorage; i++) {
-        QVERIFY(storageComponents.contains(QString("StoredValues%1").arg(i)));
-        QVERIFY(storageComponents.contains(QString("PAR_JsonWithEntities%1").arg(i)));
-        QVERIFY(storageComponents.contains(QString("PAR_StartStopLogging%1").arg(i)));
-    }
-}
-
 void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
 {
     for(int i = 0; i < maximumStorage; i++) {
-        changeComponentValue(storageEntityId, QString("PAR_JsonWithEntities%1").arg(i), "");
-        changeComponentValue(storageEntityId, QString("PAR_StartStopLogging%1").arg(i), true);
-
-        QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, QString("StoredValues%1").arg(i)).toJsonObject();
-        QVERIFY(storedValues.isEmpty());
+        m_recorder->startLogging(i, QJsonObject());
+        TimeMachineForTest::getInstance()->processTimers(100);
+        QVERIFY(m_recorder->getStoredValues(i).isEmpty());
     }
 }
 
@@ -63,10 +47,9 @@ void test_vf_recorder::storeValuesBasedOnNonexistingEntitiesInJson()
 {
     QVariantMap components = {{"SIG_Measuring", QVariant(1)}};
     createModule(rangeEntityId, components);
-    startLoggingFromJson(":/incorrect-entities.json", 0);
-    QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
-
-    QVERIFY(storedValues.isEmpty());
+    startLoggingFromJson(":/incorrect-entities.json", storageNum);
+    TimeMachineForTest::getInstance()->processTimers(100);
+    QVERIFY(m_recorder->getStoredValues(storageNum).isEmpty());
 }
 
 void test_vf_recorder::storeValuesEmptyComponentsInJson()
@@ -110,24 +93,6 @@ void test_vf_recorder::doNotStoreSigMeasuringNotAvailable()
     TimeMachineForTest::getInstance()->processTimers(100);
 
     QVERIFY(getStoredValueWithoutTimeStamp(storageNum).isEmpty());
-}
-
-void test_vf_recorder::storeValuesCorrectEntitiesStartStopLoggingDisabled()
-{
-    createMinimalRangeRmsModules();
-    QCOMPARE(m_storageEventSystem->getDb()->getEntityList().count(), 3);
-
-    QString fileContent = readEntitiesAndCompoFromJsonFile(":/correct-entities.json");
-    changeComponentValue(storageEntityId, "PAR_JsonWithEntities0", fileContent);
-    stopLogging(0);
-
-    triggerRangeModuleSigMeasuring();
-    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 1);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 2);
-    TimeMachineForTest::getInstance()->processTimers(100);
-
-    QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
-    QVERIFY(storedValues.isEmpty());
 }
 
 void test_vf_recorder::loggingOnOffSequence0()
@@ -219,36 +184,6 @@ void test_vf_recorder::stopLoggingHasNoSideEffectOnOtherConnections()
     QCOMPARE(changesDetected, 2);
 }
 
-void test_vf_recorder::changeJsonFileWhileLogging()
-{
-    createMinimalRangeRmsModules();
-    startLoggingFromJson(":/correct-entities.json", 0);
-
-    triggerRangeModuleSigMeasuring();
-    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 10);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 11);
-    TimeMachineForTest::getInstance()->processTimers(100);
-
-    QJsonObject storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
-    QHash<QString, QVariant> componentsHash = getComponentsStoredOfEntity(rmsEntityId, storedValuesWithoutTimeStamp);
-    QString value = getValuesStoredOfComponent(componentsHash, "ACT_RMSPN1");
-    QCOMPARE(value, "10");
-
-    value = getValuesStoredOfComponent(componentsHash, "ACT_RMSPN2");
-    QCOMPARE(value, "11");
-
-    QString fileContent = readEntitiesAndCompoFromJsonFile(":/more-rms-components.json");
-    changeComponentValue(storageEntityId, "PAR_JsonWithEntities0", fileContent);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 5);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 6);
-    TimeMachineForTest::getInstance()->processTimers(100);
-
-    storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
-    QString inputJsonFile = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "PAR_JsonWithEntities0").toString();
-    QVERIFY(!inputJsonFile.contains("ACT_RMSPN3"));
-    QVERIFY(!inputJsonFile.contains("ACT_RMSPN4"));
-}
-
 void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
 {
     createMinimalRangeRmsModules();
@@ -259,7 +194,7 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
+    QJsonObject storedValues = m_recorder->getStoredValues(storageNum);
     QStringList timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 1);
 
@@ -269,7 +204,7 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 6);
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
+    storedValues = m_recorder->getStoredValues(storageNum);
     timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 2);
 
@@ -293,7 +228,7 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     TimeMachineObject::feedEventLoop();
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
+    QJsonObject storedValues = m_recorder->getStoredValues(storageNum);
     QStringList timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 1);
 
@@ -308,7 +243,7 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
+    storedValues = m_recorder->getStoredValues(storageNum);
     timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 2);
 
@@ -327,7 +262,7 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
 
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, "StoredValues0").toJsonObject();
+    storedValues = m_recorder->getStoredValues(storageNum);
     timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 3);
 
@@ -357,9 +292,9 @@ void test_vf_recorder::createModule(int entityId, QMap<QString, QVariant> compon
     VfCpp::VfCppEntity * entity =new VfCpp::VfCppEntity(entityId);
     m_eventHandler->addSubsystem(entity);
     entity->initModule();
-    TimeMachineObject::feedEventLoop();
     for(auto compoName : components.keys())
         entity->createComponent(compoName, components[compoName]);
+    TimeMachineObject::feedEventLoop();
 }
 
 void test_vf_recorder::triggerRangeModuleSigMeasuring()
@@ -369,29 +304,28 @@ void test_vf_recorder::triggerRangeModuleSigMeasuring()
     changeComponentValue(rangeEntityId, "SIG_Measuring", QVariant(1));
 }
 
-QString test_vf_recorder::readEntitiesAndCompoFromJsonFile(QString filePath)
+QJsonObject test_vf_recorder::readEntitiesAndCompoFromJsonFile(QString filePath)
 {
     QFile file(filePath);
     file.open(QIODevice::ReadOnly);
-    return file.readAll();
+    return QJsonDocument::fromJson(file.readAll()).object();
 }
 
 void test_vf_recorder::startLoggingFromJson(QString fileName, int storageNum)
 {
-    QString fileContent = readEntitiesAndCompoFromJsonFile(fileName);
-    changeComponentValue(storageEntityId, QString("PAR_JsonWithEntities%1").arg(storageNum), fileContent);
-    changeComponentValue(storageEntityId, QString("PAR_StartStopLogging%1").arg(storageNum), true);
+    QJsonObject fileContent = readEntitiesAndCompoFromJsonFile(fileName);
+    m_recorder->startLogging(storageNum, fileContent);
 }
 
 void test_vf_recorder::stopLogging(int storageNum)
 {
-    changeComponentValue(storageEntityId, QString("PAR_StartStopLogging%1").arg(storageNum), false);
+    m_recorder->stopLogging(storageNum);
 }
 
 QJsonObject test_vf_recorder::getStoredValueWithoutTimeStamp(int storageNum)
 {
     QJsonObject storedValuesWithoutTimeStamp;
-    QJsonObject storedValues = m_storageEventSystem->getDb()->getStoredValue(storageEntityId, QString("StoredValues%1").arg(storageNum)).toJsonObject();
+    QJsonObject storedValues = m_recorder->getStoredValues(storageNum);
     for(const QString &key : storedValues.keys()) {
         QJsonValue entityFound = storedValues.value(key);
         storedValuesWithoutTimeStamp = entityFound.toObject();

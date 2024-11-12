@@ -38,6 +38,11 @@ void VeinDataCollector::stopLogging()
     m_storageFilter.clear();
 }
 
+QJsonObject VeinDataCollector::getStoredValues()
+{
+    return m_jsonObject;
+}
+
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
 {
     Q_UNUSED(timeStamp)
