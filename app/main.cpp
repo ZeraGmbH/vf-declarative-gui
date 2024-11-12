@@ -27,6 +27,7 @@
 #include "screencapture.h"
 #include "jsonhelper.h"
 #include "vs_clientstorageeventsystem.h"
+#include "vf_recorder.h"
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboardlayout.h>
@@ -208,6 +209,7 @@ int main(int argc, char *argv[])
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
     VeinStorage::ClientStorageEventSystem *storage = new VeinStorage::ClientStorageEventSystem(&app);
+    Vf_Recorder *recorder = new Vf_Recorder(storage, &app);
 
     VeinApiQml::VeinQml::setStaticInstance(qmlApi);
     QList<VeinEvent::EventSystem*> subSystems;

@@ -32,7 +32,7 @@ bool Vf_Recorder::initOnce()
             m_JsonWithEntities.append(m_entity->createComponent(QString("PAR_JsonWithEntities%1").arg(i), "", false));
             m_startStopLogging.append(m_entity->createComponent(QString("PAR_StartStopLogging%1").arg(i), false, false));
             connect(m_startStopLogging.at(i).get(), &VfCpp::VfCppComponent::sigValueChanged, this, [=](QVariant value){
-                startStopLogging(value, i);
+                prepareStartStopLogging(value, i);
             });
         }
     }
@@ -44,30 +44,32 @@ VfCpp::VfCppEntity *Vf_Recorder::getVeinEntity() const
     return m_entity;
 }
 
-void Vf_Recorder::startStopLogging(QVariant value, int storageNum)
+void Vf_Recorder::prepareStartStopLogging(QVariant value, int storageNum)
 {
     bool onOff = value.toBool();
-
-    if(onOff) {
+    if(onOff)
         m_JsonWithEntities[storageNum]->changeComponentReadWriteType(true);
-        QString jsonString = m_JsonWithEntities[storageNum]->getValue().toString();
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
-        QJsonObject jsonObject = jsonDoc.object();
-        readJson(jsonObject, storageNum);
-    }
-    else {
+    else
         m_JsonWithEntities[storageNum]->changeComponentReadWriteType(false);
-        m_dataCollect[storageNum]->stopLogging();
-    }
+
+    QString jsonString = m_JsonWithEntities[storageNum]->getValue().toString();
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
+    startStopLogging(onOff, storageNum, jsonDoc.object());
 }
 
-void Vf_Recorder::readJson(QVariant value, int storageNum)
+void Vf_Recorder::startStopLogging(bool onOff, int storageNum, QJsonObject inputJson)
 {
-    QJsonObject jsonObject = value.toJsonObject();
+    if(onOff)
+        readJson(inputJson, storageNum);
+    else
+        m_dataCollect[storageNum]->stopLogging();
+}
 
-    if(!jsonObject.isEmpty()) {
+void Vf_Recorder::readJson(QJsonObject jsonValue, int storageNum)
+{
+    if(!jsonValue.isEmpty()) {
         if(prepareTimeRecording()){
-            QHash<int, QStringList> entitesAndComponents = extractEntitiesAndComponents(jsonObject);
+            QHash<int, QStringList> entitesAndComponents = extractEntitiesAndComponents(jsonValue);
             m_dataCollect[storageNum]->startLogging(entitesAndComponents);
         }
     }
