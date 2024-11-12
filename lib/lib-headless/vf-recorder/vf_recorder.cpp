@@ -5,13 +5,28 @@
 static constexpr int rangeEntityId = 1020;
 static constexpr int maximumStorages = 5;
 
-Vf_Recorder::Vf_Recorder(VeinStorage::AbstractEventSystem *storageSystem, QObject *parent):
-    QObject(parent),
-    m_storageSystem(storageSystem)
+Vf_Recorder *Vf_Recorder::instance = nullptr;
+VeinStorage::AbstractEventSystem *Vf_Recorder::m_storageSystem = nullptr;
+
+void Vf_Recorder::setStorageSystem(VeinStorage::AbstractEventSystem *storageSystem)
 {
+    m_storageSystem = storageSystem;
+}
+
+Vf_Recorder *Vf_Recorder::getInstance()
+{
+    if(!instance)
+        instance = new Vf_Recorder();
+    return instance;
+}
+
+Vf_Recorder::Vf_Recorder(QObject *parent): QObject(parent)
+{
+    if(!m_storageSystem)
+        qCritical("Vf_Recorder: storage system not set.");
     m_timeStamper = VeinStorage::TimeStamperSettable::create();
     for(int i = 0; i < maximumStorages; i++) {
-        VeinDataCollector* dataCollector = new VeinDataCollector(storageSystem, m_timeStamper);
+        VeinDataCollector* dataCollector = new VeinDataCollector(m_storageSystem, m_timeStamper);
         m_dataCollect.append(dataCollector);
         connect(dataCollector, &VeinDataCollector::newStoredValue, this, [=](QJsonObject value){
             emit newStoredValues(i, value);
