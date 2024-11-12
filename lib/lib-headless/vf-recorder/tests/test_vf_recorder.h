@@ -14,16 +14,13 @@ private slots:
     void init();
     void cleanup();
 
-    void componentsFound();
     void storeValuesBasedOnNoEntitiesInJson();
     void storeValuesBasedOnNonexistingEntitiesInJson();
     void storeValuesEmptyComponentsInJson();
     void doNotStoreSigMeasuringNotAvailable();
-    void storeValuesCorrectEntitiesStartStopLoggingDisabled();
     void loggingOnOffSequence0();
     void loggingOnOffSequence1();
     void stopLoggingHasNoSideEffectOnOtherConnections();
-    void changeJsonFileWhileLogging();
     void fireActualValuesAfterDelayWhileLogging();
     void fireRmsPowerValuesAfterDifferentDelaysWhileLogging();
 private:
@@ -32,7 +29,7 @@ private:
     void createModule(int entityId, QMap<QString, QVariant> components);
     void triggerRangeModuleSigMeasuring();
 
-    QString readEntitiesAndCompoFromJsonFile(QString filePath);
+    QJsonObject readEntitiesAndCompoFromJsonFile(QString filePath);
     void startLoggingFromJson(QString fileName, int storageNum);
     void stopLogging(int storageNum);
     QJsonObject getStoredValueWithoutTimeStamp(int storageNum);

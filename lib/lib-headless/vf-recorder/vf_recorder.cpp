@@ -1,68 +1,37 @@
-#include "QJsonDocument"
 #include "vf_recorder.h"
+#include <QJsonDocument>
+#include <QJsonArray>
 
 static constexpr int rangeEntityId = 1020;
 static constexpr int maximumStorages = 5;
 
-Vf_Recorder::Vf_Recorder(VeinStorage::AbstractEventSystem *storageSystem, QObject *parent, int entityId):
+Vf_Recorder::Vf_Recorder(VeinStorage::AbstractEventSystem *storageSystem, QObject *parent):
     QObject(parent),
-    m_storageSystem(storageSystem),
-    m_isInitalized(false)
+    m_storageSystem(storageSystem)
 {
     m_timeStamper = VeinStorage::TimeStamperSettable::create();
-    m_entity=new VfCpp::VfCppEntity(entityId);
     for(int i = 0; i < maximumStorages; i++) {
         VeinDataCollector* dataCollector = new VeinDataCollector(storageSystem, m_timeStamper);
         m_dataCollect.append(dataCollector);
         connect(dataCollector, &VeinDataCollector::newStoredValue, this, [=](QJsonObject value){
-            m_storedValues[i]->setValue(value);
+            emit newStoredValues(i, value);
         });
     }
 }
 
-bool Vf_Recorder::initOnce()
+void Vf_Recorder::startLogging(int storageNum, QJsonObject inputJson)
 {
-    if(!m_isInitalized) {
-        m_isInitalized=true;
-        m_entity->initModule();
-        m_entity->createComponent("EntityName", "Storage", true);
-        m_maximumLoggingComponents = m_entity->createComponent("ACT_MaximumLoggingComponents", maximumStorages, true);
-        for(int i = 0; i < maximumStorages; i++) {
-            m_storedValues.append(m_entity->createComponent(QString("StoredValues%1").arg(i), QJsonObject(), true));
-            m_JsonWithEntities.append(m_entity->createComponent(QString("PAR_JsonWithEntities%1").arg(i), "", false));
-            m_startStopLogging.append(m_entity->createComponent(QString("PAR_StartStopLogging%1").arg(i), false, false));
-            connect(m_startStopLogging.at(i).get(), &VfCpp::VfCppComponent::sigValueChanged, this, [=](QVariant value){
-                prepareStartStopLogging(value, i);
-            });
-        }
-    }
-    return true;
+    readJson(inputJson, storageNum);
 }
 
-VfCpp::VfCppEntity *Vf_Recorder::getVeinEntity() const
+void Vf_Recorder::stopLogging(int storageNum)
 {
-    return m_entity;
+    m_dataCollect[storageNum]->stopLogging();
 }
 
-void Vf_Recorder::prepareStartStopLogging(QVariant value, int storageNum)
+QJsonObject Vf_Recorder::getStoredValues(int storageNum)
 {
-    bool onOff = value.toBool();
-    if(onOff)
-        m_JsonWithEntities[storageNum]->changeComponentReadWriteType(true);
-    else
-        m_JsonWithEntities[storageNum]->changeComponentReadWriteType(false);
-
-    QString jsonString = m_JsonWithEntities[storageNum]->getValue().toString();
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
-    startStopLogging(onOff, storageNum, jsonDoc.object());
-}
-
-void Vf_Recorder::startStopLogging(bool onOff, int storageNum, QJsonObject inputJson)
-{
-    if(onOff)
-        readJson(inputJson, storageNum);
-    else
-        m_dataCollect[storageNum]->stopLogging();
+    return m_dataCollect.at(storageNum)->getStoredValues();
 }
 
 void Vf_Recorder::readJson(QJsonObject jsonValue, int storageNum)
