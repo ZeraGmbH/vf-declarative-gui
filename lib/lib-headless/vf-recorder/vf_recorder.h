@@ -15,8 +15,9 @@ public:
     VfCpp::VfCppEntity *getVeinEntity() const;
 
 private:
-    void startStopLogging(QVariant value, int storageNum);
-    void readJson(QVariant value, int storageNum);
+    void prepareStartStopLogging(QVariant value, int storageNum);
+    void startStopLogging(bool onOff, int storageNum, QJsonObject inputJson);
+    void readJson(QJsonObject jsonValue, int storageNum);
     QHash<int, QStringList> extractEntitiesAndComponents(QJsonObject jsonObject);
     void ignoreComponents(QStringList *componentList);
     bool prepareTimeRecording();
