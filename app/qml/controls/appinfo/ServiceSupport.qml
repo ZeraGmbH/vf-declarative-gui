@@ -4,6 +4,7 @@ import ZeraTranslation  1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
 import DeviceVersions 1.0
+import UpdateWrapper 1.0
 import '../../controls'
 
 Item {
@@ -40,6 +41,17 @@ Item {
             }
         }
     }
-
+    UpdateWrapper {id: updateWrapper}
+    Button {
+        id: buttonStartUpdate
+        anchors {top: buttonStoreLog.bottom; horizontalCenter: parent.horizontalCenter }
+        font.pointSize: root.pointSize
+        height: root.rowHeight * 1.625
+        width: buttonStoreLog.width
+        text: "Start Update"
+        onClicked: {
+            updateWrapper.startInstallation()
+        }
+    }
 
 }
