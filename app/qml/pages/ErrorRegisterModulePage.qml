@@ -9,6 +9,7 @@ import ModuleIntrospection 1.0
 import FontAwesomeQml 1.0
 import SessionState 1.0
 import ZeraFa 1.0
+import Vf_Recorder 1.0
 import "../controls/error_comparison_common"
 import "../controls/error_comparison_params"
 
@@ -17,7 +18,7 @@ Item {
     clip: true
 
     property QtObject errCalEntity
-    property var storageEntity: VeinEntity.getEntity("Storage")
+    readonly property int storageNumber: 0
     property var moduleIntrospection
     property int status: errCalEntity.ACT_Status
     property string actualValue
@@ -33,19 +34,16 @@ Item {
     onParStartStopChanged: {
         if(SessionState.emobSession) {
             if(parStartStop === 1) {
-                if(SessionState.dcSession) {
-                    var data = jsonEnergyDC
-                    storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
-                }
-                else {
-                    data = jsonEnergyAC
-                    storageEntity.PAR_JsonWithEntities0 = JSON.stringify(data)
-                }
+                var inputJson
+                if(SessionState.dcSession)
+                    inputJson = jsonEnergyDC
+                else
+                    inputJson = jsonEnergyAC
                 if(VeinEntity.getEntity("_System").DevMode)
-                    storageEntity.PAR_StartStopLogging0 = true
+                    Vf_Recorder.startLogging(storageNumber, inputJson)
             }
             else if(parStartStop === 0)
-                storageEntity.PAR_StartStopLogging0 = false
+                Vf_Recorder.stopLogging(storageNumber)
         }
     }
 
