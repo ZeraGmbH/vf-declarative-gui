@@ -5,6 +5,7 @@ import QtQuick.Controls 2.14
 import GlobalConfig 1.0
 import SessionState 1.0
 import JsonHelper 1.0
+import Vf_Recorder 1.0
 
 
 Item {
@@ -92,7 +93,7 @@ Item {
 
     function appendLastElemt(actVal, compoName, jsonData, axisY, axisX, axisXPower) {
         var timestamps = Object.keys(jsonData).sort()
-        var firstTimestamp = jsonHelper.convertTimestampToMs(timestamps[0])
+        var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
         var lastEltTime = jsonHelper.findLastElementOfCompo(actVal, compoName)
         var testTimeSecs = (lastEltTime - firstTimestamp)/1000
         if(lastEltTime !== "0") {

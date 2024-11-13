@@ -20,7 +20,7 @@ Item {
     property var graphHeight
     property var graphWidth
     property var componentsList
-    property var jsonData : Vf_Recorder.storedValues0
+    property var jsonData : Vf_Recorder.lastStoredValues0
     onJsonDataChanged:
         loadLastElement()
 
@@ -72,7 +72,7 @@ Item {
         var actValI = []
         var actValP = []
 
-        GraphFunctions.prepareCharts(Object.keys(jsonData))
+        //GraphFunctions.prepareCharts(Object.keys(jsonData))
         var timestamps = Object.keys(jsonData).sort()
         var timestamp = timestamps[timestamps.length - 1]
         var time = jsonHelper.convertTimestampToMs(timestamp)
