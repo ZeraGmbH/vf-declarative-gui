@@ -44,7 +44,7 @@ void UpdateWrapper::startInstallation()
     });
     m_tasks->addSub(std::move(installPackagesViaClient));
 
-
+    m_tasks->start();
 }
 
 QString UpdateWrapper::searchForPackages(QString mountPath)
