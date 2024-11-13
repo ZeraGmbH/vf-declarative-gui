@@ -11,8 +11,12 @@ public:
     explicit Vf_Recorder(QObject *parent = nullptr);
     static void setStorageSystem(VeinStorage::AbstractEventSystem *storageSystem);
     static Vf_Recorder *getInstance();
-    void startLogging(int storageNum, QJsonObject inputJson);
-    void stopLogging(int storageNum);
+
+    Q_INVOKABLE void startLogging(int storageNum, QJsonObject inputJson);
+    Q_INVOKABLE void stopLogging(int storageNum);
+    Q_PROPERTY(QJsonObject storedValues0 READ getStoredValues0 NOTIFY newStoredValues)
+
+    QJsonObject getStoredValues0();
     QJsonObject getStoredValues(int storageNum);
 
 signals:

@@ -44,6 +44,11 @@ void Vf_Recorder::stopLogging(int storageNum)
     m_dataCollect[storageNum]->stopLogging();
 }
 
+QJsonObject Vf_Recorder::getStoredValues0()
+{
+    return getStoredValues(0);
+}
+
 QJsonObject Vf_Recorder::getStoredValues(int storageNum)
 {
     return m_dataCollect.at(storageNum)->getStoredValues();

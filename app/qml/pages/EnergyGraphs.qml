@@ -9,6 +9,7 @@ import JsonHelper 1.0
 import GraphFunctions 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
+import Vf_Recorder 1.0
 
 Item {
     id:  root
@@ -19,7 +20,7 @@ Item {
     property var graphHeight
     property var graphWidth
     property var componentsList
-    property var jsonData : VeinEntity.getEntity("Storage").StoredValues0
+    property var jsonData : Vf_Recorder.storedValues0
     onJsonDataChanged:
         loadLastElement()
 
