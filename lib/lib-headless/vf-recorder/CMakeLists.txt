@@ -6,7 +6,7 @@ file(GLOB HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/*.h
     )
 
-add_library(vf-recorder SHARED
+add_library(vf-recorder STATIC
     ${SOURCES}
     ${HEADERS}
 )
