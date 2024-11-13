@@ -7,11 +7,14 @@
 
 void UpdateWrapper::startInstallation()
 {
+    qWarning() << "Start Installation of update";
     m_tasks = TaskContainerSequence::create();
     TaskTemplatePtr findCorrectMountLocation = TaskLambdaRunner::create([this]() {
         QString searchResult(searchForPackages("/media"));
-        if(searchResult.isEmpty())
+        if(searchResult.isEmpty()) {
+            qWarning() << "Search in /media returned empty";
             return false;
+        }
         else
             m_pathToZups = searchResult;
         return true;
@@ -20,6 +23,7 @@ void UpdateWrapper::startInstallation()
 
     TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
         m_zupsToBeInstalled = getOrderedPackageList(m_pathToZups);
+        qWarning() << "zups to be installed: " << m_zupsToBeInstalled;
         return true;
     });
     m_tasks->addSub(std::move(accquirePackageList));
@@ -30,6 +34,7 @@ void UpdateWrapper::startInstallation()
         for (auto &item : m_zupsToBeInstalled) {
             QStringList clientArgs;
             clientArgs << item;
+            qWarning() << "staring: " << updateClientExecutable << " " << clientArgs;
             updateClient.start(updateClientExecutable, clientArgs);
             updateClient.waitForFinished(-1);
             if(updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0)
