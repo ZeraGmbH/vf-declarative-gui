@@ -48,10 +48,12 @@ Item {
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
         width: buttonStoreLog.width
-        text: "Start Update"
+        text: Z.tr("Start Update")
         onClicked: {
             updateWrapper.startInstallation()
         }
+        enabled: (QmlFileIO.mountedPaths.length > 0)
+        highlighted: true
     }
 
 }
