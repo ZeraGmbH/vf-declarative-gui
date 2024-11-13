@@ -49,9 +49,28 @@ QJsonObject Vf_Recorder::getStoredValues0()
     return getStoredValues(0);
 }
 
+QJsonObject Vf_Recorder::getLastStoredValues0()
+{
+    QJsonObject lastValues;
+    QJsonObject storedValues = getStoredValues(0);
+    if(!storedValues.isEmpty()) {
+        QString lastKey = storedValues.keys().last();
+        lastValues.insert(lastKey, storedValues.value(lastKey));
+    }
+    return lastValues;
+}
+
 QJsonObject Vf_Recorder::getStoredValues(int storageNum)
 {
     return m_dataCollect.at(storageNum)->getStoredValues();
+}
+
+QString Vf_Recorder::getFirstTimestamp0()
+{
+    if(!getStoredValues(0).isEmpty())
+        return getStoredValues(0).keys().first();
+    else
+        return "";
 }
 
 void Vf_Recorder::readJson(QJsonObject jsonValue, int storageNum)
