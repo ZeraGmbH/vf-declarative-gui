@@ -30,6 +30,8 @@ private slots:
     void prepareLastJson();
 private:
     QJsonObject convertToJson(QString timestamp, QHash<int, QHash<QString, QVariant> > infosHash);
+    QJsonObject convertLastToJson(QHash<int, QHash<QString, QVariant> > infosHash);
+
     QJsonObject convertHashToJsonObject(QHash<QString, QVariant> hash);
     QJsonObject getJsonForTimestamp(QString timestamp);
     QHash<QString, QVariant> appendNewValueToExistingValues(QJsonValue existingValue, QHash<QString, QVariant> compoValuesHash);

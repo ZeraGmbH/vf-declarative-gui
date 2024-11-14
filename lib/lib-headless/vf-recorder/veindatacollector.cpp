@@ -55,7 +55,7 @@ void VeinDataCollector::appendValue(int entityId, QString componentName, QVarian
     infosHash[entityId][componentName] = value;
     QString timeString = m_timeStamper->getTimestamp().toString("dd-MM-yyyy hh:mm:ss.zzz");
     m_completeJsonObject.insert(timeString, convertToJson(timeString, infosHash));
-    m_lastJsonObject.insert(timeString, convertToJson(timeString, infosHash));
+    m_lastJsonObject.insert(timeString, convertLastToJson(infosHash));
     checkLastJsonObjectReady();
 }
 
@@ -78,6 +78,31 @@ QJsonObject VeinDataCollector::convertToJson(QString timestamp, QHash<int , QHas
         }
         else
             jsonObject.insert(entityIdToString, convertHashToJsonObject(it.value()));
+    }
+    return jsonObject;
+}
+
+QJsonObject VeinDataCollector::convertLastToJson(QHash<int, QHash<QString, QVariant> > infosHash)
+{
+    QJsonObject jsonObject;
+    if(!m_lastJsonObject.isEmpty()) {
+        jsonObject = m_lastJsonObject.value(m_lastJsonObject.keys().at(0)).toObject();
+        for(auto it = infosHash.constBegin(); it != infosHash.constEnd(); ++it) {
+            QString entityIdToString = QString::number(it.key());
+            if(jsonObject.contains(entityIdToString)) {
+                QJsonValue existingValue = jsonObject.value(entityIdToString);
+                QHash<QString, QVariant> hash = appendNewValueToExistingValues(existingValue, it.value()) ;
+                jsonObject.insert(entityIdToString, convertHashToJsonObject(hash));
+            }
+            else
+                jsonObject.insert(entityIdToString, convertHashToJsonObject(it.value()));
+        }
+    }
+    else {
+        for(auto it = infosHash.constBegin(); it != infosHash.constEnd(); ++it) {
+            QString entityIdToString = QString::number(it.key());
+            jsonObject.insert(entityIdToString, convertHashToJsonObject(it.value()));
+        }
     }
     return jsonObject;
 }
