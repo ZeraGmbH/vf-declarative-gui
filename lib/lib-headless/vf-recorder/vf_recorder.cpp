@@ -20,6 +20,12 @@ Vf_Recorder *Vf_Recorder::getInstance()
     return instance;
 }
 
+void Vf_Recorder::deleteInstance()
+{
+    delete instance;
+    instance = nullptr;
+}
+
 Vf_Recorder::Vf_Recorder(QObject *parent): QObject(parent)
 {
     if(!m_storageSystem)
