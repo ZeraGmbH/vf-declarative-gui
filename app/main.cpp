@@ -282,6 +282,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
         engine.quit();
+        Vf_Recorder::deleteInstance();
         evHandler->clearSubsystems();
         evHandler->deleteLater();
         //the qmlengine will delete the qmlApi
