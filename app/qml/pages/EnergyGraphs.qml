@@ -281,11 +281,13 @@ Item {
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 contentWidth: {
+                    var width = 0.0
                     var lineSeriesList = GraphFunctions.lineSeriesList
                     for(var k = 0 ; k < lineSeriesList.length; k++) {
                         if(powerComponents.includes(lineSeriesList[k].name))
-                            graphWidth * lineSeriesList[k].count * 0.045
+                            width = graphWidth * lineSeriesList[k].count * 0.045
                     }
+                    return width
                 }
                 ScrollBar.horizontal: ScrollBar {
                    height: 9
@@ -357,12 +359,14 @@ Item {
                 clip: true
                 contentHeight: chartView.height
                 contentWidth: {
+                    var width = 0.0
                     var lineSeriesList = GraphFunctions.lineSeriesList;
                     for (var i = 0; i < lineSeriesList.length; i++) {
                         if (powerComponents.includes(lineSeriesList[i].name)) {
-                            graphWidth * lineSeriesList[i].count * 0.045;
+                            width = graphWidth * lineSeriesList[i].count * 0.045;
                         }
                     }
+                    return width
                 }
                 ScrollBar.horizontal: ScrollBar {
                     id: hbar
