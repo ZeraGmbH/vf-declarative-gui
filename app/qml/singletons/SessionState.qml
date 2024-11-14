@@ -7,16 +7,15 @@ Item {
     onCurrentSessionChanged: {
         if(currentSession !== "") {
             var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
-
-            var oldIdList = VeinEntity.getEntityList();
-            for(var oldIdIterator in oldIdList)
-                VeinEntity.entityUnsubscribeById(oldIdList[oldIdIterator]);
-
             if(availableEntityIds === undefined)
-                availableEntityIds = [0];
+                availableEntityIds = [];
+            var oldIdList = VeinEntity.getEntityList();
 
-            for(var newIdIterator in availableEntityIds)
-                VeinEntity.entitySubscribeById(availableEntityIds[newIdIterator]);
+            for(var idIterator in availableEntityIds) {
+                let entityId = availableEntityIds[idIterator]
+                if(!oldIdList.includes(entityId))
+                    VeinEntity.entitySubscribeById(entityId);
+            }
         }
     }
 
