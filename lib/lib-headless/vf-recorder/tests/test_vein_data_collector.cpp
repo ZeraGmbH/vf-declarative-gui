@@ -40,8 +40,6 @@ void test_vein_data_collector::oneChangeWithinOnePeriod()
     QCOMPARE(spy.count(), 0);
     TimeMachineForTest::getInstance()->processTimers(100);
     QCOMPARE(spy.count(), 1);
-    QVariant var = spy[0][0];
-    QVERIFY(var.isValid());
 
 }
 

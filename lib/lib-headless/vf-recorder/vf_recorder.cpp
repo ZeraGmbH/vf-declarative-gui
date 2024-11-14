@@ -28,8 +28,8 @@ Vf_Recorder::Vf_Recorder(QObject *parent): QObject(parent)
     for(int i = 0; i < maximumStorages; i++) {
         VeinDataCollector* dataCollector = new VeinDataCollector(m_storageSystem, m_timeStamper);
         m_dataCollect.append(dataCollector);
-        connect(dataCollector, &VeinDataCollector::newStoredValue, this, [=](QJsonObject value){
-            emit newStoredValues(i, value);
+        connect(dataCollector, &VeinDataCollector::newStoredValue, this, [&](){
+            emit newStoredValues(i);
         });
     }
 }

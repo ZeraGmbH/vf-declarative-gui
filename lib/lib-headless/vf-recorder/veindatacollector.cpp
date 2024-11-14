@@ -16,7 +16,7 @@
 
     m_periodicTimer = TimerFactoryQt::createPeriodic(100);
     connect(m_periodicTimer.get(), &TimerTemplateQt::sigExpired,this, [&] {
-        emit newStoredValue(m_jsonObject);
+        emit newStoredValue();
     });
 }
 

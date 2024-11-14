@@ -24,7 +24,7 @@ public:
     QString getFirstTimestamp0();
 
 signals:
-    void newStoredValues(int storageNumber, QJsonObject value);
+    void newStoredValues(int storageNumber);
 
 private:
     void readJson(QJsonObject jsonValue, int storageNum);
