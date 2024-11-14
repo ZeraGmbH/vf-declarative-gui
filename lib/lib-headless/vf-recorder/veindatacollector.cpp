@@ -14,33 +14,35 @@
     connect(&m_storageFilter, &VeinStorage::StorageFilter::sigComponentValue,
             this, &VeinDataCollector::appendValue);
 
-    m_periodicTimer = TimerFactoryQt::createPeriodic(100);
-    connect(m_periodicTimer.get(), &TimerTemplateQt::sigExpired,this, [&] {
+    m_lastJsonTimeout = TimerFactoryQt::createSingleShot(500);
+    connect(m_lastJsonTimeout.get(), &TimerTemplateQt::sigExpired,this, [&] {
+        m_lastJsonObject = QJsonObject();
         emit newStoredValue();
     });
 }
 
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
 {
-    m_jsonObject = QJsonObject();
-    m_periodicTimer->start();
+    m_completeJsonObject = QJsonObject();
     for(auto iter=entitesAndComponents.cbegin(); iter!=entitesAndComponents.cend(); ++iter) {
         const QStringList components = iter.value();
         int entityId = iter.key();
         for(const QString& componentName : components)
             m_storageFilter.add(entityId, componentName);
     }
+    m_recordedEntitiesComponents = entitesAndComponents;
+    m_lastJsonObject = QJsonObject();
 }
 
 void VeinDataCollector::stopLogging()
 {
-    m_periodicTimer->stop();
+    m_lastJsonTimeout->stop();
     m_storageFilter.clear();
 }
 
 QJsonObject VeinDataCollector::getStoredValues()
 {
-    return m_jsonObject;
+    return m_completeJsonObject;
 }
 
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
@@ -49,7 +51,9 @@ void VeinDataCollector::appendValue(int entityId, QString componentName, QVarian
     QHash<int , QHash<QString, QVariant> > infosHash;
     infosHash[entityId][componentName] = value;
     QString timeString = m_timeStamper->getTimestamp().toString("dd-MM-yyyy hh:mm:ss.zzz");
-    m_jsonObject.insert(timeString, convertToJson(timeString, infosHash));
+    m_completeJsonObject.insert(timeString, convertToJson(timeString, infosHash));
+    m_lastJsonObject.insert(timeString, convertToJson(timeString, infosHash));
+    checkLastJsonObjectReady();
 }
 
 QJsonObject VeinDataCollector::convertToJson(QString timestamp, QHash<int , QHash<QString, QVariant>> infosHash)
@@ -71,9 +75,9 @@ QJsonObject VeinDataCollector::convertToJson(QString timestamp, QHash<int , QHas
 QJsonObject VeinDataCollector::getJsonForTimestamp(QString timestamp)
 {
     QJsonObject jsonWithoutTimestamp;
-    for(const QString &key : m_jsonObject.keys()) {
+    for(const QString &key : m_completeJsonObject.keys()) {
         if(key == timestamp)
-            jsonWithoutTimestamp = m_jsonObject.value(key).toObject();
+            jsonWithoutTimestamp = m_completeJsonObject.value(key).toObject();
     }
     return jsonWithoutTimestamp;
 }
@@ -84,6 +88,26 @@ QHash<QString, QVariant> VeinDataCollector::appendNewValueToExistingValues(QJson
     for (auto hashIt = compoValuesHash.constBegin(); hashIt != compoValuesHash.constEnd(); ++hashIt)
         hash.insert(hashIt.key(), hashIt.value());
     return hash;
+}
+
+void VeinDataCollector::checkLastJsonObjectReady()
+{
+    if(m_lastJsonObject.count() != 1) {
+        qInfo() << "VeinDataCollector::Inconsistent last record.";
+    }
+    else {
+        QHash<int, QStringList> lastRecordHash;
+        QJsonObject lastJsonWithoutTime = m_lastJsonObject.value(m_lastJsonObject.keys().at(0)).toObject();
+        for(auto entity: lastJsonWithoutTime.keys())
+            lastRecordHash.insert(entity.toInt(), lastJsonWithoutTime.value(entity).toObject().keys());
+        if(lastRecordHash == m_recordedEntitiesComponents) {
+            m_lastJsonTimeout->stop();
+            m_lastJsonObject = QJsonObject();
+            emit newStoredValue();
+        }
+        else
+            m_lastJsonTimeout->start();
+    }
 }
 
 QJsonObject VeinDataCollector::convertHashToJsonObject(QHash<QString, QVariant> hash)

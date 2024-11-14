@@ -31,11 +31,14 @@ private:
     QJsonObject convertHashToJsonObject(QHash<QString, QVariant> hash);
     QJsonObject getJsonForTimestamp(QString timestamp);
     QHash<QString, QVariant> appendNewValueToExistingValues(QJsonValue existingValue, QHash<QString, QVariant> compoValuesHash);
+    void checkLastJsonObjectReady();
 
     VeinStorage::StorageFilter m_storageFilter;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
-    QJsonObject m_jsonObject;
-    TimerTemplateQtPtr m_periodicTimer;
+    QJsonObject m_completeJsonObject;
+    QJsonObject m_lastJsonObject;
+    QHash<int, QStringList> m_recordedEntitiesComponents;
+    TimerTemplateQtPtr m_lastJsonTimeout;
 };
 
 #endif // VEINDATACOLLECTOR_H

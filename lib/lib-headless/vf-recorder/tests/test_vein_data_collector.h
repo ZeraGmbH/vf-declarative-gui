@@ -12,6 +12,9 @@ private slots:
     void init();
     void cleanup();
     void oneChangeWithinOnePeriod();
+    void twoChangesWithinOnePeriod();
+    void incompleteChangesWithinOnePeriod();
+    void twoChangesWithinTwoPeriods();
 
 private:
     void setupServer();
