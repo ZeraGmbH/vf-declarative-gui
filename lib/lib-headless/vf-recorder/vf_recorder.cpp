@@ -68,7 +68,7 @@ QJsonObject Vf_Recorder::getLastStoredValues0()
 
 QJsonObject Vf_Recorder::getStoredValues(int storageNum)
 {
-    return m_dataCollect.at(storageNum)->getStoredValues();
+    return m_dataCollect.at(storageNum)->getCompleteJson();
 }
 
 QString Vf_Recorder::getFirstTimestamp0()

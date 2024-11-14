@@ -97,7 +97,7 @@ void test_vein_data_collector::twoChangesWithinTwoPeriods()
     TimeMachineObject::feedEventLoop();
 
     QCOMPARE(spy.count(), 2);
-    QCOMPARE(dataCollector.getStoredValues().size(), 2);
+    QCOMPARE(dataCollector.getCompleteJson().size(), 2);
 }
 
 void test_vein_data_collector::setupServer()

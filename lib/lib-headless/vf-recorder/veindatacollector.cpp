@@ -40,7 +40,7 @@ void VeinDataCollector::stopLogging()
     m_storageFilter.clear();
 }
 
-QJsonObject VeinDataCollector::getStoredValues()
+QJsonObject VeinDataCollector::getCompleteJson()
 {
     return m_completeJsonObject;
 }
