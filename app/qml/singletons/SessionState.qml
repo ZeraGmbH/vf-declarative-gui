@@ -12,9 +12,7 @@ Item {
             for(var oldIdIterator in oldIdList)
                 VeinEntity.entityUnsubscribeById(oldIdList[oldIdIterator]);
 
-            if(availableEntityIds !== undefined)
-                availableEntityIds.push(0);
-            else
+            if(availableEntityIds === undefined)
                 availableEntityIds = [0];
 
             for(var newIdIterator in availableEntityIds)
