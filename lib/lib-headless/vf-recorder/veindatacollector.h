@@ -16,6 +16,7 @@ public:
     void startLogging(QHash<int, QStringList> entitesAndComponents);
     void stopLogging();
     QJsonObject getCompleteJson();
+    QJsonObject getLastJson();
 signals:
     // Ideas:
     // * replace internal data QJsoonObject by
@@ -26,6 +27,7 @@ signals:
 
 private slots:
     void appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp);
+    void prepareLastJson();
 private:
     QJsonObject convertToJson(QString timestamp, QHash<int, QHash<QString, QVariant> > infosHash);
     QJsonObject convertHashToJsonObject(QHash<QString, QVariant> hash);
@@ -36,7 +38,7 @@ private:
     VeinStorage::StorageFilter m_storageFilter;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
     QJsonObject m_completeJsonObject;
-    QJsonObject m_lastJsonObject;
+    QJsonObject m_lastJsonObject, m_lastJsonKeeper;
     QHash<int, QStringList> m_recordedEntitiesComponents;
     TimerTemplateQtPtr m_lastJsonTimeout;
 };

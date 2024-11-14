@@ -38,6 +38,7 @@ void test_vein_data_collector::oneChangeWithinOnePeriod()
     TimeMachineObject::feedEventLoop();
 
     QCOMPARE(spy.count(), 1);
+    QCOMPARE(dataCollector.getLastJson().count(), 1);
 }
 
 void test_vein_data_collector::twoChangesWithinOnePeriod()
@@ -98,6 +99,7 @@ void test_vein_data_collector::twoChangesWithinTwoPeriods()
 
     QCOMPARE(spy.count(), 2);
     QCOMPARE(dataCollector.getCompleteJson().size(), 2);
+    QCOMPARE(dataCollector.getLastJson().count(), 1);
 }
 
 void test_vein_data_collector::setupServer()

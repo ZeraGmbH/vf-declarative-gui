@@ -15,10 +15,7 @@
             this, &VeinDataCollector::appendValue);
 
     m_lastJsonTimeout = TimerFactoryQt::createSingleShot(500);
-    connect(m_lastJsonTimeout.get(), &TimerTemplateQt::sigExpired,this, [&] {
-        m_lastJsonObject = QJsonObject();
-        emit newStoredValue();
-    });
+    connect(m_lastJsonTimeout.get(), &TimerTemplateQt::sigExpired,this, &VeinDataCollector::prepareLastJson);
 }
 
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
@@ -32,6 +29,7 @@ void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponent
     }
     m_recordedEntitiesComponents = entitesAndComponents;
     m_lastJsonObject = QJsonObject();
+    m_lastJsonKeeper = QJsonObject();
 }
 
 void VeinDataCollector::stopLogging()
@@ -45,6 +43,11 @@ QJsonObject VeinDataCollector::getCompleteJson()
     return m_completeJsonObject;
 }
 
+QJsonObject VeinDataCollector::getLastJson()
+{
+    return m_lastJsonKeeper;
+}
+
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
 {
     Q_UNUSED(timeStamp)
@@ -54,6 +57,13 @@ void VeinDataCollector::appendValue(int entityId, QString componentName, QVarian
     m_completeJsonObject.insert(timeString, convertToJson(timeString, infosHash));
     m_lastJsonObject.insert(timeString, convertToJson(timeString, infosHash));
     checkLastJsonObjectReady();
+}
+
+void VeinDataCollector::prepareLastJson()
+{
+    m_lastJsonKeeper = m_lastJsonObject;
+    m_lastJsonObject = QJsonObject();
+    emit newStoredValue();
 }
 
 QJsonObject VeinDataCollector::convertToJson(QString timestamp, QHash<int , QHash<QString, QVariant>> infosHash)
@@ -102,8 +112,7 @@ void VeinDataCollector::checkLastJsonObjectReady()
             lastRecordHash.insert(entity.toInt(), lastJsonWithoutTime.value(entity).toObject().keys());
         if(lastRecordHash == m_recordedEntitiesComponents) {
             m_lastJsonTimeout->stop();
-            m_lastJsonObject = QJsonObject();
-            emit newStoredValue();
+            prepareLastJson();
         }
         else
             m_lastJsonTimeout->start();

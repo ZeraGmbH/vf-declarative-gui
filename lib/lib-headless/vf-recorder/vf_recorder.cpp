@@ -57,13 +57,7 @@ QJsonObject Vf_Recorder::getStoredValues0()
 
 QJsonObject Vf_Recorder::getLastStoredValues0()
 {
-    QJsonObject lastValues;
-    QJsonObject storedValues = getStoredValues(0);
-    if(!storedValues.isEmpty()) {
-        QString lastKey = storedValues.keys().last();
-        lastValues.insert(lastKey, storedValues.value(lastKey));
-    }
-    return lastValues;
+    return m_dataCollect.at(0)->getLastJson();
 }
 
 QJsonObject Vf_Recorder::getStoredValues(int storageNum)
