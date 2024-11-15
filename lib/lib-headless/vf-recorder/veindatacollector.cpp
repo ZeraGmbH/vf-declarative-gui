@@ -11,16 +11,17 @@
     m_storageFilter(storage, VeinStorage::StorageFilter::Settings(false, true)),
     m_timeStamper(timeSetter)
 {
-    connect(&m_storageFilter, &VeinStorage::StorageFilter::sigComponentValue,
-            this, &VeinDataCollector::appendValue);
+    connect(&m_storageFilter, &VeinStorage::StorageFilter::sigComponentValue, this, &VeinDataCollector::appendValue);
 
-    m_lastJsonTimeout = TimerFactoryQt::createSingleShot(500);
-    connect(m_lastJsonTimeout.get(), &TimerTemplateQt::sigExpired,this, &VeinDataCollector::prepareLastJson);
+    m_lastRecordTimeout = TimerFactoryQt::createSingleShot(500);
+    connect(m_lastRecordTimeout.get(), &TimerTemplateQt::sigExpired,this, &VeinDataCollector::prepareLastJson);
 }
 
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
 {
     m_completeJsonObject = QJsonObject();
+    m_lastRecordObject = QJsonObject();
+    m_lastRecordKeeper = QJsonObject();
     for(auto iter=entitesAndComponents.cbegin(); iter!=entitesAndComponents.cend(); ++iter) {
         const QStringList components = iter.value();
         int entityId = iter.key();
@@ -28,13 +29,11 @@ void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponent
             m_storageFilter.add(entityId, componentName);
     }
     m_recordedEntitiesComponents = entitesAndComponents;
-    m_lastJsonObject = QJsonObject();
-    m_lastJsonKeeper = QJsonObject();
 }
 
 void VeinDataCollector::stopLogging()
 {
-    m_lastJsonTimeout->stop();
+    m_lastRecordTimeout->stop();
     m_storageFilter.clear();
 }
 
@@ -45,7 +44,7 @@ QJsonObject VeinDataCollector::getCompleteJson()
 
 QJsonObject VeinDataCollector::getLastJson()
 {
-    return m_lastJsonKeeper;
+    return m_lastRecordKeeper;
 }
 
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
@@ -55,14 +54,14 @@ void VeinDataCollector::appendValue(int entityId, QString componentName, QVarian
     infosHash[entityId][componentName] = value;
     QString timeString = m_timeStamper->getTimestamp().toString("dd-MM-yyyy hh:mm:ss.zzz");
     m_completeJsonObject.insert(timeString, convertToJson(timeString, infosHash));
-    m_lastJsonObject.insert(timeString, convertLastToJson(infosHash));
+    m_lastRecordObject.insert(timeString, convertLastToJson(infosHash));
     checkLastJsonObjectReady();
 }
 
 void VeinDataCollector::prepareLastJson()
 {
-    m_lastJsonKeeper = m_lastJsonObject;
-    m_lastJsonObject = QJsonObject();
+    m_lastRecordKeeper = m_lastRecordObject;
+    m_lastRecordObject = QJsonObject();
     emit newStoredValue();
 }
 
@@ -85,8 +84,8 @@ QJsonObject VeinDataCollector::convertToJson(QString timestamp, QHash<int , QHas
 QJsonObject VeinDataCollector::convertLastToJson(QHash<int, QHash<QString, QVariant> > infosHash)
 {
     QJsonObject jsonObject;
-    if(!m_lastJsonObject.isEmpty()) {
-        jsonObject = m_lastJsonObject.value(m_lastJsonObject.keys().at(0)).toObject();
+    if(!m_lastRecordObject.isEmpty()) {
+        jsonObject = m_lastRecordObject.value(m_lastRecordObject.keys().at(0)).toObject();
         for(auto it = infosHash.constBegin(); it != infosHash.constEnd(); ++it) {
             QString entityIdToString = QString::number(it.key());
             if(jsonObject.contains(entityIdToString)) {
@@ -127,20 +126,20 @@ QHash<QString, QVariant> VeinDataCollector::appendNewValueToExistingValues(QJson
 
 void VeinDataCollector::checkLastJsonObjectReady()
 {
-    if(m_lastJsonObject.count() != 1) {
+    if(m_lastRecordObject.count() != 1) {
         qInfo() << "VeinDataCollector::Inconsistent last record.";
     }
     else {
         QHash<int, QStringList> lastRecordHash;
-        QJsonObject lastJsonWithoutTime = m_lastJsonObject.value(m_lastJsonObject.keys().at(0)).toObject();
+        QJsonObject lastJsonWithoutTime = m_lastRecordObject.value(m_lastRecordObject.keys().at(0)).toObject();
         for(auto entity: lastJsonWithoutTime.keys())
             lastRecordHash.insert(entity.toInt(), lastJsonWithoutTime.value(entity).toObject().keys());
         if(lastRecordHash == m_recordedEntitiesComponents) {
-            m_lastJsonTimeout->stop();
+            m_lastRecordTimeout->stop();
             prepareLastJson();
         }
         else
-            m_lastJsonTimeout->start();
+            m_lastRecordTimeout->start();
     }
 }
 

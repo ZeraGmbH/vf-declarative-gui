@@ -40,9 +40,9 @@ private:
     VeinStorage::StorageFilter m_storageFilter;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
     QJsonObject m_completeJsonObject;
-    QJsonObject m_lastJsonObject, m_lastJsonKeeper;
+    QJsonObject m_lastRecordObject, m_lastRecordKeeper;
     QHash<int, QStringList> m_recordedEntitiesComponents;
-    TimerTemplateQtPtr m_lastJsonTimeout;
+    TimerTemplateQtPtr m_lastRecordTimeout;
 };
 
 #endif // VEINDATACOLLECTOR_H
