@@ -47,7 +47,7 @@ QJsonObject VeinDataCollector::getStoredValues()
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
 {
     Q_UNUSED(timeStamp)
-    QString timeString = m_timeStamper->getTimestamp().toString("dd-MM-yyyy hh:mm:ss.zzz");
+    QString timeString = m_timeStamper->getTimestamp().toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
 
     RecordedEntityComponents newRecord;
     if(m_allRecords.contains(timeString)) {
