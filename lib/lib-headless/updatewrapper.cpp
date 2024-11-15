@@ -37,6 +37,9 @@ void UpdateWrapper::startInstallation()
             qWarning() << "staring: " << updateClientExecutable << " " << clientArgs;
             updateClient.start(updateClientExecutable, clientArgs);
             updateClient.waitForFinished(-1);
+            QByteArray stdOut = updateClient.readAllStandardOutput();
+            if(stdOut.contains("returned error:"))
+                return false;
             if(updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0)
                 return false;
         }
@@ -44,6 +47,7 @@ void UpdateWrapper::startInstallation()
     });
     m_tasks->addSub(std::move(installPackagesViaClient));
 
+    connect(m_tasks.get(), &TaskContainerSequence::sigFinish, this, &UpdateWrapper::onTaskFinished);
     m_tasks->start();
 }
 
@@ -75,4 +79,26 @@ QStringList UpdateWrapper::getOrderedPackageList(QString zupLocation)
     for (auto &item : orderedZups)
         item = zupLocation + "/" + item;
     return orderedZups;
+}
+
+bool UpdateWrapper::getUpdateOk() const
+{
+    return m_updateOk;
+}
+
+QString UpdateWrapper::getUpdateMessage() const
+{
+    return m_updateMessage;
+}
+
+void UpdateWrapper::onTaskFinished(bool ok, int taskId)
+{
+    Q_UNUSED(taskId)
+    m_updateOk = ok;
+    if (ok)
+        m_updateMessage = "Update finished successfully!";
+    else
+        m_updateMessage = "Update failed, please see logs!";
+    emit sigUpdateOkChanged();
+    emit sigUpdateMessageChanged();
 }
