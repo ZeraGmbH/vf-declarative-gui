@@ -23,24 +23,32 @@ void UpdateWrapper::startInstallation()
 
     TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
         m_zupsToBeInstalled = getOrderedPackageList(m_pathToZups);
-        qWarning() << "zups to be installed: " << m_zupsToBeInstalled;
         return true;
     });
     m_tasks->addSub(std::move(accquirePackageList));
 
     TaskTemplatePtr installPackagesViaClient = TaskLambdaRunner::create([this]() {
         QProcess updateClient;
+        QString processOutput;
         QString updateClientExecutable("zera-update-client");
         for (auto &item : m_zupsToBeInstalled) {
+            processOutput.clear();
             QStringList clientArgs;
+
             clientArgs << item;
-            qWarning() << "staring: " << updateClientExecutable << " " << clientArgs;
+            qDebug() << "starting: " << updateClientExecutable << " " << clientArgs;
             updateClient.start(updateClientExecutable, clientArgs);
             updateClient.waitForFinished(-1);
-            QByteArray updateClientOutput = updateClient.readAll();
-            qWarning() << "updateWrapper: " << updateClientOutput;
-            if(updateClientOutput.contains("returned error:"))
-                return false;
+            QStringList updateLogFiles = QDir("/home/operator").entryList(QStringList("*.html"), QDir::Files, QDir::Name);
+            QFile logFileOfLast("/home/operator/" + updateLogFiles.last());
+            if (logFileOfLast.open(QFile::ReadOnly | QFile::Text)) {
+                QTextStream in(&logFileOfLast);
+                QString text = in.readAll();
+                if(text.contains("returned error:"))
+                    return false;
+                logFileOfLast.close();
+            }
+
             if(updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0)
                 return false;
         }
@@ -66,7 +74,7 @@ QString UpdateWrapper::searchForPackages(QString mountPath)
 
 QStringList UpdateWrapper::getOrderedPackageList(QString zupLocation)
 {
-    QStringList orderedZups = QDir(zupLocation).entryList(QStringList("*.zup"), QDir::Files);;
+    QStringList orderedZups = QDir(zupLocation).entryList(QStringList("*.zup"), QDir::Files);
 
     if (orderedZups.contains("zera-updater.zup"))
         orderedZups.move(orderedZups.indexOf("zera-updater.zup"), 0);
