@@ -37,9 +37,9 @@ void UpdateWrapper::startInstallation()
             qWarning() << "staring: " << updateClientExecutable << " " << clientArgs;
             updateClient.start(updateClientExecutable, clientArgs);
             updateClient.waitForFinished(-1);
-            QByteArray errOut = updateClient.readAllStandardError();
-            qWarning() << "updateWrapper: " << errOut;
-            if(errOut.contains("returned error:"))
+            QByteArray stdOut = updateClient.readAllStandardOutput();
+            qWarning() << "updateWrapper: " << stdOut;
+            if(stdOut.contains("returned error:"))
                 return false;
             if(updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0)
                 return false;
