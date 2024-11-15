@@ -23,6 +23,7 @@
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
 {
     m_jsonObject = QJsonObject();
+    m_allRecords.clear();
     m_periodicTimer->start();
     for(auto iter=entitesAndComponents.cbegin(); iter!=entitesAndComponents.cend(); ++iter) {
         const QStringList components = iter.value();
@@ -46,41 +47,49 @@ QJsonObject VeinDataCollector::getStoredValues()
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
 {
     Q_UNUSED(timeStamp)
-    QHash<int , QHash<QString, QVariant> > infosHash;
-    infosHash[entityId][componentName] = value;
     QString timeString = m_timeStamper->getTimestamp().toString("dd-MM-yyyy hh:mm:ss.zzz");
-    m_jsonObject.insert(timeString, convertToJson(timeString, infosHash));
-}
 
-QJsonObject VeinDataCollector::convertToJson(QString timestamp, QHash<int , QHash<QString, QVariant>> infosHash)
-{
-    QJsonObject jsonObject = m_jsonObject.value(timestamp).toObject();
-    for(auto it = infosHash.constBegin(); it != infosHash.constEnd(); ++it) {
-        QString entityIdToString = QString::number(it.key());
-        if(jsonObject.contains(entityIdToString)) {
-            QJsonValue existingValue = jsonObject.value(entityIdToString);
-            QHash<QString, QVariant> hash = appendNewValueToExistingValues(existingValue, it.value()) ;
-            jsonObject.insert(entityIdToString, convertHashToJsonObject(hash));
-        }
-        else
-            jsonObject.insert(entityIdToString, convertHashToJsonObject(it.value()));
+    RecordedEntityComponents newRecord;
+    if(m_allRecords.contains(timeString)) {
+        RecordedEntityComponents existingRecord = m_allRecords.value(timeString);
+        newRecord = appendToExistingRecord(existingRecord, entityId, componentName, value);
     }
-    return jsonObject;
+    else
+        newRecord = prepareNewRecord(entityId, componentName, value);
+
+    m_allRecords.insert(timeString, newRecord);
+    m_jsonObject.insert(timeString, convertRecordedEntityComponentsToJson(newRecord));
 }
 
-QHash<QString, QVariant> VeinDataCollector::appendNewValueToExistingValues(QJsonValue existingValue, QHash<QString, QVariant> compoValuesHash)
+RecordedEntityComponents VeinDataCollector::appendToExistingRecord(RecordedEntityComponents existingRecord, int entityId, QString componentName, QVariant value)
 {
-    QHash<QString, QVariant> hash= existingValue.toObject().toVariantHash();
-    for (auto hashIt = compoValuesHash.constBegin(); hashIt != compoValuesHash.constEnd(); ++hashIt)
-        hash.insert(hashIt.key(), hashIt.value());
-    return hash;
-}
-
-QJsonObject VeinDataCollector::convertHashToJsonObject(QHash<QString, QVariant> hash)
-{
-    QJsonObject jsonObject;
-    for (auto it = hash.constBegin(); it != hash.constEnd(); ++it) {
-        jsonObject.insert(it.key(), it.value().toString());
+    if(existingRecord.contains(entityId)) { //new component
+        ComponentInfo existingComponents = existingRecord.value(entityId);
+        existingComponents.insert(componentName, value);
+        existingRecord.insert(entityId, existingComponents);
     }
-    return jsonObject;
+    else {//new entity
+        ComponentInfo newComponents {{componentName, value}};
+        existingRecord.insert(entityId, newComponents);
+    }
+
+    return existingRecord;
+}
+
+RecordedEntityComponents VeinDataCollector::prepareNewRecord(int entityId, QString componentName, QVariant value)
+{
+    ComponentInfo newComponents {{componentName, value}};
+    RecordedEntityComponents newRecord {{entityId, newComponents}};
+    return newRecord;
+}
+
+QJsonObject VeinDataCollector::convertRecordedEntityComponentsToJson(RecordedEntityComponents record)
+{
+    QJsonObject json;
+    for(auto entityID: record.keys()) {
+        QJsonObject componentJson = QJsonObject::fromVariantHash(record[entityID]);
+        QString entityIDToString = QString::number(entityID);
+        json.insert(entityIDToString, componentJson);
+    }
+    return json;
 }
