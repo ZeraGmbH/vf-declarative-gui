@@ -3,6 +3,7 @@
 #include <timemachineobject.h>
 #include <timemachinefortest.h>
 #include <timerfactoryqtfortest.h>
+#include <testloghelpers.h>
 #include <QSignalSpy>
 #include <QTest>
 
@@ -43,6 +44,12 @@ void test_vein_data_collector::oneChangeWithinOnePeriod()
     QCOMPARE(spy.count(), 1);
     QJsonObject records = dataCollector.getStoredValues();
     QVERIFY(records.contains(timeStamper->getTimestamp().toString("dd-MM-yyyy hh:mm:ss.zzz")));
+
+    QFile file(":/oneTimestampOneEntityOneComponent.json");
+    QVERIFY(file.open(QFile::ReadOnly));
+    QByteArray jsonExpected = file.readAll();
+    QByteArray jsonDumped = TestLogHelpers::dump(records);
+    QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
 void test_vein_data_collector::setupServer()
