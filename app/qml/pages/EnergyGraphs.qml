@@ -73,24 +73,23 @@ Item {
         var actValP = []
 
         //GraphFunctions.prepareCharts(Object.keys(jsonData))
-        var timestamps = Object.keys(jsonData).sort()
-        var timestamp = timestamps[timestamps.length - 1]
-        var time = jsonHelper.convertTimestampToMs(timestamp)
-        var components = jsonHelper.getComponents(jsonData, time)
+        var timestamp = Object.keys(jsonData)[0]
+        var timeMs = jsonHelper.convertTimestampToMs(timestamp)
+        var components = jsonHelper.getComponents(jsonData, timeMs)
         for(var v = 0 ; v <components.length; v++) {
-            if(voltageComponents.includes(components[v]))
-                actValU.push({x: time, y: components[v]})
-            if(currentComponents.includes(components[v]))
-                actValI.push({x: time, y: components[v]})
-            if(powerComponents.includes(components[v]))
-                actValP.push({x: time, y: components[v]})
+            if(voltageComponents.includes(components[v])) {
+                actValU.push({x: timeMs, y: components[v]})
+                GraphFunctions.appendLastElemt(actValU, components[v], jsonData, axisYLeft, axisX, axisXPower)
+            }
+            if(currentComponents.includes(components[v])) {
+                actValI.push({x: timeMs, y: components[v]})
+                GraphFunctions.appendLastElemt(actValI, components[v], jsonData, axisYRight, axisX, axisXPower)
+            }
+            if(powerComponents.includes(components[v])) {
+                actValP.push({x: timeMs, y: components[v]})
+                GraphFunctions.appendLastElemt(actValP, components[v], jsonData, axisYPower, axisX, axisXPower)
+            }
         }
-        for(let vCompo in voltageComponents)
-            GraphFunctions.appendLastElemt(actValU, voltageComponents[vCompo], jsonData, axisYLeft, axisX, axisXPower)
-        for(let iCompo in currentComponents)
-            GraphFunctions.appendLastElemt(actValI, currentComponents[iCompo], jsonData, axisYRight, axisX, axisXPower)
-        for(let pCompo in powerComponents)
-            GraphFunctions.appendLastElemt(actValP, powerComponents[pCompo], jsonData, axisYPower, axisX, axisXPower)
     }
 
     function loadAllElements(LineSerie) {
