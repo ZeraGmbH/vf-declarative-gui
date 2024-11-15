@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include <QDateTime>
 
+typedef QHash<int, QStringList> entitiesComponents;
+
 class VeinDataCollector : public QObject
 {
     Q_OBJECT
@@ -36,12 +38,13 @@ private:
     QJsonObject getJsonForTimestamp(QString timestamp);
     QHash<QString, QVariant> appendNewValueToExistingValues(QJsonValue existingValue, QHash<QString, QVariant> compoValuesHash);
     void checkLastJsonObjectReady();
+    bool allEntitiesComponentsRecorded(entitiesComponents lastRecordHash);
 
     VeinStorage::StorageFilter m_storageFilter;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
     QJsonObject m_completeJsonObject;
     QJsonObject m_lastRecordObject, m_lastRecordKeeper;
-    QHash<int, QStringList> m_recordedEntitiesComponents;
+    entitiesComponents m_recordedEntitiesComponents;
     TimerTemplateQtPtr m_lastRecordTimeout;
 };
 

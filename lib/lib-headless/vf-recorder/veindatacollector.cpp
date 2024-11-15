@@ -130,17 +130,33 @@ void VeinDataCollector::checkLastJsonObjectReady()
         qInfo() << "VeinDataCollector::Inconsistent last record.";
     }
     else {
-        QHash<int, QStringList> lastRecordHash;
+        entitiesComponents lastRecordHash;
         QJsonObject lastJsonWithoutTime = m_lastRecordObject.value(m_lastRecordObject.keys().at(0)).toObject();
         for(auto entity: lastJsonWithoutTime.keys())
             lastRecordHash.insert(entity.toInt(), lastJsonWithoutTime.value(entity).toObject().keys());
-        if(lastRecordHash == m_recordedEntitiesComponents) {
+        if(allEntitiesComponentsRecorded(lastRecordHash)) {
             m_lastRecordTimeout->stop();
             prepareLastJson();
         }
         else
             m_lastRecordTimeout->start();
     }
+}
+
+bool VeinDataCollector::allEntitiesComponentsRecorded(entitiesComponents lastRecordHash)
+{
+    for(auto entity : m_recordedEntitiesComponents.keys()) {
+        if(lastRecordHash.contains(entity)) {
+            QStringList components = m_recordedEntitiesComponents[entity];
+            for(int i = 0; i<components.size(); i++) {
+                if(!lastRecordHash[entity].contains(components[i]))
+                    return false;
+            }
+        }
+        else
+            return false;
+    }
+    return true;
 }
 
 QJsonObject VeinDataCollector::convertHashToJsonObject(QHash<QString, QVariant> hash)

@@ -48,7 +48,7 @@ void test_vein_data_collector::twoChangesWithinOnePeriod()
     QSignalSpy spy(&dataCollector, &VeinDataCollector::newStoredValue);
 
     QHash<int, QStringList> collectorComponents;
-    collectorComponents[10] = QStringList() << "ComponentName1" << "ComponentName2";
+    collectorComponents[10] = QStringList() << "ComponentName2" << "ComponentName1";
     dataCollector.startLogging(collectorComponents);
 
     timeStamper->setTimestampToNow();
