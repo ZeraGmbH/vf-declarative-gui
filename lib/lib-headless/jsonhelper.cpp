@@ -26,9 +26,9 @@ QStringList JsonHelper::getComponents(QJsonObject json, qint64 date)
     return componentList;
 }
 
-QString JsonHelper::getValue(QJsonObject json, qint64 date, QString component)
+double JsonHelper::getValue(QJsonObject json, qint64 date, QString component)
 {
-    QString value;
+    double value;
     if(!json.isEmpty()) {
         QString strDateTime = QDateTime::fromMSecsSinceEpoch(date).toString("dd-MM-yyyy hh:mm:ss.zzz");
         QJsonObject dataWithoutTime = json.value(strDateTime).toObject();
@@ -38,7 +38,7 @@ QString JsonHelper::getValue(QJsonObject json, qint64 date, QString component)
             const QStringList componentNames = components.keys();
             for(const QString &componentName : componentNames) {
                 if(component == componentName)
-                    value = components[component].toString();
+                    value = components[component].toDouble();
             }
         }
     }

@@ -34,13 +34,15 @@ void test_vein_data_collector::oneChangeWithinOnePeriod()
     collectorComponents[10] = QStringList() << "ComponentName1";
     dataCollector.startLogging(collectorComponents);
 
+    timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(10, "ComponentName1", "foo");
     TimeMachineObject::feedEventLoop();
 
     QCOMPARE(spy.count(), 0);
     TimeMachineForTest::getInstance()->processTimers(100);
     QCOMPARE(spy.count(), 1);
-
+    QJsonObject records = dataCollector.getStoredValues();
+    QVERIFY(records.contains(timeStamper->getTimestamp().toString("dd-MM-yyyy hh:mm:ss.zzz")));
 }
 
 void test_vein_data_collector::setupServer()

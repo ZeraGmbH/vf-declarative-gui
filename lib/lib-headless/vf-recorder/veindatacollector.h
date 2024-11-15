@@ -8,6 +8,10 @@
 #include <QJsonObject>
 #include <QDateTime>
 
+typedef QHash<QString/*componentName*/, QVariant/*value*/> ComponentInfo;
+typedef QHash<int/*entityId*/, ComponentInfo> RecordedEntityComponents;
+typedef QMap<QString /*QDateTime in QString*/, RecordedEntityComponents> TimeStampedRecords;
+
 class VeinDataCollector : public QObject
 {
     Q_OBJECT
@@ -27,14 +31,15 @@ signals:
 private slots:
     void appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp);
 private:
-    QJsonObject convertToJson(QString timestamp, QHash<int, QHash<QString, QVariant> > infosHash);
-    QJsonObject convertHashToJsonObject(QHash<QString, QVariant> hash);
-    QHash<QString, QVariant> appendNewValueToExistingValues(QJsonValue existingValue, QHash<QString, QVariant> compoValuesHash);
+    RecordedEntityComponents appendToExistingRecord(RecordedEntityComponents existingRecord, int entityId, QString componentName, QVariant value);
+    RecordedEntityComponents prepareNewRecord(int entityId, QString componentName, QVariant value);
+    QJsonObject convertRecordedEntityComponentsToJson(RecordedEntityComponents recordedEntityComponents);
 
     VeinStorage::StorageFilter m_storageFilter;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
     QJsonObject m_jsonObject;
     TimerTemplateQtPtr m_periodicTimer;
+    TimeStampedRecords m_allRecords;
 };
 
 #endif // VEINDATACOLLECTOR_H
