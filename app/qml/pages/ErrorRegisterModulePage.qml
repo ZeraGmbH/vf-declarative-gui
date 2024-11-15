@@ -31,21 +31,21 @@ Item {
                                                  { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
 
     property int parStartStop: errCalEntity.PAR_StartStop
-    onParStartStopChanged: {
-        if(SessionState.emobSession) {
-            if(parStartStop === 1) {
-                var inputJson
-                if(SessionState.dcSession)
-                    inputJson = jsonEnergyDC
-                else
-                    inputJson = jsonEnergyAC
-                if(VeinEntity.getEntity("_System").DevMode)
-                    Vf_Recorder.startLogging(storageNumber, inputJson)
-            }
-            else if(parStartStop === 0)
-                Vf_Recorder.stopLogging(storageNumber)
-        }
-    }
+    // onParStartStopChanged: {
+    //     if(SessionState.emobSession) {
+    //         if(parStartStop === 1) {
+    //             var inputJson
+    //             if(SessionState.dcSession)
+    //                 inputJson = jsonEnergyDC
+    //             else
+    //                 inputJson = jsonEnergyAC
+    //             if(VeinEntity.getEntity("_System").DevMode)
+    //                 Vf_Recorder.startLogging(storageNumber, inputJson)
+    //         }
+    //         else if(parStartStop === 0)
+    //             Vf_Recorder.stopLogging(storageNumber)
+    //     }
+    // }
 
     function extractComponents(data) {
         if(data.length !== 0 ) {
@@ -107,12 +107,12 @@ Item {
                     validatorUpperLimit: moduleIntrospection.ComponentInfo.PAR_Uplimit.Validation
                     validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
                 }
-                EnergyGraphs {
-                    id: energyChart
-                    graphHeight: parent.height
-                    graphWidth: parent.width
-                    componentsList: SessionState.emobSession && SessionState.dcSession ? extractComponents(jsonEnergyDC) : extractComponents(jsonEnergyAC)
-                }
+                // EnergyGraphs {
+                //     id: energyChart
+                //     graphHeight: parent.height
+                //     graphWidth: parent.width
+                //     componentsList: SessionState.emobSession && SessionState.dcSession ? extractComponents(jsonEnergyDC) : extractComponents(jsonEnergyAC)
+                // }
             }
 
             ErrorMarginView {

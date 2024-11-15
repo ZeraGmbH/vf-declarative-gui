@@ -6,10 +6,48 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import SessionState 1.0
+import VeinEntity 1.0
+import Vf_Recorder 1.0
 import "../controls/error_comparison_common"
 
 BaseTabPage {
     id: root
+    readonly property int storageNumber: 0
+    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
+                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
+    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
+                                                 { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
+
+    property int parStartStop: errMeasHelper.sem1mod1Entity.PAR_StartStop
+    onParStartStopChanged: {
+        if(SessionState.emobSession) {
+            if(parStartStop === 1) {
+                var inputJson
+                if(SessionState.dcSession)
+                    inputJson = jsonEnergyDC
+                else
+                    inputJson = jsonEnergyAC
+                if(VeinEntity.getEntity("_System").DevMode)
+                    Vf_Recorder.startLogging(storageNumber, inputJson)
+            }
+            else if(parStartStop === 0)
+                Vf_Recorder.stopLogging(storageNumber)
+        }
+    }
+
+    function extractComponents(data) {
+        if(data.length !== 0 ) {
+            data = data.foo
+            var compoList = []
+            for(var i = 0; i < data.length; i++) {
+                compoList.push(data[i].Component)
+            }
+            var flatCompoList = [].concat.apply([], compoList);
+            return flatCompoList
+        }
+        return []
+    }
 
     // TabButtons
     Component {
@@ -42,6 +80,23 @@ BaseTabPage {
             entity: errMeasHelper.sem1mod1Entity
             baseLabel: Z.tr("Energy register")
             running: errMeasHelper.sem1mod1Running
+        }
+    }
+    Component {
+        id: tabGraph
+        TabButton {
+            id: tabButton
+            font.pointSize: tabPointSize
+            height: tabHeight
+            contentItem: Label {
+                text: "Energy graphs"
+                font.capitalization: Font.AllUppercase
+                font.pointSize: tabPointSize
+                height: tabHeight
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                Material.foreground: Material.White
+            }
         }
     }
 
@@ -93,6 +148,15 @@ BaseTabPage {
             }
         }
     }
+    Component {
+        id: pageGraph
+        EnergyGraphs {
+            id: energyChart
+            graphHeight: root.height
+            graphWidth: root.width
+            componentsList: SessionState.emobSession && SessionState.dcSession ? extractComponents(jsonEnergyDC) : extractComponents(jsonEnergyAC)
+        }
+    }
 
     // create tabs/pages dynamic
     Component.onCompleted: {
@@ -107,6 +171,9 @@ BaseTabPage {
 
         tabBar.addItem(tabEnergy.createObject(tabBar))
         swipeView.addItem(pageEnergy.createObject(swipeView))
+
+        tabBar.addItem(tabGraph.createObject(tabBar))
+        swipeView.addItem(pageGraph.createObject(swipeView))
 
         finishInit()
     }
