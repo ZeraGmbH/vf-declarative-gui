@@ -6,11 +6,13 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import SessionState 1.0
+import VeinEntity 1.0
+import Vf_Recorder 1.0
 import "../controls/error_comparison_common"
 
 BaseTabPage {
     id: root
-
     // TabButtons
     Component {
         id: tabTable
@@ -42,6 +44,23 @@ BaseTabPage {
             entity: errMeasHelper.sem1mod1Entity
             baseLabel: Z.tr("Energy register")
             running: errMeasHelper.sem1mod1Running
+        }
+    }
+    Component {
+        id: tabGraph
+        TabButton {
+            id: tabButton
+            font.pointSize: tabPointSize
+            height: tabHeight
+            contentItem: Label {
+                text: "Energy graphs"
+                font.capitalization: Font.AllUppercase
+                font.pointSize: tabPointSize
+                height: tabHeight
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                Material.foreground: Material.White
+            }
         }
     }
 
@@ -93,6 +112,15 @@ BaseTabPage {
             }
         }
     }
+    Component {
+        id: pageGraph
+        EnergyGraphs {
+            id: energyChart
+            graphHeight: root.height
+            graphWidth: root.width
+            componentsList: SessionState.emobSession && SessionState.dcSession ? extractComponents(jsonEnergyDC) : extractComponents(jsonEnergyAC)
+        }
+    }
 
     // create tabs/pages dynamic
     Component.onCompleted: {
@@ -107,6 +135,9 @@ BaseTabPage {
 
         tabBar.addItem(tabEnergy.createObject(tabBar))
         swipeView.addItem(pageEnergy.createObject(swipeView))
+
+        tabBar.addItem(tabGraph.createObject(tabBar))
+        swipeView.addItem(pageGraph.createObject(swipeView))
 
         finishInit()
     }

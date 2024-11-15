@@ -13,6 +13,41 @@ import Vf_Recorder 1.0
 
 Item {
     id:  root
+    readonly property int storageNumber: 0
+    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
+                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
+    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
+                                                 { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
+
+    property int parStartStop
+    onParStartStopChanged: {
+        if(SessionState.emobSession) {
+            if(parStartStop === 1) {
+                var inputJson
+                if(SessionState.dcSession)
+                    inputJson = jsonEnergyDC
+                else
+                    inputJson = jsonEnergyAC
+                if(VeinEntity.getEntity("_System").DevMode)
+                    Vf_Recorder.startLogging(storageNumber, inputJson)
+            }
+            else if(parStartStop === 0)
+                Vf_Recorder.stopLogging(storageNumber)
+        }
+    }
+
+    function extractComponents(data) {
+        if(data.length !== 0 ) {
+            data = data.foo
+            var compoList = []
+            for(var i = 0; i < data.length; i++) {
+                compoList.push(data[i].Component)
+            }
+            var flatCompoList = [].concat.apply([], compoList);
+            return flatCompoList
+        }
+        return []
+    }
     readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
     readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
     readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
@@ -120,7 +155,7 @@ Item {
         id: flickable
         anchors.fill: parent
         boundsBehavior: Flickable.StopAtBounds
-        contentHeight: chartView.height + chartViewPower.height + phasesLoader.height
+        contentHeight: chartView.height + chartViewPower.height + phasesLoader.height + startButton.height
         width: root.width
         height: root.height
         flickableDirection: Flickable.VerticalFlick
@@ -129,7 +164,7 @@ Item {
         ScrollBar.vertical: ScrollBar {
             id: verticalScroll
             width: 8
-            policy : flickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
+            policy : flickable.height >= chartView.height + chartViewPower.height + startButton.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
         }
 
         PinchArea {
@@ -243,6 +278,40 @@ Item {
                 }
             }
         }
+
+        Button {
+            id: startButton
+            text: Z.tr("Start")
+            font.pointSize: pointSize
+            width: root.width/5
+
+            highlighted: true
+
+            anchors.top: phasesLoader.bottom
+            anchors.left: parent.left
+            onClicked: {
+                if(parStartStop !== 1) {
+                    parStartStop=1;
+                }
+                if(SessionState.emobSession && VeinEntity.getEntity("_System").DevMode)
+                    multiSwipe.currentIndex = 1
+            }
+        }
+        Button {
+            id: stopButton
+            text: Z.tr("Stop")
+            font.pointSize: pointSize
+            width: root.width/5
+
+            anchors.top: phasesLoader.bottom
+            anchors.right: parent.right
+
+            onClicked: {
+                if(parStartStop !== 0) {
+                    parStartStop=0;
+                }
+            }
+        }
         ChartView {
             id: chartViewPower
             height: root.graphHeight / 2 - phasesLoader.height
@@ -251,7 +320,7 @@ Item {
             anchors.bottomMargin: 0
             anchors.left: chartView.left
             anchors.right: chartView.right
-            anchors.top: phasesLoader.bottom
+            anchors.top: startButton.bottom
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
