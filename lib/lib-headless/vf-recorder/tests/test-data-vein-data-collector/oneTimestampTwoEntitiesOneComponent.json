@@ -2,6 +2,9 @@
     "01-01-1970 00:00:00.000": {
         "10": {
             "ComponentName1": "foo"
+        },
+        "11": {
+            "ComponentName2": "bar"
         }
     }
 }
