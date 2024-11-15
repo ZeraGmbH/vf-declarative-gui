@@ -103,7 +103,6 @@
         <file>qml/controls/MainToolBar.qml</file>
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
-        <file>qml/controls/ScrollGroup.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
         <file>qml/controls/ranges/OverloadButton.qml</file>
         <file>qml/controls/ranges/RangeMModePage.qml</file>
