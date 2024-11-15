@@ -3,7 +3,6 @@
         <file>qtquickcontrols2.conf</file>
         <file>qml/Main.qml</file>
         <file>qml/controls/BatteryToolButton.qml</file>
-        <file>qml/controls/DebugRectangle.qml</file>
         <file>qml/controls/GridItem.qml</file>
         <file>qml/controls/GridRect.qml</file>
         <file>qml/controls/PagePathView.qml</file>
