@@ -48,7 +48,7 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChange()
     QFile file(":/oneTimestampOneEntityOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLastStoredValues());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
@@ -66,7 +66,7 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChangesTwice()
     QFile file(":/oneTimestampOneEntityOneComponentChangesTwice.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLastStoredValues());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
@@ -108,7 +108,7 @@ void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
     QFile file(":/oneTimestampTwoEntitiesOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLastStoredValues());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 

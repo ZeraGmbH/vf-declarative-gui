@@ -19,6 +19,7 @@ public:
     void startLogging(QHash<int, QStringList> entitesAndComponents);
     void stopLogging();
     QJsonObject getStoredValues();
+    QJsonObject getLastStoredValues();
 signals:
     // Ideas:
     // * replace internal data QJsoonObject by
@@ -39,6 +40,7 @@ private:
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
     QHash<int, QStringList> m_targetEntityComponents;
     QJsonObject m_jsonObject;
+    QJsonObject m_lastJsonObject;
     TimeStampedRecords m_currentTimestampRecord;
 };
 
