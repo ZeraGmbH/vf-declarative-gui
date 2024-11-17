@@ -23,9 +23,6 @@ void test_vein_data_collector::init()
     setupServer();
     m_timeStamper = VeinStorage::TimeStamperSettable::create();
     m_dataCollector = std::make_unique<VeinDataCollector>(m_server->getStorage(), m_timeStamper);
-    m_collectorComponents[entityId1] = QStringList() << "ComponentName1" << "ComponentName2";
-    m_collectorComponents[entityId2] = QStringList() << "ComponentName1" << "ComponentName2";
-    m_dataCollector->startLogging(m_collectorComponents);
 }
 
 void test_vein_data_collector::cleanup()
@@ -39,13 +36,13 @@ void test_vein_data_collector::cleanup()
 void test_vein_data_collector::oneTimestampOneEntityOneComponentChange()
 {
     QSignalSpy spy(m_dataCollector.get(), &VeinDataCollector::newStoredValue);
+    m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
+    m_dataCollector->startLogging(m_collectorComponents);
 
     m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
     TimeMachineObject::feedEventLoop();
 
-    QCOMPARE(spy.count(), 0);
-    TimeMachineForTest::getInstance()->processTimers(100);
     QCOMPARE(spy.count(), 1);
 
     QFile file(":/oneTimestampOneEntityOneComponent.json");
@@ -57,6 +54,9 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChange()
 
 void test_vein_data_collector::oneTimestampOneEntityOneComponentChangesTwice()
 {
+    m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
+    m_dataCollector->startLogging(m_collectorComponents);
+
     m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
     TimeMachineForTest::getInstance()->processTimers(50);
@@ -72,6 +72,9 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChangesTwice()
 
 void test_vein_data_collector::twoTimestampsOneEntityOneComponentChange()
 {
+    m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
+    m_dataCollector->startLogging(m_collectorComponents);
+
     m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
     TimeMachineForTest::getInstance()->processTimers(500);
@@ -88,11 +91,19 @@ void test_vein_data_collector::twoTimestampsOneEntityOneComponentChange()
 
 void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
 {
+    QSignalSpy spy(m_dataCollector.get(), &VeinDataCollector::newStoredValue);
+    m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
+    m_collectorComponents[entityId2] = QStringList() << "ComponentName2";
+    m_dataCollector->startLogging(m_collectorComponents);
+
     m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
-    TimeMachineForTest::getInstance()->processTimers(50);
+    TimeMachineForTest::getInstance()->processTimers(5000);
+    QCOMPARE(spy.count(), 0);
+
     m_server->setComponentServerNotification(entityId2, "ComponentName2", "bar");
     TimeMachineObject::feedEventLoop();
+    QCOMPARE(spy.count(), 1);
 
     QFile file(":/oneTimestampTwoEntitiesOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
@@ -103,6 +114,10 @@ void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
 
 void test_vein_data_collector::twoTimestampsTwoEntitiesOneComponentChange()
 {
+    m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
+    m_collectorComponents[entityId2] = QStringList() << "ComponentName2";
+    m_dataCollector->startLogging(m_collectorComponents);
+
     m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
     TimeMachineForTest::getInstance()->processTimers(50);

@@ -11,31 +11,24 @@
     m_storageFilter(storage, VeinStorage::StorageFilter::Settings(false, true)),
     m_timeStamper(timeSetter)
 {
-    connect(&m_storageFilter, &VeinStorage::StorageFilter::sigComponentValue,
-            this, &VeinDataCollector::appendValue);
-
-    m_periodicTimer = TimerFactoryQt::createPeriodic(100);
-    connect(m_periodicTimer.get(), &TimerTemplateQt::sigExpired,this, [&] {
-        emit newStoredValue();
-    });
+    connect(&m_storageFilter, &VeinStorage::StorageFilter::sigComponentValue, this, &VeinDataCollector::appendValue);
 }
 
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
 {
     m_jsonObject = QJsonObject();
-    m_allRecords.clear();
-    m_periodicTimer->start();
+    m_currentTimestampRecord.clear();
     for(auto iter=entitesAndComponents.cbegin(); iter!=entitesAndComponents.cend(); ++iter) {
         const QStringList components = iter.value();
         int entityId = iter.key();
         for(const QString& componentName : components)
             m_storageFilter.add(entityId, componentName);
     }
+    m_targetEntityComponents = entitesAndComponents;
 }
 
 void VeinDataCollector::stopLogging()
 {
-    m_periodicTimer->stop();
     m_storageFilter.clear();
 }
 
@@ -50,15 +43,19 @@ void VeinDataCollector::appendValue(int entityId, QString componentName, QVarian
     QString timeString = m_timeStamper->getTimestamp().toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
 
     RecordedEntityComponents newRecord;
-    if(m_allRecords.contains(timeString)) {
-        RecordedEntityComponents existingRecord = m_allRecords.value(timeString);
+    if(m_currentTimestampRecord.contains(timeString)) {
+        RecordedEntityComponents existingRecord = m_currentTimestampRecord.value(timeString);
         newRecord = appendToExistingRecord(existingRecord, entityId, componentName, value);
     }
     else
         newRecord = prepareNewRecord(entityId, componentName, value);
 
-    m_allRecords.insert(timeString, newRecord);
+    m_currentTimestampRecord.insert(timeString, newRecord);
     m_jsonObject.insert(timeString, convertRecordedEntityComponentsToJson(newRecord));
+    if(isRecordComplete(m_currentTimestampRecord.value(timeString))) {
+        emit newStoredValue();
+        m_currentTimestampRecord.clear();
+    }
 }
 
 RecordedEntityComponents VeinDataCollector::appendToExistingRecord(RecordedEntityComponents existingRecord, int entityId, QString componentName, QVariant value)
@@ -92,4 +89,25 @@ QJsonObject VeinDataCollector::convertRecordedEntityComponentsToJson(RecordedEnt
         json.insert(entityIDToString, componentJson);
     }
     return json;
+}
+
+bool VeinDataCollector::isRecordComplete(RecordedEntityComponents record)
+{
+    bool recordComplete = true;
+    for(auto entity: m_targetEntityComponents.keys()) {
+        if(!record.contains(entity))
+            recordComplete = false;
+        else {
+            for(auto componentName: m_targetEntityComponents[entity]) {
+                ComponentInfo recordedComponents = record[entity];
+                if(!recordedComponents.contains(componentName)) {
+                    recordComplete = false;
+                    break;
+                }
+            }
+        }
+        if(!recordComplete)
+            break;
+    }
+    return recordComplete;
 }
