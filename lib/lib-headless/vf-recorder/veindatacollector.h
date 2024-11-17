@@ -4,7 +4,6 @@
 #include <vs_abstracteventsystem.h>
 #include <vs_storagefilter.h>
 #include <vs_timestampersettable.h>
-#include <timerperiodicqt.h>
 #include <QJsonObject>
 #include <QDateTime>
 
@@ -34,12 +33,13 @@ private:
     RecordedEntityComponents appendToExistingRecord(RecordedEntityComponents existingRecord, int entityId, QString componentName, QVariant value);
     RecordedEntityComponents prepareNewRecord(int entityId, QString componentName, QVariant value);
     QJsonObject convertRecordedEntityComponentsToJson(RecordedEntityComponents recordedEntityComponents);
+    bool isRecordComplete(RecordedEntityComponents record);
 
     VeinStorage::StorageFilter m_storageFilter;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
+    QHash<int, QStringList> m_targetEntityComponents;
     QJsonObject m_jsonObject;
-    TimerTemplateQtPtr m_periodicTimer;
-    TimeStampedRecords m_allRecords;
+    TimeStampedRecords m_currentTimestampRecord;
 };
 
 #endif // VEINDATACOLLECTOR_H
