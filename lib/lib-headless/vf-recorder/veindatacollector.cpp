@@ -17,6 +17,7 @@
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
 {
     m_jsonObject = QJsonObject();
+    m_lastJsonObject = QJsonObject();
     m_currentTimestampRecord.clear();
     for(auto iter=entitesAndComponents.cbegin(); iter!=entitesAndComponents.cend(); ++iter) {
         const QStringList components = iter.value();
@@ -37,6 +38,11 @@ QJsonObject VeinDataCollector::getStoredValues()
     return m_jsonObject;
 }
 
+QJsonObject VeinDataCollector::getLastStoredValues()
+{
+    return m_lastJsonObject;
+}
+
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
 {
     Q_UNUSED(timeStamp)
@@ -53,8 +59,9 @@ void VeinDataCollector::appendValue(int entityId, QString componentName, QVarian
     m_currentTimestampRecord.insert(timeString, newRecord);
     m_jsonObject.insert(timeString, convertRecordedEntityComponentsToJson(newRecord));
     if(isRecordComplete(m_currentTimestampRecord.value(timeString))) {
-        emit newStoredValue();
+        m_lastJsonObject = QJsonObject{{timeString, m_jsonObject.value(timeString)}};
         m_currentTimestampRecord.clear();
+        emit newStoredValue();
     }
 }
 
