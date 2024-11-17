@@ -52,7 +52,7 @@ void Vf_Recorder::stopLogging(int storageNum)
 
 QJsonObject Vf_Recorder::getStoredValues0()
 {
-    return getStoredValues(0);
+    return getAllStoredValues(0);
 }
 
 QJsonObject Vf_Recorder::getLastStoredValues0()
@@ -60,15 +60,15 @@ QJsonObject Vf_Recorder::getLastStoredValues0()
     return m_dataCollect.at(0)->getLastStoredValues();
 }
 
-QJsonObject Vf_Recorder::getStoredValues(int storageNum)
+QJsonObject Vf_Recorder::getAllStoredValues(int storageNum)
 {
-    return m_dataCollect.at(storageNum)->getStoredValues();
+    return m_dataCollect.at(storageNum)->getAllStoredValues();
 }
 
 QString Vf_Recorder::getFirstTimestamp0()
 {
-    if(!getStoredValues(0).isEmpty())
-        return getStoredValues(0).keys().first();
+    if(!getAllStoredValues(0).isEmpty())
+        return getAllStoredValues(0).keys().first();
     else
         return "";
 }
