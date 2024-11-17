@@ -21,7 +21,7 @@ public:
 
     QJsonObject getStoredValues0();
     QJsonObject getLastStoredValues0();
-    QJsonObject getStoredValues(int storageNum);
+    QJsonObject getAllStoredValues(int storageNum);
     QString getFirstTimestamp0();
 
 signals:

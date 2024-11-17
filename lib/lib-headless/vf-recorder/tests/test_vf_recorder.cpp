@@ -40,7 +40,7 @@ void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
     for(int i = 0; i < maximumStorage; i++) {
         m_recorder->startLogging(i, QJsonObject());
         TimeMachineForTest::getInstance()->processTimers(100);
-        QVERIFY(m_recorder->getStoredValues(i).isEmpty());
+        QVERIFY(m_recorder->getAllStoredValues(i).isEmpty());
     }
 }
 
@@ -50,7 +50,7 @@ void test_vf_recorder::storeValuesBasedOnNonexistingEntitiesInJson()
     createModule(rangeEntityId, components);
     startLoggingFromJson(":/incorrect-entities.json", storageNum);
     TimeMachineForTest::getInstance()->processTimers(100);
-    QVERIFY(m_recorder->getStoredValues(storageNum).isEmpty());
+    QVERIFY(m_recorder->getAllStoredValues(storageNum).isEmpty());
 }
 
 void test_vf_recorder::storeValuesEmptyComponentsInJson()
@@ -195,7 +195,7 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    QJsonObject storedValues = m_recorder->getStoredValues(storageNum);
+    QJsonObject storedValues = m_recorder->getAllStoredValues(storageNum);
     QStringList timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 1);
 
@@ -205,7 +205,7 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 6);
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_recorder->getStoredValues(storageNum);
+    storedValues = m_recorder->getAllStoredValues(storageNum);
     timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 2);
 
@@ -229,7 +229,7 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     TimeMachineObject::feedEventLoop();
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    QJsonObject storedValues = m_recorder->getStoredValues(storageNum);
+    QJsonObject storedValues = m_recorder->getAllStoredValues(storageNum);
     QStringList timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 1);
 
@@ -244,7 +244,7 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_recorder->getStoredValues(storageNum);
+    storedValues = m_recorder->getAllStoredValues(storageNum);
     timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 2);
 
@@ -263,7 +263,7 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
 
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_recorder->getStoredValues(storageNum);
+    storedValues = m_recorder->getAllStoredValues(storageNum);
     timestampKeys = storedValues.keys();
     QCOMPARE (timestampKeys.size(), 3);
 
@@ -326,7 +326,7 @@ void test_vf_recorder::stopLogging(int storageNum)
 QJsonObject test_vf_recorder::getStoredValueWithoutTimeStamp(int storageNum)
 {
     QJsonObject storedValuesWithoutTimeStamp;
-    QJsonObject storedValues = m_recorder->getStoredValues(storageNum);
+    QJsonObject storedValues = m_recorder->getAllStoredValues(storageNum);
     for(const QString &key : storedValues.keys()) {
         QJsonValue entityFound = storedValues.value(key);
         storedValuesWithoutTimeStamp = entityFound.toObject();
