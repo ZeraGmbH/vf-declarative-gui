@@ -4,5 +4,6 @@
         <file>media/sda2/050000001-licenses.zup</file>
         <file>media/sda2/com5003-mt310s2.zup</file>
         <file>media/sda2/zera-updater.zup</file>
+        <file>media/sda2/wm1000i.zup</file>
     </qresource>
 </RCC>
