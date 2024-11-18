@@ -9,6 +9,7 @@
 #include <ve_eventhandler.h>
 #include <vn_networksystem.h>
 #include <vn_tcpsystem.h>
+#include <tcpnetworkfactory.h>
 #include <vn_networkstatusevent.h>
 #include <veinqml.h>
 #include <veinqmlwrapper.h>
@@ -214,7 +215,7 @@ int main(int argc, char *argv[])
     std::shared_ptr<TableEventConsumer> consumer = std::make_shared<TableEventConsumer>(glueLogicMap);
     VfComponentEventDispatcher *glueLogicSystem = new VfComponentEventDispatcher(consumer);
     VeinNet::NetworkSystem *netSystem = new VeinNet::NetworkSystem(&app);
-    VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(&app);
+    VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(VeinTcp::TcpNetworkFactory::create(), &app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
     VeinStorage::ClientStorageEventSystem *storage = new VeinStorage::ClientStorageEventSystem(&app);
     Vf_Recorder::setStorageSystem(storage);
