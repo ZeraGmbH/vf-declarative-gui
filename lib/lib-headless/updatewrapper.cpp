@@ -7,7 +7,7 @@
 
 void UpdateWrapper::startInstallation()
 {
-    qWarning() << "Start Installation of update";
+    qInfo() << "Start Installation of update";
     setStatus(UpdateStatus::InProgress);
     m_tasks = TaskContainerSequence::create();
     TaskTemplatePtr findCorrectMountLocation = TaskLambdaRunner::create([this]() {
@@ -31,27 +31,15 @@ void UpdateWrapper::startInstallation()
 
     TaskTemplatePtr installPackagesViaClient = TaskLambdaRunner::create([this]() {
         QProcess updateClient;
-        QString processOutput;
         QString updateClientExecutable("zera-update-client");
         for (auto &item : m_zupsToBeInstalled) {
-            processOutput.clear();
             QStringList clientArgs;
-
             clientArgs << "--auto-start" << "--auto-close" << item;
-            qDebug() << "starting: " << updateClientExecutable << " " << clientArgs;
+            qInfo() << "starting: " << updateClientExecutable << " " << clientArgs;
             updateClient.start(updateClientExecutable, clientArgs);
             updateClient.waitForFinished(-1);
-            QStringList updateLogFiles = QDir("/home/operator").entryList(QStringList("*.html"), QDir::Files, QDir::Name);
-            QFile logFileOfLast("/home/operator/" + updateLogFiles.last());
-            if (logFileOfLast.open(QFile::ReadOnly | QFile::Text)) {
-                QTextStream in(&logFileOfLast);
-                QString text = in.readAll();
-                if(text.contains("returned error:") || text.contains("not started due to packages not fitting to machine"))
-                    return false;
-                logFileOfLast.close();
-            }
-
-            if(updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0)
+            if(errorInLastLog() ||
+                (updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0))
                 return false;
         }
         return true;
@@ -77,10 +65,7 @@ QString UpdateWrapper::searchForPackages(QString mountPath)
 QStringList UpdateWrapper::getOrderedPackageList(QString zupLocation)
 {
     QStringList orderedZups = QDir(zupLocation).entryList(QStringList("*.zup"), QDir::Files);
-    // remove all packages of the form wm*.zup
-    for (auto &item : orderedZups)
-        if (item.indexOf("wm") == 0)
-            orderedZups.removeAll(item);
+
     if (orderedZups.contains("zera-updater.zup"))
         orderedZups.move(orderedZups.indexOf("zera-updater.zup"), 0);
 
@@ -90,8 +75,12 @@ QStringList UpdateWrapper::getOrderedPackageList(QString zupLocation)
     if (orderedZups.contains("com5003-mt310s2.zup"))
         orderedZups.move(orderedZups.indexOf("com5003-mt310s2.zup"), orderedZups.size() - 1);
 
-    for (auto &item : orderedZups)
+    for (auto &item : orderedZups) {
+        // remove all zups of form wm*.zup
+        if (item.indexOf("wm") == 0)
+            orderedZups.removeAll(item);
         item = zupLocation + "/" + item;
+    }
     return orderedZups;
 }
 
@@ -115,6 +104,22 @@ void UpdateWrapper::setStatus(UpdateStatus status)
 {
     m_status = status;
     emit sigStatusChanged();
+}
+
+bool UpdateWrapper::errorInLastLog()
+{
+    QStringList updateLogFiles = QDir("/home/operator").entryList(QStringList("*.html"), QDir::Files, QDir::Name);
+    QFile logFileOfLast("/home/operator/" + updateLogFiles.last());
+    if (logFileOfLast.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream in(&logFileOfLast);
+        QString text = in.readAll();
+        if(text.contains("returned error:") || text.contains("not started due to packages not fitting to machine")) {
+            logFileOfLast.close();
+            return true;
+        }
+        logFileOfLast.close();
+    }
+    return false;
 }
 
 

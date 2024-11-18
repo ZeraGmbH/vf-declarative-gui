@@ -27,6 +27,7 @@ public:
     UpdateStatus getStatus() const;
     void setStatus(UpdateStatus status);
 private:
+    bool errorInLastLog();
     QString m_pathToZups;
     QStringList m_zupsToBeInstalled;
     std::unique_ptr<TaskContainerInterface> m_tasks;
