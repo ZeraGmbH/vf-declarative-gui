@@ -59,6 +59,16 @@ Item {
         }
     }
 
+    function setXaxisMinMax(axisX, axisXPower, timeDiffSecs) {
+        axisX.max = timeDiffSecs
+        if(timeDiffSecs > 10)
+            axisX.min = timeDiffSecs - 10
+        else
+            axisX.min = 0
+        axisXPower.max = axisX.max
+        axisXPower.min = axisX.min
+    }
+
     function setYaxisMinMax(axisY, minValue, maxValue) {
         minValue = Math.floor(minValue/ 10) * 10
         maxValue = Math.ceil(maxValue/ 10) * 10
@@ -68,49 +78,11 @@ Item {
             axisY.max = maxValue
     }
 
-    function setMinMax(LineSeries, axisY,axisX, axisXPower) {
-        var timeArray = []
-        var actDataArray = []
-        for (var l = 0; l < LineSeries.count; l++) {
-            timeArray.push(LineSeries.at(l).x)
-            actDataArray.push(LineSeries.at(l).y)
-        }
-        var minValue = Math.min(...actDataArray)
-        var maxValue = Math.max(...actDataArray)
-        minValue = Math.floor(minValue/ 10) * 10
-        maxValue = Math.ceil(maxValue/ 10) * 10
-
-        if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
-            axisY.min = minValue
-
-        if(axisY.max < maxValue)
-            axisY.max = maxValue
-
-        var maxTimeValue = Math.max(...timeArray)
-        axisXPower.max = maxTimeValue
-        axisX.max = maxTimeValue
-        if(timerHasTriggered === true){
-            var minTimeValue = maxTimeValue - 10
-            axisX.min = minTimeValue
-            axisXPower.min = minTimeValue
-        }
-        else {
-            axisX.min = 0
-            axisXPower.min = 0
-        }
-    }
-
-    function appendPointToLineSerie(jsonData, time, compoName, axisY, axisX, axisXPower) {
-        var timestamps = Object.keys(jsonData).sort()
-        var firstTimestamp = jsonHelper.convertTimestampToMs(timestamps[0])
-        var testTimeSecs = (time - firstTimestamp)/1000
-        for(var k = 0; k < lineSeriesList.length; k++) {
-            if(lineSeriesList[k].name === compoName) {
-                let value = jsonHelper.getValue(jsonData, time, compoName)
-                lineSeriesList[k].append(testTimeSecs , value)
-                setMinMax(lineSeriesList[k], axisY, axisX, axisXPower)
-            }
-        }
+    function calculateTimeDiffSecs(timestamp) {
+        var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
+        var timeMs = jsonHelper.convertTimestampToMs(timestamp)
+        var timeDiffSecs = (timeMs - firstTimestamp)/1000
+        return timeDiffSecs
     }
 
     function appendIfNotDuplicated(series) {
