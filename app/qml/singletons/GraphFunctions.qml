@@ -59,6 +59,15 @@ Item {
         }
     }
 
+    function setYaxisMinMax(axisY, minValue, maxValue) {
+        minValue = Math.floor(minValue/ 10) * 10
+        maxValue = Math.ceil(maxValue/ 10) * 10
+        if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
+            axisY.min = minValue
+        if(axisY.max < maxValue)
+            axisY.max = maxValue
+    }
+
     function setMinMax(LineSeries, axisY,axisX, axisXPower) {
         var timeArray = []
         var actDataArray = []
@@ -88,22 +97,6 @@ Item {
         else {
             axisX.min = 0
             axisXPower.min = 0
-        }
-    }
-
-    function appendLastElemt(actVal, compoName, jsonData, axisY, axisX, axisXPower) {
-        var timestamps = Object.keys(jsonData).sort()
-        var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
-        var lastEltTime = jsonHelper.findLastElementOfCompo(actVal, compoName)
-        var testTimeSecs = (lastEltTime - firstTimestamp)/1000
-        if(lastEltTime !== "0") {
-            for(var k = 0; k < lineSeriesList.length; k++) {
-                if(lineSeriesList[k].name === compoName) {
-                    let value = jsonHelper.getValue(jsonData, lastEltTime, compoName)
-                    lineSeriesList[k].append(testTimeSecs , value)
-                    setMinMax(lineSeriesList[k], axisY, axisX, axisXPower)
-                }
-            }
         }
     }
 
@@ -140,21 +133,9 @@ Item {
     function prepareCharts() {
         for(let i = 0; i < lineSeriesList.length; i++ )
             lineSeriesList[i].clear()
-        // timer.restart()
-        // timerHasTriggered = false
     }
 
     JsonHelper {
         id : jsonHelper
-    }
-
-    Timer {
-        id: timer
-        interval: 10000
-        repeat: true
-        running: true
-        onTriggered: {
-            timerHasTriggered = true
-        }
     }
 }

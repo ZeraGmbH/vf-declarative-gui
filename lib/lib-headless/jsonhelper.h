@@ -11,8 +11,8 @@ class JsonHelper : public QObject
 public:
     explicit JsonHelper(QObject *parent = nullptr);
     Q_INVOKABLE qint64 convertTimestampToMs(QString dateTime);
-    Q_INVOKABLE QStringList getComponents(QJsonObject json, qint64 date);
-    Q_INVOKABLE double getValue(QJsonObject json, qint64 date, QString component);
+    Q_INVOKABLE QStringList getComponents(QJsonObject json, QString strDateTime);
+    Q_INVOKABLE double getValue(QJsonObject json, QString strDateTime, QString component);
     Q_INVOKABLE QVariant findLastElementOfCompo(QList<QVariant> actVal, QString compoName);
 };
 

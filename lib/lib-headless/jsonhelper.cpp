@@ -11,10 +11,9 @@ qint64 JsonHelper::convertTimestampToMs(QString dateTime)
     return QDateTime::fromString(dateTime, "dd-MM-yyyy hh:mm:ss.zzz").toMSecsSinceEpoch();
 }
 
-QStringList JsonHelper::getComponents(QJsonObject json, qint64 date)
+QStringList JsonHelper::getComponents(QJsonObject json, QString strDateTime)
 {
     QStringList componentList;
-    QString strDateTime = QDateTime::fromMSecsSinceEpoch(date).toString("dd-MM-yyyy hh:mm:ss.zzz");
     if(!json.isEmpty()) {
         QJsonObject dataWithoutTime = json.value(strDateTime).toObject();
         const QStringList entities = dataWithoutTime.keys();
@@ -26,11 +25,10 @@ QStringList JsonHelper::getComponents(QJsonObject json, qint64 date)
     return componentList;
 }
 
-double JsonHelper::getValue(QJsonObject json, qint64 date, QString component)
+double JsonHelper::getValue(QJsonObject json, QString strDateTime, QString component)
 {
-    double value;
+    double value = 0.0;
     if(!json.isEmpty()) {
-        QString strDateTime = QDateTime::fromMSecsSinceEpoch(date).toString("dd-MM-yyyy hh:mm:ss.zzz");
         QJsonObject dataWithoutTime = json.value(strDateTime).toObject();
         const QStringList entities = dataWithoutTime.keys();
         for (const QString &entity : entities) {
