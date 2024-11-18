@@ -11,28 +11,26 @@ qint64 JsonHelper::convertTimestampToMs(QString dateTime)
     return QDateTime::fromString(dateTime, "dd-MM-yyyy hh:mm:ss.zzz").toMSecsSinceEpoch();
 }
 
-QStringList JsonHelper::getComponents(QJsonObject json, QString strDateTime)
+QStringList JsonHelper::getComponents(QJsonObject json)
 {
     QStringList componentList;
     if(!json.isEmpty()) {
-        QJsonObject dataWithoutTime = json.value(strDateTime).toObject();
-        const QStringList entities = dataWithoutTime.keys();
+        const QStringList entities = json.keys();
         for (const QString &entity : entities) {
-            QJsonObject components = dataWithoutTime[entity].toObject();
+            QJsonObject components = json[entity].toObject();
             componentList.append(components.keys());
         }
     }
     return componentList;
 }
 
-double JsonHelper::getValue(QJsonObject json, QString strDateTime, QString component)
+double JsonHelper::getValue(QJsonObject json, QString component)
 {
     double value = 0.0;
     if(!json.isEmpty()) {
-        QJsonObject dataWithoutTime = json.value(strDateTime).toObject();
-        const QStringList entities = dataWithoutTime.keys();
+        const QStringList entities = json.keys();
         for (const QString &entity : entities) {
-            QJsonObject components = dataWithoutTime[entity].toObject();
+            QJsonObject components = json[entity].toObject();
             const QStringList componentNames = components.keys();
             for(const QString &componentName : componentNames) {
                 if(component == componentName)

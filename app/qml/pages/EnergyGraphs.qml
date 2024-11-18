@@ -41,9 +41,9 @@ Item {
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
 
             GraphFunctions.appendIfNotDuplicated(series)
-            loadAllElements(series)
             GraphFunctions.setColors()
         }
+        loadAllElements(componentsList)
     }
 
     function removeLineSeries(componentsList) {
@@ -73,16 +73,10 @@ Item {
         GraphFunctions.lineSeriesList = lineSeries
     }
 
-    function loadLastElement() {
-        var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
-        var timestamp = Object.keys(jsonData)[0]
-        var timeMs = jsonHelper.convertTimestampToMs(timestamp)
-        var timeDiffSecs = (timeMs - firstTimestamp)/1000
-
+    function loadElement(singleJsonData, components, timeDiffSecs) {
         var serie
-        var components = jsonHelper.getComponents(jsonData, timestamp)
         for(var v = 0 ; v <components.length; v++) {
-            let value = jsonHelper.getValue(jsonData, timestamp, components[v])
+            let value = jsonHelper.getValue(singleJsonData, components[v])
             if(powerComponents.includes(components[v])) {
                 serie = chartViewPower.series(components[v])
                 if(serie !== null) {
@@ -123,33 +117,22 @@ Item {
                 }
             }
         }
-
-        axisX.max = timeDiffSecs
-        if(timeDiffSecs > 10)
-            axisX.min = timeDiffSecs - 10
-        else
-            axisX.min = 0
-        axisXPower.max = axisX.max
-        axisXPower.min = axisX.min
     }
 
-    function loadAllElements(LineSerie) {
-        var timestamps = Object.keys(jsonData).sort()
-        for (var i = 0; i < timestamps.length; i++) {
-            var timestamp = timestamps[i]
-            var data = jsonData[timestamp]
-            var time = jsonHelper.convertTimestampToMs(timestamp)
-            var components = jsonHelper.getComponents(jsonData, time)
-            for(var v = 0 ; v <components.length; v++) {
-                if (LineSerie.name === components[v]) {
-                    if(voltageComponents.includes(components[v]))
-                        GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYLeft, axisX, axisXPower)
-                    if(currentComponents.includes(components[v]))
-                        GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYRight, axisX, axisXPower)
-                    if(powerComponents.includes(components[v]))
-                        GraphFunctions.appendPointToLineSerie(jsonData, time, components[v], axisYPower, axisX, axisXPower)
-                }
-            }
+    function loadLastElement() {
+        var timestamp = Object.keys(jsonData)[0]
+        var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
+        GraphFunctions.setXaxisMinMax(axisX, axisXPower, timeDiffSecs)
+        var components = jsonHelper.getComponents(jsonData[timestamp])
+        loadElement(jsonData[timestamp], components, timeDiffSecs)
+    }
+
+    function loadAllElements(components) {
+        var completeJson = Vf_Recorder.storedValues0
+        for(var timestamp in completeJson) {
+            var jsonWithoutTimestamp = completeJson[timestamp]
+            var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
+            loadElement(jsonWithoutTimestamp, components, timeDiffSecs)
         }
     }
 
