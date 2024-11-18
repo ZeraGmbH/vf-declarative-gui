@@ -20,6 +20,12 @@ Item {
     property var graphHeight
     property var graphWidth
     property var componentsList
+    property real powerMin: 0.0
+    property real powerMax: 0.0
+    property real voltageMin: 0.0
+    property real voltageMax: 0.0
+    property real currentMin: 0.0
+    property real currentMax: 0.0
     property var jsonData : Vf_Recorder.lastStoredValues0
     onJsonDataChanged:
         loadLastElement()
@@ -68,28 +74,63 @@ Item {
     }
 
     function loadLastElement() {
-        var actValU = []
-        var actValI = []
-        var actValP = []
-
-        //GraphFunctions.prepareCharts(Object.keys(jsonData))
+        var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
         var timestamp = Object.keys(jsonData)[0]
         var timeMs = jsonHelper.convertTimestampToMs(timestamp)
-        var components = jsonHelper.getComponents(jsonData, timeMs)
+        var timeDiffSecs = (timeMs - firstTimestamp)/1000
+
+        var serie
+        var components = jsonHelper.getComponents(jsonData, timestamp)
         for(var v = 0 ; v <components.length; v++) {
-            if(voltageComponents.includes(components[v])) {
-                actValU.push({x: timeMs, y: components[v]})
-                GraphFunctions.appendLastElemt(actValU, components[v], jsonData, axisYLeft, axisX, axisXPower)
-            }
-            if(currentComponents.includes(components[v])) {
-                actValI.push({x: timeMs, y: components[v]})
-                GraphFunctions.appendLastElemt(actValI, components[v], jsonData, axisYRight, axisX, axisXPower)
-            }
+            let value = jsonHelper.getValue(jsonData, timestamp, components[v])
             if(powerComponents.includes(components[v])) {
-                actValP.push({x: timeMs, y: components[v]})
-                GraphFunctions.appendLastElemt(actValP, components[v], jsonData, axisYPower, axisX, axisXPower)
+                serie = chartViewPower.series(components[v])
+                if(serie !== null) {
+                    serie.append(timeDiffSecs, value)
+                    if(timeDiffSecs === 0) {//first sample
+                        powerMax = 0.0;
+                        powerMin = value;
+                    }
+                    powerMin = value < powerMin ? value : powerMin
+                    powerMax = value > powerMax ? value : powerMax
+                    GraphFunctions.setYaxisMinMax(axisYPower, powerMin, powerMax)
+                }
+            }
+            else if(voltageComponents.includes(components[v])) {
+                serie = chartView.series(components[v])
+                if(serie !== null) {
+                    serie.append(timeDiffSecs, value)
+                    if(timeDiffSecs === 0) {
+                        voltageMax = 0.0;
+                        voltageMin = value;
+                    }
+                    voltageMin = value < voltageMin ? value : voltageMin
+                    voltageMax = value > voltageMax ? value : voltageMax
+                    GraphFunctions.setYaxisMinMax(axisYLeft, voltageMin, voltageMax)
+                }
+            }
+            else if(currentComponents.includes(components[v])) {
+                serie = chartView.series(components[v])
+                if(serie !== null) {
+                    serie.append(timeDiffSecs, value)
+                    if(timeDiffSecs === 0) {
+                        currentMax = 0.0;
+                        currentMin = value;
+                    }
+                    currentMin = value < currentMin ? value : currentMin
+                    currentMax = value > currentMax ? value : currentMax
+                    GraphFunctions.setYaxisMinMax(axisYRight, currentMin, currentMax)
+                }
             }
         }
+
+        axisX.max = timeDiffSecs
+        if(timeDiffSecs > 10)
+            axisX.min = timeDiffSecs - 10
+        else
+            axisX.min = 0
+        axisXPower.max = axisX.max
+        axisXPower.min = axisX.min
     }
 
     function loadAllElements(LineSerie) {
