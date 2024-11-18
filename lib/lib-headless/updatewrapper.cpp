@@ -37,7 +37,7 @@ void UpdateWrapper::startInstallation()
             processOutput.clear();
             QStringList clientArgs;
 
-            clientArgs << item;
+            clientArgs << "--auto-start" << "--auto-close" << item;
             qDebug() << "starting: " << updateClientExecutable << " " << clientArgs;
             updateClient.start(updateClientExecutable, clientArgs);
             updateClient.waitForFinished(-1);
