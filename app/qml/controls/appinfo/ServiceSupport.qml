@@ -49,11 +49,24 @@ Item {
         height: root.rowHeight * 1.625
         width: buttonStoreLog.width
         text: Z.tr("Start Update")
+        readonly property int installStatus: updateWrapper.status
         onClicked: {
             updateWrapper.startInstallation()
         }
         enabled: (QmlFileIO.mountedPaths.length > 0)
         highlighted: true
+        onInstallStatusChanged: {
+            if(installStatus === UpdateWrapper.InProgress)
+                waitPopup.startWait(Z.tr("Starting update..."))
+            else {
+                if(installStatus === UpdateWrapper.PackageNotFound)
+                    waitPopup.stopWait([], [Z.tr("Could not find update files. Check USB...")])
+                if(installStatus === UpdateWrapper.Failure)
+                    waitPopup.stopWait([],[Z.tr("Update failed, check logs...")],null)
+                if(installStatus === UpdateWrapper.Success)
+                    waitPopup.stopWait([],[],null)
+            }
+        }
     }
 
 }

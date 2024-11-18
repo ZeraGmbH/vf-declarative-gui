@@ -8,11 +8,13 @@
 void UpdateWrapper::startInstallation()
 {
     qWarning() << "Start Installation of update";
+    setStatus(UpdateStatus::InProgress);
     m_tasks = TaskContainerSequence::create();
     TaskTemplatePtr findCorrectMountLocation = TaskLambdaRunner::create([this]() {
         QString searchResult(searchForPackages("/media"));
         if(searchResult.isEmpty()) {
             qWarning() << "Search in /media returned empty";
+            setStatus(UpdateStatus::PackageNotFound);
             return false;
         }
         else
@@ -95,19 +97,30 @@ bool UpdateWrapper::getUpdateOk() const
     return m_updateOk;
 }
 
-QString UpdateWrapper::getUpdateMessage() const
+void UpdateWrapper::setUpdateOk(bool ok)
 {
-    return m_updateMessage;
+    m_updateOk = ok;
+    emit sigUpdateOkChanged();
 }
+
+UpdateWrapper::UpdateStatus UpdateWrapper::getStatus() const
+{
+    return m_status;
+}
+
+void UpdateWrapper::setStatus(UpdateStatus status)
+{
+    m_status = status;
+    emit sigStatusChanged();
+}
+
 
 void UpdateWrapper::onTaskFinished(bool ok, int taskId)
 {
     Q_UNUSED(taskId)
-    m_updateOk = ok;
-    if (ok)
-        m_updateMessage = "Update finished successfully!";
-    else
-        m_updateMessage = "Update failed, please see logs!";
-    emit sigUpdateOkChanged();
-    emit sigUpdateMessageChanged();
+    if(ok)
+        setStatus(UpdateStatus::Success);
+    else if(!ok && m_status == UpdateStatus::InProgress)
+        setStatus(UpdateStatus::Failure);
+    setUpdateOk(ok);
 }
