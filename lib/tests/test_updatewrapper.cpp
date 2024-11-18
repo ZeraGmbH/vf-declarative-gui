@@ -16,4 +16,5 @@ void test_updatewrapper::orderOfPackagesToBeInstalled()
     QStringList orderedList = wrapper.getOrderedPackageList(wrapper.searchForPackages(":/media"));
     QVERIFY(orderedList[0].contains("/zera-updater.zup"));
     QVERIFY(orderedList.last().contains("/com5003-mt310s2.zup"));
+    QVERIFY(!orderedList.contains(":/media/sda2/wm1000i.zup"));
 }

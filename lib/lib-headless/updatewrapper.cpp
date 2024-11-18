@@ -46,7 +46,7 @@ void UpdateWrapper::startInstallation()
             if (logFileOfLast.open(QFile::ReadOnly | QFile::Text)) {
                 QTextStream in(&logFileOfLast);
                 QString text = in.readAll();
-                if(text.contains("returned error:"))
+                if(text.contains("returned error:") || text.contains("not started due to packages not fitting to machine"))
                     return false;
                 logFileOfLast.close();
             }
@@ -77,7 +77,10 @@ QString UpdateWrapper::searchForPackages(QString mountPath)
 QStringList UpdateWrapper::getOrderedPackageList(QString zupLocation)
 {
     QStringList orderedZups = QDir(zupLocation).entryList(QStringList("*.zup"), QDir::Files);
-
+    // remove all packages of the form wm*.zup
+    for (auto &item : orderedZups)
+        if (item.indexOf("wm") == 0)
+            orderedZups.removeAll(item);
     if (orderedZups.contains("zera-updater.zup"))
         orderedZups.move(orderedZups.indexOf("zera-updater.zup"), 0);
 
