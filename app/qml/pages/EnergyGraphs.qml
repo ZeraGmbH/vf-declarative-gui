@@ -10,6 +10,7 @@ import GraphFunctions 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
 import Vf_Recorder 1.0
+import AxisAutoScaler 1.0
 
 Item {
     id:  root
@@ -20,12 +21,6 @@ Item {
     property var graphHeight
     property var graphWidth
     property var componentsList
-    property real powerMin: 0.0
-    property real powerMax: 0.0
-    property real voltageMin: 0.0
-    property real voltageMax: 0.0
-    property real currentMin: 0.0
-    property real currentMax: 0.0
     property var jsonData : Vf_Recorder.lastStoredValues0
     onJsonDataChanged:
         loadLastElement()
@@ -74,48 +69,14 @@ Item {
     }
 
     function loadElement(singleJsonData, components, timeDiffSecs) {
-        var serie
         for(var v = 0 ; v <components.length; v++) {
             let value = jsonHelper.getValue(singleJsonData, components[v])
-            if(powerComponents.includes(components[v])) {
-                serie = chartViewPower.series(components[v])
-                if(serie !== null) {
-                    serie.append(timeDiffSecs, value)
-                    if(timeDiffSecs === 0) {//first sample
-                        powerMax = 0.0;
-                        powerMin = value;
-                    }
-                    powerMin = value < powerMin ? value : powerMin
-                    powerMax = value > powerMax ? value : powerMax
-                    GraphFunctions.setYaxisMinMax(axisYPower, powerMin, powerMax)
-                }
-            }
-            else if(voltageComponents.includes(components[v])) {
-                serie = chartView.series(components[v])
-                if(serie !== null) {
-                    serie.append(timeDiffSecs, value)
-                    if(timeDiffSecs === 0) {
-                        voltageMax = 0.0;
-                        voltageMin = value;
-                    }
-                    voltageMin = value < voltageMin ? value : voltageMin
-                    voltageMax = value > voltageMax ? value : voltageMax
-                    GraphFunctions.setYaxisMinMax(axisYLeft, voltageMin, voltageMax)
-                }
-            }
-            else if(currentComponents.includes(components[v])) {
-                serie = chartView.series(components[v])
-                if(serie !== null) {
-                    serie.append(timeDiffSecs, value)
-                    if(timeDiffSecs === 0) {
-                        currentMax = 0.0;
-                        currentMin = value;
-                    }
-                    currentMin = value < currentMin ? value : currentMin
-                    currentMax = value > currentMax ? value : currentMax
-                    GraphFunctions.setYaxisMinMax(axisYRight, currentMin, currentMax)
-                }
-            }
+            if(powerComponents.includes(components[v]))
+                GraphFunctions.appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisYPower, axisYPowerScaler)
+            else if(voltageComponents.includes(components[v]))
+                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisYLeft, axisYLeftScaler)
+            else if(currentComponents.includes(components[v]))
+                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisYRight, axisYRightScaler)
         }
     }
 
@@ -138,6 +99,15 @@ Item {
 
     JsonHelper {
         id: jsonHelper
+    }
+    AxisAutoScaler {
+        id: axisYPowerScaler
+    }
+    AxisAutoScaler {
+        id: axisYLeftScaler
+    }
+    AxisAutoScaler {
+        id: axisYRightScaler
     }
 
     Flickable {

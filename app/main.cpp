@@ -28,6 +28,7 @@
 #include "qmlappstarterforwebgl.h"
 #include "screencapture.h"
 #include "jsonhelper.h"
+#include "axisautoscaler.h"
 #include "vs_clientstorageeventsystem.h"
 #include "vf_recorder.h"
 #include <qwtcharts.h>
@@ -80,6 +81,7 @@ static void registerQmlInt()
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
     qmlRegisterType<JsonHelper>("JsonHelper", 1, 0, "JsonHelper");
+    qmlRegisterType<AxisAutoScaler>("AxisAutoScaler", 1, 0, "AxisAutoScaler");
     qmlRegisterType<UpdateWrapper>("UpdateWrapper", 1, 0, "UpdateWrapper");
     qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
