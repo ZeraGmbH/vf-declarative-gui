@@ -70,12 +70,20 @@ Item {
     }
 
     function setYaxisMinMax(axisY, minValue, maxValue) {
-        minValue = Math.floor(minValue/ 10) * 10
-        maxValue = Math.ceil(maxValue/ 10) * 10
         if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
             axisY.min = minValue
         if(axisY.max < maxValue)
             axisY.max = maxValue
+    }
+
+    function appendPointToSerie(serie, timeDiffSecs, value, axisY, axisYScaler) {
+        if(serie !== null) {
+            serie.append(timeDiffSecs, value)
+            if(timeDiffSecs === 0)//first sample
+                axisYScaler.reset(value, 0.0)
+            axisYScaler.scaleToNewActualValue(value)
+            setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
+        }
     }
 
     function calculateTimeDiffSecs(timestamp) {
