@@ -20,7 +20,6 @@ Item {
 
     property var graphHeight
     property var graphWidth
-    property var componentsList
     property var jsonData : Vf_Recorder.lastStoredValues0
     onJsonDataChanged:
         loadLastElement()
@@ -35,7 +34,7 @@ Item {
             if(currentComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
 
-            GraphFunctions.appendIfNotDuplicated(series)
+            GraphFunctions.lineSeriesList.push(series)
             GraphFunctions.setColors()
         }
         loadAllElements(componentsList)
