@@ -47,19 +47,6 @@ Item {
         }
     }
 
-    function extractComponents(data) {
-        if(data.length !== 0 ) {
-            data = data.foo
-            var compoList = []
-            for(var i = 0; i < data.length; i++) {
-                compoList.push(data[i].Component)
-            }
-            var flatCompoList = [].concat.apply([], compoList);
-            return flatCompoList
-        }
-        return []
-    }
-
     QtObject {
         id: stateEnum
         //some of these state bits can be active in parallel
@@ -111,7 +98,6 @@ Item {
                     id: energyChart
                     graphHeight: parent.height
                     graphWidth: parent.width
-                    componentsList: SessionState.emobSession && SessionState.dcSession ? extractComponents(jsonEnergyDC) : extractComponents(jsonEnergyAC)
                 }
             }
 
