@@ -14,12 +14,33 @@ import AxisAutoScaler 1.0
 
 Item {
     id:  root
+    property var graphHeight
+    property var graphWidth
+    readonly property int storageNumber: 0
     readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
     readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
     readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
+    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
+                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
+    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
+                                                 { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
 
-    property var graphHeight
-    property var graphWidth
+    property int parStartStop
+    onParStartStopChanged: {
+        if(SessionState.emobSession) {
+            if(parStartStop === 1) {
+                var inputJson
+                if(SessionState.dcSession)
+                    inputJson = jsonEnergyDC
+                else
+                    inputJson = jsonEnergyAC
+                if(VeinEntity.getEntity("_System").DevMode)
+                    Vf_Recorder.startLogging(storageNumber, inputJson)
+            }
+            else if(parStartStop === 0)
+                Vf_Recorder.stopLogging(storageNumber)
+        }
+    }
     property var jsonData : Vf_Recorder.lastStoredValues0
     onJsonDataChanged:
         loadLastElement()
