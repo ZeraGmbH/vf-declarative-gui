@@ -18,34 +18,12 @@ Item {
     clip: true
 
     property QtObject errCalEntity
-    readonly property int storageNumber: 0
     property var moduleIntrospection
     property int status: errCalEntity.ACT_Status
     property string actualValue
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: height > 0 ? height * 0.03 : 10
-    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
-                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
-    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
-                                                 { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
-
-    property int parStartStop: errCalEntity.PAR_StartStop
-    onParStartStopChanged: {
-        if(SessionState.emobSession) {
-            if(parStartStop === 1) {
-                var inputJson
-                if(SessionState.dcSession)
-                    inputJson = jsonEnergyDC
-                else
-                    inputJson = jsonEnergyAC
-                if(VeinEntity.getEntity("_System").DevMode)
-                    Vf_Recorder.startLogging(storageNumber, inputJson)
-            }
-            else if(parStartStop === 0)
-                Vf_Recorder.stopLogging(storageNumber)
-        }
-    }
 
     QtObject {
         id: stateEnum
@@ -98,6 +76,7 @@ Item {
                     id: energyChart
                     graphHeight: parent.height
                     graphWidth: parent.width
+                    parStartStop: root.errCalEntity.PAR_StartStop
                 }
             }
 
