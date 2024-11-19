@@ -19,6 +19,7 @@ endfunction()
 SETUP_TESTS(
     test_rowautoscaler
     test_updatewrapper
+    test_axisautoscaler
     )
 
 target_sources(test_updatewrapper
