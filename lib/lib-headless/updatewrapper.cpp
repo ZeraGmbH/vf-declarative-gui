@@ -66,6 +66,12 @@ QStringList UpdateWrapper::getOrderedPackageList(QString zupLocation)
 {
     QStringList orderedZups = QDir(zupLocation).entryList(QStringList("*.zup"), QDir::Files);
 
+    // remove everything from zup list which starts with "wm"
+    orderedZups.erase(std::remove_if(orderedZups.begin(),
+                                     orderedZups.end(),
+                                     [](const QString &str) { return str.startsWith("wm", Qt::CaseInsensitive); }),
+                      orderedZups.end());
+
     if (orderedZups.contains("zera-updater.zup"))
         orderedZups.move(orderedZups.indexOf("zera-updater.zup"), 0);
 
@@ -75,12 +81,9 @@ QStringList UpdateWrapper::getOrderedPackageList(QString zupLocation)
     if (orderedZups.contains("com5003-mt310s2.zup"))
         orderedZups.move(orderedZups.indexOf("com5003-mt310s2.zup"), orderedZups.size() - 1);
 
-    for (auto &item : orderedZups) {
-        // remove all zups of form wm*.zup
-        if (item.indexOf("wm") == 0)
-            orderedZups.removeAll(item);
+    for (auto &item : orderedZups)
         item = zupLocation + "/" + item;
-    }
+
     return orderedZups;
 }
 
