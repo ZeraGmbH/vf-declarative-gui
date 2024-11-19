@@ -43,11 +43,13 @@ Vf_Recorder::Vf_Recorder(QObject *parent): QObject(parent)
 void Vf_Recorder::startLogging(int storageNum, QJsonObject inputJson)
 {
     readJson(inputJson, storageNum);
+    qInfo("Vf_Recorder started logging.");
 }
 
 void Vf_Recorder::stopLogging(int storageNum)
 {
     m_dataCollect[storageNum]->stopLogging();
+    qInfo("Vf_Recorder stopped logging.");
 }
 
 QJsonObject Vf_Recorder::getStoredValues0()
