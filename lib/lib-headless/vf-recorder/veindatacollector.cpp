@@ -26,11 +26,13 @@ void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponent
             m_storageFilter.add(entityId, componentName);
     }
     m_targetEntityComponents = entitesAndComponents;
+    qInfo("VeinDataCollector started logging.");
 }
 
 void VeinDataCollector::stopLogging()
 {
     m_storageFilter.clear();
+    qInfo("VeinDataCollector stopped logging.");
 }
 
 QJsonObject VeinDataCollector::getAllStoredValues()
