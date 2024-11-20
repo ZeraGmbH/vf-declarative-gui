@@ -295,10 +295,11 @@ Item {
                 height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
+                interactive: (parStartStop === 1) ? false : true
                 ScrollBar.horizontal: ScrollBar {
                    height: 9
                    policy: ScrollBar.AlwaysOn
-                   interactive: true
+                   interactive: chartViewPowerFlickable.interactive
                    property real oldPosition: 0
                    onPositionChanged: {
                        let axisXRange = axisXPower.max - axisXPower.min;
@@ -372,13 +373,14 @@ Item {
                 height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
+                interactive: (parStartStop === 1) ? false : true
                 contentWidth: chartViewPowerFlickable.contentWidth
                 ScrollBar.horizontal: ScrollBar {
                     id: hbar
                     policy: ScrollBar.AlwaysOn
                     anchors.bottom: parent.bottom
                     height: 9
-                    interactive: true
+                    interactive: chartViewFlickable.interactive
                     property real oldPosition: 0
                     onPositionChanged: {
                         let axisXRange = axisX.max - axisX.min;
