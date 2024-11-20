@@ -309,6 +309,7 @@ Item {
                            chartViewPower.scrollRight(-scrollAmount)
                        oldPosition = position
                    }
+                   position: 1.0 - size
                 }
             }
             LineSeries {
@@ -388,6 +389,7 @@ Item {
                             chartView.scrollRight(-scrollAmount)
                         oldPosition = position
                     }
+                    position: 1.0 - size
                 }
             }
             LineSeries {
