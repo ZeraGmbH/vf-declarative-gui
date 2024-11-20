@@ -34,8 +34,10 @@ Item {
                     inputJson = jsonEnergyDC
                 else
                     inputJson = jsonEnergyAC
-                if(VeinEntity.getEntity("_System").DevMode)
+                if(VeinEntity.getEntity("_System").DevMode) {
+                    GraphFunctions.prepareCharts()
                     Vf_Recorder.startLogging(storageNumber, inputJson)
+                }
             }
             else if(parStartStop === 0)
                 Vf_Recorder.stopLogging(storageNumber)
