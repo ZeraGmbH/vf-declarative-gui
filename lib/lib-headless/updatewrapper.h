@@ -32,7 +32,7 @@ private:
     QStringList m_zupsToBeInstalled;
     std::unique_ptr<TaskContainerInterface> m_tasks;
     bool m_updateOk;
-    UpdateStatus m_status;
+    UpdateStatus m_status = UpdateStatus::Invalid;
 signals:
     void sigUpdateOkChanged();
     void sigStatusChanged();
