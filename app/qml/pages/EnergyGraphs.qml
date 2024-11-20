@@ -265,8 +265,7 @@ Item {
             anchors.rightMargin: chartView.height * 0.1
             anchors.topMargin: 0
             anchors.bottomMargin: 0
-            anchors.left: chartView.left
-            anchors.right: chartView.right
+            width: root.graphWidth
             anchors.top: phasesLoader.bottom
             antialiasing: true
             theme: ChartView.ChartThemeDark
@@ -289,21 +288,13 @@ Item {
                 labelFormat: "%d"
             }
             Flickable {
+                id : chartViewPowerFlickable
                 anchors.fill: parent
                 boundsBehavior: Flickable.StopAtBounds
                 width: root.width
                 height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
-                contentWidth: {
-                    var width = 0.0
-                    var lineSeriesList = GraphFunctions.lineSeriesList
-                    for(var k = 0 ; k < lineSeriesList.length; k++) {
-                        if(powerComponents.includes(lineSeriesList[k].name))
-                            width = graphWidth * lineSeriesList[k].count * 0.045
-                    }
-                    return width
-                }
                 ScrollBar.horizontal: ScrollBar {
                    height: 9
                    policy: ScrollBar.AlwaysOn
@@ -319,7 +310,6 @@ Item {
                        oldPosition = position
                    }
                 }
-
                 LineSeries {
                     id: lineSeriesP
                     axisX: axisXPower
@@ -327,11 +317,19 @@ Item {
                     color: GC.colorUAux1
                 }
             }
+            onSeriesAdded: {
+                chartViewPowerFlickable.contentWidth = Qt.binding(function() {
+                    if(GraphFunctions.lineSeriesList.length > 0)
+                        return root.graphWidth + (GraphFunctions.lineSeriesList[0].count - 20) * 10
+                    else
+                        return root.graphWidth
+                })
+            }
        }
         ChartView {
             id: chartView
             height: root.graphHeight / 2
-            width: root.graphWidth * 1.08
+            width: root.graphWidth
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: chartViewPower.bottom
             anchors.topMargin: 0
@@ -366,23 +364,14 @@ Item {
             }
 
             Flickable {
+                id: chartViewFlickable
                 anchors.fill: parent
                 boundsBehavior: Flickable.StopAtBounds
                 width: root.width
                 height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
-                contentHeight: chartView.height
-                contentWidth: {
-                    var width = 0.0
-                    var lineSeriesList = GraphFunctions.lineSeriesList;
-                    for (var i = 0; i < lineSeriesList.length; i++) {
-                        if (powerComponents.includes(lineSeriesList[i].name)) {
-                            width = graphWidth * lineSeriesList[i].count * 0.045;
-                        }
-                    }
-                    return width
-                }
+                contentWidth: chartViewPowerFlickable.contentWidth
                 ScrollBar.horizontal: ScrollBar {
                     id: hbar
                     policy: ScrollBar.AlwaysOn
