@@ -310,12 +310,12 @@ Item {
                        oldPosition = position
                    }
                 }
-                LineSeries {
-                    id: lineSeriesP
-                    axisX: axisXPower
-                    axisY: axisYPower
-                    color: GC.colorUAux1
-                }
+            }
+            LineSeries {
+                id: lineSeriesP
+                axisX: axisXPower
+                axisY: axisYPower
+                color: GC.colorUAux1
             }
             onSeriesAdded: {
                 chartViewPowerFlickable.contentWidth = Qt.binding(function() {
@@ -389,12 +389,12 @@ Item {
                         oldPosition = position
                     }
                 }
-                LineSeries {
-                    id: lineSeriesU
-                    axisX: axisX
-                    axisY: axisYLeft
-                    color: GC.colorUAux1
-                }
+            }
+            LineSeries {
+                id: lineSeriesU
+                axisX: axisX
+                axisY: axisYLeft
+                color: GC.colorUAux1
             }
             LineSeries {
                 id: lineSeriesI
