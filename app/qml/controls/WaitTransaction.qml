@@ -109,6 +109,9 @@ Popup {
             return colorTxt
         }
         visible: root.warningTxtArr.length + root.errorTxtArr.length > 0
+        wrapMode: Label.WordWrap
+        width: parent.width * 0.9
+        height: implicitHeight
     }
     Loader {
         id: animationLoader
