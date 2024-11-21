@@ -7,6 +7,7 @@ import FunctionTools 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import FontAwesomeQml 1.0
+import '..'
 
 Item {
     id: root
@@ -144,6 +145,10 @@ Item {
         repeat: false
         onTriggered: {
             loggerEntity.LoggingEnabled = false
+            if(loggerEntity.DatabaseReady) // We have not really an error handling
+                waitPopup.stopWait([], [], null)
+            else
+                waitPopup.stopWait([], [Z.tr("Could not store snapshot in database. Please save logs and send them to service@zera.de.")], null)
         }
     }
     // Endof TODO
@@ -178,6 +183,11 @@ Item {
         onClicked: {
             GC.setLoggerContentType(checkedButton.enumContentType)
         }
+    }
+
+    WaitTransaction {
+        id: waitPopup
+        animationComponent: AnimationSlowBits { }
     }
 
     // menu with logger operations
@@ -328,6 +338,7 @@ Item {
             onTriggered: {
                 snapshotTrigger = true;
                 if(sessionNameLogger !== "") {
+                    waitPopup.startWait(Z.tr("Store snapshot"))
                     startLogging()
                 }
                 else {
