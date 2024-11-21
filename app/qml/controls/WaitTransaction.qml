@@ -100,6 +100,7 @@ Popup {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         font.pointSize: pointSize
+        horizontalAlignment: Label.AlignHCenter
         text: {
             let colorTxt = ''
             root.warningTxtArr.forEach(txt =>
