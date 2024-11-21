@@ -321,7 +321,7 @@ Item {
             }
             onSeriesAdded: {
                 chartViewPowerFlickable.contentWidth = Qt.binding(function() {
-                    if(GraphFunctions.lineSeriesList.length > 0)
+                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > 20))
                         return root.graphWidth + (GraphFunctions.lineSeriesList[0].count - 20) * 10
                     else
                         return root.graphWidth
