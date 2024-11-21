@@ -139,6 +139,15 @@ Item {
             propertyLoopAvoidingLoggingEnabledTimer.start();
         }
     }
+    // If the database is removed logEnabled might not report true
+    readonly property bool databaseReady: loggerEntity.DatabaseReady
+    onDatabaseReadyChanged: {
+        if(snapshotTrigger && !databaseReady) {
+            snapshotTrigger = false;
+            propertyLoopAvoidingLoggingEnabledTimer.start();
+        }
+    }
+
     Timer {
         id: propertyLoopAvoidingLoggingEnabledTimer
         interval: 0
