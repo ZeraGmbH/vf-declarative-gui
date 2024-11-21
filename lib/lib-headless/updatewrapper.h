@@ -21,7 +21,7 @@ public:
     Q_PROPERTY(UpdateStatus status READ getStatus NOTIFY sigStatusChanged);
     Q_INVOKABLE void startInstallation();
     QString searchForPackages(QString mountPath);
-    QStringList getOrderedPackageList(QString zupLocation);
+    QStringList orderPackageList(QStringList zupList);
     bool getUpdateOk() const;
     void setUpdateOk(bool ok);
     UpdateStatus getStatus() const;
