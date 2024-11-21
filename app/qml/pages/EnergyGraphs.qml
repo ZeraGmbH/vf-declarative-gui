@@ -300,15 +300,16 @@ Item {
                    height: 9
                    policy: ScrollBar.AlwaysOn
                    interactive: chartViewPowerFlickable.interactive
-                   property real oldPosition: 0
                    onPositionChanged: {
-                       let axisXRange = axisXPower.max - axisXPower.min;
-                       let scrollAmount = (position - oldPosition) * axisXRange * 100;
-                       if(position > oldPosition)
-                           chartViewPower.scrollLeft(scrollAmount)
-                        else
-                           chartViewPower.scrollRight(-scrollAmount)
-                       oldPosition = position
+                       if(chartViewPowerFlickable.interactive) {
+                           let currentPosition = chartViewPowerFlickable.visibleArea.xPosition
+                           let positionDiff = position - currentPosition
+                           let scrollAmount = chartViewPowerFlickable.contentWidth * positionDiff
+                           if(positionDiff < 0)
+                               chartViewPower.scrollLeft(-scrollAmount)
+                            else
+                               chartViewPower.scrollRight(scrollAmount)
+                       }
                    }
                    position: 1.0 - size
                 }
