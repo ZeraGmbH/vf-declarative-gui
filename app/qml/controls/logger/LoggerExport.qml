@@ -39,8 +39,10 @@ Item {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // mounted sticks
     // vein components for convenience
     readonly property string databaseName: loggerEntity ? loggerEntity.DatabaseFile : ""
-    readonly property string sessionName: loggerEntity ? loggerEntity.sessionName : ""
-    onSessionNameChanged: editExportName.setExportNameDefault()
+    readonly property string sessionName: loggerEntity ? loggerEntity.sessionName : "" // this binding is broken by sessionSelectCombo
+    onSessionNameChanged: {
+        sessionSelectComboDelay.restart() // immediate selection does not work
+    }
     readonly property alias mountedPaths: mountedDrivesCombo.mountedPaths
 
     // make current export type commonly accessible / set by combo export type
@@ -319,6 +321,35 @@ Item {
                 font.pointSize: root.pointSize
             }
         }
+        Row { // Session select
+            visible: exportType == "EXPORT_TYPE_MTVIS"
+            height: rowHeight
+            Label {
+                text: Z.tr("Session:")
+                width: labelWidth
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                verticalAlignment: Text.AlignVCenter
+                font.pointSize: pointSize
+            }
+            ComboBox {
+                id: sessionSelectCombo
+                width: contentWidth
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                font.pointSize: root.pointSize
+                model: existingSessions
+                readonly property var existingSessions: loggerEntity.ExistingSessions.sort()
+                currentIndex: sessionSelectCombo.existingSessions.indexOf(sessionName)
+                Timer {
+                    id: sessionSelectComboDelay
+                    interval: 300; repeat: false
+                    onTriggered: {
+                        sessionSelectCombo.currentIndex = sessionSelectCombo.existingSessions.indexOf(sessionName)
+                    }
+                }
+            }
+        }
         Row { // Export Name
             height: rowHeight
             visible: exportType !== "EXPORT_TYPE_MTVIS" || sessionName !== ""
@@ -337,16 +368,26 @@ Item {
                 anchors.bottom: parent.bottom
                 pointSize: root.pointSize
                 textField.anchors.rightMargin: 0
-                property alias aliasExportType: root.exportType
-                property var regExCurr
+                property var regExCurr: {
+                    if(exportType == "EXPORT_TYPE_MTVIS")
+                        return /\b[_a-z0-9][_\-a-z0-9]*\b/
+                    if(exportType == "EXPORT_TYPE_SQLITE")
+                        return /\b[_a-z0-9][_\-a-z0-9]*.db\b/
+                }
+                readOnly: {
+                    if(exportType == "EXPORT_TYPE_MTVIS")
+                        return sessionSelectCombo.currentText === ""
+                    return true
+                }
+                placeholderText: {
+                    if(exportType == "EXPORT_TYPE_MTVIS")
+                        return Z.tr("Name of export path")
+                    return ""
+                }
                 validator: RegExpValidator {
                     regExp: editExportName.regExCurr
                 }
-                onAliasExportTypeChanged: {
-                    setExportNameDefault()
-                }
-                // set default export name
-                function setExportNameDefault() {
+                text:  {
                     // Note on regexes:
                     // our target is windows most likely so to avoid trouble:
                     // * allow lower case only - Windows is not case sensitive
@@ -354,10 +395,9 @@ Item {
                     // * for MTVis: do not allow '.' for paths
                     switch(exportType) {
                     case "EXPORT_TYPE_MTVIS":
-                        regExCurr = /\b[_a-z0-9][_\-a-z0-9]*\b/
-                        // suggest sessionName (yes we need to ask for overwrite e.g for the cause
+                        // suggest sessionName from combo (yes we need to ask for overwrite e.g for the cause
                         // of multiple storining of same session name in multiple dbs)
-                        let sessionLow = sessionName.toLowerCase()
+                        let sessionLow = sessionSelectCombo.currentText.toLowerCase()
                         let jRegEx =  RegExp(regExCurr, 'g')
                         let match
                         let str = ""
@@ -368,16 +408,9 @@ Item {
                             }
                             str += match[0]
                         }
-                        text = str
-                        readOnly = sessionName === ""
-                        placeholderText = Z.tr("Name of export path")
-                        break
+                        return str
                     case "EXPORT_TYPE_SQLITE":
-                        regExCurr = /\b[_a-z0-9][_\-a-z0-9]*.db\b/
-                        text = databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()
-                        readOnly = true
-                        placeholderText = ""
-                        break
+                        return databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()
                     }
                 }
             }
