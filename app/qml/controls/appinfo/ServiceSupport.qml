@@ -60,9 +60,9 @@ Item {
                 waitPopup.startWait(Z.tr("Starting update..."))
             else {
                 if(installStatus === UpdateWrapper.PackageNotFound)
-                    waitPopup.stopWait([], [Z.tr("Could not find update files. Check USB...")])
+                    waitPopup.stopWait([], [Z.tr("Could not update. Please check if necessary files are available.")])
                 if(installStatus === UpdateWrapper.Failure)
-                    waitPopup.stopWait([],[Z.tr("Update failed, check logs...")],null)
+                    waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
                 if(installStatus === UpdateWrapper.Success)
                     waitPopup.stopWait([],[],null)
             }
