@@ -26,7 +26,9 @@ void UpdateWrapper::startInstallation()
 
     TaskTemplatePtr checkAvailableSpace = TaskLambdaRunner::create([this]() {
         QStorageInfo storageInfo = QStorageInfo::root();
-        if (storageInfo.bytesAvailable()/1000/1000 < 400) {
+        int megaBytesAvailable = storageInfo.bytesAvailable()/1000/1000;
+        if (megaBytesAvailable < 400) {
+            qWarning() << "Not enough space available: " << megaBytesAvailable << " MB";
             setStatus(UpdateStatus::NotEnoughSpace);
             return false;
         }
