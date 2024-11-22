@@ -37,7 +37,7 @@ void UpdateWrapper::startInstallation()
     TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
         QStringList unOrderedZupList = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
         QStringList orderedZupList = orderPackageList(unOrderedZupList);
-        for (auto &item : unOrderedZupList)
+        for (auto &item : orderedZupList)
             item = m_pathToZups + "/" + item;
 
         m_zupsToBeInstalled = orderedZupList;
