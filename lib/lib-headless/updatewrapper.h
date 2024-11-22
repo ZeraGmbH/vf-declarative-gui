@@ -12,8 +12,9 @@ public:
         Invalid = 0,
         InProgress = 1,
         PackageNotFound = 2,
-        Failure = 3,
-        Success = 4
+        NotEnoughSpace = 3,
+        Failure = 4,
+        Success = 5
     };
     Q_ENUM(UpdateStatus)
 

@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QProcess>
+#include <QStorageInfo>
 
 void UpdateWrapper::startInstallation()
 {
@@ -22,6 +23,16 @@ void UpdateWrapper::startInstallation()
         return true;
     });
     m_tasks->addSub(std::move(findCorrectMountLocation));
+
+    TaskTemplatePtr checkAvailableSpace = TaskLambdaRunner::create([this]() {
+        QStorageInfo storageInfo = QStorageInfo::root();
+        if (storageInfo.bytesAvailable()/1000/1000 < 400) {
+            setStatus(UpdateStatus::NotEnoughSpace);
+            return false;
+        }
+        return true;
+    });
+    m_tasks->addSub(std::move(checkAvailableSpace));
 
     TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
         QStringList unOrderedZupList = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
