@@ -347,7 +347,7 @@ Item {
             onTriggered: {
                 snapshotTrigger = true;
                 if(sessionNameLogger !== "") {
-                    waitPopup.startWait(Z.tr("Store snapshot"))
+                    waitPopup.startWait("")
                     startLogging()
                 }
                 else {
