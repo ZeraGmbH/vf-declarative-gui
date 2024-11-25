@@ -290,10 +290,8 @@ Item {
                 labelFormat: "%d"
             }
             onNewXMinChanged: {
-                if(chartViewPowerFlickable.interactive) {
-                    axisXPower.min = Math.ceil(newXMin)
-                    axisXPower.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
-                }
+                axisXPower.min = Math.ceil(newXMin)
+                axisXPower.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
             }
 
             Flickable {
@@ -372,10 +370,8 @@ Item {
                 labelFormat: "%d"
             }
             onNewXMinChanged: {
-                if(chartViewFlickable.interactive) {
-                    axisX.min = Math.ceil(newXMin)
-                    axisX.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
-                }
+                axisX.min = Math.ceil(newXMin)
+                axisX.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
             }
             Flickable {
                 id: chartViewFlickable
@@ -386,6 +382,7 @@ Item {
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 interactive: (parStartStop === 1) ? false : true
+                contentWidth : chartViewPowerFlickable.contentWidth
                 ScrollBar.horizontal: ScrollBar {
                     policy: ScrollBar.AlwaysOn
                     anchors.bottom: parent.bottom
@@ -410,17 +407,6 @@ Item {
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIAux1
-            }
-            onSeriesAdded: {
-                chartViewFlickable.contentWidth = Qt.binding(function() {
-                    let actualGraphWidth = root.graphWidth * 0.8356
-                    let totalPts = GraphFunctions.xAxisTimeSpanSecs * 2
-                    let singlePointWidth = actualGraphWidth/(totalPts -1)
-                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > totalPts))
-                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - totalPts) * singlePointWidth)
-                    else
-                        return actualGraphWidth
-                })
             }
         }
     }
