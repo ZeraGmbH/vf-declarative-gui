@@ -39,10 +39,6 @@ Item {
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // mounted sticks
     // vein components for convenience
     readonly property string databaseName: loggerEntity ? loggerEntity.DatabaseFile : ""
-    readonly property string sessionName: loggerEntity ? loggerEntity.sessionName : "" // this binding is broken by sessionSelectCombo
-    onSessionNameChanged: {
-        sessionSelectComboDelay.restart() // immediate selection does not work
-    }
     readonly property alias mountedPaths: mountedDrivesCombo.mountedPaths
 
     // make current export type commonly accessible / set by combo export type
@@ -164,7 +160,7 @@ Item {
             },
             { 'type': 'rpc', // main.xml
               'callFunction': () => exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_filter,QString p_inputPath,QString p_outputPath,QString p_parameters,QString p_session)", {
-                                                               "p_session": sessionName,
+                                                               "p_session": sessionSelectCombo.currentText,
                                                                "p_inputPath": databaseName,
                                                                "p_outputPath": targetFilePath + '/main.xml',
                                                                "p_engine": 'zeraconverterengines.MTVisMain',
@@ -184,7 +180,7 @@ Item {
             },
             { 'type': 'rpc',  // result.xml
               'callFunction': () => exportEntity.invokeRPC("RPC_Convert(QString p_engine,QString p_filter,QString p_inputPath,QString p_outputPath,QString p_parameters,QString p_session)", {
-                                                               "p_session": sessionName,
+                                                               "p_session": sessionSelectCombo.currentText,
                                                                "p_inputPath": databaseName,
                                                                "p_outputPath": targetFilePath + '/result.xml',
                                                                "p_engine": 'zeraconverterengines.MTVisRes',
@@ -278,7 +274,7 @@ Item {
                 model: {
                     var comboList = []
                     if(loggerEntity.ExistingSessions.length > 0) {
-                        comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: true, label: Z.tr("MtVis XML") + (sessionName === "" ? "" : " (" +Z.tr("Session:") + " " + sessionName + ")") })
+                        comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: true, label: Z.tr("MtVis XML") + (sessionSelectCombo.currentText === "" ? "" : " (" +Z.tr("Session:") + " " + sessionSelectCombo.currentText + ")") })
                     }
                     else {
                         comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: false, label: Z.tr("MtVis XML - requires stored sessions") })
@@ -340,19 +336,18 @@ Item {
                 font.pointSize: root.pointSize
                 model: existingSessions
                 readonly property var existingSessions: loggerEntity.ExistingSessions.sort()
-                currentIndex: sessionSelectCombo.existingSessions.indexOf(sessionName)
                 Timer {
                     id: sessionSelectComboDelay
                     interval: 300; repeat: false
                     onTriggered: {
-                        sessionSelectCombo.currentIndex = sessionSelectCombo.existingSessions.indexOf(sessionName)
+                        sessionSelectCombo.currentIndex = sessionSelectCombo.existingSessions.indexOf(loggerEntity.sessionName)
                     }
                 }
             }
         }
         Row { // Export Name
             height: rowHeight
-            visible: exportType !== "EXPORT_TYPE_MTVIS" || sessionName !== ""
+            visible: exportType !== "EXPORT_TYPE_MTVIS" || sessionSelectCombo.currentText !== ""
             Label {
                 text: Z.tr("Export name:");
                 width: labelWidth
@@ -395,7 +390,7 @@ Item {
                     // * for MTVis: do not allow '.' for paths
                     switch(exportType) {
                     case "EXPORT_TYPE_MTVIS":
-                        // suggest sessionName from combo (yes we need to ask for overwrite e.g for the cause
+                        // suggest session name from combo (yes we need to ask for overwrite e.g for the cause
                         // of multiple storining of same session name in multiple dbs)
                         let sessionLow = sessionSelectCombo.currentText.toLowerCase()
                         let jRegEx =  RegExp(regExCurr, 'g')
@@ -415,18 +410,6 @@ Item {
                 }
             }
         }
-        Button { // Quick link to select session from here
-            height: rowHeight
-            visible: exportType === "EXPORT_TYPE_MTVIS" && sessionName === ""
-            id: buttonSessionSelect
-            width: contentWidth
-            anchors.right: parent.right
-            text: Z.tr("Please select a session first...")
-            font.pointSize: pointSize
-            onClicked: {
-                menuStackLayout.showSessionNameSelector(true)
-            }
-        }
     }
     Button { // the export 'action' button
         id: buttonExport
@@ -440,7 +423,7 @@ Item {
             let _enabled = editExportName.hasValidInput() && mountedPaths.length > 0
             switch(exportType) {
             case "EXPORT_TYPE_MTVIS":
-                _enabled = _enabled && !tasksExportMtVis.running && sessionName !== "" && databaseName !== ""
+                _enabled = _enabled && !tasksExportMtVis.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
                 break
             case "EXPORT_TYPE_SQLITE":
                 _enabled = _enabled && !tasksExportDb.running && databaseName !== ""
