@@ -11,6 +11,7 @@ import Vf_Recorder 1.0
 Item {
     property var lineSeriesList: []
     property bool timerHasTriggered: false
+    property var maxXValue
 
     function setColors() {
         for(var k = 0; k < lineSeriesList.length; k++) {
@@ -67,6 +68,7 @@ Item {
             axisX.min = 0
         axisXPower.max = axisX.max
         axisXPower.min = axisX.min
+        maxXValue = axisX.max
     }
 
     function setYaxisMinMax(axisY, minValue, maxValue) {

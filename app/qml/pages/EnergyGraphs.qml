@@ -259,17 +259,19 @@ Item {
                 }
             }
         }
+
         ChartView {
             id: chartViewPower
             height: root.graphHeight / 2 - phasesLoader.height
             anchors.rightMargin: chartView.height * 0.1
             anchors.topMargin: 0
             anchors.bottomMargin: 0
-            width: root.graphWidth
             anchors.top: phasesLoader.bottom
+            width: root.graphWidth
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
+            property real newXMin: 0.0
 
             ValueAxis {
                 id: axisYPower
@@ -287,6 +289,13 @@ Item {
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
             }
+            onNewXMinChanged: {
+                if(chartViewPowerFlickable.interactive) {
+                    axisXPower.min = Math.ceil(newXMin)
+                    axisXPower.max = Math.ceil(newXMin + 10)
+                }
+            }
+
             Flickable {
                 id : chartViewPowerFlickable
                 anchors.fill: parent
@@ -297,21 +306,14 @@ Item {
                 clip: true
                 interactive: (parStartStop === 1) ? false : true
                 ScrollBar.horizontal: ScrollBar {
-                   height: 9
-                   policy: ScrollBar.AlwaysOn
-                   interactive: chartViewPowerFlickable.interactive
-                   onPositionChanged: {
-                       if(chartViewPowerFlickable.interactive) {
-                           let currentPosition = chartViewPowerFlickable.visibleArea.xPosition
-                           let positionDiff = position - currentPosition
-                           let scrollAmount = chartViewPowerFlickable.contentWidth * positionDiff
-                           if(positionDiff < 0)
-                               chartViewPower.scrollLeft(-scrollAmount)
-                            else
-                               chartViewPower.scrollRight(scrollAmount)
-                       }
-                   }
-                   position: 1.0 - size
+                    height: 9
+                    policy: ScrollBar.AlwaysOn
+                    interactive: chartViewPowerFlickable.interactive
+                    position: 1.0 - size
+                    onPositionChanged: {
+                        if(chartViewPowerFlickable.interactive)
+                            chartViewPower.newXMin = GraphFunctions.maxXValue * position
+                    }
                 }
             }
             LineSeries {
@@ -322,14 +324,14 @@ Item {
             }
             onSeriesAdded: {
                 chartViewPowerFlickable.contentWidth = Qt.binding(function() {
-                    let actualGraphWidth = root.graphWidth * 0.85
+                    let actualGraphWidth = root.graphWidth * 0.8356
                     if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > 20))
-                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - 20) * actualGraphWidth/20)
+                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - 20) * actualGraphWidth/19)
                     else
                         return actualGraphWidth
                 })
             }
-       }
+        }
         ChartView {
             id: chartView
             height: root.graphHeight / 2
@@ -340,6 +342,7 @@ Item {
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
+            property real newXMin: 0.0
 
             ValueAxis {
                 id: axisYLeft
@@ -366,7 +369,12 @@ Item {
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
             }
-
+            onNewXMinChanged: {
+                if(chartViewFlickable.interactive) {
+                    axisX.min = Math.ceil(newXMin)
+                    axisX.max = Math.ceil(newXMin + 10)
+                }
+            }
             Flickable {
                 id: chartViewFlickable
                 anchors.fill: parent
@@ -376,24 +384,17 @@ Item {
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 interactive: (parStartStop === 1) ? false : true
-                contentWidth: chartViewPowerFlickable.contentWidth
                 ScrollBar.horizontal: ScrollBar {
-                    id: hbar
                     policy: ScrollBar.AlwaysOn
                     anchors.bottom: parent.bottom
                     height: 9
                     interactive: chartViewFlickable.interactive
                     property real oldPosition: 0
-                    onPositionChanged: {
-                        let axisXRange = axisX.max - axisX.min;
-                        let scrollAmount = (position - oldPosition) * axisXRange * 100;
-                        if(position > oldPosition)
-                            chartView.scrollLeft(scrollAmount)
-                         else
-                            chartView.scrollRight(-scrollAmount)
-                        oldPosition = position
-                    }
                     position: 1.0 - size
+                    onPositionChanged: {
+                        if(chartViewFlickable.interactive)
+                            chartView.newXMin = GraphFunctions.maxXValue * position
+                    }
                 }
             }
             LineSeries {
@@ -407,6 +408,15 @@ Item {
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIAux1
+            }
+            onSeriesAdded: {
+                chartViewFlickable.contentWidth = Qt.binding(function() {
+                    let actualGraphWidth = root.graphWidth * 0.8356
+                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > 20))
+                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - 20) * actualGraphWidth/19)
+                    else
+                        return actualGraphWidth
+                })
             }
         }
     }
