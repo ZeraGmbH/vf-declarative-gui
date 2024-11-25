@@ -49,9 +49,7 @@ RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double val)
         return singleResult;
     if(scaleSingleValForPrefix(absVal, 1e0, "", singleResult))
         return singleResult;
-    if(scaleSingleValForPrefix(absVal, 1e-3, "m", singleResult))
-        return singleResult;
-    setScale(1e-6, "µ", singleResult);
+    setScale(1e-3, "m", singleResult);
     return singleResult;
 }
 

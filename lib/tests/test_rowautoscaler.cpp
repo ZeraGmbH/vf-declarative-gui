@@ -8,8 +8,8 @@ void test_rowautoscaler::scale0()
 {
     RowAutoScaler scaler;
     RowAutoScaler::TSingleScaleResult res = scaler.scaleSingleVal(0.0);
-    QCOMPARE(res.unitPrefix, "µ");
-    QCOMPARE(res.scaleFactor, 1e6);
+    QCOMPARE(res.unitPrefix, "m");
+    QCOMPARE(res.scaleFactor, 1e3);
 }
 
 void test_rowautoscaler::scale1()
@@ -150,8 +150,8 @@ void test_rowautoscaler::scale0Point00099()
 {
     RowAutoScaler scaler;
     RowAutoScaler::TSingleScaleResult res = scaler.scaleSingleVal(0.00099);
-    QCOMPARE(res.unitPrefix, "µ");
-    QCOMPARE(res.scaleFactor, 1e6);
+    QCOMPARE(res.unitPrefix, "m");
+    QCOMPARE(res.scaleFactor, 1e3);
 }
 
 void test_rowautoscaler::scale1e6()
