@@ -146,6 +146,8 @@ Item {
             id: verticalScroll
             width: 8
             policy : flickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
+            snapMode: ScrollBar.SnapOnRelease
+            stepSize: 1
         }
 
         PinchArea {
