@@ -34,6 +34,9 @@ Item {
             customerDataList.currentIndex = availableCustomerDataFiles.indexOf(currentCustomerFile) + 1 // first entry is noc customer
         }
     }
+    Component.onCompleted: {
+        sessionNameField.textField.forceActiveFocus()
+    }
 
     CustomerDataNewPopup {
         id: customerDataNewPopup
