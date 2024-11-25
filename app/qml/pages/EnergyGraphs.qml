@@ -292,7 +292,7 @@ Item {
             onNewXMinChanged: {
                 if(chartViewPowerFlickable.interactive) {
                     axisXPower.min = Math.ceil(newXMin)
-                    axisXPower.max = Math.ceil(newXMin + 10)
+                    axisXPower.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
                 }
             }
 
@@ -325,8 +325,10 @@ Item {
             onSeriesAdded: {
                 chartViewPowerFlickable.contentWidth = Qt.binding(function() {
                     let actualGraphWidth = root.graphWidth * 0.8356
-                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > 20))
-                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - 20) * actualGraphWidth/19)
+                    let totalPts = GraphFunctions.xAxisTimeSpanSecs * 2
+                    let singlePointWidth = actualGraphWidth/(totalPts -1)
+                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > totalPts))
+                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - totalPts) * singlePointWidth)
                     else
                         return actualGraphWidth
                 })
@@ -372,7 +374,7 @@ Item {
             onNewXMinChanged: {
                 if(chartViewFlickable.interactive) {
                     axisX.min = Math.ceil(newXMin)
-                    axisX.max = Math.ceil(newXMin + 10)
+                    axisX.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
                 }
             }
             Flickable {
@@ -412,8 +414,10 @@ Item {
             onSeriesAdded: {
                 chartViewFlickable.contentWidth = Qt.binding(function() {
                     let actualGraphWidth = root.graphWidth * 0.8356
-                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > 20))
-                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - 20) * actualGraphWidth/19)
+                    let totalPts = GraphFunctions.xAxisTimeSpanSecs * 2
+                    let singlePointWidth = actualGraphWidth/(totalPts -1)
+                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > totalPts))
+                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - totalPts) * singlePointWidth)
                     else
                         return actualGraphWidth
                 })
