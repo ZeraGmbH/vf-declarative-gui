@@ -12,6 +12,7 @@ Item {
     property var lineSeriesList: []
     property bool timerHasTriggered: false
     property var maxXValue
+    readonly property int xAxisTimeSpanSecs: 8
 
     function setColors() {
         for(var k = 0; k < lineSeriesList.length; k++) {
@@ -62,8 +63,8 @@ Item {
 
     function setXaxisMinMax(axisX, axisXPower, timeDiffSecs) {
         axisX.max = timeDiffSecs
-        if(timeDiffSecs > 10)
-            axisX.min = timeDiffSecs - 10
+        if(timeDiffSecs > xAxisTimeSpanSecs)
+            axisX.min = timeDiffSecs - xAxisTimeSpanSecs
         else
             axisX.min = 0
         axisXPower.max = axisX.max
