@@ -336,6 +336,7 @@ Item {
                 font.pointSize: root.pointSize
                 model: existingSessions
                 readonly property var existingSessions: loggerEntity.ExistingSessions.sort()
+                currentIndex: sessionSelectCombo.existingSessions.indexOf(loggerEntity.sessionName)
                 Timer {
                     id: sessionSelectComboDelay
                     interval: 300; repeat: false
