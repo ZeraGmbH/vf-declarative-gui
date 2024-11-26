@@ -28,6 +28,7 @@ Item {
     property real chartWidth: root.graphWidth * 0.8356
     property int maxVisibleXPoints: GraphFunctions.xAxisTimeSpanSecs * 2
     property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
+    property int maxXValue: 0
 
     property int parStartStop
     onParStartStopChanged: {
@@ -106,19 +107,19 @@ Item {
         for(var v = 0 ; v <components.length; v++) {
             let value = jsonHelper.getValue(singleJsonData, components[v])
             if(powerComponents.includes(components[v]))
-                GraphFunctions.appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisYPower, axisYPowerScaler)
+                GraphFunctions.appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisXPower, axisYPower, axisYPowerScaler)
             else if(voltageComponents.includes(components[v]))
-                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisYLeft, axisYLeftScaler)
+                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYLeft, axisYLeftScaler)
             else if(currentComponents.includes(components[v]))
-                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisYRight, axisYRightScaler)
+                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYRight, axisYRightScaler)
         }
         calculateContentWidth(timeDiffSecs)
+        maxXValue = axisXPower.max
     }
 
     function loadLastElement() {
         var timestamp = Object.keys(jsonData)[0]
         var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
-        GraphFunctions.setXaxisMinMax(axisX, axisXPower, timeDiffSecs)
         var components = jsonHelper.getComponents(jsonData[timestamp])
         loadElement(jsonData[timestamp], components, timeDiffSecs)
     }
@@ -326,7 +327,7 @@ Item {
                     position: 1.0 - size
                     onPositionChanged: {
                         if(chartViewPowerFlickable.interactive)
-                            chartViewPower.newXMin = GraphFunctions.maxXValue * position
+                            chartViewPower.newXMin = root.maxXValue * position
                     }
                 }
             }
@@ -397,7 +398,7 @@ Item {
                     position: 1.0 - size
                     onPositionChanged: {
                         if(chartViewFlickable.interactive)
-                            chartView.newXMin = GraphFunctions.maxXValue * position
+                            chartView.newXMin = root.maxXValue * position
                     }
                 }
             }
