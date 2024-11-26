@@ -40,7 +40,7 @@ Item {
                 else
                     inputJson = jsonEnergyAC
                 if(VeinEntity.getEntity("_System").DevMode) {
-                    GraphFunctions.prepareCharts()
+                    clearCharts()
                     Vf_Recorder.startLogging(storageNumber, inputJson)
                 }
             }
@@ -52,6 +52,13 @@ Item {
     onJsonDataChanged:
         loadLastElement()
 
+    function clearCharts() {
+        for(var i= 0; i < chartView.count; i++)
+            chartView.series(i).clear()
+        for(var j= 0; j < chartViewPower.count; j++)
+            chartViewPower.series(j).clear()
+    }
+
     function createLineSeries(componentsList) {
         for(var component in componentsList) {
             var series;
@@ -62,7 +69,6 @@ Item {
             if(currentComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
 
-            GraphFunctions.lineSeriesList.push(series)
             series.width = 1
             series.color = GraphFunctions.getChannelColor(componentsList[component])
         }
@@ -70,7 +76,6 @@ Item {
     }
 
     function removeLineSeries(componentsList) {
-        var lineSeries = GraphFunctions.lineSeriesList
         var indexOfCompoToRemove = []
         for(var i= 0; i<componentsList.length; i++) {
             if(powerComponents.includes(componentsList[i])) {
@@ -83,17 +88,7 @@ Item {
                 if(series !==null)
                     chartView.removeSeries(series)
             }
-            for(var k = 0; k < lineSeries.length; k++) {
-                if(lineSeries[k].name === componentsList[i]) {
-                    indexOfCompoToRemove.push(k)
-                }
-            }
         }
-        while(indexOfCompoToRemove.length > 0) {
-            var index = indexOfCompoToRemove.pop()
-            lineSeries.splice(index, 1)
-        }
-        GraphFunctions.lineSeriesList = lineSeries
     }
 
     function calculateContentWidth(timeDiffSecs) {
@@ -418,7 +413,6 @@ Item {
         }
     }
     Component.onCompleted: {
-        GraphFunctions.lineSeriesList = []
         if(SessionState.emobSession && SessionState.dcSession) {
             var compos = ["ACT_DC7", "ACT_DC8", "ACT_PQS1"]
             createLineSeries(compos)
