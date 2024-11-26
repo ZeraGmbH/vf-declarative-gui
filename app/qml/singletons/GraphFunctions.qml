@@ -9,7 +9,6 @@ import Vf_Recorder 1.0
 
 
 Item {
-    property var lineSeriesList: []
     property bool timerHasTriggered: false
     property var maxXValue
     readonly property int xAxisTimeSpanSecs: 8
@@ -91,11 +90,6 @@ Item {
         var timeMs = jsonHelper.convertTimestampToMs(timestamp)
         var timeDiffSecs = (timeMs - firstTimestamp)/1000
         return timeDiffSecs
-    }
-
-    function prepareCharts() {
-        for(let i = 0; i < lineSeriesList.length; i++ )
-            lineSeriesList[i].clear()
     }
 
     JsonHelper {
