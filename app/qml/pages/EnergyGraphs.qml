@@ -58,6 +58,9 @@ Item {
             chartView.series(i).clear()
         for(var j= 0; j < chartViewPower.count; j++)
             chartViewPower.series(j).clear()
+
+        axisXPower.max = xAxisTimeSpanSecs
+        axisX.max = xAxisTimeSpanSecs
     }
 
     function createLineSeries(componentsList) {
@@ -93,11 +96,10 @@ Item {
     }
 
     function setXaxisMinMax(axisX, timeDiffSecs) {
-        axisX.max = timeDiffSecs
-        if(timeDiffSecs > xAxisTimeSpanSecs)
-            axisX.min = timeDiffSecs - xAxisTimeSpanSecs
-        else
+        if(axisX.max < timeDiffSecs) {
+            axisX.max = timeDiffSecs + xAxisTimeSpanSecs
             axisX.min = 0
+        }
     }
 
     function setYaxisMinMax(axisY, minValue, maxValue) {
