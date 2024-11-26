@@ -24,6 +24,10 @@ Item {
                                                  { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
     readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
                                                  { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
+    property real contentWidth: 0.0
+    property real chartWidth: root.graphWidth * 0.8356
+    property int maxVisibleXPoints: GraphFunctions.xAxisTimeSpanSecs * 2
+    property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
 
     property int parStartStop
     onParStartStopChanged: {
@@ -90,6 +94,14 @@ Item {
         GraphFunctions.lineSeriesList = lineSeries
     }
 
+    function calculateContentWidth(timeDiffSecs) {
+        let actualPoints = timeDiffSecs * 2
+        if ((GC.showCurvePhaseOne || GC.showCurvePhaseTwo || GC.showCurvePhaseThree || GC.showCurveSum) && (actualPoints > maxVisibleXPoints))
+            root.contentWidth = root.contentWidth + singlePointWidth
+        else
+            root.contentWidth = chartWidth
+    }
+
     function loadElement(singleJsonData, components, timeDiffSecs) {
         for(var v = 0 ; v <components.length; v++) {
             let value = jsonHelper.getValue(singleJsonData, components[v])
@@ -100,6 +112,7 @@ Item {
             else if(currentComponents.includes(components[v]))
                 GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisYRight, axisYRightScaler)
         }
+        calculateContentWidth(timeDiffSecs)
     }
 
     function loadLastElement() {
@@ -304,6 +317,7 @@ Item {
                 height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
+                contentWidth: root.contentWidth
                 interactive: (parStartStop === 1) ? false : true
                 ScrollBar.horizontal: ScrollBar {
                     height: 9
@@ -321,17 +335,6 @@ Item {
                 axisX: axisXPower
                 axisY: axisYPower
                 color: GC.colorUAux1
-            }
-            onSeriesAdded: {
-                chartViewPowerFlickable.contentWidth = Qt.binding(function() {
-                    let actualGraphWidth = root.graphWidth * 0.8356
-                    let totalPts = GraphFunctions.xAxisTimeSpanSecs * 2
-                    let singlePointWidth = actualGraphWidth/(totalPts -1)
-                    if((GraphFunctions.lineSeriesList.length > 0) && (GraphFunctions.lineSeriesList[0].count > totalPts))
-                        return actualGraphWidth + ((GraphFunctions.lineSeriesList[0].count - totalPts) * singlePointWidth)
-                    else
-                        return actualGraphWidth
-                })
             }
         }
         ChartView {
@@ -383,8 +386,8 @@ Item {
                 height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
+                contentWidth: root.contentWidth
                 interactive: (parStartStop === 1) ? false : true
-                contentWidth : chartViewPowerFlickable.contentWidth
                 ScrollBar.horizontal: ScrollBar {
                     policy: ScrollBar.AlwaysOn
                     anchors.bottom: parent.bottom
