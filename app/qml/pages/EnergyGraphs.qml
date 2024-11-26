@@ -58,9 +58,19 @@ Item {
             chartView.series(i).clear()
         for(var j= 0; j < chartViewPower.count; j++)
             chartViewPower.series(j).clear()
+        resetAxesMinMax()
+    }
 
+    function resetAxesMinMax() {
         axisXPower.max = xAxisTimeSpanSecs
         axisX.max = xAxisTimeSpanSecs
+
+        axisYLeft.min = 0
+        axisYLeft.max = 10
+        axisYRight.min = 0
+        axisYRight.max = 10
+        axisYPower.min = 0
+        axisYPower.max = 10
     }
 
     function createLineSeries(componentsList) {
@@ -327,6 +337,8 @@ Item {
                 titleFont.pixelSize: chartViewPower.height * 0.06
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
+                min: 0
+                max : 10
             }
             ValueAxis {
                 id: axisXPower
@@ -390,6 +402,8 @@ Item {
                 titleFont.pixelSize: chartView.height * 0.06
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
+                min: 0
+                max : 10
             }
             ValueAxis {
                 id: axisX
@@ -408,6 +422,8 @@ Item {
                 titleFont.pixelSize: chartView.height * 0.06
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
+                min: 0
+                max : 10
             }
             onNewXMinChanged: {
                 axisX.min = Math.ceil(newXMin)
