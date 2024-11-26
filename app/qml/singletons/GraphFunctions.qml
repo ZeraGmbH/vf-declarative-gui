@@ -61,42 +61,28 @@ Item {
         }
     }
 
-    function setXaxisMinMax(axisX, axisXPower, timeDiffSecs) {
-        if(lineSeriesList.length ===1) { // Case of Power_Sum
-            axisXPower.max = timeDiffSecs
-            if(timeDiffSecs > xAxisTimeSpanSecs)
-                axisXPower.min = timeDiffSecs - xAxisTimeSpanSecs
-            else
-                axisXPower.min = 0
-            maxXValue = axisXPower.max
-        }
-        else if(lineSeriesList.length !== 0) {
-            axisX.max = timeDiffSecs
-            if(timeDiffSecs > xAxisTimeSpanSecs)
-                axisX.min = timeDiffSecs - xAxisTimeSpanSecs
-            else
-                axisX.min = 0
-            axisXPower.max = axisX.max
-            axisXPower.min = axisX.min
-            maxXValue = axisX.max
-        }
+    function setXaxisMinMax(axisX, timeDiffSecs) {
+        axisX.max = timeDiffSecs
+        if(timeDiffSecs > xAxisTimeSpanSecs)
+            axisX.min = timeDiffSecs - xAxisTimeSpanSecs
+        else
+            axisX.min = 0
     }
 
     function setYaxisMinMax(axisY, minValue, maxValue) {
-        if(lineSeriesList.length !==0) {
-            if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
-                axisY.min = minValue
-            if(axisY.max < maxValue)
-                axisY.max = maxValue
-        }
+        if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
+            axisY.min = minValue
+        if(axisY.max < maxValue)
+            axisY.max = maxValue
     }
 
-    function appendPointToSerie(serie, timeDiffSecs, value, axisY, axisYScaler) {
+    function appendPointToSerie(serie, timeDiffSecs, value, axisX, axisY, axisYScaler) {
         if(serie !== null) {
             serie.append(timeDiffSecs, value)
             if(timeDiffSecs === 0)//first sample
                 axisYScaler.reset(value, 0.0)
             axisYScaler.scaleToNewActualValue(value)
+            setXaxisMinMax(axisX, timeDiffSecs)
             setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
         }
     }
