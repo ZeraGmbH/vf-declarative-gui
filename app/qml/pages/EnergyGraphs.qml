@@ -151,6 +151,11 @@ Item {
         height: root.height
         flickableDirection: Flickable.VerticalFlick
         clip: true
+        onMovementEnded: {
+            let pageHeight = chartView.height
+            let currentPage = Math.round(contentY / pageHeight);
+            contentY = currentPage * pageHeight
+        }
 
         ScrollBar.vertical: ScrollBar {
             id: verticalScroll
