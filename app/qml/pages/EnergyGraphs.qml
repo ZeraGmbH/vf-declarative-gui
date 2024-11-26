@@ -16,6 +16,7 @@ Item {
     id:  root
     property var graphHeight
     property var graphWidth
+    readonly property int xAxisTimeSpanSecs: 8
     readonly property int storageNumber: 0
     readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
     readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
@@ -26,7 +27,7 @@ Item {
                                                  { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
     property real contentWidth: 0.0
     property real chartWidth: root.graphWidth * 0.8356
-    property int maxVisibleXPoints: GraphFunctions.xAxisTimeSpanSecs * 2
+    property int maxVisibleXPoints: xAxisTimeSpanSecs * 2
     property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
     property int maxXValue: 0
 
@@ -91,6 +92,32 @@ Item {
         }
     }
 
+    function setXaxisMinMax(axisX, timeDiffSecs) {
+        axisX.max = timeDiffSecs
+        if(timeDiffSecs > xAxisTimeSpanSecs)
+            axisX.min = timeDiffSecs - xAxisTimeSpanSecs
+        else
+            axisX.min = 0
+    }
+
+    function setYaxisMinMax(axisY, minValue, maxValue) {
+        if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
+            axisY.min = minValue
+        if(axisY.max < maxValue)
+            axisY.max = maxValue
+    }
+
+    function appendPointToSerie(serie, timeDiffSecs, value, axisX, axisY, axisYScaler) {
+        if(serie !== null) {
+            serie.append(timeDiffSecs, value)
+            if(timeDiffSecs === 0)//first sample
+                axisYScaler.reset(value, 0.0)
+            axisYScaler.scaleToNewActualValue(value)
+            setXaxisMinMax(axisX, timeDiffSecs)
+            setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
+        }
+    }
+
     function calculateContentWidth(timeDiffSecs) {
         let actualPoints = timeDiffSecs * 2
         if ((GC.showCurvePhaseOne || GC.showCurvePhaseTwo || GC.showCurvePhaseThree || GC.showCurveSum) && (actualPoints > maxVisibleXPoints))
@@ -103,11 +130,11 @@ Item {
         for(var v = 0 ; v <components.length; v++) {
             let value = jsonHelper.getValue(singleJsonData, components[v])
             if(powerComponents.includes(components[v]))
-                GraphFunctions.appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisXPower, axisYPower, axisYPowerScaler)
+                appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisXPower, axisYPower, axisYPowerScaler)
             else if(voltageComponents.includes(components[v]))
-                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYLeft, axisYLeftScaler)
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYLeft, axisYLeftScaler)
             else if(currentComponents.includes(components[v]))
-                GraphFunctions.appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYRight, axisYRightScaler)
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYRight, axisYRightScaler)
         }
         calculateContentWidth(timeDiffSecs)
         maxXValue = axisXPower.max
@@ -308,7 +335,7 @@ Item {
             }
             onNewXMinChanged: {
                 axisXPower.min = Math.ceil(newXMin)
-                axisXPower.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
+                axisXPower.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
             }
 
             Flickable {
@@ -378,7 +405,7 @@ Item {
             }
             onNewXMinChanged: {
                 axisX.min = Math.ceil(newXMin)
-                axisX.max = Math.ceil(newXMin + GraphFunctions.xAxisTimeSpanSecs)
+                axisX.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
             }
             Flickable {
                 id: chartViewFlickable

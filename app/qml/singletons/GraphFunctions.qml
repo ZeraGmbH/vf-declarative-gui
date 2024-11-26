@@ -11,7 +11,6 @@ import Vf_Recorder 1.0
 Item {
     property bool timerHasTriggered: false
     property var maxXValue
-    readonly property int xAxisTimeSpanSecs: 8
 
     function getChannelColor(componentName) {
         let color = "white"
@@ -57,32 +56,6 @@ Item {
             break;
         }
         return color
-    }
-
-    function setXaxisMinMax(axisX, timeDiffSecs) {
-        axisX.max = timeDiffSecs
-        if(timeDiffSecs > xAxisTimeSpanSecs)
-            axisX.min = timeDiffSecs - xAxisTimeSpanSecs
-        else
-            axisX.min = 0
-    }
-
-    function setYaxisMinMax(axisY, minValue, maxValue) {
-        if(axisY.min === 0 || axisY.min > minValue) //0 is the default min value
-            axisY.min = minValue
-        if(axisY.max < maxValue)
-            axisY.max = maxValue
-    }
-
-    function appendPointToSerie(serie, timeDiffSecs, value, axisX, axisY, axisYScaler) {
-        if(serie !== null) {
-            serie.append(timeDiffSecs, value)
-            if(timeDiffSecs === 0)//first sample
-                axisYScaler.reset(value, 0.0)
-            axisYScaler.scaleToNewActualValue(value)
-            setXaxisMinMax(axisX, timeDiffSecs)
-            setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
-        }
     }
 
     function calculateTimeDiffSecs(timestamp) {
