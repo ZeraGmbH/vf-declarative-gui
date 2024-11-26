@@ -334,6 +334,8 @@ Item {
                 titleFont.pointSize: chartViewPower.height * 0.04
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
+                min: 0
+                max : xAxisTimeSpanSecs
             }
             onNewXMinChanged: {
                 axisXPower.min = Math.ceil(newXMin)
@@ -395,6 +397,8 @@ Item {
                 titleFont.pointSize: chartView.height * 0.04
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
+                min: 0
+                max : xAxisTimeSpanSecs
             }
             ValueAxis {
                 id: axisYRight
