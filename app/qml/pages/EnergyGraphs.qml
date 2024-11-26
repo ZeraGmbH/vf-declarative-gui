@@ -63,7 +63,8 @@ Item {
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
 
             GraphFunctions.lineSeriesList.push(series)
-            GraphFunctions.setColors()
+            series.width = 1
+            series.color = GraphFunctions.getChannelColor(componentsList[component])
         }
         loadAllElements(componentsList)
     }
