@@ -31,6 +31,11 @@ Item {
     property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
     property int maxXValue: 0
 
+    readonly property string currentSession: SessionState.currentSession
+    onCurrentSessionChanged: {
+        if(parStartStop === 1)
+            Vf_Recorder.stopLogging(storageNumber)
+    }
     property int parStartStop
     onParStartStopChanged: {
         if(SessionState.emobSession) {
