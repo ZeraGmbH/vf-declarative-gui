@@ -67,8 +67,10 @@ Item {
     }
 
     function resetAxesMinMax() {
-        axisXPower.max = xAxisTimeSpanSecs
-        axisX.max = xAxisTimeSpanSecs
+        axisXPower.min = 0
+        axisXPower.max = root.xAxisTimeSpanSecs
+        axisX.min = 0
+        axisX.max = root.xAxisTimeSpanSecs
 
         axisYLeft.min = 0
         axisYLeft.max = 10
