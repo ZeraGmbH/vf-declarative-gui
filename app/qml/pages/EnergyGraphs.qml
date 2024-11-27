@@ -33,6 +33,7 @@ Item {
 
     readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
+        Vf_Recorder.clearJson(storageNumber)
         if(parStartStop === 1)
             Vf_Recorder.stopLogging(storageNumber)
     }

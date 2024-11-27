@@ -20,6 +20,7 @@ public:
     void stopLogging();
     QJsonObject getAllStoredValues();
     QJsonObject getLastStoredValues();
+    void clearJson();
 signals:
     // Ideas:
     // * replace internal data QJsoonObject by

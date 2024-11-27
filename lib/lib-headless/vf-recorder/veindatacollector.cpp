@@ -45,6 +45,11 @@ QJsonObject VeinDataCollector::getLastStoredValues()
     return m_lastJsonObject;
 }
 
+void VeinDataCollector::clearJson()
+{
+    m_jsonObject = QJsonObject();
+}
+
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
 {
     Q_UNUSED(timeStamp)
