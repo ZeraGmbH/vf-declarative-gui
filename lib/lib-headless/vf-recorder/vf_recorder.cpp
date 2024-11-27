@@ -52,6 +52,12 @@ void Vf_Recorder::stopLogging(int storageNum)
     qInfo("Vf_Recorder stopped logging.");
 }
 
+void Vf_Recorder::clearJson(int storageNum)
+{
+    m_dataCollect.at(0)->clearJson();
+    emit newStoredValues(storageNum);
+}
+
 QJsonObject Vf_Recorder::getStoredValues0()
 {
     return getAllStoredValues(0);
