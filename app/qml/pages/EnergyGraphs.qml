@@ -319,11 +319,11 @@ Item {
         ChartView {
             id: chartViewPower
             height: root.graphHeight / 2 - phasesLoader.height
-            anchors.rightMargin: chartView.height * 0.1
+            width: root.graphWidth * 1.032
             anchors.topMargin: 0
             anchors.bottomMargin: 0
             anchors.top: phasesLoader.bottom
-            width: root.graphWidth
+            x: - root.graphWidth * 0.032
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
@@ -385,10 +385,11 @@ Item {
         ChartView {
             id: chartView
             height: root.graphHeight / 2
-            width: root.graphWidth
+            width: root.graphWidth * 1.065
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: chartViewPower.bottom
             anchors.topMargin: 0
+            x: - root.graphWidth * 0.032
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
