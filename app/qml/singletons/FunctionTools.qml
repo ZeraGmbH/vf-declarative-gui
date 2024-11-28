@@ -184,7 +184,8 @@ Item {
         return formatNumberParam(num, GC.digitsTotal, GC.decimalPlaces)
     }
     function formatNumberForScaledValues(num) {
-        return formatNumberParamForScaledValues(num, GC.digitsTotal, GC.decimalPlaces)
+        let strNum = formatNumberParamForScaledValues(num, GC.digitsTotal, GC.decimalPlaces)
+        return removeDecimalGroupSeparators(strNum)
     }
     function formatNumberParamForScaledValues(num, _digitsTotal, _decimalPlaces) {
         if(num === undefined)
