@@ -206,7 +206,8 @@ Item {
 
         ScrollBar.vertical: ScrollBar {
             id: verticalScroll
-            width: 8
+            width: flickable.width * 0.013
+            anchors.right: parent.right
             policy : flickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
             snapMode: ScrollBar.SnapOnRelease
             stepSize: 1
@@ -373,8 +374,9 @@ Item {
                 contentWidth: root.contentWidth
                 interactive: (parStartStop === 1) ? false : true
                 ScrollBar.horizontal: ScrollBar {
-                    height: 9
+                    height: chartViewPowerFlickable.height * 0.03
                     policy: ScrollBar.AlwaysOn
+                    anchors.bottom: parent.bottom
                     interactive: chartViewPowerFlickable.interactive
                     position: 1.0 - size
                     onPositionChanged: {
@@ -449,11 +451,10 @@ Item {
                 contentWidth: root.contentWidth
                 interactive: (parStartStop === 1) ? false : true
                 ScrollBar.horizontal: ScrollBar {
+                    height: chartViewFlickable.height * 0.03
                     policy: ScrollBar.AlwaysOn
                     anchors.bottom: parent.bottom
-                    height: 9
                     interactive: chartViewFlickable.interactive
-                    property real oldPosition: 0
                     position: 1.0 - size
                     onPositionChanged: {
                         if(chartViewFlickable.interactive)
