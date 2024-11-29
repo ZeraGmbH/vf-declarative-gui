@@ -1,6 +1,7 @@
 #ifndef VEINDATACOLLECTOR_H
 #define VEINDATACOLLECTOR_H
 
+#include "timerperiodicqt.h"
 #include <vs_abstracteventsystem.h>
 #include <vs_storagefilter.h>
 #include <vs_timestampersettable.h>
@@ -31,6 +32,7 @@ signals:
 
 private slots:
     void appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp);
+    void TimerExpired();
 private:
     RecordedEntityComponents appendToExistingRecord(RecordedEntityComponents existingRecord, int entityId, QString componentName, QVariant value);
     RecordedEntityComponents prepareNewRecord(int entityId, QString componentName, QVariant value);
@@ -43,6 +45,7 @@ private:
     QJsonObject m_jsonObject;
     QJsonObject m_lastJsonObject;
     TimeStampedRecords m_currentTimestampRecord;
+    TimerTemplateQtPtr m_periodicTimer;
 };
 
 #endif // VEINDATACOLLECTOR_H

@@ -99,16 +99,18 @@ void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
     m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
     TimeMachineForTest::getInstance()->processTimers(5000);
-    QCOMPARE(spy.count(), 0);
+    QCOMPARE(spy.count(), 1);
 
+    m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId2, "ComponentName2", "bar");
     TimeMachineObject::feedEventLoop();
-    QCOMPARE(spy.count(), 1);
+    TimeMachineForTest::getInstance()->processTimers(500);
+    QCOMPARE(spy.count(), 2);
 
     QFile file(":/oneTimestampTwoEntitiesOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLastStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 

@@ -12,6 +12,8 @@
     m_timeStamper(timeSetter)
 {
     connect(&m_storageFilter, &VeinStorage::StorageFilter::sigComponentValue, this, &VeinDataCollector::appendValue);
+    m_periodicTimer = TimerFactoryQt::createPeriodic(500);
+    connect(m_periodicTimer.get(), &TimerTemplateQt::sigExpired, this, &VeinDataCollector::TimerExpired);
 }
 
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
@@ -31,6 +33,7 @@ void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponent
 
 void VeinDataCollector::stopLogging()
 {
+    m_periodicTimer->stop();
     m_storageFilter.clear();
     qInfo("VeinDataCollector stopped logging.");
 }
@@ -63,12 +66,28 @@ void VeinDataCollector::appendValue(int entityId, QString componentName, QVarian
     else
         newRecord = prepareNewRecord(entityId, componentName, value);
 
+    m_periodicTimer->start();
     m_currentTimestampRecord.insert(timeString, newRecord);
     m_jsonObject.insert(timeString, convertRecordedEntityComponentsToJson(newRecord));
+
     if(isRecordComplete(m_currentTimestampRecord.value(timeString))) {
+        m_periodicTimer->stop();
         m_lastJsonObject = QJsonObject{{timeString, m_jsonObject.value(timeString)}};
         m_currentTimestampRecord.clear();
         emit newStoredValue();
+    }
+}
+
+void VeinDataCollector::TimerExpired()
+{
+    m_periodicTimer->stop();
+    if(!m_currentTimestampRecord.isEmpty()) {
+        for(const auto key : m_currentTimestampRecord.keys()) {
+            RecordedEntityComponents newRecord = m_currentTimestampRecord.value(key);
+            m_lastJsonObject = QJsonObject{{key, convertRecordedEntityComponentsToJson(newRecord)}};
+            emit newStoredValue();
+        }
+        m_currentTimestampRecord.clear();
     }
 }
 
