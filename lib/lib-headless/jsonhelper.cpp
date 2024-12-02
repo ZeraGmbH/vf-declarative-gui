@@ -52,3 +52,20 @@ QVariant JsonHelper::findLastElementOfCompo(QList<QVariant> actVal, QString comp
     }
     return "0";
 }
+
+bool JsonHelper::isComponentFound(QJsonObject json, QString component)
+{
+    bool found = false;
+    if(!json.isEmpty()) {
+        const QStringList entities = json.keys();
+        for (const QString &entity : entities) {
+            QJsonObject components = json[entity].toObject();
+            const QStringList componentNames = components.keys();
+            for(const QString &componentName : componentNames) {
+                if(component == componentName)
+                    found = true;
+            }
+        }
+    }
+    return found;
+}
