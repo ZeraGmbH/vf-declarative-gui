@@ -127,14 +127,25 @@ Item {
             axisY.max = maxValue
     }
 
-    function appendPointToSerie(serie, timeDiffSecs, value, axisX, axisY, axisYScaler) {
+    function recalculateYAxisMinMax(axisY, minValue, maxValue) {
+        if(axisY.min > minValue)
+            axisY.min = minValue
+        if(axisY.max < maxValue)
+            axisY.max = maxValue
+    }
+
+    function appendPointToSerie(serie, timeDiffSecs, value, loadAllElts, axisX, axisY, axisYScaler) {
         if(serie !== null) {
             serie.append(timeDiffSecs, value)
             if(timeDiffSecs === 0)//first sample
                 axisYScaler.reset(value, 0.0)
             axisYScaler.scaleToNewActualValue(value)
             setXaxisMinMax(axisX, timeDiffSecs)
-            setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
+            if(loadAllElts) {
+                recalculateYAxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
+            }
+            else
+                setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
         }
     }
 
@@ -146,16 +157,16 @@ Item {
             root.contentWidth = chartWidth
     }
 
-    function loadElement(singleJsonData, components, timeDiffSecs) {
+    function loadElement(singleJsonData, components, timeDiffSecs, loadAllElts) {
         for(var v = 0 ; v <components.length; v++) {
             let value = jsonHelper.getValue(singleJsonData, components[v])
             if(powerComponents.includes(components[v]))
-                appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisXPower, axisYPower, axisYPowerScaler)
+                appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, loadAllElts, axisXPower, axisYPower, axisYPowerScaler)
             else if(voltageComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYLeft, axisYLeftScaler)
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYLeft, axisYLeftScaler)
             else if(currentComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYRight, axisYRightScaler)
-        }
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYRight, axisYRightScaler)
+            }
         calculateContentWidth(timeDiffSecs)
         maxXValue = axisXPower.max
     }
@@ -164,7 +175,7 @@ Item {
         var timestamp = Object.keys(jsonData)[0]
         var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
         var components = jsonHelper.getComponents(jsonData[timestamp])
-        loadElement(jsonData[timestamp], components, timeDiffSecs)
+        loadElement(jsonData[timestamp], components, timeDiffSecs, false)
     }
 
     function loadAllElements(components) {
@@ -172,7 +183,7 @@ Item {
         for(var timestamp in completeJson) {
             var jsonWithoutTimestamp = completeJson[timestamp]
             var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
-            loadElement(jsonWithoutTimestamp, components, timeDiffSecs)
+            loadElement(jsonWithoutTimestamp, components, timeDiffSecs, true)
         }
     }
 
