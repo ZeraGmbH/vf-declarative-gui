@@ -9,7 +9,8 @@
 
  VeinDataCollector::VeinDataCollector(VeinStorage::AbstractEventSystem *storage, VeinStorage::TimeStamperSettablePtr timeSetter) :
     m_storageFilter(storage, VeinStorage::StorageFilter::Settings(false, true)),
-    m_timeStamper(timeSetter)
+    m_timeStamper(timeSetter),
+    m_storage(storage)
 {
     connect(&m_storageFilter, &VeinStorage::StorageFilter::sigComponentValue, this, &VeinDataCollector::appendValue);
     m_periodicTimer = TimerFactoryQt::createPeriodic(500);
@@ -20,6 +21,8 @@ void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponent
 {
     m_jsonObject = QJsonObject();
     m_lastJsonObject = QJsonObject();
+    m_completeJson = QJsonObject();
+    m_recentJsonObject = QJsonObject();
     m_currentTimestampRecord.clear();
     for(auto iter=entitesAndComponents.cbegin(); iter!=entitesAndComponents.cend(); ++iter) {
         const QStringList components = iter.value();
@@ -48,9 +51,36 @@ QJsonObject VeinDataCollector::getLastStoredValues()
     return m_lastJsonObject;
 }
 
+QJsonObject VeinDataCollector::getCompleteJson()
+{
+    return m_completeJson;
+}
+
+QJsonObject VeinDataCollector::getRecentJsonObject()
+{
+    return m_recentJsonObject;
+}
+
 void VeinDataCollector::clearJson()
 {
     m_jsonObject = QJsonObject();
+    m_completeJson = QJsonObject();
+}
+
+void VeinDataCollector::collectValues(QDateTime timeStamp)
+{
+    RecordedEntityComponents newRecord;
+    for(auto entity: m_targetEntityComponents.keys()) {
+        ComponentInfo componentValues;
+        for(auto componentName: m_targetEntityComponents.value(entity))
+            componentValues.insert(componentName, m_storage->getDb()->getStoredValue(entity, componentName));
+        newRecord.insert(entity, componentValues);
+    }
+
+    QString timeString = timeStamp.toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
+    m_recentJsonObject = QJsonObject{{timeString, convertRecordedEntityComponentsToJson(newRecord)}};
+    m_completeJson.insert(timeString, m_recentJsonObject.value(timeString));
+    emit newValueCollected();
 }
 
 void VeinDataCollector::appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp)
