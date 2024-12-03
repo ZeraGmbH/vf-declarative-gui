@@ -2,7 +2,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 
-static constexpr int rangeEntityId = 1020;
+static constexpr int dftEntityId = 1050;
 static constexpr int maximumStorages = 5;
 
 Vf_Recorder *Vf_Recorder::instance = nullptr;
@@ -134,7 +134,7 @@ void Vf_Recorder::ignoreComponents(QStringList *componentList)
 bool Vf_Recorder::prepareTimeRecording()
 {
     bool timeTracerAvailable = false;
-    VeinStorage::AbstractComponentPtr storageCompo = m_storageSystem->getDb()->findComponent(rangeEntityId, "SIG_Measuring");
+    VeinStorage::AbstractComponentPtr storageCompo = m_storageSystem->getDb()->findComponent(dftEntityId, "SIG_Measuring");
     if(storageCompo) {
         connect(storageCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
             if(newValue.toInt() == 1) {// 1 indicates RangeModule received new actual values
