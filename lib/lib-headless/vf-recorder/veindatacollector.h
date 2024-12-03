@@ -21,7 +21,10 @@ public:
     void stopLogging();
     QJsonObject getAllStoredValues();
     QJsonObject getLastStoredValues();
+    QJsonObject getCompleteJson();
+    QJsonObject getRecentJsonObject();
     void clearJson();
+    void collectValues(QDateTime timeStamp);
 signals:
     // Ideas:
     // * replace internal data QJsoonObject by
@@ -29,6 +32,7 @@ signals:
     //   typedef QMap<qint64 /* msSinceEpochTimestamp */, RecordedGroups> TimeStampedGroups;
     // * split up filter / datacollection / periodic vein update into smaller pieces
     void newStoredValue();
+    void newValueCollected();
 
 private slots:
     void appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp);
@@ -46,6 +50,10 @@ private:
     QJsonObject m_lastJsonObject;
     TimeStampedRecords m_currentTimestampRecord;
     TimerTemplateQtPtr m_periodicTimer;
+
+    VeinStorage::AbstractEventSystem* m_storage;
+    QJsonObject m_recentJsonObject;
+    QJsonObject m_completeJson;
 };
 
 #endif // VEINDATACOLLECTOR_H

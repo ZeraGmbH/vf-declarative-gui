@@ -34,7 +34,7 @@ Vf_Recorder::Vf_Recorder(QObject *parent): QObject(parent)
     for(int i = 0; i < maximumStorages; i++) {
         VeinDataCollector* dataCollector = new VeinDataCollector(m_storageSystem, m_timeStamper);
         m_dataCollect.append(dataCollector);
-        connect(dataCollector, &VeinDataCollector::newStoredValue, this, [&](){
+        connect(dataCollector, &VeinDataCollector::newValueCollected, this, [&](){
             emit newStoredValues(i);
         });
     }
@@ -65,12 +65,12 @@ QJsonObject Vf_Recorder::getStoredValues0()
 
 QJsonObject Vf_Recorder::getLastStoredValues0()
 {
-    return m_dataCollect.at(0)->getLastStoredValues();
+    return m_dataCollect.at(0)->getRecentJsonObject();
 }
 
 QJsonObject Vf_Recorder::getAllStoredValues(int storageNum)
 {
-    return m_dataCollect.at(storageNum)->getAllStoredValues();
+    return m_dataCollect.at(storageNum)->getCompleteJson();
 }
 
 QString Vf_Recorder::getFirstTimestamp0()
@@ -137,8 +137,12 @@ bool Vf_Recorder::prepareTimeRecording()
     VeinStorage::AbstractComponentPtr storageCompo = m_storageSystem->getDb()->findComponent(rangeEntityId, "SIG_Measuring");
     if(storageCompo) {
         connect(storageCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
-            if(newValue.toInt() == 1) // 1 indicates RangeModule received new actual values
+            if(newValue.toInt() == 1) {// 1 indicates RangeModule received new actual values
                 m_timeStamper->setTimestampToNow();
+                for(int i = 0; i < m_dataCollect.count(); i++) {
+                    m_dataCollect.at(i)->collectValues(m_timeStamper->getTimestamp());
+                }
+            }
         });
         timeTracerAvailable = true;
     }
