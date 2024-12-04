@@ -20,6 +20,7 @@ private slots:
     void twoTimestampsTwoEntitiesOneComponentChange();
 private:
     void setupServer();
+    void triggerSIGMeasuring();
     std::unique_ptr<TestVeinServer> m_server;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
     std::unique_ptr<VeinDataCollector> m_dataCollector;

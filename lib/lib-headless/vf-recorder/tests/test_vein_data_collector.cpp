@@ -8,6 +8,7 @@
 
 QTEST_MAIN(test_vein_data_collector)
 
+static constexpr int dftEntityId = 1050;
 static constexpr int entityId1 = 10;
 static constexpr int entityId2 = 11;
 
@@ -35,12 +36,12 @@ void test_vein_data_collector::cleanup()
 
 void test_vein_data_collector::oneTimestampOneEntityOneComponentChange()
 {
-    QSignalSpy spy(m_dataCollector.get(), &VeinDataCollector::newStoredValue);
+    QSignalSpy spy(m_dataCollector.get(), &VeinDataCollector::newValueCollected);
     m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
     m_dataCollector->startLogging(m_collectorComponents);
 
-    m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
+    triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
 
     QCOMPARE(spy.count(), 1);
@@ -48,7 +49,7 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChange()
     QFile file(":/oneTimestampOneEntityOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLastStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getRecentJsonObject());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
@@ -57,16 +58,16 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChangesTwice()
     m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
     m_dataCollector->startLogging(m_collectorComponents);
 
-    m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
     TimeMachineForTest::getInstance()->processTimers(50);
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "bar");
+    triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
 
     QFile file(":/oneTimestampOneEntityOneComponentChangesTwice.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLastStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getRecentJsonObject());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
@@ -75,42 +76,41 @@ void test_vein_data_collector::twoTimestampsOneEntityOneComponentChange()
     m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
     m_dataCollector->startLogging(m_collectorComponents);
 
-    m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
+    triggerSIGMeasuring();
     TimeMachineForTest::getInstance()->processTimers(500);
-    m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "bar");
+    triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
 
     QFile file(":/twoTimestampsOneEntityOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getCompleteJson());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
 void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
 {
-    QSignalSpy spy(m_dataCollector.get(), &VeinDataCollector::newStoredValue);
+    QSignalSpy spy(m_dataCollector.get(), &VeinDataCollector::newValueCollected);
     m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
     m_collectorComponents[entityId2] = QStringList() << "ComponentName2";
     m_dataCollector->startLogging(m_collectorComponents);
 
-    m_timeStamper->setTimestampToNow();
-    m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
-    TimeMachineForTest::getInstance()->processTimers(5000);
-    QCOMPARE(spy.count(), 1);
-
-    m_timeStamper->setTimestampToNow();
-    m_server->setComponentServerNotification(entityId2, "ComponentName2", "bar");
+    //set initial values
+    m_server->setComponentServerNotification(entityId1, "ComponentName1", "init");
+    m_server->setComponentServerNotification(entityId2, "ComponentName2", "init");
     TimeMachineObject::feedEventLoop();
-    TimeMachineForTest::getInstance()->processTimers(500);
-    QCOMPARE(spy.count(), 2);
+
+    m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
+    triggerSIGMeasuring();
+    TimeMachineObject::feedEventLoop();
+    QCOMPARE(spy.count(), 1);
 
     QFile file(":/oneTimestampTwoEntitiesOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getCompleteJson());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
@@ -120,29 +120,37 @@ void test_vein_data_collector::twoTimestampsTwoEntitiesOneComponentChange()
     m_collectorComponents[entityId2] = QStringList() << "ComponentName2";
     m_dataCollector->startLogging(m_collectorComponents);
 
-    m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
-    TimeMachineForTest::getInstance()->processTimers(50);
     m_server->setComponentServerNotification(entityId2, "ComponentName2", "bar");
+    triggerSIGMeasuring();
+    TimeMachineObject::feedEventLoop();
 
     TimeMachineForTest::getInstance()->processTimers(500);
 
-    m_timeStamper->setTimestampToNow();
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "abc");
-    TimeMachineForTest::getInstance()->processTimers(50);
     m_server->setComponentServerNotification(entityId2, "ComponentName2", "pqs");
+    triggerSIGMeasuring();
+    TimeMachineObject::feedEventLoop();
 
     QFile file(":/twoTimestampsTwoEntitiesOneComponent.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getCompleteJson());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
 void test_vein_data_collector::setupServer()
 {
     m_server = std::make_unique<TestVeinServer>();
+    m_server->addEntity(dftEntityId, "DFT");
+    m_server->addComponent(dftEntityId, "SIG_Measuring", QVariant(1), false);
     m_server->addTestEntities(3, 3);
     TimeMachineObject::feedEventLoop();
     m_server->simulAllModulesLoaded("test-session1.json", QStringList() << "test-session1.json" << "test-session2.json");
+}
+
+void test_vein_data_collector::triggerSIGMeasuring()
+{
+    m_server->setComponentServerNotification(dftEntityId, "SIG_Measuring", QVariant(0));
+    m_server->setComponentServerNotification(dftEntityId, "SIG_Measuring", QVariant(1));
 }
