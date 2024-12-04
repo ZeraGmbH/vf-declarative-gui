@@ -116,8 +116,9 @@ void test_vf_recorder::loggingOnOffSequence0()
     QCOMPARE(value, "4");
 
     stopLogging(storageNum);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 3);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
+    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 7);
+    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 8);
+    triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
     storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(storageNum);
@@ -150,8 +151,9 @@ void test_vf_recorder::loggingOnOffSequence1()
     QCOMPARE(value, "4");
 
     stopLogging(storageNum);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 3);
-    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
+    changeComponentValue(rmsEntityId, "ACT_RMSPN1", 7);
+    changeComponentValue(rmsEntityId, "ACT_RMSPN2", 8);
+    triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
     storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(storageNum);
@@ -190,9 +192,9 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     createMinimalRangeRmsModules();
     startLoggingFromJson(":/correct-entities.json", 0);
 
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 3);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
+    triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
     QJsonObject storedValues = m_recorder->getAllStoredValues(storageNum);
@@ -200,9 +202,9 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     QCOMPARE (timestampKeys.size(), 1);
 
     TimeMachineForTest::getInstance()->processTimers(5000);
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 5);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 6);
+    triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
     storedValues = m_recorder->getAllStoredValues(storageNum);
@@ -224,7 +226,7 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 1);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 2);
     changeComponentValue(powerEntityId, "ACT_PQS1", 1);
-    changeComponentValue(powerEntityId, "ACT_PQS1", 2);
+    changeComponentValue(powerEntityId, "ACT_PQS2", 2);
     triggerRangeModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
     TimeMachineForTest::getInstance()->processTimers(100);
@@ -236,6 +238,12 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     QJsonObject storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(rmsEntityId)));
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(powerEntityId)));
+    QHash<QString, QVariant> componentsHash = getComponentsStoredOfEntity(rmsEntityId, storedValuesWithoutTimeStamp);
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_RMSPN1"), "1");
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_RMSPN2"), "2");
+    componentsHash = getComponentsStoredOfEntity(powerEntityId, storedValuesWithoutTimeStamp);
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_PQS1"), "1");
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_PQS2"), "2");
 
     TimeMachineForTest::getInstance()->processTimers(500);
 
@@ -251,8 +259,15 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(rmsEntityId)));
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(powerEntityId)));
+    componentsHash = getComponentsStoredOfEntity(rmsEntityId, storedValuesWithoutTimeStamp);
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_RMSPN1"), "3");
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_RMSPN2"), "4");
+    componentsHash = getComponentsStoredOfEntity(powerEntityId, storedValuesWithoutTimeStamp);
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_PQS1"), "1");
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_PQS2"), "2");
 
     TimeMachineForTest::getInstance()->processTimers(500);
+
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 5);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 6);
     changeComponentValue(powerEntityId, "ACT_PQS1", 5);
@@ -270,6 +285,12 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(rmsEntityId)));
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(powerEntityId)));
+    componentsHash = getComponentsStoredOfEntity(rmsEntityId, storedValuesWithoutTimeStamp);
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_RMSPN1"), "5");
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_RMSPN2"), "6");
+    componentsHash = getComponentsStoredOfEntity(powerEntityId, storedValuesWithoutTimeStamp);
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_PQS1"), "5");
+    QCOMPARE(getValuesStoredOfComponent(componentsHash, "ACT_PQS2"), "2");
 }
 
 void test_vf_recorder::createMinimalRangeRmsModules()
