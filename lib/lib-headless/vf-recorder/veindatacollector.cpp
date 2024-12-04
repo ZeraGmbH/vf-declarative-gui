@@ -18,7 +18,7 @@ static constexpr int dftEntityId = 1050;
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
 {
     m_completeJson = QJsonObject();
-    m_recentJsonObject = QJsonObject();
+    m_latestJsonObject = QJsonObject();
     m_targetEntityComponents = entitesAndComponents;
     prepareTimeRecording();
     qInfo("VeinDataCollector started logging.");
@@ -30,14 +30,14 @@ void VeinDataCollector::stopLogging()
     qInfo("VeinDataCollector stopped logging.");
 }
 
-QJsonObject VeinDataCollector::getCompleteJson()
+QJsonObject VeinDataCollector::getAllStoredValues()
 {
     return m_completeJson;
 }
 
-QJsonObject VeinDataCollector::getRecentJsonObject()
+QJsonObject VeinDataCollector::getLatestJsonObject()
 {
-    return m_recentJsonObject;
+    return m_latestJsonObject;
 }
 
 void VeinDataCollector::clearJson()
@@ -56,8 +56,8 @@ void VeinDataCollector::collectValues(QDateTime timeStamp)
     }
 
     QString timeString = timeStamp.toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
-    m_recentJsonObject = QJsonObject{{timeString, convertRecordedEntityComponentsToJson(newRecord)}};
-    m_completeJson.insert(timeString, m_recentJsonObject.value(timeString));
+    m_latestJsonObject = QJsonObject{{timeString, convertRecordedEntityComponentsToJson(newRecord)}};
+    m_completeJson.insert(timeString, m_latestJsonObject.value(timeString));
     emit newValueCollected();
 }
 
