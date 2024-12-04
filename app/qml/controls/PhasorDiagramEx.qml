@@ -31,6 +31,9 @@ PhasorDiagram {
     gridColor: Material.frameColor;
     gridScale: Math.min(height,width)/maxVoltage/2
 
+    fromX: Math.floor(width/2)
+    fromY: Math.floor(height/2)
+
     vector1Color: GC.colorUL1
     vector2Color: GC.colorUL2
     vector3Color: GC.colorUL3
