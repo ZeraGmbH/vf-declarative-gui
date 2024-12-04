@@ -20,6 +20,11 @@ Timer {
         fftTableRelativePending = true
         restart()
     }
+    function startShowFftAnglesChange(fftShowAngles) {
+        nextFftShowAngles = fftShowAngles
+        fftShowAnglesPending = true
+        restart()
+    }
     function startDigitsTotalChange(digitsTotal) {
         nextDigitsTotal = digitsTotal
         digitsTotalPending = true
@@ -47,12 +52,14 @@ Timer {
     property bool auxPhaseSetPending: false
     property bool allColorChangePending: false
     property bool fftTableRelativePending: false
+    property bool fftShowAnglesPending: false
     property bool digitsTotalPending: false
     property bool decimalPlacesPending: false
 
     property bool nextShowAux: false
     property int  nextColorScheme: 0
     property bool nextFftTableRelative: false
+    property bool nextFftShowAngles: false
     property int  nextDigitsTotal: 0
     property int  nextDecimalPlaces: 0
 
@@ -68,6 +75,10 @@ Timer {
         if(fftTableRelativePending) {
             GC.setShowFftTableAsRelative(nextFftTableRelative)
             fftTableRelativePending = false
+        }
+        if(fftShowAnglesPending) {
+            GC.setShowFftTableAngle(nextFftShowAngles)
+            fftShowAnglesPending = false
         }
         if(digitsTotalPending) {
             GC.setDigitsTotal(nextDigitsTotal)

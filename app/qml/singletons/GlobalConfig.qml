@@ -103,10 +103,10 @@ Item {
         Settings.setOption("fft_table_as_relative", setValue);
     }
 
-    property int showFftTableAngle: parseInt(Settings.getOption("fft_table_show_angle", "0"))
-    function setShowFftTableAngle(showAngle) {
-        showFftTableAngle = showAngle
-        var setValue = showAngle ? 1 : 0
+    property int showFftTableAngles: parseInt(Settings.getOption("fft_table_show_angle", "0"))
+    function setShowFftTableAngle(showAngles) {
+        showFftTableAngles = showAngles
+        var setValue = showAngles ? 1 : 0
         Settings.setOption("fft_table_show_angle", setValue);
     }
 

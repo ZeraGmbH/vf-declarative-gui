@@ -100,6 +100,26 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
+                text: Z.tr("Show angles in harmonics:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZCheckBox {
+                id: actHarmonicsShowAngles
+                Layout.fillHeight: true
+                Component.onCompleted: checked = GC.showFftTableAngles
+                onCheckedChanged: {
+                    SlwMachSettingsHelper.startShowFftAnglesChange(checked)
+                }
+            }
+        }
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
                 text: Z.tr("Max decimals total:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
