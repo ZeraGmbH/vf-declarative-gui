@@ -18,8 +18,8 @@ public:
     explicit VeinDataCollector(VeinStorage::AbstractEventSystem* storage);
     void startLogging(QHash<int, QStringList> entitesAndComponents);
     void stopLogging();
-    QJsonObject getCompleteJson();
-    QJsonObject getRecentJsonObject();
+    QJsonObject getAllStoredValues();
+    QJsonObject getLatestJsonObject();
     void clearJson();
 signals:
     // Ideas:
@@ -38,7 +38,7 @@ private:
     QHash<int, QStringList> m_targetEntityComponents;
 
     VeinStorage::AbstractEventSystem* m_storage;
-    QJsonObject m_recentJsonObject;
+    QJsonObject m_latestJsonObject;
     QJsonObject m_completeJson;
     VeinStorage::AbstractComponentPtr m_sigMeasuringCompo;
 };

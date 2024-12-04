@@ -64,12 +64,12 @@ QJsonObject Vf_Recorder::getStoredValues0()
 
 QJsonObject Vf_Recorder::getLastStoredValues0()
 {
-    return m_dataCollect.at(0)->getRecentJsonObject();
+    return m_dataCollect.at(0)->getLatestJsonObject();
 }
 
 QJsonObject Vf_Recorder::getAllStoredValues(int storageNum)
 {
-    return m_dataCollect.at(storageNum)->getCompleteJson();
+    return m_dataCollect.at(storageNum)->getAllStoredValues();
 }
 
 QString Vf_Recorder::getFirstTimestamp0()
