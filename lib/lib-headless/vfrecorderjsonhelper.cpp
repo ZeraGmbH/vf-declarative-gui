@@ -1,17 +1,17 @@
-#include "jsonhelper.h"
+#include "vfrecorderjsonhelper.h"
 #include <QDateTime>
 
-JsonHelper::JsonHelper(QObject *parent)
+VfRecorderJsonHelper::VfRecorderJsonHelper(QObject *parent)
     : QObject{parent}
 {
 }
 
-qint64 JsonHelper::convertTimestampToMs(QString dateTime)
+qint64 VfRecorderJsonHelper::convertTimestampToMs(QString dateTime)
 {
     return QDateTime::fromString(dateTime, "dd-MM-yyyy hh:mm:ss.zzz").toMSecsSinceEpoch();
 }
 
-QStringList JsonHelper::getComponents(QJsonObject json)
+QStringList VfRecorderJsonHelper::getComponents(QJsonObject json)
 {
     QStringList componentList;
     if(!json.isEmpty()) {
@@ -24,7 +24,7 @@ QStringList JsonHelper::getComponents(QJsonObject json)
     return componentList;
 }
 
-double JsonHelper::getValue(QJsonObject json, QString component)
+double VfRecorderJsonHelper::getValue(QJsonObject json, QString component)
 {
     double value = 0.0;
     if(!json.isEmpty()) {
@@ -41,7 +41,7 @@ double JsonHelper::getValue(QJsonObject json, QString component)
     return value;
 }
 
-QVariant JsonHelper::findLastElementOfCompo(QList<QVariant> actVal, QString compoName)
+QVariant VfRecorderJsonHelper::findLastElementOfCompo(QList<QVariant> actVal, QString compoName)
 {
     if(!actVal.isEmpty()) {
         for(int i = 0; i < actVal.size(); i++) {
