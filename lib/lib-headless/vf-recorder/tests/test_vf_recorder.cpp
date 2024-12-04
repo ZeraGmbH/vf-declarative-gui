@@ -9,7 +9,7 @@
 
 QTEST_MAIN(test_vf_recorder)
 
-static constexpr int rangeEntityId = 1020;
+static constexpr int dftEntityId = 1050;
 static constexpr int rmsEntityId = 1040;
 static constexpr int powerEntityId = 1070;
 static constexpr int maximumStorage = 5;
@@ -47,7 +47,7 @@ void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
 void test_vf_recorder::storeValuesBasedOnNonexistingEntitiesInJson()
 {
     QVariantMap components = {{"SIG_Measuring", QVariant(1)}};
-    createModule(rangeEntityId, components);
+    createModule(dftEntityId, components);
     startLoggingFromJson(":/incorrect-entities.json", storageNum);
     TimeMachineForTest::getInstance()->processTimers(100);
     QVERIFY(m_recorder->getAllStoredValues(storageNum).isEmpty());
@@ -58,16 +58,16 @@ void test_vf_recorder::storeValuesEmptyComponentsInJson()
     QVariantMap components = {{"ACT_RMSPN1", QVariant()}, {"ACT_RMSPN2", QVariant()}, {"PAR_Interval", QVariant()}};
     createModule(rmsEntityId, components);
     components = {{"SIG_Measuring", QVariant(1)}};
-    createModule(rangeEntityId, components);
+    createModule(dftEntityId, components);
     QList<int> entities = m_storageEventSystem->getDb()->getEntityList();
     QVERIFY(entities.contains(rmsEntityId));
-    QVERIFY(entities.contains(rangeEntityId));
+    QVERIFY(entities.contains(dftEntityId));
 
     startLoggingFromJson(":/empty-components.json", storageNum);
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 1);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 2);
     changeComponentValue(rmsEntityId, "PAR_Interval", 5);
+    triggerRangeModuleSigMeasuring();
 
     TimeMachineForTest::getInstance()->processTimers(100);
 
@@ -101,9 +101,9 @@ void test_vf_recorder::loggingOnOffSequence0()
     createMinimalRangeRmsModules();
 
     startLoggingFromJson(":/correct-entities.json", storageNum);
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 3);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
+    triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
     QJsonObject storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(storageNum);
@@ -135,9 +135,9 @@ void test_vf_recorder::loggingOnOffSequence1()
     createMinimalRangeRmsModules();
 
     startLoggingFromJson(":/correct-entities.json", storageNum);
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 3);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
+    triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
     QJsonObject storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(storageNum);
@@ -221,11 +221,11 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     createModule(powerEntityId, components);
     startLoggingFromJson(":/rms-power1-components.json", 0);
 
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 1);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 2);
     changeComponentValue(powerEntityId, "ACT_PQS1", 1);
     changeComponentValue(powerEntityId, "ACT_PQS1", 2);
+    triggerRangeModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
     TimeMachineForTest::getInstance()->processTimers(100);
 
@@ -239,9 +239,9 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
 
     TimeMachineForTest::getInstance()->processTimers(500);
 
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 3);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
+    triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
     storedValues = m_recorder->getAllStoredValues(storageNum);
@@ -250,13 +250,13 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
 
     storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(rmsEntityId)));
-    QVERIFY(!storedValuesWithoutTimeStamp.contains(QString::number(powerEntityId)));
+    QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(powerEntityId)));
 
     TimeMachineForTest::getInstance()->processTimers(500);
-    triggerRangeModuleSigMeasuring();
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 5);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 6);
     changeComponentValue(powerEntityId, "ACT_PQS1", 5);
+    triggerRangeModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
     TimeMachineForTest::getInstance()->processTimers(10);
     changeComponentValue(powerEntityId, "ACT_PQS2", 6);
@@ -277,7 +277,7 @@ void test_vf_recorder::createMinimalRangeRmsModules()
     QVariantMap components = {{"ACT_RMSPN1", QVariant()}, {"ACT_RMSPN2", QVariant()}};
     createModule(rmsEntityId, components);
     components = {{"SIG_Measuring", QVariant(1)}};
-    createModule(rangeEntityId, components);
+    createModule(dftEntityId, components);
 }
 
 void test_vf_recorder::changeComponentValue(int entityId, QString componentName, QVariant newValue)
@@ -301,8 +301,8 @@ void test_vf_recorder::createModule(int entityId, QMap<QString, QVariant> compon
 void test_vf_recorder::triggerRangeModuleSigMeasuring()
 {
     //"SIG_Measuring" changes from 0 to 1 when new actual values are available
-    changeComponentValue(rangeEntityId, "SIG_Measuring", QVariant(0));
-    changeComponentValue(rangeEntityId, "SIG_Measuring", QVariant(1));
+    changeComponentValue(dftEntityId, "SIG_Measuring", QVariant(0));
+    changeComponentValue(dftEntityId, "SIG_Measuring", QVariant(1));
 }
 
 QJsonObject test_vf_recorder::readEntitiesAndCompoFromJsonFile(QString filePath)

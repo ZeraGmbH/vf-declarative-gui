@@ -84,10 +84,8 @@ QString Vf_Recorder::getFirstTimestamp0()
 void Vf_Recorder::readJson(QJsonObject jsonValue, int storageNum)
 {
     if(!jsonValue.isEmpty()) {
-        if(prepareTimeRecording()){
-            QHash<int, QStringList> entitesAndComponents = extractEntitiesAndComponents(jsonValue);
-            m_dataCollect[storageNum]->startLogging(entitesAndComponents);
-        }
+        QHash<int, QStringList> entitesAndComponents = extractEntitiesAndComponents(jsonValue);
+        m_dataCollect[storageNum]->startLogging(entitesAndComponents);
     }
     else {
         qInfo("Empty Json !");
@@ -130,24 +128,3 @@ void Vf_Recorder::ignoreComponents(QStringList *componentList)
     QString componentToBeIgnored = "SIG_Measuring";
     componentList->removeAll(componentToBeIgnored);
 }
-
-bool Vf_Recorder::prepareTimeRecording()
-{
-    bool timeTracerAvailable = false;
-    VeinStorage::AbstractComponentPtr storageCompo = m_storageSystem->getDb()->findComponent(dftEntityId, "SIG_Measuring");
-    if(storageCompo) {
-        connect(storageCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
-            if(newValue.toInt() == 1) {// 1 indicates RangeModule received new actual values
-                m_timeStamper->setTimestampToNow();
-                for(int i = 0; i < m_dataCollect.count(); i++) {
-                    m_dataCollect.at(i)->collectValues(m_timeStamper->getTimestamp());
-                }
-            }
-        });
-        timeTracerAvailable = true;
-    }
-    else
-        qInfo("Graphs recording can't work. RangeModule/SIG_Measuring component is missing.");
-    return timeTracerAvailable;
-}
-

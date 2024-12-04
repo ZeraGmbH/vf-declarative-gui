@@ -24,7 +24,6 @@ public:
     QJsonObject getCompleteJson();
     QJsonObject getRecentJsonObject();
     void clearJson();
-    void collectValues(QDateTime timeStamp);
 signals:
     // Ideas:
     // * replace internal data QJsoonObject by
@@ -38,6 +37,8 @@ private slots:
     void appendValue(int entityId, QString componentName, QVariant value, QDateTime timeStamp);
     void TimerExpired();
 private:
+    void prepareTimeRecording();
+    void collectValues(QDateTime timeStamp);
     RecordedEntityComponents appendToExistingRecord(RecordedEntityComponents existingRecord, int entityId, QString componentName, QVariant value);
     RecordedEntityComponents prepareNewRecord(int entityId, QString componentName, QVariant value);
     QJsonObject convertRecordedEntityComponentsToJson(RecordedEntityComponents recordedEntityComponents);
@@ -54,6 +55,7 @@ private:
     VeinStorage::AbstractEventSystem* m_storage;
     QJsonObject m_recentJsonObject;
     QJsonObject m_completeJson;
+    VeinStorage::AbstractComponentPtr m_sigMeasuringCompo;
 };
 
 #endif // VEINDATACOLLECTOR_H
