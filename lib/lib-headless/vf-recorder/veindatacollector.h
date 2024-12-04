@@ -15,7 +15,7 @@ class VeinDataCollector : public QObject
 {
     Q_OBJECT
 public:
-    explicit VeinDataCollector(VeinStorage::AbstractEventSystem* storage, VeinStorage::TimeStamperSettablePtr timeSetter);
+    explicit VeinDataCollector(VeinStorage::AbstractEventSystem* storage);
     void startLogging(QHash<int, QStringList> entitesAndComponents);
     void stopLogging();
     QJsonObject getCompleteJson();
