@@ -9,6 +9,8 @@ typedef QHash<QString/*componentName*/, QVariant/*value*/> ComponentInfo;
 typedef QHash<int/*entityId*/, ComponentInfo> RecordedEntityComponents;
 typedef QMap<QString /*QDateTime in QString*/, RecordedEntityComponents> TimeStampedRecords;
 
+static constexpr int sigMeasuringEntityId = 1050; //DftModule
+
 class VeinDataCollector : public QObject
 {
     Q_OBJECT

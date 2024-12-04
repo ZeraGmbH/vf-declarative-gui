@@ -1,7 +1,6 @@
 #include "vf_recorder.h"
 #include <QJsonArray>
 
-static constexpr int dftEntityId = 1050;
 static constexpr int maximumStorages = 5;
 
 Vf_Recorder *Vf_Recorder::instance = nullptr;

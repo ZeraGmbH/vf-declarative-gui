@@ -5,8 +5,6 @@
 // StorageFilter::Settings are going to change - current settings are set
 // to make tests happy
 
-static constexpr int dftEntityId = 1050;
-
  VeinDataCollector::VeinDataCollector(VeinStorage::AbstractEventSystem *storage) :
     m_storage(storage)
 {
@@ -61,7 +59,7 @@ void VeinDataCollector::collectValues(QDateTime timeStamp)
 
 void VeinDataCollector::prepareTimeRecording()
 {
-    m_sigMeasuringCompo = m_storage->getDb()->findComponent(dftEntityId, "SIG_Measuring");
+    m_sigMeasuringCompo = m_storage->getDb()->findComponent(sigMeasuringEntityId, "SIG_Measuring");
     if(m_sigMeasuringCompo) {
         connect(m_sigMeasuringCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
             if(newValue.toInt() == 1) {// 1 indicates RangeModule received new actual values
