@@ -8,7 +8,6 @@
 
 QTEST_MAIN(test_vein_data_collector)
 
-static constexpr int dftEntityId = 1050;
 static constexpr int entityId1 = 10;
 static constexpr int entityId2 = 11;
 
@@ -140,8 +139,8 @@ void test_vein_data_collector::twoTimestampsTwoEntitiesTwoComponentChange()
 void test_vein_data_collector::setupServer()
 {
     m_server = std::make_unique<TestVeinServer>();
-    m_server->addEntity(dftEntityId, "DFT");
-    m_server->addComponent(dftEntityId, "SIG_Measuring", QVariant(1), false);
+    m_server->addEntity(sigMeasuringEntityId, "DFT");
+    m_server->addComponent(sigMeasuringEntityId, "SIG_Measuring", QVariant(1), false);
     m_server->addTestEntities(3, 3);
     TimeMachineObject::feedEventLoop();
     m_server->simulAllModulesLoaded("test-session1.json", QStringList() << "test-session1.json" << "test-session2.json");
@@ -149,6 +148,6 @@ void test_vein_data_collector::setupServer()
 
 void test_vein_data_collector::triggerSIGMeasuring()
 {
-    m_server->setComponentServerNotification(dftEntityId, "SIG_Measuring", QVariant(0));
-    m_server->setComponentServerNotification(dftEntityId, "SIG_Measuring", QVariant(1));
+    m_server->setComponentServerNotification(sigMeasuringEntityId, "SIG_Measuring", QVariant(0));
+    m_server->setComponentServerNotification(sigMeasuringEntityId, "SIG_Measuring", QVariant(1));
 }

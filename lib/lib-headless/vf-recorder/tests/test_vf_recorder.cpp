@@ -9,7 +9,6 @@
 
 QTEST_MAIN(test_vf_recorder)
 
-static constexpr int dftEntityId = 1050;
 static constexpr int rmsEntityId = 1040;
 static constexpr int powerEntityId = 1070;
 static constexpr int maximumStorage = 5;
@@ -47,7 +46,7 @@ void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
 void test_vf_recorder::storeValuesBasedOnNonexistingEntitiesInJson()
 {
     QVariantMap components = {{"SIG_Measuring", QVariant(1)}};
-    createModule(dftEntityId, components);
+    createModule(sigMeasuringEntityId, components);
     startLoggingFromJson(":/incorrect-entities.json", storageNum);
     TimeMachineForTest::getInstance()->processTimers(100);
     QVERIFY(m_recorder->getAllStoredValues(storageNum).isEmpty());
@@ -58,10 +57,10 @@ void test_vf_recorder::storeValuesEmptyComponentsInJson()
     QVariantMap components = {{"ACT_RMSPN1", QVariant()}, {"ACT_RMSPN2", QVariant()}, {"PAR_Interval", QVariant()}};
     createModule(rmsEntityId, components);
     components = {{"SIG_Measuring", QVariant(1)}};
-    createModule(dftEntityId, components);
+    createModule(sigMeasuringEntityId, components);
     QList<int> entities = m_storageEventSystem->getDb()->getEntityList();
     QVERIFY(entities.contains(rmsEntityId));
-    QVERIFY(entities.contains(dftEntityId));
+    QVERIFY(entities.contains(sigMeasuringEntityId));
 
     startLoggingFromJson(":/empty-components.json", storageNum);
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 1);
@@ -298,7 +297,7 @@ void test_vf_recorder::createMinimalRangeRmsModules()
     QVariantMap components = {{"ACT_RMSPN1", QVariant()}, {"ACT_RMSPN2", QVariant()}};
     createModule(rmsEntityId, components);
     components = {{"SIG_Measuring", QVariant(1)}};
-    createModule(dftEntityId, components);
+    createModule(sigMeasuringEntityId, components);
 }
 
 void test_vf_recorder::changeComponentValue(int entityId, QString componentName, QVariant newValue)
@@ -322,8 +321,8 @@ void test_vf_recorder::createModule(int entityId, QMap<QString, QVariant> compon
 void test_vf_recorder::triggerRangeModuleSigMeasuring()
 {
     //"SIG_Measuring" changes from 0 to 1 when new actual values are available
-    changeComponentValue(dftEntityId, "SIG_Measuring", QVariant(0));
-    changeComponentValue(dftEntityId, "SIG_Measuring", QVariant(1));
+    changeComponentValue(sigMeasuringEntityId, "SIG_Measuring", QVariant(0));
+    changeComponentValue(sigMeasuringEntityId, "SIG_Measuring", QVariant(1));
 }
 
 QJsonObject test_vf_recorder::readEntitiesAndCompoFromJsonFile(QString filePath)
