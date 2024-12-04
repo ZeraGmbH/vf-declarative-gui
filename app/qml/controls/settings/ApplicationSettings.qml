@@ -80,7 +80,7 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
-                text: Z.tr("Display harmonic tables relative to the fundamental oscillation:")
+                text: Z.tr("Harm. table relative to the fundamental:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
                 Layout.fillWidth: true
