@@ -1,7 +1,5 @@
 #include "veindatacollector.h"
 #include <vs_abstractcomponent.h>
-#include <timerfactoryqt.h>
-#include <QDateTime>
 
 // Note:
 // StorageFilter::Settings are going to change - current settings are set
