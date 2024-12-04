@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>oneTimestampOneEntityOneComponent.json</file>
-        <file>twoTimestampsOneEntityOneComponent.json</file>
-        <file>twoTimestampsTwoEntitiesOneComponent.json</file>
-        <file>oneTimestampTwoEntitiesOneComponent.json</file>
         <file>oneTimestampOneEntityOneComponentChangesTwice.json</file>
+        <file>twoTimestampsOneEntityOneComponentChange.json</file>
+        <file>oneTimestampOneEntityOneComponentChange.json</file>
+        <file>oneTimestampTwoEntitiesOneComponentChange.json</file>
+        <file>twoTimestampsTwoEntitiesTwoComponentsChange.json</file>
     </qresource>
 </RCC>
