@@ -35,7 +35,6 @@ private:
     bool prepareTimeRecording();
 
     QList<VeinDataCollector*> m_dataCollect;
-    VeinStorage::TimeStamperSettablePtr m_timeStamper;
     static Vf_Recorder *instance;
     static VeinStorage::AbstractEventSystem* m_storageSystem;
 };

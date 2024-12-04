@@ -9,10 +9,10 @@
 
 static constexpr int dftEntityId = 1050;
 
- VeinDataCollector::VeinDataCollector(VeinStorage::AbstractEventSystem *storage, VeinStorage::TimeStamperSettablePtr timeSetter) :
-    m_timeStamper(timeSetter),
+ VeinDataCollector::VeinDataCollector(VeinStorage::AbstractEventSystem *storage) :
     m_storage(storage)
 {
+     m_timeStamper = VeinStorage::TimeStamperSettable::create();
 }
 
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)

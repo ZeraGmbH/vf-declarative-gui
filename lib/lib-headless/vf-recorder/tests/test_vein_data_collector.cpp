@@ -22,13 +22,11 @@ void test_vein_data_collector::init()
 {
     TimeMachineForTest::reset();
     setupServer();
-    m_timeStamper = VeinStorage::TimeStamperSettable::create();
-    m_dataCollector = std::make_unique<VeinDataCollector>(m_server->getStorage(), m_timeStamper);
+    m_dataCollector = std::make_unique<VeinDataCollector>(m_server->getStorage());
 }
 
 void test_vein_data_collector::cleanup()
 {
-    m_timeStamper = nullptr;
     m_dataCollector = nullptr;
     m_server = nullptr;
     TimeMachineObject::feedEventLoop();

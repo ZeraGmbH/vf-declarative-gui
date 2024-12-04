@@ -30,9 +30,8 @@ Vf_Recorder::Vf_Recorder(QObject *parent): QObject(parent)
 {
     if(!m_storageSystem)
         qCritical("Vf_Recorder: storage system not set.");
-    m_timeStamper = VeinStorage::TimeStamperSettable::create();
     for(int i = 0; i < maximumStorages; i++) {
-        VeinDataCollector* dataCollector = new VeinDataCollector(m_storageSystem, m_timeStamper);
+        VeinDataCollector* dataCollector = new VeinDataCollector(m_storageSystem);
         m_dataCollect.append(dataCollector);
         connect(dataCollector, &VeinDataCollector::newValueCollected, this, [&](){
             emit newStoredValues(i);
