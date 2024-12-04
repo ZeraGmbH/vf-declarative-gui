@@ -223,6 +223,7 @@ Rectangle {
 
         ListView {
             id: lvHarmonics
+            z: -1
             y: root.rowHeight*3
             width: root.columnWidth * (showAngles ? channelCount*2+1 : channelCount+1) - vBar.width
             height: root.rowHeight*(fftOrder+3)
