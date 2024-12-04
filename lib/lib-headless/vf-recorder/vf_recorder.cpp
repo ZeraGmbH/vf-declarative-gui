@@ -1,5 +1,4 @@
 #include "vf_recorder.h"
-#include <QJsonDocument>
 #include <QJsonArray>
 
 static constexpr int dftEntityId = 1050;

@@ -1,11 +1,9 @@
 #ifndef VEINDATACOLLECTOR_H
 #define VEINDATACOLLECTOR_H
 
-#include "timerperiodicqt.h"
 #include <vs_abstracteventsystem.h>
 #include <vs_timestampersettable.h>
 #include <QJsonObject>
-#include <QDateTime>
 
 typedef QHash<QString/*componentName*/, QVariant/*value*/> ComponentInfo;
 typedef QHash<int/*entityId*/, ComponentInfo> RecordedEntityComponents;
