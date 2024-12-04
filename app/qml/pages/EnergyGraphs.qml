@@ -385,8 +385,9 @@ Item {
                 contentWidth: root.contentWidth
                 interactive: (parStartStop === 1) ? false : true
                 ScrollBar.horizontal: ScrollBar {
+                    id: powerScrollBar
                     height: chartViewPowerFlickable.height * 0.03
-                    policy: ScrollBar.AlwaysOn
+                    //policy: ScrollBar.AsNeeded
                     anchors.bottom: parent.bottom
                     interactive: chartViewPowerFlickable.interactive
                     position: 1.0 - size
@@ -396,6 +397,21 @@ Item {
                     }
                 }
             }
+            PinchArea {
+                id: chartViewPowerPinchArea
+                MouseArea { }
+                anchors.fill: chartViewPower
+                pinch.dragAxis: Pinch.XAxis
+                onPinchUpdated: {
+                    if(pinch.scale > 1) {
+                        axisXPower.min = axisXPower.max - xAxisTimeSpanSecs
+                    }
+                    else {
+                        axisXPower.min = 0
+                    }
+                }
+            }
+            Item { }
             LineSeries {
                 id: lineSeriesP
                 axisX: axisXPower
