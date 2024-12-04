@@ -46,7 +46,7 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChange()
 
     QCOMPARE(spy.count(), 1);
 
-    QFile file(":/oneTimestampOneEntityOneComponent.json");
+    QFile file(":/oneTimestampOneEntityOneComponentChange.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getRecentJsonObject());
@@ -83,7 +83,7 @@ void test_vein_data_collector::twoTimestampsOneEntityOneComponentChange()
     triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
 
-    QFile file(":/twoTimestampsOneEntityOneComponent.json");
+    QFile file(":/twoTimestampsOneEntityOneComponentChange.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getCompleteJson());
@@ -107,14 +107,14 @@ void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
     TimeMachineObject::feedEventLoop();
     QCOMPARE(spy.count(), 1);
 
-    QFile file(":/oneTimestampTwoEntitiesOneComponent.json");
+    QFile file(":/oneTimestampTwoEntitiesOneComponentChange.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getCompleteJson());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
-void test_vein_data_collector::twoTimestampsTwoEntitiesOneComponentChange()
+void test_vein_data_collector::twoTimestampsTwoEntitiesTwoComponentChange()
 {
     m_collectorComponents[entityId1] = QStringList() << "ComponentName1";
     m_collectorComponents[entityId2] = QStringList() << "ComponentName2";
@@ -132,7 +132,7 @@ void test_vein_data_collector::twoTimestampsTwoEntitiesOneComponentChange()
     triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
 
-    QFile file(":/twoTimestampsTwoEntitiesOneComponent.json");
+    QFile file(":/twoTimestampsTwoEntitiesTwoComponentsChange.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getCompleteJson());

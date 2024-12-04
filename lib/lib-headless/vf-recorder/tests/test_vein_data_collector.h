@@ -17,7 +17,7 @@ private slots:
     void oneTimestampOneEntityOneComponentChangesTwice();
     void twoTimestampsOneEntityOneComponentChange();
     void oneTimestampTwoEntitiesOneComponentChange();
-    void twoTimestampsTwoEntitiesOneComponentChange();
+    void twoTimestampsTwoEntitiesTwoComponentChange();
 private:
     void setupServer();
     void triggerSIGMeasuring();
