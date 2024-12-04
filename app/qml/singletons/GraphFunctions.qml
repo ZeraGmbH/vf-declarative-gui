@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import GlobalConfig 1.0
 import SessionState 1.0
-import JsonHelper 1.0
+import VfRecorderJsonHelper 1.0
 import Vf_Recorder 1.0
 
 
@@ -65,7 +65,7 @@ Item {
         return timeDiffSecs
     }
 
-    JsonHelper {
+    VfRecorderJsonHelper {
         id : jsonHelper
     }
 }

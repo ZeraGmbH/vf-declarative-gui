@@ -5,7 +5,7 @@ import QtCharts 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import SessionState 1.0
-import JsonHelper 1.0
+import VfRecorderJsonHelper 1.0
 import GraphFunctions 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
@@ -187,7 +187,7 @@ Item {
         }
     }
 
-    JsonHelper {
+    VfRecorderJsonHelper {
         id: jsonHelper
     }
     AxisAutoScaler {
