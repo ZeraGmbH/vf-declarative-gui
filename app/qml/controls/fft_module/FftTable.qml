@@ -18,7 +18,8 @@ Rectangle {
     readonly property int rowsDisplayedTotal: 14
     readonly property int rowHeight: Math.floor(height/rowsDisplayedTotal)
     readonly property int columnWidth: width/7
-    readonly property bool hasHorizScroll: GC.showFftTableAngle ? channelCount > 3 : channelCount > 6
+    readonly property bool showAngles: GC.showFftTableAngles
+    readonly property bool hasHorizScroll: showAngles ? channelCount > 3 : channelCount > 6
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
     color: Material.backgroundColor
@@ -114,7 +115,7 @@ Rectangle {
             Repeater {
                 model: root.channelCount
                 delegate: GridRect {
-                    width: root.columnWidth*(GC.showFftTableAngle ? 2 : 1)
+                    width: root.columnWidth * (showAngles ? 2 : 1)
                     height: root.rowHeight
                     color: GC.tableShadeColor
                     border.color: "#444" //disable border transparency
@@ -156,7 +157,7 @@ Rectangle {
             Repeater {
                 model: root.channelCount
                 GridItem {
-                    width: root.columnWidth* (GC.showFftTableAngle ? 2 : 1)
+                    width: root.columnWidth * (showAngles ? 2 : 1)
                     height: root.rowHeight
                     readonly property string componentName: String("ACT_THDN%1").arg(index+1);
                     readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
@@ -190,7 +191,7 @@ Rectangle {
             Repeater {
                 model: root.channelCount
                 delegate: Row {
-                    width: root.columnWidth*(GC.showFftTableAngle ? 2 : 1)
+                    width: root.columnWidth * (showAngles ? 2 : 1)
                     height: root.rowHeight
                     GridItem {
                         width: root.columnWidth
@@ -204,7 +205,7 @@ Rectangle {
                         font.bold: true
                     }
                     Loader {
-                        active: GC.showFftTableAngle
+                        active: showAngles
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
@@ -222,9 +223,8 @@ Rectangle {
 
         ListView {
             id: lvHarmonics
-            z: -1
             y: root.rowHeight*3
-            width: root.columnWidth*(GC.showFftTableAngle ? channelCount*2+1 : channelCount+1) - vBar.width
+            width: root.columnWidth * (showAngles ? channelCount*2+1 : channelCount+1) - vBar.width
             height: root.rowHeight*(fftOrder+3)
 
             model: relativeView ? ZGL.FFTRelativeTableModel : ZGL.FFTTableModel
@@ -233,170 +233,177 @@ Rectangle {
 
             clip: true
 
-            delegate: Component {
-                Row {
-                    id: row
+            delegate: Row {
+                id: row
+                height: root.rowHeight
+                GridItem {
+                    border.color: "#444" //disable border transparency
+                    x: fftFlickable.contentX //keep item visible
+                    z: 1
+                    width: root.columnWidth-vBar.width
                     height: root.rowHeight
-
-                    GridItem {
-                        border.color: "#444" //disable border transparency
-                        x: fftFlickable.contentX //keep item visible
-                        z: 1
-                        width: root.columnWidth-vBar.width
-                        height: root.rowHeight
-                        color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
-                        text: index
-                        font.bold: true
-                    }
-                    GridItem {
+                    color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
+                    text: index
+                    font.bold: true
+                }
+                GridItem {
+                    width: root.columnWidth
+                    height: root.rowHeight
+                    property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : ""
+                    text: FT.formatNumber(AmplitudeL1) + unit
+                    textColor: GC.colorUL1
+                    font.pixelSize: rowHeight*0.5
+                }
+                Loader {
+                    active: showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : ""
-                        text: FT.formatNumber(AmplitudeL1) + unit
+                        text: FT.formatNumber(AngleL1)
                         textColor: GC.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL1)
-                            textColor: GC.colorUL1
-                            font.pixelSize: rowHeight*0.5
-                        }
-                    }
-                    GridItem {
+                }
+                GridItem {
+                    width: root.columnWidth
+                    height: root.rowHeight
+                    property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : ""
+                    text: FT.formatNumber(AmplitudeL2) + unit
+                    textColor: GC.colorUL2
+                    font.pixelSize: rowHeight*0.5
+                }
+                Loader {
+                    active: showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : ""
-                        text: FT.formatNumber(AmplitudeL2) + unit
+                        text: FT.formatNumber(AngleL2)
                         textColor: GC.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL2)
-                            textColor: GC.colorUL2
-                            font.pixelSize: rowHeight*0.5
-                        }
-                    }
-                    GridItem {
+                }
+                GridItem {
+                    width: root.columnWidth
+                    height: root.rowHeight
+                    property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : ""
+                    text: FT.formatNumber(AmplitudeL3) + unit
+                    textColor: GC.colorUL3
+                    font.pixelSize: rowHeight*0.5
+                }
+                Loader {
+                    active: showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : ""
-                        text: FT.formatNumber(AmplitudeL3) + unit
+                        text: FT.formatNumber(AngleL3)
                         textColor: GC.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL3)
-                            textColor: GC.colorUL3
-                            font.pixelSize: rowHeight*0.5
-                        }
-                    }
-                    GridItem {
+                }
+                GridItem {
+                    width: root.columnWidth
+                    height: root.rowHeight
+                    property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : ""
+                    text: FT.formatNumber(AmplitudeL4) + unit
+                    textColor: GC.colorIL1
+                    font.pixelSize: rowHeight*0.5
+                }
+                Loader {
+                    active: showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : ""
-                        text: FT.formatNumber(AmplitudeL4) + unit
+                        text: FT.formatNumber(AngleL4)
                         textColor: GC.colorIL1
                         font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL4)
-                            textColor: GC.colorIL1
-                            font.pixelSize: rowHeight*0.5
-                        }
-                    }
-                    GridItem {
+                }
+                GridItem {
+                    width: root.columnWidth
+                    height: root.rowHeight
+                    property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : ""
+                    text: FT.formatNumber(AmplitudeL5) + unit
+                    textColor: GC.colorIL2
+                    font.pixelSize: rowHeight*0.5
+                }
+                Loader {
+                    active: showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : ""
-                        text: FT.formatNumber(AmplitudeL5) + unit
+                        text: FT.formatNumber(AngleL5)
                         textColor: GC.colorIL2
                         font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL5)
-                            textColor: GC.colorIL2
-                            font.pixelSize: rowHeight*0.5
-                        }
-                    }
-                    GridItem {
+                }
+                GridItem {
+                    width: root.columnWidth
+                    height: root.rowHeight
+                    property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : ""
+                    text: FT.formatNumber(AmplitudeL6) + unit
+                    textColor: GC.colorIL3
+                    font.pixelSize: rowHeight*0.5
+                }
+                Loader {
+                    active: showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : ""
-                        text: FT.formatNumber(AmplitudeL6) + unit
+                        text: FT.formatNumber(AngleL6)
                         textColor: GC.colorIL3
                         font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL6)
-                            textColor: GC.colorIL3
-                            font.pixelSize: rowHeight*0.5
-                        }
+                }
+                Loader {
+                    active: root.channelCount>6
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
+                        width: root.columnWidth
+                        height: root.rowHeight
+                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : ""
+                        text: FT.formatNumber(AmplitudeL7) + unit
+                        textColor: GC.colorUAux1
+                        font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: root.channelCount>6
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : ""
-                            text: FT.formatNumber(AmplitudeL7) + unit
-                            textColor: GC.colorUAux1
-                            font.pixelSize: rowHeight*0.5
-                        }
+                }
+                Loader {
+                    active: root.channelCount>6 && showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
+                        width: root.columnWidth
+                        height: root.rowHeight
+                        text: FT.formatNumber(AngleL7)
+                        textColor: GC.colorUAux1
+                        font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: root.channelCount>6 && GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL7)
-                            textColor: GC.colorUAux1
-                            font.pixelSize: rowHeight*0.5
-                        }
+                }
+                Loader {
+                    active: root.channelCount>7
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
+                        width: root.columnWidth
+                        height: root.rowHeight
+                        property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : ""
+                        text: FT.formatNumber(AmplitudeL8) + unit
+                        textColor: GC.colorIAux1
+                        font.pixelSize: rowHeight*0.5
                     }
-                    Loader {
-                        active: root.channelCount>7
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : ""
-                            text: FT.formatNumber(AmplitudeL8) + unit
-                            textColor: GC.colorIAux1
-                            font.pixelSize: rowHeight*0.5
-                        }
-                    }
-                    Loader {
-                        active: root.channelCount>7 && GC.showFftTableAngle
-                        sourceComponent: GridItem {
-                            width: root.columnWidth
-                            height: root.rowHeight
-                            text: FT.formatNumber(AngleL8)
-                            textColor: GC.colorIAux1
-                            font.pixelSize: rowHeight*0.5
-                        }
+                }
+                Loader {
+                    active: root.channelCount>7 && showAngles
+                    width: active ? root.columnWidth : 0
+                    sourceComponent: GridItem {
+                        width: root.columnWidth
+                        height: root.rowHeight
+                        text: FT.formatNumber(AngleL8)
+                        textColor: GC.colorIAux1
+                        font.pixelSize: rowHeight*0.5
                     }
                 }
             }
