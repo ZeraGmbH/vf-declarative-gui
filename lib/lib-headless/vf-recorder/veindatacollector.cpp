@@ -7,6 +7,8 @@
 // StorageFilter::Settings are going to change - current settings are set
 // to make tests happy
 
+static constexpr int dftEntityId = 1050;
+
  VeinDataCollector::VeinDataCollector(VeinStorage::AbstractEventSystem *storage, VeinStorage::TimeStamperSettablePtr timeSetter) :
     m_storageFilter(storage, VeinStorage::StorageFilter::Settings(false, true)),
     m_timeStamper(timeSetter),
@@ -31,6 +33,7 @@ void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponent
             m_storageFilter.add(entityId, componentName);
     }
     m_targetEntityComponents = entitesAndComponents;
+    prepareTimeRecording();
     qInfo("VeinDataCollector started logging.");
 }
 
@@ -38,6 +41,7 @@ void VeinDataCollector::stopLogging()
 {
     m_periodicTimer->stop();
     m_storageFilter.clear();
+    disconnect(m_sigMeasuringCompo.get(), 0, this, 0);
     qInfo("VeinDataCollector stopped logging.");
 }
 
@@ -119,6 +123,21 @@ void VeinDataCollector::TimerExpired()
         }
         m_currentTimestampRecord.clear();
     }
+}
+
+void VeinDataCollector::prepareTimeRecording()
+{
+    m_sigMeasuringCompo = m_storage->getDb()->findComponent(dftEntityId, "SIG_Measuring");
+    if(m_sigMeasuringCompo) {
+        connect(m_sigMeasuringCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
+            if(newValue.toInt() == 1) {// 1 indicates RangeModule received new actual values
+                m_timeStamper->setTimestampToNow();
+                collectValues(m_timeStamper->getTimestamp());
+            }
+        });
+    }
+    else
+        qInfo("Graphs recording can't work. RangeModule/SIG_Measuring component is missing.");
 }
 
 RecordedEntityComponents VeinDataCollector::appendToExistingRecord(RecordedEntityComponents existingRecord, int entityId, QString componentName, QVariant value)
