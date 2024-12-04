@@ -14,7 +14,6 @@ public:
     Q_INVOKABLE QStringList getComponents(QJsonObject json);
     Q_INVOKABLE double getValue(QJsonObject json, QString component);
     Q_INVOKABLE QVariant findLastElementOfCompo(QList<QVariant> actVal, QString compoName);
-    Q_INVOKABLE bool isComponentFound(QJsonObject json, QString component);
 };
 
 #endif // JSONHELPER_H

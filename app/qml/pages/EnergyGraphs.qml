@@ -159,15 +159,13 @@ Item {
 
     function loadElement(singleJsonData, components, timeDiffSecs, loadAllElts) {
         for(var v = 0 ; v <components.length; v++) {
-            if(jsonHelper.isComponentFound(singleJsonData, components[v])) {
-                let value = jsonHelper.getValue(singleJsonData, components[v])
-                if(powerComponents.includes(components[v]))
-                    appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, loadAllElts, axisXPower, axisYPower, axisYPowerScaler)
-                else if(voltageComponents.includes(components[v]))
-                    appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYLeft, axisYLeftScaler)
-                else if(currentComponents.includes(components[v]))
-                    appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYRight, axisYRightScaler)
-                }
+            let value = jsonHelper.getValue(singleJsonData, components[v])
+            if(powerComponents.includes(components[v]))
+                appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, loadAllElts, axisXPower, axisYPower, axisYPowerScaler)
+            else if(voltageComponents.includes(components[v]))
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYLeft, axisYLeftScaler)
+            else if(currentComponents.includes(components[v]))
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYRight, axisYRightScaler)
             }
         calculateContentWidth(timeDiffSecs)
         maxXValue = axisXPower.max
