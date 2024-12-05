@@ -16,6 +16,7 @@ Item {
     id:  root
     property var graphHeight
     property var graphWidth
+    property bool logging : false
     readonly property int xAxisTimeSpanSecs: 8
     readonly property int storageNumber: 0
     readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
@@ -41,6 +42,7 @@ Item {
     onParStartStopChanged: {
         if(SessionState.emobSession) {
             if(parStartStop === 1) {
+                logging = true
                 var inputJson
                 if(SessionState.dcSession)
                     inputJson = jsonEnergyDC
@@ -51,8 +53,10 @@ Item {
                     Vf_Recorder.startLogging(storageNumber, inputJson)
                 }
             }
-            else if(parStartStop === 0)
+            else if(parStartStop === 0) {
+                logging = false
                 Vf_Recorder.stopLogging(storageNumber)
+            }
         }
     }
     property var jsonData : Vf_Recorder.lastStoredValues0
@@ -383,7 +387,7 @@ Item {
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 contentWidth: root.contentWidth
-                interactive: (parStartStop === 1) ? false : true
+                interactive: !logging
             }
             ScrollBar {
                 id: powerScrollBar
@@ -392,7 +396,7 @@ Item {
                 policy: ScrollBar.AlwaysOn
                 orientation: Qt.Horizontal
                 anchors.bottom: chartViewPowerFlickable.bottom
-                interactive: (parStartStop === 1) ? false : true
+                interactive: !logging
                 position: 0.0
                 size: 1.0
                 onPositionChanged: {
@@ -411,7 +415,7 @@ Item {
                 MouseArea { }
                 anchors.fill: chartViewPower
                 pinch.dragAxis: Pinch.XAxis
-                enabled: (parStartStop === 1) ? false : true
+                enabled: !logging
                 onPinchUpdated: {
                     if(pinch.scale > 1) {
                         axisXPower.min = axisXPower.max - xAxisTimeSpanSecs
@@ -491,7 +495,7 @@ Item {
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 contentWidth: root.contentWidth
-                interactive: (parStartStop === 1) ? false : true
+                interactive: !logging
                 ScrollBar.horizontal: ScrollBar {
                     height: chartViewFlickable.height * 0.03
                     policy: ScrollBar.AlwaysOn
