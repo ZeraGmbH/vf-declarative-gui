@@ -491,23 +491,54 @@ Item {
                 anchors.fill: parent
                 boundsBehavior: Flickable.StopAtBounds
                 width: root.width
-                height: root.height
+                height: root.height * 0.97
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 contentWidth: root.contentWidth
                 interactive: !logging
-                ScrollBar.horizontal: ScrollBar {
-                    height: chartViewFlickable.height * 0.03
-                    policy: ScrollBar.AlwaysOn
-                    anchors.bottom: parent.bottom
-                    interactive: chartViewFlickable.interactive
-                    position: 1.0 - size
-                    onPositionChanged: {
-                        if(chartViewFlickable.interactive)
-                            chartView.newXMin = root.maxXValue * position
+            }
+            ScrollBar {
+                id: uIScrollBar
+                width: chartViewFlickable.width
+                height: root.height * 0.03
+                policy: ScrollBar.AlwaysOn
+                orientation: Qt.Horizontal
+                anchors.bottom: chartViewFlickable.bottom
+                interactive: !logging
+                position: 0.0
+                size: 1.0
+                onPositionChanged: {
+                    if(chartViewFlickable.interactive)
+                        chartView.newXMin = root.maxXValue * position
+                }
+                onInteractiveChanged: {
+                    if(!interactive) {
+                        uIScrollBar.position = 0.0
+                        uIScrollBar.size = 1.0
                     }
                 }
             }
+            PinchArea {
+                id: chartViewPinchArea
+                MouseArea { }
+                anchors.fill: chartView
+                pinch.dragAxis: Pinch.XAxis
+                enabled: !logging
+                onPinchUpdated: {
+                    if(pinch.scale > 1) {
+                        axisX.min = axisX.max - xAxisTimeSpanSecs
+                        uIScrollBar.position = axisX.min / axisX.max
+                        uIScrollBar.size = 1.0 - uIScrollBar.position
+                    }
+                    else {
+                        axisX.min = 0
+                        axisX.max = root.maxXValue
+                        uIScrollBar.position = 0.0
+                        uIScrollBar.size = 1.0 - uIScrollBar.position
+                    }
+                }
+            }
+            Item { }
             LineSeries {
                 id: lineSeriesU
                 axisX: axisX
