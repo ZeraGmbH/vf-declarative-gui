@@ -352,6 +352,8 @@ Item {
             theme: ChartView.ChartThemeDark
             legend.visible: false
             property real newXMin: 0.0
+            property real scrollbarSize: 1.0
+            property real scrollbarPosition: 0.0
 
             ValueAxis {
                 id: axisYPower
@@ -386,51 +388,40 @@ Item {
                 height: root.height * 0.97
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
-                contentWidth: root.contentWidth
+                contentWidth: root.chartWidth
                 interactive: !logging
-            }
-            ScrollBar {
-                id: powerScrollBar
-                width: chartViewPowerFlickable.width
-                height: root.height * 0.03
-                policy: ScrollBar.AlwaysOn
-                orientation: Qt.Horizontal
-                anchors.bottom: chartViewPowerFlickable.bottom
-                interactive: !logging
-                position: 0.0
-                size: 1.0
-                onPositionChanged: {
-                    if(chartViewPowerFlickable.interactive)
-                        chartViewPower.newXMin = root.maxXValue * position
-                }
                 onInteractiveChanged: {
-                    if(!interactive) {
-                        powerScrollBar.position = 0.0
-                        powerScrollBar.size = 1.0
+                    if(!interactive)
+                        contentWidth = root.chartWidth
+                }
+                ScrollBar.horizontal: ScrollBar {
+                    id: powerScrollBar
+                    height: root.height * 0.03
+                    policy: ScrollBar.AlwaysOn
+                    anchors.bottom: parent.bottom
+                    interactive: !logging
+                    position: 1.0 - size
+                    onPositionChanged: {
+                        if(chartViewPowerFlickable.interactive)
+                            chartViewPower.newXMin = root.maxXValue * position
+                    }
+                }
+                PinchArea {
+                    id: chartViewPowerPinchArea
+                    anchors.fill: parent
+                    pinch.dragAxis: Pinch.XAxis
+                    enabled: !logging
+                    onPinchUpdated: {
+                        if(pinch.scale > 1)
+                            chartViewPowerFlickable.contentWidth = root.contentWidth
+                        else {
+                            chartViewPowerFlickable.contentWidth = root.chartWidth
+                            axisXPower.min = 0
+                            axisXPower.max = root.maxXValue
+                        }
                     }
                 }
             }
-            PinchArea {
-                id: chartViewPowerPinchArea
-                MouseArea { }
-                anchors.fill: chartViewPower
-                pinch.dragAxis: Pinch.XAxis
-                enabled: !logging
-                onPinchUpdated: {
-                    if(pinch.scale > 1) {
-                        axisXPower.min = axisXPower.max - xAxisTimeSpanSecs
-                        powerScrollBar.position = axisXPower.min / axisXPower.max
-                        powerScrollBar.size = 1.0 - powerScrollBar.position
-                    }
-                    else {
-                        axisXPower.min = 0
-                        axisXPower.max = root.maxXValue
-                        powerScrollBar.position = 0.0
-                        powerScrollBar.size = 1.0 - powerScrollBar.position
-                    }
-                }
-            }
-            Item { }
             LineSeries {
                 id: lineSeriesP
                 axisX: axisXPower
