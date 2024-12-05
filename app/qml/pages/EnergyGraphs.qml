@@ -379,21 +379,30 @@ Item {
                 anchors.fill: parent
                 boundsBehavior: Flickable.StopAtBounds
                 width: root.width
-                height: root.height
+                height: root.height * 0.97
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 contentWidth: root.contentWidth
                 interactive: (parStartStop === 1) ? false : true
-                ScrollBar.horizontal: ScrollBar {
-                    id: powerScrollBar
-                    height: chartViewPowerFlickable.height * 0.03
-                    //policy: ScrollBar.AsNeeded
-                    anchors.bottom: parent.bottom
-                    interactive: chartViewPowerFlickable.interactive
-                    position: 1.0 - size
-                    onPositionChanged: {
-                        if(chartViewPowerFlickable.interactive)
-                            chartViewPower.newXMin = root.maxXValue * position
+            }
+            ScrollBar {
+                id: powerScrollBar
+                width: chartViewPowerFlickable.width
+                height: root.height * 0.03
+                policy: ScrollBar.AlwaysOn
+                orientation: Qt.Horizontal
+                anchors.bottom: chartViewPowerFlickable.bottom
+                interactive: (parStartStop === 1) ? false : true
+                position: 0.0
+                size: 1.0
+                onPositionChanged: {
+                    if(chartViewPowerFlickable.interactive)
+                        chartViewPower.newXMin = root.maxXValue * position
+                }
+                onInteractiveChanged: {
+                    if(!interactive) {
+                        powerScrollBar.position = 0.0
+                        powerScrollBar.size = 1.0
                     }
                 }
             }
@@ -402,12 +411,18 @@ Item {
                 MouseArea { }
                 anchors.fill: chartViewPower
                 pinch.dragAxis: Pinch.XAxis
+                enabled: (parStartStop === 1) ? false : true
                 onPinchUpdated: {
                     if(pinch.scale > 1) {
                         axisXPower.min = axisXPower.max - xAxisTimeSpanSecs
+                        powerScrollBar.position = axisXPower.min / axisXPower.max
+                        powerScrollBar.size = 1.0 - powerScrollBar.position
                     }
                     else {
                         axisXPower.min = 0
+                        axisXPower.max = root.maxXValue
+                        powerScrollBar.position = 0.0
+                        powerScrollBar.size = 1.0 - powerScrollBar.position
                     }
                 }
             }
