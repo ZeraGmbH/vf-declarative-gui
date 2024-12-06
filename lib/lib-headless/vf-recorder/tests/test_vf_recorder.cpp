@@ -14,9 +14,13 @@ static constexpr int powerEntityId = 1070;
 static constexpr int maximumStorage = 5;
 static constexpr int storageNum = 0;
 
-void test_vf_recorder::init()
+void test_vf_recorder::initTestCase()
 {
     TimerFactoryQtForTest::enableTest();
+}
+
+void test_vf_recorder::init()
+{
     m_eventHandler = std::make_unique<VeinEvent::EventHandler>();
     m_storageEventSystem = std::make_shared<VeinStorage::StorageEventSystem>();
     Vf_Recorder::setStorageSystem(m_storageEventSystem.get());
@@ -24,6 +28,7 @@ void test_vf_recorder::init()
 
     m_eventHandler->addSubsystem(m_storageEventSystem.get());
     TimeMachineObject::feedEventLoop();
+    TimeMachineForTest::reset();
 }
 
 void test_vf_recorder::cleanup()
@@ -39,7 +44,7 @@ void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
     for(int i = 0; i < maximumStorage; i++) {
         m_recorder->startLogging(i, QJsonObject());
         TimeMachineForTest::getInstance()->processTimers(100);
-        QVERIFY(m_recorder->getLatestStoredValues0().isEmpty());
+        QVERIFY(m_recorder->getLatestStoredValues(i).isEmpty());
     }
 }
 
@@ -49,7 +54,7 @@ void test_vf_recorder::storeValuesBasedOnNonexistingEntitiesInJson()
     createModule(sigMeasuringEntityId, components);
     startLoggingFromJson(":/incorrect-entities.json", storageNum);
     TimeMachineForTest::getInstance()->processTimers(100);
-    QVERIFY(m_recorder->getAllStoredValues(storageNum).isEmpty());
+    QVERIFY(m_recorder->getLatestStoredValues(storageNum).isEmpty());
 }
 
 void test_vf_recorder::storeValuesEmptyComponentsInJson()
@@ -196,9 +201,9 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    QJsonObject storedValues = m_recorder->getAllStoredValues(storageNum);
-    QStringList timestampKeys = storedValues.keys();
-    QCOMPARE (timestampKeys.size(), 1);
+    QJsonObject storedValues = m_recorder->getLatestStoredValues(storageNum);
+    QDateTime firstTimeStamp = QDateTime::fromString(storedValues.keys().first() , "dd-MM-yyyy hh:mm:ss.zzz");
+    QCOMPARE (storedValues.size(), 1);
 
     TimeMachineForTest::getInstance()->processTimers(5000);
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 5);
@@ -206,12 +211,10 @@ void test_vf_recorder::fireActualValuesAfterDelayWhileLogging()
     triggerRangeModuleSigMeasuring();
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_recorder->getAllStoredValues(storageNum);
-    timestampKeys = storedValues.keys();
-    QCOMPARE (timestampKeys.size(), 2);
+    storedValues = m_recorder->getLatestStoredValues(storageNum);
+    QDateTime lastTimeStamp = QDateTime::fromString(storedValues.keys().first() , "dd-MM-yyyy hh:mm:ss.zzz");
+    QCOMPARE (storedValues.size(), 1);
 
-    QDateTime firstTimeStamp = QDateTime::fromString(timestampKeys.first() , "dd-MM-yyyy hh:mm:ss.zzz");
-    QDateTime lastTimeStamp = QDateTime::fromString(timestampKeys.last() , "dd-MM-yyyy hh:mm:ss.zzz");
     QVERIFY(firstTimeStamp < lastTimeStamp);
 }
 
@@ -228,11 +231,10 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     changeComponentValue(powerEntityId, "ACT_PQS2", 2);
     triggerRangeModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
-    TimeMachineForTest::getInstance()->processTimers(100);
 
-    QJsonObject storedValues = m_recorder->getAllStoredValues(storageNum);
-    QStringList timestampKeys = storedValues.keys();
-    QCOMPARE (timestampKeys.size(), 1);
+    QJsonObject storedValues = m_recorder->getLatestStoredValues(storageNum);
+    QString firstTimeStamp = storedValues.keys().first();
+    QCOMPARE(firstTimeStamp, msAfterEpoch(0)); //0ms elapsed before triggerRangeModuleSigMeasuring
 
     QJsonObject storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(rmsEntityId)));
@@ -249,11 +251,11 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
     changeComponentValue(rmsEntityId, "ACT_RMSPN1", 3);
     changeComponentValue(rmsEntityId, "ACT_RMSPN2", 4);
     triggerRangeModuleSigMeasuring();
-    TimeMachineForTest::getInstance()->processTimers(100);
+    TimeMachineObject::feedEventLoop();
 
-    storedValues = m_recorder->getAllStoredValues(storageNum);
-    timestampKeys = storedValues.keys();
-    QCOMPARE (timestampKeys.size(), 2);
+    storedValues = m_recorder->getLatestStoredValues(storageNum);
+    QString secondTimeStamp = storedValues.keys().first();
+    QCOMPARE(secondTimeStamp, msAfterEpoch(500)); //500ms elapsed before triggerRangeModuleSigMeasuring
 
     storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(rmsEntityId)));
@@ -277,9 +279,9 @@ void test_vf_recorder::fireRmsPowerValuesAfterDifferentDelaysWhileLogging()
 
     TimeMachineForTest::getInstance()->processTimers(100);
 
-    storedValues = m_recorder->getAllStoredValues(storageNum);
-    timestampKeys = storedValues.keys();
-    QCOMPARE (timestampKeys.size(), 3);
+    storedValues = m_recorder->getLatestStoredValues(storageNum);
+    QString thirdTimeStamp = storedValues.keys().first();
+    QCOMPARE(thirdTimeStamp, msAfterEpoch(500 + 500)); //500ms + 500ms elapsed before triggerRangeModuleSigMeasuring
 
     storedValuesWithoutTimeStamp = getStoredValueWithoutTimeStamp(0);
     QVERIFY(storedValuesWithoutTimeStamp.contains(QString::number(rmsEntityId)));
@@ -346,7 +348,7 @@ void test_vf_recorder::stopLogging(int storageNum)
 QJsonObject test_vf_recorder::getStoredValueWithoutTimeStamp(int storageNum)
 {
     QJsonObject storedValuesWithoutTimeStamp;
-    QJsonObject storedValues = m_recorder->getAllStoredValues(storageNum);
+    QJsonObject storedValues = m_recorder->getLatestStoredValues(storageNum);
     for(const QString &key : storedValues.keys()) {
         QJsonValue entityFound = storedValues.value(key);
         storedValuesWithoutTimeStamp = entityFound.toObject();
@@ -364,5 +366,12 @@ QString test_vf_recorder::getValuesStoredOfComponent(QHash<QString, QVariant> co
 {
     QVariant value = componentHash.value(componentName);
     return value.toString();
+}
+
+QString test_vf_recorder::msAfterEpoch(qint64 msecs)
+{
+    QDateTime dateTime;
+    dateTime.setMSecsSinceEpoch(msecs);
+    return dateTime.toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
 }
 

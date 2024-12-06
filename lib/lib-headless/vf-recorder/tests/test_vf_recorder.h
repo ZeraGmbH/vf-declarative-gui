@@ -11,6 +11,7 @@ class test_vf_recorder : public QObject
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
     void init();
     void cleanup();
 
@@ -35,6 +36,8 @@ private:
     QJsonObject getStoredValueWithoutTimeStamp(int storageNum);
     QHash<QString, QVariant> getComponentsStoredOfEntity(int entityId, QJsonObject storedValueWithoutTimeStamp);
     QString getValuesStoredOfComponent(QHash<QString, QVariant> componentHash, QString componentName);
+
+    QString msAfterEpoch(qint64 msecs);
 
     std::unique_ptr<VeinEvent::EventHandler> m_eventHandler;
     std::unique_ptr<Vf_Recorder> m_recorder;
