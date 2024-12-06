@@ -435,7 +435,6 @@ Item {
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
-            property real newXMin: 0.0
 
             ValueAxis {
                 id: axisYLeft
@@ -468,63 +467,51 @@ Item {
                 min: 0
                 max : 10
             }
-            onNewXMinChanged: {
-                axisX.min = Math.ceil(newXMin)
-                axisX.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
-            }
+
             Flickable {
                 id: chartViewFlickable
                 anchors.fill: parent
                 boundsBehavior: Flickable.StopAtBounds
                 width: root.width
-                height: root.height * 0.97
+                height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 contentWidth: root.contentWidth
                 interactive: !logging
-            }
-            ScrollBar {
-                id: uIScrollBar
-                width: chartViewFlickable.width
-                height: root.height * 0.03
-                policy: ScrollBar.AlwaysOn
-                orientation: Qt.Horizontal
-                anchors.bottom: chartViewFlickable.bottom
-                interactive: !logging
-                position: 0.0
-                size: 1.0
-                onPositionChanged: {
-                    if(chartViewFlickable.interactive)
-                        chartView.newXMin = root.maxXValue * position
-                }
                 onInteractiveChanged: {
-                    if(!interactive) {
-                        uIScrollBar.position = 0.0
-                        uIScrollBar.size = 1.0
+                    if(!interactive)
+                        contentWidth = root.chartWidth
+                }
+                ScrollBar.horizontal: ScrollBar {
+                    id: uIScrollBar
+                    height: root.height * 0.03
+                    policy: ScrollBar.AlwaysOn
+                    anchors.bottom: parent.bottom
+                    interactive: !logging
+                    position: 1.0 - size
+                    onPositionChanged: {
+                        let newXMin
+                        newXMin = root.maxXValue * position
+                        axisX.min = Math.ceil(newXMin)
+                        axisX.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
+                    }
+                }
+                PinchArea {
+                    id: chartViewPinchArea
+                    anchors.fill: parent
+                    pinch.dragAxis: Pinch.XAxis
+                    enabled: !logging
+                    onPinchUpdated: {
+                        if(pinch.scale > 1)
+                            chartViewFlickable.contentWidth = root.contentWidth
+                        else {
+                            chartViewFlickable.contentWidth = root.chartWidth
+                            axisX.min = 0
+                            axisX.max = root.maxXValue
+                        }
                     }
                 }
             }
-            PinchArea {
-                id: chartViewPinchArea
-                MouseArea { }
-                anchors.fill: chartView
-                pinch.dragAxis: Pinch.XAxis
-                enabled: !logging
-                onPinchUpdated: {
-                    if(pinch.scale > 1) {
-                        axisX.min = axisX.max - xAxisTimeSpanSecs
-                        uIScrollBar.position = axisX.min / axisX.max
-                        uIScrollBar.size = 1.0 - uIScrollBar.position
-                    }
-                    else {
-                        axisX.min = 0
-                        axisX.max = root.maxXValue
-                        uIScrollBar.position = 0.0
-                        uIScrollBar.size = 1.0 - uIScrollBar.position
-                    }
-                }
-            }
-            Item { }
             LineSeries {
                 id: lineSeriesU
                 axisX: axisX
