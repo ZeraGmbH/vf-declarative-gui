@@ -251,7 +251,7 @@ Item {
 
         Loader {
             id: phasesLoader
-            height: 32  // root.graphHeight * 0.045
+            height: root.height * 0.13
             active: SessionState.emobSession && !SessionState.dcSession
             sourceComponent: RowLayout {
                 id: phases
@@ -270,6 +270,8 @@ Item {
                 }
                 ZCheckBox {
                     text: Z.tr("L1")
+                    width: root.graphWidth
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
                     checked: GC.showCurvePhaseOne
@@ -287,6 +289,8 @@ Item {
                 }
                 ZCheckBox {
                     text: Z.tr("L2")
+                    width: root.graphWidth
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
                     checked: GC.showCurvePhaseTwo
@@ -301,10 +305,11 @@ Item {
                         else
                             removeLineSeries(phase2Compos)
                     }
-
                 }
                 ZCheckBox {
                     text: Z.tr("L3")
+                    width: parent.width
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
                     checked: GC.showCurvePhaseThree
@@ -322,6 +327,8 @@ Item {
                 }
                 ZCheckBox {
                     text: Z.tr("Sum")
+                    width: parent.width
+                    Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignTop
                     checked: GC.showCurveSum
