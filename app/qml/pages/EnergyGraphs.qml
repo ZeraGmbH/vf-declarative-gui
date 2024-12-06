@@ -101,18 +101,33 @@ Item {
         loadAllElements(componentsList)
     }
 
+    function enableSeries(componentsList) {
+        for(var i= 0; i<componentsList.length; i++) {
+            if(powerComponents.includes(componentsList[i])) {
+                var series = chartViewPower.series(componentsList[i])
+                if(series !==null)
+                    series.style = Qt.SolidLine
+            }
+            if(voltageComponents.includes(componentsList[i]) || currentComponents.includes(componentsList[i])) {
+                series = chartView.series(componentsList[i])
+                if(series !==null)
+                    series.style = Qt.SolidLine
+            }
+        }
+    }
+
     function removeLineSeries(componentsList) {
         var indexOfCompoToRemove = []
         for(var i= 0; i<componentsList.length; i++) {
             if(powerComponents.includes(componentsList[i])) {
                 var series = chartViewPower.series(componentsList[i])
                 if(series !==null)
-                    chartViewPower.removeSeries(series)
+                    series.style = Qt.NoPen
             }
             if(voltageComponents.includes(componentsList[i]) || currentComponents.includes(componentsList[i])) {
                 series = chartView.series(componentsList[i])
                 if(series !==null)
-                    chartView.removeSeries(series)
+                    series.style = Qt.NoPen
             }
         }
     }
@@ -282,7 +297,7 @@ Item {
                         GC.setPhaseOne(checked)
                         var phase1Compos = ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
                         if(checked)
-                            createLineSeries(phase1Compos)
+                            enableSeries(phase1Compos)
                         else
                             removeLineSeries(phase1Compos)
                     }
@@ -301,7 +316,7 @@ Item {
                         GC.setPhaseTwo(checked)
                         var phase2Compos = ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
                         if(checked)
-                            createLineSeries(phase2Compos)
+                            enableSeries(phase2Compos)
                         else
                             removeLineSeries(phase2Compos)
                     }
@@ -320,7 +335,7 @@ Item {
                         GC.setPhaseThree(checked)
                         var phase3Compos = ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
                         if(checked)
-                            createLineSeries(phase3Compos)
+                            enableSeries(phase3Compos)
                         else
                             removeLineSeries(phase3Compos)
                     }
@@ -339,7 +354,7 @@ Item {
                         GC.setSum(checked)
                         var phaseSumCompos = ["ACT_PQS4"]
                         if(checked)
-                            createLineSeries(phaseSumCompos)
+                            enableSeries(phaseSumCompos)
                         else
                             removeLineSeries(phaseSumCompos)
                     }
@@ -534,9 +549,22 @@ Item {
         }
     }
     Component.onCompleted: {
-        if(SessionState.emobSession && SessionState.dcSession) {
-            var compos = ["ACT_DC7", "ACT_DC8", "ACT_PQS1"]
-            createLineSeries(compos)
+        var compos
+        if(SessionState.emobSession) {
+            if(SessionState.dcSession) {
+                compos = ["ACT_DC7", "ACT_DC8", "ACT_PQS1"]
+                createLineSeries(compos)
+            }
+            else {
+                compos = ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
+                createLineSeries(compos)
+                compos = ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
+                createLineSeries(compos)
+                compos = ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
+                createLineSeries(compos)
+                compos = ["ACT_PQS4"]
+                createLineSeries(compos)
+            }
         }
     }
 }
