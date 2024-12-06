@@ -122,6 +122,7 @@ Item {
             axisX.max = timeDiffSecs + xAxisTimeSpanSecs
             axisX.min = 0
         }
+        maxXValue = timeDiffSecs
     }
 
     function setYaxisMinMax(axisY, minValue, maxValue) {
@@ -172,7 +173,6 @@ Item {
                 appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYRight, axisYRightScaler)
             }
         calculateContentWidth(timeDiffSecs)
-        maxXValue = axisXPower.max
     }
 
     function loadLastElement() {
