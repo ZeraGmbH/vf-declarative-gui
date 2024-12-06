@@ -351,9 +351,6 @@ Item {
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
-            property real newXMin: 0.0
-            property real scrollbarSize: 1.0
-            property real scrollbarPosition: 0.0
 
             ValueAxis {
                 id: axisYPower
@@ -375,17 +372,13 @@ Item {
                 min: 0
                 max : xAxisTimeSpanSecs
             }
-            onNewXMinChanged: {
-                axisXPower.min = Math.ceil(newXMin)
-                axisXPower.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
-            }
 
             Flickable {
                 id : chartViewPowerFlickable
                 anchors.fill: parent
                 boundsBehavior: Flickable.StopAtBounds
                 width: root.width
-                height: root.height * 0.97
+                height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
                 contentWidth: root.chartWidth
@@ -402,8 +395,10 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        if(chartViewPowerFlickable.interactive)
-                            chartViewPower.newXMin = root.maxXValue * position
+                        let newXMin
+                        newXMin = root.maxXValue * position
+                        axisXPower.min = Math.ceil(newXMin)
+                        axisXPower.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
                     }
                 }
                 PinchArea {
