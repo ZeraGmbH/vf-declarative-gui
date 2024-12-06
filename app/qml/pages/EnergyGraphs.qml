@@ -349,10 +349,9 @@ Item {
 
         ChartView {
             id: chartViewPower
-            height: root.graphHeight / 2 - phasesLoader.height
+            height: phasesLoader.active ? root.graphHeight / 2 - phasesLoader.height : root.graphHeight / 2
             width: root.graphWidth
-            anchors.top: phasesLoader.bottom
-            anchors.left: phasesLoader.left
+            anchors.top: phasesLoader.active ? phasesLoader.bottom : phasesLoader.top
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
@@ -433,7 +432,6 @@ Item {
             height: root.graphHeight / 2
             width: root.graphWidth
             anchors.top: chartViewPower.bottom
-            anchors.left: phasesLoader.left
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
