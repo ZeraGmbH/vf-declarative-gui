@@ -20,7 +20,7 @@ public:
     Q_PROPERTY(QString firstTimestamp0 READ getFirstTimestamp0)
 
     QJsonObject getLatestStoredValues0();
-    QJsonObject getAllStoredValues(int storageNum);
+    QJsonObject getLatestStoredValues(int storageNum);
     QString getFirstTimestamp0();
 
 signals:

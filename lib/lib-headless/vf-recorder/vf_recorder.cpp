@@ -60,9 +60,9 @@ QJsonObject Vf_Recorder::getLatestStoredValues0()
     return m_dataCollect.at(0)->getLatestJsonObject();
 }
 
-QJsonObject Vf_Recorder::getAllStoredValues(int storageNum)
+QJsonObject Vf_Recorder::getLatestStoredValues(int storageNum)
 {
-    return m_dataCollect.at(storageNum)->getAllStoredValues();
+    return m_dataCollect.at(storageNum)->getLatestJsonObject();
 }
 
 QString Vf_Recorder::getFirstTimestamp0()
