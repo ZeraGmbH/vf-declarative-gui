@@ -363,8 +363,6 @@ Item {
 
             ValueAxis {
                 id: axisYPower
-                color: GC.colorUAux1
-                labelsColor: GC.colorUAux1
                 titleText: "P[W]"
                 titleFont.pixelSize: chartViewPower.height * 0.06
                 labelsFont.pixelSize: chartViewPower.height * 0.04
@@ -447,8 +445,6 @@ Item {
 
             ValueAxis {
                 id: axisYLeft
-                color: GC.colorUAux1
-                labelsColor: GC.colorUAux1
                 titleText: "U[V]"
                 titleFont.pixelSize: chartView.height * 0.06
                 labelsFont.pixelSize: chartView.height * 0.04
@@ -467,8 +463,6 @@ Item {
             }
             ValueAxis {
                 id: axisYRight
-                color: GC.colorIAux1
-                labelsColor: GC.colorIAux1
                 titleText: "I[A]"
                 titleFont.pixelSize: chartView.height * 0.06
                 labelsFont.pixelSize: chartView.height * 0.04
