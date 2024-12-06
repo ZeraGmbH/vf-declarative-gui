@@ -48,6 +48,7 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChange()
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLatestJsonObject());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
+    QCOMPARE(m_dataCollector->getFirstTimeStamp(), msAfterEpoch(0));
 }
 
 void test_vein_data_collector::oneTimestampOneEntityOneComponentChangesTwice()
@@ -66,6 +67,7 @@ void test_vein_data_collector::oneTimestampOneEntityOneComponentChangesTwice()
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLatestJsonObject());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
+    QCOMPARE(m_dataCollector->getFirstTimeStamp(), msAfterEpoch(50));
 }
 
 void test_vein_data_collector::twoTimestampsOneEntityOneComponentChange()
@@ -85,6 +87,7 @@ void test_vein_data_collector::twoTimestampsOneEntityOneComponentChange()
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
+    QCOMPARE(m_dataCollector->getFirstTimeStamp(), msAfterEpoch(0));
 }
 
 void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
@@ -134,6 +137,7 @@ void test_vein_data_collector::twoTimestampsTwoEntitiesTwoComponentChange()
     QByteArray jsonExpected = file.readAll();
     QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
+    QCOMPARE(m_dataCollector->getFirstTimeStamp(), msAfterEpoch(0));
 }
 
 void test_vein_data_collector::setupServer()
@@ -150,4 +154,11 @@ void test_vein_data_collector::triggerSIGMeasuring()
 {
     m_server->setComponentServerNotification(sigMeasuringEntityId, "SIG_Measuring", QVariant(0));
     m_server->setComponentServerNotification(sigMeasuringEntityId, "SIG_Measuring", QVariant(1));
+}
+
+QString test_vein_data_collector::msAfterEpoch(qint64 msecs)
+{
+    QDateTime dateTime;
+    dateTime.setMSecsSinceEpoch(msecs);
+    return dateTime.toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
 }
