@@ -106,7 +106,6 @@ Item {
             series.width = 1
             series.color = GraphFunctions.getChannelColor(componentsList[component])
         }
-        loadAllElements(componentsList)
     }
 
     function findSerie(componentName) {
@@ -197,15 +196,6 @@ Item {
         var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
         var components = jsonHelper.getComponents(jsonData[timestamp])
         loadElement(jsonData[timestamp], components, timeDiffSecs, false)
-    }
-
-    function loadAllElements(components) {
-        var completeJson = Vf_Recorder.storedValues0
-        for(var timestamp in completeJson) {
-            var jsonWithoutTimestamp = completeJson[timestamp]
-            var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
-            loadElement(jsonWithoutTimestamp, components, timeDiffSecs, true)
-        }
     }
 
     VfRecorderJsonHelper {
