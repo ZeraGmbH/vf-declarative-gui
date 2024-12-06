@@ -16,16 +16,24 @@ Item {
     id:  root
     property var graphHeight
     property var graphWidth
-    property bool logging : false
-    readonly property int xAxisTimeSpanSecs: 8
-    readonly property int storageNumber: 0
+
     readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
     readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
     readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
+    readonly property var phase1Compos : ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
+    readonly property var phase2Compos : ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
+    readonly property var phase3Compos : ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
+    readonly property var phaseSumCompos : ["ACT_PQS4"]
+    readonly property var dcCompos :  ["ACT_DC7", "ACT_DC8", "ACT_PQS1"]
     readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
                                                  { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
     readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
                                                  { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
+
+
+    property bool logging : false
+    readonly property int xAxisTimeSpanSecs: 8
+    readonly property int storageNumber: 0
     property real contentWidth: 0.0
     property real chartWidth: root.graphWidth * 0.8356
     property int maxVisibleXPoints: xAxisTimeSpanSecs * 2
@@ -289,7 +297,6 @@ Item {
                     property var checkCombo: GC.showCurvePhaseOne
                     onCheckComboChanged: {
                         GC.setPhaseOne(checked)
-                        var phase1Compos = ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
                         if(checked)
                             enableSeries(phase1Compos)
                         else
@@ -308,7 +315,6 @@ Item {
                     property var checkCombo: GC.showCurvePhaseTwo
                     onCheckComboChanged: {
                         GC.setPhaseTwo(checked)
-                        var phase2Compos = ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
                         if(checked)
                             enableSeries(phase2Compos)
                         else
@@ -327,7 +333,6 @@ Item {
                     property var checkCombo: GC.showCurvePhaseThree
                     onCheckComboChanged: {
                         GC.setPhaseThree(checked)
-                        var phase3Compos = ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
                         if(checked)
                             enableSeries(phase3Compos)
                         else
@@ -346,7 +351,6 @@ Item {
                     property var checkCombo: GC.showCurveSum
                     onCheckComboChanged: {
                         GC.setSum(checked)
-                        var phaseSumCompos = ["ACT_PQS4"]
                         if(checked)
                             enableSeries(phaseSumCompos)
                         else
@@ -543,21 +547,14 @@ Item {
         }
     }
     Component.onCompleted: {
-        var compos
         if(SessionState.emobSession) {
-            if(SessionState.dcSession) {
-                compos = ["ACT_DC7", "ACT_DC8", "ACT_PQS1"]
-                createLineSeries(compos)
-            }
+            if(SessionState.dcSession)
+                createLineSeries(dcCompos)
             else {
-                compos = ["ACT_RMSPN1", "ACT_RMSPN4", "ACT_PQS1"]
-                createLineSeries(compos)
-                compos = ["ACT_RMSPN2", "ACT_RMSPN5", "ACT_PQS2"]
-                createLineSeries(compos)
-                compos = ["ACT_RMSPN3", "ACT_RMSPN6", "ACT_PQS3"]
-                createLineSeries(compos)
-                compos = ["ACT_PQS4"]
-                createLineSeries(compos)
+                createLineSeries(phase1Compos)
+                createLineSeries(phase2Compos)
+                createLineSeries(phase3Compos)
+                createLineSeries(phaseSumCompos)
             }
         }
     }
