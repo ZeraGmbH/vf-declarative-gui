@@ -67,7 +67,7 @@ Item {
             }
         }
     }
-    property var jsonData : Vf_Recorder.lastStoredValues0
+    property var jsonData : Vf_Recorder.latestStoredValues0
     onJsonDataChanged:
         loadLastElement()
 

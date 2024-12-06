@@ -55,7 +55,7 @@ void Vf_Recorder::clearJson(int storageNum)
     emit newStoredValues(storageNum);
 }
 
-QJsonObject Vf_Recorder::getLastStoredValues0()
+QJsonObject Vf_Recorder::getLatestStoredValues0()
 {
     return m_dataCollect.at(0)->getLatestJsonObject();
 }
