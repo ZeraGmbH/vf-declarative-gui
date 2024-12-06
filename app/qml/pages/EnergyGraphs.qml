@@ -101,34 +101,28 @@ Item {
         loadAllElements(componentsList)
     }
 
+    function findSerie(componentName) {
+        let series = null
+        if(powerComponents.includes(componentName))
+            series = chartViewPower.series(componentName)
+        if(voltageComponents.includes(componentName) || currentComponents.includes(componentName))
+            series = chartView.series(componentName)
+        return series
+    }
+
     function enableSeries(componentsList) {
         for(var i= 0; i<componentsList.length; i++) {
-            if(powerComponents.includes(componentsList[i])) {
-                var series = chartViewPower.series(componentsList[i])
-                if(series !==null)
-                    series.style = Qt.SolidLine
-            }
-            if(voltageComponents.includes(componentsList[i]) || currentComponents.includes(componentsList[i])) {
-                series = chartView.series(componentsList[i])
-                if(series !==null)
-                    series.style = Qt.SolidLine
-            }
+            var series = findSerie(componentsList[i])
+            if(series !==null)
+                series.style = Qt.SolidLine
         }
     }
 
     function removeLineSeries(componentsList) {
-        var indexOfCompoToRemove = []
         for(var i= 0; i<componentsList.length; i++) {
-            if(powerComponents.includes(componentsList[i])) {
-                var series = chartViewPower.series(componentsList[i])
-                if(series !==null)
-                    series.style = Qt.NoPen
-            }
-            if(voltageComponents.includes(componentsList[i]) || currentComponents.includes(componentsList[i])) {
-                series = chartView.series(componentsList[i])
-                if(series !==null)
-                    series.style = Qt.NoPen
-            }
+            var series = findSerie(componentsList[i])
+            if(series !==null)
+                series.style = Qt.NoPen
         }
     }
 
