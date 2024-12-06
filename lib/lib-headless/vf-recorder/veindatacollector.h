@@ -20,7 +20,6 @@ public:
     void stopLogging();
     QJsonObject getLatestJsonObject();
     QString getFirstTimeStamp();
-    void clearJson();
 signals:
     // Ideas:
     // * replace internal data QJsoonObject by

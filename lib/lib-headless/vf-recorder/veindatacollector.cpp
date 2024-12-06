@@ -37,11 +37,6 @@ QString VeinDataCollector::getFirstTimeStamp()
     return m_firstTimeStamp;
 }
 
-void VeinDataCollector::clearJson()
-{
-    m_completeJson = QJsonObject();
-}
-
 void VeinDataCollector::collectValues(QDateTime timeStamp)
 {
     RecordedEntityComponents newRecord;

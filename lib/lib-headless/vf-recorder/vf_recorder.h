@@ -15,7 +15,6 @@ public:
 
     Q_INVOKABLE void startLogging(int storageNum, QJsonObject inputJson);
     Q_INVOKABLE void stopLogging(int storageNum);
-    Q_INVOKABLE void clearJson(int storageNum);
     Q_PROPERTY(QJsonObject latestStoredValues0 READ getLatestStoredValues0 NOTIFY newStoredValues)
     Q_PROPERTY(QString firstTimestamp0 READ getFirstTimestamp0)
 
