@@ -351,12 +351,12 @@ Item {
             id: chartViewPower
             height: root.graphHeight / 2 - phasesLoader.height
             width: root.graphWidth
-            anchors.topMargin: 0
-            anchors.bottomMargin: 0
             anchors.top: phasesLoader.bottom
+            anchors.left: phasesLoader.left
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
+            margins {right: root.graphWidth * 0.067; left: root.graphWidth * 0.004; top: 0; bottom: 0}
 
             ValueAxis {
                 id: axisYPower
@@ -393,7 +393,7 @@ Item {
                 }
                 ScrollBar.horizontal: ScrollBar {
                     id: powerScrollBar
-                    height: root.height * 0.03
+                    height: root.height * 0.025
                     policy: ScrollBar.AlwaysOn
                     anchors.bottom: parent.bottom
                     interactive: !logging
@@ -433,10 +433,11 @@ Item {
             height: root.graphHeight / 2
             width: root.graphWidth
             anchors.top: chartViewPower.bottom
-            anchors.topMargin: 0
+            anchors.left: phasesLoader.left
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
+            margins {right: 0; left: 0; top: 0; bottom: 0}
 
             ValueAxis {
                 id: axisYLeft
@@ -482,7 +483,7 @@ Item {
                 }
                 ScrollBar.horizontal: ScrollBar {
                     id: uIScrollBar
-                    height: root.height * 0.03
+                    height: root.height * 0.025
                     policy: ScrollBar.AlwaysOn
                     anchors.bottom: parent.bottom
                     interactive: !logging
