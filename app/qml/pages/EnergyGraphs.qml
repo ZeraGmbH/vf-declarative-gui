@@ -130,19 +130,15 @@ Item {
         return series
     }
 
-    function enableSeries(componentsList) {
+    function enableDisableSeries(componentsList, enable) {
         for(var i= 0; i<componentsList.length; i++) {
             var series = findSerie(componentsList[i])
-            if(series !==null)
-                series.style = Qt.SolidLine
-        }
-    }
-
-    function removeLineSeries(componentsList) {
-        for(var i= 0; i<componentsList.length; i++) {
-            var series = findSerie(componentsList[i])
-            if(series !==null)
-                series.style = Qt.NoPen
+            if(series !==null) {
+                if(enable)
+                    series.style = Qt.SolidLine
+                else
+                    series.style = Qt.NoPen
+            }
         }
     }
 
@@ -300,10 +296,7 @@ Item {
                     property var checkCombo: GC.showCurvePhaseOne
                     onCheckComboChanged: {
                         GC.setPhaseOne(checked)
-                        if(checked)
-                            enableSeries(phase1Compos)
-                        else
-                            removeLineSeries(phase1Compos)
+                        enableDisableSeries(phase1Compos, checked)
                     }
                 }
                 ZCheckBox {
@@ -318,10 +311,7 @@ Item {
                     property var checkCombo: GC.showCurvePhaseTwo
                     onCheckComboChanged: {
                         GC.setPhaseTwo(checked)
-                        if(checked)
-                            enableSeries(phase2Compos)
-                        else
-                            removeLineSeries(phase2Compos)
+                        enableDisableSeries(phase2Compos, checked)
                     }
                 }
                 ZCheckBox {
@@ -336,10 +326,7 @@ Item {
                     property var checkCombo: GC.showCurvePhaseThree
                     onCheckComboChanged: {
                         GC.setPhaseThree(checked)
-                        if(checked)
-                            enableSeries(phase3Compos)
-                        else
-                            removeLineSeries(phase3Compos)
+                        enableDisableSeries(phase3Compos, checked)
                     }
                 }
                 ZCheckBox {
@@ -354,10 +341,7 @@ Item {
                     property var checkCombo: GC.showCurveSum
                     onCheckComboChanged: {
                         GC.setSum(checked)
-                        if(checked)
-                            enableSeries(phaseSumCompos)
-                        else
-                            removeLineSeries(phaseSumCompos)
+                        enableDisableSeries(phaseSumCompos, checked)
                     }
                 }
             }
