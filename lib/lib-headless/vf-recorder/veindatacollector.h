@@ -18,7 +18,6 @@ public:
     explicit VeinDataCollector(VeinStorage::AbstractEventSystem* storage);
     void startLogging(QHash<int, QStringList> entitesAndComponents);
     void stopLogging();
-    QJsonObject getAllStoredValues();
     QJsonObject getLatestJsonObject();
     QString getFirstTimeStamp();
     void clearJson();

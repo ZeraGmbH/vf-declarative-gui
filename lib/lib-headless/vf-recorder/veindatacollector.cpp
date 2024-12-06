@@ -27,11 +27,6 @@ void VeinDataCollector::stopLogging()
     qInfo("VeinDataCollector stopped logging.");
 }
 
-QJsonObject VeinDataCollector::getAllStoredValues()
-{
-    return m_completeJson;
-}
-
 QJsonObject VeinDataCollector::getLatestJsonObject()
 {
     return m_latestJsonObject;
