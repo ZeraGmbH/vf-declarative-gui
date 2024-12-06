@@ -77,16 +77,22 @@ void test_vein_data_collector::twoTimestampsOneEntityOneComponentChange()
 
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "foo");
     triggerSIGMeasuring();
+    TimeMachineObject::feedEventLoop();
+    QJsonObject storedValues = m_dataCollector->getLatestJsonObject();
+    QString timeStamp = storedValues.keys().first();
+    QCOMPARE(timeStamp, msAfterEpoch(0));
+    QCOMPARE(getComponentValue(storedValues, entityId1, "ComponentName1"), "foo");
+
     TimeMachineForTest::getInstance()->processTimers(500);
+
     m_server->setComponentServerNotification(entityId1, "ComponentName1", "bar");
     triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
+    storedValues = m_dataCollector->getLatestJsonObject();
+    timeStamp = storedValues.keys().first();
+    QCOMPARE(timeStamp, msAfterEpoch(500));
+    QCOMPARE(getComponentValue(storedValues, entityId1, "ComponentName1"), "bar");
 
-    QFile file(":/twoTimestampsOneEntityOneComponentChange.json");
-    QVERIFY(file.open(QFile::ReadOnly));
-    QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
-    QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
     QCOMPARE(m_dataCollector->getFirstTimeStamp(), msAfterEpoch(0));
 }
 
@@ -110,7 +116,7 @@ void test_vein_data_collector::oneTimestampTwoEntitiesOneComponentChange()
     QFile file(":/oneTimestampTwoEntitiesOneComponentChange.json");
     QVERIFY(file.open(QFile::ReadOnly));
     QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
+    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getLatestJsonObject());
     QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
 }
 
@@ -124,6 +130,11 @@ void test_vein_data_collector::twoTimestampsTwoEntitiesTwoComponentChange()
     m_server->setComponentServerNotification(entityId2, "ComponentName2", "bar");
     triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
+    QJsonObject storedValues = m_dataCollector->getLatestJsonObject();
+    QString timeStamp = storedValues.keys().first();
+    QCOMPARE(timeStamp, msAfterEpoch(0));
+    QCOMPARE(getComponentValue(storedValues, entityId1, "ComponentName1"), "foo");
+    QCOMPARE(getComponentValue(storedValues, entityId2, "ComponentName2"), "bar");
 
     TimeMachineForTest::getInstance()->processTimers(500);
 
@@ -131,13 +142,11 @@ void test_vein_data_collector::twoTimestampsTwoEntitiesTwoComponentChange()
     m_server->setComponentServerNotification(entityId2, "ComponentName2", "pqs");
     triggerSIGMeasuring();
     TimeMachineObject::feedEventLoop();
-
-    QFile file(":/twoTimestampsTwoEntitiesTwoComponentsChange.json");
-    QVERIFY(file.open(QFile::ReadOnly));
-    QByteArray jsonExpected = file.readAll();
-    QByteArray jsonDumped = TestLogHelpers::dump(m_dataCollector->getAllStoredValues());
-    QVERIFY(TestLogHelpers::compareAndLogOnDiff(jsonExpected, jsonDumped));
-    QCOMPARE(m_dataCollector->getFirstTimeStamp(), msAfterEpoch(0));
+    storedValues = m_dataCollector->getLatestJsonObject();
+    timeStamp = storedValues.keys().first();
+    QCOMPARE(timeStamp, msAfterEpoch(500));
+    QCOMPARE(getComponentValue(storedValues, entityId1, "ComponentName1"), "abc");
+    QCOMPARE(getComponentValue(storedValues, entityId2, "ComponentName2"), "pqs");
 }
 
 void test_vein_data_collector::setupServer()
@@ -154,6 +163,13 @@ void test_vein_data_collector::triggerSIGMeasuring()
 {
     m_server->setComponentServerNotification(sigMeasuringEntityId, "SIG_Measuring", QVariant(0));
     m_server->setComponentServerNotification(sigMeasuringEntityId, "SIG_Measuring", QVariant(1));
+}
+
+QString test_vein_data_collector::getComponentValue(QJsonObject storedJson, int entity, QString componentName)
+{
+    QString entityStr = QString::number(entity);
+    QJsonObject entityComponentInfo = storedJson.value(storedJson.keys().first()).toObject();
+    return entityComponentInfo.value(entityStr).toObject().value(componentName).toString();
 }
 
 QString test_vein_data_collector::msAfterEpoch(qint64 msecs)

@@ -21,6 +21,7 @@ private slots:
 private:
     void setupServer();
     void triggerSIGMeasuring();
+    QString getComponentValue(QJsonObject storedJson, int entity, QString component);
     QString msAfterEpoch(qint64 msecs);
     std::unique_ptr<TestVeinServer> m_server;
     VeinStorage::TimeStamperSettablePtr m_timeStamper;
