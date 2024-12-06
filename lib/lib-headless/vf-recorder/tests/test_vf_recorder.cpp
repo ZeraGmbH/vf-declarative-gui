@@ -39,7 +39,7 @@ void test_vf_recorder::storeValuesBasedOnNoEntitiesInJson()
     for(int i = 0; i < maximumStorage; i++) {
         m_recorder->startLogging(i, QJsonObject());
         TimeMachineForTest::getInstance()->processTimers(100);
-        QVERIFY(m_recorder->getAllStoredValues(i).isEmpty());
+        QVERIFY(m_recorder->getLatestStoredValues0().isEmpty());
     }
 }
 
