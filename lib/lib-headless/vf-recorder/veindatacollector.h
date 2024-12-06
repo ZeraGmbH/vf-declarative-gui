@@ -20,6 +20,7 @@ public:
     void stopLogging();
     QJsonObject getAllStoredValues();
     QJsonObject getLatestJsonObject();
+    QString getFirstTimeStamp();
     void clearJson();
 signals:
     // Ideas:
@@ -40,6 +41,7 @@ private:
     VeinStorage::AbstractEventSystem* m_storage;
     QJsonObject m_latestJsonObject;
     QJsonObject m_completeJson;
+    QString m_firstTimeStamp = QString();
     VeinStorage::AbstractComponentPtr m_sigMeasuringCompo;
 };
 

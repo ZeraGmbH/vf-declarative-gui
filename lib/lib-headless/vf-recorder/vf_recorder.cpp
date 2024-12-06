@@ -67,10 +67,7 @@ QJsonObject Vf_Recorder::getAllStoredValues(int storageNum)
 
 QString Vf_Recorder::getFirstTimestamp0()
 {
-    if(!getAllStoredValues(0).isEmpty())
-        return getAllStoredValues(0).keys().first();
-    else
-        return "";
+    return m_dataCollect.at(0)->getFirstTimeStamp();
 }
 
 void Vf_Recorder::readJson(QJsonObject jsonValue, int storageNum)

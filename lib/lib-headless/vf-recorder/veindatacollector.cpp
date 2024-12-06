@@ -16,6 +16,7 @@ void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponent
     m_completeJson = QJsonObject();
     m_latestJsonObject = QJsonObject();
     m_targetEntityComponents = entitesAndComponents;
+    m_firstTimeStamp = QString();
     prepareTimeRecording();
     qInfo("VeinDataCollector started logging.");
 }
@@ -34,6 +35,11 @@ QJsonObject VeinDataCollector::getAllStoredValues()
 QJsonObject VeinDataCollector::getLatestJsonObject()
 {
     return m_latestJsonObject;
+}
+
+QString VeinDataCollector::getFirstTimeStamp()
+{
+    return m_firstTimeStamp;
 }
 
 void VeinDataCollector::clearJson()
@@ -64,6 +70,8 @@ void VeinDataCollector::prepareTimeRecording()
         connect(m_sigMeasuringCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
             if(newValue.toInt() == 1) {// 1 indicates RangeModule received new actual values
                 m_timeStamper->setTimestampToNow();
+                if(m_firstTimeStamp.isEmpty())
+                    m_firstTimeStamp = m_timeStamper->getTimestamp().toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
                 collectValues(m_timeStamper->getTimestamp());
             }
         });
