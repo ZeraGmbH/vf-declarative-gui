@@ -398,7 +398,6 @@ Item {
                 id: lineSeriesP
                 axisX: axisXPower
                 axisY: axisYPower
-                color: GC.colorUAux1
             }
         }
         ChartView {
@@ -487,13 +486,11 @@ Item {
                 id: lineSeriesU
                 axisX: axisX
                 axisY: axisYLeft
-                color: GC.colorUAux1
             }
             LineSeries {
                 id: lineSeriesI
                 axisX: axisX
                 axisYRight: axisYRight
-                color: GC.colorIAux1
             }
         }
     }
