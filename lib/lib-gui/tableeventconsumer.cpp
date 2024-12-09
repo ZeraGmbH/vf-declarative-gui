@@ -152,7 +152,7 @@ void TableEventConsumer::handleFftValues(const VeinComponent::ComponentData *cDa
                 const double re = tmpData.at(i);
                 const double im = tmpData.at(i+1);
                 const double length = calcVectorLength(re, im);
-                double vectorAngle = (i != 0) * atan2(im, re) / M_PI * 180; //first harmonic (0) is a DC value, so it has no phase position
+                double vectorAngle = atan2(im, re) / M_PI * 180;
                 if(vectorAngle < 0)
                     vectorAngle += 360;
 
