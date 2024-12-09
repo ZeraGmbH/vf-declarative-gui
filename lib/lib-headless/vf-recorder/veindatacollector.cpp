@@ -58,7 +58,7 @@ void VeinDataCollector::prepareTimeRecording()
     m_sigMeasuringCompo = m_storage->getDb()->findComponent(sigMeasuringEntityId, "SIG_Measuring");
     if(m_sigMeasuringCompo) {
         connect(m_sigMeasuringCompo.get(), &VeinStorage::AbstractComponent::sigValueChange, this, [&](QVariant newValue){
-            if(newValue.toInt() == 1) {// 1 indicates RangeModule received new actual values
+            if(newValue.toInt() == 1) {// 1 indicates DftModule received new actual values
                 m_timeStamper->setTimestampToNow();
                 if(m_firstTimeStamp.isEmpty())
                     m_firstTimeStamp = m_timeStamper->getTimestamp().toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
