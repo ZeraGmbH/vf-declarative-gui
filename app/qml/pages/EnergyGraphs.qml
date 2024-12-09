@@ -51,17 +51,10 @@ Item {
             if(parStartStop === 1) {
                 logging = true
                 var inputJson
-                if(SessionState.dcSession) {
+                if(SessionState.dcSession)
                     inputJson = jsonEnergyDC
-                    resetColors(dcCompos)
-                }
-                else {
+                else
                     inputJson = jsonEnergyAC
-                    resetColors(phase1Compos)
-                    resetColors(phase2Compos)
-                    resetColors(phase3Compos)
-                    resetColors(phaseSumCompos)
-                }
                 if(VeinEntity.getEntity("_System").DevMode) {
                     clearCharts()
                     Vf_Recorder.startLogging(storageNumber, inputJson)
@@ -83,13 +76,6 @@ Item {
         for(var j= 0; j < chartViewPower.count; j++)
             chartViewPower.series(j).clear()
         resetAxesMinMax()
-    }
-
-    function resetColors(componentsList) {
-        for(var component in componentsList) {
-            var serie = findSerie(componentsList[component])
-            serie.color = GraphFunctions.getChannelColor(componentsList[component])
-        }
     }
 
     function resetAxesMinMax() {
@@ -115,9 +101,7 @@ Item {
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
             if(currentComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
-
             series.width = 1
-            series.color = GraphFunctions.getChannelColor(componentsList[component])
         }
     }
 
@@ -165,6 +149,7 @@ Item {
             axisYScaler.scaleToNewActualValue(value)
             setXaxisMinMax(axisX, timeDiffSecs)
             setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
+            serie.color = GraphFunctions.getChannelColor(serie.name)
         }
     }
 
