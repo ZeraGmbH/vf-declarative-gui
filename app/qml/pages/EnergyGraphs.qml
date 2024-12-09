@@ -51,17 +51,10 @@ Item {
             if(parStartStop === 1) {
                 logging = true
                 var inputJson
-                if(SessionState.dcSession) {
+                if(SessionState.dcSession)
                     inputJson = jsonEnergyDC
-                    resetColors(dcCompos)
-                }
-                else {
+                else
                     inputJson = jsonEnergyAC
-                    resetColors(phase1Compos)
-                    resetColors(phase2Compos)
-                    resetColors(phase3Compos)
-                    resetColors(phaseSumCompos)
-                }
                 if(VeinEntity.getEntity("_System").DevMode) {
                     clearCharts()
                     Vf_Recorder.startLogging(storageNumber, inputJson)
@@ -83,13 +76,6 @@ Item {
         for(var j= 0; j < chartViewPower.count; j++)
             chartViewPower.series(j).clear()
         resetAxesMinMax()
-    }
-
-    function resetColors(componentsList) {
-        for(var component in componentsList) {
-            var serie = findSerie(componentsList[component])
-            serie.color = GraphFunctions.getChannelColor(componentsList[component])
-        }
     }
 
     function resetAxesMinMax() {
@@ -115,9 +101,7 @@ Item {
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
             if(currentComponents.includes(componentsList[component]))
                 series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
-
             series.width = 1
-            series.color = GraphFunctions.getChannelColor(componentsList[component])
         }
     }
 
@@ -157,25 +141,15 @@ Item {
             axisY.max = maxValue
     }
 
-    function recalculateYAxisMinMax(axisY, minValue, maxValue) {
-        if(axisY.min > minValue)
-            axisY.min = minValue
-        if(axisY.max < maxValue)
-            axisY.max = maxValue
-    }
-
-    function appendPointToSerie(serie, timeDiffSecs, value, loadAllElts, axisX, axisY, axisYScaler) {
+    function appendPointToSerie(serie, timeDiffSecs, value, axisX, axisY, axisYScaler) {
         if(serie !== null) {
             serie.append(timeDiffSecs, value)
             if(timeDiffSecs === 0)//first sample
                 axisYScaler.reset(value, 0.0)
             axisYScaler.scaleToNewActualValue(value)
             setXaxisMinMax(axisX, timeDiffSecs)
-            if(loadAllElts) {
-                recalculateYAxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
-            }
-            else
-                setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
+            setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
+            serie.color = GraphFunctions.getChannelColor(serie.name)
         }
     }
 
@@ -187,15 +161,15 @@ Item {
             root.contentWidth = chartWidth
     }
 
-    function loadElement(singleJsonData, components, timeDiffSecs, loadAllElts) {
+    function loadElement(singleJsonData, components, timeDiffSecs) {
         for(var v = 0 ; v <components.length; v++) {
             let value = jsonHelper.getValue(singleJsonData, components[v])
             if(powerComponents.includes(components[v]))
-                appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, loadAllElts, axisXPower, axisYPower, axisYPowerScaler)
+                appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisXPower, axisYPower, axisYPowerScaler)
             else if(voltageComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYLeft, axisYLeftScaler)
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYLeft, axisYLeftScaler)
             else if(currentComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, loadAllElts, axisX, axisYRight, axisYRightScaler)
+                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYRight, axisYRightScaler)
             }
         calculateContentWidth(timeDiffSecs)
     }
@@ -424,7 +398,6 @@ Item {
                 id: lineSeriesP
                 axisX: axisXPower
                 axisY: axisYPower
-                color: GC.colorUAux1
             }
         }
         ChartView {
@@ -513,13 +486,11 @@ Item {
                 id: lineSeriesU
                 axisX: axisX
                 axisY: axisYLeft
-                color: GC.colorUAux1
             }
             LineSeries {
                 id: lineSeriesI
                 axisX: axisX
                 axisYRight: axisYRight
-                color: GC.colorIAux1
             }
         }
     }
