@@ -108,30 +108,28 @@ Item {
 
     function calculateContentWidth() {
         let actualPoints = timeDiffSecs * 2
-        if ((GC.showCurvePhaseOne || GC.showCurvePhaseTwo || GC.showCurvePhaseThree || GC.showCurveSum) && (actualPoints > maxVisibleXPoints))
+        if (actualPoints > maxVisibleXPoints)
             root.contentWidth = root.contentWidth + singlePointWidth
         else
             root.contentWidth = chartWidth
-    }
-
-    function loadElement(singleJsonData, components) {
-        for(var v = 0 ; v <components.length; v++) {
-            let value = jsonHelper.getValue(singleJsonData, components[v])
-            if(powerComponents.includes(components[v]))
-                appendPointToSerie(chartViewPower.series(components[v]), value, axisYPower, axisYPowerScaler)
-            else if(voltageComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), value, axisYLeft, axisYLeftScaler)
-            else if(currentComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), value, axisYRight, axisYRightScaler)
-            }
-        calculateContentWidth()
     }
 
     function loadLastElement() {
         var timestamp = Object.keys(jsonData)[0]
         timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
         var components = jsonHelper.getComponents(jsonData[timestamp])
-        loadElement(jsonData[timestamp], components)
+
+        for(var v = 0 ; v <components.length; v++) {
+            let value = jsonHelper.getValue(jsonData[timestamp], components[v])
+            if(powerComponents.includes(components[v]))
+                appendPointToSerie(chartViewPower.series(components[v]), value, axisYPower, axisYPowerScaler)
+            else if(voltageComponents.includes(components[v]))
+                appendPointToSerie(chartView.series(components[v]), value, axisYLeft, axisYLeftScaler)
+            else if(currentComponents.includes(components[v]))
+                appendPointToSerie(chartView.series(components[v]), value, axisYRight, axisYRightScaler)
+        }
+
+        calculateContentWidth()
     }
 
     VfRecorderJsonHelper {
