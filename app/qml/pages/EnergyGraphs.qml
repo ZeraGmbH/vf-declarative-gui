@@ -92,19 +92,6 @@ Item {
         axisYPower.max = 10
     }
 
-    function createLineSeries(componentsList) {
-        for(var component in componentsList) {
-            var series;
-            if(powerComponents.includes(componentsList[component]))
-                series = chartViewPower.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisXPower, axisYPower);
-            if(voltageComponents.includes(componentsList[component]))
-                series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYLeft);
-            if(currentComponents.includes(componentsList[component]))
-                series = chartView.createSeries(ChartView.SeriesTypeLine, componentsList[component], axisX, axisYRight);
-            series.width = 1
-        }
-    }
-
     function findSerie(componentName) {
         let series = null
         if(powerComponents.includes(componentName))
@@ -149,7 +136,6 @@ Item {
             axisYScaler.scaleToNewActualValue(value)
             setXaxisMinMax(axisX, timeDiffSecs)
             setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
-            serie.color = GraphFunctions.getChannelColor(serie.name)
         }
     }
 
@@ -394,11 +380,10 @@ Item {
                     }
                 }
             }
-            LineSeries {
-                id: lineSeriesP
-                axisX: axisXPower
-                axisY: axisYPower
-            }
+            LineSeries {style: Qt.SolidLine; name: powerComponents[0]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[0])}
+            LineSeries {style: Qt.SolidLine; name: powerComponents[1]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[1]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: powerComponents[2]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[2]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: powerComponents[3]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[3]); visible: !SessionState.dcSession}
         }
         ChartView {
             id: chartView
@@ -482,28 +467,15 @@ Item {
                     }
                 }
             }
-            LineSeries {
-                id: lineSeriesU
-                axisX: axisX
-                axisY: axisYLeft
-            }
-            LineSeries {
-                id: lineSeriesI
-                axisX: axisX
-                axisYRight: axisYRight
-            }
-        }
-    }
-    Component.onCompleted: {
-        if(SessionState.emobSession) {
-            if(SessionState.dcSession)
-                createLineSeries(dcCompos)
-            else {
-                createLineSeries(phase1Compos)
-                createLineSeries(phase2Compos)
-                createLineSeries(phase3Compos)
-                createLineSeries(phaseSumCompos)
-            }
+
+            LineSeries {style: Qt.SolidLine; name: voltageComponents[0]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[0]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: voltageComponents[1]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[1]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: voltageComponents[2]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[2]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: currentComponents[0]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[0]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: currentComponents[1]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[1]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: currentComponents[2]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[2]); visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: dcCompos[0]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(dcCompos[0]); visible: SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: dcCompos[1]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(dcCompos[1]); visible: SessionState.dcSession}
         }
     }
 }
