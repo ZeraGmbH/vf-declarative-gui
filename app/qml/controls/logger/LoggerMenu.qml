@@ -387,7 +387,8 @@ Item {
             onTriggered: {
                 loggerExportMenu()
             }
-            enabled: filesEntity.AutoMountedPaths.length !== 0 &&
+            enabled: filesEntity.AutoMountedPaths !== undefined &&
+                     filesEntity.AutoMountedPaths.length !== 0 &&
                      loggerEntity.LoggingEnabled === false &&
                      loggerEntity.DatabaseReady === true
         }
