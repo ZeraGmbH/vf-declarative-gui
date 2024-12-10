@@ -352,7 +352,7 @@ Item {
                     }
                 }
             }
-            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[0]; axisX: axisXPower; axisY: axisYPower; color: SessionState.dcSession ? GC.colorUAux1 : GC.colorUL1}
+            LineSeries {style: GC.showCurvePhaseOne || SessionState.dcSession? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[0]; axisX: axisXPower; axisY: axisYPower; color: SessionState.dcSession ? GC.colorUAux1 : GC.colorUL1}
             LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[1]; axisX: axisXPower; axisY: axisYPower; color: GC.colorUL2; visible: !SessionState.dcSession}
             LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[2]; axisX: axisXPower; axisY: axisYPower; color: GC.colorUL3; visible: !SessionState.dcSession}
             LineSeries {style: GC.showCurveSum ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[3]; axisX: axisXPower; axisY: axisYPower; color: "white"; visible: !SessionState.dcSession}
