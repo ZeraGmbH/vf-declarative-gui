@@ -34,13 +34,13 @@ Item {
                                                 {"EntityId":1070, "Component":powerComponentsACDC}]}
 
     property bool logging : false
+    property real timeDiffSecs : 0.0
     readonly property int xAxisTimeSpanSecs: 8
     readonly property int storageNumber: 0
     property real contentWidth: 0.0
     property real chartWidth: root.graphWidth * 0.8356
     property int maxVisibleXPoints: xAxisTimeSpanSecs * 2
     property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
-    property int maxXValue: 0
 
     readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
@@ -81,22 +81,12 @@ Item {
     }
 
     function resetAxesMinMax() {
-        axisXPower.max = root.xAxisTimeSpanSecs
-        axisX.max = root.xAxisTimeSpanSecs
-
         axisYLeft.min = 0
         axisYLeft.max = 10
         axisYRight.min = 0
         axisYRight.max = 10
         axisYPower.min = 0
         axisYPower.max = 10
-    }
-
-    function setXaxisMinMax(axisX, timeDiffSecs) {
-        if(axisX.max < timeDiffSecs) {
-            axisX.max = timeDiffSecs + xAxisTimeSpanSecs
-        }
-        maxXValue = timeDiffSecs
     }
 
     function setYaxisMinMax(axisY, minValue, maxValue) {
@@ -106,18 +96,17 @@ Item {
             axisY.max = maxValue
     }
 
-    function appendPointToSerie(serie, timeDiffSecs, value, axisX, axisY, axisYScaler) {
+    function appendPointToSerie(serie, value, axisY, axisYScaler) {
         if(serie !== null) {
             serie.append(timeDiffSecs, value)
             if(timeDiffSecs === 0)//first sample
                 axisYScaler.reset(value, 0.0)
             axisYScaler.scaleToNewActualValue(value)
-            setXaxisMinMax(axisX, timeDiffSecs)
             setYaxisMinMax(axisY, axisYScaler.getRoundedMinValue(), axisYScaler.getRoundedMaxValue())
         }
     }
 
-    function calculateContentWidth(timeDiffSecs) {
+    function calculateContentWidth() {
         let actualPoints = timeDiffSecs * 2
         if ((GC.showCurvePhaseOne || GC.showCurvePhaseTwo || GC.showCurvePhaseThree || GC.showCurveSum) && (actualPoints > maxVisibleXPoints))
             root.contentWidth = root.contentWidth + singlePointWidth
@@ -125,24 +114,24 @@ Item {
             root.contentWidth = chartWidth
     }
 
-    function loadElement(singleJsonData, components, timeDiffSecs) {
+    function loadElement(singleJsonData, components) {
         for(var v = 0 ; v <components.length; v++) {
             let value = jsonHelper.getValue(singleJsonData, components[v])
             if(powerComponents.includes(components[v]))
-                appendPointToSerie(chartViewPower.series(components[v]), timeDiffSecs, value, axisXPower, axisYPower, axisYPowerScaler)
+                appendPointToSerie(chartViewPower.series(components[v]), value, axisYPower, axisYPowerScaler)
             else if(voltageComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYLeft, axisYLeftScaler)
+                appendPointToSerie(chartView.series(components[v]), value, axisYLeft, axisYLeftScaler)
             else if(currentComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), timeDiffSecs, value, axisX, axisYRight, axisYRightScaler)
+                appendPointToSerie(chartView.series(components[v]), value, axisYRight, axisYRightScaler)
             }
-        calculateContentWidth(timeDiffSecs)
+        calculateContentWidth()
     }
 
     function loadLastElement() {
         var timestamp = Object.keys(jsonData)[0]
-        var timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
+        timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
         var components = jsonHelper.getComponents(jsonData[timestamp])
-        loadElement(jsonData[timestamp], components, timeDiffSecs, false)
+        loadElement(jsonData[timestamp], components)
     }
 
     VfRecorderJsonHelper {
@@ -287,9 +276,12 @@ Item {
             legend.visible: false
             margins {right: root.graphWidth * 0.067; left: root.graphWidth * 0.004; top: 0; bottom: 0}
             property bool loggingActive: logging
-            property int newXMin: 0
-            onLoggingActiveChanged:
-                newXMin = 0
+            property int pinchedXMin: 0
+            property int pinchedXMax: xAxisTimeSpanSecs
+            onLoggingActiveChanged: {
+                pinchedXMin = 0
+                pinchedXMax = root.timeDiffSecs
+            }
 
             ValueAxis {
                 id: axisYPower
@@ -306,13 +298,19 @@ Item {
                 titleFont.pointSize: chartViewPower.height * 0.04
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
+                property int currentMax: max
                 min: {
                     if(logging)
                         return 0
                     else
-                        return chartViewPower.newXMin
+                        return chartViewPower.pinchedXMin
                 }
-                max : xAxisTimeSpanSecs
+                max: {
+                    if (logging)
+                        return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs
+                    else
+                        return chartViewPower.pinchedXMax
+                }
             }
 
             Flickable {
@@ -337,8 +335,8 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        chartViewPower.newXMin = Math.ceil(root.maxXValue * position)
-                        axisXPower.max = chartViewPower.newXMin + xAxisTimeSpanSecs
+                        chartViewPower.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
+                        chartViewPower.pinchedXMax = chartViewPower.pinchedXMin + xAxisTimeSpanSecs
                     }
                 }
                 PinchArea {
@@ -351,7 +349,7 @@ Item {
                             chartViewPowerFlickable.contentWidth = root.contentWidth
                         else {
                             chartViewPowerFlickable.contentWidth = root.chartWidth
-                            axisXPower.max = root.maxXValue
+                            chartViewPower.pinchedXMax = root.timeDiffSecs
                         }
                     }
                 }
@@ -371,9 +369,12 @@ Item {
             legend.visible: false
             margins {right: 0; left: 0; top: 0; bottom: 0}
             property bool loggingActive: logging
-            property int newXMin: 0
-            onLoggingActiveChanged:
-                newXMin = 0
+            property int pinchedXMin: 0
+            property int pinchedXMax: xAxisTimeSpanSecs
+            onLoggingActiveChanged: {
+                pinchedXMin = 0
+                pinchedXMax = root.timeDiffSecs
+            }
 
             ValueAxis {
                 id: axisYLeft
@@ -394,9 +395,14 @@ Item {
                     if(logging)
                         return 0
                     else
-                        return chartView.newXMin
+                        return chartView.pinchedXMin
                 }
-                max : xAxisTimeSpanSecs
+                max :  {
+                    if (logging)
+                        return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs
+                    else
+                        return chartView.pinchedXMax
+                }
             }
             ValueAxis {
                 id: axisYRight
@@ -430,8 +436,8 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        chartView.newXMin = Math.ceil(root.maxXValue * position)
-                        axisX.max = chartView.newXMin + xAxisTimeSpanSecs
+                        chartView.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
+                        chartView.pinchedXMax = chartView.pinchedXMin + xAxisTimeSpanSecs
                     }
                 }
                 PinchArea {
@@ -444,7 +450,7 @@ Item {
                             chartViewFlickable.contentWidth = root.contentWidth
                         else {
                             chartViewFlickable.contentWidth = root.chartWidth
-                            axisX.max = root.maxXValue
+                            chartView.pinchedXMax = root.timeDiffSecs
                         }
                     }
                 }
