@@ -9,9 +9,6 @@ import Vf_Recorder 1.0
 
 
 Item {
-    property bool timerHasTriggered: false
-    property var maxXValue
-
     function calculateTimeDiffSecs(timestamp) {
         var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
         var timeMs = jsonHelper.convertTimestampToMs(timestamp)
