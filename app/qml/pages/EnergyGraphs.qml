@@ -17,14 +17,21 @@ Item {
     property var graphHeight
     property var graphWidth
 
-    readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
-    readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
-    readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
-    readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
-                                                 { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
-    readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
-                                                 { "EntityId":1070, "Component":["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]} ]}
+    readonly property var voltageComponentsAC: ["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3"]
+    readonly property var currentComponentsAC: ["ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]
+    readonly property var voltageComponentsDC: ["ACT_DC7"]
+    readonly property var currentComponentsDC: ["ACT_DC8"]
+    readonly property var powerComponentsACDC: ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
 
+    readonly property bool dcSession: SessionState.dcSession
+    property var voltageComponents: dcSession ? voltageComponentsDC : voltageComponentsAC
+    property var currentComponents: dcSession ? currentComponentsDC : currentComponentsAC
+    property var powerComponents: dcSession ? powerComponentsACDC[0] : powerComponentsACDC
+
+    readonly property var jsonEnergyDC: {"foo":[{"EntityId":1060, "Component":voltageComponentsDC.concat(currentComponentsDC)},
+                                                {"EntityId":1073, "Component":powerComponentsACDC[0]}]}
+    readonly property var jsonEnergyAC: {"foo":[{"EntityId":1040, "Component":voltageComponentsAC.concat(currentComponentsAC)},
+                                                {"EntityId":1070, "Component":powerComponentsACDC}]}
 
     property bool logging : false
     readonly property int xAxisTimeSpanSecs: 8
@@ -346,10 +353,10 @@ Item {
                     }
                 }
             }
-            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: powerComponents[0]; axisX: axisXPower; axisY: axisYPower; color: SessionState.dcSession ? GC.colorUAux1 : GC.colorUL1}
-            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: powerComponents[1]; axisX: axisXPower; axisY: axisYPower; color: GC.colorUL2; visible: !SessionState.dcSession}
-            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: powerComponents[2]; axisX: axisXPower; axisY: axisYPower; color: GC.colorUL3; visible: !SessionState.dcSession}
-            LineSeries {style: GC.showCurveSum ? Qt.SolidLine : Qt.NoPen; name: powerComponents[3]; axisX: axisXPower; axisY: axisYPower; color: "white"; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[0]; axisX: axisXPower; axisY: axisYPower; color: SessionState.dcSession ? GC.colorUAux1 : GC.colorUL1}
+            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[1]; axisX: axisXPower; axisY: axisYPower; color: GC.colorUL2; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[2]; axisX: axisXPower; axisY: axisYPower; color: GC.colorUL3; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurveSum ? Qt.SolidLine : Qt.NoPen; name: powerComponentsACDC[3]; axisX: axisXPower; axisY: axisYPower; color: "white"; visible: !SessionState.dcSession}
         }
         ChartView {
             id: chartView
@@ -434,14 +441,14 @@ Item {
                 }
             }
 
-            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: voltageComponents[0]; axisX: axisX; axisY: axisYLeft; color: GC.colorUL1; visible: !SessionState.dcSession}
-            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: voltageComponents[1]; axisX: axisX; axisY: axisYLeft; color: GC.colorUL2; visible: !SessionState.dcSession}
-            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: voltageComponents[2]; axisX: axisX; axisY: axisYLeft; color: GC.colorUL3; visible: !SessionState.dcSession}
-            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: currentComponents[0]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL1; visible: !SessionState.dcSession}
-            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: currentComponents[1]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL2; visible: !SessionState.dcSession}
-            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: currentComponents[2]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL3; visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: voltageComponents[3]; axisX: axisX; axisY: axisYLeft; color: GC.colorUAux1; visible: SessionState.dcSession} //ACT_DC7
-            LineSeries {style: Qt.SolidLine; name: currentComponents[3]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIAux1; visible: SessionState.dcSession} //ACT_DC8
+            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: voltageComponentsAC[0]; axisX: axisX; axisY: axisYLeft; color: GC.colorUL1; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: voltageComponentsAC[1]; axisX: axisX; axisY: axisYLeft; color: GC.colorUL2; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: voltageComponentsAC[2]; axisX: axisX; axisY: axisYLeft; color: GC.colorUL3; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: currentComponentsAC[0]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL1; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: currentComponentsAC[1]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL2; visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: currentComponentsAC[2]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL3; visible: !SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: voltageComponentsDC[0]; axisX: axisX; axisY: axisYLeft; color: GC.colorUAux1; visible: SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: currentComponentsDC[0]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIAux1; visible: SessionState.dcSession}
         }
     }
 }
