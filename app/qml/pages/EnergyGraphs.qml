@@ -92,27 +92,6 @@ Item {
         axisYPower.max = 10
     }
 
-    function findSerie(componentName) {
-        let series = null
-        if(powerComponents.includes(componentName))
-            series = chartViewPower.series(componentName)
-        if(voltageComponents.includes(componentName) || currentComponents.includes(componentName))
-            series = chartView.series(componentName)
-        return series
-    }
-
-    function enableDisableSeries(componentsList, enable) {
-        for(var i= 0; i<componentsList.length; i++) {
-            var series = findSerie(componentsList[i])
-            if(series !==null) {
-                if(enable)
-                    series.style = Qt.SolidLine
-                else
-                    series.style = Qt.NoPen
-            }
-        }
-    }
-
     function setXaxisMinMax(axisX, timeDiffSecs) {
         if(axisX.max < timeDiffSecs) {
             axisX.max = timeDiffSecs + xAxisTimeSpanSecs
@@ -254,10 +233,8 @@ Item {
                     onCheckedChanged:
                         checkCombo = checked
                     property var checkCombo: GC.showCurvePhaseOne
-                    onCheckComboChanged: {
+                    onCheckComboChanged:
                         GC.setPhaseOne(checked)
-                        enableDisableSeries(phase1Compos, checked)
-                    }
                 }
                 ZCheckBox {
                     text: Z.tr("L2")
@@ -269,10 +246,8 @@ Item {
                     onCheckStateChanged:
                         checkCombo = checked
                     property var checkCombo: GC.showCurvePhaseTwo
-                    onCheckComboChanged: {
+                    onCheckComboChanged:
                         GC.setPhaseTwo(checked)
-                        enableDisableSeries(phase2Compos, checked)
-                    }
                 }
                 ZCheckBox {
                     text: Z.tr("L3")
@@ -284,10 +259,8 @@ Item {
                     onCheckStateChanged:
                         checkCombo = checked
                     property var checkCombo: GC.showCurvePhaseThree
-                    onCheckComboChanged: {
+                    onCheckComboChanged:
                         GC.setPhaseThree(checked)
-                        enableDisableSeries(phase3Compos, checked)
-                    }
                 }
                 ZCheckBox {
                     text: Z.tr("Sum")
@@ -299,10 +272,8 @@ Item {
                     onCheckStateChanged:
                         checkCombo = checked
                     property var checkCombo: GC.showCurveSum
-                    onCheckComboChanged: {
+                    onCheckComboChanged:
                         GC.setSum(checked)
-                        enableDisableSeries(phaseSumCompos, checked)
-                    }
                 }
             }
         }
@@ -380,10 +351,10 @@ Item {
                     }
                 }
             }
-            LineSeries {style: Qt.SolidLine; name: powerComponents[0]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[0])}
-            LineSeries {style: Qt.SolidLine; name: powerComponents[1]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[1]); visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: powerComponents[2]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[2]); visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: powerComponents[3]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[3]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: powerComponents[0]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[0])}
+            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: powerComponents[1]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[1]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: powerComponents[2]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[2]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurveSum ? Qt.SolidLine : Qt.NoPen; name: powerComponents[3]; axisX: axisXPower; axisY: axisYPower; color: GraphFunctions.getChannelColor(powerComponents[3]); visible: !SessionState.dcSession}
         }
         ChartView {
             id: chartView
@@ -468,12 +439,12 @@ Item {
                 }
             }
 
-            LineSeries {style: Qt.SolidLine; name: voltageComponents[0]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[0]); visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: voltageComponents[1]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[1]); visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: voltageComponents[2]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[2]); visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: currentComponents[0]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[0]); visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: currentComponents[1]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[1]); visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: currentComponents[2]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[2]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: voltageComponents[0]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[0]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: voltageComponents[1]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[1]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: voltageComponents[2]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(voltageComponents[2]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: currentComponents[0]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[0]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: currentComponents[1]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[1]); visible: !SessionState.dcSession}
+            LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: currentComponents[2]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(currentComponents[2]); visible: !SessionState.dcSession}
             LineSeries {style: Qt.SolidLine; name: dcCompos[0]; axisX: axisX; axisY: axisYLeft; color: GraphFunctions.getChannelColor(dcCompos[0]); visible: SessionState.dcSession}
             LineSeries {style: Qt.SolidLine; name: dcCompos[1]; axisX: axisX; axisYRight: axisYRight; color: GraphFunctions.getChannelColor(dcCompos[1]); visible: SessionState.dcSession}
         }
