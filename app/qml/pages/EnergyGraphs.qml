@@ -149,7 +149,12 @@ Item {
         id: flickable
         anchors.fill: parent
         boundsBehavior: Flickable.StopAtBounds
-        contentHeight: chartView.height + chartViewPower.height + phasesLoader.height
+        contentHeight: {
+            if(phasesLoader.active)
+                return chartView.height + chartViewPower.height + phasesLoader.height
+            else
+                return chartView.height + chartViewPower.height
+        }
         width: root.width
         height: root.height
         flickableDirection: Flickable.VerticalFlick
