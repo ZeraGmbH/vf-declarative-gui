@@ -81,9 +81,7 @@ Item {
     }
 
     function resetAxesMinMax() {
-        axisXPower.min = 0
         axisXPower.max = root.xAxisTimeSpanSecs
-        axisX.min = 0
         axisX.max = root.xAxisTimeSpanSecs
 
         axisYLeft.min = 0
@@ -97,7 +95,6 @@ Item {
     function setXaxisMinMax(axisX, timeDiffSecs) {
         if(axisX.max < timeDiffSecs) {
             axisX.max = timeDiffSecs + xAxisTimeSpanSecs
-            axisX.min = 0
         }
         maxXValue = timeDiffSecs
     }
@@ -289,6 +286,10 @@ Item {
             theme: ChartView.ChartThemeDark
             legend.visible: false
             margins {right: root.graphWidth * 0.067; left: root.graphWidth * 0.004; top: 0; bottom: 0}
+            property bool loggingActive: logging
+            property int newXMin: 0
+            onLoggingActiveChanged:
+                newXMin = 0
 
             ValueAxis {
                 id: axisYPower
@@ -305,7 +306,12 @@ Item {
                 titleFont.pointSize: chartViewPower.height * 0.04
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
-                min: 0
+                min: {
+                    if(logging)
+                        return 0
+                    else
+                        return chartViewPower.newXMin
+                }
                 max : xAxisTimeSpanSecs
             }
 
@@ -331,10 +337,8 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        let newXMin
-                        newXMin = root.maxXValue * position
-                        axisXPower.min = Math.ceil(newXMin)
-                        axisXPower.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
+                        chartViewPower.newXMin = Math.ceil(root.maxXValue * position)
+                        axisXPower.max = chartViewPower.newXMin + xAxisTimeSpanSecs
                     }
                 }
                 PinchArea {
@@ -347,7 +351,6 @@ Item {
                             chartViewPowerFlickable.contentWidth = root.contentWidth
                         else {
                             chartViewPowerFlickable.contentWidth = root.chartWidth
-                            axisXPower.min = 0
                             axisXPower.max = root.maxXValue
                         }
                     }
@@ -367,6 +370,10 @@ Item {
             theme: ChartView.ChartThemeDark
             legend.visible: false
             margins {right: 0; left: 0; top: 0; bottom: 0}
+            property bool loggingActive: logging
+            property int newXMin: 0
+            onLoggingActiveChanged:
+                newXMin = 0
 
             ValueAxis {
                 id: axisYLeft
@@ -383,7 +390,12 @@ Item {
                 titleFont.pointSize: chartView.height * 0.04
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
-                min: 0
+                min: {
+                    if(logging)
+                        return 0
+                    else
+                        return chartView.newXMin
+                }
                 max : xAxisTimeSpanSecs
             }
             ValueAxis {
@@ -418,10 +430,8 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        let newXMin
-                        newXMin = root.maxXValue * position
-                        axisX.min = Math.ceil(newXMin)
-                        axisX.max = Math.ceil(newXMin + xAxisTimeSpanSecs)
+                        chartView.newXMin = Math.ceil(root.maxXValue * position)
+                        axisX.max = chartView.newXMin + xAxisTimeSpanSecs
                     }
                 }
                 PinchArea {
@@ -434,7 +444,6 @@ Item {
                             chartViewFlickable.contentWidth = root.contentWidth
                         else {
                             chartViewFlickable.contentWidth = root.chartWidth
-                            axisX.min = 0
                             axisX.max = root.maxXValue
                         }
                     }
