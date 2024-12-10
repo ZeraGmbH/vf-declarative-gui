@@ -20,7 +20,6 @@ Item {
     readonly property var voltageComponents : [ "ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_DC7"]
     readonly property var currentComponents : [ "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6", "ACT_DC8"]
     readonly property var powerComponents   : ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
-    readonly property var dcCompos :  ["ACT_DC7", "ACT_DC8", "ACT_PQS1"]
     readonly property var jsonEnergyDC: { "foo":[{ "EntityId":1060, "Component":["ACT_DC7", "ACT_DC8"]},
                                                  { "EntityId":1073, "Component":["ACT_PQS1"]} ]}
     readonly property var jsonEnergyAC: { "foo":[{ "EntityId":1040, "Component":["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3", "ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]},
@@ -441,8 +440,8 @@ Item {
             LineSeries {style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen; name: currentComponents[0]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL1; visible: !SessionState.dcSession}
             LineSeries {style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen; name: currentComponents[1]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL2; visible: !SessionState.dcSession}
             LineSeries {style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen; name: currentComponents[2]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIL3; visible: !SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: dcCompos[0]; axisX: axisX; axisY: axisYLeft; color: GC.colorUAux1; visible: SessionState.dcSession}
-            LineSeries {style: Qt.SolidLine; name: dcCompos[1]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIAux1; visible: SessionState.dcSession}
+            LineSeries {style: Qt.SolidLine; name: voltageComponents[3]; axisX: axisX; axisY: axisYLeft; color: GC.colorUAux1; visible: SessionState.dcSession} //ACT_DC7
+            LineSeries {style: Qt.SolidLine; name: currentComponents[3]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIAux1; visible: SessionState.dcSession} //ACT_DC8
         }
     }
 }
