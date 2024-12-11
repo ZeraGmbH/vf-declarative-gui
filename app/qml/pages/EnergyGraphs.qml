@@ -39,7 +39,7 @@ Item {
     readonly property int storageNumber: 0
     property real contentWidth: 0.0
     property real chartWidth: root.graphWidth * 0.8356
-    property int maxVisibleXPoints: xAxisTimeSpanSecs * 2
+    property int maxVisibleXPoints: (xAxisTimeSpanSecs * 2) +1
     property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
 
     readonly property string currentSession: SessionState.currentSession
@@ -107,9 +107,10 @@ Item {
     }
 
     function calculateContentWidth() {
-        let actualPoints = timeDiffSecs * 2
-        if (actualPoints > maxVisibleXPoints)
-            root.contentWidth = root.contentWidth + singlePointWidth
+        let actualPoints = Math.round(timeDiffSecs* 2)+1
+        if (actualPoints > maxVisibleXPoints) {
+            root.contentWidth = actualPoints * singlePointWidth
+        }
         else
             root.contentWidth = chartWidth
     }
@@ -128,7 +129,6 @@ Item {
             else if(currentComponents.includes(components[v]))
                 appendPointToSerie(chartView.series(components[v]), value, axisYRight, axisYRightScaler)
         }
-
         calculateContentWidth()
     }
 
