@@ -145,9 +145,86 @@ Item {
         id: axisYRightScaler
     }
 
+    Loader {
+        id: phasesLoader
+        height: root.height * 0.13
+        active: SessionState.emobSession && !SessionState.dcSession
+        sourceComponent: RowLayout {
+            id: phases
+            visible: SessionState.emobSession && !SessionState.dcSession
+            width: root.graphWidth
+            height: parent.height
+
+            Label {
+                id: phaseLabel
+                text: Z.tr("Select phase to display: ")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZCheckBox {
+                text: Z.tr("L1")
+                width: root.graphWidth
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignTop
+                checked: GC.showCurvePhaseOne
+                onCheckedChanged:
+                    checkCombo = checked
+                property var checkCombo: GC.showCurvePhaseOne
+                onCheckComboChanged:
+                    GC.setPhaseOne(checked)
+            }
+            ZCheckBox {
+                text: Z.tr("L2")
+                width: root.graphWidth
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignTop
+                checked: GC.showCurvePhaseTwo
+                onCheckStateChanged:
+                    checkCombo = checked
+                property var checkCombo: GC.showCurvePhaseTwo
+                onCheckComboChanged:
+                    GC.setPhaseTwo(checked)
+            }
+            ZCheckBox {
+                text: Z.tr("L3")
+                width: parent.width
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignTop
+                checked: GC.showCurvePhaseThree
+                onCheckStateChanged:
+                    checkCombo = checked
+                property var checkCombo: GC.showCurvePhaseThree
+                onCheckComboChanged:
+                    GC.setPhaseThree(checked)
+            }
+            ZCheckBox {
+                text: Z.tr("Sum")
+                width: parent.width
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignTop
+                checked: GC.showCurveSum
+                onCheckStateChanged:
+                    checkCombo = checked
+                property var checkCombo: GC.showCurveSum
+                onCheckComboChanged:
+                    GC.setSum(checked)
+            }
+        }
+    }
+
     Flickable {
         id: flickable
-        anchors.fill: parent
+        anchors.top: {
+            if(phasesLoader.active)
+                return phasesLoader.bottom
+            }
         boundsBehavior: Flickable.StopAtBounds
         contentHeight: {
             if(phasesLoader.active)
@@ -184,96 +261,21 @@ Item {
             onPinchUpdated: {
                 let pinchScale = pinch.scale * pinch.previousScale
                 if (pinchScale > 1.0) {
-                    chartView.height = root.graphHeight /2
-                    chartViewPower.height = root.graphHeight / 2 - phasesLoader.height
+                    chartView.height = phasesLoader.active ? root.graphHeight /2 - phasesLoader.height : root.graphHeight /2
+                    chartViewPower.height = phasesLoader.active ? root.graphHeight /2 - phasesLoader.height : root.graphHeight /2
                 }
                 else if (pinchScale < 1.0) {
-                    chartView.height = root.graphHeight / 4 - phasesLoader.height/2
-                    chartViewPower.height = root.graphHeight / 4 - phasesLoader.height/2
+                    chartView.height = phasesLoader.active ? root.graphHeight / 4 - phasesLoader.height/2 : root.graphHeight / 4
+                    chartViewPower.height = phasesLoader.active ? root.graphHeight / 4 - phasesLoader.height/2 : root.graphHeight / 4
                 }
             }
         }
         Item {}
 
-        Loader {
-            id: phasesLoader
-            height: root.height * 0.13
-            active: SessionState.emobSession && !SessionState.dcSession
-            sourceComponent: RowLayout {
-                id: phases
-                visible: SessionState.emobSession && !SessionState.dcSession
-                width: root.graphWidth
-                height: parent.height
-
-                Label {
-                    id: phaseLabel
-                    text: Z.tr("Select phase to display: ")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ZCheckBox {
-                    text: Z.tr("L1")
-                    width: root.graphWidth
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignTop
-                    checked: GC.showCurvePhaseOne
-                    onCheckedChanged:
-                        checkCombo = checked
-                    property var checkCombo: GC.showCurvePhaseOne
-                    onCheckComboChanged:
-                        GC.setPhaseOne(checked)
-                }
-                ZCheckBox {
-                    text: Z.tr("L2")
-                    width: root.graphWidth
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignTop
-                    checked: GC.showCurvePhaseTwo
-                    onCheckStateChanged:
-                        checkCombo = checked
-                    property var checkCombo: GC.showCurvePhaseTwo
-                    onCheckComboChanged:
-                        GC.setPhaseTwo(checked)
-                }
-                ZCheckBox {
-                    text: Z.tr("L3")
-                    width: parent.width
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignTop
-                    checked: GC.showCurvePhaseThree
-                    onCheckStateChanged:
-                        checkCombo = checked
-                    property var checkCombo: GC.showCurvePhaseThree
-                    onCheckComboChanged:
-                        GC.setPhaseThree(checked)
-                }
-                ZCheckBox {
-                    text: Z.tr("Sum")
-                    width: parent.width
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignTop
-                    checked: GC.showCurveSum
-                    onCheckStateChanged:
-                        checkCombo = checked
-                    property var checkCombo: GC.showCurveSum
-                    onCheckComboChanged:
-                        GC.setSum(checked)
-                }
-            }
-        }
-
         ChartView {
             id: chartViewPower
             height: phasesLoader.active ? root.graphHeight / 2 - phasesLoader.height : root.graphHeight / 2
             width: root.graphWidth
-            anchors.top: phasesLoader.active ? phasesLoader.bottom : phasesLoader.top
             antialiasing: true
             theme: ChartView.ChartThemeDark
             legend.visible: false
@@ -364,7 +366,7 @@ Item {
         }
         ChartView {
             id: chartView
-            height: root.graphHeight / 2
+            height: phasesLoader.active ? root.graphHeight / 2 - phasesLoader.height : root.graphHeight / 2
             width: root.graphWidth
             anchors.top: chartViewPower.bottom
             antialiasing: true
