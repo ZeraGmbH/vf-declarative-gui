@@ -226,14 +226,9 @@ Item {
                 return phasesLoader.bottom
             }
         boundsBehavior: Flickable.StopAtBounds
-        contentHeight: {
-            if(phasesLoader.active)
-                return chartView.height + chartViewPower.height + phasesLoader.height
-            else
-                return chartView.height + chartViewPower.height
-        }
+        contentHeight: chartView.height + chartViewPower.height
         width: root.width
-        height: root.height
+        height: phasesLoader.active ? root.height - phasesLoader.height : root.height
         flickableDirection: Flickable.VerticalFlick
         clip: true
         onMovementEnded: {
