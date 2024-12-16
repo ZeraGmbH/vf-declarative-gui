@@ -24,9 +24,6 @@ Item {
     readonly property var powerComponentsACDC: ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
 
     readonly property bool dcSession: SessionState.dcSession
-    property var voltageComponents: dcSession ? voltageComponentsDC : voltageComponentsAC
-    property var currentComponents: dcSession ? currentComponentsDC : currentComponentsAC
-    property var powerComponents: dcSession ? powerComponentsACDC[0] : powerComponentsACDC
 
     readonly property var jsonEnergyDC: {"foo":[{"EntityId":1060, "Component":voltageComponentsDC.concat(currentComponentsDC)},
                                                 {"EntityId":1073, "Component":powerComponentsACDC[0]}]}
@@ -89,11 +86,6 @@ Item {
         axisYPower.max = 10
     }
 
-    function appendPointToSerie(serie, value, axisY, axisYScaler) {
-        if(serie !== null)
-            serie.append(timeDiffSecs, value)
-    }
-
     function calculateContentWidth() {
         let actualPoints = Math.round(timeDiffSecs* 2)+1
         if (actualPoints > maxVisibleXPoints) {
@@ -109,13 +101,12 @@ Item {
         var components = jsonHelper.getComponents(jsonData[timestamp])
 
         for(var v = 0 ; v <components.length; v++) {
-            let value = jsonHelper.getValue(jsonData[timestamp], components[v])
-            if(powerComponents.includes(components[v]))
-                appendPointToSerie(chartViewPower.series(components[v]), value, axisYPower, axisYPowerScaler)
-            else if(voltageComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), value, axisYLeft, axisYLeftScaler)
-            else if(currentComponents.includes(components[v]))
-                appendPointToSerie(chartView.series(components[v]), value, axisYRight, axisYRightScaler)
+            let serie = chartViewPower.series(components[v])
+            if(serie !== null)
+                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
+            serie = chartView.series(components[v])
+            if(serie !== null)
+                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
         }
         calculateContentWidth()
     }
