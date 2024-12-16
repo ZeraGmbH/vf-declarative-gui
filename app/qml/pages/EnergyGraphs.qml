@@ -66,24 +66,13 @@ Item {
         }
     }
     property var jsonData : Vf_Recorder.latestStoredValues0
-    onJsonDataChanged:
-        loadLastElement()
+    onJsonDataChanged: loadLastElement()
 
     function clearCharts() {
         for(var i= 0; i < chartView.count; i++)
             chartView.series(i).clear()
         for(var j= 0; j < chartViewPower.count; j++)
             chartViewPower.series(j).clear()
-        resetAxesMinMax()
-    }
-
-    function resetAxesMinMax() {
-        axisYLeft.min = 0
-        axisYLeft.max = 10
-        axisYRight.min = 0
-        axisYRight.max = 10
-        axisYPower.min = 0
-        axisYPower.max = 10
     }
 
     function calculateContentWidth() {
