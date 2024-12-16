@@ -16,6 +16,7 @@ Item {
     id:  root
     property var graphHeight
     property var graphWidth
+    property int parStartStop
 
     readonly property var voltageComponentsAC: ["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3"]
     readonly property var currentComponentsAC: ["ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]
@@ -29,8 +30,23 @@ Item {
                                                 {"EntityId":1073, "Component":powerComponentsACDC[0]}]}
     readonly property var jsonEnergyAC: {"foo":[{"EntityId":1040, "Component":voltageComponentsAC.concat(currentComponentsAC)},
                                                 {"EntityId":1070, "Component":powerComponentsACDC}]}
+    readonly property var vfRecorderInputJson: dcSession ? jsonEnergyDC : jsonEnergyAC
 
-    property bool logging : false
+    property bool logging : VeinEntity.getEntity("_System").DevMode && SessionState.emobSession && (parStartStop === 1) ? true : false
+    onLoggingChanged: {
+        if(logging) {
+            clearCharts()
+            Vf_Recorder.startLogging(storageNumber, vfRecorderInputJson)
+        }
+        else
+            Vf_Recorder.stopLogging(storageNumber)
+    }
+    readonly property string currentSession: SessionState.currentSession
+    onCurrentSessionChanged: {
+        if(logging)
+            Vf_Recorder.stopLogging(storageNumber)
+    }
+
     property real timeDiffSecs : 0.0
     readonly property int xAxisTimeSpanSecs: 8
     readonly property int storageNumber: 0
@@ -39,34 +55,22 @@ Item {
     property int maxVisibleXPoints: (xAxisTimeSpanSecs * 2) +1
     property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
 
-    readonly property string currentSession: SessionState.currentSession
-    onCurrentSessionChanged: {
-        if(parStartStop === 1)
-            Vf_Recorder.stopLogging(storageNumber)
-    }
-    property int parStartStop
-    onParStartStopChanged: {
-        if(SessionState.emobSession) {
-            if(parStartStop === 1) {
-                logging = true
-                var inputJson
-                if(SessionState.dcSession)
-                    inputJson = jsonEnergyDC
-                else
-                    inputJson = jsonEnergyAC
-                if(VeinEntity.getEntity("_System").DevMode) {
-                    clearCharts()
-                    Vf_Recorder.startLogging(storageNumber, inputJson)
-                }
-            }
-            else if(parStartStop === 0) {
-                logging = false
-                Vf_Recorder.stopLogging(storageNumber)
-            }
-        }
-    }
     property var jsonData : Vf_Recorder.latestStoredValues0
-    onJsonDataChanged: loadLastElement()
+    onJsonDataChanged: {
+        var timestamp = Object.keys(jsonData)[0]
+        timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
+        var components = jsonHelper.getComponents(jsonData[timestamp])
+
+        for(var v = 0 ; v <components.length; v++) {
+            let serie = chartViewPower.series(components[v])
+            if(serie !== null)
+                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
+            serie = chartView.series(components[v])
+            if(serie !== null)
+                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
+        }
+        calculateContentWidth()
+    }
 
     function clearCharts() {
         for(var i= 0; i < chartView.count; i++)
@@ -82,22 +86,6 @@ Item {
         }
         else
             root.contentWidth = chartWidth
-    }
-
-    function loadLastElement() {
-        var timestamp = Object.keys(jsonData)[0]
-        timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
-        var components = jsonHelper.getComponents(jsonData[timestamp])
-
-        for(var v = 0 ; v <components.length; v++) {
-            let serie = chartViewPower.series(components[v])
-            if(serie !== null)
-                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
-            serie = chartView.series(components[v])
-            if(serie !== null)
-                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
-        }
-        calculateContentWidth()
     }
 
     function scaleYAxis(axisY, axisYScalar, value) {
