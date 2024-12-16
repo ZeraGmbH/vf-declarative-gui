@@ -466,4 +466,17 @@ Item {
             LineSeries {style: Qt.SolidLine; name: currentComponentsDC[0]; axisX: axisX; axisYRight: axisYRight; color: GC.colorIAux1; visible: SessionState.dcSession}
         }
     }
+
+    Timer {
+        id: loggingTimer
+        interval: 600000 //10mins
+        repeat: true
+        running: parStartStop === 1
+        onTriggered: {
+            Vf_Recorder.stopLogging(storageNumber)
+            clearCharts()
+            let inputJson = SessionState.dcSession ? jsonEnergyDC : jsonEnergyAC
+            Vf_Recorder.startLogging(storageNumber, inputJson)
+        }
+    }
 }
