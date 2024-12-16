@@ -23,7 +23,7 @@ Item {
     readonly property var currentComponentsDC: ["ACT_DC8"]
     readonly property var powerComponentsACDC: ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
 
-    readonly property bool dcSession: SessionState.dcSession
+    readonly property bool dcSession: SessionState.emobSession && SessionState.dcSession
 
     readonly property var jsonEnergyDC: {"foo":[{"EntityId":1060, "Component":voltageComponentsDC.concat(currentComponentsDC)},
                                                 {"EntityId":1073, "Component":powerComponentsACDC[0]}]}
@@ -34,11 +34,14 @@ Item {
     property bool logging : VeinEntity.getEntity("_System").DevMode && SessionState.emobSession && (parStartStop === 1) ? true : false
     onLoggingChanged: {
         if(logging) {
+            loggingTimer.timerMin = 0
             clearCharts()
             Vf_Recorder.startLogging(storageNumber, vfRecorderInputJson)
         }
-        else
+        else {
+            loggingTimer.hasTriggered = false
             Vf_Recorder.stopLogging(storageNumber)
+        }
     }
     readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
@@ -64,11 +67,17 @@ Item {
 
         for(var v = 0 ; v <components.length; v++) {
             let serie = chartViewPower.series(components[v])
-            if(serie !== null)
+            if(serie !== null) {
                 serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
+                if(loggingTimer.hasTriggered)
+                    removePoint(chartViewPower, components[v])
+            }
             serie = chartView.series(components[v])
-            if(serie !== null)
+            if(serie !== null) {
                 serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
+                if(loggingTimer.hasTriggered)
+                    removePoint(chartView, components[v])
+            }
         }
         calculateContentWidth()
     }
@@ -97,6 +106,12 @@ Item {
             axisY.min = axisYScalar.getRoundedMinValueWithMargin()
         if(axisY.max < axisYScalar.getRoundedMaxValueWithMargin())
             axisY.max = axisYScalar.getRoundedMaxValueWithMargin()
+    }
+
+    function removePoint(chartView, componentName) {
+        let point  = chartView.series(componentName).at(1)
+        loggingTimer.timerMin = point.x
+        chartView.series(componentName).remove(0)
     }
 
     VfRecorderJsonHelper {
@@ -246,8 +261,10 @@ Item {
             property int pinchedXMin: 0
             property int pinchedXMax: xAxisTimeSpanSecs
             onLoggingActiveChanged: {
-                pinchedXMin = 0
-                pinchedXMax = root.timeDiffSecs
+                if(!logging) {
+                    pinchedXMin = 0
+                    pinchedXMax = root.timeDiffSecs
+                }
             }
 
             ValueAxis {
@@ -268,9 +285,9 @@ Item {
                 property int currentMax: max
                 min: {
                     if(logging)
-                        return 0
+                        return Math.max(0, loggingTimer.timerMin);
                     else
-                        return chartViewPower.pinchedXMin
+                        return Math.max(chartViewPower.pinchedXMin, loggingTimer.timerMin)
                 }
                 max: {
                     if (logging)
@@ -370,8 +387,10 @@ Item {
             property int pinchedXMin: 0
             property int pinchedXMax: xAxisTimeSpanSecs
             onLoggingActiveChanged: {
-                pinchedXMin = 0
-                pinchedXMax = root.timeDiffSecs
+                if(!logging) {
+                    pinchedXMin = 0
+                    pinchedXMax = root.timeDiffSecs
+                }
             }
 
             ValueAxis {
@@ -391,15 +410,15 @@ Item {
                 labelFormat: "%d"
                 min: {
                     if(logging)
-                        return 0
+                        return Math.max(0, loggingTimer.timerMin)
                     else
-                        return chartView.pinchedXMin
+                        return Math.max(chartView.pinchedXMin, loggingTimer.timerMin)
                 }
-                max :  {
+                max : {
                     if (logging)
-                        return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs
+                        return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs;
                     else
-                        return chartView.pinchedXMax
+                        return chartView.pinchedXMax;
                 }
             }
             ValueAxis {
@@ -529,14 +548,11 @@ Item {
 
     Timer {
         id: loggingTimer
-        interval: 600000 //10mins
-        repeat: true
+        interval: 300000 //5mins
         running: parStartStop === 1
-        onTriggered: {
-            Vf_Recorder.stopLogging(storageNumber)
-            clearCharts()
-            let inputJson = SessionState.dcSession ? jsonEnergyDC : jsonEnergyAC
-            Vf_Recorder.startLogging(storageNumber, inputJson)
-        }
+        property double timerMin : 0
+        property bool hasTriggered: false
+        onTriggered:
+            hasTriggered = true
     }
 }
