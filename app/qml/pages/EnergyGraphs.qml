@@ -6,7 +6,6 @@ import VeinEntity 1.0
 import GlobalConfig 1.0
 import SessionState 1.0
 import VfRecorderJsonHelper 1.0
-import GraphFunctions 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
 import Vf_Recorder 1.0
@@ -58,7 +57,9 @@ Item {
     property var jsonData : Vf_Recorder.latestStoredValues0
     onJsonDataChanged: {
         var timestamp = Object.keys(jsonData)[0]
-        timeDiffSecs = GraphFunctions.calculateTimeDiffSecs(timestamp)
+        var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
+        var timeMs = jsonHelper.convertTimestampToMs(timestamp)
+        timeDiffSecs = (timeMs - firstTimestamp)/1000
         var components = jsonHelper.getComponents(jsonData[timestamp])
 
         for(var v = 0 ; v <components.length; v++) {
