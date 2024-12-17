@@ -9,20 +9,38 @@ void AxisAutoScaler::reset(double minValue, double maxValue)
 {
     m_minValue = minValue;
     m_maxValue = maxValue;
+    calculateMargin();
 }
 
 void AxisAutoScaler::scaleToNewActualValue(double actualValue)
 {
     m_minValue = actualValue < m_minValue ? actualValue : m_minValue;
     m_maxValue = actualValue > m_maxValue ? actualValue : m_maxValue;
+    calculateMargin();
 }
 
-int AxisAutoScaler::getRoundedMinValue()
+int AxisAutoScaler::roundDownward(double value)
 {
-    return floor(m_minValue/ 10) * 10;
+    return floor(value/ 10) * 10;
 }
 
-int AxisAutoScaler::getRoundedMaxValue()
+int AxisAutoScaler::roundUpward(double value)
 {
-    return ceil(m_maxValue/ 10) * 10;
+    return ceil(value/ 10) * 10;
+}
+
+int AxisAutoScaler::getRoundedMinValueWithMargin()
+{
+    return roundDownward(m_minValue)- roundUpward(m_margin);
+}
+
+int AxisAutoScaler::getRoundedMaxValueWithMargin()
+{
+    return roundUpward(m_maxValue) + roundUpward(m_margin);
+}
+
+void AxisAutoScaler::calculateMargin()
+{
+    //margin is calculated with rounded min/max
+    m_margin = ((roundUpward(m_maxValue) - roundDownward(m_minValue)) / 4) / 2;
 }
