@@ -93,10 +93,10 @@ Item {
         if(root.timeDiffSecs === 0)
             axisYScalar.reset(value, 0.0)
         axisYScalar.scaleToNewActualValue(value)
-        if(axisY.min === 0 || axisY.min > axisYScalar.getRoundedMinValue()) //0 is the default min value
-            axisY.min = axisYScalar.getRoundedMinValue()
-        if(axisY.max < axisYScalar.getRoundedMaxValue())
-            axisY.max = axisYScalar.getRoundedMaxValue()
+        if(axisY.min === 0 || axisY.min > axisYScalar.getRoundedMinValueWithMargin()) //0 is the default min value
+            axisY.min = axisYScalar.getRoundedMinValueWithMargin()
+        if(axisY.max < axisYScalar.getRoundedMaxValueWithMargin())
+            axisY.max = axisYScalar.getRoundedMaxValueWithMargin()
     }
 
     VfRecorderJsonHelper {
