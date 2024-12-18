@@ -23,7 +23,7 @@ Item {
     readonly property var currentComponentsDC: ["ACT_DC8"]
     readonly property var powerComponentsACDC: ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
 
-    readonly property bool dcSession: SessionState.dcSession
+    readonly property bool dcSession: SessionState.emobSession && SessionState.dcSession
 
     readonly property var jsonEnergyDC: {"foo":[{"EntityId":1060, "Component":voltageComponentsDC.concat(currentComponentsDC)},
                                                 {"EntityId":1073, "Component":powerComponentsACDC[0]}]}
@@ -34,11 +34,14 @@ Item {
     property bool logging : VeinEntity.getEntity("_System").DevMode && SessionState.emobSession && (parStartStop === 1) ? true : false
     onLoggingChanged: {
         if(logging) {
+            loggingTimer.timerMin = 0
             clearCharts()
             Vf_Recorder.startLogging(storageNumber, vfRecorderInputJson)
         }
-        else
+        else {
+            loggingTimer.hasTriggered = false
             Vf_Recorder.stopLogging(storageNumber)
+        }
     }
     readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
@@ -246,8 +249,10 @@ Item {
             property int pinchedXMin: 0
             property int pinchedXMax: xAxisTimeSpanSecs
             onLoggingActiveChanged: {
-                pinchedXMin = 0
-                pinchedXMax = root.timeDiffSecs
+                if(!logging) {
+                    pinchedXMin = 0
+                    pinchedXMax = root.timeDiffSecs
+                }
             }
 
             ValueAxis {
@@ -268,9 +273,9 @@ Item {
                 property int currentMax: max
                 min: {
                     if(logging)
-                        return 0
+                        return Math.max(0, loggingTimer.timerMin);
                     else
-                        return chartViewPower.pinchedXMin
+                        return Math.max(chartViewPower.pinchedXMin, loggingTimer.timerMin)
                 }
                 max: {
                     if (logging)
@@ -327,7 +332,11 @@ Item {
                 axisX: axisXPower
                 axisY: axisYPower
                 color: SessionState.dcSession ? GC.colorUAux1 : GC.colorUL1
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded:  {
+                    scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartViewPower, name)
+                }
             }
             LineSeries {
                 style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen
@@ -336,7 +345,11 @@ Item {
                 axisY: axisYPower
                 color: GC.colorUL2
                 visible: !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded:  {
+                    scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartViewPower, name)
+                }
             }
             LineSeries {
                 style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen
@@ -345,7 +358,11 @@ Item {
                 axisY: axisYPower
                 color: GC.colorUL3
                 visible: !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded:  {
+                    scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartViewPower, name)
+                }
             }
             LineSeries {
                 style: GC.showCurveSum ? Qt.SolidLine : Qt.NoPen
@@ -354,7 +371,11 @@ Item {
                 axisY: axisYPower
                 color: "white"
                 visible: !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded:  {
+                    scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartViewPower, name)
+                }
             }
         }
         ChartView {
@@ -370,8 +391,10 @@ Item {
             property int pinchedXMin: 0
             property int pinchedXMax: xAxisTimeSpanSecs
             onLoggingActiveChanged: {
-                pinchedXMin = 0
-                pinchedXMax = root.timeDiffSecs
+                if(!logging) {
+                    pinchedXMin = 0
+                    pinchedXMax = root.timeDiffSecs
+                }
             }
 
             ValueAxis {
@@ -391,15 +414,15 @@ Item {
                 labelFormat: "%d"
                 min: {
                     if(logging)
-                        return 0
+                        return Math.max(0, loggingTimer.timerMin)
                     else
-                        return chartView.pinchedXMin
+                        return Math.max(chartView.pinchedXMin, loggingTimer.timerMin)
                 }
-                max :  {
+                max : {
                     if (logging)
-                        return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs
+                        return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs;
                     else
-                        return chartView.pinchedXMax
+                        return chartView.pinchedXMax;
                 }
             }
             ValueAxis {
@@ -461,7 +484,11 @@ Item {
                 axisY: axisYLeft
                 color: GC.colorUL1
                 visible: !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: {
+                    scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                }
             }
             LineSeries {
                 style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen
@@ -470,7 +497,11 @@ Item {
                 axisY: axisYLeft
                 color: GC.colorUL2
                 visible: !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: {
+                    scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                }
             }
             LineSeries {
                 style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen
@@ -479,7 +510,11 @@ Item {
                 axisY: axisYLeft
                 color: GC.colorUL3
                 visible: !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: {
+                    scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                }
             }
             LineSeries {
                 style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen
@@ -488,15 +523,23 @@ Item {
                 axisYRight: axisYRight
                 color: GC.colorIL1
                 visible: !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
-            }
+                onPointAdded: {
+                    scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                    }
+                }
             LineSeries {
                 style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen
                 name: currentComponentsAC[1]
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIL2
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: {
+                    scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                    }
             }
             LineSeries {
                 style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen
@@ -504,7 +547,11 @@ Item {
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIL3
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: {
+                    scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                }
             }
             LineSeries {
                 style: Qt.SolidLine
@@ -513,7 +560,11 @@ Item {
                 axisY: axisYLeft
                 color: GC.colorUAux1
                 visible: SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: {
+                    scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                }
             }
             LineSeries {
                 style: Qt.SolidLine
@@ -522,21 +573,28 @@ Item {
                 axisYRight: axisYRight
                 color: GC.colorIAux1
                 visible: SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: {
+                    scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, name)
+                }
             }
         }
     }
 
     Timer {
         id: loggingTimer
-        interval: 600000 //10mins
-        repeat: true
+        interval: 5000//600000 //10mins
         running: parStartStop === 1
-        onTriggered: {
-            Vf_Recorder.stopLogging(storageNumber)
-            clearCharts()
-            let inputJson = SessionState.dcSession ? jsonEnergyDC : jsonEnergyAC
-            Vf_Recorder.startLogging(storageNumber, inputJson)
-        }
+        property double timerMin : 0
+        property bool hasTriggered: false
+        onTriggered:
+            hasTriggered = true
+    }
+
+    function removePoint(chartView, componentName) {
+        let point  = chartView.series(componentName).at(1)
+        loggingTimer.timerMin = point.x
+        chartView.series(componentName).remove(0)
     }
 }
