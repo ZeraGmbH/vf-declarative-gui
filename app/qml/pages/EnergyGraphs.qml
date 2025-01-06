@@ -92,7 +92,8 @@ Item {
     function calculateContentWidth() {
         let actualPoints = Math.round(timeDiffSecs* 2)+1
         if (actualPoints > maxVisibleXPoints) {
-            root.contentWidth = actualPoints * singlePointWidth
+            if(!loggingTimer.hasTriggered)
+                root.contentWidth = actualPoints * singlePointWidth
         }
         else
             root.contentWidth = chartWidth
@@ -319,7 +320,7 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        chartViewPower.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
+                        chartViewPower.pinchedXMin = loggingTimer.timerMin + Math.ceil((root.timeDiffSecs - loggingTimer.timerMin) * position)
                         chartViewPower.pinchedXMax = chartViewPower.pinchedXMin + xAxisTimeSpanSecs
                     }
                 }
@@ -454,7 +455,7 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        chartView.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
+                        chartView.pinchedXMin = loggingTimer.timerMin + Math.ceil((root.timeDiffSecs - loggingTimer.timerMin) * position)
                         chartView.pinchedXMax = chartView.pinchedXMin + xAxisTimeSpanSecs
                     }
                 }
