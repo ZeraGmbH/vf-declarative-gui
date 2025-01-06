@@ -284,13 +284,13 @@ Item {
                 labelFormat: "%d"
                 property int currentMax: max
                 min: {
-                    if(logging)
+                    if(chartViewPower.loggingActive)
                         return Math.max(0, loggingTimer.timerMin);
                     else
                         return Math.max(chartViewPower.pinchedXMin, loggingTimer.timerMin)
                 }
                 max: {
-                    if (logging)
+                    if (chartViewPower.loggingActive)
                         return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs
                     else
                         return chartViewPower.pinchedXMax
@@ -409,13 +409,14 @@ Item {
                 labelsFont.pixelSize: chartView.height * 0.04
                 labelFormat: "%d"
                 min: {
-                    if(logging)
+                    if(chartView.loggingActive)
                         return Math.max(0, loggingTimer.timerMin)
                     else
                         return Math.max(chartView.pinchedXMin, loggingTimer.timerMin)
                 }
+
                 max : {
-                    if (logging)
+                    if (chartView.loggingActive)
                         return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs;
                     else
                         return chartView.pinchedXMax;
