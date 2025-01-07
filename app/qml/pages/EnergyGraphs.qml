@@ -270,13 +270,41 @@ Item {
 
             ValueAxis {
                 id: axisYPower
-                titleText: "P[W]"
+                titleText: "P[" + axisYPower.unitPrefix + "W]"
                 titleFont.pixelSize: chartViewPower.height * 0.06
                 labelsFont.pixelSize: chartViewPower.height * 0.04
-                labelFormat: "%d"
                 min: 0
-                max : 10
+                max: 10
+                labelsVisible: false
+                property int perDivision: (max - min) / (tickCount - 1)
+                property real scale: 1
+                property string unitPrefix: ""
+                onMaxChanged: {
+                    if(max > 1000) {
+                        scale = 1/1000
+                        unitPrefix = "k"
+                    }
+                    else if(max > 1000000) {
+                        scale = 1/1000000
+                        unitPrefix = "M"
+                    }
+                    else {
+                        scale = 1
+                        unitPrefix = ""
+                    }
+                }
             }
+            Repeater {
+                model: axisYPower.tickCount
+                delegate: Text {
+                    text: ((axisYPower.max - (index * axisYPower.perDivision)) * axisYPower.scale).toFixed(2)
+                    color: axisYPower.labelsColor
+                    font.pixelSize: chartViewPower.height * 0.04
+                    x: (chartView.plotArea.x * 1.2) - width
+                    y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYPower.tickCount - 1)))
+                }
+            }
+
             ValueAxis {
                 id: axisXPower
                 titleText: "T[s]"
