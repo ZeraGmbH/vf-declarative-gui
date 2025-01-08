@@ -54,13 +54,13 @@ QHash<int, QByteArray> ActualValueEmobAcSumModel::roleNames() const
 
 void ActualValueEmobAcSumModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
-    RowAutoScaler::TSingleScaleResult singleResult;
+    SingleValueScaler::TSingleScaleResult singleResult;
     int columnRole = 0;
     QString headerText;
     double unscaledValue = cData->newValue().toDouble();
     if(valueCoordiates == QPoint(RoleIndexes::SUM_P, lineVal(LINE_VALUES))) {
         columnRole = RoleIndexes::SUM_P;
-        singleResult = m_autoScalerP.scaleSingleVal(unscaledValue);
+        singleResult = m_autoScalerP.getSingleValueScaler()->scaleSingleVal(unscaledValue);
         headerText = QString("P [%1W]").arg(singleResult.unitPrefix);
     }
 

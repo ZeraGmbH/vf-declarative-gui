@@ -2,6 +2,7 @@
 #define ROWAUTOSCALER_H
 
 #include <QVariant>
+#include "singlevaluescaler.h"
 
 class RowAutoScaler
 {
@@ -9,24 +10,16 @@ public:
     static constexpr double HYSTERESIS = 0.01;
     RowAutoScaler();
     void setUnscaledValue(int columnRole, QVariant value);
+    SingleValueScaler *getSingleValueScaler();
     struct TRowScaleResult
     {
         QString scaledUnit;
         QHash<int, QVariant> scaledColumnValues;
     };
     TRowScaleResult scaleRow(QString baseUnit, QList<int> roleIdxSingleValues);
-    struct TSingleScaleResult
-    {
-        double scaleFactor = 1.0;
-        QString unitPrefix;
-    };
-    TSingleScaleResult scaleSingleVal(double val);
 private:
-    void setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult);
-    bool scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &result);
     QHash<int, QVariant> m_unscaledColumnValues;
-    double m_hysteresisValue = 0.0;
-    QString m_LastPrefix;
+    SingleValueScaler *m_singleValueScaler;
 };
 
 #endif // ROWAUTOSCALER_H
