@@ -29,6 +29,7 @@
 #include "screencapture.h"
 #include "vfrecorderjsonhelper.h"
 #include "axisautoscaler.h"
+#include "singlevaluescaler.h"
 #include "vs_clientstorageeventsystem.h"
 #include "vf_recorder.h"
 #include <qwtcharts.h>
@@ -82,6 +83,7 @@ static void registerQmlInt()
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
     qmlRegisterType<VfRecorderJsonHelper>("VfRecorderJsonHelper", 1, 0, "VfRecorderJsonHelper");
     qmlRegisterType<AxisAutoScaler>("AxisAutoScaler", 1, 0, "AxisAutoScaler");
+    qmlRegisterType<SingleValueScaler>("SingleValueScaler", 1, 0, "SingleValueScaler");
     qmlRegisterType<UpdateWrapper>("UpdateWrapper", 1, 0, "UpdateWrapper");
     qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
