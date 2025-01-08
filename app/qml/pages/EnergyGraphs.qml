@@ -10,6 +10,7 @@ import ZeraComponents 1.0
 import ZeraTranslation  1.0
 import Vf_Recorder 1.0
 import AxisAutoScaler 1.0
+import SingleValueScaler 1.0
 
 Item {
     id:  root
@@ -126,6 +127,9 @@ Item {
     }
     AxisAutoScaler {
         id: axisYRightScaler
+    }
+    SingleValueScaler {
+        id: singleValueScaler
     }
 
     Loader {
@@ -280,18 +284,9 @@ Item {
                 property real scale: 1
                 property string unitPrefix: ""
                 onMaxChanged: {
-                    if(max > 1000) {
-                        scale = 1/1000
-                        unitPrefix = "k"
-                    }
-                    else if(max > 1000000) {
-                        scale = 1/1000000
-                        unitPrefix = "M"
-                    }
-                    else {
-                        scale = 1
-                        unitPrefix = ""
-                    }
+                    singleValueScaler.scaleSingleValForQML(max)
+                    scale = singleValueScaler.scaleFactor
+                    unitPrefix = singleValueScaler.unitPrefix
                 }
             }
             Repeater {
