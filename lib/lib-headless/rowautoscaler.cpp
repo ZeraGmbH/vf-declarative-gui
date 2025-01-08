@@ -3,11 +3,17 @@
 
 RowAutoScaler::RowAutoScaler()
 {
+    m_singleValueScaler = new SingleValueScaler();
 }
 
 void RowAutoScaler::setUnscaledValue(int columnRole, QVariant newValue)
 {
     m_unscaledColumnValues[columnRole] = newValue;
+}
+
+SingleValueScaler *RowAutoScaler::getSingleValueScaler()
+{
+    return m_singleValueScaler;
 }
 
 RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<int> roleIdxSingleValues)
@@ -20,7 +26,7 @@ RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<i
                 maxAbsVal = absVal;
         }
     }
-    const TSingleScaleResult res = scaleSingleVal(maxAbsVal);
+    const SingleValueScaler::TSingleScaleResult res = getSingleValueScaler()->scaleSingleVal(maxAbsVal);
     TRowScaleResult result;
     result.scaledUnit = res.unitPrefix + baseUnit;
 
@@ -33,39 +39,4 @@ RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<i
     return result;
 }
 
-RowAutoScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double val)
-{
-    double absVal = fabs(val);
-    TSingleScaleResult singleResult;
-    if(scaleSingleValForPrefix(absVal, 1e15, "P", singleResult))
-        return singleResult;
-    if(scaleSingleValForPrefix(absVal, 1e12, "T", singleResult))
-        return singleResult;
-    if(scaleSingleValForPrefix(absVal, 1e9, "G", singleResult))
-        return singleResult;
-    if(scaleSingleValForPrefix(absVal, 1e6, "M", singleResult))
-        return singleResult;
-    if(scaleSingleValForPrefix(absVal, 1e3, "k", singleResult))
-        return singleResult;
-    if(scaleSingleValForPrefix(absVal, 1e0, "", singleResult))
-        return singleResult;
-    setScale(1e-3, "m", singleResult);
-    return singleResult;
-}
-
-void RowAutoScaler::setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult)
-{
-    singleResult.scaleFactor = 1/limit;
-    m_hysteresisValue = limit * HYSTERESIS;
-    singleResult.unitPrefix = limitPrefix;
-}
-
-bool RowAutoScaler::scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &singleResult)
-{
-    if(absVal >= limit-m_hysteresisValue) {
-        setScale(limit, limitPrefix, singleResult);
-        return true;
-    }
-    return false;
-}
 
