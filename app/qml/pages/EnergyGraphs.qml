@@ -295,11 +295,10 @@ Item {
                     text: ((axisYPower.max - (index * axisYPower.perDivision)) * axisYPower.scale).toFixed(2)
                     color: axisYPower.labelsColor
                     font.pixelSize: chartViewPower.height * 0.04
-                    x: (chartView.plotArea.x * 1.2) - width
-                    y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYPower.tickCount - 1)))
+                    x: (chartViewPower.plotArea.x * 0.9) - width
+                    y: (chartViewPower.plotArea.y * 0.4) + (index * (chartViewPower.plotArea.height / (axisYPower.tickCount - 1)))
                 }
             }
-
             ValueAxis {
                 id: axisXPower
                 titleText: "T[s]"
@@ -419,12 +418,30 @@ Item {
 
             ValueAxis {
                 id: axisYLeft
-                titleText: "U[V]"
+                titleText: "U[" + axisYLeft.unitPrefix + "V]"
                 titleFont.pixelSize: chartView.height * 0.06
                 labelsFont.pixelSize: chartView.height * 0.04
-                labelFormat: "%d"
                 min: 0
                 max : 10
+                labelsVisible: false
+                property int perDivision: (max - min) / (tickCount - 1)
+                property real scale: 1
+                property string unitPrefix: ""
+                onMaxChanged: {
+                    singleValueScaler.scaleSingleValForQML(max)
+                    scale = singleValueScaler.scaleFactor
+                    unitPrefix = singleValueScaler.unitPrefix
+                }
+            }
+            Repeater {
+                model: axisYLeft.tickCount
+                delegate: Text {
+                    text: ((axisYLeft.max - (index * axisYLeft.perDivision)) * axisYLeft.scale).toFixed(2)
+                    color: axisYLeft.labelsColor
+                    font.pixelSize: chartView.height * 0.04
+                    x: (chartView.plotArea.x * 0.9) - width
+                    y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYLeft.tickCount - 1)))
+                }
             }
             ValueAxis {
                 id: axisX
@@ -448,12 +465,30 @@ Item {
             }
             ValueAxis {
                 id: axisYRight
-                titleText: "I[A]"
+                titleText: "I[" + axisYRight.unitPrefix + "A]"
                 titleFont.pixelSize: chartView.height * 0.06
                 labelsFont.pixelSize: chartView.height * 0.04
-                labelFormat: "%d"
                 min: 0
                 max : 10
+                labelsVisible: false
+                property int perDivision: (max - min) / (tickCount - 1)
+                property real scale: 1
+                property string unitPrefix: ""
+                onMaxChanged: {
+                    singleValueScaler.scaleSingleValForQML(max)
+                    scale = singleValueScaler.scaleFactor
+                    unitPrefix = singleValueScaler.unitPrefix
+                }
+            }
+            Repeater {
+                model: axisYRight.tickCount
+                delegate: Text {
+                    text: ((axisYRight.max - (index * axisYRight.perDivision)) * axisYRight.scale).toFixed(2)
+                    color: axisYRight.labelsColor
+                    font.pixelSize: chartView.height * 0.04
+                    x: chartView.plotArea.x * 0.01 + root.graphWidth - 62
+                    y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYRight.tickCount - 1)))
+                }
             }
 
             Flickable {
