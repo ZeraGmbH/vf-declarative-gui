@@ -75,7 +75,7 @@ Item {
         anchors.left: editDenominator.right
         anchors.leftMargin: frameMargin * 0.5
 
-        model: ["", "*(sqrt(3))", "*(1/sqrt(3))"]
+        model: ["*(1)", "*(sqrt(3))", "*(1/sqrt(3))"]
         imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
         currentIndex: {
             if(rangeModule[groupComponentName].includes("(1/sqrt(3))"))
