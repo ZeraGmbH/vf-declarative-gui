@@ -253,7 +253,6 @@ Item {
                 }
             }
         }
-        Item {}
 
         ChartView {
             id: chartViewPower
