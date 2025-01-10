@@ -207,7 +207,7 @@ Item {
     }
 
     Flickable {
-        id: flickable
+        id: verticalFlickable
         anchors.top: {
             if(phasesLoader.active)
                 return phasesLoader.bottom
@@ -216,6 +216,7 @@ Item {
         contentHeight: chartView.height + chartViewPower.height
         width: root.width
         height: phasesLoader.active ? root.height - phasesLoader.height : root.height
+        property int chartsHeight: phasesLoader.active ? root.graphHeight /2 - phasesLoader.height : root.graphHeight /2
         flickableDirection: Flickable.VerticalFlick
         clip: true
         onMovementEnded: {
@@ -226,9 +227,9 @@ Item {
 
         ScrollBar.vertical: ScrollBar {
             id: verticalScroll
-            width: flickable.width * 0.013
+            width: verticalFlickable.width * 0.013
             anchors.right: parent.right
-            policy : flickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
+            policy : verticalFlickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
             snapMode: ScrollBar.SnapOnRelease
             stepSize: 1
         }
@@ -243,12 +244,12 @@ Item {
             onPinchUpdated: {
                 let pinchScale = pinch.scale * pinch.previousScale
                 if (pinchScale > 1.0) {
-                    chartView.height = phasesLoader.active ? root.graphHeight /2 - phasesLoader.height : root.graphHeight /2
-                    chartViewPower.height = phasesLoader.active ? root.graphHeight /2 - phasesLoader.height : root.graphHeight /2
+                    chartView.height = verticalFlickable.chartsHeight
+                    chartViewPower.height = verticalFlickable.chartsHeight
                 }
                 else if (pinchScale < 1.0) {
-                    chartView.height = phasesLoader.active ? root.graphHeight / 4 - phasesLoader.height/2 : root.graphHeight / 4
-                    chartViewPower.height = phasesLoader.active ? root.graphHeight / 4 - phasesLoader.height/2 : root.graphHeight / 4
+                    chartView.height = verticalFlickable.chartsHeight/2
+                    chartViewPower.height = verticalFlickable.chartsHeight/2
                 }
             }
         }
@@ -256,7 +257,7 @@ Item {
 
         ChartView {
             id: chartViewPower
-            height: phasesLoader.active ? root.graphHeight / 2 - phasesLoader.height : root.graphHeight / 2
+            height: verticalFlickable.chartsHeight
             width: root.graphWidth
             antialiasing: true
             theme: ChartView.ChartThemeDark
