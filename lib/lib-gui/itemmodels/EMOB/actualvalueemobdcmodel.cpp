@@ -57,17 +57,17 @@ void ActualValueEmobDcModel::handleComponentChangeCoord(const VeinComponent::Com
 
     if(valueCoordiates == QPoint(RoleIndexes::DC_U, lineVal(LINE_VALUES))) {
         columnRole = RoleIndexes::DC_U;
-        singleResult = m_autoScalerU.getSingleValueScaler()->scaleSingleVal(unscaledValue);
+        singleResult = m_autoScalerU.scaleSingleVal(unscaledValue);
         headerText = QString("U [%1V]").arg(singleResult.unitPrefix);
     }
     else if(valueCoordiates == QPoint(RoleIndexes::DC_I, lineVal(LINE_VALUES))) {
         columnRole = RoleIndexes::DC_I;
-        singleResult = m_autoScalerI.getSingleValueScaler()->scaleSingleVal(unscaledValue);
+        singleResult = m_autoScalerI.scaleSingleVal(unscaledValue);
         headerText = QString("I [%1A]").arg(singleResult.unitPrefix);
     }
     else if(valueCoordiates == QPoint(RoleIndexes::DC_P, lineVal(LINE_VALUES))) {
         columnRole = RoleIndexes::DC_P;
-        singleResult = m_autoScalerP.getSingleValueScaler()->scaleSingleVal(unscaledValue);
+        singleResult = m_autoScalerP.scaleSingleVal(unscaledValue);
         headerText = QString("P [%1W]").arg(singleResult.unitPrefix);
     }
 
