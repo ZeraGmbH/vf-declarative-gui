@@ -6,14 +6,19 @@ RowAutoScaler::RowAutoScaler()
     m_singleValueScaler = new SingleValueScaler();
 }
 
+RowAutoScaler::~RowAutoScaler()
+{
+    delete m_singleValueScaler;
+}
+
 void RowAutoScaler::setUnscaledValue(int columnRole, QVariant newValue)
 {
     m_unscaledColumnValues[columnRole] = newValue;
 }
 
-SingleValueScaler *RowAutoScaler::getSingleValueScaler()
+SingleValueScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double value)
 {
-    return m_singleValueScaler;
+    return m_singleValueScaler->scaleSingleVal(value);
 }
 
 RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<int> roleIdxSingleValues)
@@ -26,7 +31,7 @@ RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<i
                 maxAbsVal = absVal;
         }
     }
-    const SingleValueScaler::TSingleScaleResult res = getSingleValueScaler()->scaleSingleVal(maxAbsVal);
+    const SingleValueScaler::TSingleScaleResult res = scaleSingleVal(maxAbsVal);
     TRowScaleResult result;
     result.scaledUnit = res.unitPrefix + baseUnit;
 

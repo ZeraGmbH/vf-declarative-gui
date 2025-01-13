@@ -9,8 +9,9 @@ class RowAutoScaler
 public:
     static constexpr double HYSTERESIS = 0.01;
     RowAutoScaler();
+    ~RowAutoScaler();
     void setUnscaledValue(int columnRole, QVariant value);
-    SingleValueScaler *getSingleValueScaler();
+    SingleValueScaler::TSingleScaleResult scaleSingleVal(double value);
     struct TRowScaleResult
     {
         QString scaledUnit;

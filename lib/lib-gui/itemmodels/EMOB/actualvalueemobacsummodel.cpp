@@ -60,7 +60,7 @@ void ActualValueEmobAcSumModel::handleComponentChangeCoord(const VeinComponent::
     double unscaledValue = cData->newValue().toDouble();
     if(valueCoordiates == QPoint(RoleIndexes::SUM_P, lineVal(LINE_VALUES))) {
         columnRole = RoleIndexes::SUM_P;
-        singleResult = m_autoScalerP.getSingleValueScaler()->scaleSingleVal(unscaledValue);
+        singleResult = m_autoScalerP.scaleSingleVal(unscaledValue);
         headerText = QString("P [%1W]").arg(singleResult.unitPrefix);
     }
 
