@@ -9,14 +9,9 @@ class SingleValueScaler : public QObject
 public:
     static constexpr double HYSTERESIS = 0.01;
     SingleValueScaler(QObject *parent = nullptr);
-    Q_PROPERTY(double scaleFactor READ getScaleFactor NOTIFY scaleFactorChanged);
-    Q_PROPERTY(QString unitPrefix READ getUnitPrefix NOTIFY unitPrefixChanged);
     Q_INVOKABLE void scaleSingleValForQML(double val);
-
-    void setScaleFactor(double scaleFactor);
-    double getScaleFactor();
-    void setUnitPrefix(QString unitPrefix);
-    QString getUnitPrefix();
+    Q_INVOKABLE double getScaleFactor();
+    Q_INVOKABLE QString getUnitPrefix();
 
     struct TSingleScaleResult
     {
@@ -24,9 +19,6 @@ public:
         QString unitPrefix;
     };
     TSingleScaleResult scaleSingleVal(double val);
-signals:
-    void scaleFactorChanged();
-    void unitPrefixChanged();
 private:
     void setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult);
     bool scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &singleResult);
