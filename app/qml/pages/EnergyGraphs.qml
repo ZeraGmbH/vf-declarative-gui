@@ -92,7 +92,7 @@ Item {
 
     function calculateContentWidth() {
         let actualPoints = Math.round(timeDiffSecs* 2)+1
-        if (actualPoints > maxVisibleXPoints) {
+        if (actualPoints > maxVisibleXPoints - 1) {
             if(!loggingTimer.hasTriggered)
                 root.contentWidth = actualPoints * singlePointWidth
         }
