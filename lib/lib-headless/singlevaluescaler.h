@@ -11,7 +11,7 @@ public:
     SingleValueScaler(QObject *parent = nullptr);
     Q_PROPERTY(double scaleFactor READ getScaleFactor NOTIFY scaleFactorChanged);
     Q_PROPERTY(QString unitPrefix READ getUnitPrefix NOTIFY unitPrefixChanged);
-    Q_INVOKABLE bool scaleSingleValForQML(double val);
+    Q_INVOKABLE void scaleSingleValForQML(double val);
 
     void setScaleFactor(double scaleFactor);
     double getScaleFactor();
