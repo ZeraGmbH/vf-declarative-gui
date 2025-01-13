@@ -285,8 +285,8 @@ Item {
                 property string unitPrefix: ""
                 onMaxChanged: {
                     singleValueScaler.scaleSingleValForQML(max)
-                    scale = singleValueScaler.scaleFactor
-                    unitPrefix = singleValueScaler.unitPrefix
+                    scale = singleValueScaler.getScaleFactor()
+                    unitPrefix = singleValueScaler.getUnitPrefix()
                 }
             }
             Repeater {
@@ -429,8 +429,8 @@ Item {
                 property string unitPrefix: ""
                 onMaxChanged: {
                     singleValueScaler.scaleSingleValForQML(max)
-                    scale = singleValueScaler.scaleFactor
-                    unitPrefix = singleValueScaler.unitPrefix
+                    scale = singleValueScaler.getScaleFactor()
+                    unitPrefix = singleValueScaler.getUnitPrefix()
                 }
             }
             Repeater {
@@ -476,8 +476,8 @@ Item {
                 property string unitPrefix: ""
                 onMaxChanged: {
                     singleValueScaler.scaleSingleValForQML(max)
-                    scale = singleValueScaler.scaleFactor
-                    unitPrefix = singleValueScaler.unitPrefix
+                    scale = singleValueScaler.getScaleFactor()
+                    unitPrefix = singleValueScaler.getUnitPrefix()
                 }
             }
             Repeater {
