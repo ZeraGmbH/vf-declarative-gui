@@ -5,10 +5,18 @@ TableRowAutoScaler::TableRowAutoScaler(QStandardItemModel *itemModel) :
 {
 }
 
+TableRowAutoScaler::~TableRowAutoScaler()
+{
+    for(int i = 0; i <  m_rowScalers.size(); i++)
+        delete m_rowScalers[i];
+    m_rowScalers.clear();
+}
+
 void TableRowAutoScaler::setUnitInfo(int row, QString baseUnit, int roleIndexUnit)
 {
     m_rowsToAutoScale[row].roleIndexUnit = roleIndexUnit;
     m_rowsToAutoScale[row].baseUnit = baseUnit;
+    m_rowScalers[row] = new RowAutoScaler();
     scaleRow(row);
 }
 
@@ -26,7 +34,7 @@ void TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::Compone
     if(m_rowsToAutoScale.contains(row)) {
         const TLineScaleEntry &scaleEntry = m_rowsToAutoScale[row];
         if(scaleEntry.roleIdxSingleValues.contains(columnRole) || scaleEntry.roleIndexSum == columnRole) {
-            m_rowScalers[row].setUnscaledValue(columnRole, newValue);
+            m_rowScalers[row]->setUnscaledValue(columnRole, newValue);
             scaleRow(row);
         }
     }
@@ -39,7 +47,7 @@ void TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::Compone
 void TableRowAutoScaler::scaleRow(int row)
 {
     RowAutoScaler::TRowScaleResult res;
-    res = m_rowScalers[row].scaleRow(m_rowsToAutoScale[row].baseUnit, m_rowsToAutoScale[row].roleIdxSingleValues);
+    res = m_rowScalers[row]->scaleRow(m_rowsToAutoScale[row].baseUnit, m_rowsToAutoScale[row].roleIdxSingleValues);
 
     QModelIndex mIndex = m_itemModel->index(row, 0);
     int unitColumn = m_rowsToAutoScale[row].roleIndexUnit;
