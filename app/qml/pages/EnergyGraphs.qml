@@ -358,38 +358,35 @@ Item {
                 }
             }
             LineSeries {
-                style: GC.showCurvePhaseOne || SessionState.dcSession? Qt.SolidLine : Qt.NoPen
                 name: powerComponentsACDC[0]
                 axisX: axisXPower
                 axisY: axisYPower
                 color: SessionState.dcSession ? GC.colorUAux1 : GC.colorUL1
+                visible: GC.showCurvePhaseOne || SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen
                 name: powerComponentsACDC[1]
                 axisX: axisXPower
                 axisY: axisYPower
                 color: GC.colorUL2
-                visible: !SessionState.dcSession
+                visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen
                 name: powerComponentsACDC[2]
                 axisX: axisXPower
                 axisY: axisYPower
                 color: GC.colorUL3
-                visible: !SessionState.dcSession
+                visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurveSum ? Qt.SolidLine : Qt.NoPen
                 name: powerComponentsACDC[3]
                 axisX: axisXPower
                 axisY: axisYPower
                 color: "white"
-                visible: !SessionState.dcSession
+                visible: GC.showCurveSum && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
         }
@@ -530,59 +527,54 @@ Item {
             }
 
             LineSeries {
-                style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen
                 name: voltageComponentsAC[0]
                 axisX: axisX
                 axisY: axisYLeft
                 color: GC.colorUL1
-                visible: !SessionState.dcSession
+                visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen
                 name: voltageComponentsAC[1]
                 axisX: axisX
                 axisY: axisYLeft
                 color: GC.colorUL2
-                visible: !SessionState.dcSession
+                visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen
                 name: voltageComponentsAC[2]
                 axisX: axisX
                 axisY: axisYLeft
                 color: GC.colorUL3
-                visible: !SessionState.dcSession
+                visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurvePhaseOne ? Qt.SolidLine : Qt.NoPen
                 name: currentComponentsAC[0]
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIL1
-                visible: !SessionState.dcSession
+                visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurvePhaseTwo ? Qt.SolidLine : Qt.NoPen
                 name: currentComponentsAC[1]
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIL2
+                visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
             LineSeries {
-                style: GC.showCurvePhaseThree ? Qt.SolidLine : Qt.NoPen
                 name: currentComponentsAC[2]
                 axisX: axisX
                 axisYRight: axisYRight
                 color: GC.colorIL3
+                visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
             LineSeries {
-                style: Qt.SolidLine
                 name: voltageComponentsDC[0]
                 axisX: axisX
                 axisY: axisYLeft
@@ -591,7 +583,6 @@ Item {
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
-                style: Qt.SolidLine
                 name: currentComponentsDC[0]
                 axisX: axisX
                 axisYRight: axisYRight
