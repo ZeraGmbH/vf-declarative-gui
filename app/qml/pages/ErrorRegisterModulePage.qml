@@ -7,6 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import FontAwesomeQml 1.0
+import AppStarterForWebGLSingleton 1.0
 import SessionState 1.0
 import ZeraFa 1.0
 import Vf_Recorder 1.0
@@ -77,6 +78,7 @@ Item {
                     graphHeight: parent.height
                     graphWidth: parent.width
                     parStartStop: root.errCalEntity.PAR_StartStop
+                    visible: !ASWGL.isServer
                 }
             }
 
@@ -110,7 +112,7 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
-                    if(SessionState.emobSession && VeinEntity.getEntity("_System").DevMode)
+                    if(SessionState.emobSession && VeinEntity.getEntity("_System").DevMode && !ASWGL.isServer)
                         multiSwipe.currentIndex = 1
                 }
             }
@@ -134,7 +136,7 @@ Item {
                 }
             }
             Loader {
-                active: VeinEntity.getEntity("_System").DevMode
+                active: VeinEntity.getEntity("_System").DevMode && !ASWGL.isServer
                 height: active ? root.rowHeight : 0
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
