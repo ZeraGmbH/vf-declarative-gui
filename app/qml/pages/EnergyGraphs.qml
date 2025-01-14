@@ -58,9 +58,8 @@ Item {
     property var jsonData : Vf_Recorder.latestStoredValues0
     onJsonDataChanged: {
         var timestamp = Object.keys(jsonData)[0]
-        var firstTimestamp = jsonHelper.convertTimestampToMs(Vf_Recorder.firstTimestamp0)
         var timeMs = jsonHelper.convertTimestampToMs(timestamp)
-        timeDiffSecs = (timeMs - firstTimestamp)/1000
+        timeDiffSecs = (timeMs - Vf_Recorder.firstTimestamp0)/1000
         var components = jsonHelper.getComponents(jsonData[timestamp])
 
         for(var v = 0 ; v <components.length; v++) {
