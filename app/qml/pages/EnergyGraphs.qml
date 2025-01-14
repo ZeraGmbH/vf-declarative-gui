@@ -13,7 +13,7 @@ import AxisAutoScaler 1.0
 import SingleValueScaler 1.0
 
 Item {
-    id:  root
+    id: root
     property var graphHeight
     property var graphWidth
     property int parStartStop
@@ -35,14 +35,11 @@ Item {
     property bool logging : VeinEntity.getEntity("_System").DevMode && SessionState.emobSession && (parStartStop === 1) ? true : false
     onLoggingChanged: {
         if(logging) {
-            loggingTimer.timerMin = 0
             clearCharts()
             Vf_Recorder.startLogging(storageNumber, vfRecorderInputJson)
         }
-        else {
-            loggingTimer.hasTriggered = false
+        else
             Vf_Recorder.stopLogging(storageNumber)
-        }
     }
     readonly property string currentSession: SessionState.currentSession
     onCurrentSessionChanged: {
@@ -609,9 +606,15 @@ Item {
     Timer {
         id: loggingTimer
         interval: 300000 //5mins
-        running: parStartStop === 1
         property double timerMin : 0
         property bool hasTriggered: false
+        running: root.logging
+        onRunningChanged: {
+            if(running) {
+                hasTriggered = false
+                timerMin = 0
+            }
+        }
         onTriggered:
             hasTriggered = true
     }
