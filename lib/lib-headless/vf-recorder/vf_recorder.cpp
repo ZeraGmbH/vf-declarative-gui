@@ -59,9 +59,10 @@ QJsonObject Vf_Recorder::getLatestStoredValues(int storageNum)
     return m_dataCollect.at(storageNum)->getLatestJsonObject();
 }
 
-QString Vf_Recorder::getFirstTimestamp0()
+qint64 Vf_Recorder::getFirstTimestamp0()
 {
-    return m_dataCollect.at(0)->getFirstTimeStamp();
+    QString dateTime = m_dataCollect.at(0)->getFirstTimeStamp();
+    return QDateTime::fromString(dateTime, "dd-MM-yyyy hh:mm:ss.zzz").toMSecsSinceEpoch();
 }
 
 void Vf_Recorder::readJson(QJsonObject jsonValue, int storageNum)

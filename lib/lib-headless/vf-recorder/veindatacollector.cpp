@@ -67,7 +67,7 @@ void VeinDataCollector::prepareTimeRecording()
         });
     }
     else
-        qInfo("Graphs recording can't work. RangeModule/SIG_Measuring component is missing.");
+        qInfo("Graphs recording can't work. DftModule/SIG_Measuring component is missing.");
 }
 
 QJsonObject VeinDataCollector::convertRecordedEntityComponentsToJson(RecordedEntityComponents record)

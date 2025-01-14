@@ -16,11 +16,11 @@ public:
     Q_INVOKABLE void startLogging(int storageNum, QJsonObject inputJson);
     Q_INVOKABLE void stopLogging(int storageNum);
     Q_PROPERTY(QJsonObject latestStoredValues0 READ getLatestStoredValues0 NOTIFY newStoredValues)
-    Q_PROPERTY(QString firstTimestamp0 READ getFirstTimestamp0)
+    Q_PROPERTY(qint64 firstTimestamp0 READ getFirstTimestamp0)
 
     QJsonObject getLatestStoredValues0();
     QJsonObject getLatestStoredValues(int storageNum);
-    QString getFirstTimestamp0();
+    qint64 getFirstTimestamp0();
 
 signals:
     void newStoredValues(int storageNumber);
