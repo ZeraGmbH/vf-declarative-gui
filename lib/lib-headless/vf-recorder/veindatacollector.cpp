@@ -13,7 +13,6 @@
 
 void VeinDataCollector::startLogging(QHash<int, QStringList> entitesAndComponents)
 {
-    m_completeJson = QJsonObject();
     m_latestJsonObject = QJsonObject();
     m_targetEntityComponents = entitesAndComponents;
     m_firstTimeStamp = QString();
@@ -49,7 +48,6 @@ void VeinDataCollector::collectValues(QDateTime timeStamp)
 
     QString timeString = timeStamp.toUTC().toString("dd-MM-yyyy hh:mm:ss.zzz");
     m_latestJsonObject = QJsonObject{{timeString, convertRecordedEntityComponentsToJson(newRecord)}};
-    m_completeJson.insert(timeString, m_latestJsonObject.value(timeString));
     emit newValueCollected();
 }
 
