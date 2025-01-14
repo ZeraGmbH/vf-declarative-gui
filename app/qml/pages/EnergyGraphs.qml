@@ -479,7 +479,7 @@ Item {
                     text: ((axisYRight.max - (index * axisYRight.perDivision)) * axisYRight.scale).toFixed(2)
                     color: axisYRight.labelsColor
                     font.pixelSize: chartView.height * 0.04
-                    x: chartView.plotArea.x * 0.01 + root.graphWidth - 62
+                    x: root.graphWidth - chartView.plotArea.x + 5
                     y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYRight.tickCount - 1)))
                 }
             }
