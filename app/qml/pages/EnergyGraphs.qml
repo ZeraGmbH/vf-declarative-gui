@@ -18,6 +18,7 @@ Item {
     property var graphWidth
     property int parStartStop
 
+    readonly property int storageNumber: 0
     readonly property var voltageComponentsAC: ["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3"]
     readonly property var currentComponentsAC: ["ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]
     readonly property var voltageComponentsDC: ["ACT_DC7"]
@@ -49,11 +50,10 @@ Item {
 
     property real timeDiffSecs : 0.0
     readonly property int xAxisTimeSpanSecs: 8
-    readonly property int storageNumber: 0
     property real contentWidth: 0.0
     property real chartWidth: root.graphWidth * 0.8356
-    property int maxVisibleXPoints: (xAxisTimeSpanSecs * 2) +1
-    property real singlePointWidth: chartWidth/(maxVisibleXPoints - 1)
+    property int maxVisibleXPoints: (xAxisTimeSpanSecs * 2) //per second 2 points
+    property real singlePointWidth: chartWidth/maxVisibleXPoints
 
     property var jsonData : Vf_Recorder.latestStoredValues0
     onJsonDataChanged: {
@@ -88,7 +88,7 @@ Item {
 
     function calculateContentWidth() {
         let actualPoints = Math.round(timeDiffSecs* 2)+1
-        if (actualPoints > maxVisibleXPoints - 1) {
+        if (actualPoints > maxVisibleXPoints) {
             if(!loggingTimer.hasTriggered)
                 root.contentWidth = actualPoints * singlePointWidth
         }
