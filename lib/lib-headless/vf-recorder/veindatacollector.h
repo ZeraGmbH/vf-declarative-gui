@@ -38,7 +38,6 @@ private:
 
     VeinStorage::AbstractEventSystem* m_storage;
     QJsonObject m_latestJsonObject;
-    QJsonObject m_completeJson;
     QString m_firstTimeStamp = QString();
     VeinStorage::AbstractComponentPtr m_sigMeasuringCompo;
 };
