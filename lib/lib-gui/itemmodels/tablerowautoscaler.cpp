@@ -5,18 +5,11 @@ TableRowAutoScaler::TableRowAutoScaler(QStandardItemModel *itemModel) :
 {
 }
 
-TableRowAutoScaler::~TableRowAutoScaler()
-{
-    for(int i = 0; i <  m_rowScalers.size(); i++)
-        delete m_rowScalers[i];
-    m_rowScalers.clear();
-}
-
 void TableRowAutoScaler::setUnitInfo(int row, QString baseUnit, int roleIndexUnit)
 {
     m_rowsToAutoScale[row].roleIndexUnit = roleIndexUnit;
     m_rowsToAutoScale[row].baseUnit = baseUnit;
-    m_rowScalers[row] = new RowAutoScaler();
+    m_rowScalers[row] = std::make_unique<RowAutoScaler>();
     scaleRow(row);
 }
 
