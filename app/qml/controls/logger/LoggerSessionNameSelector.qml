@@ -87,6 +87,7 @@ Item {
                         if(!removeSessionPopup.rpcIDRemoveSession) {
                             removeSessionPopup.rpcIDRemoveSession = loggerEntity.invokeRPC("RPC_deleteSession(QString p_session)", {
                                                                                 "p_session": removeSessionPopup.sessionToDelete })
+                            removeSessionPopup.close()
                         }
                     }
                 }
