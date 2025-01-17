@@ -36,7 +36,7 @@ Item {
     property bool logging : VeinEntity.getEntity("_System").DevMode && SessionState.emobSession && (parStartStop === 1) ? true : false
     onLoggingChanged: {
         if(logging) {
-            clearCharts()
+            resetCharts()
             Vf_Recorder.startLogging(storageNumber, vfRecorderInputJson)
         }
         else
@@ -79,11 +79,19 @@ Item {
         calculateContentWidth()
     }
 
-    function clearCharts() {
+    function resetCharts() {
+        // clear all series
         for(var i= 0; i < chartView.count; i++)
             chartView.series(i).clear()
         for(var j= 0; j < chartViewPower.count; j++)
             chartViewPower.series(j).clear()
+        // reset Y-axis min/max, X-axis is managed differently with property binding
+        axisYPower.min = 0
+        axisYPower.max = 10
+        axisYLeft.min = 0
+        axisYLeft.max = 10
+        axisYRight.min = 0
+        axisYRight.max = 10
     }
 
     function calculateContentWidth() {
