@@ -298,7 +298,8 @@ SettingsView {
                 anchors.fill: parent
                 Label {
                     id: labelRemotWeb
-                    text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Browser addresses:")
+                    //text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Webserver addresses:")
+                    text: !ASWGL.running ? Z.tr("Web-Server (experimental):") : Z.tr("Webserver addresses:")
                     textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillHeight: true
