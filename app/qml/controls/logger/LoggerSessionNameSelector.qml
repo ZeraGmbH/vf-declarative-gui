@@ -43,12 +43,12 @@ Item {
         property var rpcIDRemoveSession
         Connections {
             target: loggerEntity
-            onSigRPCFinished: {
+            function onSigRPCFinished(identifier, resultData) {
                 // TODO error handling
-                if(t_identifier === removeSessionPopup.rpcIDRemoveSession) {
+                if(identifier === removeSessionPopup.rpcIDRemoveSession) {
                     removeSessionPopup.rpcIDRemoveSession = undefined
-                    if(t_resultData["RemoteProcedureData::resultCode"] === 0 &&
-                            t_resultData["RemoteProcedureData::Return"] === true) { // ok
+                    if(resultData["RemoteProcedureData::resultCode"] === 0 &&
+                            resultData["RemoteProcedureData::Return"] === true) { // ok
                         removeSessionPopup.close();
                     }
                 }
