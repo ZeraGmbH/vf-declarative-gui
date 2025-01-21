@@ -45,10 +45,7 @@ void QmlAppStarterForWebGL::setRunning(const bool running)
         arguments.append("-platform");
         arguments.append(QStringLiteral("webgl:%1").arg(m_port));
 #endif
-        //m_process.start(QCoreApplication::applicationFilePath(), arguments);
-
-        arguments = QStringList() << "-f" << "/etc/lighttpd/lighttpd.conf";
-        m_process.start("lighttpd", arguments);
+        m_process.start(QCoreApplication::applicationFilePath(), arguments);
     }
     else if (!running && m_running) {
         m_bIgnoreCrashEvent = true;

@@ -7,6 +7,7 @@ import SessionState 1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
+import QmlAppStarterForWebserver 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
@@ -298,8 +299,7 @@ SettingsView {
                 anchors.fill: parent
                 Label {
                     id: labelRemotWeb
-                    //text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Webserver addresses:")
-                    text: !ASWGL.running ? Z.tr("Web-Server (experimental):") : Z.tr("Webserver addresses:")
+                    text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Webserver addresses:")
                     textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillHeight: true
@@ -337,6 +337,65 @@ SettingsView {
                         if(userWantsOff)
                             GC.setWebRemoteOn(false)
                         ASWGL.running = checked
+                    }
+                }
+            }
+        }
+
+        Item {
+            height: root.rowHeight
+            width: root.rowWidth
+            visible: true
+            RowLayout {
+                anchors.fill: parent
+                Label {
+                    text: Z.tr("Web-Server (experimental):")
+                    textFormat: Text.PlainText
+                    font.pointSize: pointSize
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
+                }
+                Rectangle {
+                    opacity: 1.0 //ASWS.running
+                    height: root.rowHeight * 0.65
+                    Layout.fillWidth: true
+                    color: "lightgrey"
+                    radius: 5
+                    //Layout.fillHeight: true
+                    ListView {
+                        id: ipWebServer
+                        anchors.fill: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.margins: root.rowHeight / 6
+                        boundsBehavior: Flickable.OvershootBounds
+                        orientation: ListView.Horizontal
+                        spacing: root.rowHeight / 2
+                        model: InfoInterface { }
+                        delegate: Text {
+                            verticalAlignment: Text.AlignVCenter
+                            font.pointSize: root.rowHeight / 3.5
+                            textFormat: Text.PlainText
+                            text: ipv4 + ':' + ASWS.port
+                        }
+                    }
+                }
+
+                ZCheckBox {
+                    id: webServerOnOff
+                    Layout.fillHeight: true
+                    checked: false
+
+                    onCheckedChanged: {
+
+                        let userWantsOn = !ASWS.running && checked
+                        /*
+                        if(userWantsOn)
+                            GC.setWebRemoteOn(true)
+                        let userWantsOff = ASWGL.running && !checked
+                        if(userWantsOff)
+                            GC.setWebRemoteOn(false)
+                        */
+                        ASWS.running = checked
                     }
                 }
             }
