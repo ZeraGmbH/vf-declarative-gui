@@ -15,7 +15,7 @@ public:
     static void registerQMLSingleton();
     static QmlAppStarterForWebserver *getStaticInstance(QQmlEngine *t_engine=nullptr, QJSEngine *t_scriptEngine=nullptr);
 
-    Q_PROPERTY(bool running READ getRunning WRITE setRunning NOTIFY runningChanged)
+    Q_PROPERTY(bool run READ getRunning WRITE setRunning NOTIFY runningChanged)
     Q_PROPERTY(int port READ getPort CONSTANT)
 
     bool getRunning();

@@ -15,7 +15,7 @@ void QmlAppStarterForWebserver::registerQML()
 void QmlAppStarterForWebserver::registerQMLSingleton()
 {
     // ASWS -> App Starter Web Server
-    qmlRegisterSingletonType<QmlAppStarterForWebserver>("QmlAppStarterForWebserver", 1, 0, "ASWS", QmlAppStarterForWebserver::getStaticInstance);
+    qmlRegisterSingletonType<QmlAppStarterForWebserver>("AppStarterForWebserverSingleton", 1, 0, "ASWS", QmlAppStarterForWebserver::getStaticInstance);
 }
 
 
@@ -33,12 +33,14 @@ int QmlAppStarterForWebserver::getPort()
 void QmlAppStarterForWebserver::setRunning(bool run)
 {
     if (run && !m_running){
+        qWarning("Start Webserver");
         QStringList arguments = QStringList() << "-f" << "/etc/lighttpd/lighttpd.conf";
         m_process.start("lighttpd", arguments);
         m_running = true;
         emit runningChanged();
     }
     else if (!run && m_running) {
+        qWarning("Stop Webserver");
         m_bIgnoreCrashEvent = true;
         m_process.kill();
         m_running = false;

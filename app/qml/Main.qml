@@ -7,6 +7,7 @@ import QtQuick.VirtualKeyboard 2.4
 import QtQuick.VirtualKeyboard.Settings 2.2
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
+import AppStarterForWebserverSingleton 1.0
 import VeinEntity 1.0
 import SessionState 1.0
 import ZeraTranslation  1.0

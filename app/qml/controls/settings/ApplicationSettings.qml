@@ -7,7 +7,7 @@ import SessionState 1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
-import QmlAppStarterForWebserver 1.0
+import AppStarterForWebserverSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
@@ -375,7 +375,7 @@ SettingsView {
                             verticalAlignment: Text.AlignVCenter
                             font.pointSize: root.rowHeight / 3.5
                             textFormat: Text.PlainText
-                            text: ipv4 + ':' + ASWS.port
+                            text: 'IP-Adr: ' + ipv4 + ':' + ASWS.port
                         }
                     }
                 }
@@ -383,19 +383,10 @@ SettingsView {
                 ZCheckBox {
                     id: webServerOnOff
                     Layout.fillHeight: true
-                    checked: false
+                    checked: ASWS.run
 
                     onCheckedChanged: {
-
-                        let userWantsOn = !ASWS.running && checked
-                        /*
-                        if(userWantsOn)
-                            GC.setWebRemoteOn(true)
-                        let userWantsOff = ASWGL.running && !checked
-                        if(userWantsOff)
-                            GC.setWebRemoteOn(false)
-                        */
-                        ASWS.running = checked
+                        ASWS.run = checked
                     }
                 }
             }
