@@ -112,7 +112,7 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
-                    if(SessionState.emobSession && VeinEntity.getEntity("_System").DevMode && !ASWGL.isServer)
+                    if(SessionState.emobSession && !ASWGL.isServer)
                         multiSwipe.currentIndex = 1
                 }
             }
@@ -136,7 +136,7 @@ Item {
                 }
             }
             Loader {
-                active: VeinEntity.getEntity("_System").DevMode && !ASWGL.isServer
+                active: !ASWGL.isServer
                 height: active ? root.rowHeight : 0
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
