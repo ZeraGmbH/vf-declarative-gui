@@ -384,9 +384,17 @@ SettingsView {
                     id: webServerOnOff
                     Layout.fillHeight: true
                     checked: ASWS.run
-
+                    //checked: ASWGL.running ???
                     onCheckedChanged: {
                         ASWS.run = checked
+
+                    let userWantsOn = !ASWGL.running && checked
+                    if(userWantsOn)
+                        GC.setWebRemoteOn(true)
+                    let userWantsOff = ASWGL.running && !checked
+                    if(userWantsOff)
+                        GC.setWebRemoteOn(false)
+                    ASWGL.running = checked
                     }
                 }
             }
