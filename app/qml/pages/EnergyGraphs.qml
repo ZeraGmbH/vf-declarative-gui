@@ -33,7 +33,7 @@ Item {
                                                 {"EntityId":1070, "Component":powerComponentsACDC}]}
     readonly property var vfRecorderInputJson: dcSession ? jsonEnergyDC : jsonEnergyAC
 
-    property bool logging : VeinEntity.getEntity("_System").DevMode && SessionState.emobSession && (parStartStop === 1) ? true : false
+    property bool logging : SessionState.emobSession && (parStartStop === 1) ? true : false
     onLoggingChanged: {
         if(logging) {
             resetCharts()
