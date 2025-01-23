@@ -32,13 +32,16 @@ int QmlAppStarterForWebserver::getPort()
 
 void QmlAppStarterForWebserver::setRunning(bool run)
 {
-    if (run && !m_running){
+    if (run && !m_running) {
         qWarning("Start Webserver");
-        QStringList arguments = QStringList() << "-f" << "/etc/lighttpd/lighttpd.conf";
+        QStringList arguments = QStringList() << "-D -f" << "/etc/lighttpd/lighttpd.conf";
         m_process.start("lighttpd", arguments);
         m_running = true;
-        emit runningChanged();
+        emit runningChanged();  // wofür ???
     }
+    else if (run && m_running)
+        qWarning("Webserver is running, no restart possible");
+
     else if (!run && m_running) {
         qWarning("Stop Webserver");
         m_bIgnoreCrashEvent = true;
