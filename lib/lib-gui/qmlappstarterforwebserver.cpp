@@ -34,7 +34,7 @@ void QmlAppStarterForWebserver::setRunning(bool run)
 {
     if (run && !m_running) {
         qWarning("Start Webserver");
-        QStringList arguments = QStringList() << "-D -f" << "/etc/lighttpd/lighttpd.conf";
+        QStringList arguments = QStringList() << "-D" << "-f" << "/etc/lighttpd/lighttpd.conf";   // -d = do not daemonize
         m_process.start("lighttpd", arguments);
         m_running = true;
         emit runningChanged();  // wofür ???
