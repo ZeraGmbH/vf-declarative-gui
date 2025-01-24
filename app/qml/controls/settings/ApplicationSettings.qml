@@ -19,7 +19,7 @@ SettingsView {
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     readonly property real safeHeight: height > 0.0 ? height : 10
-    rowHeight: safeHeight/9.5
+    rowHeight: safeHeight / 9
     readonly property real pointSize: rowHeight * 0.34
 
     ColorPicker {
