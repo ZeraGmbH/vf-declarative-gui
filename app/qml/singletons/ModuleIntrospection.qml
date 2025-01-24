@@ -7,6 +7,7 @@ import VeinEntity 1.0
   * These contain validation information of components (e.g. a list of valid ranges for RangeModule1.PAR_ChannelXRange)
   */
 Item {
+    property var systemIntrospection: VeinEntity.hasEntity("_System") ? JSON.parse(VeinEntity.getEntity("_System").INF_ModuleInterface) : 0
     property var rangeIntrospection: VeinEntity.hasEntity("RangeModule1") ? JSON.parse(VeinEntity.getEntity("RangeModule1").INF_ModuleInterface) : 0
     property var dftIntrospection: VeinEntity.hasEntity("DFTModule1") ? JSON.parse(VeinEntity.getEntity("DFTModule1").INF_ModuleInterface) : 0
     property var p1m1Introspection: VeinEntity.hasEntity("POWER1Module1") ? JSON.parse(VeinEntity.getEntity("POWER1Module1").INF_ModuleInterface) : 0
@@ -32,6 +33,7 @@ Item {
     property var introMap: ({})
 
     function reloadIntrospection() {
+        systemIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("_System") ? JSON.parse(VeinEntity.getEntity("_System").INF_ModuleInterface) : 0; })
         rangeIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("RangeModule1") ? JSON.parse(VeinEntity.getEntity("RangeModule1").INF_ModuleInterface) : 0; })
         dftIntrospection = Qt.binding(function() { return VeinEntity.hasEntity("DFTModule1") ? JSON.parse(VeinEntity.getEntity("DFTModule1").INF_ModuleInterface) : 0; })
         p1m1Introspection = Qt.binding(function() { return VeinEntity.hasEntity("POWER1Module1") ? JSON.parse(VeinEntity.getEntity("POWER1Module1").INF_ModuleInterface) : 0; })

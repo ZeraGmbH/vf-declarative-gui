@@ -19,7 +19,7 @@ SettingsView {
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     readonly property real safeHeight: height > 0.0 ? height : 10
-    rowHeight: safeHeight/8.5
+    rowHeight: safeHeight/9.5
     readonly property real pointSize: rowHeight * 0.34
 
     ColorPicker {
@@ -44,6 +44,7 @@ SettingsView {
         width: root.width - x
     }
 
+    readonly property real comboWidth: 3
     model: VisualItemModel {
         RowLayout {
             height: root.rowHeight
@@ -61,7 +62,7 @@ SettingsView {
                 model: Z.tr("TRANSLATION_LOCALES")
                 imageModel: Z.tr("TRANSLATION_FLAGS")
                 Layout.preferredHeight: root.rowHeight * 0.9
-                Layout.preferredWidth: Layout.preferredHeight*2.5
+                Layout.preferredWidth: Layout.preferredHeight * comboWidth
                 property string intermediate: ZLocale.localeName
 
                 onIntermediateChanged: {
@@ -73,6 +74,39 @@ SettingsView {
                     if(ZLocale.localeName !== selectedText) {
                         GC.setLocale(selectedText, true)
                     }
+                }
+            }
+        }
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
+                text: Z.tr("Display:")
+                textFormat: Text.PlainText
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZComboBox {
+                id: xsessionSelector
+                arrayMode: true
+                readonly property var rawModel: ModuleIntrospection.systemIntrospection.ComponentInfo.XSession.Validation.Data
+                model: {
+                    let rawXSessions = rawModel
+                    return rawXSessions
+                }
+                Layout.preferredHeight: root.rowHeight * 0.9
+                Layout.preferredWidth: Layout.preferredHeight * comboWidth
+                targetIndex: {
+                    for(let idx=0; idx<rawModel.length; ++idx)
+                        if(rawModel[idx] === VeinEntity.getEntity("_System").XSession)
+                            return idx
+                    return 0
+                }
+                onTargetIndexChanged: {
+                    let newSessionName = rawModel[targetIndex]
+                    VeinEntity.getEntity("_System").XSession = newSessionName
                 }
             }
         }
