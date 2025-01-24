@@ -291,6 +291,7 @@ SettingsView {
                 }
             }
         }
+/*
         Item {
             height: ASWGL.isServer ? 0 : root.rowHeight
             width: root.rowWidth
@@ -341,6 +342,7 @@ SettingsView {
                 }
             }
         }
+*/
 
         Item {
             height: root.rowHeight
@@ -384,17 +386,16 @@ SettingsView {
                     id: webServerOnOff
                     Layout.fillHeight: true
                     checked: ASWS.run
-                    //checked: ASWGL.running ???
                     onCheckedChanged: {
                         ASWS.run = checked
 
-                    let userWantsOn = !ASWGL.running && checked
-                    if(userWantsOn)
-                        GC.setWebRemoteOn(true)
-                    let userWantsOff = ASWGL.running && !checked
-                    if(userWantsOff)
-                        GC.setWebRemoteOn(false)
-                    ASWGL.running = checked
+                        let userWantsOn = !ASWGL.running && checked
+                        if(userWantsOn)
+                            GC.setWebRemoteOn(true)
+                        let userWantsOff = ASWGL.running && !checked
+                        if(userWantsOff)
+                            GC.setWebRemoteOn(false)
+                        ASWGL.running = checked
                     }
                 }
             }
