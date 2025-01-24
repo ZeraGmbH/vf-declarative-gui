@@ -43,7 +43,7 @@ void QmlAppStarterForWebGL::setRunning(const bool running)
         // to enable max debug experience: ignore params
 #ifndef QT_DEBUG
         arguments.append("-platform");
-        arguments.append(QStringLiteral("webgl:%1").arg(m_port));
+        arguments.append(QStringLiteral("webgl:port=%1").arg(m_port));
 #endif
         m_process.start(QCoreApplication::applicationFilePath(), arguments);
     }
