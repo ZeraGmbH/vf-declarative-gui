@@ -78,7 +78,7 @@ SettingsView {
             }
         }
         Item {
-            height: root.rowHeight
+            height: ASWGL.isServer ? 0: root.rowHeight
             width: root.rowWidth
             visible: !ASWGL.isServer
             RowLayout {
@@ -285,7 +285,7 @@ SettingsView {
             }
         }
         Item {
-            height: root.rowHeight
+            height: ASWGL.isServer ? 0 : root.rowHeight
             width: root.rowWidth
             visible: !ASWGL.isServer
             RowLayout {
