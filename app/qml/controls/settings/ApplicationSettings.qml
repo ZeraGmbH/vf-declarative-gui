@@ -44,7 +44,7 @@ SettingsView {
         width: root.width - x
     }
 
-    readonly property real comboWidth: 3
+    readonly property real comboWidth: 4
     model: VisualItemModel {
         RowLayout {
             height: root.rowHeight
@@ -96,8 +96,14 @@ SettingsView {
                     arrayMode: true
                     readonly property var rawModel: ModuleIntrospection.systemIntrospection.ComponentInfo.XSession.Validation.Data
                     model: {
-                        let rawXSessions = rawModel
-                        return rawXSessions
+                        let xSessionsDisplay = []
+                        for(let idx=0; idx<rawModel.length; ++idx) {
+                            let text = rawModel[idx]
+                            if(text === "Desktop")
+                                text = "Desktop (slow)"
+                            xSessionsDisplay.push(Z.tr(text))
+                        }
+                        return xSessionsDisplay
                     }
                     Layout.preferredHeight: root.rowHeight * 0.9
                     Layout.preferredWidth: Layout.preferredHeight * comboWidth
