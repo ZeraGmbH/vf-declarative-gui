@@ -77,36 +77,40 @@ SettingsView {
                 }
             }
         }
-        RowLayout {
+        Item {
             height: root.rowHeight
             width: root.rowWidth
-            Label {
-                text: Z.tr("Display:")
-                textFormat: Text.PlainText
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-            }
-            ZComboBox {
-                id: xsessionSelector
-                arrayMode: true
-                readonly property var rawModel: ModuleIntrospection.systemIntrospection.ComponentInfo.XSession.Validation.Data
-                model: {
-                    let rawXSessions = rawModel
-                    return rawXSessions
+            visible: !ASWGL.isServer
+            RowLayout {
+                anchors.fill: parent
+                Label {
+                    text: Z.tr("Display:")
+                    textFormat: Text.PlainText
+                    font.pointSize: pointSize
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
                 }
-                Layout.preferredHeight: root.rowHeight * 0.9
-                Layout.preferredWidth: Layout.preferredHeight * comboWidth
-                targetIndex: {
-                    for(let idx=0; idx<rawModel.length; ++idx)
-                        if(rawModel[idx] === VeinEntity.getEntity("_System").XSession)
-                            return idx
-                    return 0
-                }
-                onTargetIndexChanged: {
-                    let newSessionName = rawModel[targetIndex]
-                    VeinEntity.getEntity("_System").XSession = newSessionName
+                ZComboBox {
+                    id: xsessionSelector
+                    arrayMode: true
+                    readonly property var rawModel: ModuleIntrospection.systemIntrospection.ComponentInfo.XSession.Validation.Data
+                    model: {
+                        let rawXSessions = rawModel
+                        return rawXSessions
+                    }
+                    Layout.preferredHeight: root.rowHeight * 0.9
+                    Layout.preferredWidth: Layout.preferredHeight * comboWidth
+                    targetIndex: {
+                        for(let idx=0; idx<rawModel.length; ++idx)
+                            if(rawModel[idx] === VeinEntity.getEntity("_System").XSession)
+                                return idx
+                        return 0
+                    }
+                    onTargetIndexChanged: {
+                        let newSessionName = rawModel[targetIndex]
+                        VeinEntity.getEntity("_System").XSession = newSessionName
+                    }
                 }
             }
         }
