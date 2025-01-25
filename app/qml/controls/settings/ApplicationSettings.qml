@@ -44,7 +44,7 @@ SettingsView {
         width: root.width - x
     }
 
-    readonly property real comboWidth: 4
+    readonly property real comboWidth: 4.5
     model: VisualItemModel {
         RowLayout {
             height: root.rowHeight
