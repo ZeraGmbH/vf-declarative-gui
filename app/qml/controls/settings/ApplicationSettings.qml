@@ -351,14 +351,14 @@ SettingsView {
             RowLayout {
                 anchors.fill: parent
                 Label {
-                    text: Z.tr("Web-Server (experimental):")
+                    text: Z.tr("Web-Server: ")
                     textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillHeight: true
                     verticalAlignment: Label.AlignVCenter
                 }
                 Rectangle {
-                    opacity: 1.0 //ASWS.running
+                    opacity: ipv4.length() ? 1 : 0  //ASWS.running
                     height: root.rowHeight * 0.65
                     Layout.fillWidth: true
                     color: "lightgrey"
