@@ -23,6 +23,8 @@ SettingsView {
     rowHeight: safeHeight / 9.25
     readonly property real pointSize: rowHeight * 0.34
 
+    property bool ipAvailable: false
+
     ColorPicker {
         id: colorPicker
         // set at rButton.onClicked
@@ -358,7 +360,7 @@ SettingsView {
                     verticalAlignment: Label.AlignVCenter
                 }
                 Rectangle {
-                    opacity: ipv4.length()>4 ? 1 : 0
+                    opacity: ipAvailable ? 1 : 0
                     height: root.rowHeight * 0.65
                     Layout.fillWidth: true
                     color: "lightgrey"
@@ -378,6 +380,13 @@ SettingsView {
                             font.pointSize: root.rowHeight / 3.5
                             textFormat: Text.PlainText
                             text: 'IP-Adr: ' + ipv4 + ':' + ASWS.port
+                            onTextChanged: {
+                                console.warn("Current IP: ", ipv4)
+                                if(ipv4 !== "")
+                                    ipAvailable=true
+                                else
+                                    ipAvailable=false
+                            }
                         }
                     }
                 }
@@ -388,9 +397,6 @@ SettingsView {
                     checked: ASWS.run
                     onCheckedChanged: {
                         ASWS.run = checked
-
-                        console.warn("Current IP: " + ipv4)
-
                         let userWantsOn = !ASWGL.running && checked
                         if(userWantsOn)
                             GC.setWebRemoteOn(true)
