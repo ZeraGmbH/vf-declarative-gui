@@ -358,7 +358,7 @@ SettingsView {
                     verticalAlignment: Label.AlignVCenter
                 }
                 Rectangle {
-                    opacity: ipv4.length() ? 1 : 0  //ASWS.running
+                    opacity: ipv4.length()>4 ? 1 : 0
                     height: root.rowHeight * 0.65
                     Layout.fillWidth: true
                     color: "lightgrey"
@@ -388,6 +388,8 @@ SettingsView {
                     checked: ASWS.run
                     onCheckedChanged: {
                         ASWS.run = checked
+
+                        console.warn("Current IP: " + ipv4)
 
                         let userWantsOn = !ASWGL.running && checked
                         if(userWantsOn)
