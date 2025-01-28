@@ -393,6 +393,7 @@ SettingsView {
 
                 ZCheckBox {
                     id: webServerOnOff
+                    enabled: ipAvailable
                     Layout.fillHeight: true
                     checked: ASWS.run
                     onCheckedChanged: {
