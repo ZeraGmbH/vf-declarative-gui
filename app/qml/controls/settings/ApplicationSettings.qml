@@ -382,7 +382,7 @@ SettingsView {
                             text: 'IP-Adr: ' + ipv4 + ':' + ASWS.port
                             onTextChanged: {
                                 console.warn("Current IP: ", ipv4)
-                                if(ipv4 === undefined)
+                                if((ipv4 === undefined) || (ipv4 === "N/A"))
                                     ipAvailable = false
                                 else
                                     ipAvailable = true
