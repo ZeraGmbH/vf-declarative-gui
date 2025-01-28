@@ -59,7 +59,8 @@ Item {
         }
         return fullPath
     }
-
+    property var rpcIdDisplaySession
+    property var sessionInfo
 
     // 'enumerate' our export types
     readonly property var exportTypeEnum: {
@@ -344,6 +345,10 @@ Item {
                         sessionSelectCombo.currentIndex = sessionSelectCombo.existingSessions.indexOf(loggerEntity.sessionName)
                     }
                 }
+                onCurrentIndexChanged: {
+                    rpcIdDisplaySession = loggerEntity.invokeRPC("RPC_displaySessionsInfos(QString p_session)", {
+                                                        "p_session": sessionSelectCombo.existingSessions[currentIndex] })
+                }
             }
         }
         Row { // Export Name
@@ -407,6 +412,48 @@ Item {
                         return str
                     case "EXPORT_TYPE_SQLITE":
                         return databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()
+                    }
+                }
+            }
+        }
+        Row { //transactions
+            height: rowHeight *3
+            ListView {
+                width: visibleWidth
+                anchors.top: parent.top
+                anchors.topMargin: 20
+                anchors.bottom: parent.bottom
+                height: parent.height
+                clip: true
+                ScrollIndicator.vertical: ScrollIndicator {
+                    width: 8
+                    active: true
+                    onActiveChanged: {
+                        if(active !== true) {
+                            active = true;
+                        }
+                    }
+                }
+                Connections {
+                    target: loggerEntity
+                    function onSigRPCFinished(identifier, resultData) {
+                        if(identifier === rpcIdDisplaySession) {
+                            rpcIdDisplaySession = undefined
+                            if(resultData["RemoteProcedureData::resultCode"] === 0 ) { // ok
+                                sessionInfo = resultData["RemoteProcedureData::Return"]
+                            }
+                        }
+                    }
+                }
+                model: sessionInfo !== undefined ? Object.keys(sessionInfo) : []
+                delegate: ItemDelegate {
+                    width: parent.width
+                    height: modelData !== [] ? root.rowHeight : 0
+                    Label {
+                        font.pointSize: pointSize
+                        text: "• " + modelData
+                        color: "white"
+                        Layout.preferredWidth: root.pointSize * 1.5
                     }
                 }
             }
