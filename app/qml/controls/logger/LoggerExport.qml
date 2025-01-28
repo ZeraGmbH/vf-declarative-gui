@@ -60,6 +60,24 @@ Item {
         return fullPath
     }
 
+    property var rpcIdDisplaySession
+    property var sessionInfo
+    onSessionInfoChanged :{
+        snapshotModel.clear()
+        for (var key in sessionInfo) {
+            var transactionType
+            if(key.includes("Snapshot"))
+                transactionType = "Snapshot"
+            else if(key.includes("Recording"))
+                transactionType = "Recording"
+            snapshotModel.append({
+                                    snapshot: transactionType,
+                                    time: sessionInfo[key].Time,
+                                    contentset: sessionInfo[key].contentset,
+                                    guicontext: sessionInfo[key].guicontext
+            });
+        }
+    }
 
     // 'enumerate' our export types
     readonly property var exportTypeEnum: {
@@ -236,6 +254,18 @@ Item {
         }
     }
 
+    Connections {
+        target: loggerEntity
+        function onSigRPCFinished(identifier, resultData) {
+            if(identifier === rpcIdDisplaySession) {
+                rpcIdDisplaySession = undefined
+                if(resultData["RemoteProcedureData::resultCode"] === 0 ) { // ok
+                    sessionInfo = resultData["RemoteProcedureData::Return"]
+                }
+            }
+        }
+    }
+
     // and the visible items
     Label { // Header
         id: captionLabel
@@ -344,6 +374,10 @@ Item {
                         sessionSelectCombo.currentIndex = sessionSelectCombo.existingSessions.indexOf(loggerEntity.sessionName)
                     }
                 }
+                onCurrentIndexChanged: {
+                    rpcIdDisplaySession = loggerEntity.invokeRPC("RPC_displaySessionsInfos(QString p_session)", {
+                                                        "p_session": sessionSelectCombo.existingSessions[currentIndex] })
+                }
             }
         }
         Row { // Export Name
@@ -410,6 +444,89 @@ Item {
                     }
                 }
             }
+        }
+        ColumnLayout { //transactions
+            id: transactionTable
+            height: {
+                if(mountedPaths.length > 1 && exportType == "EXPORT_TYPE_MTVIS")
+                    return 2 *rowHeight
+                else if(mountedPaths.length > 1 || exportType == "EXPORT_TYPE_MTVIS")
+                    return 3*rowHeight
+                else
+                    return 4*rowHeight
+            }
+            width: parent.width
+            ListView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                clip: true
+                ScrollIndicator.vertical: ScrollIndicator {
+                    width: 8
+                    active: true
+                    onActiveChanged: {
+                        if(active !== true) {
+                            active = true;
+                        }
+                    }
+                }
+                model: snapshotModel
+                delegate: RowLayout {
+                    spacing: 0
+                    width: visibleWidth - 8
+                    height: transactionTable.height / 3
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: parent.width / 4
+                        height: parent.height
+                        color: Material.background
+                        border.color: "#88898c"
+                        Text {
+                            text: model.snapshot
+                            color: "white"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: parent.width / 4
+                        height: parent.height
+                        color: Material.background
+                        border.color: "#88898c"
+                        Text {
+                            text: model.time
+                            color: "white"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: parent.width / 4
+                        height: parent.height
+                        color: Material.background
+                        border.color: "#88898c"
+                        Text {
+                            text: model.contentset
+                            color: "white"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: parent.width / 4
+                        height: parent.height
+                        color: Material.background
+                        border.color: "#88898c"
+                        Text {
+                            text: model.guicontext
+                            color: "white"
+                            anchors.centerIn: parent
+                        }
+                    }
+                }
+            }
+        }
+        ListModel {
+            id: snapshotModel
         }
     }
     Button { // the export 'action' button
