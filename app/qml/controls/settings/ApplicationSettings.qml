@@ -360,13 +360,12 @@ SettingsView {
                     verticalAlignment: Label.AlignVCenter
                 }
                 Rectangle {
-                    opacity: ipAvailable ? 1 : 0
+                    opacity: ASWS.run
                     height: root.rowHeight * 0.65
                     Layout.fillWidth: true
                     color: "lightgrey"
                     radius: 5
                     id: rectang
-                    //Layout.fillHeight: true
                     ListView {
                         id: ipWebServer
                         anchors.fill: parent
