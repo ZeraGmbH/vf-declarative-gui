@@ -83,6 +83,12 @@ Item {
                 function hasValidInput() {
                     return textField.text !== "" && !loggerEntity.ExistingSessions.includes(textField.text)
                 }
+                property var regExCurr: {
+                        return /\b[_a-z0-9][_\-a-z0-9]*\b/
+                }
+                validator: RegExpValidator {
+                    regExp: sessionNameField.regExCurr
+                }
             }
             Button {
                 text: "..."
