@@ -382,13 +382,12 @@ Item {
         }
         ColumnLayout { //transactions
             id: transactionTable
+            visible: exportType == "EXPORT_TYPE_MTVIS"
             height: {
-                if(mountedPaths.length > 1 && exportType == "EXPORT_TYPE_MTVIS")
-                    return 2 *rowHeight
-                else if(mountedPaths.length > 1 || exportType == "EXPORT_TYPE_MTVIS")
-                    return 3*rowHeight
+                if(mountedPaths.length > 1)
+                    return 3 *rowHeight
                 else
-                    return 4*rowHeight
+                    return 4 * rowHeight
             }
             width: parent.width
             ListView {
