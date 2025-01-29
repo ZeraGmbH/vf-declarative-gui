@@ -370,8 +370,8 @@ SettingsView {
                     ListView {
                         id: ipWebServer
                         anchors.fill: parent
-                        //anchors.verticalCenter: parent.verticalCenter
-                        //anchors.margins: root.rowHeight / 6
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.margins: root.rowHeight / 6
                         boundsBehavior: Flickable.OvershootBounds
                         orientation: ListView.Horizontal
                         spacing: root.rowHeight / 2
