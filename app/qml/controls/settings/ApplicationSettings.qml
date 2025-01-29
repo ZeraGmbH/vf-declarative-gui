@@ -369,17 +369,18 @@ SettingsView {
                     ListView {
                         id: ipWebServer
                         anchors.fill: parent
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.margins: root.rowHeight / 6
+                        //anchors.verticalCenter: parent.verticalCenter
+                        //anchors.margins: root.rowHeight / 6
                         boundsBehavior: Flickable.OvershootBounds
                         orientation: ListView.Horizontal
                         spacing: root.rowHeight / 2
                         model: InfoInterface { }
                         delegate: Text {
                             verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
                             font.pointSize: root.rowHeight / 3.5
                             textFormat: Text.PlainText
-                            text: 'IP-Adr: ' + ipv4 + ':' + ASWS.port
+                            text: 'IP-Address: '  + ipv4 + ':' + ASWS.port
                             onTextChanged: {
                                 console.warn("Current IP: ", ipv4)
                                 if((ipv4 === undefined) || (ipv4 === "N/A"))
