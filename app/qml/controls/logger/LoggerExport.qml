@@ -416,6 +416,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             text: model.snapshot
+                            font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
                         }
@@ -428,6 +429,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             text: model.time
+                            font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
                         }
@@ -440,6 +442,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             text: model.contentset
+                            font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
                         }
@@ -452,6 +455,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             text: model.guicontext
+                            font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
                         }
