@@ -51,10 +51,10 @@ Item {
         var fullPath = ""
         switch(exportType) {
         case "EXPORT_TYPE_MTVIS":
-            fullPath = storagePath + "/exported-mtvis/" + editExportName.text
+            fullPath = storagePath + "/exported-mtvis/" + sessionSelectCombo.currentText
             break
         case "EXPORT_TYPE_SQLITE":
-            fullPath = storagePath + "/exported-database/" + editExportName.text
+            fullPath = storagePath + "/exported-database/" + databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()
             break
         }
         return fullPath
@@ -380,71 +380,6 @@ Item {
                 }
             }
         }
-        Row { // Export Name
-            height: rowHeight
-            visible: exportType !== "EXPORT_TYPE_MTVIS" || sessionSelectCombo.currentText !== ""
-            Label {
-                text: Z.tr("Export name:");
-                width: labelWidth
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                verticalAlignment: Text.AlignVCenter
-                font.pointSize: pointSize
-            }
-            ZLineEdit {
-                id: editExportName
-                width: contentWidth
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                pointSize: root.pointSize
-                textField.anchors.rightMargin: 0
-                property var regExCurr: {
-                    if(exportType == "EXPORT_TYPE_MTVIS")
-                        return /\b[_a-z0-9][_\-a-z0-9]*\b/
-                    if(exportType == "EXPORT_TYPE_SQLITE")
-                        return /\b[_a-z0-9][_\-a-z0-9]*.db\b/
-                }
-                readOnly: {
-                    if(exportType == "EXPORT_TYPE_MTVIS")
-                        return sessionSelectCombo.currentText === ""
-                    return true
-                }
-                placeholderText: {
-                    if(exportType == "EXPORT_TYPE_MTVIS")
-                        return Z.tr("Name of export path")
-                    return ""
-                }
-                validator: RegExpValidator {
-                    regExp: editExportName.regExCurr
-                }
-                text:  {
-                    // Note on regexes:
-                    // our target is windows most likely so to avoid trouble:
-                    // * allow lower case only - Windows is not case sensitive
-                    // * start with a letter
-                    // * for MTVis: do not allow '.' for paths
-                    switch(exportType) {
-                    case "EXPORT_TYPE_MTVIS":
-                        // suggest session name from combo (yes we need to ask for overwrite e.g for the cause
-                        // of multiple storining of same session name in multiple dbs)
-                        let sessionLow = sessionSelectCombo.currentText.toLowerCase()
-                        let jRegEx =  RegExp(regExCurr, 'g')
-                        let match
-                        let str = ""
-                        // suggest only combinations od valid parts of session
-                        while ((match = jRegEx.exec(sessionLow))) {
-                            if(str !== "") {
-                                str += '_'
-                            }
-                            str += match[0]
-                        }
-                        return str
-                    case "EXPORT_TYPE_SQLITE":
-                        return databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()
-                    }
-                }
-            }
-        }
         ColumnLayout { //transactions
             id: transactionTable
             height: {
@@ -538,7 +473,7 @@ Item {
         text: Z.tr("Export")
         font.pointSize: pointSize
         enabled: {
-            let _enabled = editExportName.hasValidInput() && mountedPaths.length > 0
+            let _enabled = mountedPaths.length > 0
             switch(exportType) {
             case "EXPORT_TYPE_MTVIS":
                 _enabled = _enabled && !tasksExportMtVis.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
