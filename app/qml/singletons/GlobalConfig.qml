@@ -535,6 +535,31 @@ Item {
         }
         return contentSets
     }
+
+    function translateContentSet(contentSet) {
+        var usableContentSet = ""
+        if(contentSet.startsWith("Zera")) {
+            usableContentSet = contentSet.replace("Zera", "")
+        }
+        usableContentSet = usableContentSet.replace(/([A-Z])/g, ' $1').trim();
+        usableContentSet = usableContentSet.charAt(0).toUpperCase() + usableContentSet.slice(1).toLowerCase();
+        if(usableContentSet.includes("Transformer") || usableContentSet.includes("Burden") || usableContentSet.includes("Harmonics"))
+            usableContentSet = usableContentSet + " values"
+        else if(usableContentSet.includes("Comparison"))
+            usableContentSet = usableContentSet + " measurements"
+        return usableContentSet
+    }
+
+    function translateGuiContext(guiContext){
+        var usableGuiContext = ""
+        if(guiContext.startsWith("ZeraGui")) {
+            usableGuiContext = guiContext.replace("ZeraGui", "")
+        }
+        usableGuiContext = usableGuiContext.replace(/([A-Z])/g, ' $1').trim();
+        usableGuiContext = usableGuiContext.charAt(0).toUpperCase() + usableGuiContext.slice(1).toLowerCase();
+        return usableGuiContext
+    }
+
     property int loggerContentType: parseInt(Settings.getOption("logger_content_type", contentTypeEnum.CONTENT_TYPE_CONTEXT))
     function setLoggerContentType(contentType) {
         loggerContentType = contentType
