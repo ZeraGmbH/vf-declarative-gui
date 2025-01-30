@@ -304,7 +304,7 @@ Item {
                 model: {
                     var comboList = []
                     if(loggerEntity.ExistingSessions.length > 0) {
-                        comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: true, label: Z.tr("MtVis XML") + (sessionSelectCombo.currentText === "" ? "" : " (" +Z.tr("Session:") + " " + sessionSelectCombo.currentText + ")") })
+                        comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: true, label: Z.tr("MtVis XML")})
                     }
                     else {
                         comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: false, label: Z.tr("MtVis XML - requires stored sessions") })
