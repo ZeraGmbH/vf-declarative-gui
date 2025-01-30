@@ -283,12 +283,13 @@ Item {
         anchors.rightMargin: GC.standardTextHorizMargin
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.top: captionLabel.bottom
-        anchors.bottom: buttonExport.top
+        anchors.bottom: parent.bottom
         Row { // Export type
             height: rowHeight
+            spacing: 5
             Label {
                 text: Z.tr("Export type:")
-                width: labelWidth
+                width: labelWidth -5
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 verticalAlignment: Text.AlignVCenter
@@ -296,7 +297,7 @@ Item {
             }
             ComboBox {
                 id: exportTypeCombo
-                width: contentWidth
+                width: contentWidth - ((visibleWidth + 20)/4)
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
@@ -327,6 +328,40 @@ Item {
                     exportType = model[currentIndex].value // tried property binding but that did not work
                 }
             }
+            Button { // the export 'action' button
+                id: buttonExport
+                height: rowHeight
+                width: labelWidth -8
+                text: Z.tr("Export")
+                font.pointSize: pointSize
+                enabled: {
+                    let _enabled = mountedPaths.length > 0
+                    switch(exportType) {
+                    case "EXPORT_TYPE_MTVIS":
+                        _enabled = _enabled && !tasksExportMtVis.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
+                        break
+                    case "EXPORT_TYPE_SQLITE":
+                        _enabled = _enabled && !tasksExportDb.running && databaseName !== ""
+                        break
+                    }
+                    return _enabled
+                }
+
+                onClicked: {
+                    warnings = []
+                    errors = []
+                    switch(exportType) {
+                    case "EXPORT_TYPE_MTVIS":
+                        waitPopup.startWait(Z.tr("Exporting MTVis XML..."))
+                        tasksExportMtVis.startRun()
+                        break
+                    case "EXPORT_TYPE_SQLITE":
+                        waitPopup.startWait(Z.tr("Exporting database..."))
+                        tasksExportDb.startRun()
+                        break
+                    }
+                }
+            }
         }
         Row { // Target drive (visible only if more than one drive is inserted)
             height: rowHeight
@@ -341,7 +376,7 @@ Item {
             }
             MountedDrivesCombo {
                 id: mountedDrivesCombo
-                width: contentWidth
+                width: contentWidth - ((visibleWidth + 20)/4)
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
@@ -360,7 +395,7 @@ Item {
             }
             ComboBox {
                 id: sessionSelectCombo
-                width: contentWidth
+                width: contentWidth - ((visibleWidth + 20)/4)
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
@@ -385,9 +420,9 @@ Item {
             visible: exportType == "EXPORT_TYPE_MTVIS"
             height: {
                 if(mountedPaths.length > 1)
-                    return 3 *rowHeight
+                    return 4 *rowHeight
                 else
-                    return 4 * rowHeight
+                    return 5 * rowHeight
             }
             width: parent.width
             ListView {
@@ -482,42 +517,6 @@ Item {
         }
         ListModel {
             id: snapshotModel
-        }
-    }
-    Button { // the export 'action' button
-        id: buttonExport
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.rightMargin: GC.standardTextHorizMargin
-        height: rowHeight
-        text: Z.tr("Export")
-        font.pointSize: pointSize
-        enabled: {
-            let _enabled = mountedPaths.length > 0
-            switch(exportType) {
-            case "EXPORT_TYPE_MTVIS":
-                _enabled = _enabled && !tasksExportMtVis.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
-                break
-            case "EXPORT_TYPE_SQLITE":
-                _enabled = _enabled && !tasksExportDb.running && databaseName !== ""
-                break
-            }
-            return _enabled
-        }
-
-        onClicked: {
-            warnings = []
-            errors = []
-            switch(exportType) {
-            case "EXPORT_TYPE_MTVIS":
-                waitPopup.startWait(Z.tr("Exporting MTVis XML..."))
-                tasksExportMtVis.startRun()
-                break
-            case "EXPORT_TYPE_SQLITE":
-                waitPopup.startWait(Z.tr("Exporting database..."))
-                tasksExportDb.startRun()
-                break
-            }
         }
     }
 }
