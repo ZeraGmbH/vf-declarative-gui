@@ -488,7 +488,7 @@ Item {
                             Repeater {
                                 model: contentColumn.contentset.split(",")
                                 delegate: Text {
-                                    text: modelData.trim()
+                                    text: GC.translateContentSet(modelData.trim())
                                     font.pixelSize: pointSize * 0.65
                                     color: "white"
                                 }
@@ -503,7 +503,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textGuiContext
-                            text: model.guicontext
+                            text: GC.translateGuiContext(model.guicontext)
                             font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
