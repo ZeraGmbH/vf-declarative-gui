@@ -420,9 +420,9 @@ Item {
             visible: exportType == "EXPORT_TYPE_MTVIS"
             height: {
                 if(mountedPaths.length > 1)
-                    return 4 *rowHeight
+                    return root.height - 4 * rowHeight
                 else
-                    return 5 * rowHeight
+                    return root.height - 3 * rowHeight
             }
             width: parent.width
             ListView {
@@ -442,11 +442,8 @@ Item {
                 delegate: RowLayout {
                     spacing: 0
                     width: visibleWidth - 8
-                    property real tableHeight: Math.max(textSnapshot.implicitHeight,
-                                                        textTime.implicitHeight,
-                                                        contentColumn.implicitHeight,
-                                                        textGuiContext.implicitHeight,
-                                                        transactionTable.height/3)
+                    property real tableHeight: Math.max(contentColumn.implicitHeight,
+                                                        transactionTable.height/3 )
                     height: tableHeight
                     Rectangle {
                         Layout.fillWidth: true
