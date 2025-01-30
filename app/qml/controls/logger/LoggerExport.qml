@@ -407,7 +407,12 @@ Item {
                 delegate: RowLayout {
                     spacing: 0
                     width: visibleWidth - 8
-                    height: transactionTable.height / 3
+                    property real tableHeight: Math.max(textSnapshot.implicitHeight,
+                                                        textTime.implicitHeight,
+                                                        contentColumn.implicitHeight,
+                                                        textGuiContext.implicitHeight,
+                                                        transactionTable.height/3)
+                    height: tableHeight
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredWidth: parent.width / 4
@@ -415,6 +420,7 @@ Item {
                         color: Material.background
                         border.color: "#88898c"
                         Text {
+                            id: textSnapshot
                             text: model.snapshot
                             font.pointSize: pointSize * 0.65
                             color: "white"
@@ -428,6 +434,7 @@ Item {
                         color: Material.background
                         border.color: "#88898c"
                         Text {
+                            id: textTime
                             text: model.time
                             font.pointSize: pointSize * 0.65
                             color: "white"
@@ -440,11 +447,20 @@ Item {
                         height: parent.height
                         color: Material.background
                         border.color: "#88898c"
-                        Text {
-                            text: model.contentset
-                            font.pointSize: pointSize * 0.65
-                            color: "white"
+                        Column {
+                            id: contentColumn
                             anchors.centerIn: parent
+                            anchors.margins: 5
+                            spacing: 2
+                            property var contentset: model.contentset
+                            Repeater {
+                                model: contentColumn.contentset.split(",")
+                                delegate: Text {
+                                    text: modelData.trim()
+                                    font.pixelSize: pointSize * 0.65
+                                    color: "white"
+                                }
+                            }
                         }
                     }
                     Rectangle {
@@ -454,6 +470,7 @@ Item {
                         color: Material.background
                         border.color: "#88898c"
                         Text {
+                            id: textGuiContext
                             text: model.guicontext
                             font.pointSize: pointSize * 0.65
                             color: "white"
