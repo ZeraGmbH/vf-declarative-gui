@@ -489,6 +489,7 @@ Item {
                                 model: contentColumn.contentset.split(",")
                                 delegate: Text {
                                     text: GC.translateContentSet(modelData.trim())
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                     font.pixelSize: pointSize * 0.65
                                     color: "white"
                                 }
