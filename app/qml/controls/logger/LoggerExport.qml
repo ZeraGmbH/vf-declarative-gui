@@ -481,12 +481,13 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textContent
+                            property var contentSet: model.contentset.split(",")
+                            text: GC.translateContentSet(contentSet)
                             wrapMode: Text.Wrap
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             anchors.fill: parent
                             padding: 5
-                            text: GC.translateContentSet(model.contentset)
                             font.pointSize: pointSize * 0.65
                             color: "white"
                         }
