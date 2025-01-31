@@ -425,6 +425,7 @@ Item {
                     return root.height - 3 * rowHeight
             }
             width: parent.width
+            spacing: 0
             ListView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -442,9 +443,7 @@ Item {
                 delegate: RowLayout {
                     spacing: 0
                     width: visibleWidth - 8
-                    property real tableHeight: Math.max(contentColumn.implicitHeight,
-                                                        transactionTable.height/3 )
-                    height: tableHeight
+                    height: transactionTable.height/4
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredWidth: parent.width / 4
