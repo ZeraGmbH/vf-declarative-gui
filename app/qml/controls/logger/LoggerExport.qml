@@ -479,21 +479,16 @@ Item {
                         height: parent.height
                         color: Material.background
                         border.color: "#88898c"
-                        Column {
-                            id: contentColumn
-                            anchors.centerIn: parent
-                            anchors.margins: 5
-                            spacing: 2
-                            property var contentset: model.contentset
-                            Repeater {
-                                model: contentColumn.contentset.split(",")
-                                delegate: Text {
-                                    text: GC.translateContentSet(modelData.trim())
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    font.pixelSize: pointSize * 0.65
-                                    color: "white"
-                                }
-                            }
+                        Text {
+                            id: textContent
+                            wrapMode: Text.Wrap
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            anchors.fill: parent
+                            padding: 5
+                            text: GC.translateContentSet(model.contentset)
+                            font.pointSize: pointSize * 0.65
+                            color: "white"
                         }
                     }
                 }
