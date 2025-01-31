@@ -475,7 +475,7 @@ Item {
                     }
                     Rectangle {
                         Layout.fillWidth: true
-                        Layout.preferredWidth: parent.width / 4
+                        Layout.preferredWidth: 2 *parent.width / 4
                         height: parent.height
                         color: Material.background
                         border.color: "#88898c"
@@ -494,20 +494,6 @@ Item {
                                     color: "white"
                                 }
                             }
-                        }
-                    }
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.preferredWidth: parent.width / 4
-                        height: parent.height
-                        color: Material.background
-                        border.color: "#88898c"
-                        Text {
-                            id: textGuiContext
-                            text: GC.translateGuiContext(model.guicontext)
-                            font.pointSize: pointSize * 0.65
-                            color: "white"
-                            anchors.centerIn: parent
                         }
                     }
                 }
