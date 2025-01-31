@@ -537,27 +537,30 @@ Item {
     }
 
     function translateContentSet(contentSet) {
+        var globalContentSet = ""
+        for(var elt in contentSet) {
+            var usableContentSet = processContentSet(contentSet[elt])
+            if(usableContentSet.includes("Transformer") || usableContentSet.includes("Burden") || usableContentSet.includes("Harmonics"))
+                usableContentSet = usableContentSet + " values"
+            else if(usableContentSet.includes("Comparison"))
+                usableContentSet = usableContentSet + " measurements"
+
+            if(elt > 0)
+                globalContentSet = globalContentSet + ", " + usableContentSet
+            else
+                globalContentSet = globalContentSet + " " + usableContentSet
+        }
+        return globalContentSet
+    }
+
+    function processContentSet(contentSet){
         var usableContentSet = ""
         if(contentSet.startsWith("Zera")) {
             usableContentSet = contentSet.replace("Zera", "")
         }
         usableContentSet = usableContentSet.replace(/([A-Z])/g, ' $1').trim();
         usableContentSet = usableContentSet.charAt(0).toUpperCase() + usableContentSet.slice(1).toLowerCase();
-        if(usableContentSet.includes("Transformer") || usableContentSet.includes("Burden") || usableContentSet.includes("Harmonics"))
-            usableContentSet = usableContentSet + " values"
-        else if(usableContentSet.includes("Comparison"))
-            usableContentSet = usableContentSet + " measurements"
         return usableContentSet
-    }
-
-    function translateGuiContext(guiContext){
-        var usableGuiContext = ""
-        if(guiContext.startsWith("ZeraGui")) {
-            usableGuiContext = guiContext.replace("ZeraGui", "")
-        }
-        usableGuiContext = usableGuiContext.replace(/([A-Z])/g, ' $1').trim();
-        usableGuiContext = usableGuiContext.charAt(0).toUpperCase() + usableGuiContext.slice(1).toLowerCase();
-        return usableGuiContext
     }
 
     property int loggerContentType: parseInt(Settings.getOption("logger_content_type", contentTypeEnum.CONTENT_TYPE_CONTEXT))
