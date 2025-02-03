@@ -173,6 +173,10 @@ Item {
             for(var idx=0; idx<buttons.length; ++idx) {
                 var radio = buttons[idx]
                 var contentTypeRadioToSet = radio.enumContentType
+                if(GC.currentGuiContext === GC.guiContextEnum.GUI_DC_REFERENCE) {
+                    contentTypeRadioToSet = GC.contentTypeEnum.CONTENT_TYPE_CONTEXT
+                    GC.setLoggerContentType(contentTypeRadioToSet)
+                }
                 // all menus have a context specific entry - keep it as fallback
                 if(contentTypeRadioToSet === GC.contentTypeEnum.CONTENT_TYPE_CONTEXT) {
                     radioContextSpecific = radio
