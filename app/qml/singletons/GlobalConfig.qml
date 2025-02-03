@@ -560,8 +560,13 @@ Item {
         if(contentSet.startsWith("Zera")) {
             usableContentSet = contentSet.replace("Zera", "")
         }
-        usableContentSet = usableContentSet.replace(/([A-Z])/g, ' $1').trim();
-        usableContentSet = usableContentSet.charAt(0).toUpperCase() + usableContentSet.slice(1).toLowerCase();
+        if(usableContentSet.startsWith("DCRef")) {
+            usableContentSet = "DC Reference"
+        }
+        else {
+            usableContentSet = usableContentSet.replace(/([A-Z])/g, ' $1').trim();
+            usableContentSet = usableContentSet.charAt(0).toUpperCase() + usableContentSet.slice(1).toLowerCase();
+        }
         return usableContentSet
     }
 
