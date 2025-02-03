@@ -29,7 +29,7 @@ private slots:
 //    void processStateChanged(QProcess::ProcessState newState);
 
 private:
-    int m_port = 8080;
+    int m_port = 8081;
     bool m_running = false;
     bool m_bIgnoreCrashEvent = false;
     QProcess m_process;

@@ -41,7 +41,7 @@ private slots:
     void processErrorOccured(QProcess::ProcessError error);
 
 private:
-    int m_port = 8081;
+    int m_port = 8080;
     bool m_running = false;
     bool m_bisServer = false;
     bool m_enableSourceControl = false;
