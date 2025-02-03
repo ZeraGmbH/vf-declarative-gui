@@ -156,7 +156,7 @@ Item {
                 verticalAlignment: Label.AlignVCenter
             }
             ZCheckBox {
-                text: Z.tr("L1")
+                text: "<font color='" + GC.colorUL1 + "'>" + Z.tr("L1") + "</font>"
                 width: root.graphWidth
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -169,7 +169,7 @@ Item {
                     GC.setPhaseOne(checked)
             }
             ZCheckBox {
-                text: Z.tr("L2")
+                text: "<font color='" + GC.colorUL2 + "'>" + Z.tr("L2") + "</font>"
                 width: root.graphWidth
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -182,7 +182,7 @@ Item {
                     GC.setPhaseTwo(checked)
             }
             ZCheckBox {
-                text: Z.tr("L3")
+                text: "<font color='" + GC.colorUL3 + "'>" + Z.tr("L3") + "</font>"
                 width: parent.width
                 Layout.fillWidth: true
                 Layout.fillHeight: true
