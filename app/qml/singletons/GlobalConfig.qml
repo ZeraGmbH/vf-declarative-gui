@@ -548,9 +548,9 @@ Item {
                 usableContentSet = "Waveforms"
 
             if(elt > 0)
-                globalContentSet = globalContentSet + ", " + usableContentSet
+                globalContentSet = globalContentSet + ", " + Z.tr(usableContentSet)
             else
-                globalContentSet = globalContentSet + " " + usableContentSet
+                globalContentSet = Z.tr(usableContentSet)
         }
         return globalContentSet
     }
