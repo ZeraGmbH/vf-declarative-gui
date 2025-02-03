@@ -377,11 +377,10 @@ SettingsView {
                         model: InfoInterface { }
                         delegate: Text {
                             verticalAlignment: Text.AlignVCenter
-                            width: rectang.width
                             horizontalAlignment: Text.AlignHCenter
                             font.pointSize: root.rowHeight / 3.5
                             textFormat: Text.PlainText
-                            text: 'IP-Address: '  + ipv4 + ' : ' + ASWS.port
+                            text: ipv4 + ' : ' + ASWS.port
                             onTextChanged: {
                                 console.warn("Current IP: ", ipv4)
                                 if((ipv4 === undefined) || (ipv4 === "N/A"))
