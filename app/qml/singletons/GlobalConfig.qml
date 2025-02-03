@@ -544,6 +544,8 @@ Item {
                 usableContentSet = usableContentSet + " values"
             else if(usableContentSet.includes("Comparison"))
                 usableContentSet = usableContentSet + " measurements"
+            else if(usableContentSet.includes("Curves"))
+                usableContentSet = "Waveforms"
 
             if(elt > 0)
                 globalContentSet = globalContentSet + ", " + usableContentSet
