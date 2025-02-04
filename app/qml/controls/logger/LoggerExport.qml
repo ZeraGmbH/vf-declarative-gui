@@ -74,7 +74,6 @@ Item {
                                     snapshot: transactionType,
                                     time: sessionInfo[key].Time,
                                     contentset: sessionInfo[key].contentset,
-                                    guicontext: sessionInfo[key].guicontext
             });
         }
     }
