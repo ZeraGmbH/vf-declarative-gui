@@ -478,36 +478,15 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textContent
-                            function processContentSet(contentSet){
-                                let usableContentSet = ""
-                                if(contentSet.startsWith("Zera")) {
-                                    usableContentSet = contentSet.replace("Zera", "")
-                                }
-                                if(usableContentSet.startsWith("DCRef")) {
-                                    usableContentSet = "DC Reference"
-                                }
-                                else {
-                                    usableContentSet = usableContentSet.replace(/([A-Z])/g, ' $1').trim();
-                                    usableContentSet = usableContentSet.charAt(0).toUpperCase() + usableContentSet.slice(1).toLowerCase();
-                                }
-                                return usableContentSet
-                            }
                             text: {
                                 let contentSet = model.contentset.split(",")
                                 let globalContentSet = ""
                                 for(var elt in contentSet) {
-                                    let usableContentSet = processContentSet(contentSet[elt])
-                                    if(usableContentSet.includes("Transformer") || usableContentSet.includes("Burden") || usableContentSet.includes("Harmonics"))
-                                        usableContentSet = usableContentSet + " values"
-                                    else if(usableContentSet.includes("Comparison"))
-                                        usableContentSet = usableContentSet + " measurements"
-                                    else if(usableContentSet.includes("Curves"))
-                                        usableContentSet = "Waveforms"
-
+                                    let translatedContentSet = Z.tr(contentSet[elt])
                                     if(elt > 0)
-                                        globalContentSet = globalContentSet + ", " + Z.tr(usableContentSet)
+                                        globalContentSet = globalContentSet + ", " + translatedContentSet
                                     else
-                                        globalContentSet = Z.tr(usableContentSet)
+                                        globalContentSet = translatedContentSet
                                 }
                                 return globalContentSet
                             }
