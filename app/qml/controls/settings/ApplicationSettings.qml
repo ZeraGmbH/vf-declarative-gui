@@ -293,63 +293,11 @@ SettingsView {
                 }
             }
         }
-/*
+
         Item {
             height: ASWGL.isServer ? 0 : root.rowHeight
             width: root.rowWidth
             visible: !ASWGL.isServer
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    id: labelRemotWeb
-                    text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Webserver addresses:")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
-                }
-                Rectangle {
-                    opacity: ASWGL.running ? 1 : 0
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    ListView {
-                        id: ipInfo
-                        anchors.fill: parent
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.margins: root.rowHeight / 6
-                        boundsBehavior: Flickable.OvershootBounds
-                        orientation: ListView.Horizontal
-                        spacing: root.rowHeight / 2
-                        model: InfoInterface { }
-                        delegate: Text {
-                            verticalAlignment: Text.AlignVCenter
-                            font.pointSize: root.rowHeight / 3.5
-                            text: ipv4 + ':' + ASWGL.port
-                        }
-                    }
-                }
-                ZCheckBox {
-                    id: webOnOff
-                    Layout.fillHeight: true
-                    checked: ASWGL.running
-                    onCheckedChanged: {
-                        let userWantsOn = !ASWGL.running && checked
-                        if(userWantsOn)
-                            GC.setWebRemoteOn(true)
-                        let userWantsOff = ASWGL.running && !checked
-                        if(userWantsOff)
-                            GC.setWebRemoteOn(false)
-                        ASWGL.running = checked
-                    }
-                }
-            }
-        }
-*/
-
-        Item {
-            height: root.rowHeight
-            width: root.rowWidth
-            visible: true
             RowLayout {
                 anchors.fill: parent
                 Label {
