@@ -450,7 +450,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textTransactionType
-                            text: model.transactionType
+                            text: Z.tr(model.transactionType)
                             font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
