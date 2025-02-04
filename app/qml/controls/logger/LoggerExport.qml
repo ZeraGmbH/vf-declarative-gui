@@ -308,7 +308,7 @@ Item {
                     else {
                         comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: false, label: Z.tr("MtVis XML - requires stored sessions") })
                     }
-                    comboList.push({ value: "EXPORT_TYPE_SQLITE", enabled: true, label: Z.tr("SQLite DB ( " + databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase()) + ")"})
+                    comboList.push({ value: "EXPORT_TYPE_SQLITE", enabled: true, label: "SQLite DB ( " + databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase() + ")"})
                     return comboList
                 }
                 // we need a customized delegate to support enable/disable (and
