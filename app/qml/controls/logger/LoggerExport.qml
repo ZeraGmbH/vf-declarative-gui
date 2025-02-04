@@ -425,6 +425,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 clip: true
+                snapMode: ListView.SnapToItem
                 ScrollIndicator.vertical: ScrollIndicator {
                     width: 8
                     active: true
