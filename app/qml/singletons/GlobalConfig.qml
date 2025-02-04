@@ -8,6 +8,7 @@ import SessionState 1.0
 import ZeraTranslation 1.0
 import VeinEntity 1.0
 import AppStarterForWebGLSingleton 1.0
+import AppStarterForWebserverSingleton 1.0
 import ZeraComponentsConfig 1.0
 import ZeraLocale 1.0
 
@@ -224,7 +225,6 @@ Item {
         webRemoteOn = on
         Settings.setOption("web_remote", on ? 1 : 0);
     }
-
 
     /////////////////////////////////////////////////////////////////////////////
     // Common standard margins

@@ -7,6 +7,7 @@ import SessionState 1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
+import AppStarterForWebserverSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
@@ -21,6 +22,8 @@ SettingsView {
     readonly property real safeHeight: height > 0.0 ? height : 10
     rowHeight: safeHeight / 9.25
     readonly property real pointSize: rowHeight * 0.34
+
+    property bool ipAvailable: false
 
     ColorPicker {
         id: colorPicker
@@ -290,6 +293,7 @@ SettingsView {
                 }
             }
         }
+
         Item {
             height: ASWGL.isServer ? 0 : root.rowHeight
             width: root.rowWidth
@@ -297,19 +301,21 @@ SettingsView {
             RowLayout {
                 anchors.fill: parent
                 Label {
-                    id: labelRemotWeb
-                    text: !ASWGL.running ? Z.tr("Remote web (experimental):") : Z.tr("Browser addresses:")
+                    text: Z.tr("Web-Server: ")
                     textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillHeight: true
                     verticalAlignment: Label.AlignVCenter
                 }
                 Rectangle {
-                    opacity: ASWGL.running ? 1 : 0
+                    opacity: ASWS.run
+                    height: root.rowHeight * 0.65
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    color: "lightgrey"
+                    radius: 5
+                    id: rectang
                     ListView {
-                        id: ipInfo
+                        id: ipWebServer
                         anchors.fill: parent
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.margins: root.rowHeight / 6
@@ -319,16 +325,28 @@ SettingsView {
                         model: InfoInterface { }
                         delegate: Text {
                             verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
                             font.pointSize: root.rowHeight / 3.5
-                            text: ipv4 + ':' + ASWGL.port
+                            textFormat: Text.PlainText
+                            text: ipv4 + ' : ' + ASWS.port
+                            onTextChanged: {
+                                console.warn("Current IP: ", ipv4)
+                                if((ipv4 === undefined) || (ipv4 === "N/A"))
+                                    ipAvailable = false
+                                else
+                                    ipAvailable = true
+                            }
                         }
                     }
                 }
+
                 ZCheckBox {
-                    id: webOnOff
+                    id: webServerOnOff
+                    enabled: ipAvailable
                     Layout.fillHeight: true
-                    checked: ASWGL.running
+                    checked: ASWS.run
                     onCheckedChanged: {
+                        ASWS.run = checked
                         let userWantsOn = !ASWGL.running && checked
                         if(userWantsOn)
                             GC.setWebRemoteOn(true)
