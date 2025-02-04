@@ -478,8 +478,39 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textContent
-                            property var contentSet: model.contentset.split(",")
-                            text: GC.translateContentSet(contentSet)
+                            function processContentSet(contentSet){
+                                let usableContentSet = ""
+                                if(contentSet.startsWith("Zera")) {
+                                    usableContentSet = contentSet.replace("Zera", "")
+                                }
+                                if(usableContentSet.startsWith("DCRef")) {
+                                    usableContentSet = "DC Reference"
+                                }
+                                else {
+                                    usableContentSet = usableContentSet.replace(/([A-Z])/g, ' $1').trim();
+                                    usableContentSet = usableContentSet.charAt(0).toUpperCase() + usableContentSet.slice(1).toLowerCase();
+                                }
+                                return usableContentSet
+                            }
+                            text: {
+                                let contentSet = model.contentset.split(",")
+                                let globalContentSet = ""
+                                for(var elt in contentSet) {
+                                    let usableContentSet = processContentSet(contentSet[elt])
+                                    if(usableContentSet.includes("Transformer") || usableContentSet.includes("Burden") || usableContentSet.includes("Harmonics"))
+                                        usableContentSet = usableContentSet + " values"
+                                    else if(usableContentSet.includes("Comparison"))
+                                        usableContentSet = usableContentSet + " measurements"
+                                    else if(usableContentSet.includes("Curves"))
+                                        usableContentSet = "Waveforms"
+
+                                    if(elt > 0)
+                                        globalContentSet = globalContentSet + ", " + Z.tr(usableContentSet)
+                                    else
+                                        globalContentSet = Z.tr(usableContentSet)
+                                }
+                                return globalContentSet
+                            }
                             wrapMode: Text.Wrap
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
