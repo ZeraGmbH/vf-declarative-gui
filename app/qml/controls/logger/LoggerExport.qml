@@ -60,24 +60,6 @@ Item {
         return fullPath
     }
 
-    property var rpcIdDisplaySession
-    property var sessionInfo
-    onSessionInfoChanged :{
-        snapshotModel.clear()
-        for (var key in sessionInfo) {
-            let transactionType
-            if(key.includes("Snapshot"))
-                transactionType = "Snapshot"
-            else if(key.includes("Recording"))
-                transactionType = "Recording"
-            snapshotModel.append({
-                                    transactionType: transactionType,
-                                    time: sessionInfo[key].Time,
-                                    contentset: sessionInfo[key].contentset,
-            });
-        }
-    }
-
     // 'enumerate' our export types
     readonly property var exportTypeEnum: {
         "EXPORT_TYPE_MTVIS": 0,
@@ -253,6 +235,8 @@ Item {
         }
     }
 
+    property var rpcIdDisplaySession
+    property var sessionInfo
     Connections {
         target: loggerEntity
         function onSigRPCFinished(identifier, resultData) {
@@ -262,6 +246,21 @@ Item {
                     sessionInfo = resultData["RemoteProcedureData::Return"]
                 }
             }
+        }
+    }
+    onSessionInfoChanged :{
+        snapshotModel.clear()
+        for (var key in sessionInfo) {
+            let transactionType
+            if(key.includes("Snapshot"))
+                transactionType = "Snapshot"
+            else if(key.includes("Recording"))
+                transactionType = "Recording"
+            snapshotModel.append({
+                                    transactionType: transactionType,
+                                    time: sessionInfo[key].Time,
+                                    contentset: sessionInfo[key].contentset,
+            });
         }
     }
 
