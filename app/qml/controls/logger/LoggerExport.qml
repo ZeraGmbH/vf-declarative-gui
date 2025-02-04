@@ -65,13 +65,13 @@ Item {
     onSessionInfoChanged :{
         snapshotModel.clear()
         for (var key in sessionInfo) {
-            var transactionType
+            let transactionType
             if(key.includes("Snapshot"))
                 transactionType = "Snapshot"
             else if(key.includes("Recording"))
                 transactionType = "Recording"
             snapshotModel.append({
-                                    snapshot: transactionType,
+                                    transactionType: transactionType,
                                     time: sessionInfo[key].Time,
                                     contentset: sessionInfo[key].contentset,
             });
@@ -450,8 +450,8 @@ Item {
                         color: Material.background
                         border.color: "#88898c"
                         Text {
-                            id: textSnapshot
-                            text: model.snapshot
+                            id: textTransactionType
+                            text: model.transactionType
                             font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
