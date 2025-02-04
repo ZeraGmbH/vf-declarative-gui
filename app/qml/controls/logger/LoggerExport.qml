@@ -251,16 +251,13 @@ Item {
     onSessionInfoChanged :{
         snapshotModel.clear()
         for (var key in sessionInfo) {
-            let transactionType
-            if(key.includes("Snapshot"))
-                transactionType = "Snapshot"
-            else if(key.includes("Recording"))
-                transactionType = "Recording"
-            snapshotModel.append({
-                                    transactionType: transactionType,
-                                    time: sessionInfo[key].Time,
-                                    contentset: sessionInfo[key].contentset,
-            });
+            // Currently we are interested in snapshots only - Recodings are not supported by export
+            if(key.includes("Snapshot")) {
+                snapshotModel.append({
+                                        time: sessionInfo[key].Time,
+                                        contentset: sessionInfo[key].contentset,
+                })
+            }
         }
     }
 
@@ -441,22 +438,9 @@ Item {
                 delegate: RowLayout {
                     spacing: 0
                     width: visibleWidth - 8
-                    height: transactionTable.height/4
+                    height: transactionTable.height / 5
                     Rectangle {
-                        Layout.fillWidth: true
-                        Layout.preferredWidth: parent.width / 4
-                        height: parent.height
-                        color: Material.background
-                        border.color: "#88898c"
-                        Text {
-                            id: textTransactionType
-                            text: Z.tr(model.transactionType)
-                            font.pointSize: pointSize * 0.65
-                            color: "white"
-                            anchors.centerIn: parent
-                        }
-                    }
-                    Rectangle {
+                        id: timeStampRect
                         Layout.fillWidth: true
                         Layout.preferredWidth: parent.width / 4
                         height: parent.height
@@ -471,8 +455,9 @@ Item {
                         }
                     }
                     Rectangle {
+                        id: contentSetsRect
                         Layout.fillWidth: true
-                        Layout.preferredWidth: 2 *parent.width / 4
+                        Layout.preferredWidth: 3 * parent.width / 4
                         height: parent.height
                         color: Material.background
                         border.color: "#88898c"
