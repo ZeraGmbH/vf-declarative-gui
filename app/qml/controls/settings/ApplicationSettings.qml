@@ -309,8 +309,8 @@ SettingsView {
                     opacity: ASWS.run
                     height: root.rowHeight * 0.65
                     Layout.fillWidth: true
-                    color: "lightgrey"
-                    radius: 5
+                    color: Material.backgroundDimColor
+                    radius: 4
                     id: rectang
                     ListView {
                         id: ipWebServer
