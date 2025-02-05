@@ -318,14 +318,20 @@ SettingsView {
                         anchors.margins: root.rowHeight / 6
                         boundsBehavior: Flickable.OvershootBounds
                         orientation: ListView.Horizontal
-                        spacing: root.rowHeight / 2
-                        model: InfoInterface { }
+                        spacing: parent.height / 2
+                        ListModel { id: emptyDummyNetworkListModel }
+                        Component.onCompleted: {
+                            emptyDummyNetworkListModel.append({ipv4: Z.tr("Not connected")})
+                        }
+                        InfoInterface { id: realNetworkListModel }
+                        readonly property bool isNetworkConnected: realNetworkListModel.rowCount()>0
+                        model: isNetworkConnected ? realNetworkListModel : emptyDummyNetworkListModel
                         delegate: Text {
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.pointSize: root.rowHeight / 3.5
                             textFormat: Text.PlainText
-                            text: ipv4 + ' : ' + ASWS.port
+                            text: ipv4 + (ipWebServer.isNetworkConnected ? ' : ' + ASWS.port : "")
                         }
                     }
                 }
