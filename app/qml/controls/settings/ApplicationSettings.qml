@@ -325,7 +325,7 @@ SettingsView {
                             emptyDummyNetworkListModel.append({ipv4: Z.tr("Not connected")})
                         }
                         InfoInterface { id: realNetworkListModel }
-                        readonly property bool isNetworkConnected: realNetworkListModel.rowCount()>0
+                        readonly property bool isNetworkConnected: realNetworkListModel.entryCount>0
                         model: isNetworkConnected ? realNetworkListModel : emptyDummyNetworkListModel
                         delegate: Text {
                             height: parent.height
