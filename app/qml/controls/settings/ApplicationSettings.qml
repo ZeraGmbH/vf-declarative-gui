@@ -299,13 +299,15 @@ SettingsView {
             RowLayout {
                 anchors.fill: parent
                 Label {
-                    text: Z.tr("Web-Server: ")
+                    text: Z.tr("Web-Server:")
                     textFormat: Text.PlainText
                     font.pointSize: pointSize
                     Layout.fillHeight: true
+                    Layout.rightMargin: parent.height * 0.1
                     verticalAlignment: Label.AlignVCenter
                 }
                 Rectangle {
+                    id: rectWebServer
                     opacity: ASWS.run
                     Layout.fillHeight: true;
                     Layout.fillWidth: true;
@@ -313,31 +315,41 @@ SettingsView {
                     Layout.bottomMargin: Layout.topMargin
                     color: Material.backgroundDimColor
                     radius: 4
+
+                    InfoInterface { id: realNetworkListModel }
+                    readonly property bool isNetworkConnected: realNetworkListModel.entryCount > 0
+                    readonly property real textPointSize: pointSize * 0.85
+                    readonly property real textMarginHorizontal: parent.height / 6
                     ListView {
                         id: ipWebServer
+                        visible: rectWebServer.isNetworkConnected
                         anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: parent.height / 6; rightMargin: leftMargin }
+                                  leftMargin: rectWebServer.textMarginHorizontal;
+                                  rightMargin: rectWebServer.textMarginHorizontal }
                         boundsBehavior: Flickable.OvershootBounds
                         orientation: ListView.Horizontal
                         spacing: parent.height / 2
-                        ListModel { id: emptyDummyNetworkListModel }
-                        Component.onCompleted: {
-                            emptyDummyNetworkListModel.append({ipv4: Z.tr("Not connected")})
-                        }
-                        InfoInterface { id: realNetworkListModel }
-                        readonly property bool isNetworkConnected: realNetworkListModel.entryCount>0
-                        model: isNetworkConnected ? realNetworkListModel : emptyDummyNetworkListModel
+                        model: realNetworkListModel
                         delegate: Text {
                             height: parent.height
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
-                            font.pointSize: pointSize * 0.85
+                            font.pointSize: rectWebServer.textPointSize
                             textFormat: Text.PlainText
-                            text: ipv4 + (ipWebServer.isNetworkConnected ? ' : ' + ASWS.port : "")
+                            text: ipv4 + " : " + ASWS.port
                         }
                     }
+                    Text {
+                        id: ipWebServerNotConnected
+                        visible: !rectWebServer.isNetworkConnected
+                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
+                                  leftMargin: rectWebServer.textMarginHorizontal;
+                                  rightMargin: rectWebServer.textMarginHorizontal }
+                        verticalAlignment: Text.AlignVCenter
+                        text: Z.tr("Not connected")
+                        font.pointSize: rectWebServer.textPointSize
+                    }
                 }
-
                 ZCheckBox {
                     id: webServerOnOff
                     Layout.fillHeight: true
