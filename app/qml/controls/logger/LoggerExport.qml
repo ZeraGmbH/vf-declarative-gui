@@ -8,6 +8,7 @@ import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraLocale 1.0
+import FontAwesomeQml 1.0
 import ".."
 import "../../helpers"
 
@@ -488,11 +489,77 @@ Item {
                             color: "white"
                         }
                     }
+                    Button {
+                        id: deleteButton
+                        text: FAQ.fa_trash
+                        onClicked: {
+                            deleteTransactionPopup.transactionToDelete = model.transactionName
+                            deleteTransactionPopup.open()
+                        }
+                    }
                 }
             }
         }
         ListModel {
             id: snapshotModel
+        }
+        Popup {
+            id: deleteTransactionPopup
+            anchors.centerIn: parent
+            modal: true
+            property string transactionToDelete
+            property var rpcIdDeleteTransaction
+            Connections {
+                target: loggerEntity
+                function onSigRPCFinished(identifier, resultData) {
+                    // TODO error handling
+                    if(identifier === deleteTransactionPopup.rpcIdDeleteTransaction) {
+                        deleteTransactionPopup.rpcIdDeleteTransaction = undefined
+                        if(resultData["RemoteProcedureData::resultCode"] === 0 &&
+                                resultData["RemoteProcedureData::Return"] === true) { // ok
+                            deleteTransactionPopup.close();
+                        }
+                    }
+                }
+            }
+            ColumnLayout {
+                Label { // header
+                    text: Z.tr("Confirmation")
+                    font.pointSize: pointSizeHeader
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.fillWidth: true
+                }
+                Item { Layout.preferredHeight: rowHeight/3 }
+                Label {
+                    text: Z.tr("Delete transaction <b>'%1'</b>?").arg(deleteTransactionPopup.transactionToDelete)
+                    Layout.fillWidth: true
+                    font.pointSize: pointSize
+                }
+                Item { Layout.preferredHeight: rowHeight/3 }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Item { Layout.fillWidth: true }
+                    Button {
+                        id: removeCancel
+                        text: Z.tr("Cancel")
+                        font.pointSize: pointSize
+                        onClicked: {
+                            deleteTransactionPopup.close()
+                        }
+                    }
+                    Button {
+                        text: "<font color='red'>" + Z.tr("Delete") + "</font>"
+                        font.pointSize: pointSize
+                        Layout.preferredWidth: removeCancel.width
+                        onClicked: {
+                            if(!deleteTransactionPopup.rpcIdDeleteTransaction) {
+                                deleteTransactionPopup.rpcIdDeleteTransaction = loggerEntity.invokeRPC("RPC_deleteTransaction(QString p_transaction)", {
+                                                        "p_transaction": deleteTransactionPopup.transactionToDelete })
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
