@@ -339,7 +339,7 @@ SettingsView {
                 ZCheckBox {
                     id: webServerOnOff
                     Layout.fillHeight: true
-                    checked: ASWS.run
+                    checked: ASWGL.running
                     onCheckedChanged: {
                         ASWS.run = checked
                         let userWantsOn = !ASWGL.running && checked
