@@ -449,7 +449,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textTime
-                            text: model.time
+                            text: Z.trDateTimeShort(model.time)
                             font.pointSize: pointSize * 0.65
                             color: "white"
                             anchors.centerIn: parent
