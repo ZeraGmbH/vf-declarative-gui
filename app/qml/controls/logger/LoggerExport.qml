@@ -256,6 +256,7 @@ Item {
                 snapshotModel.append({
                                         time: sessionInfo[key].Time,
                                         contentset: sessionInfo[key].contentset,
+                                        transactionName: key
                 })
             }
         }
