@@ -20,7 +20,7 @@ SettingsView {
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     readonly property real safeHeight: height > 0.0 ? height : 10
-    rowHeight: safeHeight / 9.25
+    rowHeight: safeHeight / 9.2
     readonly property real pointSize: rowHeight * 0.34
 
     ColorPicker {
@@ -307,15 +307,16 @@ SettingsView {
                 }
                 Rectangle {
                     opacity: ASWS.run
-                    height: root.rowHeight * 0.65
-                    Layout.fillWidth: true
+                    Layout.fillHeight: true;
+                    Layout.fillWidth: true;
+                    Layout.topMargin: parent.height * 0.1
+                    Layout.bottomMargin: Layout.topMargin
                     color: Material.backgroundDimColor
                     radius: 4
                     ListView {
                         id: ipWebServer
-                        anchors.fill: parent
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.margins: root.rowHeight / 6
+                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
+                                  leftMargin: parent.height / 6; rightMargin: leftMargin }
                         boundsBehavior: Flickable.OvershootBounds
                         orientation: ListView.Horizontal
                         spacing: parent.height / 2
@@ -327,9 +328,10 @@ SettingsView {
                         readonly property bool isNetworkConnected: realNetworkListModel.rowCount()>0
                         model: isNetworkConnected ? realNetworkListModel : emptyDummyNetworkListModel
                         delegate: Text {
+                            height: parent.height
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
-                            font.pointSize: root.rowHeight / 3.5
+                            font.pointSize: pointSize * 0.85
                             textFormat: Text.PlainText
                             text: ipv4 + (ipWebServer.isNetworkConnected ? ' : ' + ASWS.port : "")
                         }
