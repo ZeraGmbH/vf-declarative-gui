@@ -23,8 +23,6 @@ SettingsView {
     rowHeight: safeHeight / 9.25
     readonly property real pointSize: rowHeight * 0.34
 
-    property bool ipAvailable: false
-
     ColorPicker {
         id: colorPicker
         // set at rButton.onClicked
@@ -329,20 +327,12 @@ SettingsView {
                             font.pointSize: root.rowHeight / 3.5
                             textFormat: Text.PlainText
                             text: ipv4 + ' : ' + ASWS.port
-                            onTextChanged: {
-                                console.warn("Current IP: ", ipv4)
-                                if((ipv4 === undefined) || (ipv4 === "N/A"))
-                                    ipAvailable = false
-                                else
-                                    ipAvailable = true
-                            }
                         }
                     }
                 }
 
                 ZCheckBox {
                     id: webServerOnOff
-                    enabled: ipAvailable
                     Layout.fillHeight: true
                     checked: ASWS.run
                     onCheckedChanged: {

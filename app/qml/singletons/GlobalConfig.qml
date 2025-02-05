@@ -705,7 +705,9 @@ Item {
         ZCC.standardTextHorizMargin = Qt.binding(function() { return globalConfig.standardTextHorizMargin })
         ZCC.standardTextBottomMargin = Qt.binding(function() { return globalConfig.standardTextBottomMargin })
         setLocale(Settings.getOption("locale", "en_GB"), false)
-        if(!ASWGL.isServer && webRemoteOn )
+        if(!ASWGL.isServer && webRemoteOn ) {
             ASWGL.running = true
+            ASWS.run = true
+        }
     }
 }

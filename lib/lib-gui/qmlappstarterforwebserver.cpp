@@ -39,7 +39,7 @@ void QmlAppStarterForWebserver::setRunning(bool run)
         m_process.start("lighttpd", arguments);
         #endif
         m_running = true;
-        emit runningChanged();  // wofür ???
+        emit runningChanged();
     }
     else if (run && m_running)
         qWarning("Webserver is running, no restart possible");
