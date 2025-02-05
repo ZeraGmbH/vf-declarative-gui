@@ -311,7 +311,6 @@ SettingsView {
                     Layout.fillWidth: true
                     color: Material.backgroundDimColor
                     radius: 4
-                    id: rectang
                     ListView {
                         id: ipWebServer
                         anchors.fill: parent
