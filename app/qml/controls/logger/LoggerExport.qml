@@ -492,7 +492,13 @@ Item {
                     }
                     Button {
                         id: deleteButton
+                        Layout.preferredWidth: parent.width / 30
+                        Layout.fillHeight: true
+                        font.pointSize: pointSize * 1.25
                         text: FAQ.fa_trash
+                        background: Rectangle {
+                            color: "transparent"
+                        }
                         onClicked: {
                             deleteTransactionPopup.transactionToDelete = model.transactionName
                             deleteTransactionPopup.open()
