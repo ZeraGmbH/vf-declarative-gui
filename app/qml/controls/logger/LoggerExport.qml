@@ -333,7 +333,7 @@ Item {
                 text: Z.tr("Export")
                 font.pointSize: pointSize
                 enabled: {
-                    let _enabled = mountedPaths.length > 0
+                    let _enabled = mountedPaths.length > 0 && loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true
                     switch(exportType) {
                     case "EXPORT_TYPE_MTVIS":
                         _enabled = _enabled && !tasksExportMtVis.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
