@@ -531,7 +531,7 @@ Item {
                 }
                 Item { Layout.preferredHeight: rowHeight/3 }
                 Label {
-                    text: Z.tr("Delete transaction <b>'%1'</b>?").arg(deleteTransactionPopup.transactionToDelete)
+                    text: Z.tr("Delete transaction ?")
                     Layout.fillWidth: true
                     font.pointSize: pointSize
                 }
