@@ -445,10 +445,9 @@ Item {
                     height: transactionTable.height / 5
                     Rectangle {
                         id: timeStampRect
-                        Layout.fillHeight: true
                         Layout.fillWidth: true
                         Layout.preferredWidth: parent.width / 4
-                        height: parent.height
+                        Layout.preferredHeight: parent.height
                         color: Material.background
                         border.color: "#88898c"
                         Text {
@@ -461,10 +460,9 @@ Item {
                     }
                     Rectangle {
                         id: contentSetsRect
-                        Layout.fillHeight: true
                         Layout.fillWidth: true
                         Layout.preferredWidth: 3 * parent.width / 4
-                        height: parent.height
+                        Layout.preferredHeight: parent.height
                         color: Material.background
                         border.color: "#88898c"
                         Text {
