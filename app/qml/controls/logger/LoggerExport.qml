@@ -467,6 +467,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textContent
+                            anchors.rightMargin: deleteButton.font.pointSize
                             text: {
                                 let contentSet = model.contentset.split(",")
                                 let globalContentSet = ""
@@ -487,19 +488,18 @@ Item {
                             font.pointSize: pointSize * 0.65
                             color: "white"
                         }
-                    }
-                    Button {
-                        id: deleteButton
-                        Layout.preferredWidth: parent.width / 30
-                        Layout.fillHeight: true
-                        font.pointSize: pointSize * 1.25
-                        text: FAQ.fa_trash
-                        background: Rectangle {
-                            color: "transparent"
-                        }
-                        onClicked: {
-                            deleteTransactionPopup.transactionToDelete = model.transactionName
-                            deleteTransactionPopup.open()
+                        Button {
+                            id: deleteButton
+                            anchors.right: contentSetsRect.right
+                            font.pointSize: pointSize * 1.2
+                            text: FAQ.fa_trash
+                            background: Rectangle {
+                                color: "transparent"
+                            }
+                            onClicked: {
+                                deleteTransactionPopup.transactionToDelete = model.transactionName
+                                deleteTransactionPopup.open()
+                            }
                         }
                     }
                 }
