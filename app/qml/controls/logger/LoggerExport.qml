@@ -491,6 +491,9 @@ Item {
                         Button {
                             id: deleteButton
                             anchors.right: contentSetsRect.right
+                            anchors.rightMargin: parent.height * 0.1
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
                             font.pointSize: pointSize * 1.2
                             text: FAQ.fa_trash
                             background: Rectangle {
