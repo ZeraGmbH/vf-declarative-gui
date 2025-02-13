@@ -467,7 +467,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textContent
-                            anchors.rightMargin: deleteButton.font.pointSize
+                            anchors.rightMargin: deleteButton.font.pointSize + 7
                             text: {
                                 let contentSet = model.contentset.split(",")
                                 let globalContentSet = ""
@@ -491,10 +491,9 @@ Item {
                         Button {
                             id: deleteButton
                             anchors.right: contentSetsRect.right
-                            anchors.rightMargin: parent.height * 0.1
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
-                            font.pointSize: pointSize * 1.2
+                            font.pointSize: pointSize
                             text: FAQ.fa_trash
                             background: Rectangle {
                                 color: "transparent"
@@ -514,6 +513,7 @@ Item {
         Popup {
             id: deleteTransactionPopup
             anchors.centerIn: parent
+            width: parent.width /2.2
             modal: true
             property string transactionToDelete
             property var rpcIdDeleteTransaction
@@ -543,14 +543,15 @@ Item {
                 Label {
                     text: Z.tr("Delete transaction ?")
                     Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
                     font.pointSize: pointSize
                 }
                 Item { Layout.preferredHeight: rowHeight/3 }
                 RowLayout {
                     Layout.fillWidth: true
-                    Item { Layout.fillWidth: true }
                     Button {
                         id: removeCancel
+                        Layout.preferredWidth: deleteTransactionPopup.width/2.2
                         text: Z.tr("Cancel")
                         font.pointSize: pointSize
                         onClicked: {
