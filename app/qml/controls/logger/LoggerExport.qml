@@ -514,6 +514,7 @@ Item {
         Popup {
             id: deleteTransactionPopup
             anchors.centerIn: parent
+            width: parent.width /2.2
             modal: true
             property string transactionToDelete
             property var rpcIdDeleteTransaction
@@ -543,14 +544,15 @@ Item {
                 Label {
                     text: Z.tr("Delete transaction ?")
                     Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
                     font.pointSize: pointSize
                 }
                 Item { Layout.preferredHeight: rowHeight/3 }
                 RowLayout {
                     Layout.fillWidth: true
-                    Item { Layout.fillWidth: true }
                     Button {
                         id: removeCancel
+                        Layout.preferredWidth: deleteTransactionPopup.width/2.2
                         text: Z.tr("Cancel")
                         font.pointSize: pointSize
                         onClicked: {
