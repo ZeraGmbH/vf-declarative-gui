@@ -548,6 +548,7 @@ Item {
                     id: rowButtons
                     readonly property real buttonWidth: Math.max(removeCancel.implicitWidth, removeAccept.implicitWidth)
                     Layout.fillWidth: true
+                    Item { Layout.fillWidth: true }
                     Button {
                         id: removeCancel
                         Layout.preferredWidth: rowButtons.buttonWidth
