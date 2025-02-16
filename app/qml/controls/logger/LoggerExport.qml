@@ -472,7 +472,7 @@ Item {
                             text: {
                                 let contentSet = model.contentset.split(",")
                                 let globalContentSet = ""
-                                for(var elt in contentSet) {
+                                for(let elt in contentSet) {
                                     let translatedContentSet = Z.tr(contentSet[elt])
                                     if(elt > 0)
                                         globalContentSet = globalContentSet + ", " + translatedContentSet
