@@ -540,14 +540,17 @@ Item {
                 Label {
                     text: Z.tr("Delete transaction ?")
                     Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
                     font.pointSize: pointSize
                 }
                 Item { Layout.preferredHeight: rowHeight/3 }
                 RowLayout {
+                    id: rowButtons
+                    readonly property real buttonWidth: Math.max(removeCancel.implicitWidth, removeAccept.implicitWidth)
                     Layout.fillWidth: true
-                    Item { Layout.fillWidth: true }
                     Button {
                         id: removeCancel
+                        Layout.preferredWidth: rowButtons.buttonWidth
                         text: Z.tr("Cancel")
                         font.pointSize: pointSize
                         onClicked: {
@@ -555,9 +558,10 @@ Item {
                         }
                     }
                     Button {
+                        id: removeAccept
+                        Layout.preferredWidth: rowButtons.buttonWidth
                         text: "<font color='red'>" + Z.tr("Delete") + "</font>"
                         font.pointSize: pointSize
-                        Layout.preferredWidth: removeCancel.width
                         onClicked: {
                             if(!deleteTransactionPopup.rpcIdDeleteTransaction) {
                                 deleteTransactionPopup.rpcIdDeleteTransaction = loggerEntity.invokeRPC("RPC_deleteTransaction(QString p_transaction)", {
