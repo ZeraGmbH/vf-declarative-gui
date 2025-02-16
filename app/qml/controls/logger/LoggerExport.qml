@@ -467,7 +467,8 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textContent
-                            anchors.rightMargin: deleteButton.font.pointSize
+                            anchors { top: parent.top; bottom: parent.bottom;
+                                      left: contentSetsRect.left; right: deleteButton.left }
                             text: {
                                 let contentSet = model.contentset.split(",")
                                 let globalContentSet = ""
@@ -483,17 +484,13 @@ Item {
                             wrapMode: Text.Wrap
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            anchors.fill: parent
-                            padding: 5
                             font.pointSize: pointSize * 0.65
                             color: "white"
                         }
                         Button {
                             id: deleteButton
-                            anchors.right: contentSetsRect.right
-                            anchors.rightMargin: parent.height * 0.1
-                            anchors.top: parent.top
-                            anchors.bottom: parent.bottom
+                            anchors { top: parent.top; bottom: parent.bottom;
+                                      right: contentSetsRect.right; rightMargin: parent.width * 0.01}
                             font.pointSize: pointSize * 1.2
                             text: FAQ.fa_trash
                             background: Rectangle {
