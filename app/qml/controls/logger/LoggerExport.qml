@@ -19,10 +19,11 @@ Item {
     property var menuStackLayout
 
     // layout calculations
-    readonly property real rowHeight: parent.height > 0 ? parent.height/8 : 10
+    readonly property real rowHeight: parent.height > 0 ? parent.height / 8 : 10
     readonly property real fontScale: 0.3
     readonly property real pointSize: rowHeight*fontScale
-    readonly property real pointSizeHeader: pointSize * 1.25
+    readonly property real pointSizeHeader: pointSize * 1.1
+    readonly property real tableTextPointSize: pointSize * 0.65
 
     readonly property real visibleWidth: parent.width - 2*GC.standardTextHorizMargin
     readonly property real labelWidth: visibleWidth / 4
@@ -250,18 +251,23 @@ Item {
             }
         }
     }
-    onSessionInfoChanged :{
-        snapshotModel.clear()
+    property int scrollWidth: 0
+    readonly property int transactionRows: 5
+    onSessionInfoChanged: {
+        transactionsModel.clear()
+        let transactionCount = 0
         for (var key in sessionInfo) {
             // Currently we are interested in snapshots only - Recodings are not supported by export
             if(key.includes("Snapshot")) {
-                snapshotModel.append({
+                transactionsModel.append({
                                         time: sessionInfo[key].Time,
                                         contentset: sessionInfo[key].contentset,
                                         transactionName: key
                 })
+                transactionCount++
             }
         }
+        scrollWidth = (transactionCount > transactionRows ? 8 : 0)
     }
 
     // and the visible items
@@ -284,10 +290,9 @@ Item {
         anchors.bottom: parent.bottom
         Row { // Export type
             height: rowHeight
-            spacing: 5
             Label {
                 text: Z.tr("Export type:")
-                width: labelWidth -5
+                width: labelWidth
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 verticalAlignment: Text.AlignVCenter
@@ -295,7 +300,7 @@ Item {
             }
             ComboBox {
                 id: exportTypeCombo
-                width: contentWidth - ((visibleWidth + 20)/4)
+                width: labelWidth * 2
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
@@ -329,7 +334,8 @@ Item {
             Button { // the export 'action' button
                 id: buttonExport
                 height: rowHeight
-                width: labelWidth -8
+                width: labelWidth
+                leftInset: labelWidth * 0.05
                 text: Z.tr("Export")
                 font.pointSize: pointSize
                 enabled: {
@@ -344,7 +350,6 @@ Item {
                     }
                     return _enabled
                 }
-
                 onClicked: {
                     warnings = []
                     errors = []
@@ -374,7 +379,7 @@ Item {
             }
             MountedDrivesCombo {
                 id: mountedDrivesCombo
-                width: contentWidth - ((visibleWidth + 20)/4)
+                width: contentWidth
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
@@ -393,7 +398,7 @@ Item {
             }
             ComboBox {
                 id: sessionSelectCombo
-                width: contentWidth - ((visibleWidth + 20)/4)
+                width: contentWidth
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 font.pointSize: root.pointSize
@@ -413,6 +418,9 @@ Item {
                 }
             }
         }
+        ListModel {
+            id: transactionsModel
+        }
         ColumnLayout { //transactions
             id: transactionTable
             visible: exportType == "EXPORT_TYPE_MTVIS"
@@ -425,24 +433,25 @@ Item {
             width: parent.width
             spacing: 0
             ListView {
+                id: transactionLisView
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 clip: true
                 snapMode: ListView.SnapToItem
+
                 ScrollIndicator.vertical: ScrollIndicator {
-                    width: 8
+                    width: scrollWidth
                     active: true
                     onActiveChanged: {
-                        if(active !== true) {
+                        if(active !== true)
                             active = true;
-                        }
                     }
                 }
-                model: snapshotModel
+                model: transactionsModel
                 delegate: RowLayout {
                     spacing: 0
-                    width: visibleWidth - 8
-                    height: transactionTable.height / 5
+                    width: visibleWidth - scrollWidth
+                    height: transactionTable.height / transactionRows
                     Rectangle {
                         id: timeStampRect
                         Layout.fillWidth: true
@@ -453,7 +462,7 @@ Item {
                         Text {
                             id: textTime
                             text: Z.trDateTimeShort(model.time)
-                            font.pointSize: pointSize * 0.65
+                            font.pointSize: tableTextPointSize
                             color: "white"
                             anchors.centerIn: parent
                         }
@@ -484,7 +493,7 @@ Item {
                             wrapMode: Text.Wrap
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            font.pointSize: pointSize * 0.65
+                            font.pointSize: tableTextPointSize
                             color: "white"
                         }
                         Button {
@@ -504,9 +513,6 @@ Item {
                     }
                 }
             }
-        }
-        ListModel {
-            id: snapshotModel
         }
         Popup {
             id: deleteTransactionPopup
