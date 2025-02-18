@@ -60,8 +60,8 @@ SettingsView {
             }
             ZVisualComboBox {
                 id: localeCB
-                model: Z.tr("TRANSLATION_LOCALES")
-                imageModel: Z.tr("TRANSLATION_FLAGS")
+                model: Z.localesModel
+                imageModel: Z.flagsModel
                 Layout.preferredHeight: root.rowHeight * 0.9
                 Layout.preferredWidth: Layout.preferredHeight * comboWidth
                 property string intermediate: ZLocale.localeName
