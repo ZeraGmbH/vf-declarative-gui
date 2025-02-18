@@ -20,13 +20,13 @@ void ActualValueLemDCPerPhaseUModel::setLabelsAndUnits()
     using namespace CommonTable;
 
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
-    setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
-    setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
-    setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
-    setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
+    setData(mIndex, m_translation->trValue("L1"), RoleIndexes::L1);
+    setData(mIndex, m_translation->trValue("L2"), RoleIndexes::L2);
+    setData(mIndex, m_translation->trValue("L3"), RoleIndexes::L3);
+    setData(mIndex, m_translation->trValue("AUX"), RoleIndexes::AUX);
 
     mIndex = index(lineVal(LINE_VALUES_U), 0);
-    setData(mIndex, m_translation->TrValue("U"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("U"), RoleIndexes::NAME);
     m_autoScaleRows.setUnitInfo(mIndex.row(), "V", RoleIndexes::UNIT);
 }
 

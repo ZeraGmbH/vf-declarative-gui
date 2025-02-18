@@ -23,21 +23,21 @@ void ActualValueEmobAcModel::setLabelsAndUnits()
     using namespace CommonTable;
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
-    setData(mIndex, m_translation->TrValue("AC"), RoleIndexes::NAME);
-    setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
-    setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
-    setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
+    setData(mIndex, m_translation->trValue("AC"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("L1"), RoleIndexes::L1);
+    setData(mIndex, m_translation->trValue("L2"), RoleIndexes::L2);
+    setData(mIndex, m_translation->trValue("L3"), RoleIndexes::L3);
     setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     // 1st column: row names
     mIndex = index(lineVal(LINE_UPN), 0);
-    setData(mIndex, m_translation->TrValue("U"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("U"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_I), 0);
-    setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("I"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_LAMBDA), 0);
-    setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("λ"), RoleIndexes::NAME);
     mIndex = index(lineVal(LINE_POWER), 0);
-    setData(mIndex, m_translation->TrValue("P"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("P"), RoleIndexes::NAME);
 
     // last column unit names
     mIndex = index(lineVal(LINE_UPN), 0);
@@ -123,6 +123,6 @@ void ActualValueEmobAcModel::updateMModeTranslations()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(lineVal(LINE_POWER), 0);
-    //setData(mIndex, QString("(%1) P").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    //setData(mIndex, QString("(%1) P").arg(m_translation->trValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString()), RoleIndexes::NAME);
     setData(mIndex, "P");
 }

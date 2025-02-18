@@ -10,23 +10,23 @@ void BurdenValueModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(0, 0);
-    setData(mIndex, m_translation->TrValue("BRD1"), RoleIndexes::L1);
-    setData(mIndex, m_translation->TrValue("BRD2"), RoleIndexes::L2);
-    setData(mIndex, m_translation->TrValue("BRD3"), RoleIndexes::L3);
+    setData(mIndex, m_translation->trValue("BRD1"), RoleIndexes::L1);
+    setData(mIndex, m_translation->trValue("BRD2"), RoleIndexes::L2);
+    setData(mIndex, m_translation->trValue("BRD3"), RoleIndexes::L3);
     setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     mIndex = index(1, 0);
-    setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("UPN"), RoleIndexes::NAME);
     mIndex = index(2, 0);
-    setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("I"), RoleIndexes::NAME);
     mIndex = index(3, 0);
-    setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("∠UI"), RoleIndexes::NAME);
     mIndex = index(4, 0);
-    setData(mIndex, m_translation->TrValue("Sb"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("Sb"), RoleIndexes::NAME);
     mIndex = index(5, 0);
-    setData(mIndex, m_translation->TrValue("cos(β)"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("cos(β)"), RoleIndexes::NAME);
     mIndex = index(6, 0);
-    setData(mIndex, m_translation->TrValue("Sn"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("Sn"), RoleIndexes::NAME);
 
     // unit names
     mIndex = index(1, 0);

@@ -18,7 +18,7 @@ void ActualValueLemDcPerPhasePModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(lineVal(LINE_VALUE_P), 0);
-    setData(mIndex, m_translation->TrValue("P"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("P"), RoleIndexes::NAME);
     m_autoScaleRows.setUnitInfo(mIndex.row(), "W", RoleIndexes::UNIT);
 }
 

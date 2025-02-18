@@ -13,36 +13,36 @@ void ActualValueModelBase::setLabelsAndUnits()
     using namespace CommonTable;
     //column names
     QModelIndex mIndex = index(0, 0);
-    setData(mIndex, m_translation->TrValue("L1"), RoleIndexes::L1);
-    setData(mIndex, m_translation->TrValue("L2"), RoleIndexes::L2);
-    setData(mIndex, m_translation->TrValue("L3"), RoleIndexes::L3);
+    setData(mIndex, m_translation->trValue("L1"), RoleIndexes::L1);
+    setData(mIndex, m_translation->trValue("L2"), RoleIndexes::L2);
+    setData(mIndex, m_translation->trValue("L3"), RoleIndexes::L3);
     if(m_withAuxColumsInAutoScale)
-        setData(mIndex, m_translation->TrValue("AUX"), RoleIndexes::AUX);
+        setData(mIndex, m_translation->trValue("AUX"), RoleIndexes::AUX);
     setData(mIndex, "Σ", RoleIndexes::SUM);
     setData(mIndex, "[ ]", RoleIndexes::UNIT);
 
     //row names
     //mIndex = index(0, 0); //none
     mIndex = index(1, 0);
-    setData(mIndex, m_translation->TrValue("UPN"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("UPN"), RoleIndexes::NAME);
     mIndex = index(2, 0);
-    setData(mIndex, m_translation->TrValue("UPP"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("UPP"), RoleIndexes::NAME);
     mIndex = index(3, 0);
-    setData(mIndex, m_translation->TrValue("∠U"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("∠U"), RoleIndexes::NAME);
     mIndex = index(4, 0);
-    setData(mIndex, m_translation->TrValue("kU"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("kU"), RoleIndexes::NAME);
     mIndex = index(5, 0);
-    setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("I"), RoleIndexes::NAME);
     mIndex = index(6, 0);
-    setData(mIndex, m_translation->TrValue("∠I"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("∠I"), RoleIndexes::NAME);
     mIndex = index(7, 0);
-    setData(mIndex, m_translation->TrValue("kI"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("kI"), RoleIndexes::NAME);
     mIndex = index(8, 0);
-    setData(mIndex, m_translation->TrValue("∠UI"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("∠UI"), RoleIndexes::NAME);
     mIndex = index(9, 0);
-    setData(mIndex, m_translation->TrValue("λ"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("λ"), RoleIndexes::NAME);
     mIndex = index(13, 0);
-    setData(mIndex, m_translation->TrValue("F"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("F"), RoleIndexes::NAME);
 
     // Types - currently power only
     mIndex = index(10, 0);
@@ -251,17 +251,17 @@ void ActualValueModelBase::updateMModeTranslations()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(10, 0);
-    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
-                                           m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
-    m_autoScaleRows.setUnitInfo(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString(), RoleIndexes::UNIT);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->trValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
+                                           m_translation->trValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), m_translation->trValue(m_dynamicPowerUnit.value(mIndex.row())).toString(), RoleIndexes::UNIT);
 
     mIndex = index(11, 0);
-    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
-                                           m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
-    m_autoScaleRows.setUnitInfo(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString(), RoleIndexes::UNIT);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->trValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
+                                           m_translation->trValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), m_translation->trValue(m_dynamicPowerUnit.value(mIndex.row())).toString(), RoleIndexes::UNIT);
 
     mIndex = index(12, 0);
-    setData(mIndex, QString("(%1) %2").arg(m_translation->TrValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
-                                           m_translation->TrValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
-    m_autoScaleRows.setUnitInfo(mIndex.row(), m_translation->TrValue(m_dynamicPowerUnit.value(mIndex.row())).toString(), RoleIndexes::UNIT);
+    setData(mIndex, QString("(%1) %2").arg(m_translation->trValue(m_dynamicMeasuringModeDescriptor.value(mIndex.row())).toString(),
+                                           m_translation->trValue(m_dynamicPowerName.value(mIndex.row())).toString()), RoleIndexes::NAME);
+    m_autoScaleRows.setUnitInfo(mIndex.row(), m_translation->trValue(m_dynamicPowerUnit.value(mIndex.row())).toString(), RoleIndexes::UNIT);
 }

@@ -20,7 +20,7 @@ void TempHumidityPressureModel::setLabelsAndUnits()
 {
     // header line
     QModelIndex mIndex = index(lineVal(LINE_HEADER), 0);
-    setData(mIndex, m_translation->TrValue("T [°C]"), RoleIndexes::Temperature);
+    setData(mIndex, m_translation->trValue("T [°C]"), RoleIndexes::Temperature);
     setData(mIndex, "H [%]", RoleIndexes::Humidity);
     setData(mIndex, "P [hPa]", RoleIndexes::Pressure);
 }
@@ -28,7 +28,7 @@ void TempHumidityPressureModel::setLabelsAndUnits()
 void TempHumidityPressureModel::setupMapping()
 {
     QHash<QString, QPoint> *bleMap = new QHash<QString, QPoint>();
-    QString currentLanguage = m_translation->getCurrentLanguage();
+    QString currentLanguage = m_translation->getLanguage();
     if(currentLanguage == "en_US")
         bleMap->insert("ACT_TemperatureF", QPoint(RoleIndexes::Temperature, lineVal(LINE_VALUES)));
     else

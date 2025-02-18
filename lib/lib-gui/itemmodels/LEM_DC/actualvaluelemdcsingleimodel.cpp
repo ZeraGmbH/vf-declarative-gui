@@ -18,7 +18,7 @@ void ActualValueLemDcSingleIModel::setLabelsAndUnits()
 {
     using namespace CommonTable;
     QModelIndex mIndex = index(lineVal(LINE_VALUE_I), 0);
-    setData(mIndex, m_translation->TrValue("I"), RoleIndexes::NAME);
+    setData(mIndex, m_translation->trValue("I"), RoleIndexes::NAME);
     m_autoScaleRows.setUnitInfo(mIndex.row(), "A", RoleIndexes::UNIT);
 }
 
