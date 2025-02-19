@@ -237,6 +237,33 @@ Item {
             }
         }
     }
+    TaskList {
+        id: tasksExportJson
+        taskArray: [
+            { 'type': 'rpc',  // copy
+              'callFunction': () => loggerEntity.invokeRPC("RPC_CreateAllSessionsJson(QString p_dbFile)", {
+                                                              "p_dbFile": databaseName }),
+              'rpcTarget': loggerEntity,
+              'notifyCallback': (t_resultData) => {
+                    //handle errors
+                }
+            }/*,
+            { 'type': 'rpc',  // fsync
+              'callFunction': () => loggerEntity.invokeRPC("RPC_CreateTransactionsJson(QString p_session)", {
+                                                              "p_session": targetFilePath}),
+              'rpcTarget': loggerEntity
+            }*/
+        ]
+        Connections {
+            function onDone(error) {
+                let errorDescriptionArr = []
+                if(error) {
+                    errorDescriptionArr.push(Z.tr("Copy failed - drive full or removed?")) //
+                }
+                waitPopup.stopWait([], errorDescriptionArr, () =>  menuStackLayout.pleaseCloseMe(false))
+            }
+        }
+    }
 
     property var rpcIdDisplaySession
     property var sessionInfo
@@ -314,6 +341,7 @@ Item {
                         comboList.push({ value: "EXPORT_TYPE_MTVIS", enabled: false, label: Z.tr("MtVis XML - requires stored sessions") })
                     }
                     comboList.push({ value: "EXPORT_TYPE_SQLITE", enabled: true, label: "SQLite DB (" + databaseName.substr(databaseName.lastIndexOf('/') + 1).toLowerCase() + ")"})
+                    comboList.push({ value: "EXPORT_TYPE_JSON", enabled: loggerEntity.ExistingSessions.length > 0 && VeinEntity.getEntity("_System").DevMode, label: "JSON reports"})
                     return comboList
                 }
                 // we need a customized delegate to support enable/disable (and
@@ -339,13 +367,16 @@ Item {
                 text: Z.tr("Export")
                 font.pointSize: pointSize
                 enabled: {
-                    let _enabled = mountedPaths.length > 0 && loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true
+                    let _enabled = loggerEntity.LoggingEnabled === false && loggerEntity.DatabaseReady === true
                     switch(exportType) {
                     case "EXPORT_TYPE_MTVIS":
-                        _enabled = _enabled && !tasksExportMtVis.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
+                        _enabled = _enabled && mountedPaths.length > 0 && !tasksExportMtVis.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
                         break
                     case "EXPORT_TYPE_SQLITE":
-                        _enabled = _enabled && !tasksExportDb.running && databaseName !== ""
+                        _enabled = _enabled && mountedPaths.length > 0 && !tasksExportDb.running && databaseName !== ""
+                        break
+                    case "EXPORT_TYPE_JSON":
+                        _enabled = _enabled && !tasksExportJson.running && sessionSelectCombo.currentText !== "" && databaseName !== ""
                         break
                     }
                     return _enabled
@@ -361,6 +392,10 @@ Item {
                     case "EXPORT_TYPE_SQLITE":
                         waitPopup.startWait(Z.tr("Exporting database..."))
                         tasksExportDb.startRun()
+                        break
+                    case "EXPORT_TYPE_JSON":
+                        waitPopup.startWait(Z.tr("Exporting database..."))
+                        tasksExportJson.startRun()
                         break
                     }
                 }
