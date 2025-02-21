@@ -194,6 +194,7 @@ Item {
                     loggerEntity.sessionName = sessionNameField.text
                     GC.setCurrDatabaseSessionName(sessionNameField.text)
                     menuStackLayout.pleaseCloseMe(true)
+                    loggerEntity.invokeRPC("RPC_CreateAllSessionsJson()", {})
                 }
             }
         }
