@@ -70,7 +70,10 @@ Item {
     onLoggedComponentsChanged: { handleVeinRecordingStartReply() }
 
     readonly property var vtransactionName: loggerEntity.transactionName
-    onVtransactionNameChanged: { handleVeinRecordingStartReply() }
+    onVtransactionNameChanged: {
+        handleVeinRecordingStartReply()
+        loggerEntity.invokeRPC("RPC_CreateTransactionsJson(QString p_session)", {"p_session": loggerEntity.sessionName})
+    }
 
     readonly property var vguiContext: loggerEntity.guiContext
     onVguiContextChanged: { handleVeinRecordingStartReply() }
