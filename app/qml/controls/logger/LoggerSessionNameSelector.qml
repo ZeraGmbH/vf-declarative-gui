@@ -50,6 +50,7 @@ Item {
                     if(resultData["RemoteProcedureData::resultCode"] === 0 &&
                             resultData["RemoteProcedureData::Return"] === true) { // ok
                         removeSessionPopup.close();
+                        loggerEntity.invokeRPC("RPC_CreateAllSessionsJson()", {})
                     }
                 }
             }
