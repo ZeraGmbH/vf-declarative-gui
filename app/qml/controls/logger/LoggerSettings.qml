@@ -57,6 +57,7 @@ SettingsView {
                 let sessionName = existingSessions[0]
                 loggerEntity.sessionName = sessionName
                 GC.setCurrDatabaseSessionName(sessionName)
+                loggerEntity.invokeRPC("RPC_CreateAllSessionsJson()", {})
             }
         }
     }
