@@ -572,8 +572,9 @@ Item {
                         font.pointSize: pointSize
                         onClicked: {
                             if(!deleteTransactionPopup.rpcIdDeleteTransaction) {
-                                deleteTransactionPopup.rpcIdDeleteTransaction = loggerEntity.invokeRPC("RPC_deleteTransaction(QString p_transaction)", {
-                                                        "p_transaction": deleteTransactionPopup.transactionToDelete })
+                                deleteTransactionPopup.rpcIdDeleteTransaction = loggerEntity.invokeRPC("RPC_deleteTransaction(QString p_selectedSession,QString p_transaction)",{
+                                                                                                           "p_selectedSession": selectedSession ,
+                                                                                                           "p_transaction": deleteTransactionPopup.transactionToDelete })
                             }
                         }
                     }
