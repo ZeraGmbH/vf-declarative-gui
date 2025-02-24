@@ -39,7 +39,7 @@ Item {
     property QtObject exportEntity: VeinEntity.getEntity("ExportModule") // our export worker
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem") // for databse/session...
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // mounted sticks
-    readonly property string currentSession: VeinEntity.getEntity("_LoggingSystem").sessionName
+    property string selectedSession
     // vein components for convenience
     readonly property string databaseName: loggerEntity ? loggerEntity.DatabaseFile : ""
     readonly property alias mountedPaths: mountedDrivesCombo.mountedPaths
@@ -413,8 +413,9 @@ Item {
                     }
                 }
                 onCurrentIndexChanged: {
+                    selectedSession = sessionSelectCombo.existingSessions[currentIndex]
                     rpcIdDisplaySession = loggerEntity.invokeRPC("RPC_displaySessionsInfos(QString p_session)", {
-                                                        "p_session": sessionSelectCombo.existingSessions[currentIndex] })
+                                                        "p_session": selectedSession })
                 }
             }
         }
@@ -529,7 +530,7 @@ Item {
                         if(resultData["RemoteProcedureData::resultCode"] === 0 &&
                                 resultData["RemoteProcedureData::Return"] === true) { // ok
                             rpcIdDisplaySession = loggerEntity.invokeRPC("RPC_displaySessionsInfos(QString p_session)", {
-                                                                "p_session": root.currentSession })
+                                                                "p_session": root.selectedSession })
                             deleteTransactionPopup.close();
                         }
                     }
