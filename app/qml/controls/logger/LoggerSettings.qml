@@ -118,7 +118,11 @@ SettingsView {
             }
             deleteRpcId = filesEntity.invokeRPC("RPC_DeleteFile(QString p_fullPathFile)", {
                                                 "p_fullPathFile": removeDbName })
-        }
+            for(let session of existingSessions) {
+                loggerEntity.invokeRPC("RPC_deleteSession(QString p_session)", {
+                                           "p_session": session })
+            }
+}
         else {
             console.warn("RPC_DeleteFile already running")
         }
