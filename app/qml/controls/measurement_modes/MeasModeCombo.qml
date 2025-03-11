@@ -20,7 +20,7 @@ VFComboBox {
         height: comboHeader.height + comboHeaderPhase.height
         MeasModeComboHeader {
             id: comboHeader
-            visibleHeight: root.height * 1.75
+            rowHeight: root.height * 0.55
             entity: root.entity
             entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
         }
