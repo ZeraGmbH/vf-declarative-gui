@@ -52,6 +52,7 @@
         <file>qml/controls/measurement_modes/MeasModeCombo.qml</file>
         <file>qml/controls/measurement_modes/MeasModeComboHeader.qml</file>
         <file>qml/controls/measurement_modes/MeasModeComboHeaderPhase.qml</file>
+        <file>qml/controls/measurement_modes/MeasModeComboHeaderQRefFrequency.qml</file>
         <file>qml/controls/measurement_modes/MeasModeComboListView.qml</file>
         <file>qml/controls/settings/ColorPicker.qml</file>
         <file>qml/controls/settings/DefaultColorPopup.qml</file>
