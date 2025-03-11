@@ -14,13 +14,15 @@ Rectangle {
     // setters
     property var entity
     property var entityIntrospection
-    property real visibleHeight
+    property real rowHeight
 
     visible: entity.PAR_FOUT0 !== undefined && entity.PAR_FOUT0 !== ""
-    height: visible ? visibleHeight : 0
+    readonly property bool showFoutOnly: entity.PAR_MeasuringMode === "QREF"
+    readonly property int rowCount: showFoutOnly ? 1 : 3
+    height: visible ? (rowHeight * rowCount * 0.9 + (rowCount+2) * rowHeight * 0.1) : 0
     width: parent.width
     color: "white"
-    property real pointSize: height > 0 ? height * 0.115 : 5
+    property real pointSize: height > 0 ? rowHeight * 0.35 : 5
     radius: 4
     GridLayout {
         columns: 2
@@ -38,6 +40,7 @@ Rectangle {
         }
         Text {
             text: Z.tr("NF:")
+            visible: !showFoutOnly
             font.bold: true
             font.pointSize: pointSize
         }
@@ -47,10 +50,12 @@ Rectangle {
                 let scaled = FT.doAutoScale(nomFreq, "Hz")
                 return scaled[0]+scaled[1]
             }
+            visible: !showFoutOnly
             font.pointSize: pointSize
         }
         Text {
             text: "C:"
+            visible: !showFoutOnly
             font.bold: true
             font.pointSize: pointSize
         }
@@ -72,6 +77,7 @@ Rectangle {
                 let scaled = FT.doAutoScale(meterConstant, `/k${unit}h`)
                 return Math.round(scaled[0]*1000)/1000+scaled[1]
             }
+            visible: !showFoutOnly
             font.pointSize: pointSize
         }
     }
