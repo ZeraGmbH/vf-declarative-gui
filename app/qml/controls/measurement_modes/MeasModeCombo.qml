@@ -6,7 +6,9 @@ import ZeraTranslation 1.0
 VFComboBox {
     id: root
     // override
-    function translateText(text){
+    function translateText(text) {
+        if(text === "QREF")
+            return Z.tr("Fixed Freq.")
         return Z.tr(text)
     }
     property int power1ModuleIdx // setter
