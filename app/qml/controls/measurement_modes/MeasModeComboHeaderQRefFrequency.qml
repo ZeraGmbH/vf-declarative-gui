@@ -41,8 +41,8 @@ Rectangle {
         VFLineEdit {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            textField.topPadding: height * 0.225 // underline visibility
-            textField.bottomPadding: height * 0.225
+            textField.topPadding: root.height * 0.225 // underline visibility
+            textField.bottomPadding: root.height * 0.225
             entity: root.entity
             controlPropertyName: root.visible ? "PAR_FOUT_QREF_FREQ" : ""
             pointSize: root.pointSize
