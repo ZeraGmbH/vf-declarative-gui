@@ -39,7 +39,7 @@ ListView {
             height: headerHeight
             font.pointSize: pointSize
             verticalAlignment: Label.AlignVCenter
-            text: FAQ.fa_dot_circle
+            text: visible ? FAQ.fa_dot_circle + " " + measModeCombo.entity.PAR_FOUT0 : ""
             visible: measModeCombo.entity.PAR_FOUT0 !== undefined && measModeCombo.entity.PAR_FOUT0 !== ""
         }
         MeasModeCombo {
