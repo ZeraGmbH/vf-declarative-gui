@@ -32,15 +32,15 @@ Rectangle {
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.rightMargin: GC.standardTextHorizMargin
         Label {
-            height: rowHeight
+            Layout.fillHeight: true
+            Layout.preferredWidth: root.width * 0.5 - GC.standardTextHorizMargin * 1.5
             font.pointSize: pointSize
             verticalAlignment: Label.AlignVCenter
             text: Z.tr("Frequency:")
         }
         VFLineEdit {
-            height: rowHeight
+            Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.leftMargin: root.width * 0.1
             textField.topPadding: height * 0.225 // underline visibility
             textField.bottomPadding: height * 0.225
             entity: root.entity
@@ -53,7 +53,7 @@ Rectangle {
             }
         }
         Label {
-            height: rowHeight
+            Layout.fillHeight: true
             font.pointSize: pointSize
             verticalAlignment: Label.AlignVCenter
             text: "kHz"
