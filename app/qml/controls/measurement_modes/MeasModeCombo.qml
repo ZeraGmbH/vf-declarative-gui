@@ -31,7 +31,8 @@ VFComboBox {
         }
         MeasModeComboHeaderQRefFrequency {
             id: comboHeaderQRefFrequency
-            rowHeight: root.height * 0.75
+            rowHeight: root.height
+            pointSize: root.pointSize
             entity: root.entity
             entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
         }
