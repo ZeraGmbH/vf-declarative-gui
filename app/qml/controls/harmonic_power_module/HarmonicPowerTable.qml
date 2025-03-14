@@ -18,7 +18,8 @@ Item {
     readonly property int channelCount: ModuleIntrospection.p3m1Introspection.ModuleInfo.HPWCount;
     readonly property int hpwOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder; //the power3module harmonic order depends on the fftmodule
     property real rowHeight: height/12
-    property int columnWidth: (width - vBar.width - width/20)/9
+    property real firstColumnWidth: width * 0.08
+    property int columnWidth: (width - vBar.width - firstColumnWidth)/9
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
     readonly property string relativeUnit: relativeView ? " %" : "";
@@ -71,7 +72,7 @@ Item {
                 border.color: "#444" //disable border transparency
                 x: fftFlickable.contentX //keep item visible
                 z: 1
-                width: root.width/20
+                width: firstColumnWidth
                 height: root.rowHeight
                 color: GC.tableShadeColor
                 text: "n"
@@ -135,7 +136,7 @@ Item {
                         border.color: "#444" //disable border transparency
                         x: fftFlickable.contentX //keep item visible
                         z: 1
-                        width: root.width/20
+                        width: firstColumnWidth
                         height: root.rowHeight
                         color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
                         text: index
