@@ -7,6 +7,7 @@ import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import FontAwesomeQml 1.0
 import ".."
 
 Rectangle {
@@ -109,6 +110,13 @@ Rectangle {
                 z: 1
                 width: root.columnWidth-vBar.width
                 height: root.rowHeight
+                Button {
+                    anchors.fill: parent
+                    anchors.topMargin: -4
+                    anchors.bottomMargin: -4
+                    text: FAQ.fa_cogs
+                    font.pointSize: root.rowHeight*0.45
+                }
             }
 
             Repeater {

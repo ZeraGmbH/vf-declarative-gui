@@ -9,6 +9,7 @@ import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import FontAwesomeQml 1.0
 import ".."
 
 Item {
@@ -68,16 +69,19 @@ Item {
             z: 1
             height: root.rowHeight
 
-            GridItem {
+            GridRect {
                 border.color: "#444" //disable border transparency
                 x: fftFlickable.contentX //keep item visible
                 z: 1
                 width: firstColumnWidth
                 height: root.rowHeight
-                color: GC.tableShadeColor
-                text: "n"
-                textColor: Material.primaryTextColor
-                font.bold: true
+                Button {
+                    anchors.fill: parent
+                    anchors.topMargin: -4
+                    anchors.bottomMargin: -4
+                    text: FAQ.fa_cogs
+                    font.pointSize: root.rowHeight*0.45
+                }
             }
 
             Repeater {
