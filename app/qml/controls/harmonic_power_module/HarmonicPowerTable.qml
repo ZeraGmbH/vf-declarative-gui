@@ -17,7 +17,7 @@ Item {
     readonly property QtObject glueLogic: ZGL;
     readonly property int channelCount: ModuleIntrospection.p3m1Introspection.ModuleInfo.HPWCount;
     readonly property int hpwOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder; //the power3module harmonic order depends on the fftmodule
-    property int rowHeight: Math.floor(height/12)
+    property real rowHeight: height/12
     property int columnWidth: (width - vBar.width - width/20)/9
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
@@ -39,7 +39,6 @@ Item {
     Flickable {
         id: fftFlickable
         anchors.fill: parent
-        anchors.bottomMargin: parent.height%root.rowHeight
         anchors.rightMargin: vBar.width
         contentWidth: root.columnWidth*(1+root.channelCount*2)
         contentHeight: root.rowHeight*(hpwOrder+1)

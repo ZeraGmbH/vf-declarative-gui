@@ -16,7 +16,7 @@ Rectangle {
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount, 6)
     readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
     readonly property int rowsDisplayedTotal: 14
-    readonly property int rowHeight: Math.floor(height/rowsDisplayedTotal)
+    readonly property real rowHeight: height/rowsDisplayedTotal
     readonly property int columnWidth: width/7
     readonly property bool showAngles: GC.showFftTableAngles
     readonly property bool hasHorizScroll: showAngles ? channelCount > 3 : channelCount > 6
@@ -50,7 +50,6 @@ Rectangle {
     Flickable {
         id: fftFlickable
         anchors.fill: parent
-        anchors.bottomMargin: parent.height%root.rowHeight
         anchors.rightMargin: vBar.width
         contentWidth: lvHarmonics.width
         contentHeight: root.rowHeight*(fftOrder+3)
