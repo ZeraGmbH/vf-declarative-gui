@@ -113,23 +113,14 @@ Rectangle {
 
             Repeater {
                 model: root.channelCount
-                delegate: GridRect {
+                delegate: GridItem {
                     width: root.columnWidth * (showAngles ? 2 : 1)
                     height: root.rowHeight
-                    color: GC.tableShadeColor
                     border.color: "#444" //disable border transparency
-                    Text {
-                        text: Z.tr(ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName)
-                        anchors.centerIn: parent
-                        anchors.rightMargin: 8
-                        font.pixelSize: rowHeight*0.5
-                        font.family: "Droid Sans Mono"
-                        font.bold: true
-                        color: FT.getColorByIndex(index+1)
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        textFormat: Text.PlainText
-                    }
+                    color: GC.tableShadeColor
+                    text: Z.tr(ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName)
+                    textColor: FT.getColorByIndex(index+1)
+                    font.bold: true
                 }
             }
         }
@@ -198,7 +189,6 @@ Rectangle {
                         color: GC.tableShadeColor
                         border.color: "#444" //disable border transparency
                         text: (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+"]");
-                        textHorizontalAlignment: Label.AlignHCenter
                         textColor: FT.getColorByIndex(index+1)
                         font.pixelSize: rowHeight*0.5
                         font.bold: true
