@@ -20,7 +20,7 @@ SettingsView {
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     readonly property real safeHeight: height > 0.0 ? height : 10
-    rowHeight: safeHeight / 9.2
+    rowHeight: safeHeight / 8.1
     readonly property real pointSize: rowHeight * 0.34
 
     ColorPicker {
@@ -47,6 +47,21 @@ SettingsView {
 
     readonly property real comboWidth: 4.5
     model: VisualItemModel {
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
+                textFormat: Text.PlainText
+                text: Z.tr("Timezone:")
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            TimezoneComboRow {
+                Layout.fillHeight: true
+            }
+        }
         RowLayout {
             height: root.rowHeight
             width: root.rowWidth
@@ -198,9 +213,9 @@ SettingsView {
                 spacing: 2
                 delegate: Button {
                     id: rButton
-                    width: root.rowHeight*1.18
+                    width: root.rowHeight*1.08
                     height: root.rowHeight
-                    font.pointSize: pointSize * 0.65
+                    font.pointSize: pointSize * 0.6
                     text: {
                         let workingIndex = root.channelCount-index
                         let colorLead = "<font color='" + SlwMachSettingsHelper.getCurrentColor(workingIndex) + "'>"
