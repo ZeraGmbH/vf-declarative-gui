@@ -8,6 +8,7 @@ import TableEventDistributor 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
+import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
 import ".."
 
@@ -33,7 +34,7 @@ Rectangle {
         x: 0; y: 0
         width: columnWidth * 3
         readonly property real heightMult: 1.25
-        height: rowHeight * 3 * heightMult
+        height: rowHeight * 2 * heightMult
         verticalPadding: 0
         horizontalPadding: 0
         Column {
@@ -42,17 +43,21 @@ Rectangle {
                 text: Z.tr("Relative to fundamental")
                 width: settingsPopup.width
                 height: rowHeight * settingsPopup.heightMult
+                checked: GC.showFftTableAsRelative
+                onCheckedChanged: SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
             }
             ZCheckBox {
                 text: Z.tr("Show angles")
                 width: settingsPopup.width
                 height: rowHeight * settingsPopup.heightMult
+                checked: GC.showFftTableAngles
+                onCheckedChanged: SlwMachSettingsHelper.startShowFftAnglesChange(checked)
             }
-            ZCheckBox {
+            /*ZCheckBox {
                 text: Z.tr("Values as RMS")
                 width: settingsPopup.width
                 height: rowHeight * settingsPopup.heightMult
-            }
+            }*/
         }
     }
 
