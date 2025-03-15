@@ -9,6 +9,7 @@ import TableEventDistributor 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
+import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
 import ".."
 
@@ -39,6 +40,8 @@ Item {
                 text: Z.tr("Relative to fundamental")
                 width: settingsPopup.width
                 height: rowHeight * settingsPopup.heightMult
+                checked: GC.showFftTableAsRelative
+                onCheckedChanged: SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
             }
         }
     }
