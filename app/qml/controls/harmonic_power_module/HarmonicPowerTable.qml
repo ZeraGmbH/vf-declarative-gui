@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtCharts 2.0
-import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
@@ -9,6 +8,7 @@ import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import FontAwesomeQml 1.0
 import ".."
 
@@ -20,11 +20,28 @@ Item {
     readonly property int hpwOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder; //the power3module harmonic order depends on the fftmodule
     property real rowHeight: height/12
     property real firstColumnWidth: width * 0.08
-    property int columnWidth: (width - vBar.width - firstColumnWidth)/9
+    property real columnWidth: (width - vBar.width - firstColumnWidth)/9
 
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
     readonly property string relativeUnit: relativeView ? " %" : "";
 
+    Popup {
+        id: settingsPopup
+        x: 0; y: 0
+        width: firstColumnWidth + 3.5 * columnWidth
+        readonly property real heightMult: 1.25
+        height: rowHeight * heightMult
+        verticalPadding: 0
+        horizontalPadding: 0
+        Column {
+            anchors.fill: parent
+            ZCheckBox {
+                text: Z.tr("Relative to fundamental")
+                width: settingsPopup.width
+                height: rowHeight * settingsPopup.heightMult
+            }
+        }
+    }
     Keys.forwardTo: [fftFlickable]
     ScrollBar {
         z: 1
@@ -81,6 +98,7 @@ Item {
                     anchors.bottomMargin: -4
                     text: FAQ.fa_cogs
                     font.pointSize: root.rowHeight*0.45
+                    onClicked: settingsPopup.open()
                 }
             }
 

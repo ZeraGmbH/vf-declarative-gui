@@ -7,6 +7,7 @@ import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import FontAwesomeQml 1.0
 import ".."
 
@@ -18,7 +19,7 @@ Rectangle {
     readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
     readonly property int rowsDisplayedTotal: 14
     readonly property real rowHeight: height/rowsDisplayedTotal
-    readonly property int columnWidth: width/7
+    readonly property real columnWidth: width/7
     readonly property bool showAngles: GC.showFftTableAngles
     readonly property bool hasHorizScroll: showAngles ? channelCount > 3 : channelCount > 6
 
@@ -26,6 +27,34 @@ Rectangle {
     color: Material.backgroundColor
 
     Keys.forwardTo: [fftFlickable]
+
+    Popup {
+        id: settingsPopup
+        x: 0; y: 0
+        width: columnWidth * 3
+        readonly property real heightMult: 1.25
+        height: rowHeight * 3 * heightMult
+        verticalPadding: 0
+        horizontalPadding: 0
+        Column {
+            anchors.fill: parent
+            ZCheckBox {
+                text: Z.tr("Relative to fundamental")
+                width: settingsPopup.width
+                height: rowHeight * settingsPopup.heightMult
+            }
+            ZCheckBox {
+                text: Z.tr("Show angles")
+                width: settingsPopup.width
+                height: rowHeight * settingsPopup.heightMult
+            }
+            ZCheckBox {
+                text: Z.tr("Values as RMS")
+                width: settingsPopup.width
+                height: rowHeight * settingsPopup.heightMult
+            }
+        }
+    }
 
     ScrollBar {
         z: 1
@@ -116,6 +145,7 @@ Rectangle {
                     anchors.bottomMargin: -4
                     text: FAQ.fa_cogs
                     font.pointSize: root.rowHeight*0.45
+                    onClicked: settingsPopup.open()
                 }
             }
 
