@@ -29,7 +29,7 @@ Item {
     Popup {
         id: settingsPopup
         x: 0; y: 0
-        width: firstColumnWidth + 3.5 * columnWidth
+        width: firstColumnWidth + 4.5 * columnWidth
         readonly property real heightMult: 1.25
         height: rowHeight * heightMult
         verticalPadding: 0
