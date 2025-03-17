@@ -10,39 +10,40 @@ import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraLocale 1.0
 import ZeraTranslation 1.0
+import FontAwesomeQml 1.0
 
 Item {
     id: root
 
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
-    readonly property real plotWidth: width-8;
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : Math.min(6, ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount)
 
-    //convention that channels are numbered by unit was broken, so do some $%!7 to get the right data
+    // convention that channels are numbered by unit was broken, so do some $%!7 to get the right data
     readonly property var dataModels: [ZGL.OSCIP1Model, ZGL.OSCIP2Model, ZGL.OSCIP3Model, ZGL.OSCIP1Model, ZGL.OSCIP2Model, ZGL.OSCIP3Model,  ZGL.OSCIPNModel, ZGL.OSCIPNModel]
 
-    //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
+    // convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
     readonly property var leftChannels: {
-        var retVal = [];
-        for(var channelNum=0; channelNum<channelCount; ++channelNum) {
-            var unit = ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+parseInt(channelNum+1)].Unit;
-            if(unit === "V") { //UL1..UL3 +UN
+        let retVal = [];
+        for (let channelNum=0; channelNum<channelCount; ++channelNum) {
+            let unit = ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+parseInt(channelNum+1)].Unit;
+            if(unit === "V") //UL1..UL3 +UN
                 retVal.push(channelNum)
-            }
+        }
+        return retVal;
+    }
+    readonly property var rightChannels: {
+        let retVal = [];
+        for (let channelNum=0; channelNum<channelCount; ++channelNum) {
+            let unit = ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+parseInt(channelNum+1)].Unit;
+            if (unit === "A") //IL1..IL3 +IN
+                retVal.push(channelNum)
         }
         return retVal;
     }
 
-    readonly property var rightChannels: {
-        var retVal = [];
-        for(var channelNum=0; channelNum<channelCount; ++channelNum) {
-            var unit = ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+parseInt(channelNum+1)].Unit;
-            if(unit === "A") { //IL1..IL3 +IN
-                retVal.push(channelNum)
-            }
-        }
-        return retVal;
-    }
+    readonly property int leftRightOffset: 15
+    readonly property real plotWidth: width-2 * leftRightOffset;
+    readonly property real unitPointSize: 14
     Keys.forwardTo: [lvOsci]
 
     ListView {
@@ -82,17 +83,14 @@ Item {
         }
 
         delegate: Item {
+            x: leftRightOffset
             height: pinchArea.pinchScale * root.height/3
             width: root.plotWidth
             ChartView {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                anchors.fill: parent
                 // lots of trials - hope they won't change ChartView too much in future releases..
-                height: (parent.height + Math.sqrt(parent.height) * 10) / 1.4
-                anchors.verticalCenter: parent.verticalCenter
-                margins.top: 15
-                margins.bottom: 0
-
+                anchors.topMargin: -27
+                anchors.bottomMargin: -45
                 antialiasing: false
                 backgroundColor: "transparent" // workaround overlap on small pinch
                 legend.visible:false
@@ -177,6 +175,8 @@ Item {
                 anchors.left: parent.left
                 rotation: -90
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName)
+                font.pointSize: unitPointSize
+                font.bold: true
                 color: FT.getColorByIndex(leftChannels[index]+1);
             }
             Label {
@@ -184,6 +184,8 @@ Item {
                 anchors.right: parent.right
                 rotation: 90
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName)
+                font.pointSize: unitPointSize
+                font.bold: true
                 color: FT.getColorByIndex(rightChannels[index]+1);
             }
         }
