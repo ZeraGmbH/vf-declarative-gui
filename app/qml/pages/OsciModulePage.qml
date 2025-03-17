@@ -94,7 +94,7 @@ Item {
                 margins.bottom: 0
 
                 antialiasing: false
-                backgroundColor: "transparent"
+                backgroundColor: "transparent" // workaround overlap on small pinch
                 legend.visible:false
                 legend.width: 0
                 legend.height: 0
