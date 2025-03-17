@@ -29,25 +29,31 @@ Rectangle {
 
     Keys.forwardTo: [fftFlickable]
 
-    Button {
-        id: settingsButton
-        z: 1
+    Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
-        width: columnWidth-vBar.width
-        height: rowHeight + 10 // Where do magic 10 come from?
-        anchors.topMargin: -4
-        anchors.bottomMargin: -4
-        text: FAQ.fa_cogs
-        font.pointSize: root.rowHeight*0.45
-        onClicked: settingsPopup.open()
+        width: (columnWidth * 0.5) - vBar.width
+        height: rowHeight //+ 10 // Where do magic 10 come from?
+        // hide item below
+        z: 1
+        color: Material.backgroundColor
+        Button {
+            id: settingsButton
+            anchors.fill: parent
+            anchors.topMargin: -4
+            anchors.bottomMargin: -4
+            text: FAQ.fa_cogs
+            font.pointSize: root.rowHeight*0.45
+            onClicked: settingsPopup.open()
+        }
     }
     Popup {
         id: settingsPopup
         x: 0; y: 0
-        width: columnWidth * 3.25
+        width: columnWidth * 3.75
         readonly property real heightMult: 1.25
-        readonly property int settingsRowCount: 2
+        readonly property bool hasAux: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
+        readonly property int settingsRowCount: 2 + (hasAux ? 1 : 0)
         height: rowHeight * (settingsRowCount + 1) * heightMult
         verticalPadding: 0
         horizontalPadding: 0
@@ -67,6 +73,17 @@ Rectangle {
                 height: rowHeight * settingsPopup.heightMult
                 checked: GC.showFftTableAngles
                 onCheckedChanged: SlwMachSettingsHelper.startShowFftAnglesChange(checked)
+            }
+            Loader {
+                active: settingsPopup.hasAux
+                width: settingsPopup.width
+                height: rowHeight * settingsPopup.heightMult
+                sourceComponent: ZCheckBox {
+                    anchors.fill: parent
+                    text: Z.tr("Show AUX phase values")
+                    checked: GC.showAuxPhases
+                    onCheckedChanged: SlwMachSettingsHelper.startAuxPhaseChange(checked)
+                }
             }
             /*ZCheckBox {
                 text: Z.tr("Values as RMS")
@@ -154,7 +171,7 @@ Rectangle {
             z: 1
 
             Rectangle {
-                color: Material.backgroundColor //hide item below
+                color: GC.tableShadeColor
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
                 width: root.columnWidth-vBar.width
