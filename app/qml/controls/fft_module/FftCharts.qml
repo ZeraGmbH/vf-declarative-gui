@@ -48,6 +48,20 @@ ListView {
     readonly property real pointSize: height * 0.02
     readonly property int thdnToHorizontalCenterOffset: 60 // chart's legend has fixed distance
 
+    Button {
+        id: settingsButton
+        z: 1
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.topMargin: -4
+        anchors.bottomMargin: -4
+        width: thdnToHorizontalCenterOffset - 15
+        height: width * 0.4 + root.height * 0.05
+        text: FAQ.fa_cogs
+        font.pointSize: height * 0.325
+        //onClicked: settingsPopup.open()
+    }
+
     ScrollBar.vertical: ScrollBar {
         policy: ScrollBar.AlwaysOn
         snapMode: ScrollBar.SnapOnRelease
