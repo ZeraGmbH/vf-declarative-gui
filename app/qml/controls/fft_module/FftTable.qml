@@ -19,7 +19,7 @@ Rectangle {
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount, 6)
     readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
     readonly property int rowsDisplayedTotal: 14
-    readonly property real rowHeight: height/rowsDisplayedTotal
+    readonly property real rowHeight: height / rowsDisplayedTotal
     readonly property real columnWidth: width/7
     readonly property bool showAngles: GC.showFftTableAngles
     readonly property bool hasHorizScroll: showAngles ? channelCount > 3 : channelCount > 6
@@ -29,15 +29,30 @@ Rectangle {
 
     Keys.forwardTo: [fftFlickable]
 
+    Button {
+        id: settingsButton
+        z: 1
+        anchors.left: parent.left
+        anchors.top: parent.top
+        width: columnWidth-vBar.width
+        height: rowHeight + 10 // Where do magic 10 come from?
+        anchors.topMargin: -4
+        anchors.bottomMargin: -4
+        text: FAQ.fa_cogs
+        font.pointSize: root.rowHeight*0.45
+        onClicked: settingsPopup.open()
+    }
     Popup {
         id: settingsPopup
         x: 0; y: 0
         width: columnWidth * 3.25
         readonly property real heightMult: 1.25
-        height: rowHeight * 2 * heightMult
+        readonly property int settingsRowCount: 2
+        height: rowHeight * (settingsRowCount + 1) * heightMult
         verticalPadding: 0
         horizontalPadding: 0
         Column {
+            anchors.topMargin: rowHeight/2
             anchors.fill: parent
             ZCheckBox {
                 text: Z.tr("Relative to fundamental")
@@ -144,14 +159,6 @@ Rectangle {
                 z: 1
                 width: root.columnWidth-vBar.width
                 height: root.rowHeight
-                Button {
-                    anchors.fill: parent
-                    anchors.topMargin: -4
-                    anchors.bottomMargin: -4
-                    text: FAQ.fa_cogs
-                    font.pointSize: root.rowHeight*0.45
-                    onClicked: settingsPopup.open()
-                }
             }
 
             Repeater {

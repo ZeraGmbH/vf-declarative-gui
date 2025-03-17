@@ -26,15 +26,30 @@ Item {
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
     readonly property string relativeUnit: relativeView ? " %" : "";
 
+    Button {
+        id: settingsButton
+        z: 1
+        anchors.left: parent.left
+        anchors.top: parent.top
+        width: firstColumnWidth
+        height: rowHeight + 10 // Where do magic 10 come from?
+        anchors.topMargin: -4
+        anchors.bottomMargin: -4
+        text: FAQ.fa_cogs
+        font.pointSize: root.rowHeight*0.45
+        onClicked: settingsPopup.open()
+    }
     Popup {
         id: settingsPopup
         x: 0; y: 0
         width: firstColumnWidth + 4.5 * columnWidth
         readonly property real heightMult: 1.25
-        height: rowHeight * heightMult
+        readonly property int settingsRowCount: 1
+        height: rowHeight * (settingsRowCount + 1) * heightMult
         verticalPadding: 0
         horizontalPadding: 0
         Column {
+            anchors.topMargin: rowHeight/2
             anchors.fill: parent
             ZCheckBox {
                 text: Z.tr("Relative to fundamental")
@@ -95,14 +110,6 @@ Item {
                 z: 1
                 width: firstColumnWidth
                 height: root.rowHeight
-                Button {
-                    anchors.fill: parent
-                    anchors.topMargin: -4
-                    anchors.bottomMargin: -4
-                    text: FAQ.fa_cogs
-                    font.pointSize: root.rowHeight*0.45
-                    onClicked: settingsPopup.open()
-                }
             }
 
             Repeater {
