@@ -15,6 +15,20 @@ import FontAwesomeQml 1.0
 Item {
     id: root
 
+    Button {
+        id: settingsButton
+        z: 1
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.topMargin: -4
+        anchors.bottomMargin: -4
+        width: 45 // chart's legend has fixed distance
+        height: width * 0.4 + root.height * 0.05
+        text: FAQ.fa_cogs
+        font.pointSize: height * 0.325
+        //onClicked: settingsPopup.open()
+    }
+
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : Math.min(6, ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount)
 
