@@ -7,6 +7,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraTranslation 1.0
+import FontAwesomeQml 1.0
 
 ListView {
     id: root
@@ -42,6 +43,11 @@ ListView {
     snapMode: ListView.SnapToItem
     boundsBehavior: Flickable.OvershootBounds
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
+
+    readonly property string strThdn: Z.tr("THDN:") + " "
+    readonly property real pointSize: height * 0.02
+    readonly property int thdnToHorizontalCenterOffset: 60 // chart's legend has fixed distance
+
     ScrollBar.vertical: ScrollBar {
         policy: ScrollBar.AlwaysOn
         snapMode: ScrollBar.SnapOnRelease
@@ -76,28 +82,26 @@ ListView {
         height: pinchArea.pinchScale * root.height/3
         width: root.width - scrollbarWidth
         y: index*height
-        readonly property string strThdn: Z.tr("THDN:") + " "
-        readonly property int thdnToHorizontalCenterOffset: 60 // chart's legend has fixed distance
         Text {
             id: thdnTextU
             anchors.left: parent.left
-            anchors.leftMargin: chartItem.thdnToHorizontalCenterOffset
+            anchors.leftMargin: thdnToHorizontalCenterOffset
             //index starts with 1
             readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
-            font.pointSize: root.height/50
+            font.pointSize: pointSize
             color: GC.currentColorTable[leftChannels[index]]
         }
         Text {
             id: thdnTextI
             anchors.right: parent.right
-            anchors.rightMargin: chartItem.thdnToHorizontalCenterOffset
+            anchors.rightMargin: thdnToHorizontalCenterOffset
             //index starts with 1
             readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
-            font.pointSize: root.height/50
+            font.pointSize: pointSize
             color: GC.currentColorTable[rightChannels[index]]
         }
 
