@@ -15,6 +15,7 @@ ListView {
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
     readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
     readonly property int fftCount: GC.showAuxPhases ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(6, ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount);
+    readonly property int scrollbarWidth: root.contentHeight > root.height ? 8 : 0
     //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
     readonly property var leftChannels: {
         var retVal = [];
@@ -42,11 +43,11 @@ ListView {
     boundsBehavior: Flickable.OvershootBounds
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
     ScrollBar.vertical: ScrollBar {
-        policy: root.contentHeight > root.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        policy: ScrollBar.AlwaysOn
         snapMode: ScrollBar.SnapOnRelease
         stepSize: 3 / (GC.fftChartsPinchScale * (root.count-1))
         size: root.visibleArea.heightRatio
-        width: 8
+        width: scrollbarWidth
     }
 
     PinchArea {
@@ -71,12 +72,16 @@ ListView {
 
     model: Math.ceil(fftCount/2)
     delegate: Item {
+        id: chartItem
         height: pinchArea.pinchScale * root.height/3
-        width: root.width-8
+        width: root.width - scrollbarWidth
         y: index*height
         readonly property string strThdn: Z.tr("THDN:") + " "
+        readonly property int thdnToHorizontalCenterOffset: 60 // chart's legend has fixed distance
         Text {
             id: thdnTextU
+            anchors.left: parent.left
+            anchors.leftMargin: chartItem.thdnToHorizontalCenterOffset
             //index starts with 1
             readonly property string componentName: String("ACT_THDN%1").arg(leftChannels[index]+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
@@ -86,12 +91,12 @@ ListView {
         }
         Text {
             id: thdnTextI
+            anchors.right: parent.right
+            anchors.rightMargin: chartItem.thdnToHorizontalCenterOffset
             //index starts with 1
             readonly property string componentName: String("ACT_THDN%1").arg(rightChannels[index]+1);
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
-            anchors.right: parent.right
-            anchors.rightMargin: 8
             font.pointSize: root.height/50
             color: GC.currentColorTable[rightChannels[index]]
         }
