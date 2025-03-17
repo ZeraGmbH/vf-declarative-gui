@@ -50,7 +50,7 @@ Rectangle {
     Popup {
         id: settingsPopup
         x: 0; y: 0
-        width: columnWidth * 3.75
+        width: root.width * 0.55
         readonly property real heightMult: 1.25
         readonly property bool hasAux: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
         readonly property int settingsRowCount: 2 + (hasAux ? 1 : 0)
@@ -80,7 +80,7 @@ Rectangle {
                 height: rowHeight * settingsPopup.heightMult
                 sourceComponent: ZCheckBox {
                     anchors.fill: parent
-                    text: Z.tr("Show AUX phase values")
+                    text: "<b>" + Z.tr("Show AUX phase values") + "</b>"
                     checked: GC.showAuxPhases
                     onCheckedChanged: SlwMachSettingsHelper.startAuxPhaseChange(checked)
                 }
