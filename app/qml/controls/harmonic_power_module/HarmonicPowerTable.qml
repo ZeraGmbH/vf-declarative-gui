@@ -12,6 +12,7 @@ import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
 import ".."
+import "../settings"
 
 Item {
     id: root
@@ -39,22 +40,17 @@ Item {
         font.pointSize: root.rowHeight*0.45
         onClicked: settingsPopup.open()
     }
-    Popup {
+    InViewSettingsPopup {
         id: settingsPopup
-        x: 0; y: 0
-        width: firstColumnWidth + 4.5 * columnWidth
-        readonly property real heightMult: 1.25
-        readonly property int settingsRowCount: 1
-        height: rowHeight * (settingsRowCount + 1) * heightMult
-        verticalPadding: 0
-        horizontalPadding: 0
+        rowHeight: root.rowHeight
+        settingsRowCount: 1
         Column {
             anchors.topMargin: rowHeight/2
             anchors.fill: parent
             ZCheckBox {
-                text: Z.tr("Relative to fundamental")
+                text: "<b>" + Z.tr("Relative to fundamental") + "</b>"
                 width: settingsPopup.width
-                height: rowHeight * settingsPopup.heightMult
+                height: settingsPopup.inPopupRowHeight
                 checked: GC.showFftTableAsRelative
                 onCheckedChanged: SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
             }
