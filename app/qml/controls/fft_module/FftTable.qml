@@ -11,6 +11,7 @@ import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
 import ".."
+import "../settings"
 
 Rectangle {
     id: root
@@ -47,37 +48,17 @@ Rectangle {
             onClicked: settingsPopup.open()
         }
     }
-    Popup {
+    InViewSettingsPopup {
         id: settingsPopup
-        x: 0; y: 0
-        width: root.width * 0.55
-        readonly property real heightMult: 1.25
-        readonly property bool hasAux: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
-        readonly property int settingsRowCount: 2 + (hasAux ? 1 : 0)
-        height: rowHeight * (settingsRowCount + 1) * heightMult
-        verticalPadding: 0
-        horizontalPadding: 0
+        rowHeight: root.rowHeight
+        settingsRowCount: 2 + (hasAux ? 1 : 0)
         Column {
             anchors.topMargin: rowHeight/2
             anchors.fill: parent
-            ZCheckBox {
-                text: Z.tr("Relative to fundamental")
-                width: settingsPopup.width
-                height: rowHeight * settingsPopup.heightMult
-                checked: GC.showFftTableAsRelative
-                onCheckedChanged: SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
-            }
-            ZCheckBox {
-                text: Z.tr("Show angles")
-                width: settingsPopup.width
-                height: rowHeight * settingsPopup.heightMult
-                checked: GC.showFftTableAngles
-                onCheckedChanged: SlwMachSettingsHelper.startShowFftAnglesChange(checked)
-            }
             Loader {
                 active: settingsPopup.hasAux
                 width: settingsPopup.width
-                height: rowHeight * settingsPopup.heightMult
+                height: settingsPopup.hasAux ? settingsPopup.inPopupRowHeight : 0
                 sourceComponent: ZCheckBox {
                     anchors.fill: parent
                     text: "<b>" + Z.tr("Show AUX phase values") + "</b>"
@@ -85,10 +66,24 @@ Rectangle {
                     onCheckedChanged: SlwMachSettingsHelper.startAuxPhaseChange(checked)
                 }
             }
+            ZCheckBox {
+                text: "<b>" + Z.tr("Relative to fundamental") + "</b>"
+                width: settingsPopup.width
+                height: settingsPopup.inPopupRowHeight
+                checked: GC.showFftTableAsRelative
+                onCheckedChanged: SlwMachSettingsHelper.startShowFftTableAsRelativeChange(checked)
+            }
+            ZCheckBox {
+                text: Z.tr("Show angles")
+                width: settingsPopup.width
+                height: settingsPopup.inPopupRowHeight
+                checked: GC.showFftTableAngles
+                onCheckedChanged: SlwMachSettingsHelper.startShowFftAnglesChange(checked)
+            }
             /*ZCheckBox {
                 text: Z.tr("Values as RMS")
                 width: settingsPopup.width
-                height: rowHeight * settingsPopup.heightMult
+                height: settingsPopup.inPopupRowHeight
             }*/
         }
     }

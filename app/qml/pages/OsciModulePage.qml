@@ -10,7 +10,10 @@ import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraLocale 1.0
 import ZeraTranslation 1.0
+import ZeraComponents 1.0
+import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
+import "../controls/settings"
 
 Item {
     id: root
@@ -26,7 +29,29 @@ Item {
         height: width * 0.4 + root.height * 0.05
         text: FAQ.fa_cogs
         font.pointSize: height * 0.325
-        //onClicked: settingsPopup.open()
+        visible: settingsPopup.settingsRowCount > 0
+        onClicked: settingsPopup.open()
+    }
+
+    InViewSettingsPopup {
+        id: settingsPopup
+        rowHeight: root.height * 0.075
+        settingsRowCount: (hasAux ? 1 : 0)
+        Column {
+            anchors.topMargin: settingsPopup.rowHeight/2
+            anchors.fill: parent
+            Loader {
+                active: settingsPopup.hasAux
+                width: settingsPopup.width
+                height: settingsPopup.hasAux ? settingsPopup.inPopupRowHeight : 0
+                sourceComponent: ZCheckBox {
+                    anchors.fill: parent
+                    text: "<b>" + Z.tr("Show AUX phase values") + "</b>"
+                    checked: GC.showAuxPhases
+                    onCheckedChanged: SlwMachSettingsHelper.startAuxPhaseChange(checked)
+                }
+            }
+        }
     }
 
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1");

@@ -7,7 +7,10 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraTranslation 1.0
+import ZeraComponents 1.0
+import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
+import "../settings"
 
 ListView {
     id: root
@@ -17,37 +20,14 @@ ListView {
     readonly property QtObject thdnModule: VeinEntity.getEntity("THDNModule1")
     readonly property int fftCount: GC.showAuxPhases ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(6, ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount);
     readonly property int scrollbarWidth: root.contentHeight > root.height ? 8 : 0
-    //convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
-    readonly property var leftChannels: {
-        var retVal = [];
-        for(var channelNum=0; channelNum<fftCount; ++channelNum) {
-            var unit = ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(channelNum+1)].Unit;
-            if(unit === "V") {//UL1..UL3 +UN
-                retVal.push(channelNum)
-            }
-        }
-        return retVal;
-    }
-    readonly property var rightChannels: {
-        var retVal = [];
-        for(var channelNum=0; channelNum<fftCount; ++channelNum) {
-            var unit = ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(channelNum+1)].Unit;
-            if(unit === "A") {//IL1..IL3 +IN
-                retVal.push(channelNum);
-            }
-        }
-        return retVal;
-    }
 
     clip: true
     snapMode: ListView.SnapToItem
     boundsBehavior: Flickable.OvershootBounds
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
 
-    readonly property string strThdn: Z.tr("THDN:") + " "
     readonly property real pointSize: height * 0.02
     readonly property int thdnToHorizontalCenterOffset: 60 // chart's legend has fixed distance
-
     Button {
         id: settingsButton
         z: 1
@@ -56,10 +36,32 @@ ListView {
         anchors.topMargin: -4
         anchors.bottomMargin: -4
         width: thdnToHorizontalCenterOffset - 15
-        height: width * 0.4 + root.height * 0.05
+        height: 18 + root.height * 0.05
         text: FAQ.fa_cogs
         font.pointSize: height * 0.325
-        //onClicked: settingsPopup.open()
+        visible: settingsPopup.settingsRowCount > 0
+        onClicked: settingsPopup.open()
+    }
+
+    InViewSettingsPopup {
+        id: settingsPopup
+        rowHeight: root.height * 0.075
+        settingsRowCount: (hasAux ? 1 : 0)
+        Column {
+            anchors.topMargin: settingsPopup.rowHeight/2
+            anchors.fill: parent
+            Loader {
+                active: settingsPopup.hasAux
+                width: settingsPopup.width
+                height: settingsPopup.hasAux ? settingsPopup.inPopupRowHeight : 0
+                sourceComponent: ZCheckBox {
+                    anchors.fill: parent
+                    text: "<b>" + Z.tr("Show AUX phase values") + "</b>"
+                    checked: GC.showAuxPhases
+                    onCheckedChanged: SlwMachSettingsHelper.startAuxPhaseChange(checked)
+                }
+            }
+        }
     }
 
     ScrollBar.vertical: ScrollBar {
@@ -91,6 +93,28 @@ ListView {
     }
 
     model: Math.ceil(fftCount/2)
+    // convention that channels are numbered by unit was broken, so do some $%!7 to get the right layout
+    readonly property var leftChannels: {
+        var retVal = [];
+        for(var channelNum=0; channelNum<fftCount; ++channelNum) {
+            var unit = ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(channelNum+1)].Unit;
+            if(unit === "V") {//UL1..UL3 +UN
+                retVal.push(channelNum)
+            }
+        }
+        return retVal;
+    }
+    readonly property var rightChannels: {
+        var retVal = [];
+        for(var channelNum=0; channelNum<fftCount; ++channelNum) {
+            var unit = ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(channelNum+1)].Unit;
+            if(unit === "A") {//IL1..IL3 +IN
+                retVal.push(channelNum);
+            }
+        }
+        return retVal;
+    }
+    readonly property string strThdn: Z.tr("THDN:") + " "
     delegate: Item {
         id: chartItem
         height: pinchArea.pinchScale * root.height/3
