@@ -243,30 +243,6 @@ SettingsView {
             }
         }
 
-        Loader {
-            active: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
-            height: root.rowHeight
-            width: root.rowWidth
-            sourceComponent: RowLayout {
-                anchors.fill: parent
-                Label {
-                    text: Z.tr("Show AUX phase values:")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ZCheckBox {
-                    Layout.fillHeight: true
-                    Component.onCompleted: checked = GC.showAuxPhases
-                    onCheckedChanged: {
-                        SlwMachSettingsHelper.startAuxPhaseChange(checked)
-                    }
-                }
-            }
-        }
-
         Item {
             height: ASWGL.isServer ? 0 : root.rowHeight
             width: root.rowWidth
