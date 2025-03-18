@@ -40,7 +40,7 @@
 
 static void registerQmlExt(QQmlApplicationEngine &engine)
 {
-    qInfo("Register QML external dependencies...");
+    qInfo("Register external QML dependencies...");
     ZeraTranslationPlugin::registerQml();
     FontAwesomeQml::registerFonts(true, true, false);
     FontAwesomeQml::registerFAQml(&engine);
@@ -49,7 +49,7 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
     ZeraVeinComponents::registerQml(engine);
     QwtCharts::registerQml();
     UiVectorgraphics::registerQml();
-    qInfo("External QML external dependencies registered.");
+    qInfo("External QML dependencies registered.");
 }
 
 JsonSettingsFile *getJsonSettingsFileInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -75,7 +75,7 @@ Vf_Recorder *getVfRecorderInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
 
 static void registerQmlInt()
 {
-    qInfo("Register QML internal dependencies...");
+    qInfo("Register internal QML dependencies...");
     QmlAppStarterForWebGL::registerQMLSingleton();
     QmlAppStarterForWebserver::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
@@ -100,7 +100,7 @@ static void registerQmlInt()
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/PowerModuleVeinGetter.qml"), "PowerModuleVeinGetter", 1, 0, "PwrModVeinGetter");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GraphFunctions.qml"), "GraphFunctions", 1, 0, "GraphFunctions");
     qmlRegisterSingletonType(QUrl("qrc:/qml/controls/settings/SlowMachineSettingsHelperSingleton.qml"), "SlowMachineSettingsHelper", 1, 0, "SlwMachSettingsHelper");
-    qInfo("External QML internal dependencies registered.");
+    qInfo("Internal QML dependencies registered.");
 }
 
 static void loadSettings(JsonSettingsFile *globalSettingsFile, bool webGlServer)
