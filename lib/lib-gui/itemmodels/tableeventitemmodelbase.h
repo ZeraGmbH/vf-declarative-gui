@@ -15,11 +15,13 @@ public:
     virtual void setLabelsAndUnits() = 0;
     virtual void setupMapping() = 0;
     void handleComponentChange(const VeinComponent::ComponentData *cData);
+    virtual void setShowAuxValues(bool on);
 
     static QList<TableEventItemModelBase*> getAllBaseModels();
     QHash<int, QHash<QString, QPoint>*> getValueMapping();
 protected:
     virtual void handleComponentChangeCoord(const VeinComponent::ComponentData *, const QPoint);
+    void resetValueMapping();
 
     QHash<int, QHash<QString, QPoint>*> m_valueMapping;
     ZeraTranslation *m_translation = nullptr;

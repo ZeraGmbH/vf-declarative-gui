@@ -11,7 +11,7 @@ import AppStarterForWebGLSingleton 1.0
 import AppStarterForWebserverSingleton 1.0
 import ZeraComponentsConfig 1.0
 import ZeraLocale 1.0
-
+import TableEventDistributor 1.0
 
 Item {
     id: globalConfig
@@ -704,6 +704,7 @@ Item {
     Component.onCompleted: {
         ZCC.standardTextHorizMargin = Qt.binding(function() { return globalConfig.standardTextHorizMargin })
         ZCC.standardTextBottomMargin = Qt.binding(function() { return globalConfig.standardTextBottomMargin })
+        ZGL.showAuxValues = Qt.binding(function() { return globalConfig.showAuxPhases })
         setLocale(Settings.getOption("locale", "en_GB"), false)
         if(!ASWGL.isServer && webRemoteOn ) {
             ASWGL.running = true

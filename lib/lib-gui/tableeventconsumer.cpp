@@ -27,6 +27,8 @@ TableEventConsumer::TableEventConsumer(GlueLogicPropertyMap *propertyMap) :
     m_harmonicPowerTableDataRelative(new HarmonicPowerTableModel(1, 1, nullptr)) //dynamic size
 {
     QObject::connect(m_translation, &ZeraTranslation::sigLanguageChanged, this, [this](){setLabelsAndUnits();});
+    connect(propertyMap, &GlueLogicPropertyMap::sigShowAuxChanged,
+            this, &TableEventConsumer::handleShowAuxChanged);
 
     for(const auto &item : qAsConst(m_osciValueModels))
         item.m_model->setupMapping();
@@ -124,6 +126,18 @@ void TableEventConsumer::handleComponentChange(const VeinComponent::ComponentDat
     default:
         break;
     }
+}
+
+void TableEventConsumer::propagateShowAuxToModels()
+{
+    for(TableEventItemModelBase* actValuesItemModel : m_sessionSpecificActualValueModels)
+        actValuesItemModel->setShowAuxValues(m_showAuxValues);
+}
+
+void TableEventConsumer::handleShowAuxChanged()
+{
+    m_showAuxValues  = m_propertyMap->getShowAuxValues();
+    propagateShowAuxToModels();
 }
 
 void TableEventConsumer::handleDftValue(const VeinComponent::ComponentData *cData)
@@ -295,6 +309,7 @@ void TableEventConsumer::createActualValueModels()
                            << new BurdenModelU
                            << new BurdenModelI;
     }
+    propagateShowAuxToModels();
 }
 
 void TableEventConsumer::cleanupActualValueModels()

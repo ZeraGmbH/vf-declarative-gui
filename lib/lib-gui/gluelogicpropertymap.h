@@ -18,6 +18,12 @@ public:
     static void setStaticInstance(GlueLogicPropertyMap *t_instance);
     static QObject *getStaticInstance(QQmlEngine *t_engine, QJSEngine *t_scriptEngine);
 
+    Q_PROPERTY(bool showAuxValues READ getShowAuxValues WRITE setShowAuxValues NOTIFY sigShowAuxChanged FINAL)
+    void setShowAuxValues(bool on);
+    bool getShowAuxValues() const;
+signals:
+    void sigShowAuxChanged();
+
 protected:
     /**
    * @brief Intercepts all value changes coming from the qml side and blocks them
@@ -27,6 +33,7 @@ protected:
     QVariant updateValue(const QString &t_key, const QVariant &t_newValue) override;
 
 private:
+    bool m_withAuxColumsInAutoScale = false;
     static GlueLogicPropertyMap *s_instance;
 };
 

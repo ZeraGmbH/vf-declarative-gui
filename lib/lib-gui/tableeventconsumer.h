@@ -15,6 +15,9 @@ public:
 
     void handleComponentChange(const VeinComponent::ComponentData *cData) override;
 
+private slots:
+    void handleShowAuxChanged();
+
 private:
     void setupFftMappings();
     void setAngleUI(int systemNumber);
@@ -33,10 +36,12 @@ private:
     static double avoidDivisionByZero(double val);
     void sessionNameReceived(QString sessionName);
     void onSessionChange();
+    void propagateShowAuxToModels();
 
     GlueLogicPropertyMap *m_propertyMap;
     ZeraTranslation *m_translation = nullptr;
     QString m_currentSessionName;
+    bool m_showAuxValues = false;
 
     QList<TableEventItemModelBase*> m_sessionSpecificActualValueModels;
 

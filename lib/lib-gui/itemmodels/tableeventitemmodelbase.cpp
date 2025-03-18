@@ -12,9 +12,7 @@ TableEventItemModelBase::TableEventItemModelBase(int t_rows, int t_columns) :
 
 TableEventItemModelBase::~TableEventItemModelBase()
 {
-    for(auto point : qAsConst(m_valueMapping)) {
-        delete point;
-    }
+    resetValueMapping();
     m_setAllBaseModels.remove(this);
 }
 
@@ -30,9 +28,21 @@ void TableEventItemModelBase::handleComponentChange(const VeinComponent::Compone
     }
 }
 
+void TableEventItemModelBase::setShowAuxValues(bool on)
+{
+    Q_UNUSED(on)
+}
+
 void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
 {
     m_autoScaleRows.handleComponentChangeCoord(cData, valueCoordiates);
+}
+
+void TableEventItemModelBase::resetValueMapping()
+{
+    for(auto point : qAsConst(m_valueMapping))
+        delete point;
+    m_valueMapping.clear();
 }
 
 QList<TableEventItemModelBase *> TableEventItemModelBase::getAllBaseModels()

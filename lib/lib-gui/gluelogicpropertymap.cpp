@@ -19,6 +19,19 @@ QObject *GlueLogicPropertyMap::getStaticInstance(QQmlEngine *t_engine, QJSEngine
     return s_instance;
 }
 
+void GlueLogicPropertyMap::setShowAuxValues(bool on)
+{
+    if(m_withAuxColumsInAutoScale != on) {
+        m_withAuxColumsInAutoScale = on;
+        emit sigShowAuxChanged();
+    }
+}
+
+bool GlueLogicPropertyMap::getShowAuxValues() const
+{
+    return m_withAuxColumsInAutoScale;
+}
+
 QVariant GlueLogicPropertyMap::updateValue(const QString &t_key, const QVariant &t_newValue)
 {
     Q_UNUSED(t_newValue)
