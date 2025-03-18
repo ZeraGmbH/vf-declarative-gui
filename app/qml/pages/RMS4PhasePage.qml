@@ -17,8 +17,8 @@ Item {
     readonly property bool displayAuxColumn: channelCount > 6
     readonly property int row1stHeight: Math.floor(height/8)
     readonly property int rowHeight: Math.floor((height-row1stHeight)/4)
-    readonly property int columnWidth1st: pixelSize * 2.3
-    readonly property int columnWidthLast: pixelSize * 1.3
+    readonly property int columnWidth1st: pixelSize * 2.6
+    readonly property int columnWidthLast: pixelSize * 1.8
     readonly property int columnWidth: (width-(columnWidth1st+columnWidthLast))/(channelCount/2)
     readonly property int pixelSize: (displayAuxColumn ? rowHeight*0.36 : rowHeight*0.45)
 
