@@ -29,8 +29,8 @@ private:
     void createActualValueModels();
     void cleanupActualValueModels();
     void distributeAngleValue(double vectorAngle, const VeinComponent::ComponentData *cData);
-    double calcVectorLength(double re, double im);
-    double avoidDivisionByZero(double val);
+    static double calcVectorLength(double re, double im);
+    static double avoidDivisionByZero(double val);
     void sessionNameReceived(QString sessionName);
     void onSessionChange();
 
