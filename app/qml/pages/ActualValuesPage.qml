@@ -11,7 +11,7 @@ import "../controls/actual_values"
 
 Rectangle {
     id: root
-    readonly property QtObject model: ZGL.ActualValueModel
+    readonly property QtObject model: ZGL.ActualValueModelWithAux
     color: Material.backgroundColor
     ListView {
         anchors.fill: parent

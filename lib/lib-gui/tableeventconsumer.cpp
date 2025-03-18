@@ -1,5 +1,4 @@
 #include "tableeventconsumer.h"
-#include "actualvaluemodel.h"
 #include "actualvaluemodelwithaux.h"
 #include "actualvalueemobacmodel.h"
 #include "actualvalueemobdcmodel.h"
@@ -292,7 +291,6 @@ void TableEventConsumer::createActualValueModels()
     }
     else {
         m_sessionSpecificActualValueModels = QList<TableEventItemModelBase*>()
-                           << new ActualValueModel
                            << new ActualValueModelWithAux
                            << new BurdenModelU
                            << new BurdenModelI;

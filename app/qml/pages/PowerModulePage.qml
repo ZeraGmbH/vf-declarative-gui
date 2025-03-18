@@ -25,7 +25,7 @@ Item {
 
     SortFilterProxyModel {
         id: filteredActualValueModel
-        sourceModel: ZGL.ActualValueModel
+        sourceModel: ZGL.ActualValueModelWithAux
         filters: [
             AnyOf {
                 RegExpFilter {
