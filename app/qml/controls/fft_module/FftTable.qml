@@ -34,7 +34,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         width: (columnWidth * 0.5) - vBar.width
-        height: rowHeight //+ 10 // Where do magic 10 come from?
+        height: rowHeight
         // hide item below
         z: 1
         color: Material.backgroundColor
