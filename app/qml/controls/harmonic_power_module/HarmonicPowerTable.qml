@@ -42,7 +42,6 @@ Item {
     }
     InViewSettingsPopup {
         id: settingsPopup
-        rowHeight: root.rowHeight
         settingsRowCount: 1
         Column {
             anchors.topMargin: rowHeight/2

@@ -3,10 +3,10 @@ import QtQuick.Controls 2.0
 import ModuleIntrospection 1.0
 
 Popup {
-    // Properies to set
-    property real rowHeight
+    // Property to set
     property real settingsRowCount
 
+    readonly property real rowHeight: parent.height * 0.075
     readonly property bool hasAux: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount > 6
 
     x: 0; y: 0

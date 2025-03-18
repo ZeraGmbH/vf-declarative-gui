@@ -50,7 +50,6 @@ Rectangle {
     }
     InViewSettingsPopup {
         id: settingsPopup
-        rowHeight: root.rowHeight
         settingsRowCount: 2 + (hasAux ? 1 : 0)
         Column {
             anchors.topMargin: rowHeight/2
