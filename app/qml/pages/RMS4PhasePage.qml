@@ -60,7 +60,7 @@ Item {
 
     SortFilterProxyModel {
         id: filteredActualValueModel
-        sourceModel: displayAuxColumn ? ZGL.ActualValueModelWithAux : ZGL.ActualValueModel
+        sourceModel: ZGL.ActualValueModelWithAux
         filters: [
             RegExpFilter {
                 roleName: "Name"
