@@ -7,20 +7,55 @@ import FunctionTools 1.0
 import TableEventDistributor 1.0
 import SortFilterProxyModel 0.2
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import ZeraTranslation  1.0
+import FontAwesomeQml 1.0
 import "../controls"
+import "../controls/settings"
 
 Item {
     id: root
 
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount : Math.min(ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount, 6)
     readonly property bool displayAuxColumn: channelCount > 6
-    readonly property int row1stHeight: Math.floor(height/8)
-    readonly property int rowHeight: Math.floor((height-row1stHeight)/4)
-    readonly property int columnWidth1st: pixelSize * 2.6
-    readonly property int columnWidthLast: pixelSize * 1.8
-    readonly property int columnWidth: (width-(columnWidth1st+columnWidthLast))/(channelCount/2)
-    readonly property int pixelSize: (displayAuxColumn ? rowHeight*0.36 : rowHeight*0.45)
+    readonly property real safeHeight: height > 0 ? height : 10
+    readonly property real row1stHeight: safeHeight * 0.125
+    readonly property real rowHeight: (safeHeight-row1stHeight) / 4
+    readonly property real columnWidth1st: pixelSize * 2.35
+    readonly property real columnWidthLast: pixelSize * 1.8
+    readonly property real columnWidth: (width-(columnWidth1st+columnWidthLast))/(channelCount/2)
+    readonly property real pixelSize: (displayAuxColumn ? rowHeight*0.36 : rowHeight*0.42)
+
+    Rectangle {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        width: columnWidth1st
+        height: row1stHeight
+        // hide item below
+        z: 1
+        color: Material.backgroundColor
+        Button {
+            id: settingsButton
+            anchors.fill: parent
+            anchors.topMargin: -4
+            anchors.bottomMargin: -4
+            text: FAQ.fa_cogs
+            font.pointSize: row1stHeight*0.45
+            onClicked: settingsPopup.open()
+        }
+    }
+    InViewSettingsPopup {
+        id: settingsPopup
+        settingsRowCount: (hasAux ? 1 : 0)
+        Column {
+            anchors.topMargin: settingsPopup.rowHeight/2
+            anchors.fill: parent
+            InViewSettingsCheckShowAux {
+                width: settingsPopup.width
+                enabledHeight: settingsPopup.inPopupRowHeight
+            }
+        }
+    }
 
     SortFilterProxyModel {
         id: filteredActualValueModel
@@ -43,18 +78,18 @@ Item {
             delegate: Component {
                 Row {
                     id: row
-                    height: index === 0 ? root.row1stHeight : root.rowHeight
+                    height: index === 0 ? row1stHeight : rowHeight
                     readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
                     readonly property string rowColor: index === 0 ? GC.tableShadeColor : Material.backgroundColor
                     GridItem {
-                        width: root.columnWidth1st
+                        width: columnWidth1st
                         height: parent.height
                         color: GC.tableShadeColor
                         text: Name!==undefined ? Name : ""
                         font.pixelSize: root.pixelSize
                     }
                     GridItem {
-                        width: root.columnWidth
+                        width: columnWidth
                         height: parent.height
                         color: row.rowColor
                         text: FT.formatNumberForScaledValues(L1)
@@ -62,7 +97,7 @@ Item {
                         font.pixelSize: root.pixelSize
                     }
                     GridItem {
-                        width: root.columnWidth
+                        width: columnWidth
                         height: parent.height
                         color: row.rowColor
                         text: FT.formatNumberForScaledValues(L2)
@@ -70,7 +105,7 @@ Item {
                         font.pixelSize: root.pixelSize
                     }
                     GridItem {
-                        width: root.columnWidth
+                        width: columnWidth
                         height: parent.height
                         color: row.rowColor
                         text: FT.formatNumberForScaledValues(L3)
@@ -78,7 +113,7 @@ Item {
                         font.pixelSize: root.pixelSize
                     }
                     GridItem {
-                        width: root.columnWidth
+                        width: columnWidth
                         height: parent.height
                         color: row.rowColor
                         text: displayAuxColumn ? FT.formatNumberForScaledValues(AUX) : ""
@@ -87,7 +122,7 @@ Item {
                         visible: displayAuxColumn
                     }
                     GridItem {
-                        width: root.columnWidthLast
+                        width: columnWidthLast
                         height: parent.height
                         color: row.rowColor
                         text: Unit ? Unit : ""
