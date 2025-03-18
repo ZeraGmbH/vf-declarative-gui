@@ -34,6 +34,7 @@ Item {
         // hide item below
         z: 1
         color: Material.backgroundColor
+        visible: settingsPopup.settingsRowCount > 0
         Button {
             id: settingsButton
             anchors.fill: parent
