@@ -50,16 +50,9 @@ ListView {
         Column {
             anchors.topMargin: settingsPopup.rowHeight/2
             anchors.fill: parent
-            Loader {
-                active: settingsPopup.hasAux
+            InViewSettingsCheckShowAux {
                 width: settingsPopup.width
-                height: settingsPopup.hasAux ? settingsPopup.inPopupRowHeight : 0
-                sourceComponent: ZCheckBox {
-                    anchors.fill: parent
-                    text: "<b>" + Z.tr("Show AUX phase values") + "</b>"
-                    checked: GC.showAuxPhases
-                    onCheckedChanged: SlwMachSettingsHelper.startAuxPhaseChange(checked)
-                }
+                enabledHeight: settingsPopup.inPopupRowHeight
             }
         }
     }
