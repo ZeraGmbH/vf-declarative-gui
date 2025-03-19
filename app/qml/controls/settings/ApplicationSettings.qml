@@ -45,6 +45,11 @@ SettingsView {
         width: root.width - x
     }
 
+    TimeSetterPopup {
+        id: timesetterPopup
+        pointSize: root.pointSize
+    }
+
     readonly property real comboWidth: 4.5
     model: ObjectModel {
         RowLayout {
@@ -84,6 +89,15 @@ SettingsView {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
                 horizontalAlignment: Label.AlignRight
+            }
+            Button {
+                id: openTimeSetPopupButton
+                text: "..."
+                font.pointSize: pointSize
+                Layout.leftMargin: root.rowHeight * 0.1
+                Layout.fillHeight: true
+                Layout.preferredWidth: root.rowHeight * 0.95
+                onClicked: timesetterPopup.open()
             }
         }
         RowLayout {
