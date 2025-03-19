@@ -58,9 +58,28 @@ Item {
         }
     }
 
+    /* Two SortFilterProxyModel is a performance expensive crap quick fix for
+       SortFilterProxyModel not reacting properly on model change at runtime.
+       Test case:
+       * Start application with AUX phases not displayed
+       * Move to RMS4PhasePage (Actual values / most right tab)
+       * Enable AUX -> AUX column empty / QML complaints for 'AUX' missing
+     */
     SortFilterProxyModel {
         id: filteredActualValueModel
-        sourceModel: displayAuxColumn ? ZGL.ActualValueModelWithAux : ZGL.ActualValueModel
+        sourceModel: ZGL.ActualValueModel
+        filters: [
+            RegExpFilter {
+                roleName: "Name"
+                // specify by Name-role (1st column) what to see (leading empty string for header row
+                pattern: "^$|^"+Z.tr("UPN")+"$|^"+Z.tr("I")+"$|^"+Z.tr("∠U")+"$|^"+Z.tr("∠I")+"$"
+                caseSensitivity: Qt.CaseInsensitive
+            }
+        ]
+    }
+    SortFilterProxyModel {
+        id: filteredActualValueModelAux
+        sourceModel: ZGL.ActualValueModelWithAux
         filters: [
             RegExpFilter {
                 roleName: "Name"
@@ -74,7 +93,7 @@ Item {
         anchors.fill: parent
         ListView {
             anchors.fill: parent
-            model: filteredActualValueModel
+            model: displayAuxColumn ? filteredActualValueModelAux : filteredActualValueModel
             boundsBehavior: Flickable.StopAtBounds
             delegate: Component {
                 Row {
