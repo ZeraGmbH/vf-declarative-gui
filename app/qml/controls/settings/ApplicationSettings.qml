@@ -66,6 +66,30 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
+                textFormat: Text.PlainText
+                text: Z.tr("Date/Time:")
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            Label {
+                id: currentTime
+                text: {
+                    let now = Z.dateTimeNow
+                    return Z.trDateTimeShort(now) + " (" + Z.trDateTimeTz(now) + ")"
+                }
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+                horizontalAlignment: Label.AlignRight
+            }
+        }
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
                 text: Z.tr("Language:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
