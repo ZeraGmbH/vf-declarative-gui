@@ -65,6 +65,7 @@ SettingsView {
             }
             TimezoneComboRow {
                 Layout.fillHeight: true
+                pointSize: root.pointSize
             }
         }
         RowLayout {
