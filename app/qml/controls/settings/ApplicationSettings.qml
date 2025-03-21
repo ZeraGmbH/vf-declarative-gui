@@ -56,39 +56,6 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
-                textFormat: Text.PlainText
-                text: Z.tr("Date/Time:")
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-            }
-            Label {
-                id: currentTime
-                text: {
-                    let now = Z.dateTimeNow
-                    return Z.trDateTimeShort(now) + " (" + Z.trDateTimeTz(now) + ")"
-                }
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-                horizontalAlignment: Label.AlignRight
-            }
-            Button {
-                id: openTimeSetPopupButton
-                text: "..."
-                font.pointSize: pointSize
-                Layout.leftMargin: root.rowHeight * 0.1
-                Layout.fillHeight: true
-                Layout.preferredWidth: root.rowHeight * 0.95
-                onClicked: timesetterPopup.open()
-            }
-        }
-        RowLayout {
-            height: root.rowHeight
-            width: root.rowWidth
-            Label {
                 text: Z.tr("Language:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
@@ -114,6 +81,39 @@ SettingsView {
                         GC.setLocale(selectedText, true)
                     }
                 }
+            }
+        }
+        RowLayout {
+            height: root.rowHeight
+            width: root.rowWidth
+            Label {
+                textFormat: Text.PlainText
+                text: Z.tr("Date/Time:")
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            Label {
+                id: currentTime
+                text: {
+                    let now = Z.dateTimeNow
+                    return Z.trDateTimeShort(now) + " (" + Z.trDateTimeTz(now) + ")"
+                }
+                font.pointSize: pointSize
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                verticalAlignment: Label.AlignVCenter
+                horizontalAlignment: Label.AlignLeft
+            }
+            Button {
+                id: openTimeSetPopupButton
+                text: "..."
+                font.pointSize: pointSize
+                Layout.leftMargin: root.rowHeight * 0.1
+                Layout.fillHeight: true
+                Layout.preferredWidth: root.rowHeight * 0.95
+                onClicked: timesetterPopup.open()
             }
         }
         Item {
