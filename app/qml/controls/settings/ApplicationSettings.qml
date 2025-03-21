@@ -57,22 +57,6 @@ SettingsView {
             width: root.rowWidth
             Label {
                 textFormat: Text.PlainText
-                text: Z.tr("Timezone:")
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-            }
-            TimezoneComboRow {
-                Layout.fillHeight: true
-                pointSize: root.pointSize
-            }
-        }
-        RowLayout {
-            height: root.rowHeight
-            width: root.rowWidth
-            Label {
-                textFormat: Text.PlainText
                 text: Z.tr("Date/Time:")
                 font.pointSize: pointSize
                 Layout.fillWidth: true
