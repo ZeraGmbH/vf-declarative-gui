@@ -14,14 +14,15 @@ import ZeraComponents 1.0
 import anmsettings 1.0
 import ZeraLocale 1.0
 import SlowMachineSettingsHelper 1.0
+import FontAwesomeQml 1.0
 
 SettingsView {
     id: root
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     readonly property real safeHeight: height > 0.0 ? height : 10
-    rowHeight: safeHeight / 8.1
-    readonly property real pointSize: rowHeight * 0.34
+    rowHeight: safeHeight / 7.1
+    readonly property real pointSize: rowHeight * 0.275
 
     ColorPicker {
         id: colorPicker
@@ -90,7 +91,7 @@ SettingsView {
                 textFormat: Text.PlainText
                 text: Z.tr("Date/Time:")
                 font.pointSize: pointSize
-                Layout.fillWidth: true
+                Layout.rightMargin: pointSize*2
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
@@ -108,11 +109,11 @@ SettingsView {
             }
             Button {
                 id: openTimeSetPopupButton
-                text: "..."
-                font.pointSize: pointSize
-                Layout.leftMargin: root.rowHeight * 0.1
+                text: FAQ.fa_cogs
+                font.pointSize: pointSize * 1.2
+                Layout.leftMargin: rowHeight * 0.1
                 Layout.fillHeight: true
-                Layout.preferredWidth: root.rowHeight * 0.95
+                Layout.preferredWidth: rowHeight * 0.95
                 onClicked: timesetterPopup.open()
             }
         }
@@ -228,17 +229,18 @@ SettingsView {
             }
             ListView {
                 clip: true
-                Layout.fillWidth: true
+                interactive: false
                 Layout.fillHeight: true
+                Layout.fillWidth: true
                 model: root.channelCount
                 orientation: ListView.Horizontal
                 layoutDirection: "RightToLeft"
                 spacing: 2
                 delegate: Button {
                     id: rButton
-                    width: root.rowHeight*1.08
-                    height: root.rowHeight
-                    font.pointSize: pointSize * 0.6
+                    width: pointSize * 3.4
+                    height: rowHeight
+                    font.pointSize: pointSize * 0.65
                     text: {
                         let workingIndex = root.channelCount-index
                         let colorLead = "<font color='" + SlwMachSettingsHelper.getCurrentColor(workingIndex) + "'>"
