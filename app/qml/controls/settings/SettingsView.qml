@@ -2,11 +2,12 @@ import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.14
+import QtQml.Models 2.14
 
 Rectangle {
     id: root
 
-    property VisualItemModel model;
+    property ObjectModel model;
     property int horizMargin: 0
     readonly property real safeHeight: height
     property real rowHeight: safeHeight/10
