@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import QtQml.Models 2.1
+import QtQml.Models 2.14
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
@@ -164,7 +164,7 @@ SettingsView {
     }
 
     readonly property bool showPll: VeinEntity.hasEntity("SampleModule1") && !VeinEntity.getEntity("SampleModule1").ACT_PllFixed
-    model: VisualItemModel {
+    model: ObjectModel {
         Loader {
             sourceComponent: swPllAutomatic
             active: showPll

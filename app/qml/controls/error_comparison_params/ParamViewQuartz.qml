@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.0
+import QtQml.Models 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
@@ -35,7 +36,7 @@ Item {
         anchors.fill: parent
         model: parameterModel
     }
-    VisualItemModel {
+    ObjectModel {
         id: parameterModel
 
         Rectangle {

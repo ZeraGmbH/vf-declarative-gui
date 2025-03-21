@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.0
+import QtQml.Models 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
@@ -124,7 +125,7 @@ BaseTabPage {
                 height: page.height*model.count/page.rowCount
                 anchors.bottom: parent.bottom
 
-                model: VisualItemModel {
+                model: ObjectModel {
                     VFLineEdit {
                         id: parNominalBurden
                         height: page.rowHeight;

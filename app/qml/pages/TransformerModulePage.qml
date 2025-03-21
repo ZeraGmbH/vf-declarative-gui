@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.0
+import QtQml.Models 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
@@ -27,7 +28,7 @@ Item {
         GC.currentGuiContext = GC.guiContextEnum.GUI_INSTRUMENT_TRANSFORMER
     }
 
-    // could be replaced by a VisualItemModel
+    // could be replaced by a ObjectModel
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
@@ -233,7 +234,7 @@ Item {
         height: root.rowHeight * model.count
         anchors.bottom: parent.bottom
 
-        model: VisualItemModel {
+        model: ObjectModel {
             Item {
                 width: root.width
                 height: root.rowHeight
