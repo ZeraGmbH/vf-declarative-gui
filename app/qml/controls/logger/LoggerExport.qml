@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import VeinEntity 1.0
 import ZeraTranslation 1.0
+import ZeraTranslationBackend 1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
@@ -462,7 +463,7 @@ Item {
                         border.color: "#88898c"
                         Text {
                             id: textTime
-                            text: Z.trDateTimeShort(model.time)
+                            text: ZTR.trDateTimeShort(model.time)
                             font.pointSize: tableTextPointSize
                             color: "white"
                             anchors.centerIn: parent

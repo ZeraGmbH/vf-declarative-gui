@@ -10,6 +10,7 @@ import AppStarterForWebGLSingleton 1.0
 import AppStarterForWebserverSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraTranslationBackend 1.0
 import ZeraComponents 1.0
 import anmsettings 1.0
 import ZeraLocale 1.0
@@ -66,8 +67,8 @@ SettingsView {
             }
             ZVisualComboBox {
                 id: localeCB
-                model: Z.localesModel
-                imageModel: Z.flagsModel
+                model: ZTR.localesModel
+                imageModel: ZTR.flagsModel
                 Layout.preferredHeight: root.rowHeight * 0.9
                 Layout.preferredWidth: Layout.preferredHeight * comboWidth
                 property string intermediate: ZLocale.localeName
@@ -98,8 +99,8 @@ SettingsView {
             Label {
                 id: currentTime
                 text: {
-                    let now = Z.dateTimeNow
-                    return Z.trDateTimeShort(now) + " (" + Z.trDateTimeTz(now) + ")"
+                    let now = ZTR.dateTimeNow
+                    return ZTR.trDateTimeShort(now) + " (" + ZTR.trDateTimeTz(now) + ")"
                 }
                 font.pointSize: pointSize
                 Layout.fillWidth: true
