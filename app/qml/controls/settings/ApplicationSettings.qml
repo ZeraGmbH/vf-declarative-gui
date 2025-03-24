@@ -54,6 +54,49 @@ SettingsView {
 
     readonly property real comboWidth: 4.5
     model: ObjectModel {
+        Item {
+            height: ASWGL.isServer ? 0: root.rowHeight
+            width: root.rowWidth
+            visible: !ASWGL.isServer
+            RowLayout {
+                anchors.fill: parent
+                Label {
+                    text: Z.tr("Display:")
+                    textFormat: Text.PlainText
+                    font.pointSize: pointSize
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    verticalAlignment: Label.AlignVCenter
+                }
+                ZComboBox {
+                    id: xsessionSelector
+                    arrayMode: true
+                    readonly property var rawModel: ModuleIntrospection.systemIntrospection.ComponentInfo.XSession.Validation.Data
+                    model: {
+                        let xSessionsDisplay = []
+                        for(let idx=0; idx<rawModel.length; ++idx) {
+                            let text = rawModel[idx]
+                            if(text === "Desktop")
+                                text = "Desktop (slow)"
+                            xSessionsDisplay.push(Z.tr(text))
+                        }
+                        return xSessionsDisplay
+                    }
+                    Layout.preferredHeight: root.rowHeight * 0.9
+                    Layout.preferredWidth: Layout.preferredHeight * comboWidth
+                    targetIndex: {
+                        for(let idx=0; idx<rawModel.length; ++idx)
+                            if(rawModel[idx] === VeinEntity.getEntity("_System").XSession)
+                                return idx
+                        return 0
+                    }
+                    onTargetIndexChanged: {
+                        let newSessionName = rawModel[targetIndex]
+                        VeinEntity.getEntity("_System").XSession = newSessionName
+                    }
+                }
+            }
+        }
         RowLayout {
             height: root.rowHeight
             width: root.rowWidth
@@ -116,49 +159,6 @@ SettingsView {
                 Layout.fillHeight: true
                 Layout.preferredWidth: rowHeight * 0.95
                 onClicked: timesetterPopup.open()
-            }
-        }
-        Item {
-            height: ASWGL.isServer ? 0: root.rowHeight
-            width: root.rowWidth
-            visible: !ASWGL.isServer
-            RowLayout {
-                anchors.fill: parent
-                Label {
-                    text: Z.tr("Display:")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ZComboBox {
-                    id: xsessionSelector
-                    arrayMode: true
-                    readonly property var rawModel: ModuleIntrospection.systemIntrospection.ComponentInfo.XSession.Validation.Data
-                    model: {
-                        let xSessionsDisplay = []
-                        for(let idx=0; idx<rawModel.length; ++idx) {
-                            let text = rawModel[idx]
-                            if(text === "Desktop")
-                                text = "Desktop (slow)"
-                            xSessionsDisplay.push(Z.tr(text))
-                        }
-                        return xSessionsDisplay
-                    }
-                    Layout.preferredHeight: root.rowHeight * 0.9
-                    Layout.preferredWidth: Layout.preferredHeight * comboWidth
-                    targetIndex: {
-                        for(let idx=0; idx<rawModel.length; ++idx)
-                            if(rawModel[idx] === VeinEntity.getEntity("_System").XSession)
-                                return idx
-                        return 0
-                    }
-                    onTargetIndexChanged: {
-                        let newSessionName = rawModel[targetIndex]
-                        VeinEntity.getEntity("_System").XSession = newSessionName
-                    }
-                }
             }
         }
         RowLayout {
