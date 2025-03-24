@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void startInstallation();
     QString searchForPackages(QString mountPath);
     QStringList orderPackageList(QStringList zupList);
+    QStringList removeNonMatchingLicenses(QStringList zupList);
     bool getUpdateOk() const;
     void setUpdateOk(bool ok);
     UpdateStatus getStatus() const;
@@ -34,6 +35,7 @@ private:
     std::unique_ptr<TaskContainerInterface> m_tasks;
     bool m_updateOk;
     UpdateStatus m_status = UpdateStatus::Invalid;
+    QString m_serialNumberFilePath = "/opt/zera/conf/serialnumber";
 signals:
     void sigUpdateOkChanged();
     void sigStatusChanged();

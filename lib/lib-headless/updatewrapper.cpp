@@ -39,10 +39,13 @@ void UpdateWrapper::startInstallation()
     TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
         QStringList unOrderedZupList = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
         QStringList orderedZupList = orderPackageList(unOrderedZupList);
-        for (auto &item : orderedZupList)
+        QStringList sanitizedList = removeNonMatchingLicenses(orderedZupList);
+        if(sanitizedList.empty())
+            return false;
+        for (auto &item : sanitizedList)
             item = m_pathToZups + "/" + item;
 
-        m_zupsToBeInstalled = orderedZupList;
+        m_zupsToBeInstalled = sanitizedList;
         return true;
     });
     m_tasks->addSub(std::move(accquirePackageList));
@@ -101,6 +104,28 @@ QStringList UpdateWrapper::orderPackageList(QStringList zupList)
         orderedZups.move(orderedZups.indexOf("com5003-mt310s2.zup"), orderedZups.size() - 1);
 
     return orderedZups;
+}
+
+QStringList UpdateWrapper::removeNonMatchingLicenses(QStringList zupList)
+{
+    QString serialNumber;
+    QStringList returnList = zupList;
+    QFile serialFile(m_serialNumberFilePath);
+    if (serialFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&serialFile);
+        serialNumber = in.readAll().trimmed();
+        serialFile.close();
+    }else{
+        qWarning("Could not read serial number!");
+        return QStringList();
+    }
+
+    for (auto &item : zupList)
+    {
+        if (item.contains("licenses") && !item.contains(serialNumber))
+            returnList.removeAll(item);
+    }
+    return returnList;
 }
 
 bool UpdateWrapper::getUpdateOk() const
