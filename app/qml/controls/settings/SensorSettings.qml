@@ -73,7 +73,11 @@ SettingsView {
                 }
                 entity: bleSensorEnt
                 controlPropertyName: "PAR_MacAddress"
-                inputMethodHints: Qt.ImhNoAutoUppercase
+                inputMethodHints: Qt.ImhDialableCharactersOnly
+                function activeFocusChange(actFocus) {
+                    if(actFocus)
+                        textField.selectAll()
+                }
                 Layout.fillHeight: true
                 pointSize: root.pointSize
                 Layout.preferredWidth: root.rowWidth/3.25
