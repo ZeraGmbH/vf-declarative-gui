@@ -9,6 +9,7 @@ import MeasChannelInfo 1.0
 
 Button {
     id: invertPhasesButton
+    property bool visibility: true
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
     readonly property var order: MeasChannelInfo.channelCountTotal === 8 ? [1,2,3,7,4,5,6,8] : [1,2,3,4,5,6]
     readonly property var phaseNamesInOrder: {
@@ -22,7 +23,10 @@ Button {
         let color = "white"
         for(var i = 1; i <= MeasChannelInfo.channelCountTotal; i++){
             if (rangeModule["PAR_InvertPhase%1".arg(i)] === 1) {
-                color = "darkorange"
+                if(visibility===true)
+                    color = "darkorange"
+                else
+                    color = "white"
                 break
             }
         }
@@ -30,6 +34,15 @@ Button {
     }
 
     text: "<font color=\"" + text_color + "\">" + Z.tr("Invert") + "</font>"
+
+    Timer{
+        id: timer
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: visibility = visibility === true ? false : true
+    }
+
 
     onClicked: popup.open()
 
