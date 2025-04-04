@@ -24,6 +24,8 @@ ListView {
 
     delegate: Item {
         id: delegateItem
+        property bool visibility: true
+        property string invertString: "! "
         readonly property int systemChannelNo: modelData // 1-based!!
         readonly property bool isGroupTrailer: systemChannelNo === groupTrailerIdx
         readonly property bool isTrailerOrNotInGroup: isGroupTrailer || !MeasChannelInfo.isGroupMember(systemChannelNo)
@@ -37,12 +39,26 @@ ListView {
         }
         height: localRoot.height
 
+        Timer{
+            id: timer
+            interval: 500
+            running: true
+            repeat: true
+            onTriggered:{
+                visibility = !visibility
+                if(visibility)
+                    invertString="! "
+                else
+                    invertString="  "
+                }
+            }
+
         Label {
             width: parent.width*0.5
             font.pointSize: smallPointSize
             anchors.verticalCenter: parent.verticalCenter
             readonly property var channelString: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
-            text: rangeModule["PAR_InvertPhase%1".arg(modelData)] === 1 ? "! " + channelString :  channelString
+            text: rangeModule["PAR_InvertPhase%1".arg(modelData)] === 1 ? invertString + channelString : channelString
             color: FT.getColorByIndex(modelData)
             font.bold: true
         }
