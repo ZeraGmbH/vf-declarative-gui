@@ -86,6 +86,9 @@ void QmlAppStarterForApi::startProcedure()
 
 void QmlAppStarterForApi::startApiProcess()
 {
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("ASPNETCORE_HTTPS_PORTS", "8083");
+    m_apiProcess.setProcessEnvironment(env);
 #ifndef QT_DEBUG
     m_apiProcess.start(m_apiBinaryPath + "VeinDevices");
 #endif
