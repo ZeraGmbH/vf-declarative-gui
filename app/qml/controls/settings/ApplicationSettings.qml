@@ -360,6 +360,50 @@ SettingsView {
                     Layout.rightMargin: parent.height * 0.1
                     verticalAlignment: Label.AlignVCenter
                 }
+                Rectangle {
+                    id: rectApiInfo
+                    opacity: ASAPI.running
+                    Layout.fillHeight: true;
+                    Layout.fillWidth: true;
+                    Layout.topMargin: parent.height * 0.1
+                    Layout.bottomMargin: Layout.topMargin
+                    color: Material.backgroundDimColor
+                    radius: 4
+
+                    InfoInterface { id: realNetworkListModelApi }
+                    readonly property bool isNetworkConnected: realNetworkListModelApi.entryCount > 0
+                    readonly property real textPointSize: pointSize * 0.85
+                    readonly property real textMarginHorizontal: parent.height / 6
+                    ListView {
+                        id: ipApi
+                        visible: rectApiInfo.isNetworkConnected
+                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
+                                  leftMargin: rectApiInfo.textMarginHorizontal;
+                                  rightMargin: rectApiInfo.textMarginHorizontal }
+                        boundsBehavior: Flickable.OvershootBounds
+                        orientation: ListView.Horizontal
+                        spacing: parent.height / 2
+                        model: realNetworkListModelApi
+                        delegate: Text {
+                            height: parent.height
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pointSize: rectApiInfo.textPointSize
+                            textFormat: Text.PlainText
+                            text: ipv4 + " : " + ASAPI.port
+                        }
+                    }
+                    Text {
+                        id: ipApiNotConnected
+                        visible: !rectApiInfo.isNetworkConnected
+                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
+                                  leftMargin: rectApiInfo.textMarginHorizontal;
+                                  rightMargin: rectApiInfo.textMarginHorizontal }
+                        verticalAlignment: Text.AlignVCenter
+                        text: Z.tr("Not connected")
+                        font.pointSize: rectApiInfo.textPointSize
+                    }
+                }
                 ZCheckBox {
                     id: apiOnOff
                     Layout.fillHeight: true

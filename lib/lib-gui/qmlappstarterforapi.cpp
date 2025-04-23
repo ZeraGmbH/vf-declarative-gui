@@ -91,7 +91,7 @@ void QmlAppStarterForApi::startApiProcess()
     m_apiProcess.setProcessEnvironment(env);
     m_apiProcess.setWorkingDirectory(m_apiBinaryPath);
 #ifndef QT_DEBUG
-    m_apiProcess.start(m_apiBinaryPath + "VeinDevices");
+    m_apiProcess.start("VeinDevices");
 #endif
     m_running = true;
     emit runningChanged();
