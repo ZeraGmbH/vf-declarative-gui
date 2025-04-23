@@ -8,6 +8,7 @@ import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
 import AppStarterForWebserverSingleton 1.0
+import AppStarterForApi 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraTranslationBackend 1.0
@@ -340,6 +341,31 @@ SettingsView {
                         if(userWantsOff)
                             GC.setWebRemoteOn(false)
                         ASWGL.running = checked
+                    }
+                }
+            }
+        }
+
+        Item {
+            height: root.rowHeight
+            width: root.rowWidth
+            visible: true
+            RowLayout {
+                anchors.fill: parent
+                Label {
+                    text: Z.tr("API-Access:")
+                    textFormat: Text.PlainText
+                    font.pointSize: pointSize
+                    Layout.fillHeight: true
+                    Layout.rightMargin: parent.height * 0.1
+                    verticalAlignment: Label.AlignVCenter
+                }
+                ZCheckBox {
+                    id: apiOnOff
+                    Layout.fillHeight: true
+                    checked: ASAPI.running
+                    onCheckedChanged: {
+                        ASAPI.running = checked
                     }
                 }
             }
