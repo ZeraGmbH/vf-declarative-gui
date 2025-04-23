@@ -409,6 +409,12 @@ SettingsView {
                     Layout.fillHeight: true
                     checked: ASAPI.running
                     onCheckedChanged: {
+                        let userWantsOn = !ASAPI.running && checked
+                        if(userWantsOn)
+                            GC.setRemoteApiOn(true)
+                        let userWantsOff = ASAPI.running && !checked
+                        if(userWantsOff)
+                            GC.setRemoteApiOn(false)
                         ASAPI.running = checked
                     }
                 }
