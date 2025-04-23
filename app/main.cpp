@@ -27,6 +27,7 @@
 #include "updatewrapper.h"
 #include "qmlappstarterforwebgl.h"
 #include "qmlappstarterforwebserver.h"
+#include "qmlappstarterforapi.h"
 #include "screencapture.h"
 #include "vfrecorderjsonhelper.h"
 #include "axisautoscaler.h"
@@ -78,6 +79,7 @@ static void registerQmlInt()
     qInfo("Register internal QML dependencies...");
     QmlAppStarterForWebGL::registerQMLSingleton();
     QmlAppStarterForWebserver::registerQMLSingleton();
+    QmlAppStarterForApi::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
     qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", getQmlFileIOInstance);
     qmlRegisterSingletonType<Vf_Recorder>("Vf_Recorder", 1, 0, "Vf_Recorder", getVfRecorderInstance);
