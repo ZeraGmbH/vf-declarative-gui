@@ -9,6 +9,7 @@ import ZeraTranslation 1.0
 import VeinEntity 1.0
 import AppStarterForWebGLSingleton 1.0
 import AppStarterForWebserverSingleton 1.0
+import AppStarterForApi 1.0
 import ZeraComponentsConfig 1.0
 import ZeraLocale 1.0
 
@@ -224,6 +225,14 @@ Item {
     function setWebRemoteOn(on) {
         webRemoteOn = on
         Settings.setOption("web_remote", on ? 1 : 0);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // remote API
+    property bool remoteApiOn: parseInt(Settings.getOption("remote_api", "0"))
+    function setRemoteApiOn(on) {
+        webRemoteOn = on
+        Settings.setOption("remote_api", on ? 1 : 0);
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -708,6 +717,9 @@ Item {
         if(!ASWGL.isServer && webRemoteOn ) {
             ASWGL.running = true
             ASWS.run = true
+        }
+        if(remoteApiOn) {
+            ASAPI.running = true
         }
     }
 }
