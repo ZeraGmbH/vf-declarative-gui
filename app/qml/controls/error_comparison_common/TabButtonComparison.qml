@@ -19,7 +19,7 @@ TabButton {
         height: tabHeight
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        Material.foreground: errMeasHelper.comparisonPass(entity) ? Material.White : Material.Red
+        Material.foreground: (errMeasHelper.comparisonPass(entity) || errMeasHelper.comparisonProgress(entity, tabButton.running)) ? Material.White : Material.Red
     }
     AnimationActivity {
         targetItem: tabButton
