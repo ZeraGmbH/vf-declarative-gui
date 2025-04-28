@@ -24,8 +24,18 @@ Item {
 
     function comparisonProgress(entity, show) {
         let ret = ""
+        let progress = 0
         if(show) {
-            let progress = parseInt(entity.ACT_Progress)
+            if(entity.hasComponent('ACT_Progress')) {
+                progress = parseInt(entity.ACT_Progress)
+            }
+            else {
+                if(entity.hasComponent('PAR_Targeted')) {
+                    if(entity.PAR_Targeted === 1) {
+                            progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
+                        }
+                    }
+            }
             let measCount = entity.PAR_MeasCount
             let continuous = entity.PAR_Continuous === 1
             if(measCount > 1 || continuous) {
