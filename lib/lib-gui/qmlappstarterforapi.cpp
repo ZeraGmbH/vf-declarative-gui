@@ -52,6 +52,7 @@ int QmlAppStarterForApi::getPort()
 
 void QmlAppStarterForApi::startProcedure()
 {
+#ifndef QT_DEBUG
     if(!QFile::exists(m_apiBinaryPath + "https.crt.pem") || !QFile::exists(m_apiBinaryPath + "https.prv.pem"))
     {
         QString hostname;
@@ -82,6 +83,7 @@ void QmlAppStarterForApi::startProcedure()
     }
     else
         emit initDone();
+#endif
 }
 
 void QmlAppStarterForApi::startApiProcess()
