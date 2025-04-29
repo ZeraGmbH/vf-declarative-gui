@@ -464,7 +464,7 @@ ApplicationWindow {
                 }
                 Label {
                     font.pointSize: pointSize
-                    text: Z.tr("Type: ") + authorizationPopup.pendingRequest.type
+                    text: Z.tr("Type: ") + authorizationPopup.pendingRequest.tokenType
                     horizontalAlignment: Text.AlignLeft
                     Layout.fillWidth: true
                     width: parent.width
@@ -490,7 +490,7 @@ ApplicationWindow {
             }
 
             Button {
-                text: Z.tr("Close")
+                text: Z.tr("Deny")
                 font.pointSize: pointSize
                 onClicked: authorizationPopup.close()
                 anchors {top: requestDialog.bottom; right: requestDialog.right }
