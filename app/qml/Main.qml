@@ -437,6 +437,7 @@ ApplicationWindow {
             height: parent.height * 0.65
             modal: true
             onPendingRequestChanged: {
+                // tbd do not open when pendingRequest empty ({})
                 if(GC.entityInitializationDone && initialized){
                     authorizationPopup.open()
                 }
@@ -503,8 +504,8 @@ ApplicationWindow {
                 text: Z.tr("Allow")
                 font.pointSize: pointSize
                 onClicked: {
-                    authorizationPopup.finishedDialog = true;
-                    authHandlerExecuter.finishRequest(true);
+                    VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
+                    authHandlerExecuter.finishRequest(true, authorizationPopup.pendingRequest);
                     authorizationPopup.close()
                 }
                 highlighted: true
