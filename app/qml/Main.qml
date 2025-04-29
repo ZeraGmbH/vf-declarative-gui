@@ -428,8 +428,9 @@ ApplicationWindow {
         Popup {
             id: authorizationPopup
 
-            property var pendingRequest: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").PAR_PendingRequest : ""
-            property bool initialized: true
+            property var pendingRequest: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").ACT_PendingRequest : ""
+            property bool finishedDialog: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished : false
+            property bool initialized: false
 
             anchors.centerIn: parent
             width: parent.width * 0.85
@@ -492,13 +493,20 @@ ApplicationWindow {
             Button {
                 text: Z.tr("Deny")
                 font.pointSize: pointSize
-                onClicked: authorizationPopup.close()
+                onClicked: {
+                    authorizationPopup.finishedDialog = true;
+                    authorizationPopup.close()
+                }
                 anchors {top: requestDialog.bottom; right: requestDialog.right }
             }
             Button {
                 text: Z.tr("Allow")
                 font.pointSize: pointSize
-                onClicked: authorizationPopup.close()
+                onClicked: {
+                    authorizationPopup.finishedDialog = true;
+                    authHandlerExecuter.finishRequest(true);
+                    authorizationPopup.close()
+                }
                 highlighted: true
                 anchors {top: requestDialog.bottom; left: requestDialog.left }
             }
