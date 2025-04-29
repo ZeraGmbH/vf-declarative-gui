@@ -27,15 +27,18 @@ QString AuthorizationRequestHandler::computeHashString(const QString &input)
     return formatted;
 }
 
-void AuthorizationRequestHandler::finishRequest(const bool &accepted, QVariant requestObject)
+void AuthorizationRequestHandler::finishRequest(const bool &accepted, QJsonObject requestObject)
 {
     if(accepted) {
-        appendToJsonFile(m_trustListPath, requestObject.toJsonObject());
+        appendToJsonFile(m_trustListPath, requestObject);
     }
 }
 
 bool AuthorizationRequestHandler::appendToJsonFile(const QString &filePath, const QJsonObject &newObject)
 {
+    // tbd: create file if not existing, do not append if already in there
+
+
     // 1. Read existing JSON array
     QFile file(filePath);
     if (!file.open(QIODevice::ReadWrite)) {
