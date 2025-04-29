@@ -16,6 +16,7 @@ import AccumulatorState 1.0
 import ZeraSettings 1.0
 import ScreenCapture 1.0
 import QmlFileIO 1.0
+import AuthorizationRequestHandler 1.0
 
 import "controls"
 import "helpers"
@@ -417,6 +418,89 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignHCenter
                     onClicked: unseccessfulWindow.close()
                 }
+            }
+        }
+
+        AuthorizationRequestHandler {
+            id: authHandlerExecuter
+        }
+
+        Popup {
+            id: authorizationPopup
+
+            property var pendingRequest: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").PAR_PendingRequest : ""
+            property bool initialized: true
+
+            anchors.centerIn: parent
+            width: parent.width * 0.85
+            height: parent.height * 0.65
+            modal: true
+            onPendingRequestChanged: {
+                if(GC.entityInitializationDone && initialized){
+                    authorizationPopup.open()
+                }
+                else if(GC.entityInitializationDone)
+                    initialized = true
+            }
+            ColumnLayout {
+                id: requestDialog
+                width: parent.width
+                height: parent.height * 0.75
+                Label {
+                    font.pointSize: pointSize
+                    text: Z.tr("New Request")
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.fillWidth: true
+                    width: parent.width
+                    wrapMode: Text.Wrap
+                }
+                Label {
+                    font.pointSize: pointSize
+                    text: Z.tr("Name: ") + authorizationPopup.pendingRequest.name
+                    horizontalAlignment: Text.AlignLeft
+                    Layout.fillWidth: true
+                    width: parent.width
+                    wrapMode: Text.Wrap
+                }
+                Label {
+                    font.pointSize: pointSize
+                    text: Z.tr("Type: ") + authorizationPopup.pendingRequest.type
+                    horizontalAlignment: Text.AlignLeft
+                    Layout.fillWidth: true
+                    width: parent.width
+                    wrapMode: Text.Wrap
+                }
+                Label {
+                    font.pointSize: pointSize
+                    text: Z.tr("Fingerprint: ")
+                    horizontalAlignment: Text.AlignLeft
+                    Layout.fillWidth: true
+                    width: parent.width
+                    wrapMode: Text.Wrap
+                }
+                Label {
+                    font.pointSize: pointSize
+                    text: authHandlerExecuter.computeHashString(authorizationPopup.pendingRequest.token)
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.fillWidth: true
+                    width: parent.width
+                    wrapMode: Text.Wrap
+                }
+
+            }
+
+            Button {
+                text: Z.tr("Close")
+                font.pointSize: pointSize
+                onClicked: authorizationPopup.close()
+                anchors {top: requestDialog.bottom; right: requestDialog.right }
+            }
+            Button {
+                text: Z.tr("Allow")
+                font.pointSize: pointSize
+                onClicked: authorizationPopup.close()
+                highlighted: true
+                anchors {top: requestDialog.bottom; left: requestDialog.left }
             }
         }
     }

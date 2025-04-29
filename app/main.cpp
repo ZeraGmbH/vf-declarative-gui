@@ -29,6 +29,7 @@
 #include "qmlappstarterforwebserver.h"
 #include "qmlappstarterforapi.h"
 #include "screencapture.h"
+#include "authorizationrequesthandler.h"
 #include "vfrecorderjsonhelper.h"
 #include "axisautoscaler.h"
 #include "singlevaluescaler.h"
@@ -85,6 +86,7 @@ static void registerQmlInt()
     qmlRegisterSingletonType<Vf_Recorder>("Vf_Recorder", 1, 0, "Vf_Recorder", getVfRecorderInstance);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
+    qmlRegisterType<AuthorizationRequestHandler>("AuthorizationRequestHandler", 1, 0, "AuthorizationRequestHandler");
     qmlRegisterType<VfRecorderJsonHelper>("VfRecorderJsonHelper", 1, 0, "VfRecorderJsonHelper");
     qmlRegisterType<AxisAutoScaler>("AxisAutoScaler", 1, 0, "AxisAutoScaler");
     qmlRegisterType<SingleValueScaler>("SingleValueScaler", 1, 0, "SingleValueScaler");
