@@ -426,6 +426,7 @@ ApplicationWindow {
         }
 
         Popup {
+            // tbd: make this own component, to get this huge block out of here?
             id: authorizationPopup
 
             property var pendingRequest: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").ACT_PendingRequest : ""
@@ -437,7 +438,7 @@ ApplicationWindow {
             height: parent.height * 0.65
             modal: true
             onPendingRequestChanged: {
-                if(GC.entityInitializationDone && initialized && Object.keys(authorizationPopup.pendingRequest).length != 0){
+                if(initialized && Object.keys(authorizationPopup.pendingRequest).length != 0){
                     authorizationPopup.open()
                 }
                 else if(GC.entityInitializationDone && !initialized)
