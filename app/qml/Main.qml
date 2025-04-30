@@ -437,11 +437,10 @@ ApplicationWindow {
             height: parent.height * 0.65
             modal: true
             onPendingRequestChanged: {
-                // tbd do not open when pendingRequest empty ({})
-                if(GC.entityInitializationDone && initialized){
+                if(GC.entityInitializationDone && initialized && Object.keys(authorizationPopup.pendingRequest).length != 0){
                     authorizationPopup.open()
                 }
-                else if(GC.entityInitializationDone)
+                else if(GC.entityInitializationDone && !initialized)
                     initialized = true
             }
             ColumnLayout {
@@ -495,7 +494,7 @@ ApplicationWindow {
                 text: Z.tr("Deny")
                 font.pointSize: pointSize
                 onClicked: {
-                    authorizationPopup.finishedDialog = true;
+                    VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
                     authorizationPopup.close()
                 }
                 anchors {top: requestDialog.bottom; right: requestDialog.right }
