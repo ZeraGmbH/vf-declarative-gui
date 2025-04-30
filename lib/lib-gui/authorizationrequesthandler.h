@@ -16,6 +16,7 @@ public:
 
 private:
     bool appendToJsonFile(const QString& filePath, const QJsonObject &newObject);
+    bool filePreparation(const QString& filePath);
     const QString m_trustListPath = "/opt/websam-vein-api/authorize/trustlist.json";
 };
 

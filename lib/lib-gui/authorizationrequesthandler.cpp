@@ -36,13 +36,13 @@ void AuthorizationRequestHandler::finishRequest(const bool &accepted, QJsonObjec
 
 bool AuthorizationRequestHandler::appendToJsonFile(const QString &filePath, const QJsonObject &newObject)
 {
-    // tbd: create file if not existing, do not append if already in there
+    if(!filePreparation(filePath))
+        qWarning("Error in file preparation");
 
-
-    // 1. Read existing JSON array
+    // Read existing JSON array
     QFile file(filePath);
     if (!file.open(QIODevice::ReadWrite)) {
-        qWarning() << "Failed to open file:" << file.errorString();
+        qWarning("Error reading trust file.");
         return false;
     }
 
@@ -55,7 +55,7 @@ bool AuthorizationRequestHandler::appendToJsonFile(const QString &filePath, cons
         return false;
     }
 
-    // 2. Get or create array
+    // Get or create array
     QJsonArray array;
     if (doc.isArray()) {
         array = doc.array();
@@ -64,15 +64,32 @@ bool AuthorizationRequestHandler::appendToJsonFile(const QString &filePath, cons
         qWarning() << "File does not contain a JSON array";
         return false;
     }
-
-    // 3. Append new object
     array.append(newObject);
 
-    // 4. Write back to file
+    // Write back to file
     file.resize(0); // Clear existing content
     doc.setArray(array);
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
 
+    return true;
+}
+
+bool AuthorizationRequestHandler::filePreparation(const QString &filePath)
+{
+    QFile file(filePath);
+    if(!file.exists()) {
+        qInfo("Trust file does not exist. Try to create it.");
+        if (file.open(QIODevice::ReadWrite)) {
+            QTextStream out(&file);
+            out << "[]\n";
+            file.close();
+        }
+        else
+        {
+            qWarning() << "Failed to open file:" << file.errorString();
+            return false;
+        }
+    }
     return true;
 }
