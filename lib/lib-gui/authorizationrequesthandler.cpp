@@ -14,7 +14,7 @@ QString AuthorizationRequestHandler::computeHashString(const QString &type, cons
 {
     QString hexDump;
 
-    if(type == "Basic") {
+    if(type == "UsernamePassword") {
         // Token is <user>:<hash of password> and we only show the user part.
         int split = input.indexOf(':');
 
