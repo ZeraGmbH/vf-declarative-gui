@@ -11,7 +11,7 @@ class AuthorizationRequestHandler : public QObject
 public:
     explicit AuthorizationRequestHandler(QObject *parent = nullptr);
 
-    Q_INVOKABLE QString computeHashString(const QString &input);
+    Q_INVOKABLE QString computeHashString(const QString &type, const QString &input);
     Q_INVOKABLE void finishRequest(const bool& accepted, QJsonObject requestObject);
 
 private:

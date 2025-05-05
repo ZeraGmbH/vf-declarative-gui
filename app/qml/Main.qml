@@ -482,7 +482,7 @@ ApplicationWindow {
                 }
                 Label {
                     font.pointSize: pointSize
-                    text: authHandlerExecuter.computeHashString(authorizationPopup.pendingRequest.token)
+                    text: authHandlerExecuter.computeHashString(authorizationPopup.pendingRequest.tokenType, authorizationPopup.pendingRequest.token)
                     horizontalAlignment: Text.AlignHCenter
                     Layout.fillWidth: true
                     width: parent.width
@@ -504,8 +504,8 @@ ApplicationWindow {
                 text: Z.tr("Allow")
                 font.pointSize: pointSize
                 onClicked: {
-                    VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
                     authHandlerExecuter.finishRequest(true, authorizationPopup.pendingRequest);
+                    VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
                     authorizationPopup.close()
                 }
                 highlighted: true
