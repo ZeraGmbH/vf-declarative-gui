@@ -10,20 +10,44 @@ AuthorizationRequestHandler::AuthorizationRequestHandler(QObject *parent)
     : QObject{parent}
 {}
 
-QString AuthorizationRequestHandler::computeHashString(const QString &input)
+QString AuthorizationRequestHandler::computeHashString(const QString &type, const QString &input)
 {
-    QByteArray hash = QCryptographicHash::hash(input.toUtf8(), QCryptographicHash::Sha256);
-    QString hashHex(hash.toHex());
-    QString shortened = hashHex.left(16) + hashHex.right(16);
+    QString hexDump;
+
+    if(type == "Basic") {
+        // Token is <user>:<hash of password> and we only show the user part.
+        int split = input.indexOf(':');
+
+        if(split >= 0)
+            return input.left(split);
+    }
+    else if(type == "PublicKey") {
+        // Token is a RSA public key PEM, WinSAM will display start and end of its SHA256 hash.
+        QByteArray hash = QCryptographicHash::hash(input.toUtf8(), QCryptographicHash::Sha256);
+        QString hashHex(hash.toHex());
+
+        // Just clip off to simplify comparision by the end user.
+        hexDump = hashHex.left(16) + hashHex.right(16);
+    }
+    else if(type == "Certificate" && (input.size() > 32) && (input.size() % 2) == 0) {
+        // Token is a X509 cerificate hash as a sequence of hex numbers - again clip for readability.
+        hexDump = input.left(16) + input.right(16);
+    }
+
+    if(hexDump.isEmpty())
+        return type + "?";
 
     // Insert colons every 2 characters
     QString formatted;
-    for (int i = 0; i < shortened.size(); i += 2) {
-        if (!formatted.isEmpty()) {
+
+    for (int i = 0; i < hexDump.size(); i += 2) {
+        if (!formatted.isEmpty())
             formatted += ":";
-        }
-        formatted += shortened.mid(i, 2);
+
+        // WebSAM will lowercase as well so to help the end user a bit in comparison make this as well in the ZENUX UI.
+        formatted += hexDump.mid(i, 2).toLower();
     }
+
     return formatted;
 }
 

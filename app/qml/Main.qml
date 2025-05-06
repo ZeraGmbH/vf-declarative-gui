@@ -438,9 +438,11 @@ ApplicationWindow {
             height: parent.height * 0.65
             modal: true
             onPendingRequestChanged: {
-                if(initialized && Object.keys(authorizationPopup.pendingRequest).length != 0){
-                    authorizationPopup.open()
-                }
+                if(initialized)
+                    if(Object.keys(authorizationPopup.pendingRequest).length == 0)
+                        authorizationPopup.close()
+                    else
+                        authorizationPopup.open()
                 else if(GC.entityInitializationDone && !initialized)
                     initialized = true
             }
@@ -482,7 +484,7 @@ ApplicationWindow {
                 }
                 Label {
                     font.pointSize: pointSize
-                    text: authHandlerExecuter.computeHashString(authorizationPopup.pendingRequest.token)
+                    text: authHandlerExecuter.computeHashString(authorizationPopup.pendingRequest.tokenType, authorizationPopup.pendingRequest.token)
                     horizontalAlignment: Text.AlignHCenter
                     Layout.fillWidth: true
                     width: parent.width
@@ -504,8 +506,8 @@ ApplicationWindow {
                 text: Z.tr("Allow")
                 font.pointSize: pointSize
                 onClicked: {
-                    VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
                     authHandlerExecuter.finishRequest(true, authorizationPopup.pendingRequest);
+                    VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
                     authorizationPopup.close()
                 }
                 highlighted: true

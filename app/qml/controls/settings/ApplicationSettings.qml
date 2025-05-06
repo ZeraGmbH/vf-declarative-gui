@@ -376,6 +376,7 @@ SettingsView {
                     readonly property real textMarginHorizontal: parent.height / 6
                     ListView {
                         id: ipApi
+                        clip: true
                         visible: rectApiInfo.isNetworkConnected
                         anchors { fill: parent; verticalCenter: parent.verticalCenter;
                                   leftMargin: rectApiInfo.textMarginHorizontal;
@@ -403,6 +404,13 @@ SettingsView {
                         text: Z.tr("Not connected")
                         font.pointSize: rectApiInfo.textPointSize
                     }
+                }
+                Button {
+                    id: apiTrustList
+                    text: FAQ.fa_cogs
+                    Layout.fillHeight: true
+                    font.pointSize: pointSize * 1.2
+                    Layout.preferredWidth: rowHeight * 0.95
                 }
                 ZCheckBox {
                     id: apiOnOff
