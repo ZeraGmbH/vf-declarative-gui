@@ -438,9 +438,11 @@ ApplicationWindow {
             height: parent.height * 0.65
             modal: true
             onPendingRequestChanged: {
-                if(initialized && Object.keys(authorizationPopup.pendingRequest).length != 0){
-                    authorizationPopup.open()
-                }
+                if(initialized)
+                    if(Object.keys(authorizationPopup.pendingRequest).length == 0)
+                        authorizationPopup.close()
+                    else
+                        authorizationPopup.open()
                 else if(GC.entityInitializationDone && !initialized)
                     initialized = true
             }
