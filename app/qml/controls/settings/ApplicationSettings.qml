@@ -26,6 +26,14 @@ SettingsView {
     rowHeight: safeHeight / 7.1
     readonly property real pointSize: rowHeight * 0.275
 
+    ApiInfoPopup {
+        id: apiInfoPopup
+    }
+
+    TrustListPopup {
+        id: trustListPopup
+    }
+
     ColorPicker {
         id: colorPicker
         // set at rButton.onClicked
@@ -412,6 +420,7 @@ SettingsView {
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95
+                    onClicked: apiInfoPopup.open()
                 }
                 Button {
                     id: apiTrustList
@@ -419,6 +428,7 @@ SettingsView {
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95
+                    onClicked: trustListPopup.open()
                 }
                 ZCheckBox {
                     id: apiOnOff
