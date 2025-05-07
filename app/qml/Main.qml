@@ -16,7 +16,6 @@ import AccumulatorState 1.0
 import ZeraSettings 1.0
 import ScreenCapture 1.0
 import QmlFileIO 1.0
-import AuthorizationRequestHandler 1.0
 
 import "controls"
 import "helpers"
@@ -420,10 +419,6 @@ ApplicationWindow {
                     onClicked: unseccessfulWindow.close()
                 }
             }
-        }
-
-        AuthorizationRequestHandler {
-            id: authHandlerExecuter
         }
 
         ApiConfirmationPopup{

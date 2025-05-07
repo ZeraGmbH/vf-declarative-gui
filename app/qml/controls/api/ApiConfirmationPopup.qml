@@ -15,7 +15,10 @@ Popup {
     anchors.centerIn: parent
     width: parent.width * 0.85
     height: parent.height * 0.65
+
+    closePolicy: Popup.NoAutoClose
     modal: true
+
     onPendingRequestChanged: {
         if(initialized)
             if(Object.keys(authorizationPopup.pendingRequest).length == 0)
@@ -25,6 +28,7 @@ Popup {
         else if(GC.entityInitializationDone && !initialized)
             initialized = true
     }
+
     ColumnLayout {
         id: requestDialog
         width: parent.width
@@ -91,5 +95,10 @@ Popup {
         highlighted: true
         anchors {top: requestDialog.bottom; left: requestDialog.left }
     }
+
+    AuthorizationRequestHandler {
+        id: authHandlerExecuter
+    }
 }
+
 
