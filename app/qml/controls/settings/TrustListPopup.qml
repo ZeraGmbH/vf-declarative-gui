@@ -16,6 +16,10 @@ Popup {
     height: parent.height * 0.85
     modal: true
 
+    TrustDeletePopup {
+        id: trustDeletePopup
+    }
+
     ColumnLayout {
         id: trustListPopupContent
         width: parent.width
@@ -52,6 +56,7 @@ Popup {
                                 background: Rectangle {
                                     color: "transparent"
                                 }
+                                onClicked: trustDeletePopup.confirm(modelData)
                             }
 
                             Text {

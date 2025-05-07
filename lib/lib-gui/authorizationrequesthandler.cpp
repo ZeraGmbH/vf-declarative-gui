@@ -1,7 +1,6 @@
 #include "authorizationrequesthandler.h"
 #include <qcryptographichash.h>
 #include <qdebug.h>
-#include <qfileinfo.h>
 #include <qjsonarray.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
@@ -54,17 +53,39 @@ QString AuthorizationRequestHandler::computeHashString(const QString &type, cons
 void AuthorizationRequestHandler::finishRequest(const bool &accepted, QJsonObject requestObject)
 {
     if(accepted) {
-        appendToJsonFile(m_trustListPath, requestObject);
+        appendToJsonFile(requestObject);
     }
 }
 
-bool AuthorizationRequestHandler::appendToJsonFile(const QString &filePath, const QJsonObject &newObject)
+void AuthorizationRequestHandler::appendToJsonFile(const QJsonObject &newObject)
 {
-    if(!filePreparation(filePath))
+    QJsonDocument doc;
+    QFile file;
+    QJsonArray array;
+
+    if(!readFromJsonFile(file, doc, array)) return;
+
+    array.append(newObject);
+
+    writeToJsonFile(file, doc, array);
+}
+
+void AuthorizationRequestHandler::writeToJsonFile(QFile &file, QJsonDocument &doc, QJsonArray& array)
+{
+    // Write back to file
+    file.resize(0); // Clear existing content
+    doc.setArray(array);
+    file.write(doc.toJson(QJsonDocument::Indented));
+    file.close();
+}
+
+bool AuthorizationRequestHandler::readFromJsonFile(QFile &file, QJsonDocument &doc, QJsonArray& array)
+{
+    if(!filePreparation())
         qWarning("Error in file preparation");
 
     // Read existing JSON array
-    QFile file(filePath);
+    file.setFileName(m_trustListPath);
     if (!file.open(QIODevice::ReadWrite)) {
         qWarning("Error reading trust file.");
         return false;
@@ -72,7 +93,8 @@ bool AuthorizationRequestHandler::appendToJsonFile(const QString &filePath, cons
 
     QByteArray jsonData = file.readAll();
     QJsonParseError parseError;
-    QJsonDocument doc = QJsonDocument::fromJson(jsonData, &parseError);
+
+    doc = QJsonDocument::fromJson(jsonData, &parseError);
 
     if (parseError.error != QJsonParseError::NoError) {
         qWarning() << "JSON parse error:" << parseError.errorString();
@@ -80,28 +102,35 @@ bool AuthorizationRequestHandler::appendToJsonFile(const QString &filePath, cons
     }
 
     // Get or create array
-    QJsonArray array;
-    if (doc.isArray()) {
-        array = doc.array();
-    } else {
+    if (!doc.isArray()) {
         // Handle case where file contains non-array data
         qWarning() << "File does not contain a JSON array";
         return false;
     }
-    array.append(newObject);
 
-    // Write back to file
-    file.resize(0); // Clear existing content
-    doc.setArray(array);
-    file.write(doc.toJson(QJsonDocument::Indented));
-    file.close();
+    array = doc.array();
 
     return true;
 }
 
-bool AuthorizationRequestHandler::filePreparation(const QString &filePath)
+void AuthorizationRequestHandler::deleteFromJsonFile(const QJsonObject &trust)
 {
-    QFile file(filePath);
+    QJsonDocument doc;
+    QFile file;
+    QJsonArray array;
+
+    if(!readFromJsonFile(file, doc, array)) return;
+
+    for(int i = array.size(); i-- > 0; )
+        if(array[i] == trust)
+            array.removeAt(i);
+
+    writeToJsonFile(file, doc, array);
+}
+
+bool AuthorizationRequestHandler::filePreparation()
+{
+    QFile file(m_trustListPath);
     if(!file.exists()) {
         qInfo("Trust file does not exist. Try to create it.");
         if (file.open(QIODevice::ReadWrite)) {
@@ -116,4 +145,8 @@ bool AuthorizationRequestHandler::filePreparation(const QString &filePath)
         }
     }
     return true;
+}
+
+void AuthorizationRequestHandler::deleteTrust(QJsonObject trust){
+    deleteFromJsonFile(trust);
 }
