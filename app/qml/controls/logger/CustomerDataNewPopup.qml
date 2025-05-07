@@ -62,7 +62,7 @@ Popup {
             height: rowHeight
             bottomPadding: GC.standardTextBottomMargin
             selectByMouse: true
-            inputMethodHints: Qt.ImhNoAutoUppercase
+            inputMethodHints: Qt.ImhLowercaseOnly | Qt.ImhEmailCharactersOnly
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignRight
             Rectangle {
