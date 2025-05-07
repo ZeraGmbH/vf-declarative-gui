@@ -406,6 +406,14 @@ SettingsView {
                     }
                 }
                 Button {
+                    id: apiTrustThumb
+                    visible: ASAPI.running
+                    text: FAQ.fa_info_circle
+                    Layout.fillHeight: true
+                    font.pointSize: pointSize * 1.2
+                    Layout.preferredWidth: rowHeight * 0.95
+                }
+                Button {
                     id: apiTrustList
                     text: FAQ.fa_cogs
                     Layout.fillHeight: true
