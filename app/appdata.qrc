@@ -114,6 +114,10 @@
         <file>qml/controls/ranges/RatioLine.qml</file>
         <file>qml/controls/settings/SensorSettings.qml</file>
         <file>qml/controls/ranges/InvertPhasesButton.qml</file>
+        <file>qml/controls/api/ApiConfirmationPopup.qml</file>
+        <file>qml/controls/settings/TrustListPopup.qml</file>
+        <file>qml/controls/settings/ApiInfoPopup.qml</file>
+        <file>qml/controls/settings/TrustDeletePopup.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file>staticdata/resources/MeterPrim.gif</file>
