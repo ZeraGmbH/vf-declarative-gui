@@ -15,8 +15,8 @@ import "../controls/measurement_modes"
 Item {
     id: root
 
-    readonly property real row1stHeight: Math.floor(height/8)
-    readonly property real rowHeight: Math.floor((height-2*row1stHeight)/3)
+    readonly property real row1stHeight: Math.floor(height/5)
+    readonly property real rowHeight: Math.floor((height-row1stHeight)/3)
     readonly property int pixelSize: rowHeight*0.4
 
     readonly property real firstColumnWidth: width*0.1
@@ -45,7 +45,7 @@ Item {
     ListView {
         id: listView
         anchors.top: parent.top
-        anchors.bottom: footerRow.top
+        anchors.bottom: parent.bottom
         width: parent.width
         model: filteredActualValueModel
         boundsBehavior: ListView.StopAtBounds
@@ -99,55 +99,6 @@ Item {
                     text: Unit
                     font.pixelSize: pixelSize*0.7
                     color: row.rowColor
-                }
-            }
-        }
-    }
-    Row {
-        id: footerRow
-        height: root.row1stHeight
-        width: parent.width
-        anchors.bottom: parent.bottom
-        GridRect {
-            id: measModeGrid
-            width: parent.width
-            height: parent.height
-            Repeater {
-                model: VeinEntity.hasEntity("POWER1Module4") ? 4 : 3
-                Item {
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    x: root.firstColumnWidth+root.valueColumnWidth*(index)
-                    width: root.valueColumnWidth
-                    Label {
-                        text: {
-                            switch(index) {
-                            case 0:
-                                return VeinEntity.getEntity("POWER1Module1").ACT_PowerDisplayName
-                            case 1:
-                                return VeinEntity.getEntity("POWER1Module2").ACT_PowerDisplayName
-                            case 2:
-                                return VeinEntity.getEntity("POWER1Module3").ACT_PowerDisplayName
-                            case 3:
-                                return Z.tr("Ext.")
-                            }
-                        }
-                        height: parent.height
-                        anchors.left: parent.left
-                        anchors.rightMargin: GC.standardTextHorizMargin
-                        anchors.leftMargin: GC.standardTextHorizMargin / 2
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        font.pixelSize: measModeGrid.height*0.4
-                    }
-                    MeasModeCombo {
-                        id: measModeCombo
-                        width: parent.width * 0.75
-                        height: parent.height
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        power1ModuleIdx: index
-                    }
                 }
             }
         }
