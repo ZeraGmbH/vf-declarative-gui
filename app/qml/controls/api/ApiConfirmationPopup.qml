@@ -8,6 +8,8 @@ import GlobalConfig 1.0
 import AuthorizationRequestHandler 1.0
 
 Popup {
+    id: authorizationPopup
+
     property var pendingRequest: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").ACT_PendingRequest : ""
     property bool finishedDialog: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished : false
     property bool initialized: false

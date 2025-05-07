@@ -422,7 +422,6 @@ ApplicationWindow {
         }
 
         ApiConfirmationPopup{
-            id: authorizationPopup
         }
     }
 
