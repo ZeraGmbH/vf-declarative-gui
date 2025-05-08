@@ -37,7 +37,7 @@ Popup {
         height: parent.height * 0.75
         Label {
             font.pointSize: pointSize
-            text: Z.tr("New Request")
+            text: Z.tr("API Trust requested")
             horizontalAlignment: Text.AlignHCenter
             Layout.fillWidth: true
             width: parent.width
@@ -61,7 +61,7 @@ Popup {
         }
         Label {
             font.pointSize: pointSize
-            text: Z.tr("Fingerprint: ")
+            text: Z.tr("Identity: ")
             horizontalAlignment: Text.AlignLeft
             Layout.fillWidth: true
             width: parent.width
@@ -80,6 +80,7 @@ Popup {
     Button {
         text: Z.tr("Deny")
         font.pointSize: pointSize
+        highlighted: true
         onClicked: {
             VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
             authorizationPopup.close()
@@ -94,7 +95,6 @@ Popup {
             VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished = true;
             authorizationPopup.close()
         }
-        highlighted: true
         anchors {top: requestDialog.bottom; left: requestDialog.left }
     }
 

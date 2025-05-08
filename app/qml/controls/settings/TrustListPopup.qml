@@ -28,7 +28,7 @@ Popup {
         Label {
             Layout.fillWidth: true
 
-            text: Z.tr("Trusted API Users")
+            text: Z.tr("Trusted API Clients")
             font.pointSize: pointSize
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
@@ -51,8 +51,8 @@ Popup {
                     Component {
                         RowLayout {
                             Button {
-                                font.pointSize: pointSize * 0.9
                                 text: FAQ.fa_trash
+                                font.pointSize: pointSize * 1.2
                                 background: Rectangle {
                                     color: "transparent"
                                 }
@@ -67,6 +67,14 @@ Popup {
                         }
                     }
             }
+        }
+
+        Button {
+            text: Z.tr("Cancel")
+            font.pointSize: pointSize
+            anchors {right: trustListPopupContent.right }
+            highlighted: true
+            onClicked: close()
         }
     }
 }
