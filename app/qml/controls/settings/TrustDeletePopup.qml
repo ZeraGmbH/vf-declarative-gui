@@ -8,7 +8,7 @@ import VeinEntity 1.0
 Popup {
     id: trustDeletePopup
 
-    property var trust : {}
+    property var trust : { return { name: "" }; }
 
     function confirm(t) {
         trust = t;
