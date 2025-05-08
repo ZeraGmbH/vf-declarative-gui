@@ -7,6 +7,12 @@ import AppStarterForApi 1.0
 Popup {
     id: apiInfoPopup
 
+    property var cert: ""
+
+    onOpened: cert = ASAPI.calculateThumbnail(Z.tr("No SSL Certificate available."))
+
+    onClosed: cert = ""
+
     anchors.centerIn: parent
     width: parent.width * 0.85
     height: parent.height * 0.5
@@ -30,7 +36,7 @@ Popup {
             Layout.alignment: Qt.AlignCenter
 
             font.pointSize: pointSize
-            text: ASAPI.calculateThumbnail() || Z.tr("No SSL Certificate available.")
+            text: cert
         }
 
         Button {

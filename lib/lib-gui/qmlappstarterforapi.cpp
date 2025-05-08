@@ -100,13 +100,13 @@ void QmlAppStarterForApi::startApiProcess()
     emit runningChanged();
 }
 
-QString QmlAppStarterForApi::calculateThumbnail(){
+QString QmlAppStarterForApi::calculateThumbnail(const QString &def){
     QString crtPath = m_apiBinaryPath + "https.crt.pem";
 
     QFile file(crtPath);
 
     if (!file.open(QIODevice::ReadOnly))
-        return "";
+        return def;
 
     QByteArray pem = file.readAll();
 
