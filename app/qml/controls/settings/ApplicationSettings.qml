@@ -415,7 +415,6 @@ SettingsView {
                 }
                 Button {
                     id: apiTrustThumb
-                    visible: ASAPI.running
                     text: FAQ.fa_info_circle
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2

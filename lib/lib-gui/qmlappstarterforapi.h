@@ -17,6 +17,8 @@ public:
     Q_PROPERTY(bool running READ getRunning WRITE setRunning NOTIFY runningChanged)
     Q_PROPERTY(int port READ getPort CONSTANT)
 
+    Q_INVOKABLE QString calculateThumbnail();
+
     bool getRunning();
     void setRunning(bool running);
     int getPort();

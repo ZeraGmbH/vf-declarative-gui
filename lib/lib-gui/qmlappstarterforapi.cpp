@@ -1,6 +1,7 @@
 #include "qmlappstarterforapi.h"
 #include <QFile>
 #include <QTextStream>
+#include <QSslCertificate>
 
 QmlAppStarterForApi::QmlAppStarterForApi()
 {
@@ -97,4 +98,27 @@ void QmlAppStarterForApi::startApiProcess()
 #endif
     m_running = true;
     emit runningChanged();
+}
+
+QString QmlAppStarterForApi::calculateThumbnail(){
+    QString crtPath = m_apiBinaryPath + "https.crt.pem";
+
+    QFile file(crtPath);
+
+    if (!file.open(QIODevice::ReadOnly))
+        return "";
+
+    QByteArray pem = file.readAll();
+
+    file.close();
+
+    QSslCertificate cert(pem);
+    QString digest(cert.digest(QCryptographicHash::Sha1).toHex());
+
+    QString hash;
+
+    for(int i = 0; i < digest.length(); i += 2)
+        hash += ":" + digest.mid(i, 2);
+
+    return hash.mid(1);
 }

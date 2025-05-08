@@ -5,9 +5,14 @@ import ZeraTranslation  1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import FontAwesomeQml 1.0
+import AuthorizationRequestHandler 1.0
 
 Popup {
     id: trustListPopup
+
+    TrustDeletePopup {
+        id: trustDeletePopup
+    }
 
     property var trusts: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").ACT_TrustList : []
 
@@ -15,10 +20,6 @@ Popup {
     width: parent.width * 0.85
     height: parent.height * 0.85
     modal: true
-
-    TrustDeletePopup {
-        id: trustDeletePopup
-    }
 
     ColumnLayout {
         id: trustListPopupContent
@@ -72,7 +73,7 @@ Popup {
         Button {
             text: Z.tr("Cancel")
             font.pointSize: pointSize
-            anchors {right: trustListPopupContent.right }
+            Layout.alignment: Qt.AlignRight
             highlighted: true
             onClicked: close()
         }
