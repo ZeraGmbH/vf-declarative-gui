@@ -24,6 +24,7 @@ Popup {
     width: parent.width * 0.85
     height: parent.height * 0.65
     modal: true
+    readonly property real pointSize: displayWindow.pointSize * 0.9
 
     ColumnLayout {
         id: apiInfoPopupContent
@@ -38,24 +39,23 @@ Popup {
             width: parent.width
             wrapMode: Text.Wrap
         }
+    }
+    Button {
+        text: Z.tr("Cancel")
+        font.pointSize: pointSize
+        anchors {top: apiInfoPopupContent.bottom; right: apiInfoPopupContent.right }
+        highlighted: true
+        onClicked: close()
+    }
 
-        Button {
-            text: Z.tr("Cancel")
-            font.pointSize: pointSize
-            anchors {top: apiInfoPopupContent.bottom; right: apiInfoPopupContent.right }
-            highlighted: true
-            onClicked: close()
-        }
-
-        Button {
-            text: Z.tr("Delete this Trust")
-            font.pointSize: pointSize
-            anchors {top: apiInfoPopupContent.bottom; left: apiInfoPopupContent.left }
-            onClicked: {
-                authHandlerExecuter.deleteTrust(trust);
-                VeinEntity.getEntity("ApiModule").PAR_ReloadTrustList = true;
-                close();
-            }
+    Button {
+        text: Z.tr("Delete this Trust")
+        font.pointSize: pointSize
+        anchors {top: apiInfoPopupContent.bottom; left: apiInfoPopupContent.left }
+        onClicked: {
+            authHandlerExecuter.deleteTrust(trust);
+            VeinEntity.getEntity("ApiModule").PAR_ReloadTrustList = true;
+            close();
         }
     }
 }

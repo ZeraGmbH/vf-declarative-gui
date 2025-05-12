@@ -45,7 +45,7 @@ Popup {
         }
         Label {
             font.pointSize: pointSize
-            text: Z.tr("Name: ") + authorizationPopup.pendingRequest.name
+            text: Z.tr("Name:") + " " + authorizationPopup.pendingRequest.name
             horizontalAlignment: Text.AlignLeft
             Layout.fillWidth: true
             width: parent.width
@@ -53,7 +53,7 @@ Popup {
         }
         Label {
             font.pointSize: pointSize
-            text: Z.tr("Type: ") + authorizationPopup.pendingRequest.tokenType
+            text: Z.tr("Type:") + " " + authorizationPopup.pendingRequest.tokenType
             horizontalAlignment: Text.AlignLeft
             Layout.fillWidth: true
             width: parent.width
@@ -61,7 +61,7 @@ Popup {
         }
         Label {
             font.pointSize: pointSize
-            text: Z.tr("Identity: ")
+            text: Z.tr("Identity:")
             horizontalAlignment: Text.AlignLeft
             Layout.fillWidth: true
             width: parent.width

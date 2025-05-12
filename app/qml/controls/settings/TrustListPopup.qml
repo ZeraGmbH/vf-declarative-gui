@@ -20,6 +20,7 @@ Popup {
     width: parent.width * 0.85
     height: parent.height * 0.85
     modal: true
+    readonly property real pointSize: displayWindow.pointSize
 
     ColumnLayout {
         id: trustListPopupContent
@@ -30,7 +31,7 @@ Popup {
             Layout.fillWidth: true
 
             text: Z.tr("Trusted API Clients")
-            font.pointSize: pointSize
+            font.pointSize: pointSize * 1.25
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
         }
@@ -43,17 +44,18 @@ Popup {
             color: "transparent"
 
             ListView {
+                id: apiTrustEntries
                 width: parent.width
                 height: parent.height
 
                 model: trusts.sort((l,r) => l.name.localeCompare(r.name, undefined, { sensitivity: "accent" }))
-
                 delegate:
                     Component {
                         RowLayout {
+                            visible: apiTrustEntries.count > 0
                             Button {
                                 text: FAQ.fa_trash
-                                font.pointSize: pointSize * 1.2
+                                font.pointSize: pointSize * 1.4
                                 background: Rectangle {
                                     color: "transparent"
                                 }
@@ -61,12 +63,21 @@ Popup {
                             }
 
                             Text {
-                                font.pointSize: pointSize * 0.9
+                                font.pointSize: pointSize
                                 text: modelData.name
                                 color: "white"
                             }
                         }
                     }
+            }
+            Label {
+                font.pointSize: pointSize
+                text: Z.tr("No active trusts yet.")
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+                width: parent.width
+                wrapMode: Text.Wrap
+                visible: apiTrustEntries.count === 0
             }
         }
 
