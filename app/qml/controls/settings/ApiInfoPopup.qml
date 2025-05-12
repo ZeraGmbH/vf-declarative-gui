@@ -17,15 +17,15 @@ Popup {
     width: parent.width * 0.85
     height: parent.height * 0.5
     modal: true
+    readonly property real pointSize: displayWindow.pointSize * 0.9
 
     ColumnLayout {
         id: apiInfoPopupContent
         width: parent.width
         height: parent.height
-
         Label {
             text: Z.tr("API SSL Certificate (SHA1)")
-            font.pointSize: pointSize
+            font.pointSize: pointSize * 1.25
             horizontalAlignment: Text.AlignHCenter
             Layout.fillWidth: true
             width: parent.width
@@ -34,14 +34,14 @@ Popup {
 
         Label {
             Layout.alignment: Qt.AlignCenter
-
+            width: parent.width
             font.pointSize: pointSize
             text: cert
         }
 
         Button {
             text: Z.tr("Cancel")
-            font.pointSize: pointSize
+            font.pointSize: displayWindow.pointSize
             Layout.alignment: Qt.AlignRight;
             highlighted: true
             onClicked: close()
