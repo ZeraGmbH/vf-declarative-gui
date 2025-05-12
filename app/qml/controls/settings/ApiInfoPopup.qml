@@ -14,7 +14,7 @@ Popup {
     onClosed: cert = ""
 
     anchors.centerIn: parent
-    width: parent.width * 0.85
+    width: parent.width * 0.95
     height: parent.height * 0.5
     modal: true
     readonly property real pointSize: displayWindow.pointSize * 0.9
