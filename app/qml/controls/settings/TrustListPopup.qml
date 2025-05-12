@@ -70,14 +70,14 @@ Popup {
                         }
                     }
             }
-            Label {
+            Text {
+                anchors.fill: parent
+                text: Z.tr("No trusted clients yet.")
                 font.pointSize: pointSize
-                text: Z.tr("No active trusts yet.")
                 horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-                width: parent.width
-                wrapMode: Text.Wrap
+                verticalAlignment: Text.AlignVCenter
                 visible: apiTrustEntries.count === 0
+                color: "white"
             }
         }
 
