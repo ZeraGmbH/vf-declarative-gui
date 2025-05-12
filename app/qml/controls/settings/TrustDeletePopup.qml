@@ -32,7 +32,7 @@ Popup {
         height: parent.height * 0.75
 
         Label {
-            font.pointSize: pointSize
+            font.pointSize: pointSize * 1.25
             text: trust.name
             horizontalAlignment: Text.AlignHCenter
             Layout.fillWidth: true
