@@ -322,7 +322,7 @@ SettingsView {
                             horizontalAlignment: Text.AlignHCenter
                             font.pointSize: rectWebServer.textPointSize
                             textFormat: Text.PlainText
-                            text: ipv4 + " : " + ASWS.port
+                            text: ipv4 + ":" + ASWS.port
                         }
                     }
                     Text {
@@ -399,7 +399,7 @@ SettingsView {
                             horizontalAlignment: Text.AlignHCenter
                             font.pointSize: rectApiInfo.textPointSize
                             textFormat: Text.PlainText
-                            text: ipv4 + " : " + ASAPI.port
+                            text: ipv4 + ":" + ASAPI.port
                         }
                     }
                     Text {
