@@ -25,6 +25,7 @@ Item {
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
     readonly property real pointSize: height > 0 ? height * 0.03 : 10
+    readonly property bool rangeAutoActive: VeinEntity.getEntity("RangeModule1").PAR_RangeAutomatic
 
     QtObject {
         id: stateEnum
@@ -109,6 +110,8 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 onClicked: {
+                    if(rangeAutoActive === true)
+                        warningPopup.open()
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
@@ -116,6 +119,52 @@ Item {
                         multiSwipe.currentIndex = 1
                 }
             }
+
+            Popup {
+                 id: warningPopup
+                 bottomMargin: root.height * 0.5
+                 leftMargin: root.width * 0.3
+                 parent: root.overlay
+                 anchors.centerIn: parent
+                 modal: true
+                 focus: true
+                 width: root.width / 2
+                 height: root.height / 2
+                 closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
+                 ColumnLayout {
+                     id: warningPopupContent
+                     width: parent.width
+                     height: parent.height
+                     Label {
+                         Layout.fillWidth: true
+                         text: Z.tr("Warning")
+                         font.pointSize: pointSize * 1.3
+                         horizontalAlignment: Text.AlignHCenter
+                         }
+                     Label {
+                         Layout.fillWidth: true
+                         text: Z.tr("Switch off 'Range automatic'")
+                         font.pointSize: pointSize
+                         horizontalAlignment: Text.AlignHCenter
+                         wrapMode: Text.Wrap
+                         }
+                     Label {
+                         Layout.fillWidth: true
+                         text: "Select a matching range"
+                         font.pointSize: pointSize
+                         horizontalAlignment: Text.AlignHCenter
+                         wrapMode: Text.Wrap
+                         }
+                     Button {
+                             text: Z.tr("Close")
+                             font.pointSize: pointSize
+                             Layout.alignment: Qt.AlignHCenter
+                             highlighted: true
+                             onClicked: warningPopup.close()
+                         }
+                    }
+             }
 
             Button {
                 id: stopButton
