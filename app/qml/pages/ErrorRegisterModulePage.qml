@@ -138,7 +138,7 @@ Item {
                      height: parent.height
                      Label {
                          Layout.fillWidth: true
-                         text: Z.tr("Warning")
+                         text: Z.tr("Warning:")
                          font.pointSize: pointSize * 1.3
                          horizontalAlignment: Text.AlignHCenter
                          }
