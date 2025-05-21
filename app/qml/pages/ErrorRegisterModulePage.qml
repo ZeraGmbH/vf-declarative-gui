@@ -151,7 +151,7 @@ Item {
                          }
                      Label {
                          Layout.fillWidth: true
-                         text: "Select a matching range"
+                         text: Z.tr("Select a matching range")
                          font.pointSize: pointSize
                          horizontalAlignment: Text.AlignHCenter
                          wrapMode: Text.Wrap
