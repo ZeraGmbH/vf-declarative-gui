@@ -27,8 +27,6 @@ import "controls/api"
 ApplicationWindow {
     id: displayWindow
 
-    // used to display the fps and other debug infos
-    property bool debugBypass: false;
     // for development: current resolution
     property int screenResolution: GC.screenResolution
 
