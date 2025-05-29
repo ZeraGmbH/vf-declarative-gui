@@ -128,12 +128,12 @@ Item {
             }
 
             model: {
-                var retVal = [];
+                let retVal = []
                 if(systemEntity && systemEntity.SessionsAvailable) {
-                    arrJSONFileNames = []
+                    let jsonFileNames = []
                     for(let sessionIndex in systemEntity.SessionsAvailable) {
                         let sessionFile = systemEntity.SessionsAvailable[sessionIndex]
-                        arrJSONFileNames.push(sessionFile)
+                        jsonFileNames.push(sessionFile)
                         let replaced = false
                         for(let arrIdx=0; arrIdx<arrDisplayStrings.length; ++arrIdx) {
                             if(sessionFile.endsWith(arrJSONDetectStrings[arrIdx])) {
@@ -145,9 +145,10 @@ Item {
                         if(!replaced)
                             retVal.push(sessionFile)
                     }
+                    arrJSONFileNames = jsonFileNames
                 }
                 else
-                    retVal = ["Unsupprted"] //fallback
+                    retVal = ["Unsupported"] //fallback
                 return retVal
             }
 
