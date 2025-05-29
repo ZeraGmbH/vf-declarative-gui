@@ -44,7 +44,7 @@ ApplicationWindow {
     // * for production we use desktop sizes: We have one monitor & bars
     // * for debug we use screen sizes for multi monitor environments
     width: {
-        var width = Screen.desktopAvailableWidth
+        let width = Screen.desktopAvailableWidth
         if(BUILD_TYPE === "debug") {
             // Note: for some reasons, vertical XFCE bar scales automatically
             switch(displayWindow.screenResolution) {
@@ -65,7 +65,7 @@ ApplicationWindow {
         return width
     }
     height: {
-        var height = Screen.desktopAvailableHeight
+        let height = Screen.desktopAvailableHeight
         if(BUILD_TYPE === "debug") {
             switch(displayWindow.screenResolution) {
             case 0:
@@ -125,7 +125,7 @@ ApplicationWindow {
         }
 
         function onSigEntityAvailable(t_entityName) {
-            var entId = VeinEntity.getEntity(t_entityName).entityId()
+            const entId = VeinEntity.getEntity(t_entityName).entityId()
             if(entId === 0) {
                 SessionState.currentSession = Qt.binding(function() {
                     return VeinEntity.getEntity("_System").Session
