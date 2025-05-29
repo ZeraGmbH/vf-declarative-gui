@@ -358,13 +358,17 @@ ApplicationWindow {
             }
         }
 
-        ScreenCapture {
+        Loader {
             id: screencapture
-            readonly property var mountedPaths: QmlFileIO.mountedPaths // bind to ensure valid on first key press
+            asynchronous: true
+            sourceComponent: ScreenCapture {
+                readonly property var mountedPaths: QmlFileIO.mountedPaths // bind to ensure valid on first key press
+            }
         }
+
         Keys.onPressed: {
             if(event.key === Qt.Key_Print) {
-                if(screencapture.captureOnFirstMounted(screencapture.mountedPaths)) {
+                if(screencapture.item.captureOnFirstMounted(QmlFileIO.mountedPaths)) {
                     successfulWindow.open()
                     timerCloseSucessfulWindow.start()
                 }
