@@ -115,7 +115,7 @@ ApplicationWindow {
                     lastPageSelected = 0
                 if(pageView.model.count)
                     pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
-                loadingScreen.close();
+                loadingScreenLoader.item.close();
                 sessionChangeTimeout.stop();
                 layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
                 GC.entityInitializationDone = true
@@ -343,7 +343,7 @@ ApplicationWindow {
             sessionComponent: SessionState.currentSession
             onSessionComponentChanged: {
                 prepareSessionChange();
-                loadingScreen.open();
+                loadingScreenLoader.item.open();
                 sessionChangeTimeout.start();
             }
             Timer {
@@ -351,7 +351,7 @@ ApplicationWindow {
                 interval: 10000
                 repeat: false
                 onTriggered: {
-                    loadingScreen.close();
+                    loadingScreenLoader.item.close();
                     layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
                     controlsBar.pageViewVisible = false
                 }
@@ -493,18 +493,22 @@ ApplicationWindow {
         id: overlayAnimation
     }
 
-    Popup {
-        //is shown when switching sessions
-        id: loadingScreen
-        x: parent.width/2 - width/2
-        y: parent.height/2 - height/2
-        closePolicy: Popup.NoAutoClose
-        modal: true
-        implicitWidth: parent.width/10
-        implicitHeight: parent.width/10
-        BusyIndicator {
-            running: true
-            anchors.fill: parent
+    Loader {
+        id: loadingScreenLoader
+        asynchronous: true
+        anchors.fill: parent
+        sourceComponent: Popup {
+            //is shown when switching sessions
+            x: parent.width/2 - width/2
+            y: parent.height/2 - height/2
+            closePolicy: Popup.NoAutoClose
+            modal: true
+            implicitWidth: parent.width/10
+            implicitHeight: parent.width/10
+            BusyIndicator {
+                running: true
+                anchors.fill: parent
+            }
         }
     }
 }
