@@ -153,36 +153,27 @@ ToolBar {
                 id: menuLoader
                 sourceComponent: LoggerMenu {
                     onLoggerSettingsMenu: {
-                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
-                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        }
+                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         loggerSettingsStackObj.showSettings()
                     }
                     onLoggerSessionsMenu: {
-                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
-                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        }
+                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         loggerSettingsStackObj.showSessionNameSelector(false)
                     }
                     onLoggerCustomDataMenu: {
-                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
-                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        }
+                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         loggerSettingsStackObj.showCustomDataSelector()
                     }
                     onLoggerExportMenu: {
-                        if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutLoggerIndex) {
-                            root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        }
+                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
                         loggerSettingsStackObj.showExportView()
                     }
                     Connections {
                         target: loggerSettingsStackObj
                         function onPleaseCloseMe(butOpenMenu) {
                             goHomeToPages()
-                            if(butOpenMenu) {
+                            if(butOpenMenu)
                                  menuLoader.item.open()
-                            }
                         }
                     }
                 }
