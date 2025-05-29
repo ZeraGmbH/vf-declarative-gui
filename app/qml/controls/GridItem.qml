@@ -19,6 +19,5 @@ GridRect {
         font.pixelSize: height*0.65
         fontSizeMode: Text.HorizontalFit
         font.family: "Droid Sans Mono"
-        elide: Text.ElideRight
     }
 }
