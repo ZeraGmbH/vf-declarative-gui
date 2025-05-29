@@ -12,8 +12,6 @@ import VeinEntity 1.0
 import SessionState 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import AccumulatorState 1.0
-import ZeraSettings 1.0
 import ScreenCapture 1.0
 import QmlFileIO 1.0
 
