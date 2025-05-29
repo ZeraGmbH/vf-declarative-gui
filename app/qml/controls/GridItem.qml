@@ -1,7 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
 
 /**
   * @b used to display text in table like structures such as the ActualValuesPage
@@ -9,7 +7,6 @@ import QtQuick.Controls.Material 2.0
 GridRect {
     property alias text: itemLabel.text
     property alias textColor: itemLabel.color
-    property alias textFormat: itemLabel.textFormat
     property alias textHorizontalAlignment: itemLabel.horizontalAlignment
     property alias font: itemLabel.font
     Label {
