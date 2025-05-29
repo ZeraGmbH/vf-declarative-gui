@@ -365,60 +365,67 @@ ApplicationWindow {
                 readonly property var mountedPaths: QmlFileIO.mountedPaths // bind to ensure valid on first key press
             }
         }
-
         Keys.onPressed: {
             if(event.key === Qt.Key_Print) {
-                if(screencapture.item.captureOnFirstMounted(QmlFileIO.mountedPaths)) {
-                    successfulWindow.open()
-                    timerCloseSucessfulWindow.start()
-                }
+                if(screencapture.item.captureOnFirstMounted(QmlFileIO.mountedPaths))
+                    successfulPopupLoader.item.open()
                 else
-                    unseccessfulWindow.open()
+                    unseccessfulPopupLoader.item.open()
             }
         }
-        Timer {
-            id: timerCloseSucessfulWindow
-            interval: 1200
-            repeat: false
-            onTriggered: successfulWindow.close()
-        }
-        Popup {
-            id : successfulWindow
+        Loader {
+            id : successfulPopupLoader
+            asynchronous: true
             anchors.centerIn: parent
-            width: parent.width * 0.85
-            height: parent.height * 0.18
-            modal: true
-            ColumnLayout {
-                anchors.fill: parent
-                Label {
-                    font.pointSize: pointSize
-                    text: Z.tr("Screenshot taken and saved on USB-stick")
-                    horizontalAlignment: Text.AlignHCenter
-                    Layout.fillWidth: true
+            sourceComponent: Popup {
+                id : successfulPopup
+                anchors.centerIn: parent
+                width: displayWindow.width * 0.85
+                height: displayWindow.height * 0.18
+                modal: true
+                ColumnLayout {
+                    anchors.fill: parent
+                    Label {
+                        font.pointSize: pointSize
+                        text: Z.tr("Screenshot taken and saved on USB-stick")
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.fillWidth: true
+                    }
                 }
+                Timer {
+                    id: timerCloseSuccessfulPopup
+                    interval: 1200
+                    repeat: false
+                    onTriggered: successfulPopup.close()
+                }
+                onOpened: timerCloseSuccessfulPopup.start()
             }
         }
-
-        Popup {
-            id : unseccessfulWindow
+        Loader {
+            id : unseccessfulPopupLoader
+            asynchronous: true
             anchors.centerIn: parent
-            width: parent.width * 0.45
-            height: parent.height * 0.27
-            modal: true
-            closePolicy: Popup.CloseOnEscape
-            ColumnLayout {
-                anchors.fill: parent
-                Label {
-                    font.pointSize: pointSize
-                    text: Z.tr("No USB-stick inserted")
-                    horizontalAlignment: Text.AlignHCenter
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: "OK"
-                    font.pointSize: pointSize
-                    Layout.alignment: Qt.AlignHCenter
-                    onClicked: unseccessfulWindow.close()
+            sourceComponent: Popup {
+                id : unseccessfulPopup
+                anchors.centerIn: parent
+                width: displayWindow.width * 0.45
+                height: displayWindow.height * 0.27
+                modal: true
+                closePolicy: Popup.CloseOnEscape
+                ColumnLayout {
+                    anchors.fill: parent
+                    Label {
+                        font.pointSize: pointSize
+                        text: Z.tr("No USB-stick inserted")
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.fillWidth: true
+                    }
+                    Button {
+                        text: "OK"
+                        font.pointSize: pointSize
+                        Layout.alignment: Qt.AlignHCenter
+                        onClicked: unseccessfulPopup.close()
+                    }
                 }
             }
         }
