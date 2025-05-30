@@ -2,7 +2,6 @@ import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQml.Models 2.14
-import QtQuick.Controls.Material 2.0
 import SessionState 1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
@@ -13,7 +12,6 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraTranslationBackend 1.0
 import ZeraComponents 1.0
-import anmsettings 1.0
 import ZeraLocale 1.0
 import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
@@ -26,13 +24,8 @@ SettingsView {
     rowHeight: safeHeight / 7.1
     readonly property real pointSize: rowHeight * 0.275
 
-    ApiInfoPopup {
-        id: apiInfoPopup
-    }
-
-    TrustListPopup {
-        id: trustListPopup
-    }
+    ApiInfoPopup { id: apiInfoPopup }
+    TrustListPopup { id: trustListPopup }
 
     ColorPicker {
         id: colorPicker
@@ -60,12 +53,6 @@ SettingsView {
         id: timesetterPopup
         pointSize: root.pointSize
     }
-
-    InfoInterface { id: realNetworkListModel }
-    readonly property string notConnectedStr: Z.tr("Not connected")
-    readonly property bool isNetworkConnected: realNetworkListModel.entryCount > 0
-    readonly property real textPointSize: pointSize * 0.85
-    readonly property real textMarginHorizontal: parent.height / 6
 
     readonly property real comboWidth: 4.5
     model: ObjectModel {
@@ -298,45 +285,14 @@ SettingsView {
                     Layout.rightMargin: parent.height * 0.1
                     verticalAlignment: Label.AlignVCenter
                 }
-                Rectangle {
-                    id: rectWebServer
-                    opacity: ASWS.run
-                    Layout.fillHeight: true;
-                    Layout.fillWidth: true;
+                IpPortDisplay {
+                    id: rectWebServerIpPort
+                    show: ASWS.run
+                    port: ASWS.port
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
                     Layout.topMargin: parent.height * 0.1
                     Layout.bottomMargin: Layout.topMargin
-                    color: Material.backgroundDimColor
-                    radius: 4
-
-                    ListView {
-                        id: ipWebServer
-                        visible: isNetworkConnected
-                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: textMarginHorizontal;
-                                  rightMargin: textMarginHorizontal }
-                        boundsBehavior: Flickable.OvershootBounds
-                        orientation: ListView.Horizontal
-                        spacing: parent.height / 2
-                        model: realNetworkListModel
-                        delegate: Text {
-                            height: parent.height
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pointSize: textPointSize
-                            textFormat: Text.PlainText
-                            text: ipv4 + ":" + ASWS.port
-                        }
-                    }
-                    Text {
-                        id: ipWebServerNotConnected
-                        visible: !isNetworkConnected
-                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: textMarginHorizontal;
-                                  rightMargin: textMarginHorizontal }
-                        verticalAlignment: Text.AlignVCenter
-                        text: notConnectedStr
-                        font.pointSize: textPointSize
-                    }
                 }
                 ZCheckBox {
                     id: webServerOnOff
@@ -370,46 +326,14 @@ SettingsView {
                     Layout.rightMargin: parent.height * 0.1
                     verticalAlignment: Label.AlignVCenter
                 }
-                Rectangle {
-                    id: rectApiInfo
-                    opacity: ASAPI.running
-                    Layout.fillHeight: true;
-                    Layout.fillWidth: true;
+                IpPortDisplay {
+                    id: rectApiIpPort
+                    show: ASAPI.running
+                    port: ASAPI.port
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
                     Layout.topMargin: parent.height * 0.1
                     Layout.bottomMargin: Layout.topMargin
-                    color: Material.backgroundDimColor
-                    radius: 4
-
-                    ListView {
-                        id: ipApi
-                        clip: true
-                        visible: isNetworkConnected
-                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: textMarginHorizontal;
-                                  rightMargin: textMarginHorizontal }
-                        boundsBehavior: Flickable.OvershootBounds
-                        orientation: ListView.Horizontal
-                        spacing: parent.height / 2
-                        model: realNetworkListModel
-                        delegate: Text {
-                            height: parent.height
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pointSize: textPointSize
-                            textFormat: Text.PlainText
-                            text: ipv4 + ":" + ASAPI.port
-                        }
-                    }
-                    Text {
-                        id: ipApiNotConnected
-                        visible: !isNetworkConnected
-                        anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: textMarginHorizontal;
-                                  rightMargin: textMarginHorizontal }
-                        verticalAlignment: Text.AlignVCenter
-                        text: notConnectedStr
-                        font.pointSize: textPointSize
-                    }
                 }
                 Button {
                     id: apiTrustThumb

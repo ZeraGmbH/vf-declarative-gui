@@ -66,6 +66,7 @@
         <file>qml/controls/settings/SlowMachineSettingsHelperSingleton.qml</file>
         <file>qml/controls/settings/InViewSettingsCheckShowAux.qml</file>
         <file>qml/controls/settings/InViewSettingsPopup.qml</file>
+        <file>qml/controls/settings/IpPortDisplay.qml</file>
         <file>qml/helpers/EntityErrorMeasHelper.qml</file>
         <file>qml/helpers/TaskList.qml</file>
         <file>qml/pages/ActualValuesPage.qml</file>
