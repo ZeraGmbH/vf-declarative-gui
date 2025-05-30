@@ -61,6 +61,12 @@ SettingsView {
         pointSize: root.pointSize
     }
 
+    InfoInterface { id: realNetworkListModel }
+    readonly property string notConnectedStr: Z.tr("Not connected")
+    readonly property bool isNetworkConnected: realNetworkListModel.entryCount > 0
+    readonly property real textPointSize: pointSize * 0.85
+    readonly property real textMarginHorizontal: parent.height / 6
+
     readonly property real comboWidth: 4.5
     model: ObjectModel {
         Item {
@@ -302,16 +308,12 @@ SettingsView {
                     color: Material.backgroundDimColor
                     radius: 4
 
-                    InfoInterface { id: realNetworkListModel }
-                    readonly property bool isNetworkConnected: realNetworkListModel.entryCount > 0
-                    readonly property real textPointSize: pointSize * 0.85
-                    readonly property real textMarginHorizontal: parent.height / 6
                     ListView {
                         id: ipWebServer
-                        visible: rectWebServer.isNetworkConnected
+                        visible: isNetworkConnected
                         anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: rectWebServer.textMarginHorizontal;
-                                  rightMargin: rectWebServer.textMarginHorizontal }
+                                  leftMargin: textMarginHorizontal;
+                                  rightMargin: textMarginHorizontal }
                         boundsBehavior: Flickable.OvershootBounds
                         orientation: ListView.Horizontal
                         spacing: parent.height / 2
@@ -320,20 +322,20 @@ SettingsView {
                             height: parent.height
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
-                            font.pointSize: rectWebServer.textPointSize
+                            font.pointSize: textPointSize
                             textFormat: Text.PlainText
                             text: ipv4 + ":" + ASWS.port
                         }
                     }
                     Text {
                         id: ipWebServerNotConnected
-                        visible: !rectWebServer.isNetworkConnected
+                        visible: !isNetworkConnected
                         anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: rectWebServer.textMarginHorizontal;
-                                  rightMargin: rectWebServer.textMarginHorizontal }
+                                  leftMargin: textMarginHorizontal;
+                                  rightMargin: textMarginHorizontal }
                         verticalAlignment: Text.AlignVCenter
-                        text: Z.tr("Not connected")
-                        font.pointSize: rectWebServer.textPointSize
+                        text: notConnectedStr
+                        font.pointSize: textPointSize
                     }
                 }
                 ZCheckBox {
@@ -378,39 +380,35 @@ SettingsView {
                     color: Material.backgroundDimColor
                     radius: 4
 
-                    InfoInterface { id: realNetworkListModelApi }
-                    readonly property bool isNetworkConnected: realNetworkListModelApi.entryCount > 0
-                    readonly property real textPointSize: pointSize * 0.85
-                    readonly property real textMarginHorizontal: parent.height / 6
                     ListView {
                         id: ipApi
                         clip: true
-                        visible: rectApiInfo.isNetworkConnected
+                        visible: isNetworkConnected
                         anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: rectApiInfo.textMarginHorizontal;
-                                  rightMargin: rectApiInfo.textMarginHorizontal }
+                                  leftMargin: textMarginHorizontal;
+                                  rightMargin: textMarginHorizontal }
                         boundsBehavior: Flickable.OvershootBounds
                         orientation: ListView.Horizontal
                         spacing: parent.height / 2
-                        model: realNetworkListModelApi
+                        model: realNetworkListModel
                         delegate: Text {
                             height: parent.height
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
-                            font.pointSize: rectApiInfo.textPointSize
+                            font.pointSize: textPointSize
                             textFormat: Text.PlainText
                             text: ipv4 + ":" + ASAPI.port
                         }
                     }
                     Text {
                         id: ipApiNotConnected
-                        visible: !rectApiInfo.isNetworkConnected
+                        visible: !isNetworkConnected
                         anchors { fill: parent; verticalCenter: parent.verticalCenter;
-                                  leftMargin: rectApiInfo.textMarginHorizontal;
-                                  rightMargin: rectApiInfo.textMarginHorizontal }
+                                  leftMargin: textMarginHorizontal;
+                                  rightMargin: textMarginHorizontal }
                         verticalAlignment: Text.AlignVCenter
-                        text: Z.tr("Not connected")
-                        font.pointSize: rectApiInfo.textPointSize
+                        text: notConnectedStr
+                        font.pointSize: textPointSize
                     }
                 }
                 Button {
