@@ -11,7 +11,7 @@ ScreenCapture::ScreenCapture(QObject *parent)
 {
 }
 
-bool ScreenCapture::capture(QString path)
+bool ScreenCapture::capture(const QString &path)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QPixmap pixmap = screen->grabWindow(0);
@@ -23,11 +23,11 @@ bool ScreenCapture::capture(QString path)
     return false;
 }
 
-bool ScreenCapture::captureOnFirstMounted(QStringList mountedPaths)
+bool ScreenCapture::captureOnFirstMounted(const QStringList &mountedPaths)
 {
     if(mountedPaths.size()) {
         QDateTime now = QDateTime::currentDateTime();
-        QString filePath = mountedPaths[0] + "/screenshot-" + now.toString("dd-MM-yyyy HH_mm") + ".PNG";
+        QString filePath = mountedPaths[0] + "/screenshot-" + now.toString("dd-MM-yyyy HH_mm_ss") + ".png";
         filePath = QDir::cleanPath(filePath);
         if(capture(filePath))
             return true;

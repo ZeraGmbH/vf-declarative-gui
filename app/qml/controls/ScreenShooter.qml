@@ -15,19 +15,41 @@ Loader {
     }
 
     sourceComponent: Item {
+        id: screenShooter
         anchors.fill: parent
 
+        readonly property var mountedPaths: QmlFileIO.mountedPaths
         function handlePrintPressed() {
-            if(screenCapture.captureOnFirstMounted(screenCapture.mountedPaths))
+            if (mountedPaths.length)
+                takeScreenshot()
+            else
+                waitForMounts()
+        }
+
+        function takeScreenshot() {
+            if(screenCapture.captureOnFirstMounted(mountedPaths))
                 successfulPopup.open()
             else
                 unseccessfulPopup.open()
         }
-
-        ScreenCapture {
-            id: screenCapture
-            readonly property var mountedPaths: QmlFileIO.mountedPaths // bind to ensure valid on first key press
+        function waitForMounts() {
+            firstLoadDelayTimer.start()
         }
+        Timer {
+            id: firstLoadDelayTimer
+            interval: 300
+            repeat: false
+            onTriggered: unseccessfulPopup.open()
+            readonly property var mountedPaths: screenShooter.mountedPaths
+        }
+        onMountedPathsChanged: {
+            if(firstLoadDelayTimer.running) {
+                firstLoadDelayTimer.stop()
+                screenShooter.takeScreenshot()
+            }
+        }
+
+        ScreenCapture { id: screenCapture }
         Popup {
             id : successfulPopup
             anchors.centerIn: parent
