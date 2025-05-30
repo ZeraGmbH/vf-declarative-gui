@@ -155,8 +155,6 @@ int main(int argc, char *argv[])
 
     ZVKeyboardLayout::setKeyboardLayoutEnvironment();
 
-    const bool hasQtVirtualKeyboard = (qgetenv("QT_IM_MODULE") == QByteArray("qtvirtualkeyboard"));
-
     QLocale locale = QLocale("C");
     locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
     QLocale::setDefault(locale);
@@ -210,15 +208,6 @@ int main(int argc, char *argv[])
 #else
     engine.rootContext()->setContextProperty("BUILD_TYPE", "release");
 #endif //QT_DEBUG
-
-#ifdef Q_OS_ANDROID
-    engine.rootContext()->setContextProperty("OS_TYPE", "android");
-#else
-    engine.rootContext()->setContextProperty("OS_TYPE", "linux");
-#endif //Q_OS_ANDROID
-
-    engine.rootContext()->setContextProperty("HAS_QT_VIRTUAL_KEYBOARD", hasQtVirtualKeyboard);
-    engine.rootContext()->setContextProperty("QT_VERSION", QT_VERSION);
 
     GlueLogicPropertyMap *glueLogicMap = new GlueLogicPropertyMap(&app);
     GlueLogicPropertyMap::setStaticInstance(glueLogicMap);
