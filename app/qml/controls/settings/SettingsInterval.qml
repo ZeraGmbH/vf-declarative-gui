@@ -15,48 +15,48 @@ Item {
     property real pointSize
     property real rowHeight
 
-    property var periodList;
-    property var timeList;
+    property var periodList
+    property var timeList
 
     property var introMap: ({})
-    property var periodIntrospection: introMap[(periodList.length ? periodList[0].EntityName : "")];
-    property var timeIntrospection: introMap[(timeList.length ? timeList[0].EntityName : "")];
+    property var periodIntrospection: introMap[(periodList.length ? periodList[0].EntityName : "")]
+    property var timeIntrospection: introMap[(timeList.length ? timeList[0].EntityName : "")]
 
     property bool hasPeriodEntries: false
     height: hasPeriodEntries ? 2*rowHeight : rowHeight
 
-    function setMapping() {
-        let tmpMap = ({})
-        const allEntities = VeinEntity.getEntity("_System").Entities
-        for(let i=0; i<allEntities.length; ++i) {
-            const tmpEntity = VeinEntity.getEntityById(allEntities[i])
-            if(tmpEntity && tmpEntity.hasComponent("INF_ModuleInterface"))
-                tmpMap[tmpEntity.EntityName] = JSON.parse(tmpEntity.INF_ModuleInterface)
-        }
-        introMap = tmpMap;
-    }
     Component.onCompleted: {
-        setMapping()
-        var allEntities = VeinEntity.getEntity("_System").Entities
-        var tmpTimeList = [];
-        var tmpPeriodList = [];
-        for(var i=0; i<allEntities.length; ++i) {
-            var tmpEntity = VeinEntity.getEntityById(allEntities[i])
-            if(tmpEntity && tmpEntity.hasComponent("PAR_Interval")) {
-                if(introMap[tmpEntity.EntityName].ComponentInfo.PAR_Interval.Unit === "s") {
-                    tmpTimeList.push(tmpEntity);
-                }
-                else if(introMap[tmpEntity.EntityName].ComponentInfo.PAR_Interval.Unit === "period") {
-                    hasPeriodEntries = true;
-                    tmpPeriodList.push(tmpEntity);
-                }
-                else {
-                    console.warn("SettingsInterval.onCompleted(): ERROR IN METADATA")
+        let tmpMap = ({})
+        let tmpTimeList = []
+        let tmpPeriodList = []
+
+        const allEntities = VeinEntity.getEntity("_System").Entities
+        for (let i=0; i<allEntities.length; ++i) {
+            const tmpEntity = VeinEntity.getEntityById(allEntities[i])
+            if (tmpEntity) {
+                const entityName = tmpEntity.EntityName
+                if (tmpEntity.hasComponent("INF_ModuleInterface")) {
+                    const infModuleInterface = JSON.parse(tmpEntity.INF_ModuleInterface)
+                    tmpMap[entityName] = infModuleInterface
+
+                    if (tmpEntity.hasComponent("PAR_Interval")) {
+                        const unit = infModuleInterface.ComponentInfo.PAR_Interval.Unit
+                        if (unit === "s")
+                            tmpTimeList.push(tmpEntity)
+                        else if (unit === "period") {
+                            hasPeriodEntries = true
+                            tmpPeriodList.push(tmpEntity)
+                        }
+                        else
+                            console.warn("SettingsInterval.onCompleted(): ERROR IN METADATA")
+                    }
                 }
             }
         }
-        timeList = tmpTimeList;
-        periodList = tmpPeriodList;
+
+        introMap = tmpMap
+        timeList = tmpTimeList
+        periodList = tmpPeriodList
     }
 
     Loader {
