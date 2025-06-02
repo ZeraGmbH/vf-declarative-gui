@@ -18,9 +18,8 @@ Item {
     property var periodList
     property var timeList
 
-    property var introMap: ({})
-    property var periodIntrospection: introMap[(periodList.length ? periodList[0].EntityName : "")]
-    property var timeIntrospection: introMap[(timeList.length ? timeList[0].EntityName : "")]
+    property var periodIntrospection
+    property var timeIntrospection
 
     property bool hasPeriodEntries: false
     height: hasPeriodEntries ? 2*rowHeight : rowHeight
@@ -54,7 +53,8 @@ Item {
             }
         }
 
-        introMap = tmpMap
+        periodIntrospection = tmpMap[(tmpPeriodList.length ? tmpPeriodList[0].EntityName : "")]
+        timeIntrospection = tmpMap[(tmpTimeList.length ? tmpTimeList[0].EntityName : "")]
         timeList = tmpTimeList
         periodList = tmpPeriodList
     }
