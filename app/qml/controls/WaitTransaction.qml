@@ -6,7 +6,6 @@ import ZeraTranslation  1.0
 
 Popup {
     id: root
-    property alias animationComponent: animationLoader.sourceComponent
     function startWait(strDisplay) {
         root.warningTxtArr = []
         root.errorTxtArr = []
@@ -118,6 +117,7 @@ Popup {
         id: animationLoader
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
+        sourceComponent: AnimationSlowBits { }
         height: rowHeight * 1.5
         width: root.width * 0.9
         active: false

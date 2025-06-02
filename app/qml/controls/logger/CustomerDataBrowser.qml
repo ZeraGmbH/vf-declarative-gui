@@ -58,7 +58,6 @@ Item {
     }
     WaitTransaction {
         id: waitPopup
-        animationComponent: AnimationSlowBits { }
     }
     TaskList {
         id: tasksExport

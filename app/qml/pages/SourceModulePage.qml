@@ -69,7 +69,6 @@ Item {
     }
     WaitTransaction {
         id: waitPopup
-        animationComponent: AnimationSlowBits { }
     }
 
     Component.onCompleted: {

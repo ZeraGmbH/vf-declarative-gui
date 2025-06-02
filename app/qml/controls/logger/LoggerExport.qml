@@ -77,7 +77,6 @@ Item {
 
     WaitTransaction {
         id: waitPopup
-        animationComponent: AnimationSlowBits { }
     }
 
     property var objMainXmlFlagsReturned

@@ -200,7 +200,6 @@ Item {
 
     WaitTransaction {
         id: waitPopup
-        animationComponent: AnimationSlowBits { }
     }
 
     // menu with logger operations

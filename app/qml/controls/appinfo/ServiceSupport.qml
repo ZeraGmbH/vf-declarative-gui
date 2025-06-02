@@ -14,7 +14,6 @@ Item {
 
     WaitTransaction {
         id: waitPopup
-        animationComponent: AnimationSlowBits { }
     }
 
     Button {

@@ -30,7 +30,6 @@ Item {
 
     WaitTransaction {
         id: waitPopup
-        animationComponent: AnimationSlowBits { }
     }
     property var warningsCollected: []
     property var errorsCollected: []
