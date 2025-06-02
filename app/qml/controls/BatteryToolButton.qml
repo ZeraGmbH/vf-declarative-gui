@@ -5,8 +5,6 @@ import ZeraFa 1.0
 import FontAwesomeQml 1.0
 
 ToolButton {
-    readonly property real redLimitVal: 10
-    readonly property real orangeLimitVal: 20
     readonly property real chargingMinDisplayedVal: 15
 
     property real chargeAnimationPortion: 0
@@ -21,6 +19,8 @@ ToolButton {
         font.pointSize: pointSize * 0.9
         color: {
             if(!AccuState.accuCharging) {
+                const redLimitVal = 10
+                const orangeLimitVal = 20
                 if(AccuState.accumulatorChargeValue <= redLimitVal)
                     return "#F44336" // Material.red -> https://doc.qt.io/qt-5/qtquickcontrols2-material.html
                 else if(AccuState.accumulatorChargeValue <= orangeLimitVal)
