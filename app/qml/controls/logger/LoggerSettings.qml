@@ -450,7 +450,7 @@ SettingsView {
                                 font.pointSize: pointSize * 1.25
                                 enabled: loggerEntity.LoggingEnabled === false
                                 Layout.fillHeight: true
-                                background: Rectangle { color: "transparent" }
+                                background: Rectangle { color: Material.buttonColor }
                                 onClicked: {
                                     var nextDb = dbListDelegate.isCurrentDb ? "" : foundFiles[index]
                                     loggerEntity.DatabaseFile = nextDb
@@ -462,7 +462,7 @@ SettingsView {
                                 Layout.fillHeight: true
                                 font.pointSize: pointSize * 1.25
                                 enabled: foundFiles[index] !== currentDbFile || loggerEntity.LoggingEnabled === false
-                                background: Rectangle { color: "transparent" }
+                                background: Rectangle { color: Material.buttonColor }
                                 onClicked: {
                                     removeDbPopup.removeDbName = foundFiles[index]
                                     removeDbPopup.open()
