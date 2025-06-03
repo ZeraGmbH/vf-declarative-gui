@@ -117,7 +117,7 @@ SettingsView {
             width: parent.width
             active: notEmobSession
             sourceComponent: Rectangle {
-                color: "transparent"
+                color: Material.backgroundColor
                 height: root.rowHeight
                 RowLayout {
                     height: root.rowHeight
@@ -142,7 +142,7 @@ SettingsView {
             width: parent.width
             active: notEmobSession
             sourceComponent:  Rectangle {
-                color: "transparent"
+                color: Material.backgroundColor
                 height: root.rowHeight
                 RowLayout {
                     height: root.rowHeight
@@ -167,7 +167,7 @@ SettingsView {
             width: parent.width
             active: notEmobSession
             sourceComponent:  Rectangle {
-                color: "transparent"
+                color: Material.backgroundColor
                 height: root.rowHeight
                 RowLayout {
                     height: root.rowHeight
@@ -192,7 +192,7 @@ SettingsView {
             width: parent.width
             active: notEmobSession
             sourceComponent:  Rectangle {
-                color: "transparent"
+                color: Material.backgroundColor
                 height: root.rowHeight
                 RowLayout {
                     height: root.rowHeight
