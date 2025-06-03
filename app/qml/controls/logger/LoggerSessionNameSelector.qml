@@ -163,7 +163,7 @@ Item {
                             font.pointSize: pointSize * 1.25
                             text: FAQ.fa_trash
                             background: Rectangle {
-                                color: "transparent"
+                                color: Material.buttonColor
                             }
                             onClicked: {
                                 removeSessionPopup.sessionToDelete = modelData
