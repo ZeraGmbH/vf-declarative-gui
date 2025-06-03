@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 import ZeraFa 1.0
 
 import "../controls/error_comparison_common"
@@ -161,11 +162,10 @@ Item {
                         }
                     }
                 }
-                CheckBox {
+                ZCheckBox {
                     text: Z.tr("continuous")
-                    font.pointSize: pointSize
                     height: parent.height
-                    width: root.width * 0.215
+                    width: root.width * 0.3
 
                     enabled: errCalEntity.PAR_StartStop !== 1
                     checked: errCalEntity.PAR_Continuous === 1
