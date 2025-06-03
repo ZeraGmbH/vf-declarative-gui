@@ -292,7 +292,7 @@ Item {
                         font.pointSize: pointSize * 1.25
                         text: FAQ.fa_edit
                         background: Rectangle {
-                            color: "transparent"
+                            color: Material.buttonColor
                         }
                         // Wait for customer data selected to be applied
                         property string custDataSelected: customerData.FileSelected
@@ -321,7 +321,7 @@ Item {
                         font.pointSize: pointSize * 1.25
                         text: FAQ.fa_trash
                         background: Rectangle {
-                            color: "transparent"
+                            color: Material.buttonColor
                         }
                         onClicked: {
                             removeFilePopup.fileName = modelData
