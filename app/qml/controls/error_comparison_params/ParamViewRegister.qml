@@ -64,7 +64,7 @@ Item {
             active: canChangeRefInputOrMMode
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
@@ -96,7 +96,7 @@ Item {
         }
         Rectangle {
             enabled: logicalParent.canStartMeasurement && cbMode.currentIndex !== 0
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
@@ -137,7 +137,7 @@ Item {
             }
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight * 2
             width: root.width
@@ -171,7 +171,7 @@ Item {
             }
             // This is a line
             Rectangle {
-                color: "transparent"
+                color: Material.backgroundColor
                 border.color: GC.dividerColor
                 height: 1
                 width: parent.width*(col1Width+col2Width)
@@ -221,7 +221,7 @@ Item {
             }
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
@@ -268,7 +268,7 @@ Item {
             }
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
