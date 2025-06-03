@@ -1,7 +1,7 @@
-import QtQuick 2.5
-import QtQuick.Layouts 1.3
+import QtQuick 2.14
+import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
 import QtQml.Models 2.14
 import VeinEntity 1.0
 import ZeraTranslation 1.0
@@ -77,7 +77,7 @@ Item {
         Loader {
             active: isEnergyComparison
             sourceComponent: Rectangle {
-                color: "transparent"
+                color: Material.backgroundColor
                 border.color: GC.dividerColor
                 height: root.rowHeight
                 width: root.width
@@ -108,7 +108,7 @@ Item {
             }
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
@@ -231,7 +231,7 @@ Item {
             active: isEnergyComparison
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
-                color: "transparent"
+                color: Material.backgroundColor
                 border.color: GC.dividerColor
                 height: root.rowHeight
                 width: root.width
@@ -337,7 +337,7 @@ Item {
             active: isMeterTest
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
-                color: "transparent"
+                color: Material.backgroundColor
                 border.color: GC.dividerColor
                 height: root.rowHeight
                 width: root.width
@@ -372,7 +372,7 @@ Item {
             }
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
@@ -436,7 +436,7 @@ Item {
             }
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
@@ -484,7 +484,7 @@ Item {
             }
         }
         Rectangle {
-            color: "transparent"
+            color: Material.backgroundColor
             border.color: GC.dividerColor
             height: root.rowHeight
             width: root.width
