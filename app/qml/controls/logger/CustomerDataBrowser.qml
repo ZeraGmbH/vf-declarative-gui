@@ -339,21 +339,28 @@ Item {
         anchors.rightMargin: GC.standardTextHorizMargin
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.bottom: parent.bottom
+        readonly property real buttonWidth: width * 0.18
         Button {
+            Layout.preferredWidth: buttonRow.buttonWidth / 2
+            font.pointSize: pointSize * 1.25
             text: "+"
             onClicked: {
                 customerDataNewPopup.open()
             }
         }
-        Item { Layout.fillWidth: true }
-        MountedDrivesCombo {
-            id: mountedDrivesCombo
-            visible: mountedPaths.length > 1
-            Layout.preferredWidth: contentMaxWidth
+        Item {
+            Layout.fillWidth: true
             Layout.fillHeight: true
-            font.pointSize: pointSize
+            MountedDrivesCombo {
+                id: mountedDrivesCombo
+                visible: mountedPaths.length > 1
+                anchors.fill: parent
+                font.pointSize: pointSize
+            }
         }
         Button {
+            Layout.preferredWidth: buttonRow.buttonWidth
+            Layout.fillHeight: true
             text: Z.tr("Import")
             font.pointSize: pointSize
             enabled: mountedPaths.length > 0 && !tasksImport.running && customerImportDirList.length > 0
@@ -362,6 +369,8 @@ Item {
             }
         }
         Button {
+            Layout.preferredWidth: buttonRow.buttonWidth
+            Layout.fillHeight: true
             text: Z.tr("Export")
             font.pointSize: pointSize
             enabled: mountedPaths.length > 0 && !tasksExport.running && availableCustomerDataFiles.length > 0
