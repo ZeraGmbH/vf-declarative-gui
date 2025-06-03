@@ -504,7 +504,7 @@ Item {
                             font.pointSize: pointSize * 1.2
                             text: FAQ.fa_trash
                             background: Rectangle {
-                                color: "transparent"
+                                color: Material.backgroundColor
                             }
                             onClicked: {
                                 deleteTransactionPopup.transactionToDelete = model.transactionName
