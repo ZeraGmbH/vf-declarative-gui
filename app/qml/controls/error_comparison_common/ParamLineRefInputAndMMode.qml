@@ -1,6 +1,6 @@
-import QtQuick 2.5
+import QtQuick 2.14
 import QtQuick.Controls 2.14
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
 import ZeraVeinComponents 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
@@ -9,7 +9,7 @@ import PowerModuleVeinGetter 1.0
 Loader {
     width: parent.width
     sourceComponent:  Rectangle {
-        color: "transparent"
+        color: Material.backgroundColor
         border.color: GC.dividerColor
         height: root.rowHeight
         enabled: logicalParent.canStartMeasurement
