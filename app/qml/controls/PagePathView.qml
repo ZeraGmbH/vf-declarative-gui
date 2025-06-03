@@ -62,7 +62,7 @@ Item {
 
                 border.color: Qt.darker(Material.frameColor, 1.3)
                 border.width: 3
-                color: "transparent"
+                color: Material.backgroundColor
                 radius: 4
                 Loader {
                     active: !ASWGL.isServer
