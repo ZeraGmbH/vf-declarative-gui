@@ -154,7 +154,7 @@ Item {
                                                  Material.White : Material.Red
                         font.pointSize: pointSize * 1.5
                         background: Rectangle {
-                            color: "transparent"
+                            color: Material.backgroundColor
                         }
                         onClicked: {
                             multiSwipe.currentIndex = !multiSwipe.currentIndex
