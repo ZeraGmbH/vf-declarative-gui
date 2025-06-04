@@ -8,6 +8,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import FontAwesomeQml 1.0
+import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
 
 Rectangle {
@@ -19,8 +20,7 @@ Rectangle {
 
     visible: entity.PAR_FOUT0 !== undefined && entity.PAR_FOUT0 !== ""
     readonly property bool showFoutOnly: entity.PAR_MeasuringMode === "QREF"
-    readonly property int nominalFrequencyP1M1: VeinEntity.getEntity("POWER1Module1").PAR_FOUT_NOMINAL_FREQ //isu check available
-    readonly property int nominalFrequencyP1M4: VeinEntity.getEntity("POWER1Module4").PAR_FOUT_NOMINAL_FREQ //isu check available
+
     readonly property int rowCount: showFoutOnly ? 1 : 3
     height: visible ? (rowHeight * rowCount * 0.9 + (rowCount+2) * rowHeight * 0.1) : 0
     width: parent.width
@@ -50,7 +50,8 @@ Rectangle {
         }
         Text {
             text: {
-                let nomFreq = Number(entityIntrospection.ModuleInfo.NominalFrequency)
+                //let nomFreq = Number(entityIntrospection.ModuleInfo.NominalFrequency)
+                let nomFreq = entity.PAR_FOUT_NOMINAL_FREQ !== undefined ? entity.PAR_FOUT_NOMINAL_FREQ : 0
                 let scaled = FT.doAutoScale(nomFreq, "Hz")
                 return scaled[0]+scaled[1]
             }
@@ -95,76 +96,79 @@ Rectangle {
         implicitWidth: grid.width < 200 ? 35 : 50
         implicitHeight: parent.height / 2
         enabled: true
+        //visible: entity.PAR_FOUT_NOMINAL_FREQ !== undefined && entity.PAR_FOUT_NOMINAL_FREQ > 0
+        visible: !showFoutOnly
         onClicked: {
-            //console.info ("border.width: ", main.width, "  border.hight: ", border.height)
             setNominalFrequencyPopup.open()
         }
         background: Rectangle {
-            color: "#565656"
+            color: "#565656"        //isu find correct color
             radius: 4
         }
     }
 
-
     Popup {
         id: setNominalFrequencyPopup
         anchors.centerIn: Overlay.overlay
-        width: 420      //isu find reference!
-        height: width / 2
+        width: 450      //isu find reference!
+        height: width / 3
         modal: true
         ColumnLayout {
             id: setNominalFrequencyPopupContent
             width: parent.width
             height: parent.height
             anchors.fill: parent
-            Label {
-                id: nfLabel
-                text: Z.tr("NF (Nominal Frequency in KHz):")
-                textFormat: Text.PlainText
-                font.pointSize: displayWindow.pointSize
-                Layout.fillWidth: true
-                horizontalAlignment: Label.AlignHCenter
-            }
-            ZSpinBox {
-                id: setNomFreq
-                Layout.alignment: Qt.AlignHCenter
-                width: setNominalFrequencyPopupContent.width / 3
-                height: setNominalFrequencyPopupContent.height / 3
-                pointSize: displayWindow.pointSize * 1.2
-                spinBox.width: setNominalFrequencyPopup.rowWidth / 1.2
-                Component.onCompleted: text = nominalFrequencyP1M4 / 1000
-                validator: IntValidator {
-                    bottom: 10
-                    top: 200
+
+            RowLayout {
+                //anchors.fill: parent
+                //anchors.leftMargin: GC.standardTextHorizMargin
+                //anchors.rightMargin: GC.standardTextHorizMargin
+                Label {
+                    Layout.fillHeight: true
+                    //Layout.preferredWidth: root.width * 0.5 - GC.standardTextHorizMargin * 1.5
+                    font.pointSize: displayWindow.pointSize
+                    text: Z.tr("NF (Nominal Frequency):")
                 }
-                // function doApplyInput(newText) {
-                //     SlwMachSettingsHelper.startDecimalPlacesChange(newText)
-                //     return true
-                // }
-            }
+
+                VFLineEdit {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    //Layout.preferredHeight: setNominalFrequencyPopupContent.height
+                    //textField.topPadding:  20      //root.height * 0.225 // underline visibility
+                    textField.bottomPadding: setNominalFrequencyPopup.height * 0.22
+                    entity: root.entity
+                    controlPropertyName: "PAR_FOUT_NOMINAL_FREQ"
+                    pointSize: displayWindow.pointSize
+                    validator: ZDoubleValidator {
+                         bottom: 10000
+                         top: 200000
+                         decimals: 0
+                    }
+                }
+
+                Label {
+                    Layout.fillHeight: true
+                    //Layout.preferredWidth: root.width * 0.5 - GC.standardTextHorizMargin * 1.5
+                    font.pointSize: displayWindow.pointSize
+                    //verticalAlignment: Label.AlignTop
+                    text: Z.tr("kHz")
+                }
+           }
 
             RowLayout {
                 id: buttonSpace
-                width: parent.width
-                height: parent.height
                 spacing: 50
                 Layout.alignment: Qt.AlignHCenter
                 Button {
-                    text: Z.tr("Cancel")
+                    text: Z.tr("Close")
                     font.pointSize: displayWindow.pointSize
                     highlighted: false
                     onClicked: {
                         setNominalFrequencyPopup.close()
                     }
                 }
-
-                Button {
-                    text: Z.tr("OK")
-                    font.pointSize: displayWindow.pointSize
-                    highlighted: false
-                    onClicked: setNominalFrequencyPopup.close()
-                }
             }
-         }
+        }
     }
 }
+
