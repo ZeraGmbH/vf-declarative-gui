@@ -96,7 +96,6 @@ Rectangle {
         implicitWidth: grid.width < 200 ? 35 : 50
         implicitHeight: parent.height / 2
         enabled: true
-        //visible: entity.PAR_FOUT_NOMINAL_FREQ !== undefined && entity.PAR_FOUT_NOMINAL_FREQ > 0
         visible: !showFoutOnly
         onClicked: {
             setNominalFrequencyPopup.open()
@@ -110,58 +109,55 @@ Rectangle {
     Popup {
         id: setNominalFrequencyPopup
         anchors.centerIn: Overlay.overlay
-        width: 450      //isu find reference!
-        height: width / 3
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         modal: true
         ColumnLayout {
             id: setNominalFrequencyPopupContent
-            width: parent.width
-            height: parent.height
             anchors.fill: parent
-
             RowLayout {
-                //anchors.fill: parent
-                //anchors.leftMargin: GC.standardTextHorizMargin
-                //anchors.rightMargin: GC.standardTextHorizMargin
                 Label {
                     Layout.fillHeight: true
-                    //Layout.preferredWidth: root.width * 0.5 - GC.standardTextHorizMargin * 1.5
-                    font.pointSize: displayWindow.pointSize
+                    font.pointSize: root.pointSize * 1.5
                     text: Z.tr("NF (Nominal Frequency):")
                 }
-
                 VFLineEdit {
+                    implicitWidth: textField.implicitWidth
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    //Layout.preferredHeight: setNominalFrequencyPopupContent.height
-                    //textField.topPadding:  20      //root.height * 0.225 // underline visibility
-                    textField.bottomPadding: setNominalFrequencyPopup.height * 0.22
+                    textField.topPadding: 0
+                    textField.bottomPadding: 4
                     entity: root.entity
                     controlPropertyName: "PAR_FOUT_NOMINAL_FREQ"
-                    pointSize: displayWindow.pointSize
+                    pointSize: root.pointSize * 1.5
                     validator: ZDoubleValidator {
                          bottom: 10000
                          top: 200000
                          decimals: 0
                     }
                 }
-
                 Label {
                     Layout.fillHeight: true
-                    //Layout.preferredWidth: root.width * 0.5 - GC.standardTextHorizMargin * 1.5
-                    font.pointSize: displayWindow.pointSize
-                    //verticalAlignment: Label.AlignTop
+                    font.pointSize: pointSize * 1.5
                     text: Z.tr("kHz")
                 }
            }
-
             RowLayout {
-                id: buttonSpace
-                spacing: 50
-                Layout.alignment: Qt.AlignHCenter
+                spacing: 20
+                Layout.alignment: Qt.RightButton
+                Button {
+                    text: Z.tr("Set to default")
+                    font.pointSize: root.pointSize * 1.4
+                    highlighted: false
+                    visible: root.entity.PAR_FOUT_NOMINAL_FREQ !== 200000
+                    onClicked: {
+                        root.entity.PAR_FOUT_NOMINAL_FREQ = 200000
+                        setNominalFrequencyPopup.close()
+                    }
+                }
+
                 Button {
                     text: Z.tr("Close")
-                    font.pointSize: displayWindow.pointSize
+                    font.pointSize: root.pointSize * 1.4
                     highlighted: false
                     onClicked: {
                         setNominalFrequencyPopup.close()
@@ -171,4 +167,3 @@ Rectangle {
         }
     }
 }
-
