@@ -101,7 +101,7 @@ Rectangle {
             setNominalFrequencyPopup.open()
         }
         background: Rectangle {
-            color: "#565656"        //isu find correct color
+            color: Material.backgroundColor //isu: to dark
             radius: 4
         }
     }
@@ -111,13 +111,16 @@ Rectangle {
         anchors.centerIn: Overlay.overlay
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         modal: true
+        leftInset: -20
+        rightInset: -20
         ColumnLayout {
             id: setNominalFrequencyPopupContent
             anchors.fill: parent
+            spacing: 20
             RowLayout {
                 Label {
                     Layout.fillHeight: true
-                    font.pointSize: root.pointSize * 1.5
+                    font.pointSize: root.pointSize * 1.8
                     text: Z.tr("NF (Nominal Frequency):")
                 }
                 VFLineEdit {
@@ -128,7 +131,7 @@ Rectangle {
                     textField.bottomPadding: 4
                     entity: root.entity
                     controlPropertyName: "PAR_FOUT_NOMINAL_FREQ"
-                    pointSize: root.pointSize * 1.5
+                    pointSize: root.pointSize * 1.8
                     validator: ZDoubleValidator {
                          bottom: 10000
                          top: 200000
@@ -137,27 +140,27 @@ Rectangle {
                 }
                 Label {
                     Layout.fillHeight: true
-                    font.pointSize: pointSize * 1.5
-                    text: Z.tr("kHz")
+                    font.pointSize: pointSize * 1.8
+                    text: Z.tr("Hz")
                 }
-           }
+            }
+
             RowLayout {
-                spacing: 20
+                spacing: 30
                 Layout.alignment: Qt.RightButton
+
                 Button {
-                    text: Z.tr("Set to default")
-                    font.pointSize: root.pointSize * 1.4
+                    text: FAQ.fa_undo   //Set to default
+                    font.pointSize: root.pointSize * 1.8
                     highlighted: false
                     visible: root.entity.PAR_FOUT_NOMINAL_FREQ !== 200000
                     onClicked: {
                         root.entity.PAR_FOUT_NOMINAL_FREQ = 200000
-                        setNominalFrequencyPopup.close()
                     }
                 }
-
                 Button {
                     text: Z.tr("Close")
-                    font.pointSize: root.pointSize * 1.4
+                    font.pointSize: root.pointSize * 1.8
                     highlighted: false
                     onClicked: {
                         setNominalFrequencyPopup.close()
