@@ -83,8 +83,9 @@ void QmlAppStarterForApi::startProcedure()
         m_certProcess.start("openssl", arguments);
     }
     else
-        emit initDone();
 #endif
+        emit initDone();
+
 }
 
 void QmlAppStarterForApi::startApiProcess()

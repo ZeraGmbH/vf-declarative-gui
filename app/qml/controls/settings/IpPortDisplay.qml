@@ -35,6 +35,7 @@ Item {
             model: networkListModel
             delegate: Text {
                 height: parent.height
+                leftPadding: 5
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: pointSize
