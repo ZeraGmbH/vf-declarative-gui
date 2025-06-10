@@ -1,8 +1,8 @@
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    qt5_add_resources(RESOURCES appdata.qrc)
-else()
+#if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+#    qt5_add_resources(RESOURCES appdata.qrc)
+#else()
     qtquick_compiler_add_resources(RESOURCES appdata.qrc)
-endif()
+#endif()
 
 add_executable(vf-declarative-gui
     ${RESOURCES}
