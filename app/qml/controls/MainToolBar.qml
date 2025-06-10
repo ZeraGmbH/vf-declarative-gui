@@ -207,7 +207,6 @@ ToolBar {
             font.pointSize: pointSize
             text: FAQ.fa_cogs
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
-            enabled: root.entityInitializationDone === true
             onClicked: {
                 // already in Settings?
                 if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex) {

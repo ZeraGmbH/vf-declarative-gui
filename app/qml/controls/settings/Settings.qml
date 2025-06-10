@@ -85,11 +85,15 @@ BaseTabPage {
 
     // create tabs/pages dynamic
     Component.onCompleted: {
-        tabBar.addItem(appTab.createObject(tabBar))
-        swipeView.addItem(appPage.createObject(swipeView))
+        if (GC.entityInitializationDone) {
+            tabBar.addItem(appTab.createObject(tabBar))
+            swipeView.addItem(appPage.createObject(swipeView))
+        }
 
-        tabBar.addItem(devTab.createObject(tabBar))
-        swipeView.addItem(devPage.createObject(swipeView))
+        if (GC.entityInitializationDone) {
+            tabBar.addItem(devTab.createObject(tabBar))
+            swipeView.addItem(devPage.createObject(swipeView))
+        }
 
         if(!ASWGL.isServer) {
             tabBar.addItem(netTab.createObject(tabBar))
