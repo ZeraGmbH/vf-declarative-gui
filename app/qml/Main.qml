@@ -203,13 +203,36 @@ ApplicationWindow {
                 }
             }
             Loader {
-                sourceComponent: Image {
-                    anchors.fill: parent
-                    anchors.margins: parent.height / 4
-                    source: "qrc:/data/staticdata/resources/ZERA-old-school-large.png"
-                    fillMode: Image.PreserveAspectFit
-                }
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSplashIndex
+                sourceComponent: Item {
+                    anchors.fill: parent
+                    Label {
+                        anchors.centerIn: parent
+                        text: safeDelay.running ? Z.tr("Please wait...") : "Something went wrong"
+                        font.pointSize: parent.height * 0.08
+                        horizontalAlignment: Label.AlignHCenter
+                        verticalAlignment: Label.AlignVCenter
+                    }
+                    Button {
+                        visible: !safeDelay.running
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        width: parent.width * 0.3
+                        height: parent.height * 0.125
+                        font.pointSize: parent.height * 0.04
+                        text: Z.tr("Save/Send logs")
+                        onClicked: {
+                            GC.setLastInfoTabSelected(1)
+                            layoutStack.currentIndex = GC.layoutStackEnum.layoutStatusIndex
+                        }
+                    }
+                    Timer {
+                        id: safeDelay
+                        interval: 5000
+                        repeat: false
+                        running: true
+                    }
+                }
             }
             ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
         }
