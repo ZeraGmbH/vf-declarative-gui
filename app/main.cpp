@@ -166,7 +166,9 @@ int main(int argc, char *argv[])
                                                   QString("%1.debug=false").arg(VEIN_NET_TCP_VERBOSE().categoryName()) <<
                                                   QString("%1.debug=false").arg(VEIN_API_QML_INTROSPECTION().categoryName()) <<
                                                   QString("%1.debug=false").arg(VEIN_API_QML_VERBOSE().categoryName()) << // << "qt.qml.binding.removal.info=true"; //debug binding overrides
-                                 QString("qt.qml.diskcache.debug=true") << QString("qt.qml.compilation.debug=true");
+                                 QString("qt.scenegraph.general.debug=true") <<
+                                 QString("qt.qml.diskcache.debug=true") <<
+                                 QString("qt.scenegraph.time.compilation=true");
 
     QLoggingCategory::setFilterRules(loggingFilters.join("\n"));
 
