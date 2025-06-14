@@ -56,7 +56,6 @@ ListView {
             id: labelChannelName
             width: parent.width*0.5
             font.pointSize: smallPointSize
-            textFormat: Label.PlainText
             anchors.verticalCenter: parent.verticalCenter
             readonly property string channelString: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
             text: rangeModule["PAR_InvertPhase%1".arg(modelData)] === 1 ? invertString + channelString : channelString
@@ -65,7 +64,6 @@ ListView {
         }
         Label {
             width: parent.width*0.5
-            textFormat: Label.PlainText
             anchors.right: parent.right
             anchors.rightMargin: {
                 if(!isGroupTrailer)
