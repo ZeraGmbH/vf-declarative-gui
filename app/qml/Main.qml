@@ -217,7 +217,7 @@ ApplicationWindow {
                         visible: !safeDelay.running
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom
-                        width: parent.width * 0.3
+                        width: parent.width * 0.5
                         height: parent.height * 0.125
                         font.pointSize: parent.height * 0.04
                         text: Z.tr("Save/Send logs")
