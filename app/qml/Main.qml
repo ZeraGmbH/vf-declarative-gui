@@ -208,7 +208,7 @@ ApplicationWindow {
                     anchors.fill: parent
                     Label {
                         anchors.centerIn: parent
-                        text: safeDelay.running ? Z.tr("Please wait...") : "Something went wrong"
+                        text: safeDelay.running ? Z.tr("Please wait...") : Z.tr("Something went wrong")
                         font.pointSize: parent.height * 0.08
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
