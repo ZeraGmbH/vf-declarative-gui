@@ -25,6 +25,7 @@ ListView {
     property bool visibility: true
     property string invertString: "! "
     Timer {
+        id: invertIndicatorTimer
         interval: 500
         running: true
         repeat: true
