@@ -22,9 +22,22 @@ ListView {
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
     readonly property real groupSizeShrinkFactor: 1.1
 
+    property bool visibility: true
+    property string invertString: "! "
+    Timer {
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: {
+            visibility = !visibility
+            if(visibility)
+                invertString = "! "
+            else
+                invertString = ""
+        }
+    }
     delegate: Item {
         id: delegateItem
-        property bool visibility: true
         readonly property int systemChannelNo: modelData // 1-based!!
         readonly property bool isGroupTrailer: systemChannelNo === groupTrailerIdx
         readonly property bool isTrailerOrNotInGroup: isGroupTrailer || !MeasChannelInfo.isGroupMember(systemChannelNo)
@@ -44,19 +57,6 @@ ListView {
             font.pointSize: smallPointSize
             textFormat: Label.PlainText
             anchors.verticalCenter: parent.verticalCenter
-            property string invertString: "! "
-            Timer {
-                interval: 500
-                running: true
-                repeat: true
-                onTriggered: {
-                    visibility = !visibility
-                    if(visibility)
-                        labelChannelName.invertString = "! "
-                    else
-                        labelChannelName.invertString = ""
-                }
-            }
             readonly property string channelString: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
             text: rangeModule["PAR_InvertPhase%1".arg(modelData)] === 1 ? invertString + channelString : channelString
             color: FT.getColorByIndex(modelData)
