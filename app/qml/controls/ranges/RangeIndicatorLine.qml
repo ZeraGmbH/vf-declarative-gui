@@ -52,9 +52,9 @@ ListView {
                 onTriggered: {
                     visibility = !visibility
                     if(visibility)
-                        labelChannelName.invertString="! "
+                        labelChannelName.invertString = "! "
                     else
-                        labelChannelName.invertString="  "
+                        labelChannelName.invertString = ""
                 }
             }
             readonly property string channelString: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
