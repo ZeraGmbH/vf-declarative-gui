@@ -149,8 +149,13 @@ ToolBar {
                 targetItem: logStartButton
                 running: loggingActive
             }
-            Loader { // menu requires vein initialized && logging system available
+            Loader {
                 id: menuLoader
+                active: false
+                function openMenu() {
+                    menuLoader.active = true
+                    menuLoader.item.open()
+                }
                 sourceComponent: LoggerMenu {
                     onLoggerSettingsMenu: {
                         root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
@@ -173,11 +178,10 @@ ToolBar {
                         function onPleaseCloseMe(butOpenMenu) {
                             goHomeToPages()
                             if(butOpenMenu)
-                                 menuLoader.item.open()
+                                menuLoader.openMenu()
                         }
                     }
                 }
-                active: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             }
             onClicked: {
                 // we are already in logger settings
@@ -186,17 +190,15 @@ ToolBar {
                     // seems we were presses in logger settings without database selected
                     // let's assume user wants to get out of settings then and do not re.open
                     // logger settings
-                    if(VeinEntity.getEntity("_LoggingSystem").DatabaseReady) {
-                        menuLoader.item.open()
-                    }
+                    if(VeinEntity.getEntity("_LoggingSystem").DatabaseReady)
+                        menuLoader.openMenu()
                 }
                 else {
                     // are we somewhere but pages?
                     if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutPageIndex) {
                         goHomeToPages()
                     }
-                    // show our menu
-                    menuLoader.item.open()
+                    menuLoader.openMenu()
                 }
             }
         }
