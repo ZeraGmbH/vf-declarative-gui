@@ -34,6 +34,9 @@ ToolBar {
                 });
             }
         }
+        else
+            // avoid warnings on improper bindings
+            menuLoader.active = false
     }
 
     property bool measurementPaused: false
