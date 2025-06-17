@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
+import QtQml.Models 2.14
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import VeinEntity 1.0
