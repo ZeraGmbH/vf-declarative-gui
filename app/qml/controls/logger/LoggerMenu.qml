@@ -96,7 +96,7 @@ Item {
                     if(strContentSetsNotFound !== "") {
                         strContentSetsNotFound += ", "
                     }
-                    strContentSetsNotFound += dbContentSetArrWanted[currSet]
+                    strContentSetsNotFound += dbContentSetArrWanted[currSetIdx]
                 }
             }
             if(strContentSetsNotFound !== "") {
