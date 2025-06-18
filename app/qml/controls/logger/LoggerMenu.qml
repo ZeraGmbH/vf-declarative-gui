@@ -102,7 +102,9 @@ Item {
             if(strContentSetsNotFound !== "") {
                 console.warn("Cannot find content set(s) \"" + strContentSetsNotFound + "\" in available content sets!" )
             }
-            if(JSON.stringify(loggerEntity.currentContentSets.sort()) !== JSON.stringify(dbContentSetToSetArr.sort())) {
+            const currentContentSets = loggerEntity.currentContentSets.sort()
+            const targetContentSets = dbContentSetToSetArr.sort()
+            if(JSON.stringify(currentContentSets) !== JSON.stringify(targetContentSets)) {
                 ++veinResponsesRequired // we listen to loggedComponents -> one event
                 loggerEntity.currentContentSets = dbContentSetToSetArr
             }
