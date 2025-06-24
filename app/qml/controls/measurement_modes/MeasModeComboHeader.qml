@@ -100,10 +100,6 @@ Rectangle {
         onClicked: {
             setNominalFrequencyPopup.open()
         }
-        background: Rectangle {
-            color: Material.backgroundColor //isu: to dark
-            radius: 4
-        }
     }
 
     Popup {
@@ -111,51 +107,40 @@ Rectangle {
         anchors.centerIn: Overlay.overlay
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         modal: true
-        leftInset: -20
-        rightInset: -20
+        // Depending on session parent.width is different so we take own width
+        contentWidth: buttonRow.implicitWidth * 1.2
+        height: parent.height * 1.5
+
         ColumnLayout {
             id: setNominalFrequencyPopupContent
             anchors.fill: parent
-            spacing: 20
-            RowLayout {
-                Label {
-                    Layout.fillHeight: true
-                    font.pointSize: root.pointSize * 1.8
-                    text: Z.tr("NF (Nominal Frequency):")
-                }
-                VFLineEdit {
-                    implicitWidth: textField.implicitWidth
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    textField.topPadding: 0
-                    textField.bottomPadding: 4
-                    entity: root.entity
-                    controlPropertyName: "PAR_FOUT_NOMINAL_FREQ"
-                    pointSize: root.pointSize * 1.8
-                    validator: ZDoubleValidator {
-                         bottom: 10000
-                         top: 200000
-                         decimals: 0
-                    }
-                }
-                Label {
-                    Layout.fillHeight: true
-                    font.pointSize: pointSize * 1.8
-                    text: Z.tr("Hz")
-                }
+            anchors.horizontalCenter: parent.Center
+            Label {
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignHCenter || Qt.AlignTop
+                font.pointSize: root.pointSize * 1.8
+                text: Z.tr("NF (Nominal Frequency)")
             }
-
             RowLayout {
-                spacing: 30
-                Layout.alignment: Qt.RightButton
-
+                id: buttonRow
+                spacing: 40
+                Layout.alignment: Qt.AlignHCenter
                 Button {
-                    text: FAQ.fa_undo   //Set to default
+                    text: Z.tr("60 kHz");
                     font.pointSize: root.pointSize * 1.8
                     highlighted: false
-                    visible: root.entity.PAR_FOUT_NOMINAL_FREQ !== 200000
+                    onClicked: {
+                        root.entity.PAR_FOUT_NOMINAL_FREQ = 60000
+                        setNominalFrequencyPopup.close()
+                    }
+                }
+                Button {
+                    text: Z.tr("200 kHz");
+                    font.pointSize: root.pointSize * 1.8
+                    highlighted: false
                     onClicked: {
                         root.entity.PAR_FOUT_NOMINAL_FREQ = 200000
+                        setNominalFrequencyPopup.close()
                     }
                 }
                 Button {
