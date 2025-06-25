@@ -128,6 +128,7 @@ Rectangle {
                 Button {
                     text: Z.tr("60 kHz");
                     font.pointSize: root.pointSize * 1.8
+                    font.capitalization: Font.MixedCase
                     highlighted: false
                     onClicked: {
                         root.entity.PAR_FOUT_NOMINAL_FREQ = 60000
@@ -137,6 +138,7 @@ Rectangle {
                 Button {
                     text: Z.tr("200 kHz");
                     font.pointSize: root.pointSize * 1.8
+                    font.capitalization: Font.MixedCase
                     highlighted: false
                     onClicked: {
                         root.entity.PAR_FOUT_NOMINAL_FREQ = 200000
