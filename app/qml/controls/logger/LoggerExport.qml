@@ -31,12 +31,6 @@ Item {
     readonly property real contentWidth: visibleWidth * 3 / 4
 
     // vein entities
-    /* Note: we discussed a while on this:
-       Component _LoggingSystem.CustomerData contains the json filename the
-       session was created with. The component was created during exporter
-       implementation phase but it turned out later that it is useless here:
-       exporter takes customer data from static data stored. There is no reason
-       to touch CutomerData entity here. */
     property QtObject exportEntity: VeinEntity.getEntity("ExportModule") // our export worker
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem") // for databse/session...
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // mounted sticks
