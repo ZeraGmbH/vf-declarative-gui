@@ -30,6 +30,7 @@ SettingsView {
     readonly property bool fileNameAlreadyExists: filenameField.text.length>0 &&
                                                   foundFiles.indexOf(fullNewDbName()) >= 0
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
+    readonly property QtObject customerDataEntity: VeinEntity.getEntity("CustomerData")
     readonly property string currentDbFile: loggerEntity.DatabaseFile
     readonly property var existingSessions: loggerEntity.ExistingSessions
 
@@ -39,6 +40,7 @@ SettingsView {
 
         if(fetchOnDbSet && currentDbFile !== "") {
             fetchOnDbSet = false
+            // hack 2: create no customer session by default
             let sessionName = Z.tr("no customer")
             loggerEntity.sessionName = sessionName
             GC.setCurrDatabaseSessionName(sessionName)
@@ -207,7 +209,12 @@ SettingsView {
         height: parent.height - GC.vkeyboardHeight
         modal: !Qt.inputMethod.visible
         closePolicy: Popup.NoAutoClose
-        onOpened: filenameField.forceActiveFocus()
+        onOpened: {
+            // hack 1: ensure we create session with no customer data
+            // see onCurrentDbFileChanged / no customer
+            customerDataEntity.FileSelected = ""
+            filenameField.forceActiveFocus()
+        }
         onClosed: filenameField.clear()
         function startAddDb() {
             loggerEntity.sessionName = ""
