@@ -81,10 +81,10 @@ Item {
                 height: rowHeight * 0.77
                 Layout.fillWidth: true
                 function hasValidInput() {
-                    return textField.text !== "" && !loggerEntity.ExistingSessions.includes(textField.text)
+                    return textField.text !== "" && !loggerEntity.ExistingSessions.includes(textField.text) && textField.acceptableInput
                 }
                 property var regExCurr: {
-                        return /\b[_a-z0-9][_\-a-z0-9]*\b/
+                        return /\b[_\- a-zA-Z0-9]*\b/
                 }
                 validator: RegExpValidator {
                     regExp: sessionNameField.regExCurr
