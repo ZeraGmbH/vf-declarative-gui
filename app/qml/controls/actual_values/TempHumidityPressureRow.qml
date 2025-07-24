@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
@@ -25,7 +26,7 @@ Row {
         sourceComponent: GridItem {
             width: columnWidth * leftColumWithsScale
             height: rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             }
         }
 
@@ -34,7 +35,7 @@ Row {
         sourceComponent: GridItem {
             width: columnWidth
             height: rowHeight
-            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
             text: FT.formatNumberParamForScaledValues(Temperature, GC.digitsTotal, 1)
             }
         }
@@ -44,7 +45,7 @@ Row {
         sourceComponent: GridItem {
             width: columnWidth
             height: rowHeight
-            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
             text: FT.formatNumberParamForScaledValues(Humidity, GC.digitsTotal, 1)
             }
         }
@@ -54,7 +55,7 @@ Row {
        sourceComponent: GridItem {
             width: columnWidth
             height: rowHeight
-            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
              text: FT.formatNumberParamForScaledValues(Pressure, GC.digitsTotal, 1)
             }
         }
@@ -64,7 +65,7 @@ Row {
        sourceComponent: GridItem {
             width: columnWidth * rightColumWithsScale
             height: rowHeight
-            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
             }
         }
 }

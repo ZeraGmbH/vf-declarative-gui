@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.0
 import QtQml.Models 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
@@ -80,38 +81,38 @@ BaseTabPage {
                         GridItem {
                             width: page.columnWidth*0.7
                             height: page.rowHeight
-                            color: GC.tableShadeColor
+                            color: CS.tableShadeColor
                             text: Name!==undefined ? Name : ""
                             font.bold: true
                         }
                         GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
-                            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
                             text: valueText(L1, Name)
-                            textColor: isVoltagePage ? GC.colorUL1 : GC.colorIL1
+                            textColor: isVoltagePage ? CS.colorUL1 : CS.colorIL1
                             font.bold: index === 0
                         }
                         GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
-                            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
                             text: valueText(L2, Name)
-                            textColor: isVoltagePage ? GC.colorUL2 : GC.colorIL2
+                            textColor: isVoltagePage ? CS.colorUL2 : CS.colorIL2
                             font.bold: index === 0
                         }
                         GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
-                            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
                             text: valueText(L3, Name)
-                            textColor: isVoltagePage ? GC.colorUL3 : GC.colorIL3
+                            textColor: isVoltagePage ? CS.colorUL3 : CS.colorIL3
                             font.bold: index === 0
                         }
                         GridItem {
                             width: page.columnWidth/2
                             height: page.rowHeight
-                            color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
                             text: Unit ? Unit : ""
                             font.bold: index === 0
                         }

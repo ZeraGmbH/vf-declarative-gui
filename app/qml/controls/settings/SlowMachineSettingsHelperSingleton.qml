@@ -1,6 +1,7 @@
 pragma Singleton
 import QtQuick 2.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 
 Timer {
     /* Our target machine is terribly slow and some change of settings cause
@@ -42,10 +43,10 @@ Timer {
     }
     function getCurrentColor(index) {
         if(!allColorChangePending) {
-            return GC.currentColorTable[index-1]
+            return CS.currentColorTable[index-1]
         }
         else {
-            return GC.defaultColorsTableArray[nextColorScheme][index-1]
+            return CS.defaultColorsTableArray[nextColorScheme][index-1]
         }
     }
 
@@ -69,7 +70,7 @@ Timer {
             auxPhaseSetPending = false
         }
         if(allColorChangePending) {
-            GC.setSystemDefaultColors(nextColorScheme)
+            CS.setSystemDefaultColors(nextColorScheme)
             allColorChangePending = false
         }
         if(fftTableRelativePending) {

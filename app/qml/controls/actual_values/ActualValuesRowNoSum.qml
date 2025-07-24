@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation 1.0
@@ -20,7 +21,7 @@ Row {
     GridItem {
         width: columnWidth * leftColumWithsScale
         height: rowHeight
-        color: GC.tableShadeColor
+        color: CS.tableShadeColor
         text: Name!==undefined ? Name : ""
         textHorizontalAlignment: index === 0 ? Label.AlignHCenter : Label.AlignRight
         font.bold: true
@@ -28,28 +29,28 @@ Row {
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L1) + FT.getLambdaPowerTypeString(LOAD_TYPE1)
-        textColor: isCurrent ? GC.colorIL1 : GC.colorUL1
+        textColor: isCurrent ? CS.colorIL1 : CS.colorUL1
     }
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L2) + FT.getLambdaPowerTypeString(LOAD_TYPE2)
-        textColor: isCurrent ? GC.colorIL2 : GC.colorUL2
+        textColor: isCurrent ? CS.colorIL2 : CS.colorUL2
     }
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L3) + FT.getLambdaPowerTypeString(LOAD_TYPE3)
-        textColor: isCurrent ? GC.colorIL3 : GC.colorUL3
+        textColor: isCurrent ? CS.colorIL3 : CS.colorUL3
     }
     GridItem {
         width: columnWidth * rightColumWithsScale
         height: rowHeight
-        color: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
         text: Unit ? Unit : ""
     }
 }

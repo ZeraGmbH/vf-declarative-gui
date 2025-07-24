@@ -6,6 +6,7 @@ import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraLocale 1.0
@@ -150,7 +151,7 @@ Item {
                     max: minMax
                     tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
-                    minorGridLineColor: GC.dividerColor
+                    minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
                     labelsColor: FT.getColorByIndex(leftChannels[index]+1)
                     color: FT.getColorByIndex(leftChannels[index]+1)
@@ -165,7 +166,7 @@ Item {
                     max: minMax
                     tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
-                    minorGridLineColor: GC.dividerColor
+                    minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
                     labelsColor: FT.getColorByIndex(rightChannels[index]+1)
                     color: FT.getColorByIndex(rightChannels[index]+1)

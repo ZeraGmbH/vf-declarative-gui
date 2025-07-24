@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
@@ -158,7 +159,7 @@ Rectangle {
             z: 1
 
             Rectangle {
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
                 width: root.columnWidth-vBar.width
@@ -171,7 +172,7 @@ Rectangle {
                     width: root.columnWidth * (showAngles ? 2 : 1)
                     height: root.rowHeight
                     border.color: "#444" //disable border transparency
-                    color: GC.tableShadeColor
+                    color: CS.tableShadeColor
                     text: Z.tr(ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName)
                     textColor: FT.getColorByIndex(index+1)
                     font.bold: true
@@ -192,7 +193,7 @@ Rectangle {
                 z: 1
                 width: root.columnWidth-vBar.width
                 height: root.rowHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 text: Z.tr("THDN:")
                 textColor: Material.primaryTextColor
                 font.bold: true
@@ -226,7 +227,7 @@ Rectangle {
                 z: 1
                 width: root.columnWidth-vBar.width
                 height: root.rowHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 text: "n"
                 textColor: Material.primaryTextColor
                 font.bold: true
@@ -240,7 +241,7 @@ Rectangle {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        color: GC.tableShadeColor
+                        color: CS.tableShadeColor
                         border.color: "#444" //disable border transparency
                         text: (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+"]");
                         textColor: FT.getColorByIndex(index+1)
@@ -252,7 +253,7 @@ Rectangle {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            color: GC.tableShadeColor
+                            color: CS.tableShadeColor
                             border.color: "#444" //disable border transparency
                             text: Z.tr("Phase") + " [°]"
                             textColor: FT.getColorByIndex(index+1)
@@ -286,7 +287,7 @@ Rectangle {
                     z: 1
                     width: root.columnWidth-vBar.width
                     height: root.rowHeight
-                    color: Qt.lighter(GC.tableShadeColor, 1.0+(index/150))
+                    color: Qt.lighter(CS.tableShadeColor, 1.0+(index/150))
                     text: index
                     font.bold: true
                 }
@@ -295,7 +296,7 @@ Rectangle {
                     height: root.rowHeight
                     property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT1.Unit : ""
                     text: FT.formatNumber(AmplitudeL1) + unit
-                    textColor: GC.colorUL1
+                    textColor: CS.colorUL1
                     font.pixelSize: rowHeight*0.5
                 }
                 Loader {
@@ -305,7 +306,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL1)
-                        textColor: GC.colorUL1
+                        textColor: CS.colorUL1
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -314,7 +315,7 @@ Rectangle {
                     height: root.rowHeight
                     property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT2.Unit : ""
                     text: FT.formatNumber(AmplitudeL2) + unit
-                    textColor: GC.colorUL2
+                    textColor: CS.colorUL2
                     font.pixelSize: rowHeight*0.5
                 }
                 Loader {
@@ -324,7 +325,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL2)
-                        textColor: GC.colorUL2
+                        textColor: CS.colorUL2
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -333,7 +334,7 @@ Rectangle {
                     height: root.rowHeight
                     property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT3.Unit : ""
                     text: FT.formatNumber(AmplitudeL3) + unit
-                    textColor: GC.colorUL3
+                    textColor: CS.colorUL3
                     font.pixelSize: rowHeight*0.5
                 }
                 Loader {
@@ -343,7 +344,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL3)
-                        textColor: GC.colorUL3
+                        textColor: CS.colorUL3
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -352,7 +353,7 @@ Rectangle {
                     height: root.rowHeight
                     property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT4.Unit : ""
                     text: FT.formatNumber(AmplitudeL4) + unit
-                    textColor: GC.colorIL1
+                    textColor: CS.colorIL1
                     font.pixelSize: rowHeight*0.5
                 }
                 Loader {
@@ -362,7 +363,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL4)
-                        textColor: GC.colorIL1
+                        textColor: CS.colorIL1
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -371,7 +372,7 @@ Rectangle {
                     height: root.rowHeight
                     property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT5.Unit : ""
                     text: FT.formatNumber(AmplitudeL5) + unit
-                    textColor: GC.colorIL2
+                    textColor: CS.colorIL2
                     font.pixelSize: rowHeight*0.5
                 }
                 Loader {
@@ -381,7 +382,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL5)
-                        textColor: GC.colorIL2
+                        textColor: CS.colorIL2
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -390,7 +391,7 @@ Rectangle {
                     height: root.rowHeight
                     property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT6.Unit : ""
                     text: FT.formatNumber(AmplitudeL6) + unit
-                    textColor: GC.colorIL3
+                    textColor: CS.colorIL3
                     font.pixelSize: rowHeight*0.5
                 }
                 Loader {
@@ -400,7 +401,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL6)
-                        textColor: GC.colorIL3
+                        textColor: CS.colorIL3
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -412,7 +413,7 @@ Rectangle {
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT7.Unit : ""
                         text: FT.formatNumber(AmplitudeL7) + unit
-                        textColor: GC.colorUAux1
+                        textColor: CS.colorUAux1
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -423,7 +424,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL7)
-                        textColor: GC.colorUAux1
+                        textColor: CS.colorUAux1
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -435,7 +436,7 @@ Rectangle {
                         height: root.rowHeight
                         property string unit: index===1 && relativeView ? ModuleIntrospection.fftIntrospection.ComponentInfo.ACT_FFT8.Unit : ""
                         text: FT.formatNumber(AmplitudeL8) + unit
-                        textColor: GC.colorIAux1
+                        textColor: CS.colorIAux1
                         font.pixelSize: rowHeight*0.5
                     }
                 }
@@ -446,7 +447,7 @@ Rectangle {
                         width: root.columnWidth
                         height: root.rowHeight
                         text: FT.formatNumber(AngleL8)
-                        textColor: GC.colorIAux1
+                        textColor: CS.colorIAux1
                         font.pixelSize: rowHeight*0.5
                     }
                 }

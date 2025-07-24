@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import QwtChart 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraTranslation 1.0
@@ -121,7 +122,7 @@ ListView {
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
             font.pointSize: pointSize
-            color: GC.currentColorTable[leftChannels[index]]
+            color: CS.currentColorTable[leftChannels[index]]
         }
         Text {
             id: thdnTextI
@@ -132,7 +133,7 @@ ListView {
             readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
             text: strThdn + FT.formatNumber(thdnModule[componentName]) + unit
             font.pointSize: pointSize
-            color: GC.currentColorTable[rightChannels[index]]
+            color: CS.currentColorTable[rightChannels[index]]
         }
 
         FftBarChart {
@@ -148,8 +149,8 @@ ListView {
             bottomLabelsEnabled: true
             logScaleLeftAxis: false
             logScaleRightAxis: false
-            colorLeftAxis: GC.currentColorTable[leftChannels[index]]
-            colorRightAxis: GC.currentColorTable[rightChannels[index]]
+            colorLeftAxis: CS.currentColorTable[leftChannels[index]]
+            colorRightAxis: CS.currentColorTable[rightChannels[index]]
 
             leftValue: fftModule[String("ACT_FFT%1").arg(leftChannels[index]+1)]
             rightValue: fftModule[String("ACT_FFT%1").arg(rightChannels[index]+1)]

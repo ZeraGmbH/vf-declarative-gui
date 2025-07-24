@@ -6,6 +6,7 @@ import QtQml.Models 2.14
 import VeinEntity 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import PowerModuleVeinGetter 1.0
@@ -85,7 +86,7 @@ Item {
             active: isEnergyComparison
             sourceComponent: Rectangle {
                 color: Material.backgroundColor
-                border.color: GC.dividerColor
+                border.color: CS.dividerColor
                 height: root.rowHeight
                 width: root.width
                 enabled: logicalParent.canStartMeasurement
@@ -116,7 +117,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: GC.dividerColor
+            border.color: CS.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -239,7 +240,7 @@ Item {
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: Material.backgroundColor
-                border.color: GC.dividerColor
+                border.color: CS.dividerColor
                 height: root.rowHeight
                 width: root.width
 
@@ -345,7 +346,7 @@ Item {
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: Material.backgroundColor
-                border.color: GC.dividerColor
+                border.color: CS.dividerColor
                 height: root.rowHeight
                 width: root.width
 
@@ -380,7 +381,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: GC.dividerColor
+            border.color: CS.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement && errCalEntity.PAR_Continuous !== 1
@@ -444,7 +445,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: GC.dividerColor
+            border.color: CS.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -492,7 +493,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: GC.dividerColor
+            border.color: CS.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement

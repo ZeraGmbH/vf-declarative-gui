@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick 2.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import MeasChannelInfo 1.0
 import ZeraLocale 1.0
 import ZeraTranslation 1.0
@@ -12,8 +13,8 @@ Item {
     function getColorByIndex(rangIndex) {
         let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
         if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
-            return GC.groupColorReference
-        return GC.currentColorTable[rangIndex-1]
+            return CS.groupColorReference
+        return CS.currentColorTable[rangIndex-1]
     }
 
     /////////////////////////////////////////////////////////////////////////////

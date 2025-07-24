@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import QwtChart 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import ModuleIntrospection 1.0
 import ZeraTranslation  1.0
 
@@ -117,7 +118,7 @@ Item {
 
                     titleLeftAxis: getTitleLabel();
                     bottomLabelsEnabled: true
-                    colorLeftAxis: GC.currentColorTable[index]
+                    colorLeftAxis: CS.currentColorTable[index]
 
                     pValueList: power3Module[String("ACT_HPP%1").arg(index+1)];
                     qValueList: power3Module[String("ACT_HPQ%1").arg(index+1)];

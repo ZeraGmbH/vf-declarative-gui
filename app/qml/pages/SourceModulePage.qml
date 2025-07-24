@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import DeclarativeJson 1.0
@@ -144,13 +145,13 @@ Item {
         colorTable[5] = Qt.darker(colorTable[5], darken) // I2
     }
     property var currentColorTable: {
-        let colorTable = [...GC.currentColorTable]
+        let colorTable = [...CS.currentColorTable]
         if(symmetricCheckbox.checked)
             darkenColorTable(colorTable)
         return colorTable
     }
     property var currentColorTableVectors: {
-        let colorTable = [...GC.currentColorTable]
+        let colorTable = [...CS.currentColorTable]
         if(symmetricCheckbox.checked)
             darkenColorTable(colorTable)
         return colorTable
@@ -296,7 +297,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             height: lineHeightHeaderLine
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
         }
         Repeater { // U/I rectangles
             model: uiModel
@@ -304,7 +305,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: linesStandardUI * lineHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 Label {
                     textFormat: Text.PlainText
                     anchors.verticalCenter: parent.verticalCenter
@@ -341,7 +342,7 @@ Item {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         width: columnWidth
-                        color: GC.tableShadeColor
+                        color: CS.tableShadeColor
                         Label {
                             textFormat: Text.PlainText
                             anchors.fill: parent
@@ -350,7 +351,7 @@ Item {
                             verticalAlignment: Label.AlignVCenter
                             font.pointSize: headerPointSize
                             text: modelData.phaseNameDisplay
-                            color: GC.currentColorTable[modelData.colorIndexU]
+                            color: CS.currentColorTable[modelData.colorIndexU]
                         }
                     }
                 }
@@ -485,7 +486,7 @@ Item {
                                         anchors.fill: parent
                                         arrayMode: true
                                         model: [Z.tr('none')]
-                                        textColor: GC.currentColorTable[uiType === 'U' ?
+                                        textColor: CS.currentColorTable[uiType === 'U' ?
                                                                             modelData.colorIndexU :
                                                                             modelData.colorIndexI]
                                     }
@@ -511,7 +512,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             height: lineHeightHeaderLine
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             Label {
                 textFormat: Text.PlainText
                 anchors.verticalCenter: parent.verticalCenter
@@ -1027,14 +1028,14 @@ Item {
                 for(var idx of [1,2,3]) {
                     let strSpace = idx !== 1 ? " " : ""
                     let strPhase = Z.tr("Phase" + String(idx))
-                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + strPhase + "</font>"
+                    lineStr += strSpace + "<font color='" + CS.currentColorTable[idx-1] + "'>" + strPhase + "</font>"
                 }
                 retModel.push(lineStr)
                 lineStr = ""
                 for(idx of [1,3,2]) {
                     let strSpace = idx !== 1 ? " " : ""
                     let strPhase = Z.tr("Phase" + String(idx))
-                    lineStr += strSpace + "<font color='" + GC.currentColorTable[idx-1] + "'>" + strPhase + "</font>"
+                    lineStr += strSpace + "<font color='" + CS.currentColorTable[idx-1] + "'>" + strPhase + "</font>"
                 }
                 retModel.push(lineStr)
                 return retModel

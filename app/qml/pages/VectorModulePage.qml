@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import VeinEntity 1.0
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
@@ -182,7 +183,7 @@ Item {
             let valUnitArr = FT.doAutoScale(maxVoltage / (1000*phasorDiagram.maxNominalFactor * Math.SQRT2), "V")
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
-        text: "<font color='" + GC.colorUL1 + "'>"+ "U: " + valueStr + " * √2" + "</font>"
+        text: "<font color='" + CS.colorUL1 + "'>"+ "U: " + valueStr + " * √2" + "</font>"
         anchors.bottom: currentIndicator.top
         anchors.bottomMargin: GC.standardTextBottomMargin
         anchors.left: circleIndicator.right
@@ -198,7 +199,7 @@ Item {
             let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * phasorDiagram.maxNominalFactor * Math.SQRT2), "A")
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
-        text: "<font color='" + GC.colorIL1 + "'>"+ "I: " + valueStr + " * √2" + "</font>"
+        text: "<font color='" + CS.colorIL1 + "'>"+ "I: " + valueStr + " * √2" + "</font>"
         anchors.bottom: root.bottom;
         anchors.bottomMargin: GC.standardTextBottomMargin
         anchors.left: circleIndicator.right

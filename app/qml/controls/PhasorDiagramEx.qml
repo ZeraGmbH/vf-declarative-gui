@@ -2,6 +2,7 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
@@ -34,12 +35,12 @@ PhasorDiagram {
     fromX: Math.floor(width/2)
     fromY: Math.floor(height/2)
 
-    vector1Color: GC.colorUL1
-    vector2Color: GC.colorUL2
-    vector3Color: GC.colorUL3
-    vector4Color: GC.colorIL1
-    vector5Color: GC.colorIL2
-    vector6Color: GC.colorIL3
+    vector1Color: CS.colorUL1
+    vector2Color: CS.colorUL2
+    vector3Color: CS.colorUL3
+    vector4Color: CS.colorIL1
+    vector5Color: CS.colorIL2
+    vector6Color: CS.colorIL3
 
     readonly property real din410PhiOrigin: Math.atan2(vector1Data[1], vector1Data[0])+Math.PI/2
     readonly property real iec387PhiOrigin: Math.atan2(vector4Data[1], vector4Data[0])

@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
@@ -19,7 +19,7 @@ Row {
     GridItem {
         width: columnWidth * leftColumWithsScale
         height: rowHeight
-        color: GC.tableShadeColor
+        color: CS.tableShadeColor
         text: NAME !== undefined ? NAME : ""
         font.bold: true
     }

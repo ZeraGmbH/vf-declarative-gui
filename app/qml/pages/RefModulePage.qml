@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import "../controls"
@@ -31,7 +32,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             text: Z.tr("REF1")
             font.bold: true
             font.pixelSize: height*0.3
@@ -39,7 +40,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             text: Z.tr("REF2")
             font.bold: true
             font.pixelSize: height*0.3
@@ -47,7 +48,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             text: Z.tr("REF3")
             font.bold: true
             font.pixelSize: height*0.3
@@ -55,7 +56,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             text: Z.tr("REF4")
             font.bold: true
             font.pixelSize: height*0.3
@@ -63,7 +64,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             text: Z.tr("REF5")
             font.bold: true
             font.pixelSize: height*0.3
@@ -71,7 +72,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             text: Z.tr("REF6")
             font.bold: true
             font.pixelSize: height*0.3
@@ -79,7 +80,7 @@ Item {
         GridItem {
             width: basicRowWidth
             height: root.rowHeight
-            color: GC.tableShadeColor
+            color: CS.tableShadeColor
             text: "[ ]"
             font.bold: true
             font.pixelSize: height*0.3
@@ -103,7 +104,7 @@ Item {
                     height: root.rowHeight
                     clip: true
                     text: FT.formatNumberParam(dftModule.ACT_DFTPN1[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
-                    textColor: GC.groupColorReference
+                    textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
                 GridItem {
@@ -111,7 +112,7 @@ Item {
                     height: root.rowHeight
                     clip: true
                     text: FT.formatNumberParam(dftModule.ACT_DFTPN2[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
-                    textColor: GC.groupColorReference
+                    textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
                 GridItem {
@@ -119,7 +120,7 @@ Item {
                     height: root.rowHeight
                     clip: true
                     text: FT.formatNumberParam(dftModule.ACT_DFTPN3[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
-                    textColor: GC.groupColorReference
+                    textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
                 GridItem {
@@ -127,7 +128,7 @@ Item {
                     height: root.rowHeight
                     clip: true
                     text: FT.formatNumberParam(dftModule.ACT_DFTPN4[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
-                    textColor: GC.groupColorReference
+                    textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
                 GridItem {
@@ -135,7 +136,7 @@ Item {
                     height: root.rowHeight
                     clip: true
                     text: FT.formatNumberParam(dftModule.ACT_DFTPN5[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
-                    textColor: GC.groupColorReference
+                    textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
                 GridItem {
@@ -143,7 +144,7 @@ Item {
                     height: root.rowHeight
                     clip: true
                     text: FT.formatNumberParam(dftModule.ACT_DFTPN6[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
-                    textColor: GC.groupColorReference
+                    textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
                 GridItem {

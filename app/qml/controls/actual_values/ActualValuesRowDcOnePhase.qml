@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
-import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
@@ -23,22 +23,22 @@ Row {
     GridItem {
         width: row.rowWidth * leftColumWithsScale
         height: row.rowHeight
-        color: GC.tableShadeColor
+        color: CS.tableShadeColor
         text: Name!==undefined ? Name : ""
         font.bold: true
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? CS.tableShadeColor : Material.backgroundColor
         textHorizontalAlignment: Label.AlignHCenter
         text: FT.formatNumberForScaledValues(AUX)
-        textColor: isCurrent ? GC.colorIAux1 : GC.colorUAux1
+        textColor: isCurrent ? CS.colorIAux1 : CS.colorUAux1
     }
     GridItem {
         width: row.rowWidth * rightColumWithsScale
         height: row.rowHeight
-        color: isHeaderRow ? GC.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? CS.tableShadeColor : Material.backgroundColor
         text: Unit ? Unit : ""
     }
 }

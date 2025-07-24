@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQml.Models 2.14
 import SessionState 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
 import AppStarterForWebserverSingleton 1.0
@@ -37,7 +38,7 @@ SettingsView {
         width: root.width*0.7
         height: root.safeHeight*0.7
         onColorAccepted: {
-            GC.setSystemColorByIndex(systemIndex, t_color)
+            CS.setSystemColorByIndex(systemIndex, t_color)
         }
     }
 

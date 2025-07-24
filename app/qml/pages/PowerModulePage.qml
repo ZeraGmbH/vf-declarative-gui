@@ -3,7 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import PowerModuleVeinGetter 1.0
 import ZeraVeinComponents 1.0
@@ -54,11 +54,11 @@ Item {
             Row {
                 id: row
                 height: index === 0 ? row1stHeight : rowHeight
-                readonly property string rowColor: index === 0 ? GC.tableShadeColor : Material.backgroundColor
+                readonly property string rowColor: index === 0 ? CS.tableShadeColor : Material.backgroundColor
                 GridItem {
                     width: firstColumnWidth
                     height: parent.height
-                    color: GC.tableShadeColor
+                    color: CS.tableShadeColor
                     text: Name!==undefined ? Name : ""
                 }
                 GridItem {
@@ -67,7 +67,7 @@ Item {
                     text: FT.formatNumberForScaledValues(L1)
                     font.pixelSize: pixelSize
                     color: row.rowColor
-                    textColor: GC.colorUL1
+                    textColor: CS.colorUL1
                 }
                 GridItem {
                     width: valueColumnWidth
@@ -75,7 +75,7 @@ Item {
                     text: FT.formatNumberForScaledValues(L2)
                     font.pixelSize: pixelSize
                     color: row.rowColor
-                    textColor: GC.colorUL2
+                    textColor: CS.colorUL2
                 }
                 GridItem {
                     width: valueColumnWidth
@@ -83,7 +83,7 @@ Item {
                     text: FT.formatNumberForScaledValues(L3)
                     font.pixelSize: pixelSize
                     color: row.rowColor
-                    textColor: GC.colorUL3
+                    textColor: CS.colorUL3
                 }
                 GridItem {
                     width: valueColumnWidth

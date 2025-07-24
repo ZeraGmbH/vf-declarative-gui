@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
@@ -65,45 +66,45 @@ Item {
             GridRect {
                 width: columnWidth1st
                 height: row1stHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 //spacer
             }
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 text: Z.tr("L1")
-                textColor: GC.colorUL1
+                textColor: CS.colorUL1
                 font.pixelSize: pixelSize
             }
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 text: Z.tr("L2")
-                textColor: GC.colorUL2
+                textColor: CS.colorUL2
                 font.pixelSize: pixelSize
             }
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 text: Z.tr("L3")
-                textColor: GC.colorUL3
+                textColor: CS.colorUL3
                 font.pixelSize: pixelSize
             }
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 text: "Σ"
-                textColor: GC.colorUL3
+                textColor: CS.colorUL3
                 font.pixelSize: pixelSize
             }
             GridItem {
                 width: columnWidthLast
                 height: row1stHeight
-                color: GC.tableShadeColor
+                color: CS.tableShadeColor
                 text: "[ ]"
                 font.pixelSize: pixelSize
             }
@@ -124,7 +125,7 @@ Item {
                         //title
                         width: columnWidth1st
                         height: rowHeight
-                        color: GC.tableShadeColor
+                        color: CS.tableShadeColor
                         font.pixelSize: pixelSize
                         text: {
                             var retVal = "";
@@ -146,7 +147,7 @@ Item {
                         //l1
                         width: columnWidth
                         height: rowHeight
-                        textColor: GC.colorUL1
+                        textColor: CS.colorUL1
                         text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(1)]);
                         font.pixelSize: pixelSize
                     }
@@ -154,7 +155,7 @@ Item {
                         //l2
                         width: columnWidth
                         height: rowHeight
-                        textColor: GC.colorUL2
+                        textColor: CS.colorUL2
                         text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(2)]);
                         font.pixelSize: pixelSize
                     }
@@ -162,7 +163,7 @@ Item {
                         //l3
                         width: columnWidth
                         height: rowHeight
-                        textColor: GC.colorUL3
+                        textColor: CS.colorUL3
                         text: FT.formatNumber(power2Module1[String(ced_root.getProperty(index)).arg(3)]);
                         font.pixelSize: pixelSize
                     }

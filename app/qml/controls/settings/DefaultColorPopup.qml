@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.4
 import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import ZeraTranslation  1.0
 import FontAwesomeQml 1.0
 import SlowMachineSettingsHelper 1.0
@@ -34,7 +35,7 @@ Loader {
             anchors.right: parent.right
             anchors.bottom: sliderRowBrightness.top
             spacing: 4
-            readonly property int countColourThemes: GC.defaultColorsTableArray.length
+            readonly property int countColourThemes: CS.defaultColorsTableArray.length
             model: countColourThemes
             interactive: false
             delegate: Rectangle {
@@ -60,7 +61,7 @@ Loader {
                             Layout.fillHeight: true
                             text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${index+1}Range`].ChannelName)
                             font.pointSize: colourListView.height * 0.040
-                            color: GC.defaultColorsTableArray[lineDelegate.row][index]
+                            color: CS.defaultColorsTableArray[lineDelegate.row][index]
                             verticalAlignment: Text.AlignVCenter
                             textFormat: Text.PlainText
                         }
@@ -92,12 +93,12 @@ Loader {
                 to: 1.9
                 property bool completed: false
                 Component.onCompleted: {
-                    value = GC.currentBrightness
+                    value = CS.currentBrightness
                     completed = true
                 }
                 onValueChanged: {
                     if(completed) {
-                        GC.setCurrentBrigtness(value)
+                        CS.setCurrentBrigtness(value)
                     }
                 }
             }
@@ -122,12 +123,12 @@ Loader {
                 to: 35
                 property bool completed: false
                 Component.onCompleted: {
-                    value = GC.blackBrightness
+                    value = CS.blackBrightness
                     completed = true
                 }
                 onValueChanged: {
                     if(completed) {
-                        GC.setBlackBrigtness(value)
+                        CS.setBlackBrigtness(value)
                     }
                 }
             }
@@ -140,9 +141,9 @@ Loader {
 
             anchors.verticalCenter: sliderRowBrightness.bottom
             onClicked: {
-                GC.restoreDefaultBrighnesses()
-                sliderCurrent.value = GC.currentBrightness
-                sliderBlack.value = GC.blackBrightness
+                CS.restoreDefaultBrighnesses()
+                sliderCurrent.value = CS.currentBrightness
+                sliderBlack.value = CS.blackBrightness
             }
         }
     }

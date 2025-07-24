@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import AppStarterForWebGLSingleton 1.0
 import ZeraTranslation  1.0
-import GlobalConfig 1.0
+import ColorSettings 1.0
 import ModuleIntrospection 1.0
 import ZeraFa 1.0
 import ZeraLocale 1.0
@@ -42,7 +42,7 @@ Rectangle {
         lowerErrorMarginLine.append(1, minValue);
     }
 
-    border.color: GC.dividerColor
+    border.color: CS.dividerColor
     color: rating !== 0 || (measNum==0 && !finished) ? "transparent" : "#11FF0000";
 
     ChartView {
@@ -83,7 +83,7 @@ Rectangle {
 
             tickCount: 7
 
-            minorGridLineColor: GC.dividerColor
+            minorGridLineColor: CS.dividerColor
             gridLineColor: Material.frameColor
             labelsColor: Material.primaryTextColor
             color: Material.frameColor

@@ -4,6 +4,7 @@ import QtQuick.Controls 2.14
 import QtCharts 2.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
+import ColorSettings 1.0
 import SessionState 1.0
 import VfRecorderJsonHelper 1.0
 import ZeraComponents 1.0
@@ -156,7 +157,7 @@ Item {
                 verticalAlignment: Label.AlignVCenter
             }
             ZCheckBox {
-                text: "<font color='" + GC.colorUL1 + "'>" + Z.tr("L1") + "</font>"
+                text: "<font color='" + CS.colorUL1 + "'>" + Z.tr("L1") + "</font>"
                 width: root.graphWidth
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -169,7 +170,7 @@ Item {
                     GC.setPhaseOne(checked)
             }
             ZCheckBox {
-                text: "<font color='" + GC.colorUL2 + "'>" + Z.tr("L2") + "</font>"
+                text: "<font color='" + CS.colorUL2 + "'>" + Z.tr("L2") + "</font>"
                 width: root.graphWidth
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -182,7 +183,7 @@ Item {
                     GC.setPhaseTwo(checked)
             }
             ZCheckBox {
-                text: "<font color='" + GC.colorUL3 + "'>" + Z.tr("L3") + "</font>"
+                text: "<font color='" + CS.colorUL3 + "'>" + Z.tr("L3") + "</font>"
                 width: parent.width
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -369,7 +370,7 @@ Item {
                 name: powerComponentsACDC[0]
                 axisX: axisXPower
                 axisY: axisYPower
-                color: SessionState.dcSession ? GC.colorUAux1 : GC.colorUL1
+                color: SessionState.dcSession ? CS.colorUAux1 : CS.colorUL1
                 visible: GC.showCurvePhaseOne || SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
@@ -377,7 +378,7 @@ Item {
                 name: powerComponentsACDC[1]
                 axisX: axisXPower
                 axisY: axisYPower
-                color: GC.colorUL2
+                color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
@@ -385,7 +386,7 @@ Item {
                 name: powerComponentsACDC[2]
                 axisX: axisXPower
                 axisY: axisYPower
-                color: GC.colorUL3
+                color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
@@ -538,7 +539,7 @@ Item {
                 name: voltageComponentsAC[0]
                 axisX: axisX
                 axisY: axisYLeft
-                color: GC.colorUL1
+                color: CS.colorUL1
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
@@ -546,7 +547,7 @@ Item {
                 name: voltageComponentsAC[1]
                 axisX: axisX
                 axisY: axisYLeft
-                color: GC.colorUL2
+                color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
@@ -554,7 +555,7 @@ Item {
                 name: voltageComponentsAC[2]
                 axisX: axisX
                 axisY: axisYLeft
-                color: GC.colorUL3
+                color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
@@ -562,7 +563,7 @@ Item {
                 name: currentComponentsAC[0]
                 axisX: axisX
                 axisYRight: axisYRight
-                color: GC.colorIL1
+                color: CS.colorIL1
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
@@ -570,7 +571,7 @@ Item {
                 name: currentComponentsAC[1]
                 axisX: axisX
                 axisYRight: axisYRight
-                color: GC.colorIL2
+                color: CS.colorIL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
@@ -578,7 +579,7 @@ Item {
                 name: currentComponentsAC[2]
                 axisX: axisX
                 axisYRight: axisYRight
-                color: GC.colorIL3
+                color: CS.colorIL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
@@ -586,7 +587,7 @@ Item {
                 name: voltageComponentsDC[0]
                 axisX: axisX
                 axisY: axisYLeft
-                color: GC.colorUAux1
+                color: CS.colorUAux1
                 visible: SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
@@ -594,7 +595,7 @@ Item {
                 name: currentComponentsDC[0]
                 axisX: axisX
                 axisYRight: axisYRight
-                color: GC.colorIAux1
+                color: CS.colorIAux1
                 visible: SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
