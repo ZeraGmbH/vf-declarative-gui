@@ -71,11 +71,7 @@ BaseTabPage {
 
     Component{
         id: netPage
-        NetworkManager{
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.margins: 0
-        }
+        NetworkManager { }
     }
 
     Component{
