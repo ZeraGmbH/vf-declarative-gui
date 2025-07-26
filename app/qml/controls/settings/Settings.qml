@@ -1,11 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
-import QtQml.Models 2.1
-import QtQuick.Controls.Material 2.0
-import QtQuick.VirtualKeyboard.Settings 2.2
 import GlobalConfig 1.0
-import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
