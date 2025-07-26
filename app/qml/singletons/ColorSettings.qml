@@ -12,20 +12,20 @@ Item {
     readonly property color dividerColor: Material.dividerColor //Qt.darker("darkgrey", 2.5)
     readonly property color tableShadeColor: "#003040"
 
-    property color colorUL1: getColorByIndex(0)
-    property color colorUL2: getColorByIndex(1)
-    property color colorUL3: getColorByIndex(2)
-    property color colorIL1: getColorByIndex(3)
-    property color colorIL2: getColorByIndex(4)
-    property color colorIL3: getColorByIndex(5)
-    property color colorUAux1: getColorByIndex(6)
-    property color colorIAux1: getColorByIndex(7)
+    property color colorUL1: getInitialColorByIndex(0)
+    property color colorUL2: getInitialColorByIndex(1)
+    property color colorUL3: getInitialColorByIndex(2)
+    property color colorIL1: getInitialColorByIndex(3)
+    property color colorIL2: getInitialColorByIndex(4)
+    property color colorIL3: getInitialColorByIndex(5)
+    property color colorUAux1: getInitialColorByIndex(6)
+    property color colorIAux1: getInitialColorByIndex(7)
 
     function getColorByIndex(idx) {
-        return Settings.getOption(arrayJsonColorNames[idx], initialColorTable[idx])
+        return currentColorTable[idx]
     }
 
-    function getColorByIndexWithReference(rangIndex) {
+    function getColorByIndexWithReference(rangIndex) { // Index starts on 1!!!
         let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
         if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
             return groupColorReference
@@ -128,6 +128,10 @@ Item {
 
     /////////////////////////////////////////////////////////////////////////////
     // private
+
+    function getInitialColorByIndex(idx) {
+        return Settings.getOption(arrayJsonColorNames[idx], initialColorTable[idx])
+    }
 
     readonly property var arrayJsonColorNames:
         ["colorUL1",     // 1
