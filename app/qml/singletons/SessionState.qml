@@ -6,15 +6,16 @@ Item {
     property string currentSession
     onCurrentSessionChanged: {
         if(currentSession !== "") {
-            var availableEntityIds = VeinEntity.getEntity("_System")["Entities"];
+            let ve = VeinEntity
+            let availableEntityIds = ve.getEntity("_System")["Entities"];
             if(availableEntityIds === undefined)
                 availableEntityIds = [];
-            var oldIdList = VeinEntity.getEntityList();
+            let oldIdList = ve.getEntityList();
 
-            for(var idIterator in availableEntityIds) {
+            for(let idIterator in availableEntityIds) {
                 let entityId = availableEntityIds[idIterator]
                 if(!oldIdList.includes(entityId))
-                    VeinEntity.entitySubscribeById(entityId);
+                    ve.entitySubscribeById(entityId);
             }
         }
     }
