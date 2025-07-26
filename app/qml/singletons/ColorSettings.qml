@@ -5,26 +5,25 @@ import ZeraSettings 1.0
 
 Item {
     /////////////////////////////////////////////////////////////////////////////
-    // Color settins...
+    // public
 
     readonly property color dividerColor: Material.dividerColor //Qt.darker("darkgrey", 2.5)
-    readonly property var arrayJsonColorNames:
-        ["colorUL1",     // 1
-        "colorUL2",     // 2
-        "colorUL3",     // 3
-        "colorIL1",     // 4
-        "colorIL2",     // 5
-        "colorIL3",     // 6
-        "colorUAux1",   // 7
-        "colorIAux1"]  // 8
+    readonly property color tableShadeColor: "#003040"
 
-    readonly property real defaultCurrentBrightness: 1.75
+    property color colorUL1: Settings.getOption(arrayJsonColorNames[0], initialColorTable[0])
+    property color colorUL2: Settings.getOption(arrayJsonColorNames[1], initialColorTable[1])
+    property color colorUL3: Settings.getOption(arrayJsonColorNames[2], initialColorTable[2])
+    property color colorIL1: Settings.getOption(arrayJsonColorNames[3], initialColorTable[3])
+    property color colorIL2: Settings.getOption(arrayJsonColorNames[4], initialColorTable[4])
+    property color colorIL3: Settings.getOption(arrayJsonColorNames[5], initialColorTable[5])
+    property color colorUAux1: Settings.getOption(arrayJsonColorNames[6], initialColorTable[6])
+    property color colorIAux1: Settings.getOption(arrayJsonColorNames[7], initialColorTable[7])
+
     property real currentBrightness: parseFloat(Settings.getOption("currentBrightness", defaultCurrentBrightness))
     function setCurrentBrigtness(brightness) {
         currentBrightness = brightness
         Settings.setOption("currentBrightness", brightness);
     }
-    readonly property real defaultBlackBrightness: 35
     property real blackBrightness: parseFloat(Settings.getOption("blackBrightness", defaultBlackBrightness))
     function setBlackBrigtness(brightness) {
         blackBrightness = brightness
@@ -35,32 +34,6 @@ Item {
         setBlackBrigtness(defaultBlackBrightness)
     }
 
-    readonly property string baseBlue:   "#EE0092ff"
-    readonly property string baseBrown:  "#EE9b5523"
-    readonly property string baseGreen:  "#EE00C000"
-    readonly property string basePurple: "#EEE000E0"
-    readonly property string baseRed:    "#EEff0000"
-    readonly property string baseYellow: "#EEffff00"
-
-    readonly property string baseWhite:  "#ffffffff" // white is opposite
-    readonly property string baseWhite2: "#EEA0A0A0"
-
-    readonly property string baseGrey:   "#EEB0B0B0"
-    readonly property string baseGrey2:  "#EEffffff"
-
-    readonly property string baseBlack:  "#EE080808"
-    readonly property string baseBlack2: "#EE707070"
-    readonly property var initialColorTable: {
-        function colorCurrent(baseColor) {
-            return Qt.lighter(baseColor, defaultCurrentBrightness)
-        }
-        function colorBlack(baseColor) {
-            return Qt.lighter(baseColor, defaultBlackBrightness)
-        }
-        // sorting is odd (historical..): U1 / U2 / U3 / I1 /I2 / I3 / UAux / IAux
-        // 0: International
-        return [ baseRed, baseYellow, baseBlue, colorCurrent(baseRed), colorCurrent(baseYellow), colorCurrent(baseBlue), colorBlack(baseBlack), colorCurrent(baseBlack2) ]
-    }
     readonly property var defaultColorsTableArray: {
         function colorCurrent(baseColor) {
             return Qt.lighter(baseColor, currentBrightness)
@@ -137,17 +110,49 @@ Item {
         }
     }
 
-    property color colorUL1: Settings.getOption(arrayJsonColorNames[0], initialColorTable[0])
-    property color colorUL2: Settings.getOption(arrayJsonColorNames[1], initialColorTable[1])
-    property color colorUL3: Settings.getOption(arrayJsonColorNames[2], initialColorTable[2])
-    property color colorIL1: Settings.getOption(arrayJsonColorNames[3], initialColorTable[3])
-    property color colorIL2: Settings.getOption(arrayJsonColorNames[4], initialColorTable[4])
-    property color colorIL3: Settings.getOption(arrayJsonColorNames[5], initialColorTable[5])
-    property color colorUAux1: Settings.getOption(arrayJsonColorNames[6], initialColorTable[6])
-    property color colorIAux1: Settings.getOption(arrayJsonColorNames[7], initialColorTable[7])
-
     // Looks nice often so no option for default group colors
     readonly property color groupColorReference: Settings.getOption("groupColor3", "darkorange")
 
-    readonly property color tableShadeColor: "#003040"
+    /////////////////////////////////////////////////////////////////////////////
+    // private
+
+    readonly property var arrayJsonColorNames:
+        ["colorUL1",     // 1
+        "colorUL2",     // 2
+        "colorUL3",     // 3
+        "colorIL1",     // 4
+        "colorIL2",     // 5
+        "colorIL3",     // 6
+        "colorUAux1",   // 7
+        "colorIAux1"]  // 8
+
+    readonly property real defaultCurrentBrightness: 1.75
+    readonly property real defaultBlackBrightness: 35
+
+    readonly property string baseBlue:   "#EE0092ff"
+    readonly property string baseBrown:  "#EE9b5523"
+    readonly property string baseGreen:  "#EE00C000"
+    readonly property string basePurple: "#EEE000E0"
+    readonly property string baseRed:    "#EEff0000"
+    readonly property string baseYellow: "#EEffff00"
+
+    readonly property string baseWhite:  "#ffffffff" // white is opposite
+    readonly property string baseWhite2: "#EEA0A0A0"
+
+    readonly property string baseGrey:   "#EEB0B0B0"
+    readonly property string baseGrey2:  "#EEffffff"
+
+    readonly property string baseBlack:  "#EE080808"
+    readonly property string baseBlack2: "#EE707070"
+    readonly property var initialColorTable: {
+        function colorCurrent(baseColor) {
+            return Qt.lighter(baseColor, defaultCurrentBrightness)
+        }
+        function colorBlack(baseColor) {
+            return Qt.lighter(baseColor, defaultBlackBrightness)
+        }
+        // sorting is odd (historical..): U1 / U2 / U3 / I1 /I2 / I3 / UAux / IAux
+        // 0: International
+        return [ baseRed, baseYellow, baseBlue, colorCurrent(baseRed), colorCurrent(baseYellow), colorCurrent(baseBlue), colorBlack(baseBlack), colorCurrent(baseBlack2) ]
+    }
 }
