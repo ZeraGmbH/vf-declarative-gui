@@ -153,8 +153,8 @@ Item {
 
                     minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: FT.getColorByIndex(leftChannels[index]+1)
-                    color: FT.getColorByIndex(leftChannels[index]+1)
+                    labelsColor: FT.getColorByIndexWithReference(leftChannels[index]+1)
+                    color: FT.getColorByIndexWithReference(leftChannels[index]+1)
                 }
                 ValueAxis {
                     id: yAxisRight
@@ -168,15 +168,15 @@ Item {
 
                     minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: FT.getColorByIndex(rightChannels[index]+1)
-                    color: FT.getColorByIndex(rightChannels[index]+1)
+                    labelsColor: FT.getColorByIndexWithReference(rightChannels[index]+1)
+                    color: FT.getColorByIndexWithReference(rightChannels[index]+1)
                 }
 
                 LineSeries {
                     id: leftSeries
                     axisX: xAxis
                     axisY: yAxisLeft
-                    color: FT.getColorByIndex(leftChannels[index]+1);
+                    color: FT.getColorByIndexWithReference(leftChannels[index]+1);
                     width: 2
                     useOpenGL: true
                 }
@@ -185,7 +185,7 @@ Item {
                     id: rightSeries
                     axisX: xAxis
                     axisYRight: yAxisRight
-                    color: FT.getColorByIndex(rightChannels[index]+1);
+                    color: FT.getColorByIndexWithReference(rightChannels[index]+1);
                     width: 2
                     useOpenGL: true
                 }
@@ -209,7 +209,7 @@ Item {
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName)
                 font.pointSize: unitPointSize
                 font.bold: true
-                color: FT.getColorByIndex(leftChannels[index]+1);
+                color: FT.getColorByIndexWithReference(leftChannels[index]+1);
             }
             Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -218,7 +218,7 @@ Item {
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName)
                 font.pointSize: unitPointSize
                 font.bold: true
-                color: FT.getColorByIndex(rightChannels[index]+1);
+                color: FT.getColorByIndexWithReference(rightChannels[index]+1);
             }
         }
     }

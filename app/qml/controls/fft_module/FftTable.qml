@@ -174,7 +174,7 @@ Rectangle {
                     border.color: "#444" //disable border transparency
                     color: CS.tableShadeColor
                     text: Z.tr(ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName)
-                    textColor: FT.getColorByIndex(index+1)
+                    textColor: FT.getColorByIndexWithReference(index+1)
                     font.bold: true
                 }
             }
@@ -207,7 +207,7 @@ Rectangle {
                     readonly property string componentName: String("ACT_THDN%1").arg(index+1);
                     readonly property string unit: ModuleIntrospection.thdnIntrospection.ComponentInfo[componentName].Unit
                     text: FT.formatNumber(thdnModule[componentName]) + unit
-                    textColor: FT.getColorByIndex(index+1)
+                    textColor: FT.getColorByIndexWithReference(index+1)
                     font.pixelSize: rowHeight*0.5
                     border.color: "#444" //disable border transparency
                 }
@@ -244,7 +244,7 @@ Rectangle {
                         color: CS.tableShadeColor
                         border.color: "#444" //disable border transparency
                         text: (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+"]");
-                        textColor: FT.getColorByIndex(index+1)
+                        textColor: FT.getColorByIndexWithReference(index+1)
                         font.pixelSize: rowHeight*0.5
                         font.bold: true
                     }
@@ -256,7 +256,7 @@ Rectangle {
                             color: CS.tableShadeColor
                             border.color: "#444" //disable border transparency
                             text: Z.tr("Phase") + " [°]"
-                            textColor: FT.getColorByIndex(index+1)
+                            textColor: FT.getColorByIndexWithReference(index+1)
                             font.pixelSize: rowHeight*0.5
                             font.bold: true
                         }

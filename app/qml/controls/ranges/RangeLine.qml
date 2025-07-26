@@ -55,7 +55,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignVCenter
             text: Z.tr(channelsRow.channelName)
-            color: FT.getColorByIndex(channelsRow.systemChannelNo)
+            color: FT.getColorByIndexWithReference(channelsRow.systemChannelNo)
         }
 
         SacVuUnsigned {

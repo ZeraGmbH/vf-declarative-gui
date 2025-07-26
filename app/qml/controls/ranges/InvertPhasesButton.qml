@@ -63,7 +63,7 @@ Button {
                 model: MeasChannelInfo.channelCountTotal
                 delegate: ZCheckBox {
                     checked: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])]
-                    text: "<font color=\"" + FT.getColorByIndex(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
+                    text: "<font color=\"" + FT.getColorByIndexWithReference(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
                     height: invertPhasesButton.height
                     width: root.width * 0.15
                     controlHeight: height * 0.3

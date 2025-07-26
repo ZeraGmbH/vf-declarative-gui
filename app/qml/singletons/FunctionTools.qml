@@ -10,7 +10,7 @@ import ZeraTranslation 1.0
 Item {
     /////////////////////////////////////////////////////////////////////////////
     // Color helper function
-    function getColorByIndex(rangIndex) {
+    function getColorByIndexWithReference(rangIndex) {
         let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
         if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
             return CS.groupColorReference

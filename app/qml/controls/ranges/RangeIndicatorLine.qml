@@ -59,7 +59,7 @@ ListView {
             anchors.verticalCenter: parent.verticalCenter
             readonly property string channelString: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
             text: rangeModule["PAR_InvertPhase%1".arg(modelData)] === 1 ? invertString + channelString : channelString
-            color: FT.getColorByIndex(modelData)
+            color: FT.getColorByIndexWithReference(modelData)
             font.bold: true
         }
         Label {
