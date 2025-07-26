@@ -118,6 +118,7 @@ Item {
             height: pinchArea.pinchScale * root.height/3
             width: root.plotWidth
             ChartView {
+                id: chartView
                 anchors.fill: parent
                 // lots of trials - hope they won't change ChartView too much in future releases..
                 anchors.topMargin: -27
@@ -129,6 +130,8 @@ Item {
                 legend.height: 0
                 localizeNumbers: true
                 locale: ZLocale.locale
+                readonly property color leftColor: CS.getColorByIndex(leftChannels[index])
+                readonly property color rightColor: CS.getColorByIndex(rightChannels[index])
 
                 ValueAxis {
                     id: xAxis
@@ -152,8 +155,8 @@ Item {
 
                     minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: CS.getColorByIndexWithReference(leftChannels[index]+1)
-                    color: CS.getColorByIndexWithReference(leftChannels[index]+1)
+                    color: chartView.leftColor
+                    labelsColor: color
                 }
                 ValueAxis {
                     id: yAxisRight
@@ -167,15 +170,15 @@ Item {
 
                     minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: CS.getColorByIndexWithReference(rightChannels[index]+1)
-                    color: CS.getColorByIndexWithReference(rightChannels[index]+1)
+                    color: chartView.rightColor
+                    labelsColor: color
                 }
 
                 LineSeries {
                     id: leftSeries
                     axisX: xAxis
                     axisY: yAxisLeft
-                    color: CS.getColorByIndexWithReference(leftChannels[index]+1);
+                    color: chartView.leftColor
                     width: 2
                     useOpenGL: true
                 }
@@ -184,7 +187,7 @@ Item {
                     id: rightSeries
                     axisX: xAxis
                     axisYRight: yAxisRight
-                    color: CS.getColorByIndexWithReference(rightChannels[index]+1);
+                    color: chartView.rightColor
                     width: 2
                     useOpenGL: true
                 }
@@ -208,7 +211,7 @@ Item {
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName)
                 font.pointSize: unitPointSize
                 font.bold: true
-                color: CS.getColorByIndexWithReference(leftChannels[index]+1);
+                color: chartView.leftColor
             }
             Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -217,7 +220,7 @@ Item {
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName)
                 font.pointSize: unitPointSize
                 font.bold: true
-                color: CS.getColorByIndexWithReference(rightChannels[index]+1);
+                color: chartView.rightColor
             }
         }
     }
