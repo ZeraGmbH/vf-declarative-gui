@@ -130,8 +130,8 @@ Item {
                 legend.height: 0
                 localizeNumbers: true
                 locale: ZLocale.locale
-                readonly property color leftColor: CS.getColorByIndex(leftChannels[index])
-                readonly property color rightColor: CS.getColorByIndex(rightChannels[index])
+                readonly property color leftColor: CS.currentColorTable[leftChannels[index]]
+                readonly property color rightColor: CS.currentColorTable[rightChannels[index]]
 
                 ValueAxis {
                     id: xAxis

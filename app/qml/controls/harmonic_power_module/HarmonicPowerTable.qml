@@ -112,7 +112,7 @@ Item {
                 model: root.channelCount
                 delegate: Row {
                     id: tableRow
-                    readonly property color rowColor: CS.getColorByIndex(index)
+                    readonly property color rowColor: CS.currentColorTable[index]
                     width: root.columnWidth*3
                     height: root.rowHeight
                     GridItem {

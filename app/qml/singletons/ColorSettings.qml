@@ -21,8 +21,17 @@ Item {
     property color colorUAux1: getInitialColorByIndex(6)
     property color colorIAux1: getInitialColorByIndex(7)
 
-    function getColorByIndex(idx) {
-        return currentColorTable[idx]
+    readonly property var currentColorTable: {
+        let colorTable = []
+        colorTable.push(colorUL1)
+        colorTable.push(colorUL2)
+        colorTable.push(colorUL3)
+        colorTable.push(colorIL1)
+        colorTable.push(colorIL2)
+        colorTable.push(colorIL3)
+        colorTable.push(colorUAux1)
+        colorTable.push(colorIAux1)
+        return colorTable
     }
 
     function getColorByIndexWithReference(rangIndex) { // Index starts on 1!!!
@@ -71,19 +80,6 @@ Item {
                     // 6: Hongkong
                     [ baseBrown, colorBlack(baseBlack), baseGrey, colorCurrent(baseBrown), colorCurrent(baseBlack2), colorCurrent(baseGrey2), baseBlue, colorCurrent(baseBlue) ],
                ]
-    }
-
-    readonly property var currentColorTable: {
-        let colorTable = []
-        colorTable.push(colorUL1)
-        colorTable.push(colorUL2)
-        colorTable.push(colorUL3)
-        colorTable.push(colorIL1)
-        colorTable.push(colorIL2)
-        colorTable.push(colorIL3)
-        colorTable.push(colorUAux1)
-        colorTable.push(colorIAux1)
-        return colorTable
     }
 
     function setSystemColorByIndex(index, color) {
