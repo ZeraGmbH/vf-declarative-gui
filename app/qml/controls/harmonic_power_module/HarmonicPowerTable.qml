@@ -111,6 +111,8 @@ Item {
             Repeater {
                 model: root.channelCount
                 delegate: Row {
+                    id: tableRow
+                    readonly property color rowColor: CS.getColorByIndex(index)
                     width: root.columnWidth*3
                     height: root.rowHeight
                     GridItem {
@@ -119,7 +121,7 @@ Item {
                         color: CS.tableShadeColor
                         border.color: "#444" //disable border transparency
                         text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPP%1").arg(index+1)].ChannelName) + relativeUnit //P
-                        textColor: CS.getColorByIndexWithReference(index+1)
+                        textColor: tableRow.rowColor
                         font.bold: true
                     }
                     GridItem {
@@ -128,7 +130,7 @@ Item {
                         color: CS.tableShadeColor
                         border.color: "#444" //disable border transparency
                         text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPQ%1").arg(index+1)].ChannelName) + relativeUnit //Q
-                        textColor: CS.getColorByIndexWithReference(index+1)
+                        textColor: tableRow.rowColor
                         font.bold: true
                     }
                     GridItem {
@@ -137,7 +139,7 @@ Item {
                         color: CS.tableShadeColor
                         border.color: "#444" //disable border transparency
                         text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPS%1").arg(index+1)].ChannelName) + relativeUnit //S
-                        textColor: CS.getColorByIndexWithReference(index+1)
+                        textColor: tableRow.rowColor
                         font.bold: true
                     }
                 }
