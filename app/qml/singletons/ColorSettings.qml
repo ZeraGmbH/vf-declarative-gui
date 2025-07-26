@@ -10,14 +10,14 @@ Item {
     readonly property color dividerColor: Material.dividerColor //Qt.darker("darkgrey", 2.5)
     readonly property color tableShadeColor: "#003040"
 
-    property color colorUL1: Settings.getOption(arrayJsonColorNames[0], initialColorTable[0])
-    property color colorUL2: Settings.getOption(arrayJsonColorNames[1], initialColorTable[1])
-    property color colorUL3: Settings.getOption(arrayJsonColorNames[2], initialColorTable[2])
-    property color colorIL1: Settings.getOption(arrayJsonColorNames[3], initialColorTable[3])
-    property color colorIL2: Settings.getOption(arrayJsonColorNames[4], initialColorTable[4])
-    property color colorIL3: Settings.getOption(arrayJsonColorNames[5], initialColorTable[5])
-    property color colorUAux1: Settings.getOption(arrayJsonColorNames[6], initialColorTable[6])
-    property color colorIAux1: Settings.getOption(arrayJsonColorNames[7], initialColorTable[7])
+    property color colorUL1: getColorByIndex(0)
+    property color colorUL2: getColorByIndex(1)
+    property color colorUL3: getColorByIndex(2)
+    property color colorIL1: getColorByIndex(3)
+    property color colorIL2: getColorByIndex(4)
+    property color colorIL3: getColorByIndex(5)
+    property color colorUAux1: getColorByIndex(6)
+    property color colorIAux1: getColorByIndex(7)
 
     property real currentBrightness: parseFloat(Settings.getOption("currentBrightness", defaultCurrentBrightness))
     function setCurrentBrigtness(brightness) {
@@ -115,6 +115,10 @@ Item {
 
     /////////////////////////////////////////////////////////////////////////////
     // private
+
+    function getColorByIndex(idx) {
+        return Settings.getOption(arrayJsonColorNames[idx], initialColorTable[idx])
+    }
 
     readonly property var arrayJsonColorNames:
         ["colorUL1",     // 1
