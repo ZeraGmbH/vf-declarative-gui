@@ -1,7 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
-import VeinEntity 1.0
 import PowerModuleVeinGetter 1.0
 import FontAwesomeQml 1.0
 

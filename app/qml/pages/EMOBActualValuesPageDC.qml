@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.14
-import VeinEntity 1.0
 import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0

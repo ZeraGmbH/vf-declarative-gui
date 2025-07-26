@@ -2,7 +2,6 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.14
 import QtCharts 2.0
-import VeinEntity 1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
 import SessionState 1.0

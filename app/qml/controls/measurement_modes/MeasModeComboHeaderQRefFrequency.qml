@@ -2,7 +2,6 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import QtQuick.Layouts 1.14
-import VeinEntity 1.0
 import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0

@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtCharts 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
-import VeinEntity 1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
 import FunctionTools 1.0

@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import QtQml.Models 2.14
-import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
