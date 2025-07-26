@@ -88,38 +88,38 @@ Item {
 
     function setSystemColorByIndex(index, color) {
         switch(index) {
-        case 1:
+        case 0:
             colorUL1 = color
             break
-        case 2:
+        case 1:
             colorUL2 = color
             break
-        case 3:
+        case 2:
             colorUL3 = color
             break
-        case 4:
+        case 3:
             colorIL1 = color
             break
-        case 5:
+        case 4:
             colorIL2 = color
             break
-        case 6:
+        case 5:
             colorIL3 = color
             break
-        case 7:
+        case 6:
             colorUAux1 = color
             break
-        case 8:
+        case 7:
             colorIAux1 = color
             break
 
         }
-        Settings.setOption(arrayJsonColorNames[index-1], color)
+        Settings.setOption(arrayJsonColorNames[index], color)
     }
 
     function setSystemDefaultColors(defaultEntry) {
         for(let index=0; index<initialColorTable.length; ++index) {
-            setSystemColorByIndex(index+1, defaultColorsTableArray[defaultEntry][index])
+            setSystemColorByIndex(index, defaultColorsTableArray[defaultEntry][index])
         }
     }
 
