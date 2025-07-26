@@ -4,7 +4,7 @@ import VeinEntity 1.0
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import MeasChannelInfo 1.0
-import FunctionTools 1.0
+import ColorSettings 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
 
@@ -59,7 +59,7 @@ ListView {
             anchors.verticalCenter: parent.verticalCenter
             readonly property string channelString: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(modelData)+"Range"].ChannelName)
             text: rangeModule["PAR_InvertPhase%1".arg(modelData)] === 1 ? invertString + channelString : channelString
-            color: FT.getColorByIndexWithReference(modelData)
+            color: CS.getColorByIndexWithReference(modelData)
             font.bold: true
         }
         Label {

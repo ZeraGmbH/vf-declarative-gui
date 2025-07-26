@@ -1,22 +1,10 @@
 pragma Singleton
 import QtQuick 2.0
-import ModuleIntrospection 1.0
 import GlobalConfig 1.0
-import ColorSettings 1.0
-import MeasChannelInfo 1.0
 import ZeraLocale 1.0
 import ZeraTranslation 1.0
 
 Item {
-    /////////////////////////////////////////////////////////////////////////////
-    // Color helper function
-    function getColorByIndexWithReference(rangIndex) {
-        let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
-        if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
-            return CS.groupColorReference
-        return CS.currentColorTable[rangIndex-1]
-    }
-
     /////////////////////////////////////////////////////////////////////////////
     // Time helpers ms <-> string
     function msToTime(t_mSeconds) {

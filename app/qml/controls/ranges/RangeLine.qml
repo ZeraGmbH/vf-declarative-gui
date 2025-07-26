@@ -3,7 +3,7 @@ import QtQuick.Controls 2.14
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
-import FunctionTools 1.0
+import ColorSettings 1.0
 import ZeraTranslation 1.0
 import MeasChannelInfo 1.0
 import ZeraComponents 1.0
@@ -55,7 +55,7 @@ ListView {
             font.pointSize: pointSize
             verticalAlignment: Label.AlignVCenter
             text: Z.tr(channelsRow.channelName)
-            color: FT.getColorByIndexWithReference(channelsRow.systemChannelNo)
+            color: CS.getColorByIndexWithReference(channelsRow.systemChannelNo)
         }
 
         SacVuUnsigned {

@@ -7,7 +7,6 @@ import ModuleIntrospection 1.0
 import VeinEntity 1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
-import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraLocale 1.0
 import ZeraTranslation 1.0
@@ -153,8 +152,8 @@ Item {
 
                     minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: FT.getColorByIndexWithReference(leftChannels[index]+1)
-                    color: FT.getColorByIndexWithReference(leftChannels[index]+1)
+                    labelsColor: CS.getColorByIndexWithReference(leftChannels[index]+1)
+                    color: CS.getColorByIndexWithReference(leftChannels[index]+1)
                 }
                 ValueAxis {
                     id: yAxisRight
@@ -168,15 +167,15 @@ Item {
 
                     minorGridLineColor: CS.dividerColor
                     gridLineColor: Material.frameColor
-                    labelsColor: FT.getColorByIndexWithReference(rightChannels[index]+1)
-                    color: FT.getColorByIndexWithReference(rightChannels[index]+1)
+                    labelsColor: CS.getColorByIndexWithReference(rightChannels[index]+1)
+                    color: CS.getColorByIndexWithReference(rightChannels[index]+1)
                 }
 
                 LineSeries {
                     id: leftSeries
                     axisX: xAxis
                     axisY: yAxisLeft
-                    color: FT.getColorByIndexWithReference(leftChannels[index]+1);
+                    color: CS.getColorByIndexWithReference(leftChannels[index]+1);
                     width: 2
                     useOpenGL: true
                 }
@@ -185,7 +184,7 @@ Item {
                     id: rightSeries
                     axisX: xAxis
                     axisYRight: yAxisRight
-                    color: FT.getColorByIndexWithReference(rightChannels[index]+1);
+                    color: CS.getColorByIndexWithReference(rightChannels[index]+1);
                     width: 2
                     useOpenGL: true
                 }
@@ -209,7 +208,7 @@ Item {
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(leftChannels[index]+1)].ChannelName)
                 font.pointSize: unitPointSize
                 font.bold: true
-                color: FT.getColorByIndexWithReference(leftChannels[index]+1);
+                color: CS.getColorByIndexWithReference(leftChannels[index]+1);
             }
             Label {
                 anchors.verticalCenter: parent.verticalCenter
@@ -218,7 +217,7 @@ Item {
                 text: Z.tr(ModuleIntrospection.osciIntrospection.ComponentInfo["ACT_OSCI"+(rightChannels[index]+1)].ChannelName)
                 font.pointSize: unitPointSize
                 font.bold: true
-                color: FT.getColorByIndexWithReference(rightChannels[index]+1);
+                color: CS.getColorByIndexWithReference(rightChannels[index]+1);
             }
         }
     }

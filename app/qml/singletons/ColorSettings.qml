@@ -2,6 +2,8 @@ pragma Singleton
 import QtQuick 2.0
 import QtQuick.Controls.Material 2.14
 import ZeraSettings 1.0
+import ModuleIntrospection 1.0
+import MeasChannelInfo 1.0
 
 Item {
     /////////////////////////////////////////////////////////////////////////////
@@ -18,6 +20,17 @@ Item {
     property color colorIL3: getColorByIndex(5)
     property color colorUAux1: getColorByIndex(6)
     property color colorIAux1: getColorByIndex(7)
+
+    function getColorByIndex(idx) {
+        return Settings.getOption(arrayJsonColorNames[idx], initialColorTable[idx])
+    }
+
+    function getColorByIndexWithReference(rangIndex) {
+        let channelName = ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+rangIndex+"Range"].ChannelName;
+        if(MeasChannelInfo.rangeGroupRef.indexOf(channelName) >= 0)
+            return groupColorReference
+        return currentColorTable[rangIndex-1]
+    }
 
     property real currentBrightness: parseFloat(Settings.getOption("currentBrightness", defaultCurrentBrightness))
     function setCurrentBrigtness(brightness) {
@@ -115,10 +128,6 @@ Item {
 
     /////////////////////////////////////////////////////////////////////////////
     // private
-
-    function getColorByIndex(idx) {
-        return Settings.getOption(arrayJsonColorNames[idx], initialColorTable[idx])
-    }
 
     readonly property var arrayJsonColorNames:
         ["colorUL1",     // 1

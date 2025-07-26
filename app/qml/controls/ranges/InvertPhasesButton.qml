@@ -4,7 +4,7 @@ import QtQuick.Controls.Material 2.14
 import ZeraTranslation 1.0
 import VeinEntity 1.0
 import ZeraComponents 1.0
-import FunctionTools 1.0
+import ColorSettings 1.0
 import MeasChannelInfo 1.0
 
 Button {
@@ -63,7 +63,7 @@ Button {
                 model: MeasChannelInfo.channelCountTotal
                 delegate: ZCheckBox {
                     checked: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])]
-                    text: "<font color=\"" + FT.getColorByIndexWithReference(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
+                    text: "<font color=\"" + CS.getColorByIndexWithReference(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
                     height: invertPhasesButton.height
                     width: root.width * 0.15
                     controlHeight: height * 0.3
