@@ -6,14 +6,14 @@ Item {
     property string currentSession
     onCurrentSessionChanged: {
         if(currentSession !== "") {
-            let ve = VeinEntity
-            let availableEntityIds = ve.getEntity("_System")["Entities"];
+            var ve = VeinEntity
+            var availableEntityIds = ve.getEntity("_System")["Entities"];
             if(availableEntityIds === undefined)
                 availableEntityIds = [];
-            let oldIdList = ve.getEntityList();
+            var oldIdList = ve.getEntityList();
 
-            for(let idIterator in availableEntityIds) {
-                let entityId = availableEntityIds[idIterator]
+            for(var idIterator in availableEntityIds) {
+                var entityId = availableEntityIds[idIterator]
                 if(!oldIdList.includes(entityId))
                     ve.entitySubscribeById(entityId);
             }

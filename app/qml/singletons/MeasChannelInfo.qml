@@ -8,10 +8,10 @@ Item {
     id: measChannelInfo
     readonly property int channelCountTotal: GC.entityInitializationDone ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : 0
     readonly property var channelNames: {
-        let names = []
-        for(let systemChannelNo=1; systemChannelNo<=channelCountTotal; systemChannelNo++) { // systemChannelNo is 1-based !!!
-            let channelRangeComponent = "PAR_Channel"+parseInt(systemChannelNo)+"Range"
-            let name = ModuleIntrospection.rangeIntrospection.ComponentInfo[channelRangeComponent].ChannelName
+        var names = []
+        for(var systemChannelNo=1; systemChannelNo<=channelCountTotal; systemChannelNo++) { // systemChannelNo is 1-based !!!
+            var channelRangeComponent = "PAR_Channel"+parseInt(systemChannelNo)+"Range"
+            var name = ModuleIntrospection.rangeIntrospection.ComponentInfo[channelRangeComponent].ChannelName
             names.push(name)
         }
         return names

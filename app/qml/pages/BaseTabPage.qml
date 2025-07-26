@@ -22,7 +22,7 @@ Item {
         GC.setLastTabSelected(tabNo)
     }
     function finishInit() {
-        let lastTabSelected = getLastTabSelected()
+        var lastTabSelected = getLastTabSelected()
         if(lastTabSelected >= swipeView.count) {
             lastTabSelected = 0
         }

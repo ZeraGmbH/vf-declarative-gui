@@ -116,7 +116,7 @@ Item {
             anchors.fill: parent
             arrayMode: true
             onIntermediateChanged: {
-                let tmpIndex = arrJSONFileNames.indexOf(intermediate)
+                var tmpIndex = arrJSONFileNames.indexOf(intermediate)
                 if(tmpIndex >= 0)
                     sessionSelector.currentIndex = tmpIndex
             }
@@ -128,14 +128,13 @@ Item {
             }
 
             model: {
-                let retVal = []
+                var retVal = []
                 if(systemEntity && systemEntity.SessionsAvailable) {
-                    let jsonFileNames = []
-                    for(let sessionIndex in systemEntity.SessionsAvailable) {
-                        let sessionFile = systemEntity.SessionsAvailable[sessionIndex]
+                    var jsonFileNames = []
+                    for (var sessionFile of systemEntity.SessionsAvailable) {
                         jsonFileNames.push(sessionFile)
-                        let replaced = false
-                        for(let arrIdx=0; arrIdx<arrDisplayStrings.length; ++arrIdx) {
+                        var replaced = false
+                        for(var arrIdx=0; arrIdx<arrDisplayStrings.length; ++arrIdx) {
                             if(sessionFile.endsWith(arrJSONDetectStrings[arrIdx])) {
                                 retVal.push(arrDisplayStrings[arrIdx])
                                 replaced = true

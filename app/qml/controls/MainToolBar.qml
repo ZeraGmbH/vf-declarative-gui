@@ -242,8 +242,8 @@ ToolBar {
             text: FAQ.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             Material.foreground: { // Note: highligted overrifdes Material.foreground
-                let _opacity = 1
-                let _color = Material.White
+                var _opacity = 1
+                var _color = Material.White
                 if (!AdjState.adjusted) {
                     if (SchnubbState.inserted)
                         _color = blinker.show ? Material.Blue : Material.Red

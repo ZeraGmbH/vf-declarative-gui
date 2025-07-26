@@ -106,7 +106,7 @@ ApplicationWindow {
 
                 pageLoader.active = true;
                 controlsBar.rangeIndicatorDependenciesReady = true;
-                let lastPageSelected = GC.lastPageViewIndexSelected
+                var lastPageSelected = GC.lastPageViewIndexSelected
                 if(lastPageSelected >= pageView.model.count)
                     lastPageSelected = 0
                 if(pageView.model.count)
@@ -259,12 +259,12 @@ ApplicationWindow {
             function updateSourceView() {
                 if((ASWGL.isServer && !ASWGL.sourceEnabled))
                     return
-                let sourceViewQml = "qrc:/qml/pages/SourceModuleTabPage.qml"
+                var sourceViewQml = "qrc:/qml/pages/SourceModuleTabPage.qml"
                 // search source view currently added
-                let sourceViewPosition = -1
+                var sourceViewPosition = -1
                 if(count > 0) {
-                    for(let viewNum=count-1; viewNum>=0; --viewNum) {
-                        let view = get(viewNum)
+                    for(var viewNum=count-1; viewNum>=0; --viewNum) {
+                        var view = get(viewNum)
                         if(view.elementValue === sourceViewQml) {
                             sourceViewPosition = viewNum
                             break;
@@ -290,14 +290,14 @@ ApplicationWindow {
 
             function initModel() {
                 clear()
-                let mi = ModuleIntrospection
-                let sessState = SessionState
-                let dftAvail = mi.hasDependentEntities(["DFTModule1"])
-                let isReference = mi.hasDependentEntities(["REFERENCEModule1"])
+                var mi = ModuleIntrospection
+                var sessState = SessionState
+                var dftAvail = mi.hasDependentEntities(["DFTModule1"])
+                var isReference = mi.hasDependentEntities(["REFERENCEModule1"])
 
                 controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !sessState.dcSession
 
-                let iconName = "qrc:/data/staticdata/resources/act_values.png"
+                var iconName = "qrc:/data/staticdata/resources/act_values.png"
                 if(sessState.emobSession) {
                     let emobTitle = "Actual values & Meter tests"
                     if(sessState.currentSession.includes('-ac'))
