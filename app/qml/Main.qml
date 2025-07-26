@@ -290,22 +290,24 @@ ApplicationWindow {
 
             function initModel() {
                 clear()
-                let dftAvail = ModuleIntrospection.hasDependentEntities(["DFTModule1"])
-                let isReference = ModuleIntrospection.hasDependentEntities(["REFERENCEModule1"])
+                let mi = ModuleIntrospection
+                let sessState = SessionState
+                let dftAvail = mi.hasDependentEntities(["DFTModule1"])
+                let isReference = mi.hasDependentEntities(["REFERENCEModule1"])
 
-                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !SessionState.dcSession
+                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !sessState.dcSession
 
                 let iconName = "qrc:/data/staticdata/resources/act_values.png"
-                if(SessionState.emobSession) {
+                if(sessState.emobSession) {
                     let emobTitle = "Actual values & Meter tests"
-                    if(SessionState.currentSession.includes('-ac'))
+                    if(sessState.currentSession.includes('-ac'))
                         append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
-                    else if(SessionState.dcSession)
+                    else if(sessState.dcSession)
                         append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
                 }
-                else if(SessionState.dcSession)
+                else if(sessState.dcSession)
                     append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
-                else if(ModuleIntrospection.hasDependentEntities(["RMSModule1",
+                else if(mi.hasDependentEntities(["RMSModule1",
                                                                   "LambdaModule1",
                                                                   "THDNModule1",
                                                                   "DFTModule1",
@@ -315,34 +317,34 @@ ApplicationWindow {
                                                                   "RangeModule1"]))
                     append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"})
 
-                if(ModuleIntrospection.hasDependentEntities(["FFTModule1"]) || ModuleIntrospection.hasDependentEntities(["OSCIModule1"]))
+                if(mi.hasDependentEntities(["FFTModule1"]) || mi.hasDependentEntities(["OSCIModule1"]))
                     append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/FftTabPage.qml"})
 
-                if(ModuleIntrospection.hasDependentEntities(["Power3Module1"]))
+                if(mi.hasDependentEntities(["Power3Module1"]))
                     append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"})
 
-                if(!SessionState.refSession) {
-                    if(!SessionState.emobSession) {
-                        if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]) ||
-                                ModuleIntrospection.hasDependentEntities(["SEC1Module2"]) ||
-                                ModuleIntrospection.hasDependentEntities(["SEM1Module1"]) ||
-                                ModuleIntrospection.hasDependentEntities(["SPM1Module1"]))
+                if(!sessState.refSession) {
+                    if(!sessState.emobSession) {
+                        if(mi.hasDependentEntities(["SEC1Module1"]) ||
+                                mi.hasDependentEntities(["SEC1Module2"]) ||
+                                mi.hasDependentEntities(["SEM1Module1"]) ||
+                                mi.hasDependentEntities(["SPM1Module1"]))
                             append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                     }
                 }
-                else if(ModuleIntrospection.hasDependentEntities(["SEC1Module1"]))
+                else if(mi.hasDependentEntities(["SEC1Module1"]))
                     append({name: "Quartz reference measurement", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
 
-                if(ModuleIntrospection.hasDependentEntities(["Burden1Module1"]) || ModuleIntrospection.hasDependentEntities(["Burden1Module2"]))
+                if(mi.hasDependentEntities(["Burden1Module1"]) || mi.hasDependentEntities(["Burden1Module2"]))
                     append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"})
 
-                if(ModuleIntrospection.hasDependentEntities(["Transformer1Module1"]))
+                if(mi.hasDependentEntities(["Transformer1Module1"]))
                     append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"})
 
-                if(ModuleIntrospection.hasDependentEntities(["POWER2Module1"]))
+                if(mi.hasDependentEntities(["POWER2Module1"]))
                     append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"})
 
-                if(ModuleIntrospection.hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
+                if(mi.hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
                     append({name: "DC reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"})
             }
         }
