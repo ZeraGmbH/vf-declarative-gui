@@ -55,21 +55,4 @@ Item {
         transformer1Introspection = Qt.binding(function() { return ve.hasEntity("Transformer1Module1") ? JSON.parse(ve.getEntity("Transformer1Module1").INF_ModuleInterface) : 0; })
         bleIntrospection = Qt.binding(function() { return ve.hasEntity("BleModule1") ? JSON.parse(ve.getEntity("BleModule1").INF_ModuleInterface) : 0; })
     }
-
-    function hasDependentEntities(list) {
-        var retVal = false;
-        if(list !== undefined) {
-            if(list.length > 0) {
-                var ve = VeinEntity
-                for(var tmpEntityName of list) {
-                    retVal = ve.hasEntity(tmpEntityName)
-                    if(retVal === false)
-                        break;
-                }
-            }
-            else
-                retVal = true
-        }
-        return retVal
-    }
 }

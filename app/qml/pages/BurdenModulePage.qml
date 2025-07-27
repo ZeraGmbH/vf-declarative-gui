@@ -17,8 +17,8 @@ import "../controls/settings"
 
 BaseTabPage {
     id: root
-    readonly property bool hasVoltageBurden: ModuleIntrospection.hasDependentEntities(["Burden1Module2"])
-    readonly property bool hasCurrentBurden: ModuleIntrospection.hasDependentEntities(["Burden1Module1"])
+    readonly property bool hasVoltageBurden: VeinEntity.hasEntity("Burden1Module2")
+    readonly property bool hasCurrentBurden: VeinEntity.hasEntity("Burden1Module1")
 
     // TabButtons
     Component {

@@ -98,7 +98,7 @@ ApplicationWindow {
 
                 // rescue dyn sources binding over session change
                 dynamicPageModel.countActiveSources = Qt.binding(function() {
-                    if(ModuleIntrospection.hasDependentEntities(["SourceModule1"]))
+                    if(VeinEntity.hasEntity("SourceModule1"))
                         return VeinEntity.getEntity("SourceModule1").ACT_CountSources
                     else
                         return 0
@@ -290,61 +290,63 @@ ApplicationWindow {
 
             function initModel() {
                 clear()
-                var mi = ModuleIntrospection
+                var hasEntity = VeinEntity.hasEntity
                 var sessState = SessionState
-                var dftAvail = mi.hasDependentEntities(["DFTModule1"])
-                var isReference = mi.hasDependentEntities(["REFERENCEModule1"])
+                var dftAvail = hasEntity("DFTModule1")
+                var isReferenceSession = sessState.refSession
+                var isDcSession = sessState.dcSession
+                var isEmobSession = sessState.emobSession
 
-                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReference && !sessState.dcSession
+                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReferenceSession && !isDcSession
 
                 var iconName = "qrc:/data/staticdata/resources/act_values.png"
-                if(sessState.emobSession) {
+                if(isEmobSession) {
                     let emobTitle = "Actual values & Meter tests"
                     if(sessState.currentSession.includes('-ac'))
                         append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
-                    else if(sessState.dcSession)
+                    else if(isDcSession)
                         append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
                 }
-                else if(sessState.dcSession)
+                else if(isDcSession)
                     append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
-                else if(mi.hasDependentEntities(["RMSModule1",
-                                                                  "LambdaModule1",
-                                                                  "THDNModule1",
-                                                                  "DFTModule1",
-                                                                  "POWER1Module1",
-                                                                  "POWER1Module2",
-                                                                  "POWER1Module3",
-                                                                  "RangeModule1"]))
+                else if(hasEntity("RMSModule1") &&
+                        hasEntity("LambdaModule1") &&
+                        hasEntity("THDNModule1") &&
+                        hasEntity("DFTModule1") &&
+                        hasEntity("POWER1Module1") &&
+                        hasEntity("POWER1Module2") &&
+                        hasEntity("POWER1Module3") &&
+                        hasEntity("RangeModule1"))
                     append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"})
 
-                if(mi.hasDependentEntities(["FFTModule1"]) || mi.hasDependentEntities(["OSCIModule1"]))
+                if(hasEntity("FFTModule1") || hasEntity("OSCIModule1"))
                     append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/FftTabPage.qml"})
 
-                if(mi.hasDependentEntities(["Power3Module1"]))
+                if(hasEntity("Power3Module1"))
                     append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"})
 
-                if(!sessState.refSession) {
-                    if(!sessState.emobSession) {
-                        if(mi.hasDependentEntities(["SEC1Module1"]) ||
-                                mi.hasDependentEntities(["SEC1Module2"]) ||
-                                mi.hasDependentEntities(["SEM1Module1"]) ||
-                                mi.hasDependentEntities(["SPM1Module1"]))
+                if(!isReferenceSession) {
+                    if(!isEmobSession) {
+                        if(hasEntity("SEC1Module1") ||
+                           hasEntity("SEC1Module2") ||
+                           hasEntity("SEM1Module1") ||
+                           hasEntity("SPM1Module1"))
                             append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                     }
                 }
-                else if(mi.hasDependentEntities(["SEC1Module1"]))
+                else if(hasEntity("SEC1Module1"))
                     append({name: "Quartz reference measurement", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
 
-                if(mi.hasDependentEntities(["Burden1Module1"]) || mi.hasDependentEntities(["Burden1Module2"]))
+                if(hasEntity("Burden1Module1") || hasEntity("Burden1Module2"))
                     append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"})
 
-                if(mi.hasDependentEntities(["Transformer1Module1"]))
+                if(hasEntity("Transformer1Module1"))
                     append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"})
 
-                if(mi.hasDependentEntities(["POWER2Module1"]))
+                if(hasEntity("POWER2Module1"))
                     append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"})
 
-                if(mi.hasDependentEntities(["REFERENCEModule1", "DFTModule1"]))
+                if(hasEntity("REFERENCEModule1") && hasEntity("DFTModule1"))
                     append({name: "DC reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"})
             }
         }

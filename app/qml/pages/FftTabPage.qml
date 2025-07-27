@@ -3,14 +3,14 @@ import GlobalConfig 1.0
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.14
 import ZeraTranslation  1.0
-import ModuleIntrospection 1.0
+import VeinEntity 1.0
 import AppStarterForWebGLSingleton 1.0
 import "../controls/fft_module"
 
 BaseTabPage {
     id: root
-    readonly property bool hasFft: ModuleIntrospection.hasDependentEntities(["FFTModule1"])
-    readonly property bool hasOsci: ModuleIntrospection.hasDependentEntities(["OSCIModule1"])
+    readonly property bool hasFft: VeinEntity.hasEntity("FFTModule1")
+    readonly property bool hasOsci: VeinEntity.hasEntity("OSCIModule1")
 
     // TabButtons
     Component {
