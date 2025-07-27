@@ -1,6 +1,7 @@
-import QtQuick 2.5
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
+import QtQuick 2.14
+import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.14
+import QtQuick.Layouts 1.14
 import QtQml.Models 2.14
 import SessionState 1.0
 import GlobalConfig 1.0
@@ -16,6 +17,7 @@ import ZeraComponents 1.0
 import ZeraLocale 1.0
 import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 
 SettingsView {
     id: root
@@ -230,6 +232,23 @@ SettingsView {
                 font.pointSize: pointSize
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
+            }
+            Button {
+                id: themeSelectButton
+                visible: VeinEntity.getEntity("_System").DevMode
+                Layout.fillHeight: true
+                Layout.preferredWidth: height
+                Layout.leftMargin: height
+                font.family: FAQ.fontFamily
+                font.styleName: "Solid"
+                font.pointSize: pointSize
+                property bool darkTheme: CS.colorTheme === 0
+                text: darkTheme ? FAQ.colorize(FAQH.strToGlyph("fa_moon"), Material.foreground) :
+                                  FAQ.colorize(FAQ.fa_sun, "yellow")
+                onClicked: {
+                    darkTheme = !darkTheme
+                    CS.setColorTheme(darkTheme ? 0 : 1)
+                }
             }
             ListView {
                 clip: true

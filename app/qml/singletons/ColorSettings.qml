@@ -9,8 +9,9 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // public
 
-    readonly property int colorTheme: parseInt(Settings.getOption("color_theme", "0"))
+    property int colorTheme: parseInt(Settings.getOption("color_theme", "0"))
     function setColorTheme(theme) {
+        colorTheme = theme
         Settings.setOption("color_theme", theme)
     }
     readonly property var materialTheme: colorTheme === 0 ? Material.Dark : Material.Light
