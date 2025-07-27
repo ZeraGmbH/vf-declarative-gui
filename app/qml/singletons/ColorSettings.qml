@@ -17,7 +17,7 @@ Item {
     readonly property var materialAccent: colorTheme === 0 ? "#339966" : "#339966"
 
     readonly property color dividerColor: Material.dividerColor //Qt.darker("darkgrey", 2.5)
-    readonly property color tableShadeColor: "#003040"
+    readonly property color tableShadeColor: colorTheme === 0 ? "#003040" : "#10003040"
 
     property color colorUL1: getInitialColorByIndex(0)
     property color colorUL2: getInitialColorByIndex(1)
