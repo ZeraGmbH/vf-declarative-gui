@@ -57,7 +57,10 @@ ToolBar {
     //provide more contrast
     Material.accent: Material.Amber
 
-    property real pointSize: parent.height > 0 ? parent.height * 0.038 : 18
+    property real pointSize: {
+        var pHeight = parent.height
+        return pHeight > 0 ? pHeight * 0.038 : 18
+    }
 
     Component {
         id: rotaryFieldCmp
