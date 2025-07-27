@@ -28,11 +28,9 @@ ToolBar {
                     return VeinEntity.getEntity("_LoggingSystem").LoggingEnabled;
                 });
             }
-            if(VeinEntity.hasEntity("_Files")) {
-                veinTtys = Qt.binding(function() {
-                    return VeinEntity.getEntity("_Files").Ttys;
-                });
-            }
+            veinTtys = Qt.binding(function() {
+                return VeinEntity.getEntity("_Files").Ttys;
+            })
         }
         else
             // avoid warnings on improper bindings
