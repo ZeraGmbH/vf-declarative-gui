@@ -28,9 +28,9 @@ ToolBar {
                     return VeinEntity.getEntity("_LoggingSystem").LoggingEnabled;
                 });
             }
-            veinTtys = Qt.binding(function() {
-                return VeinEntity.getEntity("_Files").Ttys;
-            })
+            ttyCount = Qt.binding(function() {
+                return Object.keys(VeinEntity.getEntity("_Files").Ttys).length
+            });
         }
         else
             // avoid warnings on improper bindings
@@ -39,8 +39,9 @@ ToolBar {
 
     property bool measurementPaused: false
     property bool loggingActive: false
-    property var veinTtys
-    onVeinTtysChanged: {
+
+    property int ttyCount: 0
+    onTtyCountChanged: {
         settingsButtonRipple.startFlash()
     }
     property bool pageViewVisible: false     // PageView.visible is bound to pageViewVisible
@@ -48,7 +49,7 @@ ToolBar {
     property QtObject loggerSettingsStackObj // bound to LoggerSettingsStack
 
     function goHomeToPages() {
-        root.layoutStackObj.currentIndex = GC.entityInitializationDone ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutSplashIndex
+        root.layoutStackObj.currentIndex = entityInitializationDone ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutSplashIndex
     }
 
     background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
@@ -226,6 +227,7 @@ ToolBar {
             ZFlashingRipple {
                 id: settingsButtonRipple
                 anchor: settingsButton
+                ignoreFirst: false
             }
         }
         BatteryToolButton {
