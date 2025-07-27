@@ -9,6 +9,13 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // public
 
+    readonly property int colorTheme: parseInt(Settings.getOption("color_theme", "0"))
+    function setColorTheme(theme) {
+        Settings.setOption("color_theme", theme)
+    }
+    readonly property var materialTheme: colorTheme === 0 ? Material.Dark : Material.Light
+    readonly property var materialAccent: colorTheme === 0 ? "#339966" : "#339966"
+
     readonly property color dividerColor: Material.dividerColor //Qt.darker("darkgrey", 2.5)
     readonly property color tableShadeColor: "#003040"
 
