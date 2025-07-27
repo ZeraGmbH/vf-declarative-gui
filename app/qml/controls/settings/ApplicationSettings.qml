@@ -225,7 +225,7 @@ SettingsView {
             height: root.rowHeight
             width: root.rowWidth
             Label {
-                text: Z.tr("System colors:")
+                text: Z.tr("Colors:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
                 Layout.fillHeight: true
