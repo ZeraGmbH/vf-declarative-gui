@@ -103,6 +103,7 @@ ApplicationWindow {
                     else
                         return 0
                 })
+                dynamicPageModel.updateSourceView()
 
                 pageLoader.active = true;
                 controlsBar.rangeIndicatorDependenciesReady = true;
