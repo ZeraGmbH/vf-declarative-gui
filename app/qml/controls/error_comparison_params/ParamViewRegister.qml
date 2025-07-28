@@ -6,13 +6,13 @@ import QtQml.Models 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import ColorSettings 1.0
 import FunctionTools 1.0
 import PowerModuleVeinGetter 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraFa 1.0
+import ZeraThemeConfig 1.0
 import "../settings"
 import "../error_comparison_common"
 
@@ -73,7 +73,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -105,7 +105,7 @@ Item {
         Rectangle {
             enabled: logicalParent.canStartMeasurement && cbMode.currentIndex !== 0
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
 
@@ -146,7 +146,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight * 2
             width: root.width
             Label {
@@ -180,7 +180,7 @@ Item {
             // This is a line
             Rectangle {
                 color: Material.backgroundColor
-                border.color: CS.dividerColor
+                border.color: ZTC.dividerColor
                 height: 1
                 width: parent.width*(col1Width+col2Width)
                 anchors.left: parent.left
@@ -230,7 +230,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
 
@@ -277,7 +277,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
 

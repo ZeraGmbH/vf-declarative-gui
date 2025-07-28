@@ -10,6 +10,7 @@ import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
+import ZeraThemeConfig 1.0
 import FontAwesomeQml 1.0
 import ".."
 import "../settings"
@@ -159,7 +160,7 @@ Rectangle {
             z: 1
 
             Rectangle {
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
                 width: root.columnWidth-vBar.width
@@ -171,8 +172,8 @@ Rectangle {
                 delegate: GridItem {
                     width: root.columnWidth * (showAngles ? 2 : 1)
                     height: root.rowHeight
-                    border.color: "#444" //disable border transparency
-                    color: CS.tableShadeColor
+                    border.color: ZTC.dividerColor
+                    color: ZTC.tableHeaderColor
                     text: Z.tr(ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+(index+1)].ChannelName)
                     textColor: CS.currentColorTable[index]
                     font.bold: true
@@ -188,12 +189,12 @@ Rectangle {
             height: root.rowHeight
 
             GridItem {
-                border.color: "#444" //disable border transparency
+                border.color: ZTC.dividerColor
                 x: fftFlickable.contentX //keep item visible on x axis moves
                 z: 1
                 width: root.columnWidth-vBar.width
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("THDN:")
                 textColor: Material.primaryTextColor
                 font.bold: true
@@ -209,7 +210,7 @@ Rectangle {
                     text: FT.formatNumber(thdnModule[componentName]) + unit
                     textColor: CS.currentColorTable[index]
                     font.pixelSize: rowHeight*0.5
-                    border.color: "#444" //disable border transparency
+                    border.color: ZTC.dividerColor
                 }
             }
         }
@@ -222,12 +223,12 @@ Rectangle {
             height: root.rowHeight
 
             GridItem {
-                border.color: "#444" //disable border transparency
+                border.color: ZTC.dividerColor
                 x: fftFlickable.contentX //keep item visible
                 z: 1
                 width: root.columnWidth-vBar.width
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "n"
                 textColor: Material.primaryTextColor
                 font.bold: true
@@ -241,8 +242,8 @@ Rectangle {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        color: CS.tableShadeColor
-                        border.color: "#444" //disable border transparency
+                        color: ZTC.tableHeaderColor
+                        border.color: ZTC.dividerColor
                         text: (relativeView ? " [%]" : " ["+ModuleIntrospection.fftIntrospection.ComponentInfo["ACT_FFT"+parseInt(index+1)].Unit+"]");
                         textColor: CS.currentColorTable[index]
                         font.pixelSize: rowHeight*0.5
@@ -253,8 +254,8 @@ Rectangle {
                         sourceComponent: GridItem {
                             width: root.columnWidth
                             height: root.rowHeight
-                            color: CS.tableShadeColor
-                            border.color: "#444" //disable border transparency
+                            color: ZTC.tableHeaderColor
+                            border.color: ZTC.dividerColor
                             text: Z.tr("Phase") + " [°]"
                             textColor: CS.currentColorTable[index]
                             font.pixelSize: rowHeight*0.5
@@ -282,12 +283,12 @@ Rectangle {
                 id: row
                 height: root.rowHeight
                 GridItem {
-                    border.color: "#444" //disable border transparency
+                    border.color: ZTC.dividerColor
                     x: fftFlickable.contentX //keep item visible
                     z: 1
                     width: root.columnWidth-vBar.width
                     height: root.rowHeight
-                    color: Qt.lighter(CS.tableShadeColor, 1.0+(index/150))
+                    color: Qt.lighter(ZTC.tableHeaderColor, 1.0+(index/150))
                     text: index
                     font.bold: true
                 }

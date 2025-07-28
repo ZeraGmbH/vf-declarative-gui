@@ -5,13 +5,13 @@ import QtQuick.Layouts 1.0
 import QtQml.Models 2.14
 import VeinEntity 1.0
 import GlobalConfig 1.0
-import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
+import ZeraThemeConfig 1.0
 import "../controls"
 import "../controls/settings"
 
@@ -41,21 +41,21 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: ""
                 font.bold: true
             }
             GridItem {
                 width: root.width*0.6
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("TR1")
                 font.bold: true
             }
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "[ ]"
                 font.bold: true
             }
@@ -66,7 +66,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("X-Prim");
                 font.bold: true
             }
@@ -87,7 +87,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("N-Sec");
                 font.bold: true
             }
@@ -108,7 +108,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("X-Sec");
                 font.bold: true
             }
@@ -129,7 +129,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("X-Ratio")
                 font.bold: true
             }
@@ -149,7 +149,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "X-ε"
                 font.bold: true
             }
@@ -170,7 +170,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "X-δ"
                 font.bold: true
             }
@@ -191,7 +191,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "X-δ"
                 font.bold: true
             }
@@ -212,7 +212,7 @@ Item {
             GridItem {
                 width: root.width*0.2
                 height: root.rowHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "X-δ"
                 font.bold: true
             }

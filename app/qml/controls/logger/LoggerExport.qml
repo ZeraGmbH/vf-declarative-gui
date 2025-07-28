@@ -9,6 +9,7 @@ import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraLocale 1.0
+import ZeraThemeConfig 1.0
 import FontAwesomeQml 1.0
 import ".."
 import "../../helpers"
@@ -453,12 +454,12 @@ Item {
                         Layout.preferredWidth: parent.width / 4
                         Layout.preferredHeight: parent.height
                         color: Material.background
-                        border.color: "#88898c"
+                        border.color: ZTC.dividerColor
                         Text {
                             id: textTime
                             text: ZTR.trDateTimeShort(model.time)
                             font.pointSize: tableTextPointSize
-                            color: "white"
+                            color: ZTC.primaryTextColor
                             anchors.centerIn: parent
                         }
                     }
@@ -468,7 +469,7 @@ Item {
                         Layout.preferredWidth: 3 * parent.width / 4
                         Layout.preferredHeight: parent.height
                         color: Material.background
-                        border.color: "#88898c"
+                        border.color: ZTC.dividerColor
                         Text {
                             id: textContent
                             anchors { top: parent.top; bottom: parent.bottom;
@@ -489,7 +490,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             font.pointSize: tableTextPointSize
-                            color: "white"
+                            color: ZTC.primaryTextColor
                         }
                         Button {
                             id: deleteButton

@@ -1,25 +1,21 @@
 pragma Singleton
-import QtQuick 2.0
+import QtQuick 2.14
 import QtQuick.Controls.Material 2.14
 import ZeraSettings 1.0
 import ModuleIntrospection 1.0
 import MeasChannelInfo 1.0
+import ZeraThemeConfig 1.0
 
 Item {
     /////////////////////////////////////////////////////////////////////////////
     // public
 
-    property int colorTheme: parseInt(Settings.getOption("color_theme", "0"))
-    function setColorTheme(theme) {
-        colorTheme = theme
-        Settings.setOption("color_theme", theme)
+    function setMaterialTheme(theme) {
+        ZTC.materialTheme = theme
+        Settings.setOption("material_theme", theme)
     }
-    readonly property var materialTheme: colorTheme === 0 ? Material.Dark : Material.Light
-    readonly property var materialAccent: colorTheme === 0 ? "#339966" : "#339966"
 
-    readonly property color dividerColor: Material.dividerColor //Qt.darker("darkgrey", 2.5)
-    readonly property color tableShadeColor: colorTheme === 0 ? "#003040" : "#10003040"
-
+    // phase colors
     property color colorUL1: getInitialColorByIndex(0)
     property color colorUL2: getInitialColorByIndex(1)
     property color colorUL3: getInitialColorByIndex(2)
@@ -133,6 +129,10 @@ Item {
     /////////////////////////////////////////////////////////////////////////////
     // private
 
+    Component.onCompleted: {
+        ZTC.materialTheme = parseInt(Settings.getOption("material_theme", Material.Dark))
+    }
+
     function getInitialColorByIndex(idx) {
         return Settings.getOption(arrayJsonColorNames[idx], initialColorTable[idx])
     }
@@ -152,10 +152,10 @@ Item {
 
     readonly property string baseBlue:   "#EE0092ff"
     readonly property string baseBrown:  "#EE9b5523"
-    readonly property string baseGreen:  "#EE00C000"
+    readonly property string baseGreen:  "#FF04b007"//"#EE00C000"
     readonly property string basePurple: "#EEE000E0"
     readonly property string baseRed:    "#EEff0000"
-    readonly property string baseYellow: "#EEffff00"
+    readonly property string baseYellow: "#ffe0e000"//"#EEffff00"
 
     readonly property string baseWhite:  "#ffffffff" // white is opposite
     readonly property string baseWhite2: "#EEA0A0A0"
@@ -176,4 +176,5 @@ Item {
         // 0: International
         return [ baseRed, baseYellow, baseBlue, colorCurrent(baseRed), colorCurrent(baseYellow), colorCurrent(baseBlue), colorBlack(baseBlack), colorCurrent(baseBlack2) ]
     }
+
 }

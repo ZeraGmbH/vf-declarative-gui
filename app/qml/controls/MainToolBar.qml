@@ -1,7 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
+import QtQuick 2.14
+import QtQuick.Layouts 1.14
+import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.14
 import GlobalConfig 1.0
 import AccumulatorState 1.0
 import SchnubbelState 1.0
@@ -9,11 +9,16 @@ import AdjustmentState 1.0
 import VeinEntity 1.0
 import FontAwesomeQml 1.0
 import ZeraComponents 1.0
+import ZeraThemeConfig 1.0
 import "ranges"
 import "logger"
 
 ToolBar {
     id: root
+
+    Material.accent: ZTC.accentColorMoreContrast
+    Material.foreground: ZTC.defaultForeground // required since dark/light theme
+
     property alias rotaryFieldDependenciesReady: rotaryFieldIndicatorLoader.active;
     property alias rangeIndicatorDependenciesReady: rangeIndicator.active;
 
@@ -52,9 +57,7 @@ ToolBar {
         root.layoutStackObj.currentIndex = entityInitializationDone ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutSplashIndex
     }
 
-    background: Rectangle { color: "#206040" } /// @todo: replace with some color name??
-    //provide more contrast
-    Material.accent: Material.Amber
+    background: Rectangle { color: ZTC.toolbarColor }
 
     property real pointSize: {
         var pHeight = parent.height
@@ -246,7 +249,7 @@ ToolBar {
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             Material.foreground: { // Note: highligted overrifdes Material.foreground
                 var _opacity = 1
-                var _color = Material.White
+                var _color = ZTC.primaryTextColor
                 if (!AdjState.adjusted) {
                     if (SchnubbState.inserted)
                         _color = blinker.show ? Material.Blue : Material.Red
@@ -257,7 +260,7 @@ ToolBar {
                     }
                 }
                 else if (SchnubbState.inserted)
-                    _color = blinker.show ? Material.Blue : Material.White
+                    _color = blinker.show ? Material.Blue : ZTC.primaryTextColor
 
                 infoButton.opacity = _opacity
                 return _color

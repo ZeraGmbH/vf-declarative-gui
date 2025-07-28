@@ -6,6 +6,7 @@ import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
+import ZeraThemeConfig 1.0
 import "../../controls"
 
 Row {
@@ -23,42 +24,42 @@ Row {
     GridItem {
         width: row.rowWidth * leftColumWithsScale
         height: row.rowHeight
-        color: CS.tableShadeColor
+        color: ZTC.tableHeaderColor
         text: Name!==undefined ? Name : ""
         font.bold: true
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: isHeaderRow ? CS.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? ZTC.tableHeaderColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L1)
         textColor: isCurrent ? CS.colorIL1 : CS.colorUL1
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: isHeaderRow ? CS.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? ZTC.tableHeaderColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L2)
         textColor: isCurrent ? CS.colorIL2 : CS.colorUL2
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: isHeaderRow ? CS.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? ZTC.tableHeaderColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L3)
         textColor: isCurrent ? CS.colorIL3 : CS.colorUL3
     }
     GridItem {
         width: row.columnWidth
         height: row.rowHeight
-        color: isHeaderRow ? CS.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? ZTC.tableHeaderColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(AUX)
         textColor: isCurrent ? CS.colorIAux1 : CS.colorUAux1
     }
     GridItem {
         width: row.rowWidth * rightColumWithsScale
         height: row.rowHeight
-        color: isHeaderRow ? CS.tableShadeColor : Material.backgroundColor
+        color: isHeaderRow ? ZTC.tableHeaderColor : Material.backgroundColor
         text: Unit ? Unit : ""
     }
 }

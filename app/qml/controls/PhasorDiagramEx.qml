@@ -8,6 +8,7 @@ import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
+import ZeraThemeConfig 1.0
 
 PhasorDiagram {
     anchors.top: parent.top
@@ -25,11 +26,11 @@ PhasorDiagram {
     readonly property real sqrt3: Math.sqrt(3)
 
     circleVisible: true
-    circleColor: Material.frameColor
+    circleColor: ZTC.frameColor
     circleValue: maxVoltage / maxNominalFactor
 
     gridVisible: true
-    gridColor: Material.frameColor;
+    gridColor: ZTC.frameColor;
     gridScale: Math.min(height,width)/maxVoltage/2
 
     fromX: Math.floor(width/2)

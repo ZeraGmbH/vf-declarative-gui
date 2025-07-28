@@ -6,6 +6,7 @@ import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
+import ZeraThemeConfig 1.0
 import "../../controls"
 
 Row {
@@ -18,11 +19,11 @@ Row {
     readonly property int dataColums: 4
     readonly property real columnWidth: rowWidth / (leftColumWithsScale + dataColums + rightColumWithsScale)
     readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
-    readonly property string rowColor: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+    readonly property string rowColor: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
     GridItem {
         width: row.columnWidth * leftColumWithsScale
         height: row.rowHeight
-        color: CS.tableShadeColor
+        color: ZTC.tableHeaderColor
         text: Name!==undefined ? Name : ""
         font.bold: true
     }

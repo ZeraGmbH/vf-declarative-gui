@@ -99,6 +99,7 @@ ListView {
                 return !channelsRow.groupingComboCoversMe
             }
             opacity: {
+                let opacityDefault = 1
                 if(channelsRow.isLeaderOrNotInGroup || width === 0.0)
                     return opacityDefault
                 let relOverlap = (channelsRow.leaderCurrWidth-channelsRow.leaderLenLeftEnter) / width

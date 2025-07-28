@@ -8,6 +8,7 @@ import ZeraVeinComponents 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import ZeraThemeConfig 1.0
 import FontAwesomeQml 1.0
 
 Rectangle {
@@ -23,7 +24,7 @@ Rectangle {
     width: parent.width
     readonly property var validatorFrequency: visible ? entityIntrospection.ComponentInfo.PAR_FOUT_QREF_FREQ.Validation : { Data: [ 0,0,0 ] }
 
-    color: Qt.darker(Material.frameColor)
+    color: ZTC.buttonColor
     border.color: Material.dropShadowColor
 
     RowLayout {

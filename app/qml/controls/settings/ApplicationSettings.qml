@@ -15,9 +15,10 @@ import ZeraTranslation  1.0
 import ZeraTranslationBackend 1.0
 import ZeraComponents 1.0
 import ZeraLocale 1.0
+import ZeraThemeConfig 1.0
 import SlowMachineSettingsHelper 1.0
 import FontAwesomeQml 1.0
-import FontAwesomeHash 1.0
+import ZeraFa 1.0
 
 SettingsView {
     id: root
@@ -239,15 +240,17 @@ SettingsView {
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
                 Layout.leftMargin: height
-                font.family: FAQ.fontFamily
-                font.styleName: "Solid"
-                font.pointSize: pointSize
-                property bool darkTheme: CS.colorTheme === 0
-                text: darkTheme ? FAQ.colorize(FAQH.strToGlyph("fa_moon"), Material.foreground) :
-                                  FAQ.colorize(FAQ.fa_sun, "yellow")
+                font.pointSize: ZTC.isDarkTheme ? pointSize * 1.25 : pointSize * 2
+                text: {
+                    let ret = ZTC.isDarkTheme ? FAQ.fa_moon : "☀";
+                    return ret
+                }
                 onClicked: {
-                    darkTheme = !darkTheme
-                    CS.setColorTheme(darkTheme ? 0 : 1)
+                    let oldTheme = ZTC.materialTheme
+                    let newTheme = Material.Dark
+                    if (oldTheme === Material.Dark)
+                        newTheme = Material.Light
+                    CS.setMaterialTheme(newTheme)
                 }
             }
             ListView {

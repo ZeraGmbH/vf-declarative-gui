@@ -5,10 +5,10 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import AppStarterForWebGLSingleton 1.0
 import ZeraTranslation  1.0
-import ColorSettings 1.0
 import ModuleIntrospection 1.0
 import ZeraFa 1.0
 import ZeraLocale 1.0
+import ZeraThemeConfig 1.0
 
 Rectangle {
     property bool finished: false
@@ -41,7 +41,7 @@ Rectangle {
         lowerErrorMarginLine.append(1, minValue);
     }
 
-    border.color: CS.dividerColor
+    border.color: ZTC.dividerColor
     color: rating !== 0 || (measNum==0 && !finished) ? "transparent" : "#11FF0000";
 
     ChartView {
@@ -71,7 +71,7 @@ Rectangle {
             gridVisible: true
             tickCount: 2
             minorGridVisible: false
-            gridLineColor: Material.frameColor
+            gridLineColor: ZTC.frameColor
             color: "transparent"
         }
         ValueAxis {
@@ -82,10 +82,10 @@ Rectangle {
 
             tickCount: 7
 
-            minorGridLineColor: CS.dividerColor
-            gridLineColor: Material.frameColor
-            labelsColor: Material.primaryTextColor
-            color: Material.frameColor
+            minorGridLineColor: ZTC.dividerColor
+            gridLineColor: ZTC.frameColor
+            labelsColor: ZTC.primaryTextColor
+            color: ZTC.frameColor
         }
         LineSeries {
             id: resultLine

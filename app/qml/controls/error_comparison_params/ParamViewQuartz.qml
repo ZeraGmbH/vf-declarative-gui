@@ -5,13 +5,13 @@ import QtQuick.Controls.Material 2.14
 import QtQml.Models 2.14
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
+import ZeraThemeConfig 1.0
 import "../settings"
 
 Item {
@@ -41,7 +41,7 @@ Item {
 
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -72,7 +72,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -113,7 +113,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement && errCalEntity.PAR_Continuous !== 1
@@ -177,7 +177,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -225,7 +225,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement

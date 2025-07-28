@@ -6,6 +6,7 @@ import ColorSettings 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation 1.0
+import ZeraThemeConfig 1.0
 import "../../controls"
 
 Row {
@@ -20,7 +21,7 @@ Row {
     GridItem {
         width: columnWidth * leftColumWithsScale
         height: rowHeight
-        color: CS.tableShadeColor
+        color: CS.tableHeaderColor
         text: Name!==undefined ? Name : ""
         textHorizontalAlignment: index === 0 ? Label.AlignHCenter : Label.AlignRight
         font.bold: true
@@ -28,28 +29,28 @@ Row {
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L1) + FT.getLambdaPowerTypeString(LOAD_TYPE1)
         textColor: isCurrent ? CS.colorIL1 : CS.colorUL1
     }
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L2) + FT.getLambdaPowerTypeString(LOAD_TYPE2)
         textColor: isCurrent ? CS.colorIL2 : CS.colorUL2
     }
     GridItem {
         width: columnWidth
         height: rowHeight
-        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
         text: FT.formatNumberForScaledValues(L3) + FT.getLambdaPowerTypeString(LOAD_TYPE3)
         textColor: isCurrent ? CS.colorIL3 : CS.colorUL3
     }
     GridItem {
         width: columnWidth * rightColumWithsScale
         height: rowHeight
-        color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+        color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
         text: Unit ? Unit : ""
     }
 }

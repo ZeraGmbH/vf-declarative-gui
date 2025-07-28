@@ -3,6 +3,7 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Controls 2.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import ZeraThemeConfig 1.0
 import AppStarterForWebGLSingleton 1.0
 
 /**
@@ -24,7 +25,7 @@ Item {
         Rectangle {
             id: gridWrapper
             property string itemName: name
-            border.color: Qt.darker(Material.frameColor, 1.3)
+            border.color: ZTC.isDarkTheme ? Qt.darker(ZTC.frameColor, 1.3) : Qt.lighter(ZTC.frameColor, 1.3)
             border.width: 3
             width: root.width/2 - 12
             height: 64*scaleFactor+6

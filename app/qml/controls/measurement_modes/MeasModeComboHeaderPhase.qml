@@ -2,6 +2,7 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import ZeraComponents 1.0
+import ZeraThemeConfig 1.0
 
 Loader {
     id: root
@@ -19,7 +20,7 @@ Loader {
         Rectangle {
             anchors.fill: parent
             radius: 4
-            color: Qt.darker(Material.frameColor)
+            color: ZTC.buttonColor
             border.color: Material.dropShadowColor
             ListView {
                 anchors.fill: parent

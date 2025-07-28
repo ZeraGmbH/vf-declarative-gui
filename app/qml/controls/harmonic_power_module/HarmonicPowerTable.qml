@@ -10,6 +10,7 @@ import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
+import ZeraThemeConfig 1.0
 import FontAwesomeQml 1.0
 import ".."
 import "../settings"
@@ -100,7 +101,7 @@ Item {
             height: root.rowHeight
 
             GridRect {
-                border.color: "#444" //disable border transparency
+                border.color: ZTC.dividerColor
                 x: fftFlickable.contentX //keep item visible
                 z: 1
                 width: firstColumnWidth
@@ -117,8 +118,8 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        color: CS.tableShadeColor
-                        border.color: "#444" //disable border transparency
+                        color: ZTC.tableHeaderColor
+                        border.color: ZTC.dividerColor
                         text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPP%1").arg(index+1)].ChannelName) + relativeUnit //P
                         textColor: tableRow.rowColor
                         font.bold: true
@@ -126,8 +127,8 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        color: CS.tableShadeColor
-                        border.color: "#444" //disable border transparency
+                        color: ZTC.tableHeaderColor
+                        border.color: ZTC.dividerColor
                         text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPQ%1").arg(index+1)].ChannelName) + relativeUnit //Q
                         textColor: tableRow.rowColor
                         font.bold: true
@@ -135,8 +136,8 @@ Item {
                     GridItem {
                         width: root.columnWidth
                         height: root.rowHeight
-                        color: CS.tableShadeColor
-                        border.color: "#444" //disable border transparency
+                        color: ZTC.tableHeaderColor
+                        border.color: ZTC.dividerColor
                         text: Z.tr(ModuleIntrospection.p3m1Introspection.ComponentInfo[String("ACT_HPS%1").arg(index+1)].ChannelName) + relativeUnit //S
                         textColor: tableRow.rowColor
                         font.bold: true
@@ -162,12 +163,12 @@ Item {
                     height: root.rowHeight
 
                     GridItem {
-                        border.color: "#444" //disable border transparency
+                        border.color: ZTC.dividerColor
                         x: fftFlickable.contentX //keep item visible
                         z: 1
                         width: firstColumnWidth
                         height: root.rowHeight
-                        color: Qt.lighter(CS.tableShadeColor, 1.0+(index/150))
+                        color: Qt.lighter(ZTC.tableHeaderColor, 1.0+(index/150))
                         text: index
                         font.bold: true
                     }

@@ -11,6 +11,7 @@ import ZeraTranslation  1.0
 import Vf_Recorder 1.0
 import AxisAutoScaler 1.0
 import SingleValueScaler 1.0
+import ZeraThemeConfig 1.0
 
 Item {
     id: root
@@ -393,7 +394,7 @@ Item {
                 name: powerComponentsACDC[3]
                 axisX: axisXPower
                 axisY: axisYPower
-                color: "white"
+                color: ZTC.primaryTextColor
                 visible: GC.showCurveSum && !SessionState.dcSession
                 onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }

@@ -88,6 +88,7 @@ Rectangle {
     Button {
         id: editNfButton
         text: FAQ.fa_cogs
+        Material.theme: Material.Light
         font.pointSize: pointSize * 1.5
         anchors.rightMargin: grid.width > 200 ? 5 : -5
         anchors.right: grid.right

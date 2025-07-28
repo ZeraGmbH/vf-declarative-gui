@@ -7,6 +7,7 @@ import ColorSettings 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
+import ZeraThemeConfig 1.0
 import "../controls"
 
 Item {
@@ -66,13 +67,13 @@ Item {
             GridRect {
                 width: columnWidth1st
                 height: row1stHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 //spacer
             }
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("L1")
                 textColor: CS.colorUL1
                 font.pixelSize: pixelSize
@@ -80,7 +81,7 @@ Item {
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("L2")
                 textColor: CS.colorUL2
                 font.pixelSize: pixelSize
@@ -88,7 +89,7 @@ Item {
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: Z.tr("L3")
                 textColor: CS.colorUL3
                 font.pixelSize: pixelSize
@@ -96,7 +97,7 @@ Item {
             GridItem {
                 width: columnWidth
                 height: row1stHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "Σ"
                 textColor: CS.colorUL3
                 font.pixelSize: pixelSize
@@ -104,7 +105,7 @@ Item {
             GridItem {
                 width: columnWidthLast
                 height: row1stHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 text: "[ ]"
                 font.pixelSize: pixelSize
             }
@@ -125,7 +126,7 @@ Item {
                         //title
                         width: columnWidth1st
                         height: rowHeight
-                        color: CS.tableShadeColor
+                        color: ZTC.tableHeaderColor
                         font.pixelSize: pixelSize
                         text: {
                             var retVal = "";

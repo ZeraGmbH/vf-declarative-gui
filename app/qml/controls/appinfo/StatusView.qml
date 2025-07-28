@@ -6,6 +6,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AdjustmentState 1.0
 import FontAwesomeQml 1.0
+import ZeraThemeConfig 1.0
 import "../../pages"
 
 BaseTabPage {
@@ -26,7 +27,7 @@ BaseTabPage {
             font.pointSize: tabPointSize
             height: tabHeight
             text: FAQ.fa_info_circle + " " +Z.tr("Device info")
-            Material.foreground: AdjState.adjusted ? Material.White : Material.Red
+            Material.foreground: AdjState.adjusted ? ZTC.primaryTextColor : Material.Red
             Timer {
                 interval: 300
                 repeat: true

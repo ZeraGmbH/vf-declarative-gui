@@ -13,6 +13,7 @@ import SessionState 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
+import ZeraThemeConfig 1.0
 
 import "controls"
 import "helpers"
@@ -84,8 +85,8 @@ ApplicationWindow {
 
     flags: Qt.FramelessWindowHint
     title: "ZeraGUI"
-    Material.theme: CS.materialTheme
-    Material.accent: CS.materialAccent
+    Material.theme: ZTC.materialTheme
+    Material.accent: ZTC.accentColor
     readonly property real pointSize: height > 0 ? height * 0.035 : 10
 
     Connections {

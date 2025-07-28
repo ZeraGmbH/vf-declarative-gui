@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ZeraComponents 1.0
 import ColorSettings 1.0
 import MeasChannelInfo 1.0
+import ZeraThemeConfig 1.0
 
 Button {
     id: invertPhasesButton
@@ -20,13 +21,13 @@ Button {
         return names
     }
     readonly property string text_color: {
-        let color = "white"
+        let color = ZTC.primaryTextColor
         for(var i = 1; i <= MeasChannelInfo.channelCountTotal; i++){
             if (rangeModule["PAR_InvertPhase%1".arg(i)] === 1) {
                 if(visibility===true)
                     color = "darkorange"
                 else
-                    color = "white"
+                    color = ZTC.primaryTextColor
                 break
             }
         }

@@ -12,6 +12,7 @@ import ZeraLocale 1.0
 import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
+import ZeraThemeConfig 1.0
 import FontAwesomeQml 1.0
 import "../controls/settings"
 
@@ -141,7 +142,7 @@ Item {
                     gridVisible: true
                     tickCount: 2
                     minorGridVisible: false
-                    gridLineColor: Material.frameColor
+                    gridLineColor: ZTC.frameColor
                 }
                 ValueAxis {
                     id: yAxisLeft
@@ -153,8 +154,8 @@ Item {
                     max: minMax
                     tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
-                    minorGridLineColor: CS.dividerColor
-                    gridLineColor: Material.frameColor
+                    minorGridLineColor: ZTC.dividerColor
+                    gridLineColor: ZTC.frameColor
                     color: chartView.leftColor
                     labelsColor: color
                 }
@@ -168,8 +169,8 @@ Item {
                     max: minMax
                     tickCount: pinchArea.pinchScale < 2 ? 3 : 5
 
-                    minorGridLineColor: CS.dividerColor
-                    gridLineColor: Material.frameColor
+                    minorGridLineColor: ZTC.dividerColor
+                    gridLineColor: ZTC.frameColor
                     color: chartView.rightColor
                     labelsColor: color
                 }

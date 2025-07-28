@@ -1,8 +1,10 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick 2.14
+import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.14
 import AccumulatorState 1.0
 import ZeraFa 1.0
 import FontAwesomeQml 1.0
+import ZeraThemeConfig 1.0
 
 ToolButton {
     readonly property real chargingMinDisplayedVal: 15
@@ -22,11 +24,11 @@ ToolButton {
                 const redLimitVal = 10
                 const orangeLimitVal = 20
                 if(AccuState.accumulatorChargeValue <= redLimitVal)
-                    return "#F44336" // Material.red -> https://doc.qt.io/qt-5/qtquickcontrols2-material.html
+                    return Material.color(Material.Red)
                 else if(AccuState.accumulatorChargeValue <= orangeLimitVal)
-                    return "orange"
+                    return Material.color(Material.Orange)
             }
-            return "white"
+            return ZTC.primaryTextColor
         }
         verticalAlignment: Text.AlignVCenter
         text: FAQ.fa_battery_empty

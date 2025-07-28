@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.14
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
+import ZeraThemeConfig 1.0
 import ".."
 
 TabButton {
@@ -19,7 +20,13 @@ TabButton {
         height: tabHeight
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        Material.foreground: (errMeasHelper.comparisonPass(entity) || errMeasHelper.comparisonProgress(entity, tabButton.running)) ? Material.White : Material.Red
+        Material.foreground: {
+            if (tabButton.checked)
+                return ZTC.accentColor
+            if (errMeasHelper.comparisonPass(entity) || errMeasHelper.comparisonProgress(entity, tabButton.running))
+                return ZTC.primaryTextColor
+            return Material.Red
+        }
     }
     AnimationActivity {
         targetItem: tabButton

@@ -11,6 +11,7 @@ import ModuleIntrospection 1.0
 import DeclarativeJson 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
+import ZeraThemeConfig 1.0
 import "../controls"
 import "../controls/settings"
 
@@ -180,7 +181,8 @@ BaseTabPage {
                         font.capitalization: Font.AllUppercase
                         font.pointSize: tabPointSize
                         height: tabHeight
-                        color: activeSlotItem.jsonState.errors.length === 0 ? "white" : "red"
+                        color: activeSlotItem.jsonState.errors.length === 0 ?
+                                   ZTC.primaryTextColor : Material.color(Material.Red)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }

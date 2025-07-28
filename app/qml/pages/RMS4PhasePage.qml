@@ -9,6 +9,7 @@ import SortFilterProxyModel 0.2
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
+import ZeraThemeConfig 1.0
 import FontAwesomeQml 1.0
 import "../controls"
 import "../controls/settings"
@@ -100,11 +101,11 @@ Item {
                     id: row
                     height: index === 0 ? row1stHeight : rowHeight
                     readonly property bool isCurrent: Name === Z.tr("kI") || Name === Z.tr("I") || Name === Z.tr("∠I")
-                    readonly property string rowColor: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+                    readonly property string rowColor: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
                     GridItem {
                         width: columnWidth1st
                         height: parent.height
-                        color: CS.tableShadeColor
+                        color: ZTC.tableHeaderColor
                         text: Name!==undefined ? Name : ""
                         font.pixelSize: root.pixelSize
                     }

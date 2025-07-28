@@ -12,6 +12,7 @@ import DeclarativeJson 1.0
 import FontAwesomeQml 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
+import ZeraThemeConfig 1.0
 import '../controls'
 
 // TODOs / Ideas
@@ -297,7 +298,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             height: lineHeightHeaderLine
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
         }
         Repeater { // U/I rectangles
             model: uiModel
@@ -305,7 +306,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: linesStandardUI * lineHeight
-                color: CS.tableShadeColor
+                color: ZTC.tableHeaderColor
                 Label {
                     textFormat: Text.PlainText
                     anchors.verticalCenter: parent.verticalCenter
@@ -342,7 +343,7 @@ Item {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         width: columnWidth
-                        color: CS.tableShadeColor
+                        color: ZTC.tableHeaderColor
                         Label {
                             textFormat: Text.PlainText
                             anchors.fill: parent
@@ -512,7 +513,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             height: lineHeightHeaderLine
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             Label {
                 textFormat: Text.PlainText
                 anchors.verticalCenter: parent.verticalCenter

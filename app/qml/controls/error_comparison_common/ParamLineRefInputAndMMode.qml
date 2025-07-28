@@ -4,14 +4,14 @@ import QtQuick.Controls.Material 2.14
 import ZeraVeinComponents 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
-import ColorSettings 1.0
 import PowerModuleVeinGetter 1.0
+import ZeraThemeConfig 1.0
 
 Loader {
     width: parent.width
     sourceComponent:  Rectangle {
         color: Material.backgroundColor
-        border.color: CS.dividerColor
+        border.color: ZTC.dividerColor
         height: root.rowHeight
         enabled: logicalParent.canStartMeasurement
         Label {

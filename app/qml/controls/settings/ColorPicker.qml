@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtGraphicalEffects 1.0
 import ZeraTranslation 1.0
+import ZeraThemeConfig 1.0
 
 Popup {
   id: root
@@ -172,7 +173,7 @@ Popup {
         color: newColor
         anchors.centerIn: parent
         border.width: 2
-        border.color: Material.frameColor
+        border.color: ZTC.frameColor
 
 
         layer.enabled: true

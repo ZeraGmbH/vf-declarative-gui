@@ -6,7 +6,6 @@ import QtQml.Models 2.14
 import VeinEntity 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
-import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import PowerModuleVeinGetter 1.0
@@ -16,6 +15,7 @@ import FontAwesomeQml 1.0
 import SessionState 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
+import ZeraThemeConfig 1.0
 import "../settings"
 import "../error_comparison_common"
 
@@ -86,7 +86,7 @@ Item {
             active: isEnergyComparison
             sourceComponent: Rectangle {
                 color: Material.backgroundColor
-                border.color: CS.dividerColor
+                border.color: ZTC.dividerColor
                 height: root.rowHeight
                 width: root.width
                 enabled: logicalParent.canStartMeasurement
@@ -117,7 +117,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -149,7 +149,7 @@ Item {
                     font.pointSize: pointSize
                     Material.foreground: {
                         if(logicalParent.errCalEntity["PAR_DutTypeMeasurePoint"] === "CsIsUs")
-                            return "white";
+                            return ZTC.primaryTextColor
                         else
                             return Material.color(Material.Amber) // show settings are not default
                     }
@@ -240,7 +240,7 @@ Item {
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: Material.backgroundColor
-                border.color: CS.dividerColor
+                border.color: ZTC.dividerColor
                 height: root.rowHeight
                 width: root.width
 
@@ -346,7 +346,7 @@ Item {
             sourceComponent: Rectangle {
                 enabled: logicalParent.canStartMeasurement
                 color: Material.backgroundColor
-                border.color: CS.dividerColor
+                border.color: ZTC.dividerColor
                 height: root.rowHeight
                 width: root.width
 
@@ -381,7 +381,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement && errCalEntity.PAR_Continuous !== 1
@@ -445,7 +445,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement
@@ -493,7 +493,7 @@ Item {
         }
         Rectangle {
             color: Material.backgroundColor
-            border.color: CS.dividerColor
+            border.color: ZTC.dividerColor
             height: root.rowHeight
             width: root.width
             enabled: logicalParent.canStartMeasurement

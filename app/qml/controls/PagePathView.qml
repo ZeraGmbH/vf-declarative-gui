@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AppStarterForWebGLSingleton 1.0
+import ZeraThemeConfig 1.0
 
 /**
   * @b A selection of the available pages/views laid out in an elliptic path
@@ -59,7 +60,7 @@ Item {
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                border.color: Qt.darker(Material.frameColor, 1.3)
+                border.color: ZTC.isDarkTheme ? Qt.darker(ZTC.frameColor, 1.3) : Qt.lighter(ZTC.frameColor, 1.3)
                 border.width: 3
                 color: Material.backgroundColor
                 radius: 4

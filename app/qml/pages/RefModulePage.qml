@@ -6,6 +6,7 @@ import GlobalConfig 1.0
 import ColorSettings 1.0
 import FunctionTools 1.0
 import ZeraTranslation  1.0
+import ZeraThemeConfig 1.0
 import "../controls"
 
 Item {
@@ -32,7 +33,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             text: Z.tr("REF1")
             font.bold: true
             font.pixelSize: height*0.3
@@ -40,7 +41,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             text: Z.tr("REF2")
             font.bold: true
             font.pixelSize: height*0.3
@@ -48,7 +49,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             text: Z.tr("REF3")
             font.bold: true
             font.pixelSize: height*0.3
@@ -56,7 +57,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             text: Z.tr("REF4")
             font.bold: true
             font.pixelSize: height*0.3
@@ -64,7 +65,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             text: Z.tr("REF5")
             font.bold: true
             font.pixelSize: height*0.3
@@ -72,7 +73,7 @@ Item {
         GridItem {
             width: wideRowWidth
             height: root.rowHeight
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             text: Z.tr("REF6")
             font.bold: true
             font.pixelSize: height*0.3
@@ -80,7 +81,7 @@ Item {
         GridItem {
             width: basicRowWidth
             height: root.rowHeight
-            color: CS.tableShadeColor
+            color: ZTC.tableHeaderColor
             text: "[ ]"
             font.bold: true
             font.pixelSize: height*0.3

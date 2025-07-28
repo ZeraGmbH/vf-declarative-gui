@@ -12,6 +12,7 @@ import ZeraTranslation  1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
+import ZeraThemeConfig 1.0
 import "../controls"
 import "../controls/settings"
 
@@ -81,14 +82,14 @@ BaseTabPage {
                         GridItem {
                             width: page.columnWidth*0.7
                             height: page.rowHeight
-                            color: CS.tableShadeColor
+                            color: ZTC.tableHeaderColor
                             text: Name!==undefined ? Name : ""
                             font.bold: true
                         }
                         GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
-                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
                             text: valueText(L1, Name)
                             textColor: isVoltagePage ? CS.colorUL1 : CS.colorIL1
                             font.bold: index === 0
@@ -96,7 +97,7 @@ BaseTabPage {
                         GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
-                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
                             text: valueText(L2, Name)
                             textColor: isVoltagePage ? CS.colorUL2 : CS.colorIL2
                             font.bold: index === 0
@@ -104,7 +105,7 @@ BaseTabPage {
                         GridItem {
                             width: page.columnWidth
                             height: page.rowHeight
-                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
                             text: valueText(L3, Name)
                             textColor: isVoltagePage ? CS.colorUL3 : CS.colorIL3
                             font.bold: index === 0
@@ -112,7 +113,7 @@ BaseTabPage {
                         GridItem {
                             width: page.columnWidth/2
                             height: page.rowHeight
-                            color: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+                            color: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
                             text: Unit ? Unit : ""
                             font.bold: index === 0
                         }

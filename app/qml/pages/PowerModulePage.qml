@@ -8,6 +8,7 @@ import PowerModuleVeinGetter 1.0
 import ZeraVeinComponents 1.0
 import TableEventDistributor 1.0
 import SortFilterProxyModel 0.2
+import ZeraThemeConfig 1.0
 import "../controls"
 
 Item {
@@ -53,11 +54,11 @@ Item {
             Row {
                 id: row
                 height: index === 0 ? row1stHeight : rowHeight
-                readonly property string rowColor: index === 0 ? CS.tableShadeColor : Material.backgroundColor
+                readonly property string rowColor: index === 0 ? ZTC.tableHeaderColor : Material.backgroundColor
                 GridItem {
                     width: firstColumnWidth
                     height: parent.height
-                    color: CS.tableShadeColor
+                    color: ZTC.tableHeaderColor
                     text: Name!==undefined ? Name : ""
                 }
                 GridItem {
