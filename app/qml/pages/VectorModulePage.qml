@@ -22,7 +22,7 @@ Item {
     readonly property bool threePhase: viewMode === PhasorDiagram.VIEW_THREE_PHASE
 
     readonly property real pointSize: Math.max(10, height / 28)
-    readonly property real horizMarign: 10
+    readonly property real horizMarign: width*0.005
     readonly property real comboWidth: width/7
     readonly property real comboMargin: 8
     property real topMargin: 0
@@ -188,9 +188,11 @@ Item {
         }
         text: "<font color='" + CS.colorUL1 + "'>"+ "U: " + valueStr + " * √2" + "</font>"
         anchors.bottom: currentIndicator.top
-        anchors.bottomMargin: GC.standardTextBottomMargin
+        height: circleIndicator.height * 0.5
+        anchors.bottomMargin: circleIndicator.height * 0.2
         anchors.left: circleIndicator.right
         anchors.leftMargin: horizMarign
+        horizontalAlignment: Label.AlignLeft
         font.pointSize: pointSize / 1.25
     }
     Label {
@@ -203,10 +205,12 @@ Item {
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + CS.colorIL1 + "'>"+ "I: " + valueStr + " * √2" + "</font>"
-        anchors.bottom: root.bottom;
-        anchors.bottomMargin: GC.standardTextBottomMargin
+        anchors.bottom: root.bottom
+        height: circleIndicator.height * 0.5
+        anchors.bottomMargin: GC.standardTextBottomMargin * 1.2
         anchors.left: circleIndicator.right
         anchors.leftMargin: horizMarign
+        horizontalAlignment: Label.AlignLeft
         font.pointSize: pointSize / 1.25
     }
 
