@@ -21,7 +21,7 @@ Row {
     GridItem {
         width: columnWidth * leftColumWithsScale
         height: rowHeight
-        color: CS.tableHeaderColor
+        color: ZTC.tableHeaderColor
         text: Name!==undefined ? Name : ""
         textHorizontalAlignment: index === 0 ? Label.AlignHCenter : Label.AlignRight
         font.bold: true
