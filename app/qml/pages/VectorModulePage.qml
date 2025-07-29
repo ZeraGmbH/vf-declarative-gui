@@ -9,6 +9,7 @@ import ModuleIntrospection 1.0
 import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
+import ZeraThemeConfig 1.0
 import '../controls'
 
 Item {
@@ -165,7 +166,9 @@ Item {
         anchors.bottomMargin: GC.standardTextBottomMargin
         anchors.left: root.left
         anchors.leftMargin: horizMarign
-        source: "qrc:/data/staticdata/resources/radius-large.svg"
+        source: ZTC.isDarkTheme ?
+                    "qrc:/data/staticdata/resources/radius-large.svg" :
+                    "qrc:/data/staticdata/resources/radius-large-for-light-theme.svg"
         height: pointSize * 3
         mipmap: true
         antialiasing: true
@@ -264,7 +267,9 @@ Item {
         anchors.right: lenMode.left
         anchors.verticalCenter: lenMode.verticalCenter
         anchors.rightMargin: GC.standardTextHorizMargin
-        source: "qrc:/data/staticdata/resources/radius.svg"
+        source: ZTC.isDarkTheme ?
+                    "qrc:/data/staticdata/resources/radius.svg" :
+                    "qrc:/data/staticdata/resources/radius-for-light-theme.svg"
         height: pointSize * 1.75
         mipmap: true
         antialiasing: true
