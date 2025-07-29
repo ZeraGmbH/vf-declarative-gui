@@ -103,7 +103,7 @@ Loader {
             anchors.verticalCenter: parent.verticalCenter
             font.pointSize: popup.pointSize * 5
             text: FAQ.fa_check
-            color: Material.accentColor
+            color: Material.color(Material.Green)
             visible: finishTimer.running && popup.warningTxtArr.length === 0 && popup.errorTxtArr.length === 0
         }
         Label { // warning/error indicator
