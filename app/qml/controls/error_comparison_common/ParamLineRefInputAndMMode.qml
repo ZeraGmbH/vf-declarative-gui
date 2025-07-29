@@ -23,7 +23,7 @@ Loader {
             text: Z.tr("Reference input:")
             font.pointSize: root.pointSize
         }
-        VFComboBox {
+        VFComboBox { // more than one reference input only
             id: cbRefInput
             // override
             function translateText(text) {
@@ -33,12 +33,22 @@ Loader {
             entity: logicalParent.errCalEntity
             controlPropertyName: "PAR_RefInput"
             model: validatorRefInput.Data
+            visible: model.length > 1
 
             x: parent.width*col1Width
             width: parent.width*col2Width - GC.standardMarginWithMin
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             pointSize: root.pointSize
+        }
+        Label { // fallback for one reference input
+            textFormat: Text.PlainText
+            visible: !cbRefInput.visible
+            text: cbRefInput.model.length > 0 ? Z.tr(cbRefInput.model[0]) : ""
+            x: parent.width*col1Width
+            width: parent.width*col2Width - GC.standardMarginWithMin
+            anchors.verticalCenter: parent.verticalCenter
+            font.pointSize: root.pointSize
         }
 
         VFComboBox {
