@@ -6,6 +6,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import ZeraThemeConfig 1.0
 import ZeraFa 1.0
 
 Item {
@@ -46,7 +47,9 @@ Item {
                 width: root.width/7
                 clip: true
                 Image {
-                    source: "qrc:/data/staticdata/resources/Armed.svg"
+                    source: ZTC.isDarkTheme ?
+                                "qrc:/data/staticdata/resources/Armed.svg" :
+                                "qrc:/data/staticdata/resources/Armed-for-light-theme.svg"
                     sourceSize.width: parent.width
                     fillMode: Image.TileHorizontally
                     height: parent.height
@@ -61,7 +64,9 @@ Item {
                 width: root.width/7
                 clip: true
                 Image {
-                    source: "qrc:/data/staticdata/resources/Ready.svg"
+                    source: ZTC.isDarkTheme ?
+                                "qrc:/data/staticdata/resources/Ready.svg" :
+                                "qrc:/data/staticdata/resources/Ready-for-light-theme.svg"
                     sourceSize.width: parent.width
                     fillMode: Image.TileHorizontally
                     height: parent.height

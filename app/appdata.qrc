@@ -126,7 +126,9 @@
         <file>staticdata/resources/MeterPrim.gif</file>
         <file>staticdata/resources/MeterSec.gif</file>
         <file>staticdata/resources/Ready.svg</file>
+        <file>staticdata/resources/Ready-for-light-theme.svg</file>
         <file>staticdata/resources/Armed.svg</file>
+        <file>staticdata/resources/Armed-for-light-theme.svg</file>
         <file>staticdata/resources/harmonics.png</file>
         <file>staticdata/resources/hpower.png</file>
         <file>staticdata/resources/act_values.png</file>
