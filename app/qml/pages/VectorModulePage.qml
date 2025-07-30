@@ -119,19 +119,19 @@ Item {
 
         vectorView: viewMode
 
-        vector1Data: vectorU1
-        vector2Data: vectorU2
-        vector3Data: vectorU3
-        vector4Data: vectorI1
-        vector5Data: vectorI2
-        vector6Data: vectorI3
+        vectorData0: vectorU1
+        vectorData1: vectorU2
+        vectorData2: vectorU3
+        vectorData3: vectorI1
+        vectorData4: vectorI2
+        vectorData5: vectorI3
 
-        vector1Label: getVectorName(0);
-        vector2Label: getVectorName(1);
-        vector3Label: getVectorName(2);
-        vector4Label: getVectorName(3);
-        vector5Label: getVectorName(4);
-        vector6Label: getVectorName(5);
+        vectorLabel0: getVectorName(0);
+        vectorLabel1: getVectorName(1);
+        vectorLabel2: getVectorName(2);
+        vectorLabel3: getVectorName(3);
+        vectorLabel4: getVectorName(4);
+        vectorLabel5: getVectorName(5);
 
         maxVoltage: {
             let rangeMax = maxOVRRejectionU * Math.SQRT2

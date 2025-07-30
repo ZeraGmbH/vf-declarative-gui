@@ -36,14 +36,14 @@ PhasorDiagram {
     fromX: Math.floor(width/2)
     fromY: Math.floor(height/2)
 
-    vector1Color: CS.colorUL1
-    vector2Color: CS.colorUL2
-    vector3Color: CS.colorUL3
-    vector4Color: CS.colorIL1
-    vector5Color: CS.colorIL2
-    vector6Color: CS.colorIL3
+    vectorColor0: CS.colorUL1
+    vectorColor1: CS.colorUL2
+    vectorColor2: CS.colorUL3
+    vectorColor3: CS.colorIL1
+    vectorColor4: CS.colorIL2
+    vectorColor5: CS.colorIL3
 
-    readonly property real din410PhiOrigin: Math.atan2(vector1Data[1], vector1Data[0])+Math.PI/2
-    readonly property real iec387PhiOrigin: Math.atan2(vector4Data[1], vector4Data[0])
+    readonly property real din410PhiOrigin: Math.atan2(vectorData0[1], vectorData0[0])+Math.PI/2
+    readonly property real iec387PhiOrigin: Math.atan2(vectorData3[1], vectorData3[0])
     phiOrigin: din410 ? din410PhiOrigin : iec387PhiOrigin;
 }

@@ -607,10 +607,10 @@ Item {
             id: phasorDiagram
             readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
             maxNominalFactor: 1.2
-            vector2Color: currentColorTableVectors[1]
-            vector3Color: currentColorTableVectors[2]
-            vector5Color: currentColorTableVectors[4]
-            vector6Color: currentColorTableVectors[5]
+            vectorColor1: currentColorTableVectors[1]
+            vectorColor2: currentColorTableVectors[2]
+            vectorColor4: currentColorTableVectors[4]
+            vectorColor5: currentColorTableVectors[5]
             forceI1Top: symmetricCheckbox.checked
 
             function getVectorFromActual(phase) {
@@ -665,23 +665,23 @@ Item {
             maxVoltage: calcMax(true) * maxNominalFactor
             maxCurrent: calcMax(false) * maxNominalFactor
 
-            vector1Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
+            vectorData0: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
                              [arrVectors[0][0],arrVectors[0][1]] :
                              [arrVectors[0][0]-arrVectors[1][0], arrVectors[0][1]-arrVectors[1][1]] /* UL1-UL2 */
-            vector2Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
+            vectorData1: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
                              [arrVectors[1][0],arrVectors[1][1]] :
                              [arrVectors[2][0]-arrVectors[1][0], arrVectors[2][1]-arrVectors[1][1]] /* UL3-UL2 */
-            vector3Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[2][0],arrVectors[2][1]] : [0,0]
-            vector4Data: [arrVectors[3][0],arrVectors[3][1]]
-            vector5Data: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[4][0],arrVectors[4][1]] : [0,0]
-            vector6Data: [arrVectors[5][0],arrVectors[5][1]]
+            vectorData2: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[2][0],arrVectors[2][1]] : [0,0]
+            vectorData3: [arrVectors[3][0],arrVectors[3][1]]
+            vectorData4: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[4][0],arrVectors[4][1]] : [0,0]
+            vectorData5: [arrVectors[5][0],arrVectors[5][1]]
 
-            vector1Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL1") : Z.tr("UL1") + "-" + Z.tr("UL2")
-            vector2Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL2") : Z.tr("UL3") + "-" + Z.tr("UL2") // same as ACT_DFTPP2
-            vector3Label: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL3") : Z.tr("UL3") + "-" + Z.tr("UL1")
-            vector4Label: Z.tr("IL1")
-            vector5Label: Z.tr("IL2")
-            vector6Label: Z.tr("IL3")
+            vectorLabel0: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL1") : Z.tr("UL1") + "-" + Z.tr("UL2")
+            vectorLabel1: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL2") : Z.tr("UL3") + "-" + Z.tr("UL2") // same as ACT_DFTPP2
+            vectorLabel2: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL3") : Z.tr("UL3") + "-" + Z.tr("UL1")
+            vectorLabel3: Z.tr("IL1")
+            vectorLabel4: Z.tr("IL2")
+            vectorLabel5: Z.tr("IL3")
 
             vectorView: GC.vectorMode
             din410: !GC.vectorIecMode
