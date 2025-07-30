@@ -33,9 +33,6 @@ PhasorDiagram {
     gridColor: ZTC.frameColor;
     gridScale: Math.min(height,width)/maxVoltage/2
 
-    fromX: Math.floor(width/2)
-    fromY: Math.floor(height/2)
-
     vectorColor0: CS.colorUL1
     vectorColor1: CS.colorUL2
     vectorColor2: CS.colorUL3
