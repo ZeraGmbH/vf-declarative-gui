@@ -149,7 +149,7 @@ Item {
 
             Label {
                 id: phaseLabel
-                text: Z.tr("Select phase to display: ")
+                text: Z.tr("Select phase to display:")
                 textFormat: Text.PlainText
                 font.pointSize: pointSize
                 Layout.fillWidth: true
