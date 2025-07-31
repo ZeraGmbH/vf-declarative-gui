@@ -264,7 +264,7 @@ Item {
             height: verticalFlickable.chartsHeight
             width: root.graphWidth
             antialiasing: true
-            theme: ChartView.ChartThemeDark
+            theme: ZTC.isDarkTheme ? ChartView.ChartThemeDark : ChartView.ChartThemeLight
             legend.visible: false
             margins {right: root.graphWidth * 0.067; left: root.graphWidth * 0.004; top: 0; bottom: 0}
             property bool loggingActive: logging
@@ -298,7 +298,7 @@ Item {
                 model: axisYPower.tickCount
                 delegate: Text {
                     text: ((axisYPower.max - (index * axisYPower.perDivision)) * axisYPower.scale).toFixed(2)
-                    color: axisYPower.labelsColor
+                    color: ZTC.primaryTextColor
                     font.pixelSize: chartViewPower.height * 0.04
                     x: (chartViewPower.plotArea.x * 0.9) - width
                     y: (chartViewPower.plotArea.y * 0.4) + (index * (chartViewPower.plotArea.height / (axisYPower.tickCount - 1)))
@@ -405,7 +405,7 @@ Item {
             width: root.graphWidth
             anchors.top: chartViewPower.bottom
             antialiasing: true
-            theme: ChartView.ChartThemeDark
+            theme: ZTC.isDarkTheme ? ChartView.ChartThemeDark : ChartView.ChartThemeLight
             legend.visible: false
             margins {right: 0; left: 0; top: 0; bottom: 0}
             property bool loggingActive: logging
@@ -439,7 +439,7 @@ Item {
                 model: axisYLeft.tickCount
                 delegate: Text {
                     text: ((axisYLeft.max - (index * axisYLeft.perDivision)) * axisYLeft.scale).toFixed(2)
-                    color: axisYLeft.labelsColor
+                    color: ZTC.primaryTextColor
                     font.pixelSize: chartView.height * 0.04
                     x: (chartView.plotArea.x * 0.9) - width
                     y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYLeft.tickCount - 1)))
@@ -486,7 +486,7 @@ Item {
                 model: axisYRight.tickCount
                 delegate: Text {
                     text: ((axisYRight.max - (index * axisYRight.perDivision)) * axisYRight.scale).toFixed(2)
-                    color: axisYRight.labelsColor
+                    color: ZTC.primaryTextColor
                     font.pixelSize: chartView.height * 0.04
                     x: root.graphWidth - chartView.plotArea.x + 5
                     y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYRight.tickCount - 1)))
