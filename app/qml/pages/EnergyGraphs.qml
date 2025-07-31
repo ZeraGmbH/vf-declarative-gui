@@ -196,7 +196,7 @@ Item {
                     GC.setPhaseThree(checked)
             }
             ZCheckBox {
-                text: Z.tr("Sum")
+                text: "Σ"
                 width: parent.width
                 Layout.fillWidth: true
                 Layout.fillHeight: true
