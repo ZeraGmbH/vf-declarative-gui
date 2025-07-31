@@ -213,10 +213,7 @@ Item {
 
     Flickable {
         id: verticalFlickable
-        anchors.top: {
-            if(phasesLoader.active)
-                return phasesLoader.bottom
-            }
+        anchors.top: phasesLoader.active ? phasesLoader.bottom : root.top
         boundsBehavior: Flickable.StopAtBounds
         contentHeight: chartView.height + chartViewPower.height
         width: root.width
