@@ -87,6 +87,7 @@ ApplicationWindow {
     title: "ZeraGUI"
     Material.theme: ZTC.materialTheme
     Material.accent: ZTC.accentColor
+    Material.background: ZTC.backgroundColor
     readonly property real pointSize: height > 0 ? height * 0.035 : 10
 
     Connections {

@@ -149,13 +149,15 @@ Item {
 
     readonly property real defaultCurrentBrightness: 1.75
     readonly property real defaultBlackBrightness: 35
+    readonly property real defaultCurrentBrightnessLight: 0.63
+    readonly property real defaultBlackBrightnessLight: 1
 
     readonly property string baseBlue:   "#EE0092ff"
     readonly property string baseBrown:  "#EE9b5523"
     readonly property string baseGreen:  "#FF04b007"//"#EE00C000"
     readonly property string basePurple: "#EEE000E0"
     readonly property string baseRed:    "#EEff0000"
-    readonly property string baseYellow: "#ffe0e000"//"#EEffff00"
+    readonly property string baseYellow: ZTC.isDarkTheme ? "#ffe0e000" : "#FFd0c800" //"#EEffff00"
 
     readonly property string baseWhite:  "#ffffffff" // white is opposite
     readonly property string baseWhite2: "#EEA0A0A0"
