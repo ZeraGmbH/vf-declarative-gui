@@ -27,6 +27,10 @@ Loader {
 
         closePolicy: Popup.CloseOnPressOutside | Popup.CloseOnEscape
         readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+        onAboutToShow: {
+            sliderCurrent.value = CS.currentBrightness
+            sliderBlack.value = CS.blackBrightness
+        }
 
         ListView {
             id: colourListView
@@ -91,15 +95,9 @@ Loader {
                 width: popup.sliderWidth
                 from: 0.5
                 to: 1.9
-                property bool completed: false
-                Component.onCompleted: {
-                    value = CS.currentBrightness
-                    completed = true
-                }
                 onValueChanged: {
-                    if(completed) {
-                        CS.setCurrentBrigtness(value)
-                    }
+                    if (popup.opened)
+                        CS.setCurrentBrightness(value)
                 }
             }
         }
@@ -121,15 +119,9 @@ Loader {
                 width: popup.sliderWidth
                 from: 1
                 to: 35
-                property bool completed: false
-                Component.onCompleted: {
-                    value = CS.blackBrightness
-                    completed = true
-                }
                 onValueChanged: {
-                    if(completed) {
+                    if (popup.opened)
                         CS.setBlackBrigtness(value)
-                    }
                 }
             }
         }

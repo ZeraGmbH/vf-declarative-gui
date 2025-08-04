@@ -45,18 +45,36 @@ Item {
         return currentColorTable[rangIndex-1]
     }
 
-    property real currentBrightness: parseFloat(Settings.getOption("currentBrightness", defaultCurrentBrightness))
-    function setCurrentBrigtness(brightness) {
-        currentBrightness = brightness
-        Settings.setOption("currentBrightness", brightness);
+    readonly property bool isDarkTheme: ZTC.isDarkTheme
+    onIsDarkThemeChanged: {
+        currentBrightness = getCurrentBrightness()
+        blackBrightness = getBlackBrightness()
     }
-    property real blackBrightness: parseFloat(Settings.getOption("blackBrightness", defaultBlackBrightness))
+
+    function getCurrentBrightness() {
+        let settingsKey = isDarkTheme ? "currentBrightness" : "currentBrightnessLight"
+        return parseFloat(Settings.getOption(settingsKey, defaultCurrentBrightness))
+    }
+    property real currentBrightness: getCurrentBrightness()
+    function setCurrentBrightness(brightness) {
+        currentBrightness = brightness
+        let settingsKey = isDarkTheme ? "currentBrightness" : "currentBrightnessLight"
+        Settings.setOption(settingsKey, brightness)
+    }
+
+    function getBlackBrightness() {
+        let settingsKey = isDarkTheme ? "blackBrightness" : "blackBrightnessLight"
+        return parseFloat(Settings.getOption(settingsKey, defaultBlackBrightness))
+    }
+    property real blackBrightness: getBlackBrightness()
     function setBlackBrigtness(brightness) {
         blackBrightness = brightness
-        Settings.setOption("blackBrightness", brightness);
+        let settingsKey = isDarkTheme ? "blackBrightness" : "blackBrightnessLight"
+        Settings.setOption(settingsKey, brightness)
     }
+
     function restoreDefaultBrighnesses() {
-        setCurrentBrigtness(defaultCurrentBrightness)
+        setCurrentBrightness(defaultCurrentBrightness)
         setBlackBrigtness(defaultBlackBrightness)
     }
 
@@ -147,10 +165,8 @@ Item {
         "colorUAux1",   // 7
         "colorIAux1"]  // 8
 
-    readonly property real defaultCurrentBrightness: 1.75
-    readonly property real defaultBlackBrightness: 35
-    readonly property real defaultCurrentBrightnessLight: 0.63
-    readonly property real defaultBlackBrightnessLight: 1
+    readonly property real defaultCurrentBrightness: isDarkTheme ? 1.75 : 0.63
+    readonly property real defaultBlackBrightness: isDarkTheme ? 35 : 1
 
     readonly property string baseBlue:   "#EE0092ff"
     readonly property string baseBrown:  "#EE9b5523"
