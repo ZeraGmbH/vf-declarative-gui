@@ -124,6 +124,8 @@ BaseTabPage {
                 id: settingsView
                 anchors.left: parent.left
                 anchors.right: parent.right
+                anchors.rightMargin: GC.standardTextHorizMargin
+                anchors.leftMargin: GC.standardTextHorizMargin
                 height: page.height*model.count/page.rowCount
                 anchors.bottom: parent.bottom
 

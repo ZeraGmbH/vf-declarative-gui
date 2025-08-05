@@ -234,6 +234,8 @@ Item {
         anchors.right: parent.right
         height: root.rowHeight * model.count
         anchors.bottom: parent.bottom
+        anchors.rightMargin: GC.standardTextHorizMargin
+        anchors.leftMargin: GC.standardTextHorizMargin
 
         model: ObjectModel {
             Item {
