@@ -22,7 +22,7 @@ Item {
     readonly property bool threePhase: viewMode === PhasorDiagram.VIEW_THREE_PHASE
 
     readonly property real pointSize: Math.max(10, height / 28)
-    readonly property real horizMarign: width*0.005
+    readonly property real horizMarign: width*0.01
     readonly property real comboWidth: width/7
     readonly property real comboMargin: 8
     property real topMargin: 0
