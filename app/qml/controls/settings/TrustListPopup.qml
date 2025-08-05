@@ -65,7 +65,6 @@ Popup {
                             Text {
                                 font.pointSize: pointSize
                                 text: modelData.name
-                                color: "white"
                             }
                         }
                     }
@@ -77,7 +76,6 @@ Popup {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 visible: apiTrustEntries.count === 0
-                color: "white"
             }
         }
 
