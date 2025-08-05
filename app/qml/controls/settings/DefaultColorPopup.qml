@@ -29,6 +29,7 @@ Loader {
         readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
         onAboutToShow: {
             sliderCurrent.value = CS.currentBrightness
+            sliderWhite.value = CS.whiteBrightness
             sliderBlack.value = CS.blackBrightness
         }
 
@@ -79,7 +80,7 @@ Loader {
         readonly property real labelPointSize: colourListView.height * 0.04
         Row {
             id: sliderRowBrightness
-            anchors.bottom: sliderRowBlack.top
+            anchors.bottom: sliderRowWhite.top
             anchors.left: parent.left
             width: popup.sliderLabelWidth+popup.sliderWidth
             height: popup.sliderRowHeight
@@ -98,6 +99,30 @@ Loader {
                 onValueChanged: {
                     if (popup.opened)
                         CS.setCurrentBrightness(value)
+                }
+            }
+        }
+        Row {
+            id: sliderRowWhite
+            anchors.bottom: sliderRowBlack.top
+            anchors.left: parent.left
+            width: popup.sliderLabelWidth+popup.sliderWidth
+            height: popup.sliderRowHeight
+            Label {
+                text: Z.tr("Brightness white:")
+                anchors.verticalCenter: parent.verticalCenter
+                width: popup.sliderLabelWidth
+                font.pointSize: popup.labelPointSize
+            }
+            Slider {
+                id: sliderWhite
+                anchors.verticalCenter: parent.verticalCenter
+                width: popup.sliderWidth
+                from: 0.1
+                to: 1
+                onValueChanged: {
+                    if (popup.opened)
+                        CS.setWhiteBrigtness(value)
                 }
             }
         }
@@ -131,10 +156,11 @@ Loader {
             anchors.right: parent.right
             width: popup.width * 0.125
 
-            anchors.verticalCenter: sliderRowBrightness.bottom
+            anchors.verticalCenter: sliderRowWhite.verticalCenter
             onClicked: {
                 CS.restoreDefaultBrighnesses()
                 sliderCurrent.value = CS.currentBrightness
+                sliderWhite.value = CS.whiteBrightness
                 sliderBlack.value = CS.blackBrightness
             }
         }

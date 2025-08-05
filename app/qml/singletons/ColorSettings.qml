@@ -51,6 +51,12 @@ Item {
         let settingsKey = ZTC.isDarkTheme ? "currentBrightness" : "currentBrightnessLight"
         Settings.setOption(settingsKey, brightness)
     }
+    property real whiteBrightness: getWhiteBrightness()
+    function setWhiteBrigtness(brightness) {
+        whiteBrightness = brightness
+        let settingsKey = ZTC.isDarkTheme ? "whiteBrightness" : "whiteBrightnessLight"
+        Settings.setOption(settingsKey, brightness)
+    }
     property real blackBrightness: getBlackBrightness()
     function setBlackBrigtness(brightness) {
         blackBrightness = brightness
@@ -59,12 +65,16 @@ Item {
     }
     function restoreDefaultBrighnesses() {
         setCurrentBrightness(getDefaultCurrentBrightness())
+        setWhiteBrigtness(getDefaultWhiteBrightness())
         setBlackBrigtness(getDefaultBlackBrightness())
     }
 
     readonly property var defaultColorsTableArray: {
         function colorCurrent(baseColor) {
             return Qt.lighter(baseColor, currentBrightness)
+        }
+        function colorWhite(baseColor) {
+            return Qt.lighter(baseColor, whiteBrightness)
         }
         function colorBlack(baseColor) {
             return Qt.lighter(baseColor, blackBrightness)
@@ -74,13 +84,13 @@ Item {
                     // 0: International
                     [ baseRed, baseYellow, baseBlue, colorCurrent(baseRed), colorCurrent(baseYellow), colorCurrent(baseBlue), colorBlack(baseBlack), colorCurrent(baseBlack2) ],
                     // 1: Austria/Germany
-                    [ baseYellow, baseGreen, basePurple, colorCurrent(baseYellow), colorCurrent(baseGreen), colorCurrent(basePurple), baseWhite, colorCurrent(baseWhite2) ],
+                    [ baseYellow, baseGreen, basePurple, colorCurrent(baseYellow), colorCurrent(baseGreen), colorCurrent(basePurple), colorWhite(baseWhite), colorCurrent(baseWhite2) ],
                     // 2: France
                     [ baseBrown, colorBlack(baseBlack), baseRed, colorCurrent(baseBrown), colorCurrent(baseBlack2), colorCurrent(baseRed), baseBlue, colorCurrent(baseBlue) ],
                     // 3: Norway/Denmark
                     [ colorBlack(baseBlack), baseBrown, baseGrey, colorCurrent(baseBlack2), colorCurrent(baseBrown), colorCurrent(baseGrey2), baseBlue, colorCurrent(baseBlue) ],
                     // 4: Sweden
-                    [ baseBrown, colorBlack(baseBlack), baseWhite, colorCurrent(baseBrown), colorCurrent(baseBlack2), colorCurrent(baseWhite2), baseBlue, colorCurrent(baseBlue) ],
+                    [ baseBrown, colorBlack(baseBlack), colorWhite(baseWhite), colorCurrent(baseBrown), colorCurrent(baseBlack2), colorCurrent(baseWhite2), baseBlue, colorCurrent(baseBlue) ],
                     // 5: China
                     [ baseYellow, baseGreen, baseRed, colorCurrent(baseYellow), colorCurrent(baseGreen), colorCurrent(baseRed), colorBlack(baseBlack), colorCurrent(baseBlack2) ],
                     // 6: Hongkong
@@ -150,6 +160,7 @@ Item {
         "colorIAux1"]  // 8
 
     function getDefaultCurrentBrightness() { return ZTC.isDarkTheme ? 1.75 : 0.63 }
+    function getDefaultWhiteBrightness() { return ZTC.isDarkTheme ? 0.7 : 0.1 }
     function getDefaultBlackBrightness() { return ZTC.isDarkTheme ? 35 : 1 }
 
     readonly property string baseBlue:   "#EE0092ff"
@@ -160,7 +171,7 @@ Item {
     readonly property string baseYellow: ZTC.isDarkTheme ? "#ffe0e000" : "#FFd0c800" //"#EEffff00"
 
     readonly property string baseWhite:  "#ffffffff" // white is opposite
-    readonly property string baseWhite2: "#EEA0A0A0"
+    readonly property string baseWhite2: "#EEA0A0A0"//"#FF808080"
 
     readonly property string baseGrey:   "#EEB0B0B0"
     readonly property string baseGrey2:  "#EEffffff"
@@ -179,17 +190,22 @@ Item {
         return [ baseRed, baseYellow, baseBlue, colorCurrent(baseRed), colorCurrent(baseYellow), colorCurrent(baseBlue), colorBlack(baseBlack), colorCurrent(baseBlack2) ]
     }
 
-    function getBlackBrightness() {
-        let settingsKey = ZTC.isDarkTheme ? "blackBrightness" : "blackBrightnessLight"
-        return parseFloat(Settings.getOption(settingsKey, getDefaultBlackBrightness()))
-    }
     function getCurrentBrightness() {
         let settingsKey = ZTC.isDarkTheme ? "currentBrightness" : "currentBrightnessLight"
         return parseFloat(Settings.getOption(settingsKey, getDefaultCurrentBrightness()))
     }
+    function getWhiteBrightness() {
+        let settingsKey = ZTC.isDarkTheme ? "whiteBrightness" : "whiteBrightnessLight"
+        return parseFloat(Settings.getOption(settingsKey, getDefaultWhiteBrightness()))
+    }
+    function getBlackBrightness() {
+        let settingsKey = ZTC.isDarkTheme ? "blackBrightness" : "blackBrightnessLight"
+        return parseFloat(Settings.getOption(settingsKey, getDefaultBlackBrightness()))
+    }
     readonly property bool isDarkThemeForChangeOnly: ZTC.isDarkTheme
     onIsDarkThemeForChangeOnlyChanged: {
         currentBrightness = getCurrentBrightness()
+        whiteBrightness = getWhiteBrightness()
         blackBrightness = getBlackBrightness()
     }
 
