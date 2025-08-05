@@ -109,6 +109,7 @@ Item {
             retArr.push('I')
         return retArr
     }
+    readonly property int intermediateMargin: 4
     // convenient properties for layout horizontal
     readonly property int columnsStandardUI: 3
     readonly property real widthLeftArea: width * 0.53
@@ -322,7 +323,7 @@ Item {
         flickableDirection: Flickable.HorizontalFlick
         boundsBehavior: Flickable.StopAtBounds // don't tear our table away from units
         anchors.top: quickLoadSelectRect.bottom
-        anchors.topMargin: linesU > 0 ? 0 : linesStandardUI * lineHeight
+        anchors.topMargin: linesU > 0 ? -intermediateMargin : linesStandardUI * lineHeight
         anchors.bottom: bottomRow.top
         anchors.left: headerColumnUI.right
         anchors.right: unitColumn.left
@@ -1049,6 +1050,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: intermediateMargin
         height: lineHeight
         readonly property int topFreeSpace: 2
         Item {
