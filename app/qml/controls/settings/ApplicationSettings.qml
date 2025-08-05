@@ -224,6 +224,7 @@ SettingsView {
         }
 
         RowLayout {
+            id: colorRow
             visible: !SessionState.refSession
             height: root.rowHeight
             width: root.rowWidth
@@ -239,7 +240,7 @@ SettingsView {
                 visible: VeinEntity.getEntity("_System").DevMode
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                Layout.leftMargin: height
+                Layout.leftMargin: colorRow.width * 0.035
                 font.pointSize: ZTC.isDarkTheme ? pointSize * 1.25 : pointSize * 2
                 text: {
                     let ret = ZTC.isDarkTheme ? FAQ.fa_moon : "☀";
@@ -264,7 +265,7 @@ SettingsView {
                 spacing: 2
                 delegate: Button {
                     id: rButton
-                    width: pointSize * 3.4
+                    width: colorRow.width * 0.08
                     height: rowHeight
                     font.pointSize: pointSize * 0.65
                     text: {
