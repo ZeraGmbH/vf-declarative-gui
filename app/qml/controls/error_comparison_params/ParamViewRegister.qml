@@ -179,12 +179,13 @@ Item {
             }
             // This is a line
             Rectangle {
-                color: Material.backgroundColor
+                color: ZTC.dividerColor
                 border.color: ZTC.dividerColor
                 height: 1
                 width: parent.width*(col1Width+col2Width)
                 anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.top: parent.top
+                anchors.topMargin: parent.height / 2
             }
 
             Label {

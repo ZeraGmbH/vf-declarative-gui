@@ -59,7 +59,7 @@ Item {
 
             SwipeView {
                 id: multiSwipe
-                width: parent.width*0.8
+                width: parent.width*0.85
                 height: parent.height
                 interactive: false
                 orientation: Qt.Vertical
@@ -85,7 +85,7 @@ Item {
 
             ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
-                width: parent.width*0.2
+                width: parent.width*0.15
                 height: parent.height
                 maxValue: errCalEntity.PAR_Uplimit
                 minValue: errCalEntity.PAR_Lolimit
@@ -101,7 +101,7 @@ Item {
                 id: startButton
                 text: Z.tr("Start")
                 font.pointSize: pointSize
-                width: root.width/5
+                width: root.width * 0.1425
 
                 enabled: root.canStartMeasurement
                 highlighted: true
@@ -109,6 +109,7 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
+                anchors.leftMargin: GC.standardTextHorizMargin
                 onClicked: {
                     if(rangeAutoActive === true)
                         warningPopup.open()
@@ -133,50 +134,51 @@ Item {
                  closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
                  ColumnLayout {
-                     id: warningPopupContent
-                     width: parent.width
-                     height: parent.height
-                     Label {
-                         Layout.fillWidth: true
-                         text: Z.tr("Warning:")
-                         font.pointSize: pointSize * 1.3
-                         horizontalAlignment: Text.AlignHCenter
-                         }
-                     Label {
-                         Layout.fillWidth: true
-                         text: Z.tr("Switch off 'Range automatic'")
-                         font.pointSize: pointSize
-                         horizontalAlignment: Text.AlignHCenter
-                         wrapMode: Text.Wrap
-                         }
-                     Label {
-                         Layout.fillWidth: true
-                         text: Z.tr("Select a matching range")
-                         font.pointSize: pointSize
+                    id: warningPopupContent
+                    width: parent.width
+                    height: parent.height
+                    Label {
+                        Layout.fillWidth: true
+                        text: Z.tr("Warning:")
+                        font.pointSize: pointSize * 1.3
+                        horizontalAlignment: Text.AlignHCenter
+                        }
+                    Label {
+                        Layout.fillWidth: true
+                        text: Z.tr("Switch off 'Range automatic'")
+                        font.pointSize: pointSize
                          horizontalAlignment: Text.AlignHCenter
                          wrapMode: Text.Wrap
-                         }
-                     Button {
-                             text: Z.tr("Close")
-                             font.pointSize: pointSize
-                             Layout.alignment: Qt.AlignHCenter
-                             highlighted: true
-                             onClicked: warningPopup.close()
-                         }
                     }
-             }
+                    Label {
+                        Layout.fillWidth: true
+                        text: Z.tr("Select a matching range")
+                        font.pointSize: pointSize
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.Wrap
+                    }
+                    Button {
+                        text: Z.tr("Close")
+                        font.pointSize: pointSize
+                        Layout.alignment: Qt.AlignHCenter
+                        highlighted: true
+                        onClicked: warningPopup.close()
+                    }
+                }
+            }
 
             Button {
                 id: stopButton
                 text: Z.tr("Stop")
                 font.pointSize: pointSize
-                width: root.width/5
+                width: root.width * 0.1425
 
                 enabled: root.canStartMeasurement === false
 
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
+                anchors.rightMargin: GC.standardTextHorizMargin
 
                 onClicked: {
                     if(errCalEntity.PAR_StartStop !== 0) {
@@ -187,12 +189,10 @@ Item {
             Loader {
                 active: !ASWGL.isServer
                 height: active ? root.rowHeight : 0
+                width: root.width * 0.35
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.right: stopButton.left
-                anchors.left: startButton.right
-                anchors.rightMargin: parent.width / 8
-                anchors.leftMargin: parent.width / 8
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 sourceComponent: Button {
                     id: graphicsWindow

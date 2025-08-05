@@ -29,6 +29,7 @@ Item {
                 height: parent.height
                 width: 3*root.width/7
                 anchors.left: parent.left
+                anchors.leftMargin: GC.standardTextHorizMargin
                 readonly property int statusNotify: logicalParent.status;
                 Label {
                     width: parent.width
@@ -166,6 +167,7 @@ Item {
                     fontSizeMode: Text.HorizontalFit
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
+                    anchors.rightMargin: GC.standardTextHorizMargin
                     text: FT.formatNumber(measurementResult) + resultUnit
                 }
             }

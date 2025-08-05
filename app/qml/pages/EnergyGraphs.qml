@@ -154,6 +154,7 @@ Item {
                 font.pointSize: pointSize
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.leftMargin: GC.standardTextHorizMargin
                 verticalAlignment: Label.AlignVCenter
             }
             ZCheckBox {

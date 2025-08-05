@@ -82,7 +82,7 @@ Rectangle {
 
             SwipeView {
                 id: multiSwipe
-                width: parent.width*0.8
+                width: parent.width*0.85
                 height: parent.height
                 interactive: false
                 orientation: Qt.Vertical
@@ -98,6 +98,8 @@ Rectangle {
                     validatorLowerLimit: moduleIntrospection.ComponentInfo.PAR_Lolimit.Validation
                 }
                 MultipleErrorView {
+                    anchors.left: parent.left
+                    anchors.leftMargin: GC.standardTextHorizMargin
                     id: multipleErrorView
                     jsonResults: JSON.parse(root.errCalEntity.ACT_MulResult)
                     digitsTotal: GC.digitsTotal
@@ -108,8 +110,7 @@ Rectangle {
             }
             ErrorMarginView {
                 result: root.errCalEntity.ACT_Result
-
-                width: parent.width*0.2
+                width: parent.width*0.15
                 height: parent.height
                 maxValue: errCalEntity.PAR_Uplimit
                 minValue: errCalEntity.PAR_Lolimit
@@ -126,9 +127,10 @@ Rectangle {
                 text: Z.tr("Start")
                 font.pointSize: pointSize
 
-                width: root.width/5
+                width: root.width * 0.1425
                 height: parent.height
                 anchors.left: parent.left
+                anchors.leftMargin: GC.standardTextHorizMargin
 
                 enabled: root.canStartMeasurement
                 highlighted: true
@@ -142,7 +144,7 @@ Rectangle {
             Row {
                 anchors.left: buttonStart.right
                 anchors.right: buttonStop.left
-                anchors.leftMargin: root.width * 0.1
+                anchors.leftMargin: root.width * 0.175
                 height: parent.height
                 Item { // invisible button has zero width :(
                     height: parent.height
@@ -167,7 +169,7 @@ Rectangle {
                     text: Z.tr("continuous")
                     height: parent.height
                     width: root.width * 0.215
-
+                    font.pointSize: pointSize * 1.2
                     enabled: errCalEntity.PAR_StartStop !== 1
                     checked: errCalEntity.PAR_Continuous === 1
                     onCheckedChanged: {
@@ -182,9 +184,10 @@ Rectangle {
                 text: Z.tr("Stop")
                 font.pointSize: pointSize
 
-                width: root.width/5
+                width: root.width * 0.1425
                 height: parent.height
                 anchors.right: parent.right
+                anchors.rightMargin: GC.standardTextHorizMargin
 
                 enabled: root.canStartMeasurement === false
 
