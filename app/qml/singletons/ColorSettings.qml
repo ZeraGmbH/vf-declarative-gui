@@ -53,7 +53,7 @@ Item {
 
     function getCurrentBrightness() {
         let settingsKey = isDarkTheme ? "currentBrightness" : "currentBrightnessLight"
-        return parseFloat(Settings.getOption(settingsKey, defaultCurrentBrightness))
+        return parseFloat(Settings.getOption(settingsKey, getDefaultCurrentBrightness()))
     }
     property real currentBrightness: getCurrentBrightness()
     function setCurrentBrightness(brightness) {
@@ -64,7 +64,7 @@ Item {
 
     function getBlackBrightness() {
         let settingsKey = isDarkTheme ? "blackBrightness" : "blackBrightnessLight"
-        return parseFloat(Settings.getOption(settingsKey, defaultBlackBrightness))
+        return parseFloat(Settings.getOption(settingsKey, getDefaultBlackBrightness()))
     }
     property real blackBrightness: getBlackBrightness()
     function setBlackBrigtness(brightness) {
@@ -74,8 +74,8 @@ Item {
     }
 
     function restoreDefaultBrighnesses() {
-        setCurrentBrightness(defaultCurrentBrightness)
-        setBlackBrigtness(defaultBlackBrightness)
+        setCurrentBrightness(getDefaultCurrentBrightness())
+        setBlackBrigtness(getDefaultBlackBrightness())
     }
 
     readonly property var defaultColorsTableArray: {
@@ -165,8 +165,8 @@ Item {
         "colorUAux1",   // 7
         "colorIAux1"]  // 8
 
-    readonly property real defaultCurrentBrightness: isDarkTheme ? 1.75 : 0.63
-    readonly property real defaultBlackBrightness: isDarkTheme ? 35 : 1
+    function getDefaultCurrentBrightness() { return isDarkTheme ? 1.75 : 0.63 }
+    function getDefaultBlackBrightness() { return isDarkTheme ? 35 : 1 }
 
     readonly property string baseBlue:   "#EE0092ff"
     readonly property string baseBrown:  "#EE9b5523"
@@ -185,10 +185,10 @@ Item {
     readonly property string baseBlack2: "#EE707070"
     readonly property var initialColorTable: {
         function colorCurrent(baseColor) {
-            return Qt.lighter(baseColor, defaultCurrentBrightness)
+            return Qt.lighter(baseColor, getDefaultCurrentBrightness())
         }
         function colorBlack(baseColor) {
-            return Qt.lighter(baseColor, defaultBlackBrightness)
+            return Qt.lighter(baseColor, getDefaultBlackBrightness())
         }
         // sorting is odd (historical..): U1 / U2 / U3 / I1 /I2 / I3 / UAux / IAux
         // 0: International
