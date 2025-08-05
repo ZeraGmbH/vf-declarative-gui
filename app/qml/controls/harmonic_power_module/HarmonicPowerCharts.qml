@@ -29,7 +29,7 @@ Item {
     }
     ScrollBar {
         id: hBar
-        anchors.top: parent.bottom
+        anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         orientation: Qt.Horizontal
@@ -100,7 +100,7 @@ Item {
 
                 HpwBarChart {
                     id: harmonicChart
-                    height: parent.height
+                    height: parent.height - 6 // extra space to scrollbar
                     width: parent.width
 
                     color: Material.backgroundColor
