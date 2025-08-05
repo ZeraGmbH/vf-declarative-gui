@@ -1,10 +1,10 @@
-import QtQuick 2.12
-import QtQuick.Window 2.0
+import QtQuick 2.14
+import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.0
-import QtQuick.VirtualKeyboard 2.4
-import QtQuick.VirtualKeyboard.Settings 2.2
+import QtQuick.Layouts 1.14
+import QtQuick.Controls.Material 2.14
+import QtQuick.VirtualKeyboard 2.14
+import QtQuick.VirtualKeyboard.Settings 2.14
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
 import AppStarterForWebserverSingleton 1.0
@@ -24,7 +24,7 @@ import "controls/appinfo"
 import "controls/settings"
 import "controls/api"
 
-ApplicationWindow {
+Window {
     id: displayWindow
 
     // for development: current resolution
@@ -34,8 +34,8 @@ ApplicationWindow {
     visibility: {
         console.info("Desktop Session:", DESKTOP_SESSION)
         if(String(DESKTOP_SESSION) === "Zera GUI session")
-            return "FullScreen"
-        return "Windowed"
+            return Window.FullScreen
+        return Window.Windowed
     }
 
     // Notes on resolutions:
@@ -88,6 +88,7 @@ ApplicationWindow {
     Material.theme: ZTC.materialTheme
     Material.accent: ZTC.accentColor
     Material.background: ZTC.backgroundColor
+    color: ZTC.backgroundColor
     readonly property real pointSize: height > 0 ? height * 0.035 : 10
 
     Connections {
