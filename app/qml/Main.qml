@@ -160,18 +160,20 @@ Window {
         StackLayout {
             id: layoutStack
             anchors { left: parent.left; right: parent.right; top: parent.top; bottom: controlsBar.top }
-            anchors.margins: 8
             currentIndex: GC.entityInitializationDone ? GC.layoutStackEnum.layoutPageIndex : GC.layoutStackEnum.layoutSplashIndex
 
             ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
             //DefaultProperty: [
             Loader {
                 id: pageLoader
+                anchors.fill: parent
                 source: pageView.pageLoaderSource
                 asynchronous: true
                 onLoaded: console.info("Pages loaded")
             }
             Loader {
+                anchors.fill: parent
+                anchors.margins: 8
                 sourceComponent: RangeMModePage {
                     enableRangeAutomaticAndGrouping: !SessionState.refSession
                     showRatioLines: !SessionState.refSession
@@ -183,6 +185,8 @@ Window {
                 }
             }
             Loader {
+                anchors.fill: parent
+                anchors.margins: 8
                 id: loggerSettingsLoader
                 sourceComponent: LoggerSettingsStack { }
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
@@ -192,6 +196,8 @@ Window {
                 }
             }
             Loader {
+                anchors.fill: parent
+                anchors.margins: 8
                 sourceComponent: Settings {}
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
                 onActiveChanged: {
@@ -200,6 +206,8 @@ Window {
                 }
             }
             Loader {
+                anchors.fill: parent
+                anchors.margins: 8
                 sourceComponent: StatusView {}
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
                 onActiveChanged: {
@@ -208,6 +216,8 @@ Window {
                 }
             }
             Loader {
+                anchors.fill: parent
+                anchors.margins: 8
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSplashIndex
                 sourceComponent: Item {
                     anchors.fill: parent
