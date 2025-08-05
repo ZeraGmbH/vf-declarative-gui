@@ -47,13 +47,13 @@ Window {
             // Note: for some reasons, vertical XFCE bar scales automatically
             switch(displayWindow.screenResolution) {
             case 0:
-                width = 800-50
+                width = 800
                 break
             case 1:
-                width = 1024-50
+                width = 1024
                 break
             case 2:
-                width = 1280-60
+                width = 1280
                 break
             default:
                 width = Screen.width
