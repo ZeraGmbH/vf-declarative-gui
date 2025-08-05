@@ -107,6 +107,7 @@ Rectangle {
         id: fftFlickable
         anchors.fill: parent
         anchors.rightMargin: vBar.width
+        anchors.bottomMargin: hasHorizScroll ? hBar.height : 0
         contentWidth: lvHarmonics.width
         contentHeight: root.rowHeight*(fftOrder+3)
         clip: true
