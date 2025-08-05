@@ -14,7 +14,7 @@ Item {
     readonly property string groupComponentName: "PAR_PreScalingGroup" + prescalingGroup
     readonly property var groupValues: rangeModule[groupComponentName].split("*")[0].split("/")
     readonly property real ratioEditWidth: width * 0.15
-    readonly property real sqrtComboWidth: width * 0.12
+    readonly property real sqrtComboWidth: width * 0.15
     readonly property color enableTextColor: enableRatio.checked ? Qt.lighter(Material.color(Material.Amber)) : Material.foreground
     function setRatioValueComponents(nominator, denominator, sqrtText) {
         rangeModule[groupComponentName] = nominator + "/" + denominator + (hasSqrtFactor ? sqrtText : "")
@@ -43,7 +43,7 @@ Item {
         textField.color: enableTextColor
         validator: IntValidator{bottom: 1; top: 999999 }
         function doApplyInput(newText) {
-            setRatioValueComponents(newText, editDenominator.text, sqrtComb.currentText)
+            setRatioValueComponents(newText, editDenominator.text, sqrtComb.getVeinVal())
         }
     }
     Label {
@@ -64,19 +64,32 @@ Item {
         textField.color: enableTextColor
         validator: IntValidator{bottom: 1; top: 999999 }
         function doApplyInput(newText) {
-            setRatioValueComponents(editNominator.text, newText, sqrtComb.currentText)
+            setRatioValueComponents(editNominator.text, newText, sqrtComb.getVeinVal())
         }
     }
-    ZVisualComboBox {
+    Label {
+        id: multLabel
+        text: "*"
+        visible: hasSqrtFactor
+        anchors.left: editDenominator.right
+        anchors.leftMargin: frameMargin * 0.5
+        anchors.verticalCenter: parent.verticalCenter
+        font.pointSize: pointSize
+    }
+    ZComboBox {
         id: sqrtComb
         height: rowHeight
         width: hasSqrtFactor ? sqrtComboWidth : 0
         visible: hasSqrtFactor
-        anchors.left: editDenominator.right
-        anchors.leftMargin: frameMargin * 0.5
+        anchors.left: multLabel.right
+        anchors.leftMargin: frameMargin
 
-        model: ["*(1)", "*(sqrt(3))", "*(1/sqrt(3))"]
-        imageModel: ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png"]
+        arrayMode: true
+        model: ["1", "√3", "1 / √3"]
+        readonly property var veinValueModel: ["*(1)", "*(sqrt(3))", "*(1/sqrt(3))"]
+        function getVeinVal() {
+            return veinValueModel[model.indexOf(selectedText)]
+        }
         currentIndex: {
             if(rangeModule[groupComponentName].includes("(1/sqrt(3))"))
                 return 2
@@ -85,7 +98,7 @@ Item {
             return 0;
         }
         onSelectedTextChanged: {
-            setRatioValueComponents(editNominator.text, editDenominator.text, selectedText)
+            setRatioValueComponents(editNominator.text, editDenominator.text, getVeinVal())
         }
     }
 }
