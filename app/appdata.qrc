@@ -154,6 +154,5 @@
         <file>staticdata/resources/x_1_over_sqrt_3.png</file>
         <file>staticdata/resources/x_1.png</file>
         <file>staticdata/licenses/zera-opensource</file>
-        <file>staticdata/resources/x_1_over_3.png</file>
     </qresource>
 </RCC>
