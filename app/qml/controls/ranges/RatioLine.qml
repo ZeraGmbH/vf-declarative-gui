@@ -86,8 +86,8 @@ Item {
 
         arrayMode: true
         model: ["1", "√3", "1 / √3"]
-        readonly property var veinValueModel: ["*(1)", "*(sqrt(3))", "*(1/sqrt(3))"]
         function getVeinVal() {
+            let veinValueModel = ["*(1)", "*(sqrt(3))", "*(1/sqrt(3))"]
             return veinValueModel[model.indexOf(selectedText)]
         }
         currentIndex: {
