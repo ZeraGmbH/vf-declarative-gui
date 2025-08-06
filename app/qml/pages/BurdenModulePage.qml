@@ -128,19 +128,22 @@ BaseTabPage {
                 anchors.leftMargin: GC.standardTextHorizMargin
                 height: page.height*model.count/page.rowCount
                 anchors.bottom: parent.bottom
+                readonly property real editWidth: page.width * 0.88
+                readonly property real descWidth: page.width * 0.5
+                readonly property real unitWidth: page.width * 0.08
 
                 model: ObjectModel {
                     VFLineEdit {
                         id: parNominalBurden
                         height: page.rowHeight;
-                        width: page.width*0.9;
+                        width: settingsView.editWidth
 
                         description.text: Z.tr("Nominal burden:")
-                        description.width: page.width * 0.5
+                        description.width: settingsView.descWidth
                         entity: page.burdenModule
                         controlPropertyName: "PAR_NominalBurden"
                         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
-                        unit.width: page.rowHeight*1.5
+                        unit.width: settingsView.unitWidth
 
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parNominalBurden.controlPropertyName].Validation.Data[0];
@@ -151,14 +154,14 @@ BaseTabPage {
                     VFLineEdit {
                         id: parNominalRange
                         height: page.rowHeight;
-                        width: page.width*0.9;
+                        width: settingsView.editWidth
 
                         description.text: Z.tr("Nominal range:")
-                        description.width: page.width * 0.5
+                        description.width: settingsView.descWidth
                         entity: page.burdenModule
                         controlPropertyName: "PAR_NominalRange"
-                        unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
-                        unit.width: page.rowHeight*1.5
+                        unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit + "   *"
+                        unit.width: settingsView.unitWidth
 
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[0];
@@ -166,55 +169,42 @@ BaseTabPage {
                             decimals: FT.ceilLog10Of1DividedByX(burdenIntrospection.ComponentInfo[parNominalRange.controlPropertyName].Validation.Data[2]);
                         }
 
-
-                        // The current Burden does not need a Rangefactor
-                        // Therefore it is always 1 and the box is invisible
-                        ZVisualComboBox {
+                        ZComboBox {
                             anchors.left: parent.right
-                            anchors.leftMargin: 8
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
-                            width: page.width*0.09;
+                            width: page.width * 0.09
                             visible: page.isVoltagePage
-                            model: {
-                                if(page.isVoltagePage)
-                                    return ["1" , "1/sqrt(3)", "1/3"]
-                                else
-                                    return ["1"]
+                            arrayMode: true
+                            model: ["1", "1/√3", "1/3"]
+                            readonly property var veinValueModel: ["1", "1/sqrt(3)", "1/3"]
+                            function getVeinVal() {
+                                let index = model.indexOf(selectedText)
+                                return veinValueModel[index]
                             }
-                            imageModel: {
-                                if(page.isVoltagePage){
-                                   return ["qrc:/data/staticdata/resources/x_1.png", "qrc:/data/staticdata/resources/x_1_over_sqrt_3.png", "qrc:/data/staticdata/resources/x_1_over_3.png"]
-                                }else{
-                                   return ["qrc:/data/staticdata/resources/x_1.png"]
-                                }
-                               }
-                            property int intermediate: model.indexOf(burdenModule.PAR_NominalRangeFactor);
-                            automaticIndexChange: true
-                            onIntermediateChanged: {
-                                if(currentIndex !== intermediate) {
-                                    currentIndex = intermediate
-                                }
+                            currentIndex: {
+                                let veinVal = burdenModule.PAR_NominalRangeFactor
+                                let val = veinValueModel.indexOf(veinVal)
+                                return val
                             }
-
                             onSelectedTextChanged: {
-                                if(burdenModule.PAR_NominalRangeFactor !== selectedText) {
-                                    burdenModule.PAR_NominalRangeFactor = selectedText
-                                }
+                                let veinVal = getVeinVal()
+                                if(burdenModule.PAR_NominalRangeFactor !== veinVal)
+                                    burdenModule.PAR_NominalRangeFactor = veinVal
                             }
                         }
                     }
                     VFLineEdit {
                         id: parWCrosssection
                         height: page.rowHeight;
-                        width: page.width*0.9;
+                        width: settingsView.editWidth
 
                         description.text: Z.tr("Wire crosssection:")
-                        description.width: page.width * 0.5
+                        description.width: settingsView.descWidth
                         entity: page.burdenModule
                         controlPropertyName: "PAR_WCrosssection"
                         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
-                        unit.width: page.rowHeight*1.5
+                        unit.width: settingsView.unitWidth
 
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parWCrosssection.controlPropertyName].Validation.Data[0];
@@ -225,14 +215,14 @@ BaseTabPage {
                     VFLineEdit {
                         id: parWireLength
                         height: page.rowHeight;
-                        width: page.width*0.9;
+                        width: settingsView.editWidth
 
                         description.text: Z.tr("Wire length:")
-                        description.width: page.width * 0.5
+                        description.width: settingsView.descWidth
                         entity: page.burdenModule
                         controlPropertyName: "PAR_WireLength"
                         unit.text: burdenIntrospection.ComponentInfo[controlPropertyName].Unit;
-                        unit.width: page.rowHeight*1.5
+                        unit.width: settingsView.unitWidth
 
                         validator: ZDoubleValidator {
                             bottom: burdenIntrospection.ComponentInfo[parWireLength.controlPropertyName].Validation.Data[0];
