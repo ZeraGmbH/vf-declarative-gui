@@ -48,7 +48,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 4
                 sourceComponent: Image {
-                    source: icon
+                    source: ZTC.isDarkTheme ? icon : iconLight
                     mipmap: true
                 }
             }

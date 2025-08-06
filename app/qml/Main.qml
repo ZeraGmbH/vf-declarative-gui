@@ -287,8 +287,11 @@ Window {
                     }
                 }
                 // add view?
-                if(countActiveSources > 0 && sourceViewPosition === -1)
-                    append({name: "Source control", icon: "qrc:/data/staticdata/resources/source.png", elementValue: sourceViewQml});
+                if(countActiveSources > 0 && sourceViewPosition === -1) {
+                    var iconPath = "qrc:/data/staticdata/resources/"
+                    append({name: "Source control", icon: iconPath + "source.png", iconLight: iconPath + "source_light.png",
+                               elementValue: sourceViewQml})
+                }
                 // remove view?
                 else if(countActiveSources === 0 && sourceViewPosition >= 0) {
                     remove(sourceViewPosition)
@@ -314,16 +317,21 @@ Window {
 
                 controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReferenceSession && !isDcSession
 
-                var iconName = "qrc:/data/staticdata/resources/act_values.png"
+                var iconPath = "qrc:/data/staticdata/resources/"
+                var actValueIcon = iconPath + "act_values.png"
+                var actValueIconLight = iconPath + "act_values_light.png"
                 if(isEmobSession) {
                     let emobTitle = "Actual values & Meter tests"
                     if(sessState.currentSession.includes('-ac'))
-                        append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
+                        append({name: emobTitle, icon: actValueIcon, iconLight: actValueIconLight,
+                                   elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
                     else if(isDcSession)
-                        append({name: emobTitle, icon: iconName, elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
+                        append({name: emobTitle, icon: actValueIcon, iconLight: actValueIconLight,
+                                   elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
                 }
                 else if(isDcSession)
-                    append({name: "Actual values DC", icon: iconName, elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
+                    append({name: "Actual values DC", icon: actValueIcon, iconLight: actValueIconLight,
+                               elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
                 else if(hasEntity("RMSModule1") &&
                         hasEntity("LambdaModule1") &&
                         hasEntity("THDNModule1") &&
@@ -332,13 +340,16 @@ Window {
                         hasEntity("POWER1Module2") &&
                         hasEntity("POWER1Module3") &&
                         hasEntity("RangeModule1"))
-                    append({name: "Actual values", icon: "qrc:/data/staticdata/resources/act_values.png", elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"})
+                    append({name: "Actual values", icon: actValueIcon, iconLight: actValueIconLight,
+                               elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"})
 
                 if(hasEntity("FFTModule1") || hasEntity("OSCIModule1"))
-                    append({name: "Harmonics & Curves", icon: "qrc:/data/staticdata/resources/osci.png", elementValue: "qrc:/qml/pages/FftTabPage.qml"})
+                    append({name: "Harmonics & Curves", icon: iconPath + "osci.png", iconLight: iconPath + "osci_light.png",
+                               elementValue: "qrc:/qml/pages/FftTabPage.qml"})
 
                 if(hasEntity("Power3Module1"))
-                    append({name: "Harmonic power values", icon: "qrc:/data/staticdata/resources/hpower.png", elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"})
+                    append({name: "Harmonic power values", icon: iconPath + "hpower.png", iconLight: iconPath + "hpower_light.png",
+                               elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"})
 
                 if(!isReferenceSession) {
                     if(!isEmobSession) {
@@ -346,23 +357,29 @@ Window {
                            hasEntity("SEC1Module2") ||
                            hasEntity("SEM1Module1") ||
                            hasEntity("SPM1Module1"))
-                            append({name: "Comparison measurements", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
+                            append({name: "Comparison measurements", icon: iconPath + "error_calc.png", iconLight: iconPath + "error_calc_light.png",
+                                       elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
                     }
                 }
                 else if(hasEntity("SEC1Module1"))
-                    append({name: "Quartz reference measurement", icon: "qrc:/data/staticdata/resources/error_calc.png", elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
+                    append({name: "Quartz reference measurement", icon: iconPath + "error_calc.png", iconLight: iconPath + "error_calc_light.png",
+                               elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
 
                 if(hasEntity("Burden1Module1") || hasEntity("Burden1Module2"))
-                    append({name: "Burden values", icon: "qrc:/data/staticdata/resources/burden.png", elementValue: "qrc:/qml/pages/BurdenModulePage.qml"})
+                    append({name: "Burden values", icon: iconPath + "burden.png", iconLight: iconPath + "burden_light.png",
+                               elementValue: "qrc:/qml/pages/BurdenModulePage.qml"})
 
                 if(hasEntity("Transformer1Module1"))
-                    append({name: "Transformer values", icon: "qrc:/data/staticdata/resources/transformer.png", elementValue: "qrc:/qml/pages/TransformerModulePage.qml"})
+                    append({name: "Transformer values", icon: iconPath + "transformer.png", iconLight: iconPath + "transformer_light.png",
+                               elementValue: "qrc:/qml/pages/TransformerModulePage.qml"})
 
                 if(hasEntity("POWER2Module1"))
-                    append({name: "CED power values", icon: "qrc:/data/staticdata/resources/ced_power_values.png", elementValue: "qrc:/qml/pages/CEDModulePage.qml"})
+                    append({name: "CED power values", icon: iconPath + "ced_power_values.png", iconLight: iconPath + "ced_power_values_light.png",
+                               elementValue: "qrc:/qml/pages/CEDModulePage.qml"})
 
                 if(hasEntity("REFERENCEModule1") && hasEntity("DFTModule1"))
-                    append({name: "DC reference values", icon: "qrc:/data/staticdata/resources/ref_values.png", elementValue: "qrc:/qml/pages/RefModulePage.qml"})
+                    append({name: "DC reference values", icon: iconPath+ "ref_values.png", iconLight: iconPath+ "ref_values_light.png",
+                               elementValue: "qrc:/qml/pages/RefModulePage.qml"})
             }
         }
 

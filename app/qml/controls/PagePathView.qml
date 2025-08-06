@@ -69,7 +69,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 3
                     sourceComponent: Image {
-                        source: icon
+                        source: ZTC.isDarkTheme ? icon : iconLight
                         mipmap: false
                         fillMode: Image.PreserveAspectFit
                     }

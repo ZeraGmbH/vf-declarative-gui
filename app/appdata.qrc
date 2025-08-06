@@ -129,22 +129,30 @@
         <file>staticdata/resources/Ready-for-light-theme.svg</file>
         <file>staticdata/resources/Armed.svg</file>
         <file>staticdata/resources/Armed-for-light-theme.svg</file>
-        <file>staticdata/resources/harmonics.png</file>
         <file>staticdata/resources/hpower.png</file>
+        <file>staticdata/resources/hpower_light.png</file>
         <file>staticdata/resources/act_values.png</file>
+        <file>staticdata/resources/act_values_light.png</file>
         <file>staticdata/resources/error_calc.png</file>
+        <file>staticdata/resources/error_calc_light.png</file>
         <file>staticdata/resources/ref_values.png</file>
+        <file>staticdata/resources/ref_values_light.png</file>
         <file>staticdata/resources/osci.png</file>
+        <file>staticdata/resources/osci_light.png</file>
         <file>staticdata/resources/source.png</file>
+        <file>staticdata/resources/source_light.png</file>
         <file>staticdata/resources/radius.svg</file>
         <file>staticdata/resources/radius-large.svg</file>
         <file>staticdata/resources/radius-for-light-theme.svg</file>
         <file>staticdata/resources/radius-large-for-light-theme.svg</file>
         <file>staticdata/resources/ced_power_values.png</file>
+        <file>staticdata/resources/ced_power_values_light.png</file>
         <file>staticdata/resources/appicon.png</file>
         <file>settings.json</file>
         <file>staticdata/resources/transformer.png</file>
+        <file>staticdata/resources/transformer_light.png</file>
         <file>staticdata/resources/burden.png</file>
+        <file>staticdata/resources/burden_light.png</file>
         <file>staticdata/resources/checkers_pattern.png</file>
         <file>staticdata/licenses/aboutqt.gplv3</file>
         <file>staticdata/licenses/qwt.lgpl</file>
