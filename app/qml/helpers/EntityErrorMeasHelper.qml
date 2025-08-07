@@ -23,43 +23,34 @@ Item {
     readonly property int aborted: (1<<3)
 
     function comparisonProgress(entity, show) {
+        if (!show)
+            return ""
+
         let ret = ""
         let progress = 0
-        if(show) {
-            if(entity.hasComponent('ACT_Progress')) {
-                progress = parseInt(entity.ACT_Progress)
-            }
-            else {
-                if(entity.hasComponent('PAR_Targeted')) {
-                    if(entity.PAR_Targeted === 1) {
-                            progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
-                        }
-                    }
-            }
-            let measCount = entity.PAR_MeasCount
-            let continuous = entity.PAR_Continuous === 1
-            if(measCount > 1 || continuous) {
-                let measNum = entity.ACT_MeasNum + 1
-                if(continuous) {
-                    ret = ` ${progress}% (${measNum})`
-                }
-                else {
-                    ret = ` ${progress}% (${measNum}/${measCount})`
-                }
-            }
-            else {
-                ret = ` ${progress}%`
-            }
+        if(entity.hasComponent('ACT_Progress'))
+            progress = parseInt(entity.ACT_Progress)
+        else if(entity.hasComponent('PAR_Targeted') && entity.PAR_Targeted === 1)
+            progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
+
+        let measCount = entity.PAR_MeasCount
+        let continuous = entity.PAR_Continuous === 1
+        if(measCount > 1 || continuous) {
+            let measNum = entity.ACT_MeasNum + 1
+            if(continuous)
+                ret = ` ${progress}% (${measNum})`
+            else
+                ret = ` ${progress}% (${measNum}/${measCount})`
         }
+        else
+            ret = ` ${progress}%`
         return ret
     }
     function registerProgress(entity, show) {
-        let ret = ""
-        if(show) {
-            let progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
-            ret = ` ${progress}%`
-        }
-        return ret
+        if (!show)
+            return ""
+        let progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
+        return ` ${progress}%`
     }
     function comparisonPass(entity) {
         let pass = false
