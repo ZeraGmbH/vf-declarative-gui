@@ -10,14 +10,10 @@ TabButton {
     property string baseLabel
     property bool running
 
-    font.pointSize: tabPointSize
-    height: tabHeight
-
     contentItem: Label {
         text: baseLabel + errMeasHelper.comparisonProgress(entity, tabButton.running && !checked)
         font.capitalization: Font.AllUppercase
         font.pointSize: tabPointSize
-        height: tabHeight
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         Material.foreground: {
