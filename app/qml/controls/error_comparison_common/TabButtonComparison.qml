@@ -11,7 +11,7 @@ TabButton {
     property bool running
 
     contentItem: Label {
-        text: baseLabel + errMeasHelper.comparisonProgress(entity, tabButton.running && !checked)
+        text: baseLabel + errMeasHelper.comparisonProgress(entity, running && !checked)
         font.capitalization: Font.AllUppercase
         font.pointSize: tabPointSize
         horizontalAlignment: Text.AlignHCenter
@@ -19,7 +19,7 @@ TabButton {
         Material.foreground: {
             if (tabButton.checked)
                 return ZTC.accentColor
-            if (errMeasHelper.comparisonPass(entity) || errMeasHelper.comparisonProgress(entity, tabButton.running))
+            if (errMeasHelper.comparisonPass(entity) || errMeasHelper.comparisonProgress(entity, running))
                 return ZTC.primaryTextColor
             return Material.Red
         }
