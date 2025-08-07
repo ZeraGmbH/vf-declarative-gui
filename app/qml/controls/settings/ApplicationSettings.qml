@@ -31,17 +31,20 @@ SettingsView {
     ApiInfoPopup { id: apiInfoPopup }
     TrustListPopup { id: trustListPopup }
 
-    ColorPicker {
+    Loader {
         id: colorPicker
-        // set at rButton.onClicked
-        property int systemIndex
+        active: false
+        sourceComponent: ColorPicker {
+            // set at rButton.onClicked
+            property int systemIndex
 
-        dim: true
-        x: parent.width/2 - width/2
-        width: root.width*0.7
-        height: root.safeHeight*0.7
-        onColorAccepted: {
-            CS.setSystemColorByIndex(systemIndex-1, t_color)
+            dim: true
+            x: parent.width/2 - width/2
+            width: root.width*0.7
+            height: root.safeHeight*0.7
+            onColorAccepted: {
+                CS.setSystemColorByIndex(systemIndex-1, t_color)
+            }
         }
     }
 
@@ -275,11 +278,12 @@ SettingsView {
                         return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
                     }
                     onClicked: {
-                        colorPicker.systemIndex = root.channelCount-index
+                        colorPicker.active = true
+                        colorPicker.item.systemIndex = root.channelCount-index
                         /// @bug setting the the same value twice doesn't reset the sliders
-                        colorPicker.oldColor = "transparent"
-                        colorPicker.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.systemIndex)
-                        colorPicker.open()
+                        colorPicker.item.oldColor = "transparent"
+                        colorPicker.item.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.item.systemIndex)
+                        colorPicker.item.open()
                     }
                 }
             }
