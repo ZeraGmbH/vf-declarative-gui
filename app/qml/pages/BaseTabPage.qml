@@ -47,7 +47,7 @@ Item {
         id: swipeView
         visible: initialized
         anchors.fill: parent
-        anchors.topMargin: tabBar.height
+        anchors.topMargin: tabHeight
         currentIndex: tabBar.currentIndex
         spacing: 20
     }
