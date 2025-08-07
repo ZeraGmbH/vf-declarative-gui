@@ -125,8 +125,7 @@ Window {
         }
 
         function onSigEntityAvailable(t_entityName) {
-            const entId = VeinEntity.getEntity(t_entityName).entityId()
-            if(entId === 0) {
+            if (t_entityName === "_System") {
                 SessionState.currentSession = Qt.binding(function() {
                     return VeinEntity.getEntity("_System").Session
                 });
