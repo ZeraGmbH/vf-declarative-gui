@@ -56,9 +56,12 @@ SettingsView {
         width: root.width - x
     }
 
-    TimeSetterPopup {
+    Loader {
         id: timesetterPopup
-        pointSize: root.pointSize
+        active: false
+        sourceComponent: TimeSetterPopup {
+            pointSize: root.pointSize
+        }
     }
 
     readonly property real comboWidth: 4.5
@@ -167,7 +170,10 @@ SettingsView {
                 Layout.leftMargin: rowHeight * 0.1
                 Layout.fillHeight: true
                 Layout.preferredWidth: rowHeight * 0.95
-                onClicked: timesetterPopup.open()
+                onClicked: {
+                    timesetterPopup.active = true
+                    timesetterPopup.item.open()
+                }
             }
         }
         RowLayout {
