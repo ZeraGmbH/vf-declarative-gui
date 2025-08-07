@@ -20,7 +20,6 @@ ToolBar {
     Material.foreground: ZTC.defaultForeground // required since dark/light theme
 
     property alias rotaryFieldDependenciesReady: rotaryFieldIndicatorLoader.active;
-    property alias rangeIndicatorDependenciesReady: rangeIndicator.active;
 
     readonly property bool entityInitializationDone: GC.entityInitializationDone
     onEntityInitializationDoneChanged: {
@@ -109,7 +108,7 @@ ToolBar {
                 width: Math.ceil(root.width/1.8)
                 height: root.height
                 pointSize: root.pointSize * 0.77
-                active: false
+                active: entityInitializationDone
                 highlighted: rangeButton.highlighted
             }
         }

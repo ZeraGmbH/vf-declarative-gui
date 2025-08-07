@@ -110,7 +110,6 @@ Window {
                 dynamicPageModel.updateSourceView()
 
                 pageLoader.active = true;
-                controlsBar.rangeIndicatorDependenciesReady = true;
                 var lastPageSelected = GC.lastPageViewIndexSelected
                 if(lastPageSelected >= pageView.model.count)
                     lastPageSelected = 0
@@ -386,7 +385,6 @@ Window {
             onCloseView: controlsBar.pageViewVisible = false;
             function prepareSessionChange() {
                 layoutStack.currentIndex=0;
-                controlsBar.rangeIndicatorDependenciesReady = false;
                 pageLoader.active = false;
                 GC.entityInitializationDone = false;
             }
