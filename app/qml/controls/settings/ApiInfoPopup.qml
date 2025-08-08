@@ -7,7 +7,7 @@ import AppStarterForApi 1.0
 Popup {
     id: apiInfoPopup
 
-    property var cert: ""
+    property string cert: ""
 
     onOpened: cert = ASAPI.calculateThumbnail(Z.tr("No SSL Certificate available."))
 
