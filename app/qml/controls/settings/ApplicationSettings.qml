@@ -28,7 +28,12 @@ SettingsView {
     rowHeight: safeHeight / 7.1
     readonly property real pointSize: rowHeight * 0.275
 
-    ApiInfoPopup { id: apiInfoPopup }
+    Loader {
+        id: apiInfoPopup
+        active: false
+        anchors.fill: parent
+        sourceComponent: ApiInfoPopup { }
+    }
     TrustListPopup { id: trustListPopup }
 
     Loader {
@@ -375,7 +380,10 @@ SettingsView {
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95
-                    onClicked: apiInfoPopup.open()
+                    onClicked: {
+                        apiInfoPopup.active = true
+                        apiInfoPopup.item.open()
+                    }
                 }
                 Button {
                     id: apiTrustList
