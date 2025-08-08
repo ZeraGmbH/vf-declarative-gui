@@ -62,14 +62,14 @@ Popup {
                                 onClicked: trustDeletePopup.confirm(modelData)
                             }
 
-                            Text {
+                            Label {
                                 font.pointSize: pointSize
                                 text: modelData.name
                             }
                         }
                     }
             }
-            Text {
+            Label {
                 anchors.fill: parent
                 text: Z.tr("No trusted clients yet.")
                 font.pointSize: pointSize
