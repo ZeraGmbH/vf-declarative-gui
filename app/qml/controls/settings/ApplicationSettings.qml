@@ -34,8 +34,12 @@ SettingsView {
         anchors.fill: parent
         sourceComponent: ApiInfoPopup { }
     }
-    TrustListPopup { id: trustListPopup }
-
+    Loader {
+        id: trustListPopup
+        active: false
+        anchors.fill: parent
+        sourceComponent: TrustListPopup { }
+    }
     Loader {
         id: colorPicker
         active: false
@@ -391,7 +395,10 @@ SettingsView {
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95
-                    onClicked: trustListPopup.open()
+                    onClicked: {
+                        trustListPopup.active = true
+                        trustListPopup.item.open()
+                    }
                 }
                 ZCheckBox {
                     id: apiOnOff
