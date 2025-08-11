@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
+import VeinEntity 1.0
 import ZeraTranslation  1.0
 import FontAwesomeQml 1.0
 import SlowMachineSettingsHelper 1.0
@@ -27,6 +28,7 @@ Loader {
 
         closePolicy: Popup.CloseOnPressOutside | Popup.CloseOnEscape
         readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
+        readonly property bool devMode: VeinEntity.getEntity("_System").DevMode
         onAboutToShow: {
             sliderCurrent.value = CS.currentBrightness
             sliderWhite.value = CS.whiteBrightness
@@ -38,7 +40,7 @@ Loader {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: sliderRowBrightness.top
+            anchors.bottom: popup.devMode ? sliderRowBrightness.top : parent.bottom
             spacing: 4
             readonly property int countColourThemes: CS.defaultColorsTableArray.length
             model: countColourThemes
@@ -84,6 +86,7 @@ Loader {
             anchors.left: parent.left
             width: popup.sliderLabelWidth+popup.sliderWidth
             height: popup.sliderRowHeight
+            visible: popup.devMode
             Label {
                 text: Z.tr("Brightness currents:")
                 anchors.verticalCenter: parent.verticalCenter
@@ -108,6 +111,7 @@ Loader {
             anchors.left: parent.left
             width: popup.sliderLabelWidth+popup.sliderWidth
             height: popup.sliderRowHeight
+            visible: popup.devMode
             Label {
                 text: Z.tr("Brightness white:")
                 anchors.verticalCenter: parent.verticalCenter
@@ -132,6 +136,7 @@ Loader {
             anchors.left: parent.left
             width: popup.sliderLabelWidth+popup.sliderWidth
             height: popup.sliderRowHeight
+            visible: popup.devMode
             Label {
                 text: Z.tr("Brightness black:")
                 anchors.verticalCenter: parent.verticalCenter
@@ -155,6 +160,7 @@ Loader {
             font.pointSize: popup.labelPointSize
             anchors.right: parent.right
             width: popup.width * 0.125
+            visible: popup.devMode
 
             anchors.verticalCenter: sliderRowWhite.verticalCenter
             onClicked: {
