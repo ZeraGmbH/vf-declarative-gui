@@ -259,17 +259,14 @@ SettingsView {
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
                 Layout.leftMargin: colorRow.width * 0.035
-                font.pointSize: ZTC.isDarkTheme ? pointSize * 1.25 : pointSize * 2
-                text: {
-                    let ret = ZTC.isDarkTheme ? FAQ.fa_moon : "☀";
-                    return ret
-                }
+                property int currMaterialTheme: ZTC.materialTheme
+                readonly property bool isDarkTheme: currMaterialTheme === Material.Dark
+                font.pointSize: isDarkTheme ? pointSize * 1.25 : pointSize * 2
+                text: isDarkTheme ? FAQ.fa_moon : "☀"
                 onClicked: {
-                    let oldTheme = ZTC.materialTheme
-                    let newTheme = Material.Dark
-                    if (oldTheme === Material.Dark)
-                        newTheme = Material.Light
-                    CS.setMaterialTheme(newTheme)
+                    let newTheme = isDarkTheme ? Material.Light : Material.Dark
+                    currMaterialTheme = newTheme
+                    SlwMachSettingsHelper.startLightDarkThemeChange(newTheme)
                 }
             }
             ListView {

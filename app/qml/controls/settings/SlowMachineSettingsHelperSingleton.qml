@@ -36,6 +36,11 @@ Timer {
         decimalPlacesPending = true
         restart()
     }
+    function startLightDarkThemeChange(lightDarkTheme) {
+        nextLightDarkTheme = lightDarkTheme
+        lightDarkThemeChangePending = true
+        restart()
+    }
     function startAllColorChange(colorScheme) {
         nextColorScheme = colorScheme
         allColorChangePending = true
@@ -52,6 +57,7 @@ Timer {
 
     property bool auxPhaseSetPending: false
     property bool allColorChangePending: false
+    property bool lightDarkThemeChangePending: false
     property bool fftTableRelativePending: false
     property bool fftShowAnglesPending: false
     property bool digitsTotalPending: false
@@ -59,6 +65,7 @@ Timer {
 
     property bool nextShowAux: false
     property int  nextColorScheme: 0
+    property int nextLightDarkTheme: 0
     property bool nextFftTableRelative: false
     property bool nextFftShowAngles: false
     property int  nextDigitsTotal: 0
@@ -72,6 +79,10 @@ Timer {
         if(allColorChangePending) {
             CS.setSystemDefaultColors(nextColorScheme)
             allColorChangePending = false
+        }
+        if(lightDarkThemeChangePending) {
+            CS.setMaterialTheme(nextLightDarkTheme)
+            lightDarkThemeChangePending = false
         }
         if(fftTableRelativePending) {
             GC.setShowFftTableAsRelative(nextFftTableRelative)
