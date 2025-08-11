@@ -255,7 +255,6 @@ SettingsView {
             }
             Button {
                 id: themeSelectButton
-                visible: VeinEntity.getEntity("_System").DevMode
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
                 Layout.leftMargin: colorRow.width * 0.035
