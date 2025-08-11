@@ -99,34 +99,8 @@ Item {
     }
 
     function setSystemColorByIndex(index, color) {
-        switch(index) {
-        case 0:
-            colorUL1 = color
-            break
-        case 1:
-            colorUL2 = color
-            break
-        case 2:
-            colorUL3 = color
-            break
-        case 3:
-            colorIL1 = color
-            break
-        case 4:
-            colorIL2 = color
-            break
-        case 5:
-            colorIL3 = color
-            break
-        case 6:
-            colorUAux1 = color
-            break
-        case 7:
-            colorIAux1 = color
-            break
-
-        }
-        Settings.setOption(arrayJsonColorNames[index], color)
+        Settings.setOption(ZTC.isDarkTheme ? arrayJsonColorNames[index] : arrayJsonColorNamesLight[index], color)
+        colorChangeCount++
     }
 
     function setSystemDefaultColors(defaultEntry) {
@@ -145,8 +119,10 @@ Item {
         ZTC.materialTheme = parseInt(Settings.getOption("material_theme", Material.Dark))
     }
 
+    property int colorChangeCount: 0
     function getInitialColorByIndex(idx) {
-        return Settings.getOption(arrayJsonColorNames[idx], initialColorTable[idx])
+        let dummy = colorChangeCount // refresh on change
+        return Settings.getOption(ZTC.isDarkTheme ? arrayJsonColorNames[idx] : arrayJsonColorNamesLight[idx], initialColorTable[idx])
     }
 
     readonly property var arrayJsonColorNames:
@@ -158,6 +134,15 @@ Item {
         "colorIL3",     // 6
         "colorUAux1",   // 7
         "colorIAux1"]  // 8
+    readonly property var arrayJsonColorNamesLight:
+        ["colorUL1Light",     // 1
+        "colorUL2Light",     // 2
+        "colorUL3Light",     // 3
+        "colorIL1Light",     // 4
+        "colorIL2Light",     // 5
+        "colorIL3Light",     // 6
+        "colorUAux1Light",   // 7
+        "colorIAux1Light"]  // 8
 
     function getDefaultCurrentBrightness() { return ZTC.isDarkTheme ? 1.75 : 0.63 }
     function getDefaultWhiteBrightness() { return ZTC.isDarkTheme ? 0.7 : 0.1 }
