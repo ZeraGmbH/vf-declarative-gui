@@ -6,7 +6,7 @@ import GlobalConfig 1.0
 import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
-import uivectorgraphics 1.0
+import VectorDiagramQml 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
 import ZeraThemeConfig 1.0
@@ -18,13 +18,8 @@ Item {
     readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
     readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
 
-    property int viewMode : PhasorDiagram.VIEW_STAR;
-    readonly property bool threePhase: viewMode === PhasorDiagram.VIEW_THREE_PHASE
-
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: width*0.01
-    readonly property real comboWidth: width/7
-    readonly property real comboMargin: 8
     property real topMargin: 0
 
     readonly property var vector0: getVector(0)
@@ -34,65 +29,21 @@ Item {
     readonly property var vector4: getVector(4)
     readonly property var vector5: getVector(5)
 
-    readonly property var vectorU1 : vector0 !== undefined ? vector0 : [0,0]
-    readonly property var vectorU2 : vector1 !== undefined ? vector1 : [0,0]
-    readonly property var vectorU3 : vector2 !== undefined ? vector2 : [0,0]
-    readonly property real rmsU1: Math.sqrt(Math.pow(vectorU1[0], 2) + Math.pow(vectorU1[1], 2))
-    readonly property real rmsU2: Math.sqrt(Math.pow(vectorU2[0], 2) + Math.pow(vectorU2[1], 2))
-    readonly property real rmsU3: Math.sqrt(Math.pow(vectorU3[0], 2) + Math.pow(vectorU3[1], 2))
-    readonly property real maxRmsU: Math.max(rmsU1, Math.max(rmsU2, rmsU3))
-
-    readonly property var vectorI1 : vector3 !== undefined ? vector3 : [0,0]
-    readonly property var vectorI2 : vector4 !== undefined ? vector4 : [0,0]
-    readonly property var vectorI3 : vector5 !== undefined ? vector5 : [0,0]
-    readonly property real rmsI1: Math.sqrt(Math.pow(vectorI1[0], 2) + Math.pow(vectorI1[1], 2))
-    readonly property real rmsI2: Math.sqrt(Math.pow(vectorI2[0], 2) + Math.pow(vectorI2[1], 2))
-    readonly property real rmsI3: Math.sqrt(Math.pow(vectorI3[0], 2) + Math.pow(vectorI3[1], 2))
-    readonly property real maxRmsI: Math.max(rmsI1, Math.max(rmsI2, rmsI3))
-
     // vector & range helpers
     function getVectorName(vecIndex) {
         let strIndex = parseInt(vecIndex+1)
-        let retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
-        if(threePhase) { // unlikely - a must hate :)
-            if(vecIndex < 3) {
-                retVal = ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPP" + strIndex].ChannelName;
-                let arrPhases = retVal.split('-')
-                if(arrPhases.length === 2)
-                    retVal = Z.tr(arrPhases[0]) + '-' + Z.tr(arrPhases[1])
-            }
-            else
-                retVal = Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
-        }
-        return retVal
+        return Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
     }
     function getVector(vecIndex) {
         let strIndex = parseInt(vecIndex+1)
-        let retVal = dftModule["ACT_DFTPN" + strIndex];
-        if(threePhase) { // unlikely - a must hate :)
-            switch(vecIndex)
-            {
-            case 0:
-            case 1:
-                retVal= dftModule["ACT_DFTPP" + strIndex];
-                break;
-            case 3:
-            case 5:
-                retVal = dftModule["ACT_DFTPN" + strIndex];
-                break;
-            case 2:
-            case 4:
-                retVal=[0,0];
-                break;
-            }
-        }
-        return retVal
+        let value = dftModule["ACT_DFTPN" + strIndex]
+        return value !== undefined ? value : [0,0]
     }
     property string maxURange: "5000V"
-    readonly property real maxOVRRejectionU: {
+    readonly property real maxRejectionU: {
         let maxVal = 0;
         for(let channel=1; channel<=3; channel++) {
-            let newVal = rangeInfo[`INF_Channel${channel}ActOVLREJ`] / rangeInfo[`INF_PreScalingInfoGroup0`]
+            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup0`]
             if(newVal > maxVal) {
                 maxVal = newVal
                 maxURange = rangeInfo[`PAR_Channel${channel}Range`]
@@ -101,10 +52,10 @@ Item {
         return maxVal
     }
     property string maxIRange: "10000A"
-    readonly property real maxOVRRejectionI: {
+    readonly property real maxRejectionI: {
         let maxVal = 0;
         for(let channel=4; channel<=6; channel++) {
-            let newVal = rangeInfo[`INF_Channel${channel}ActOVLREJ`] / rangeInfo[`INF_PreScalingInfoGroup1`]
+            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup1`]
             if(newVal > maxVal) {
                 maxVal = newVal
                 maxIRange = rangeInfo[`PAR_Channel${channel}Range`]
@@ -113,18 +64,26 @@ Item {
         return maxVal
     }
 
-    PhasorDiagramEx {
+    VectorDiagram {
         id: phasorDiagram
-        anchors.topMargin: root.topMargin
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        width: Math.min(height * 1.2, parent.width)
+        anchors.horizontalCenter: parent.horizontalCenter
 
-        vectorView: viewMode
+        vectorStandard: dinIECSelector.targetIndex
+        vectorType: viewModeSelector.targetIndex
+        nominalSelection: lenMode.targetIndex
 
-        vectorData0: vectorU1
-        vectorData1: vectorU2
-        vectorData2: vectorU3
-        vectorData3: vectorI1
-        vectorData4: vectorI2
-        vectorData5: vectorI3
+        fillColor: color
+        coordCrossColor: ZTC.frameColor;
+        circleColor: ZTC.frameColor
+        vectorColor0: CS.colorUL1
+        vectorColor1: CS.colorUL2
+        vectorColor2: CS.colorUL3
+        vectorColor3: CS.colorIL1
+        vectorColor4: CS.colorIL2
+        vectorColor5: CS.colorIL3
 
         vectorLabel0: getVectorName(0);
         vectorLabel1: getVectorName(1);
@@ -133,30 +92,17 @@ Item {
         vectorLabel4: getVectorName(4);
         vectorLabel5: getVectorName(5);
 
-        maxVoltage: {
-            let rangeMax = maxOVRRejectionU * Math.SQRT2
-            let max = rangeMax
-            if(!lenMode.rangeLen) {
-                max = maxRmsU * maxNominalFactor / (threePhase ? sqrt3 : 1)
-                // avoid no load arrow dance
-                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
-                if(maxRmsU < minValue)
-                    max = rangeMax
-            }
-            return max
-        }
-        maxCurrent: {
-            let rangeMax = maxOVRRejectionI * Math.SQRT2
-            let max = rangeMax
-            if(!lenMode.rangeLen) {
-                max = maxRmsI * maxNominalFactor
-                // avoid no load arrow dance
-                let minValue = rangeMax > 1 ? rangeMax*minRelValueDisplayed * 0.1 : rangeMax*minRelValueDisplayed
-                if(maxRmsI < minValue)
-                    max = rangeMax
-            }
-            return max
-        }
+        vectorData0: vector0
+        vectorData1: vector1
+        vectorData2: vector2
+        vectorData3: vector3
+        vectorData4: vector4
+        vectorData5: vector5
+
+        nominalVoltage: maxRejectionU * Math.SQRT2
+        minVoltage: nominalVoltage * 0.05
+        nominalCurrent:  maxRejectionI * Math.SQRT2
+        minCurrent: nominalCurrent * 0.05
     }
 
     // bottom left voltage/current circle value indicator
@@ -177,13 +123,11 @@ Item {
     Label {
         id: voltageIndicator
         readonly property string valueStr: {
-            if(lenMode.rangeLen && !threePhase)
+            if(lenMode.rangeLen)
                 return maxURange
             let maxVoltage = phasorDiagram.maxVoltage
-            if(threePhase)
-                maxVoltage *= phasorDiagram.sqrt3
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = FT.doAutoScale(maxVoltage / (1000*phasorDiagram.maxNominalFactor * Math.SQRT2), "V")
+            let valUnitArr = FT.doAutoScale(maxVoltage / (1000 * Math.SQRT2), "V")
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + CS.colorUL1 + "'>"+ "U: " + valueStr + " * √2" + "</font>"
@@ -201,7 +145,7 @@ Item {
             if(lenMode.rangeLen)
                 return maxIRange
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
-            let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * phasorDiagram.maxNominalFactor * Math.SQRT2), "A")
+            let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * Math.SQRT2), "A")
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
         }
         text: "<font color='" + CS.colorIL1 + "'>"+ "I: " + valueStr + " * √2" + "</font>"
@@ -215,6 +159,8 @@ Item {
     }
 
     // bottom right comboboxes
+    readonly property real comboWidth: width/7
+    readonly property real comboMargin: 8
     Label {
         text: "➚"
         anchors.right: viewModeSelector.left
@@ -228,13 +174,10 @@ Item {
         model: ["U  PN", "U  △", "U  ∠"]
 
         targetIndex: GC.vectorMode
-        onTargetIndexChanged: {
-            viewMode = targetIndex
-            GC.setVectorMode(targetIndex)
-        }
+        onTargetIndexChanged: GC.setVectorMode(targetIndex)
 
         anchors.bottomMargin: comboMargin
-        anchors.bottom: dinIECSelector.top;
+        anchors.bottom: dinIECSelector.top
         anchors.right: root.right
         anchors.rightMargin: horizMarign
         height: root.height/10
@@ -251,7 +194,7 @@ Item {
     ZComboBox {
         id: dinIECSelector
         arrayMode: true
-        model: ["DIN410", "IEC387"]
+        model: ["DIN", "IEC", "ANSI"]
 
         anchors.bottom: lenMode.top
         anchors.bottomMargin: comboMargin
@@ -261,10 +204,7 @@ Item {
         width: comboWidth
 
         targetIndex: GC.vectorIecMode
-        onTargetIndexChanged: {
-            phasorDiagram.din410 = targetIndex == 0
-            GC.setVectorIecMode(targetIndex)
-        }
+        onTargetIndexChanged: GC.setVectorIecMode(targetIndex)
     }
 
     Image {
@@ -292,9 +232,7 @@ Item {
         width: comboWidth
 
         targetIndex: GC.vectorCircleMode
-        onTargetIndexChanged: {
-            GC.setVectorCircleMode(targetIndex)
-        }
+        onTargetIndexChanged:  GC.setVectorCircleMode(targetIndex)
 
         property bool rangeLen: targetIndex===0
     }
