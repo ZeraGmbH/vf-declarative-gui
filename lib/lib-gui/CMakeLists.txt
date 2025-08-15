@@ -41,7 +41,6 @@ target_link_libraries(vf-declarative-gui-lib
     "-Wl,--no-as-needed"
     Zera::zerafa
     Zera::anmlib
-    Zera::uivlib
     Zera::vector-diagram-lib
     SortFilterProxyModel::SortFilterProxyModel
     ZeraTranslation::ZeraTranslation
