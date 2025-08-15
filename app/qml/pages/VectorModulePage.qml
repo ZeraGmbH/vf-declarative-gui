@@ -15,9 +15,6 @@ import '../controls'
 Item {
     id: root
 
-    readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
-    readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
-
     readonly property real pointSize: Math.max(10, height / 28)
     readonly property real horizMarign: width*0.01
     property real topMargin: 0
@@ -30,67 +27,16 @@ Item {
     readonly property var vector5: getVector(5)
 
     // vector & range helpers
-    function getVectorName(vecIndex) {
-        let strIndex = parseInt(vecIndex+1)
-        return Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
-    }
     function getVector(vecIndex) {
         let strIndex = parseInt(vecIndex+1)
-        let value = dftModule["ACT_DFTPN" + strIndex]
+        let value = phasorDiagram.dftModule["ACT_DFTPN" + strIndex]
         return value !== undefined ? value : [0,0]
     }
-    property string maxURange: "5000V"
-    readonly property real maxRejectionU: {
-        let maxVal = 0;
-        for(let channel=1; channel<=3; channel++) {
-            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup0`]
-            if(newVal > maxVal) {
-                maxVal = newVal
-                maxURange = rangeInfo[`PAR_Channel${channel}Range`]
-            }
-        }
-        return maxVal
-    }
-    property string maxIRange: "10000A"
-    readonly property real maxRejectionI: {
-        let maxVal = 0;
-        for(let channel=4; channel<=6; channel++) {
-            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup1`]
-            if(newVal > maxVal) {
-                maxVal = newVal
-                maxIRange = rangeInfo[`PAR_Channel${channel}Range`]
-            }
-        }
-        return maxVal
-    }
 
-    VectorDiagram {
+    PhasorDiagramEx {
         id: phasorDiagram
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        width: Math.min(height * 1.2, parent.width)
-        anchors.horizontalCenter: parent.horizontalCenter
 
-        vectorStandard: dinIECSelector.targetIndex
-        vectorType: viewModeSelector.targetIndex
         nominalSelection: lenMode.targetIndex
-
-        fillColor: color
-        coordCrossColor: ZTC.frameColor;
-        circleColor: ZTC.frameColor
-        vectorColor0: CS.colorUL1
-        vectorColor1: CS.colorUL2
-        vectorColor2: CS.colorUL3
-        vectorColor3: CS.colorIL1
-        vectorColor4: CS.colorIL2
-        vectorColor5: CS.colorIL3
-
-        vectorLabel0: getVectorName(0);
-        vectorLabel1: getVectorName(1);
-        vectorLabel2: getVectorName(2);
-        vectorLabel3: getVectorName(3);
-        vectorLabel4: getVectorName(4);
-        vectorLabel5: getVectorName(5);
 
         vectorData0: vector0
         vectorData1: vector1
@@ -124,7 +70,7 @@ Item {
         id: voltageIndicator
         readonly property string valueStr: {
             if(lenMode.rangeLen)
-                return maxURange
+                return phasorDiagram.maxURange
             let maxVoltage = phasorDiagram.maxVoltage
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
             let valUnitArr = FT.doAutoScale(maxVoltage / (1000 * Math.SQRT2), "V")
@@ -143,7 +89,7 @@ Item {
         id: currentIndicator
         readonly property string valueStr: {
             if(lenMode.rangeLen)
-                return maxIRange
+                return phasorDiagram.maxIRange
             // factor 1000: Our auto scale scales too late - it was designed for values rising monotonous
             let valUnitArr = FT.doAutoScale(phasorDiagram.maxCurrent / (1000 * Math.SQRT2), "A")
             return FT.formatNumberForScaledValues(valUnitArr[0]*1000, lenMode.rangeLen ? 0 : undefined) + valUnitArr[1]
@@ -173,8 +119,8 @@ Item {
         arrayMode: true
         model: ["U  PN", "U  △", "U  ∠"]
 
-        targetIndex: GC.vectorMode
-        onTargetIndexChanged: GC.setVectorMode(targetIndex)
+        targetIndex: GC.vectorType
+        onTargetIndexChanged: GC.setVectorType(targetIndex)
 
         anchors.bottomMargin: comboMargin
         anchors.bottom: dinIECSelector.top
@@ -203,8 +149,8 @@ Item {
         height: root.height/10
         width: comboWidth
 
-        targetIndex: GC.vectorIecMode
-        onTargetIndexChanged: GC.setVectorIecMode(targetIndex)
+        targetIndex: GC.vectorStandard
+        onTargetIndexChanged: GC.setVectorStandard(targetIndex)
     }
 
     Image {
