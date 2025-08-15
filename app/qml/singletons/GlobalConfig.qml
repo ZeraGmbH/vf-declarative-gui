@@ -113,15 +113,15 @@ Item {
 
     /////////////////////////////////////////////////////////////////////////////
     // Vector settings
-    property int vectorMode: parseInt(Settings.getOption("vector_mode", "0"))
-    function setVectorMode(mode) {
-        vectorMode = mode
-        Settings.setOption("vector_mode", mode);
+    property int vectorType: parseInt(Settings.getOption("vector_type", "0"))
+    function setVectorType(type) {
+        vectorType = type
+        Settings.setOption("vector_type", type);
     }
-    property bool vectorIecMode: parseInt(Settings.getOption("vector_iecmode", "0"))
-    function setVectorIecMode(mode) {
-        vectorIecMode = mode
-        Settings.setOption("vector_iecmode", mode);
+    property int vectorStandard: parseInt(Settings.getOption("vector_standard", "0"))
+    function setVectorStandard(standard) {
+        vectorStandard = standard
+        Settings.setOption("vector_standard", standard);
     }
     property bool vectorCircleMode: parseInt(Settings.getOption("vector_circlecmode", "1"))
     function setVectorCircleMode(mode) {

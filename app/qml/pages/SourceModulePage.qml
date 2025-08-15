@@ -606,13 +606,10 @@ Item {
 
         PhasorDiagramEx {
             id: phasorDiagram
-            readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
-            maxNominalFactor: 1.2
             vectorColor1: currentColorTableVectors[1]
             vectorColor2: currentColorTableVectors[2]
             vectorColor4: currentColorTableVectors[4]
             vectorColor5: currentColorTableVectors[5]
-            forceI1Top: symmetricCheckbox.checked
 
             function getVectorFromActual(phase) {
                 return dftModule["ACT_DFTPN" + parseInt(phase)]
@@ -642,50 +639,12 @@ Item {
                 }
                 return arr
             }
-            function calcMax(isUNotI) {
-                let max = 1e-6 // avoid division by 0
-                let phase
-                if(showActual.isActive) {
-                    let phaseOffset = isUNotI ? 0 : 3
-                    for(phase=1+phaseOffset; phase<=3+phaseOffset; phase++) {
-                        let vector = getVectorFromActual(phase)
-                        let amplitude = Math.sqrt(Math.pow(vector[0], 2) + Math.pow(vector[1], 2))
-                        max = Math.max(max, amplitude)
-                    }
-                }
-                else {
-                    let phaseNameTemplate = isUNotI ? 'U%1' : 'I%1'
-                    for(phase=1; phase<=3; phase++) {
-                        let jsonPhaseNameU = phaseNameTemplate.arg(phase)
-                        if(declarativeJsonItem[jsonPhaseNameU])
-                            max = Math.max(max, declarativeJsonItem[jsonPhaseNameU].rms)
-                    }
-                }
-                return max
-            }
-            maxVoltage: calcMax(true) * maxNominalFactor
-            maxCurrent: calcMax(false) * maxNominalFactor
-
-            vectorData0: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
-                             [arrVectors[0][0],arrVectors[0][1]] :
-                             [arrVectors[0][0]-arrVectors[1][0], arrVectors[0][1]-arrVectors[1][1]] /* UL1-UL2 */
-            vectorData1: vectorView != PhasorDiagram.VIEW_THREE_PHASE ?
-                             [arrVectors[1][0],arrVectors[1][1]] :
-                             [arrVectors[2][0]-arrVectors[1][0], arrVectors[2][1]-arrVectors[1][1]] /* UL3-UL2 */
-            vectorData2: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[2][0],arrVectors[2][1]] : [0,0]
+            vectorData0: [arrVectors[0][0],arrVectors[0][1]]
+            vectorData1: [arrVectors[1][0],arrVectors[1][1]]
+            vectorData2: [arrVectors[2][0],arrVectors[2][1]]
             vectorData3: [arrVectors[3][0],arrVectors[3][1]]
-            vectorData4: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? [arrVectors[4][0],arrVectors[4][1]] : [0,0]
+            vectorData4: [arrVectors[4][0],arrVectors[4][1]]
             vectorData5: [arrVectors[5][0],arrVectors[5][1]]
-
-            vectorLabel0: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL1") : Z.tr("UL1") + "-" + Z.tr("UL2")
-            vectorLabel1: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL2") : Z.tr("UL3") + "-" + Z.tr("UL2") // same as ACT_DFTPP2
-            vectorLabel2: vectorView != PhasorDiagram.VIEW_THREE_PHASE ? Z.tr("UL3") : Z.tr("UL3") + "-" + Z.tr("UL1")
-            vectorLabel3: Z.tr("IL1")
-            vectorLabel4: Z.tr("IL2")
-            vectorLabel5: Z.tr("IL3")
-
-            vectorView: GC.vectorMode
-            din410: !GC.vectorIecMode
         }
         Label {
             anchors.top: parent.top
@@ -757,14 +716,14 @@ Item {
                 width: phasorViewPopup.width - phasorViewPopup.labelWidth
                 anchors.top: parent.top
                 arrayMode: true
-                model: ["DIN410", "IEC387"]
-                targetIndex: GC.vectorIecMode
+                model: ["DIN", "IEC", "ANSI"]
+                targetIndex: GC.vectorStandard
                 onPopupOpenedChanged: {
                     if(!popupOpened) {
                         phasorViewPopup.close()
                     }
                 }
-                onTargetIndexChanged: GC.setVectorIecMode(targetIndex)
+                onTargetIndexChanged: GC.setVectorStandard(targetIndex)
             }
             Label {
                 text: "➚"
@@ -782,12 +741,12 @@ Item {
                 anchors.bottom: parent.bottom
                 arrayMode: true
                 model: ["U  PN", "U  △", "U  ∠"]
-                targetIndex: GC.vectorMode
+                targetIndex: GC.vectorType
                 onPopupOpenedChanged: {
                     if(!popupOpened)
                         phasorViewPopup.close()
                 }
-                onTargetIndexChanged: GC.setVectorMode(targetIndex)
+                onTargetIndexChanged: GC.setVectorType(targetIndex)
             }
         }
     }

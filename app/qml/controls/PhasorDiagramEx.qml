@@ -1,37 +1,65 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
-import QtQuick.Controls.Material 2.0
+import VeinEntity 1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
-import FunctionTools 1.0
 import ModuleIntrospection 1.0
-import uivectorgraphics 1.0
-import ZeraComponents 1.0
+import VectorDiagramQml 1.0
 import ZeraTranslation 1.0
 import ZeraThemeConfig 1.0
 
-PhasorDiagram {
+VectorDiagram {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     width: Math.min(height * 1.2, parent.width)
     anchors.horizontalCenter: parent.horizontalCenter
+
     fillColor: color
-
-    property bool din410: true
-    property real maxNominalFactor: 1.25
-    property real minRelValueDisplayed: 0.05
-    minVoltage: maxVoltage * minRelValueDisplayed
-    minCurrent: maxCurrent * minRelValueDisplayed
-
-    readonly property real sqrt3: Math.sqrt(3)
-
-    circleVisible: true
+    coordCrossColor: ZTC.frameColor;
     circleColor: ZTC.frameColor
-    circleValue: maxVoltage / maxNominalFactor
 
-    gridVisible: true
-    gridColor: ZTC.frameColor;
-    gridScale: Math.min(height,width)/maxVoltage/2
+    vectorStandard: GC.vectorStandard
+    vectorType: GC.vectorType
+
+    readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
+    readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
+
+    function getVectorName(vecIndex) {
+        let strIndex = parseInt(vecIndex+1)
+        return Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
+    }
+
+    property string maxURange: "5000V"
+    readonly property real maxRejectionU: {
+        let maxVal = 0;
+        for(let channel=1; channel<=3; channel++) {
+            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup0`]
+            if(newVal > maxVal) {
+                maxVal = newVal
+                maxURange = rangeInfo[`PAR_Channel${channel}Range`]
+            }
+        }
+        return maxVal
+    }
+    property string maxIRange: "10000A"
+    readonly property real maxRejectionI: {
+        let maxVal = 0;
+        for(let channel=4; channel<=6; channel++) {
+            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup1`]
+            if(newVal > maxVal) {
+                maxVal = newVal
+                maxIRange = rangeInfo[`PAR_Channel${channel}Range`]
+            }
+        }
+        return maxVal
+    }
+
+    vectorLabel0: getVectorName(0);
+    vectorLabel1: getVectorName(1);
+    vectorLabel2: getVectorName(2);
+    vectorLabel3: getVectorName(3);
+    vectorLabel4: getVectorName(4);
+    vectorLabel5: getVectorName(5);
 
     vectorColor0: CS.colorUL1
     vectorColor1: CS.colorUL2
@@ -39,8 +67,4 @@ PhasorDiagram {
     vectorColor3: CS.colorIL1
     vectorColor4: CS.colorIL2
     vectorColor5: CS.colorIL3
-
-    readonly property real din410PhiOrigin: Math.atan2(vectorData0[1], vectorData0[0])+Math.PI/2
-    readonly property real iec387PhiOrigin: Math.atan2(vectorData3[1], vectorData3[0])
-    phiOrigin: din410 ? din410PhiOrigin : iec387PhiOrigin;
 }
