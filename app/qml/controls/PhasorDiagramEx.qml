@@ -29,31 +29,6 @@ VectorDiagram {
         return Z.tr(ModuleIntrospection.dftIntrospection.ComponentInfo["ACT_DFTPN" + strIndex].ChannelName)
     }
 
-    property string maxURange: "5000V"
-    readonly property real maxRejectionU: {
-        let maxVal = 0;
-        for(let channel=1; channel<=3; channel++) {
-            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup0`]
-            if(newVal > maxVal) {
-                maxVal = newVal
-                maxURange = rangeInfo[`PAR_Channel${channel}Range`]
-            }
-        }
-        return maxVal
-    }
-    property string maxIRange: "10000A"
-    readonly property real maxRejectionI: {
-        let maxVal = 0;
-        for(let channel=4; channel<=6; channel++) {
-            let newVal = rangeInfo[`INF_Channel${channel}ActREJ`] / rangeInfo[`INF_PreScalingInfoGroup1`]
-            if(newVal > maxVal) {
-                maxVal = newVal
-                maxIRange = rangeInfo[`PAR_Channel${channel}Range`]
-            }
-        }
-        return maxVal
-    }
-
     vectorLabel0: getVectorName(0);
     vectorLabel1: getVectorName(1);
     vectorLabel2: getVectorName(2);
