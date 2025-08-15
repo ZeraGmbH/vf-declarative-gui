@@ -10,7 +10,6 @@ import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import DeclarativeJson 1.0
 import FontAwesomeQml 1.0
-import uivectorgraphics 1.0
 import ZeraComponents 1.0
 import ZeraThemeConfig 1.0
 import '../controls'

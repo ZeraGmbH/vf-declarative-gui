@@ -22,7 +22,6 @@
 #include <zeracomponents.h>
 #include <zeraveincomponents.h>
 #include <vectordiagramqmlregister.h>
-#include <uivectorgraphics.h>
 #include "jsonsettingsfile.h"
 #include "qmlfileio.h"
 #include "updatewrapper.h"
@@ -52,7 +51,6 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
     ZeraVeinComponents::registerQml(engine);
     QwtCharts::registerQml();
     VectorDiagramQmlRegister::registerQml();
-    UiVectorgraphics::registerQml();
     qInfo("External QML dependencies registered.");
 }
 
