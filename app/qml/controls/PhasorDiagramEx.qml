@@ -20,6 +20,7 @@ VectorDiagram {
 
     vectorStandard: GC.vectorStandard
     vectorType: GC.vectorType
+    vectorStyle: VectorSettingsLayout.WEBSAM
 
     readonly property QtObject rangeInfo: VeinEntity.getEntity("RangeModule1")
     readonly property QtObject dftModule: VeinEntity.getEntity("DFTModule1")
