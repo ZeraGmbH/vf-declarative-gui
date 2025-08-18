@@ -163,7 +163,6 @@ Window {
                 right: parent.right;
                 top: parent.top;
                 bottom: controlsBar.top;
-                margins: layoutStack.currentIndex === GC.layoutStackEnum.layoutPageIndex ? 0 : 8
             }
 
             ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers

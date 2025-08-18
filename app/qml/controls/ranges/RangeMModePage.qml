@@ -17,7 +17,8 @@ Item {
     property bool showMeasModes: PwrModVeinGetter.canSessionChangeMMode
     property bool showRatioLines: true
     property bool enableRangeAutomaticAndGrouping: true
-    anchors.rightMargin: showMeasModes ? -8 : 0 // hack to compensate Main.Qml global margin in StackLayout
+    anchors.fill: parent
+    anchors.margins: 8
 
     readonly property int rowCount: 10
     readonly property real rowHeight: height / rowCount

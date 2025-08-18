@@ -11,6 +11,8 @@ import "../../pages"
 
 BaseTabPage {
     id: root
+    anchors.fill: parent
+    anchors.margins: 8
     // Overrides
     function getLastTabSelected() {
         return GC.lastInfoTabSelected

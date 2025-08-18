@@ -5,6 +5,8 @@ import VeinEntity 1.0
 
 StackLayout {
     id: menuStackLayout
+    anchors.fill: parent
+    anchors.margins: 8
 
     signal pleaseCloseMe(bool butOpenMenu)
 
