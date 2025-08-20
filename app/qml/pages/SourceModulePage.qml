@@ -644,6 +644,8 @@ Item {
             vectorData3: [arrVectors[3][0],arrVectors[3][1]]
             vectorData4: [arrVectors[4][0],arrVectors[4][1]]
             vectorData5: [arrVectors[5][0],arrVectors[5][1]]
+            minCurrent: showActual.isActive ? maxCurrent * 0.05 : 0.00001
+            minVoltage: showActual.isActive ? maxVoltage * 0.05 : 0.001
         }
         Label {
             anchors.top: parent.top
