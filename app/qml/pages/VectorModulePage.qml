@@ -46,9 +46,9 @@ Item {
         vectorData5: vector5
 
         nominalVoltage: maxRejectionU
-        minVoltage: nominalSelection == VectorSettingsLengths.MAXIMUM ? nominalVoltage * 0.009 : nominalVoltage * 0.05
+        minVoltage: nominalSelection === VectorSettingsLengths.MAXIMUM ? nominalVoltage * 0.009 : nominalVoltage * 0.05
         nominalCurrent: maxRejectionI
-        minCurrent: nominalSelection == VectorSettingsLengths.MAXIMUM ? nominalCurrent * 0.009 : nominalCurrent * 0.05
+        minCurrent: nominalSelection === VectorSettingsLengths.MAXIMUM ? nominalCurrent * 0.009 : nominalCurrent * 0.05
     }
 
     // bottom left voltage/current circle value indicator
