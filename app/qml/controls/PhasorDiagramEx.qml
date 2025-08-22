@@ -11,7 +11,7 @@ import ZeraThemeConfig 1.0
 VectorDiagram {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    width: Math.min(height * 1.2, parent.width)
+    width: Math.min(height * 1.1, parent.width) // a bit of landscape
     anchors.horizontalCenter: parent.horizontalCenter
 
     fillColor: color
