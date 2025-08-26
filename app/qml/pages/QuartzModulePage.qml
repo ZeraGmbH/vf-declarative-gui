@@ -136,6 +136,11 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
+                    if(errCalEntity.PAR_Continuous === 1 || errCalEntity.PAR_MeasCount > 1 ) {
+                        multiSwipe.currentIndex = 1
+                        continuousMeasWindow.text = FA.fa_chevron_down
+                    }
+
                 }
             }
             Row {
@@ -143,23 +148,21 @@ Item {
                 anchors.right: buttonStop.left
                 anchors.leftMargin: root.width * 0.1
                 height: parent.height
-                Item { // invisible button has zero width :(
+                Button {
+                    id: continuousMeasWindow
                     height: parent.height
-                    width: root.width * 0.09
-                    ToolButton {
-                        anchors.fill: parent
-                        text: FA.fa_info_circle
-                        highlighted: multiSwipe.currentIndex !== 0
-                        Material.accent: Material.Amber
-                        Material.foreground: multipleErrorView.jsonResults.countPass === multipleErrorView.jsonResults.values.length ?
-                                                 Material.White : Material.Red
-                        font.pointSize: pointSize * 1.5
-                        background: Rectangle {
-                            color: Material.backgroundColor
-                        }
-                        onClicked: {
-                            multiSwipe.currentIndex = !multiSwipe.currentIndex
-                        }
+                    width: root.width * 0.1
+                    text: FA.fa_chevron_up
+                    font.pointSize: pointSize
+                    highlighted: multiSwipe.currentIndex !== 0
+                    Material.foreground: multipleErrorView.jsonResults.countPass === multipleErrorView.jsonResults.values.length ?
+                                                Material.White : Material.Red
+                    onClicked: {
+                        multiSwipe.currentIndex = !multiSwipe.currentIndex
+                        if(continuousMeasWindow.text === FA.fa_chevron_up)
+                            continuousMeasWindow.text = FA.fa_chevron_down
+                        else
+                            continuousMeasWindow.text = FA.fa_chevron_up
                     }
                 }
                 ZCheckBox {
