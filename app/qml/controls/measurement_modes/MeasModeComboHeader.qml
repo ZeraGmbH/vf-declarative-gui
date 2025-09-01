@@ -126,7 +126,7 @@ Rectangle {
                 spacing: 40
                 Layout.alignment: Qt.AlignHCenter
                 Button {
-                    text: Z.tr("60 kHz");
+                    text: "60 kHz";
                     font.pointSize: root.pointSize * 1.8
                     font.capitalization: Font.MixedCase
                     highlighted: false
@@ -136,7 +136,7 @@ Rectangle {
                     }
                 }
                 Button {
-                    text: Z.tr("200 kHz");
+                    text: "200 kHz";
                     font.pointSize: root.pointSize * 1.8
                     font.capitalization: Font.MixedCase
                     highlighted: false
