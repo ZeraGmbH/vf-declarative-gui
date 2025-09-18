@@ -17,6 +17,7 @@ target_include_directories(vf-declarative-gui
 target_link_libraries(vf-declarative-gui
     PRIVATE
     vf-declarative-gui-lib
+    Zera::zera-json-settings
     )
 
 target_compile_definitions(vf-declarative-gui PRIVATE $<$<CONFIG:Debug>:QT_QML_DEBUG>)

@@ -22,7 +22,7 @@
 #include <zeracomponents.h>
 #include <zeraveincomponents.h>
 #include <vectordiagramqmlregister.h>
-#include "jsonsettingsfile.h"
+#include <jsonsettingsfile.h>
 #include "qmlfileio.h"
 #include "updatewrapper.h"
 #include "qmlappstarterforwebgl.h"
@@ -38,7 +38,6 @@
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboardlayout.h>
-#include <jsonsettingsfile.h>
 
 static void registerQmlExt(QQmlApplicationEngine &engine)
 {
