@@ -48,7 +48,7 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::qmlhelpers
     Zera::zeraveincomponents
     Zera::qwtcharts
-    zera-json-qml
+    Zera::zera-json-qml
     Zera::ZVKeyboardLayout
     "-Wl,--as-needed"
     #Other Libs
