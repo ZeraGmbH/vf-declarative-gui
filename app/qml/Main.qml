@@ -121,6 +121,10 @@ Window {
                 GC.entityInitializationDone = true
                 controlsBar.pageViewVisible = false
                 console.info("Loaded session:", SessionState.currentSession);
+                if(VeinEntity.hasEntity("_LoggingSystem")) {
+                    const loggEntity = VeinEntity.getEntity("_LoggingSystem")
+                    loggEntity.DatabaseFile = GC.currDatabaseFileName
+                }
             }
         }
 
