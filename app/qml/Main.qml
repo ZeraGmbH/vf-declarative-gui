@@ -90,6 +90,29 @@ Window {
     Material.background: ZTC.backgroundColor
     color: ZTC.backgroundColor
     readonly property real pointSize: height > 0 ? height * 0.035 : 10
+    property bool setSessionNameForPersitence: false
+    property QtObject loggerEntity
+    property string databaseFile: ""
+    onDatabaseFileChanged: {
+        if(setSessionNameForPersitence && databaseFile !== "") {
+            loggerEntity.sessionName = GC.currDatabaseSessionName
+        }
+        setSessionNameForPersitence = false
+    }
+
+    function setDatabase() {
+        var oldPersitenceDone = GC.dbPersitenceDone
+        GC.dbPersitenceDone = true
+        if(loggerEntity.DatabaseReady !== true) {
+            if(!oldPersitenceDone && loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName !== "") {
+                loggerEntity.DatabaseFile = GC.currDatabaseFileName
+                if(GC.currDatabaseSessionName !== "") {
+                    setSessionNameForPersitence = true
+                }
+                databaseFile = GC.currDatabaseFileName
+            }
+        }
+    }
 
     Connections {
         target: VeinEntity
@@ -121,6 +144,10 @@ Window {
                 GC.entityInitializationDone = true
                 controlsBar.pageViewVisible = false
                 console.info("Loaded session:", SessionState.currentSession);
+                if(VeinEntity.hasEntity("_LoggingSystem")) {
+                    loggerEntity = VeinEntity.getEntity("_LoggingSystem")
+                    setDatabase()
+                }
             }
         }
 
