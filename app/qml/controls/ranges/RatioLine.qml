@@ -83,6 +83,7 @@ Item {
         visible: hasSqrtFactor
         anchors.left: multLabel.right
         anchors.leftMargin: frameMargin
+        initialSelectedText: model[currentIndex]
 
         arrayMode: true
         model: ["1", "√3", "1 / √3"]
