@@ -15,26 +15,13 @@ Item {
     // external
     property real pointSize: 16
     function open() {
-        var oldPersitenceDone = GC.dbPersitenceDone
-        GC.dbPersitenceDone = true
         // Support users: in case there is no database available:
         // * do not show menu
         // * open to settings immediately
-        if(loggerEntity.DatabaseReady !== true) {
-            if(!oldPersitenceDone && loggerEntity.DatabaseFile === "" && GC.currDatabaseFileName !== "") {
-                loggerEntity.DatabaseFile = GC.currDatabaseFileName
-                if(GC.currDatabaseSessionName !== "") {
-                    setSessionNameForPersitence = true
-                }
-                return menu.open()
-            }
-            else {
-                loggerSettingsMenu()
-            }
-        }
-        else{
+        if(loggerEntity.DatabaseReady !== true && loggerEntity.DatabaseFile === "" )
+            loggerSettingsMenu()
+        else
             return menu.open()
-        }
     }
 
     signal loggerSettingsMenu()
@@ -47,15 +34,6 @@ Item {
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject systemEntity: VeinEntity.getEntity("_System")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
-    property bool setSessionNameForPersitence: false
-    readonly property string databaseFile: loggerEntity.DatabaseFile
-    onDatabaseFileChanged: {
-        if(setSessionNameForPersitence && databaseFile !== "") {
-            loggerEntity.sessionName = GC.currDatabaseSessionName
-        }
-        setSessionNameForPersitence = false
-    }
-
     property int veinResponsesRequired: 0
     function handleVeinRecordingStartReply() {
         if(veinResponsesRequired > 0) {
