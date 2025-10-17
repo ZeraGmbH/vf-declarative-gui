@@ -44,31 +44,32 @@ Item {
         editableDataObject = ({});
     }
 
+    readonly property string basicSectionName: "Basic"
+    readonly property string customerSectionName: "Customer"
+    readonly property string powerGridSectionName: "Power grid"
+    readonly property string locationSectionName: "Location"
+    readonly property string meterInfoSectionName: "Meter information"
+
     DeclarativeJsonItem { id: interactiveVisibility }
     function initModel() {
         let visibility = {}
-        visibility["Basic"] = true
-        visibility["Customer"] = false
-        visibility["Power grid"] = false
-        visibility["Location"] = false
-        visibility["Meter information"] = false
+        visibility[basicSectionName] = true
+        visibility[customerSectionName] = false
+        visibility[powerGridSectionName] = false
+        visibility[locationSectionName] = false
+        visibility[meterInfoSectionName] = false
         interactiveVisibility.fromJson(visibility)
 
-        for(var gpIndex in generalProperties) {
-            objModel.append({ propertyName: generalProperties[gpIndex], section: "Basic" });
-        }
-        for(var cIndex in customerProperties) {
-            objModel.append({ propertyName: customerProperties[cIndex], section: "Customer" });
-        }
-        for(var pIndex in powergridProperties) {
-            objModel.append({ propertyName: powergridProperties[pIndex], section: "Power grid" });
-        }
-        for(var lIndex in locationProperties) {
-            objModel.append({ propertyName: locationProperties[lIndex], section: "Location" });
-        }
-        for(var mIndex in meterProperties) {
-            objModel.append({ propertyName: meterProperties[mIndex], section: "Meter information" });
-        }
+        for(var gpIndex in generalProperties)
+            objModel.append({ propertyName: generalProperties[gpIndex], section: basicSectionName });
+        for(var cIndex in customerProperties)
+            objModel.append({ propertyName: customerProperties[cIndex], section: customerSectionName });
+        for(var pIndex in powergridProperties)
+            objModel.append({ propertyName: powergridProperties[pIndex], section: powerGridSectionName });
+        for(var lIndex in locationProperties)
+            objModel.append({ propertyName: locationProperties[lIndex], section: locationSectionName });
+        for(var mIndex in meterProperties)
+            objModel.append({ propertyName: meterProperties[mIndex], section: meterInfoSectionName });
     }
 
     function ok() {
