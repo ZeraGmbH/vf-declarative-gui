@@ -19,11 +19,11 @@ Item {
 
     Component.onCompleted: {
         initModel()
-        if (customerData["PAR_DatasetIdentifier"] === "")
+        if (customerDataVein["PAR_DatasetIdentifier"] === "")
             generalView.itemAtIndex(0).children[1].startFocusDelay()
     }
 
-    readonly property QtObject customerData: VeinEntity.getEntity("CustomerData");
+    readonly property QtObject customerDataVein: VeinEntity.getEntity("CustomerData");
 
     readonly property var basicProperties: ["PAR_DatasetIdentifier", "PAR_DatasetComment"]
     readonly property var customerProperties: ["PAR_CustomerNumber", "PAR_CustomerFirstName", "PAR_CustomerLastName",
@@ -38,7 +38,7 @@ Item {
         if(editableDataObject !== undefined)
             editableDataObject[prop] = text
     }
-    readonly property string currentFile: customerData.FileSelected
+    readonly property string currentFile: customerDataVein.FileSelected
     onCurrentFileChanged: {
         //data becomes irrelevant if the file switches
         editableDataObject = ({});
@@ -101,7 +101,7 @@ Item {
 
     function ok() {
         for(var prop in editableDataObject) {
-            customerData[prop] = editableDataObject[prop];
+            customerDataVein[prop] = editableDataObject[prop];
         }
         menuStackLayout.goBack()
     }
@@ -141,7 +141,7 @@ Item {
             }
             ZLineEdit {
                 id: lineEdit
-                text: customerData[propName]
+                text: customerDataVein[propName]
                 Layout.fillWidth: true
                 height: dataEditor.rowHeight*1.2
                 visible: interactiveVisibility[section]
