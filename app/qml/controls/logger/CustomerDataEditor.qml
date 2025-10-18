@@ -48,6 +48,33 @@ Item {
     readonly property string locationSectionName: "Location"
     readonly property string meterInfoSectionName: "Meter information"
 
+    function getNextSection(prop) {
+        let currentSessionAtLast = ""
+        if (prop === basicProperties[basicProperties.length-1])
+            currentSessionAtLast = basicSectionName
+        if (prop === customerProperties[customerProperties.length-1])
+            currentSessionAtLast = customerSectionName
+        if (prop === powergridProperties[powergridProperties.length-1])
+            currentSessionAtLast = powerGridSectionName
+        if (prop === locationProperties[locationProperties.length-1])
+            currentSessionAtLast = locationSectionName
+        if (prop === meterProperties[meterProperties.length-1])
+            currentSessionAtLast = meterInfoSectionName
+
+        if (currentSessionAtLast !== "")
+            return nextSessionInfo[currentSessionAtLast]
+        return ""
+    }
+    readonly property var nextSessionInfo: {
+        let sessInfo = {}
+        sessInfo[basicSectionName] = customerSectionName
+        sessInfo[customerSectionName] = powerGridSectionName
+        sessInfo[powerGridSectionName] = locationSectionName
+        sessInfo[locationSectionName] = meterInfoSectionName
+        sessInfo[meterInfoSectionName] = ""
+        return sessInfo
+    }
+
     DeclarativeJsonItem { id: interactiveVisibility }
     function initModel() {
         let visibility = {}
@@ -111,11 +138,37 @@ Item {
                 height: dataEditor.rowHeight
             }
             ZLineEdit {
+                id: lineEdit
                 text: customerData[propName]
                 Layout.fillWidth: true
                 height: dataEditor.rowHeight*1.2
                 visible: interactiveVisibility[section]
+                function startFocusDelay() {
+                    generalView.currentIndex = index
+                    focusDelayForVirtKeyboard.start()
+                }
+                Timer {
+                    id: focusDelayForVirtKeyboard
+                    repeat: false
+                    interval: 500
+                    onTriggered: lineEdit.textField.forceActiveFocus()
+                }
                 onTextChanged: updateDataObject(propName, text)
+                function focusNext() {
+                    let nextItem = generalView.itemAtIndex(index + 1)
+                    if (nextItem)
+                        nextItem.children[1].startFocusDelay()
+                }
+                function tryOpenNextSection() {
+                    let nextSection = getNextSection(propName)
+                    if (nextSection !== "")
+                        interactiveVisibility[nextSection] = true
+                }
+                function doApplyInput(newText) {
+                    tryOpenNextSection()
+                    focusNext()
+                    return true
+                }
                 textField.horizontalAlignment: Text.AlignLeft
             }
         }
