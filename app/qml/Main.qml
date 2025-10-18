@@ -178,7 +178,7 @@ Window {
         boundsBehavior: Flickable.StopAtBounds
         interactive: false
         NumberAnimation on contentY {
-            duration: 300
+            duration: 200
             id: flickableAnimation
         }
 
@@ -477,7 +477,7 @@ Window {
                         overlayAnimation.start()
                     }
                     keyboardOpacityAnimation.to = 1
-                    keyboardOpacityAnimation.duration = 500
+                    keyboardOpacityAnimation.duration = 300
                     keyboardOpacityAnimation.start()
                 }
             }

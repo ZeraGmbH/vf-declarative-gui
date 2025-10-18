@@ -150,7 +150,7 @@ Item {
                 Timer {
                     id: focusDelayForVirtKeyboard
                     repeat: false
-                    interval: 500
+                    interval: 300
                     onTriggered: lineEdit.textField.forceActiveFocus()
                 }
                 onTextChanged: updateDataObject(propName, text)
