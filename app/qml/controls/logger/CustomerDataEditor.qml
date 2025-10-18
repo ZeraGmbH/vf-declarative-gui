@@ -23,20 +23,18 @@ Item {
 
     readonly property QtObject customerData: VeinEntity.getEntity("CustomerData");
 
-    readonly property var generalProperties: ["PAR_DatasetIdentifier", "PAR_DatasetComment"];
+    readonly property var basicProperties: ["PAR_DatasetIdentifier", "PAR_DatasetComment"]
     readonly property var customerProperties: ["PAR_CustomerNumber", "PAR_CustomerFirstName", "PAR_CustomerLastName",
-        "PAR_CustomerCountry", "PAR_CustomerCity", "PAR_CustomerPostalCode", "PAR_CustomerStreet", "PAR_CustomerComment"];
+        "PAR_CustomerCountry", "PAR_CustomerCity", "PAR_CustomerPostalCode", "PAR_CustomerStreet", "PAR_CustomerComment"]
+    readonly property var powergridProperties: ["PAR_PowerGridOperator", "PAR_PowerGridSupplier", "PAR_PowerGridComment"]
     readonly property var locationProperties: ["PAR_LocationNumber", "PAR_LocationFirstName", "PAR_LocationLastName",
-        "PAR_LocationCountry", "PAR_LocationCity", "PAR_LocationPostalCode", "PAR_LocationStreet", "PAR_LocationComment"];
-    readonly property var meterProperties: ["PAR_MeterFactoryNumber", "PAR_MeterManufacturer", "PAR_MeterOwner", "PAR_MeterComment"];
-    readonly property var powergridProperties: ["PAR_PowerGridOperator", "PAR_PowerGridSupplier", "PAR_PowerGridComment"];
+        "PAR_LocationCountry", "PAR_LocationCity", "PAR_LocationPostalCode", "PAR_LocationStreet", "PAR_LocationComment"]
+    readonly property var meterProperties: ["PAR_MeterFactoryNumber", "PAR_MeterManufacturer", "PAR_MeterOwner", "PAR_MeterComment"]
 
     property var editableDataObject: ({});
-
     function updateDataObject(prop, text) {
-        if(editableDataObject !== undefined) {
-            editableDataObject[prop] = text;
-        }
+        if(editableDataObject !== undefined)
+            editableDataObject[prop] = text
     }
     readonly property string currentFile: customerData.FileSelected
     onCurrentFileChanged: {
@@ -60,8 +58,8 @@ Item {
         visibility[meterInfoSectionName] = false
         interactiveVisibility.fromJson(visibility)
 
-        for(var gpIndex in generalProperties)
-            objModel.append({ propertyName: generalProperties[gpIndex], section: basicSectionName });
+        for(var gpIndex in basicProperties)
+            objModel.append({ propertyName: basicProperties[gpIndex], section: basicSectionName });
         for(var cIndex in customerProperties)
             objModel.append({ propertyName: customerProperties[cIndex], section: customerSectionName });
         for(var pIndex in powergridProperties)
@@ -117,7 +115,7 @@ Item {
                 Layout.fillWidth: true
                 height: dataEditor.rowHeight*1.2
                 visible: interactiveVisibility[section]
-                onTextChanged: updateDataObject(propName, text);
+                onTextChanged: updateDataObject(propName, text)
                 textField.horizontalAlignment: Text.AlignLeft
             }
         }
