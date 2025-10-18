@@ -18,7 +18,9 @@ Item {
     readonly property real rowHeight: parent.height / 15
 
     Component.onCompleted: {
-        initModel();
+        initModel()
+        if (customerData["PAR_DatasetIdentifier"] === "")
+            generalView.itemAtIndex(0).children[1].startFocusDelay()
     }
 
     readonly property QtObject customerData: VeinEntity.getEntity("CustomerData");
