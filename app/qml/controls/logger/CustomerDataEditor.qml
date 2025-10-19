@@ -15,7 +15,10 @@ Item {
     property var menuStackLayout
 
     anchors.fill: parent
-    readonly property real rowHeight: parent.height / 15
+    readonly property real rowHeight: parent.height / 12
+    readonly property real fontScale: 0.35
+    readonly property real largeScale: 1.25
+    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
 
     Component.onCompleted: {
         initModel()
@@ -137,7 +140,7 @@ Item {
             Label {
                 text: interactiveVisibility[section] ? Z.tr(propName) : ""
                 Layout.minimumWidth: dataEditor.width / 4;
-                height: dataEditor.rowHeight
+                font.pointSize: pointSize
             }
             ZLineEdit {
                 id: lineEdit
@@ -179,17 +182,19 @@ Item {
         section.criteria: ViewSection.FullString
         section.delegate: RowLayout {
             width: dataEditor.width - (generalView.vBarVisible ? gvScrollBar.width : 0)
+            height: rowHeight * largeScale
             Label {
-                height: dataEditor.rowHeight*1.5
-                verticalAlignment: Text.AlignBottom
+                verticalAlignment: Text.AlignVCenter
                 text: Z.tr(section)
-                font.pointSize: 16
+                font.pointSize: pointSize * largeScale
+                Layout.fillHeight: true
                 font.bold: true
             }
             Item {Layout.fillWidth: true}
-            CheckBox {
+            ZCheckBox {
                 text: Z.tr("Show")
                 checked: interactiveVisibility[section]
+                Layout.preferredHeight: rowHeight
                 onCheckedChanged: {
                     interactiveVisibility[section] = checked
                 }
@@ -203,10 +208,10 @@ Item {
     }
     RowLayout {
         anchors.bottom: parent.bottom
-        Layout.alignment: Qt.AlignHCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
         id: buttonContainer
-        height: parent.height / 10
-        width: parent.width
+        height: rowHeight * 1.5
 
         Item {
             // spacer
@@ -215,7 +220,9 @@ Item {
         Button {
             id: cancelButton
             text: Z.tr("Cancel")
+            font.pointSize: pointSize * largeScale
             Layout.minimumWidth: okButton.width
+            Layout.fillHeight: true
             onClicked: {
                 cancel()
             }
@@ -223,7 +230,9 @@ Item {
         Button {
             id: okButton
             text: Z.tr("OK")
+            font.pointSize: pointSize * largeScale
             Layout.minimumWidth: cancelButton.width
+            Layout.fillHeight: true
             onClicked: {
                 ok()
             }
