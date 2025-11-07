@@ -26,8 +26,18 @@ Item {
         readonly property bool writingLogsToUsb: QmlFileIO.writingLogsToUsb
         enabled: (QmlFileIO.mountedPaths.length > 0) && !writingLogsToUsb
         highlighted: true
+        readonly property var allVersionsForStore: {
+            let versions = {}
+            let allVersions = DevVersions.allVersions
+            for(let entry = 0; entry < allVersions.length; entry++) {
+                let label = allVersions[entry][0]
+                let value = allVersions[entry][1]
+                versions[label] = value
+            }
+            return versions
+        }
         onClicked: {
-            QmlFileIO.startWriteJournalctlOnUsb(DevVersions.allVersionsForStore, GC.serverIp)
+            QmlFileIO.startWriteJournalctlOnUsb(allVersionsForStore, GC.serverIp)
         }
         onWritingLogsToUsbChanged: {
             if(writingLogsToUsb)

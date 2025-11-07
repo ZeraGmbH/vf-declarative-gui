@@ -6,17 +6,6 @@ import ZeraTranslation  1.0
 
 Item {
     readonly property var allVersionsForDisplay: translateJson(allVersions)
-    readonly property var allVersionsForStore: {
-        let versions = {}
-        for(let entry = 0; entry < allVersions.length; entry++) {
-            let label = allVersions[entry][0]
-            let value = allVersions[entry][1]
-            versions[label] = value
-        }
-        return versions
-    }
-
-    // private
     readonly property var allVersions: {
         let versions = []
         // TODO: Fix trailing ':' in translations
@@ -30,6 +19,8 @@ Item {
         pushArray(versions, cpuVersions)
         return versions
     }
+
+    // private
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property var controllerVersions: veinJsonToJsonObject("INF_CTRLVersion") // Relais/System/EMOB µController
     readonly property var pcbVersions: veinJsonToJsonObject("INF_PCBVersion")         // Relais/System/EMOB PCB
