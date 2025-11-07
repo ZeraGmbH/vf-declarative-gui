@@ -26,13 +26,48 @@ Item {
         versions.push(["DSP firmware version", statusEntity["INF_DSPVersion"]])
         versions.push(["FPGA firmware version", statusEntity["INF_FPGAVersion"]])
         pushArray(versions, controllerVersions)
+        pushArray(versions, pushHotplug())
         versions.push(["Adjustment status", AdjState.adjustmentStatusBare])
         pushArray(versions, cpuVersions)
         return versions
     }
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
-    readonly property var controllerVersions: veinJsonToJsonObject("INF_CTRLVersion") // Relais/System/EMOB µController
-    readonly property var pcbVersions: veinJsonToJsonObject("INF_PCBVersion")         // Relais/System/EMOB PCB
+    readonly property var channels: ["IL1", "IL2", "IL3", "IAUX"]
+    property var hotplugObject: ({})
+    readonly property var controllerVersions: veinJsonToJsonObject("INF_CTRLVersion")   // Relais/System/EMOB µController
+    readonly property var pcbVersions: veinJsonToJsonObject("INF_PCBVersion") // Relais/System/EMOB PCB
+
+    function extractHotplugData(channel, object) {
+        if (hotplugObject.hasOwnProperty(channel))
+            Object.assign(hotplugObject[channel], object)
+        else
+            hotplugObject[channel] = object
+    }
+
+    function pushHotplug() {
+        let versions = []
+        let keys = Object.keys(hotplugObject)
+        for(var i = 0; i<keys.length; i++) {
+            let key = keys[i]
+            let value = hotplugObject[key]
+            versions.push([key, ""])
+            pushArray(versions, extractChannelVersions(value))
+        }
+        return versions;
+    }
+
+    function extractChannelVersions(object) {
+        let arr = []
+        let keys = Object.keys(object)
+        for(var i = 0; i<keys.length; i++) {
+            let key = keys[i]
+            let value = object[key]
+            arr.push([key, value])
+        }
+        return arr
+    }
+
+
     readonly property var cpuVersions: {                                              // Variscite SOM
         let versions = []
         let veinCpuInfo = statusEntity["INF_CpuInfo"]
@@ -54,20 +89,22 @@ Item {
         return versions
     }
 
-    // Vein/JSON version lookup array fields:
-    // 1st: Text displayed in label
-    // 2nd: JSON input field name
     function veinJsonToJsonObject(componentName) {
         let versions = []
-        let veinCpuInfo = statusEntity[componentName]
-        if(veinCpuInfo !== "") {
-            let jsonCpuInfo = JSON.parse(veinCpuInfo)
-            for(let jsonEntry in jsonCpuInfo) {
-                let item = [jsonEntry, jsonCpuInfo[jsonEntry]]
-                versions.push(item)
+        let veinVersion = statusEntity[componentName]
+        if(veinVersion !== "") {
+            let versionObject = JSON.parse(veinVersion)
+            let keys = Object.keys(versionObject)
+            for(var i = 0; i<keys.length; i++) {
+                let key = keys[i]
+                let value = versionObject[key]
+                if(channels.includes(key))
+                    extractHotplugData(key, value)
+                else
+                    versions.push([key, value])
             }
         }
-        return versions
+        return versions;
     }
     function translateJson(jsonVersionArray) {
         let versions = []
