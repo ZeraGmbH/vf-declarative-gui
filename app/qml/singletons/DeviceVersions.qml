@@ -15,6 +15,7 @@ Item {
         versions.push(["DSP firmware version", statusEntity["INF_DSPVersion"]])
         versions.push(["FPGA firmware version", statusEntity["INF_FPGAVersion"]])
         pushArray(versions, controllerVersions)
+        pushArray(versions, veinChannelJsonToJsonObject())
         versions.push(["Adjustment status", AdjState.adjustmentStatusBare])
         pushArray(versions, cpuVersions)
         return versions
@@ -24,6 +25,7 @@ Item {
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property var controllerVersions: veinJsonToJsonObject("INF_CTRLVersion") // Relais/System/EMOB µController
     readonly property var pcbVersions: veinJsonToJsonObject("INF_PCBVersion")         // Relais/System/EMOB PCB
+
     readonly property var cpuVersions: {                                              // Variscite SOM
         let versions = []
         let veinCpuInfo = statusEntity["INF_CpuInfo"]
@@ -54,12 +56,39 @@ Item {
         if(veinCpuInfo !== "") {
             let jsonCpuInfo = JSON.parse(veinCpuInfo)
             for(let jsonEntry in jsonCpuInfo) {
-                let item = [jsonEntry, jsonCpuInfo[jsonEntry]]
-                versions.push(item)
+                let value = jsonCpuInfo[jsonEntry]
+                if (typeof value !== 'object') {
+                    let item = [jsonEntry, jsonCpuInfo[jsonEntry]]
+                    versions.push(item)
+                }
             }
         }
         return versions
     }
+    property var emobLabelsToTranslate: []
+    readonly property var hotplugChannels: ["IL1", "IL2", "IL3", "IAUX"]
+    function veinChannelJsonToJsonObject() {
+        let versions = []
+        let ctlVersion = JSON.parse(statusEntity["INF_CTRLVersion"])
+        let pcbVersion = JSON.parse(statusEntity["INF_PCBVersion"])
+        for (var hotIdx=0; hotIdx<hotplugChannels.length; ++hotIdx) {
+            let hotplugChannel = hotplugChannels[hotIdx]
+            let channelCtrl = ctlVersion[hotplugChannel]
+            let channelPCB = pcbVersion[hotplugChannel]
+            if (channelCtrl !== undefined || channelPCB !== undefined) {
+                let channelAll = Object.assign({}, channelCtrl, channelPCB)
+                for(let jsonEntry in channelAll) {
+                    let value = channelAll[jsonEntry]
+                    let item = [jsonEntry + " " + hotplugChannel, channelAll[jsonEntry]]
+                    versions.push(item)
+                    if (emobLabelsToTranslate.indexOf(jsonEntry) === -1)
+                        emobLabelsToTranslate.push(jsonEntry)
+                }
+            }
+        }
+        return versions
+    }
+
     function translateJson(jsonVersionArray) {
         let versions = []
         for(let jsonEntry in jsonVersionArray) {
@@ -70,11 +99,22 @@ Item {
                 value = item[1]
             else
                 value = AdjState.adjustmentStatusDisplay
-            let itemTr = [Z.tr(labelBare), value]
+            let translated = translateEmob(labelBare)
+            if (translated === labelBare)
+                translated = Z.tr(labelBare)
+            let itemTr = [translated, value]
             versions.push(itemTr)
         }
         return versions
     }
+    function translateEmob(label) {
+        for(let idxLabel in emobLabelsToTranslate)
+            label = label.replace(emobLabelsToTranslate[idxLabel], Z.tr(emobLabelsToTranslate[idxLabel]))
+        for(let idxHot in hotplugChannels)
+            label = label.replace(hotplugChannels[idxHot], Z.tr(hotplugChannels[idxHot]))
+        return label
+    }
+
     function pushArray(jsonVersionArray, arrPush) {
         for(let jsonEntry in arrPush) {
             let item = arrPush[jsonEntry]
