@@ -14,6 +14,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
 import ZeraThemeConfig 1.0
+import QmlFileIO 1.0
 
 import "controls"
 import "helpers"
@@ -239,16 +240,29 @@ Window {
             Loader {
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSplashIndex
                 sourceComponent: Item {
+                    id: splashItem
                     anchors.fill: parent
                     Label {
                         anchors.centerIn: parent
-                        text: safeDelay.running ? Z.tr("Please wait...") : Z.tr("Something went wrong")
+                        text: {
+                            if (splashItem.firmwareUpdateRunning)
+                                return Z.tr("Firmware update is running.\nDo not switch off the device!")
+                            return safeDelay.running ? Z.tr("Please wait...") : Z.tr("Something went wrong")
+                        }
                         font.pointSize: parent.height * 0.08
                         horizontalAlignment: Label.AlignHCenter
                         verticalAlignment: Label.AlignVCenter
                     }
+                    BusyIndicator {
+                        visible: splashItem.firmwareUpdateRunning || safeDelay.running
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        height: parent.height * 0.125
+                        width: height
+                        anchors.bottomMargin: height
+                    }
                     Button {
-                        visible: !safeDelay.running
+                        visible: !safeDelay.running && !splashItem.firmwareUpdateRunning
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom
                         width: parent.width * 0.5
@@ -260,11 +274,20 @@ Window {
                             layoutStack.currentIndex = GC.layoutStackEnum.layoutStatusIndex
                         }
                     }
+                    property bool firmwareUpdateRunning: QmlFileIO.fileExists("/tmp/firmware-update-pending")
+                    Timer {
+                        interval: 300
+                        repeat: true
+                        running: true
+                        onTriggered: {
+                            splashItem.firmwareUpdateRunning = QmlFileIO.fileExists("/tmp/firmware-update-pending")
+                        }
+                    }
                     Timer {
                         id: safeDelay
                         interval: 10000
                         repeat: false
-                        running: true
+                        running: !splashItem.firmwareUpdateRunning
                     }
                 }
             }

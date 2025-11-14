@@ -21,6 +21,7 @@ public:
     Q_PROPERTY(bool lastWriteLogsOk READ getLastWriteLogsOk NOTIFY sigLastWriteLogsOkChanged);
     Q_INVOKABLE bool startWriteJournalctlOnUsb(QVariant versionMap, QString serverIp);
 
+    Q_INVOKABLE bool fileExists(const QString& fileName);
     Q_INVOKABLE QString readTextFile(const QString& fileName);
     Q_INVOKABLE bool writeTextFile(const QString& fileName, const QString &content, bool overwrite = false, bool truncate = true);
     Q_INVOKABLE QVariant readJsonFile(const QString& fileName);

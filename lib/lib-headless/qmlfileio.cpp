@@ -187,6 +187,11 @@ bool QmlFileIO::startWriteJournalctlOnUsb(QVariant versionMap, QString serverIp)
     return false;
 }
 
+bool QmlFileIO::fileExists(const QString &fileName)
+{
+    return QFile::exists(fileName);
+}
+
 void QmlFileIO::onSimpleCmdFinish(bool ok)
 {
     if(m_lastWriteLogsOk != ok) {
