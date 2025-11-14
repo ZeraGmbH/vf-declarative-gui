@@ -9,6 +9,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import FontAwesomeQml 1.0
 import SlowMachineSettingsHelper 1.0
+import ZeraThemeConfig 1.0
 
 Loader {
     id: root
@@ -42,7 +43,7 @@ Loader {
             anchors.right: parent.right
             anchors.bottom: popup.devMode ? sliderRowBrightness.top : parent.bottom
             spacing: 4
-            readonly property int countColourThemes: CS.defaultColorsTableArray.length
+            readonly property int countColourThemes: CS.colorSetCount
             model: countColourThemes
             interactive: false
             delegate: Rectangle {
@@ -68,7 +69,7 @@ Loader {
                             Layout.fillHeight: true
                             text: Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo[`PAR_Channel${index+1}Range`].ChannelName)
                             font.pointSize: colourListView.height * 0.040
-                            color: CS.defaultColorsTableArray[lineDelegate.row][index]
+                            color: CS.getDefaultColor(lineDelegate.row, index, ZTC.isDarkTheme)
                             verticalAlignment: Text.AlignVCenter
                             textFormat: Text.PlainText
                         }
@@ -101,7 +102,7 @@ Loader {
                 to: 1.9
                 onValueChanged: {
                     if (popup.opened)
-                        CS.setCurrentBrightness(value)
+                        CS.setCurrentBrightness(value, ZTC.isDarkTheme)
                 }
             }
         }
@@ -126,7 +127,7 @@ Loader {
                 to: 1
                 onValueChanged: {
                     if (popup.opened)
-                        CS.setWhiteBrigtness(value)
+                        CS.setWhiteBrightness(value, ZTC.isDarkTheme)
                 }
             }
         }
@@ -151,7 +152,7 @@ Loader {
                 to: 35
                 onValueChanged: {
                     if (popup.opened)
-                        CS.setBlackBrigtness(value)
+                        CS.setBlackBrightness(value, ZTC.isDarkTheme)
                 }
             }
         }

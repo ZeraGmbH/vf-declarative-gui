@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick 2.0
 import GlobalConfig 1.0
 import ColorSettings 1.0
+import ZeraThemeConfig 1.0
 
 Timer {
     /* Our target machine is terribly slow and some change of settings cause
@@ -47,12 +48,9 @@ Timer {
         restart()
     }
     function getCurrentColor(index) {
-        if(!allColorChangePending) {
+        if(!allColorChangePending)
             return CS.currentColorTable[index-1]
-        }
-        else {
-            return CS.defaultColorsTableArray[nextColorScheme][index-1]
-        }
+        return CS.getDefaultColor(nextColorScheme, index-1, ZTC.isDarkTheme)
     }
 
     property bool auxPhaseSetPending: false
@@ -77,7 +75,8 @@ Timer {
             auxPhaseSetPending = false
         }
         if(allColorChangePending) {
-            CS.setSystemDefaultColors(nextColorScheme)
+            CS.setSystemDefaultColors(nextColorScheme, false)
+            CS.setSystemDefaultColors(nextColorScheme, true)
             allColorChangePending = false
         }
         if(lightDarkThemeChangePending) {

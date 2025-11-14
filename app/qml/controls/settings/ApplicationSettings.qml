@@ -52,7 +52,7 @@ SettingsView {
             width: root.width*0.7
             height: root.safeHeight*0.7
             onColorAccepted: {
-                CS.setSystemColorByIndex(systemIndex-1, t_color)
+                CS.setSystemColorByIndex(systemIndex-1, t_color, ZTC.isDarkTheme)
             }
         }
     }
