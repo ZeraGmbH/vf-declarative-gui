@@ -9,6 +9,7 @@
         <file>qml/controls/RotaryFieldIndicator.qml</file>
         <file>qml/controls/PhasorDiagramEx.qml</file>
         <file>qml/controls/ScreenShooter.qml</file>
+        <file>qml/controls/SplashView.qml</file>
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/WaitTransaction.qml</file>
         <file>qml/controls/actual_values/ActualValuesRow.qml</file>
