@@ -8,6 +8,7 @@ import anmsettings 1.0
 import "../../pages"
 
 BaseTabPage {
+    id: root
     anchors.fill: parent
     anchors.margins: 8
     // Overrides
@@ -23,32 +24,32 @@ BaseTabPage {
         id: appTab
         TabButton {
             text: Z.tr("Application")
-            font.pointSize: tabPointSize
-            height: tabHeight
+            font.pointSize: root.tabPointSize
+            height: root.tabHeight
         }
     }
     Component{
         id: devTab
         TabButton {
             text: Z.tr("Device")
-            font.pointSize: tabPointSize
-            height: tabHeight
+            font.pointSize: root.tabPointSize
+            height: root.tabHeight
         }
     }
     Component{
         id: netTab
         TabButton {
             text: Z.tr("Network")
-            font.pointSize: tabPointSize
-            height: tabHeight
+            font.pointSize: root.tabPointSize
+            height: root.tabHeight
         }
     }
     Component{
         id: sensorTab
         TabButton {
             text: Z.tr("BLE sensor")
-            font.pointSize: tabPointSize
-            height: tabHeight
+            font.pointSize: root.tabPointSize
+            height: root.tabHeight
         }
     }
 
