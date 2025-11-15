@@ -7,7 +7,7 @@ import "../controls/actual_values"
 Rectangle {
     id: root
     readonly property QtObject model: ZGL.ActualValueModel
-    readonly property real rowHeight: height / model.rowCount()
+    readonly property real rowHeight: height / (model ? model.rowCount() : 1)
     color: Material.backgroundColor
     ListView {
         anchors.fill: parent
