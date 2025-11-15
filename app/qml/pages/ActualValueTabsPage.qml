@@ -6,34 +6,36 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 
-BaseTabPageEmpty {
+BaseTabPage {
+    id: root
 
-    TabBar {
-        id: tabBar
-        width: parent.width
-        contentHeight: tabHeight
-        currentIndex: swipeView.currentIndex
-        onCurrentIndexChanged: {
-            if(initialized) {
-                setLastTabSelected(currentIndex)
-                swipeView.forceActiveFocus()
-            }
-        }
+    // TabButtons
+    Component {
+        id: tabTable
         TabButton {
             text:Z.tr("Actual values")
             font.pointSize: tabPointSize
             height: tabHeight
         }
+    }
+    Component {
+        id: tabVector
         TabButton {
             text: Z.tr("Vector diagram")
             font.pointSize: tabPointSize
             height: tabHeight
         }
+    }
+    Component {
+        id: tabPower
         TabButton {
             text: Z.tr("Power values")
             font.pointSize: tabPointSize
             height: tabHeight
         }
+    }
+    Component {
+        id: tabRms
         TabButton {
             text: Z.tr("RMS values")
             font.pointSize: tabPointSize
@@ -41,13 +43,9 @@ BaseTabPageEmpty {
         }
     }
 
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors.fill: parent
-        anchors.topMargin: tabBar.height
-        currentIndex: tabBar.currentIndex
-        spacing: 20
+    // Pages
+    Component {
+        id: pageTable
         ActualValuesPage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
@@ -55,6 +53,9 @@ BaseTabPageEmpty {
                 }
             }
         }
+    }
+    Component {
+        id: pageVector
         VectorModulePage {
             topMargin: 10
             SwipeView.onIsCurrentItemChanged: {
@@ -63,6 +64,9 @@ BaseTabPageEmpty {
                 }
             }
         }
+    }
+    Component {
+        id: pagePower
         PowerModulePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
@@ -70,6 +74,9 @@ BaseTabPageEmpty {
                 }
             }
         }
+    }
+    Component {
+        id: pageRms
         RMS4PhasePage {
             SwipeView.onIsCurrentItemChanged: {
                 if(SwipeView.isCurrentItem) {
@@ -79,7 +86,20 @@ BaseTabPageEmpty {
         }
     }
 
+    // create tabs/pages dynamic
     Component.onCompleted: {
+        tabBar.addItem(tabTable.createObject(tabBar))
+        swipeView.addItem(pageTable.createObject(swipeView))
+
+        tabBar.addItem(tabVector.createObject(tabBar))
+        swipeView.addItem(pageVector.createObject(swipeView))
+
+        tabBar.addItem(tabPower.createObject(tabBar))
+        swipeView.addItem(pagePower.createObject(swipeView))
+
+        tabBar.addItem(tabRms.createObject(tabBar))
+        swipeView.addItem(pageRms.createObject(swipeView))
+
         finishInit()
     }
 }
