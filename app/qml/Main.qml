@@ -7,12 +7,10 @@ import QtQuick.VirtualKeyboard 2.14
 import QtQuick.VirtualKeyboard.Settings 2.14
 import ModuleIntrospection 1.0
 import AppStarterForWebGLSingleton 1.0
-import AppStarterForWebserverSingleton 1.0
 import VeinEntity 1.0
 import SessionState 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
-import ColorSettings 1.0
 import ZeraThemeConfig 1.0
 
 import "controls"
