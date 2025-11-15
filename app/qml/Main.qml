@@ -334,7 +334,7 @@ Window {
                     append({name: "Actual values", icon: actValueIcon, iconLight: actValueIconLight,
                                elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"})
 
-                if(hasEntity("FFTModule1") || hasEntity("OSCIModule1"))
+                if(!isDcSession && (hasEntity("FFTModule1") || hasEntity("OSCIModule1")))
                     append({name: "Harmonics & Curves", icon: iconPath + "osci.png", iconLight: iconPath + "osci_light.png",
                                elementValue: "qrc:/qml/pages/FftTabPage.qml"})
 
