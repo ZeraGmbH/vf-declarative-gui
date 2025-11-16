@@ -17,9 +17,6 @@ import "controls"
 import "helpers"
 
 import "controls/ranges"
-import "controls/logger"
-import "controls/appinfo"
-import "controls/settings"
 import "controls/api"
 
 Window {
@@ -211,7 +208,7 @@ Window {
             }
             Loader {
                 id: loggerSettingsLoader
-                sourceComponent: LoggerSettingsStack { }
+                source: "qrc:/qml/controls/logger/LoggerSettingsStack.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item)
@@ -219,7 +216,7 @@ Window {
                 }
             }
             Loader {
-                sourceComponent: Settings {}
+                source: "qrc:/qml/controls/settings/Settings.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item)
@@ -227,7 +224,7 @@ Window {
                 }
             }
             Loader {
-                sourceComponent: StatusView {}
+                source: "qrc:/qml/controls/appinfo/StatusView.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item)
