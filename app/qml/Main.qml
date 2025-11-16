@@ -257,8 +257,9 @@ Window {
             Loader {
                 id: loggerSettingsLoader
                 source: "qrc:/qml/controls/logger/LoggerSettingsStack.qml"
-                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
-                asynchronous: true
+                readonly property bool forceActive: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
+                active: forceActive
+                asynchronous: !forceActive // otherwise we see an empty screen on no database and early selection
                 onLoaded: console.info("Logger settings page loaded")
             }
             Loader {
