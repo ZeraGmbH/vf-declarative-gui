@@ -398,11 +398,19 @@ Window {
             }
         }
 
-        ScreenShooter { id: screenShooter }
-        Keys.onPressed: {
-            if(event.key === Qt.Key_Print) {
-                screenShooter.handlePrintPressed()
+        Loader {
+            id: screenShooter
+            source: "qrc:/qml/controls/ScreenShooter.qml"
+            active: false
+            anchors.fill: parent
+            function handlePrintPressed() {
+                active = true
+                item.handlePrintPressed()
             }
+        }
+        Keys.onPressed: {
+            if(event.key === Qt.Key_Print)
+                screenShooter.handlePrintPressed()
         }
 
         ApiConfirmationPopup { }
