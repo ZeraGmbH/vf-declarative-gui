@@ -163,6 +163,59 @@ Window {
         }
     }
 
+    Timer {
+        id: loaderDelayForSchwuppdizitaet
+        property int currentLoader: 0
+        repeat: true
+        interval: 3000
+        readonly property bool entityInitializationDone: GC.entityInitializationDone
+        onEntityInitializationDoneChanged: {
+            if(entityInitializationDone) {
+                currentLoader = 0
+                start()
+            }
+            else {
+                rangePageLoader.active = Qt.binding(function() {
+                    return layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
+                });
+                loggerSettingsLoader.active = Qt.binding(function() {
+                    return layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
+                });
+                settingsPageLoader.active = Qt.binding(function() {
+                    return layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
+                });
+                statusPageLoader.active = Qt.binding(function() {
+                    return layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
+                });
+            }
+        }
+        onTriggered: {
+            ++currentLoader
+            // break property bindings intentionally
+            switch(currentLoader) {
+            case 1:
+                // This blocks GUI!!! TODO: Investigate what's blocking
+                console.info("Loading settings page...")
+                settingsPageLoader.active = true
+                break
+            case 2:
+                console.info("Loading range page...")
+                rangePageLoader.active = true
+                break
+            case 3:
+                console.info("Loading logger settings page...")
+                loggerSettingsLoader.active = true
+                break
+            case 4:
+                console.info("Loading status page...")
+                statusPageLoader.active = true
+                break
+            default:
+                stop()
+            }
+        }
+    }
+
     Flickable {
         // main view displaying pages and other stuff - (flickable for virtual keyboard)
         id: flickable
@@ -193,22 +246,34 @@ Window {
                 asynchronous: true
                 onLoaded: console.info("Pages loaded")
             }
+
             Loader {
+                id: rangePageLoader
                 source: "qrc:/qml/controls/ranges/RangeMModePage.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
+                asynchronous: true
+                onLoaded: console.info("Range page loaded")
             }
             Loader {
                 id: loggerSettingsLoader
                 source: "qrc:/qml/controls/logger/LoggerSettingsStack.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
+                asynchronous: true
+                onLoaded: console.info("Logger settings page loaded")
             }
             Loader {
+                id: settingsPageLoader
                 source: "qrc:/qml/controls/settings/Settings.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
+                asynchronous: true
+                onLoaded: console.info("Settings page loaded")
             }
             Loader {
+                id: statusPageLoader
                 source: "qrc:/qml/controls/appinfo/StatusView.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
+                asynchronous: true
+                onLoaded: console.info("Status page loaded")
             }
             Loader {
                 sourceComponent: SplashView { }
