@@ -15,8 +15,6 @@ import ZeraThemeConfig 1.0
 
 import "controls"
 import "helpers"
-
-import "controls/ranges"
 import "controls/api"
 
 Window {
@@ -196,7 +194,7 @@ Window {
                 onLoaded: console.info("Pages loaded")
             }
             Loader {
-                sourceComponent: RangeMModePage { }
+                source: "qrc:/qml/controls/ranges/RangeMModePage.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item)
