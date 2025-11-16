@@ -1,4 +1,3 @@
-pragma Singleton
 import QtQuick 2.0
 import VeinEntity 1.0
 import AdjustmentState 1.0

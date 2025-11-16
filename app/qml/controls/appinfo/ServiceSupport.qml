@@ -3,7 +3,6 @@ import QtQuick.Controls 2.0
 import ZeraTranslation  1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
-import DeviceVersions 1.0
 import UpdateWrapper 1.0
 import '../../controls'
 
@@ -12,9 +11,8 @@ Item {
     readonly property real rowHeight: height > 0 ? height * 0.0725 : 10
     readonly property real pointSize: rowHeight * 0.5
 
-    WaitTransaction {
-        id: waitPopup
-    }
+    WaitTransaction { id: waitPopup }
+    DeviceVersions { id: devVersions }
 
     Button {
         id: buttonStoreLog
@@ -28,7 +26,7 @@ Item {
         highlighted: true
         readonly property var allVersionsForStore: {
             let versions = {}
-            let allVersions = DevVersions.allVersions
+            let allVersions = devVersions.allVersions
             for(let entry = 0; entry < allVersions.length; entry++) {
                 let label = allVersions[entry][0]
                 let value = allVersions[entry][1]

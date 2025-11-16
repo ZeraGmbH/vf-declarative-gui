@@ -22,6 +22,7 @@
         <file>qml/controls/AnimationActivity.qml</file>
         <file>qml/controls/AnimationSlowBits.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
+        <file>qml/controls/appinfo/DeviceVersions.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
         <file>qml/controls/appinfo/ServiceSupport.qml</file>
         <file>qml/controls/appinfo/StatusView.qml</file>
@@ -98,7 +99,6 @@
         <file>qml/singletons/AccumulatorState.qml</file>
         <file>qml/singletons/AdjustmentState.qml</file>
         <file>qml/singletons/ColorSettings.qml</file>
-        <file>qml/singletons/DeviceVersions.qml</file>
         <file>qml/singletons/FunctionTools.qml</file>
         <file>qml/singletons/GlobalConfig.qml</file>
         <file>qml/singletons/MeasChannelInfo.qml</file>

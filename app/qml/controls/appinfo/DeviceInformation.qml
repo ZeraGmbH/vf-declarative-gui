@@ -4,13 +4,14 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.14
 import GlobalConfig 1.0
 import ZeraTranslation  1.0
-import DeviceVersions 1.0
 
 Rectangle {
     id: root
     readonly property real rowHeight: height > 0 ? height * 0.0725 : 10
     readonly property real pointSize: rowHeight * 0.5
     color: Material.backgroundColor
+
+    DeviceVersions { id: devVersions }
 
     ListView {
         id: statusListView
@@ -19,7 +20,7 @@ Rectangle {
         boundsBehavior: Flickable.StopAtBounds
         clip: true
         ScrollBar.vertical: rightScrollbar
-        model: DevVersions.allVersionsForDisplay
+        model: devVersions.allVersionsForDisplay
         delegate: RowLayout {
             height: root.rowHeight
             width: statusListView.width
