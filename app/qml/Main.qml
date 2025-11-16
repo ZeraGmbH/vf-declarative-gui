@@ -196,10 +196,7 @@ Window {
                 onLoaded: console.info("Pages loaded")
             }
             Loader {
-                sourceComponent: RangeMModePage {
-                    enableRangeAutomaticAndGrouping: !SessionState.refSession
-                    showRatioLines: !SessionState.refSession
-                }
+                sourceComponent: RangeMModePage { }
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
                 onActiveChanged: {
                     if(!active && pageLoader.item)

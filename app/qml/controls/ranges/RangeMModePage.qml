@@ -9,17 +9,18 @@ import VeinEntity 1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
 import FontAwesomeQml 1.0
+import SessionState 1.0
 import "../../controls"
 import "../../controls/measurement_modes"
 
 Item {
     id: root
-    property bool showMeasModes: PwrModVeinGetter.canSessionChangeMMode
-    property bool showRatioLines: true
-    property bool enableRangeAutomaticAndGrouping: true
     anchors.fill: parent
     anchors.margins: 8
 
+    readonly property bool showMeasModes: PwrModVeinGetter.canSessionChangeMMode
+    readonly property bool showRatioLines: !SessionState.refSession
+    readonly property bool enableRangeAutomaticAndGrouping: !SessionState.refSession
     readonly property int rowCount: 10
     readonly property real rowHeight: height / rowCount
     readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.325 : 10
