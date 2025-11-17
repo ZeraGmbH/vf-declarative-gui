@@ -4,7 +4,6 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import GlobalConfig 1.0
 import AccumulatorState 1.0
-import SchnubbelState 1.0
 import AdjustmentState 1.0
 import VeinEntity 1.0
 import FontAwesomeQml 1.0
@@ -246,11 +245,12 @@ ToolBar {
             font.pointSize: pointSize
             text: FAQ.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
+            readonly property bool schnubbelInserted: GC.entityInitializationDone ? VeinEntity.getEntity("StatusModule1").INF_Schnubbel === 1 : false
             Material.foreground: { // Note: highligted overrifdes Material.foreground
                 var _opacity = 1
                 var _color = ZTC.primaryTextColor
                 if (!AdjState.adjusted) {
-                    if (SchnubbState.inserted)
+                    if (schnubbelInserted)
                         _color = blinker.show ? Material.Blue : Material.Red
                     else {
                         if (!highlighted)
@@ -258,7 +258,7 @@ ToolBar {
                         _color = Material.Red
                     }
                 }
-                else if (SchnubbState.inserted)
+                else if (schnubbelInserted)
                     _color = blinker.show ? Material.Blue : ZTC.primaryTextColor
 
                 infoButton.opacity = _opacity

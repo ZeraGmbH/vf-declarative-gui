@@ -98,7 +98,6 @@ static void registerQmlInt()
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/FunctionTools.qml"), "FunctionTools", 1, 0, "FT");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/AccumulatorState.qml"), "AccumulatorState", 1, 0, "AccuState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/MeasChannelInfo.qml"), "MeasChannelInfo", 1, 0, "MeasChannelInfo");
-    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/SchnubbelState.qml"), "SchnubbelState", 1, 0, "SchnubbState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/AdjustmentState.qml"), "AdjustmentState", 1, 0, "AdjState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/PowerModuleVeinGetter.qml"), "PowerModuleVeinGetter", 1, 0, "PwrModVeinGetter");
     qmlRegisterSingletonType(QUrl("qrc:/qml/controls/settings/SlowMachineSettingsHelperSingleton.qml"), "SlowMachineSettingsHelper", 1, 0, "SlwMachSettingsHelper");
