@@ -9,7 +9,7 @@ Item {
     focus: true
 
     readonly property real tabPointSize: height * 0.0225
-    readonly property real tabHeight: height * 0.07
+    readonly property real tabHeight: height * 0.08
 
     property alias swipeView: swipeView
     property alias tabBar: tabBar
