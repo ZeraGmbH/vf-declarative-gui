@@ -101,7 +101,6 @@ static void registerQmlInt()
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/SchnubbelState.qml"), "SchnubbelState", 1, 0, "SchnubbState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/AdjustmentState.qml"), "AdjustmentState", 1, 0, "AdjState");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/PowerModuleVeinGetter.qml"), "PowerModuleVeinGetter", 1, 0, "PwrModVeinGetter");
-    qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/GraphFunctions.qml"), "GraphFunctions", 1, 0, "GraphFunctions");
     qmlRegisterSingletonType(QUrl("qrc:/qml/controls/settings/SlowMachineSettingsHelperSingleton.qml"), "SlowMachineSettingsHelper", 1, 0, "SlwMachSettingsHelper");
     qInfo("Internal QML dependencies registered.");
 }
