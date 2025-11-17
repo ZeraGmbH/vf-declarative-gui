@@ -1,7 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
-import AccumulatorState 1.0
 import ZeraFa 1.0
 import FontAwesomeQml 1.0
 import ZeraThemeConfig 1.0
@@ -9,26 +8,27 @@ import ZeraThemeConfig 1.0
 ToolButton {
     enabled: false
     highlighted: false;
-    visible: AccuState.accuAvail
+    visible: accuState.accuAvail
     readonly property real chargingMinDisplayedVal: 15
 
     property real chargeAnimationPortion: 0
-    readonly property real actValLimited: Math.max(0, Math.min(100, AccuState.accumulatorChargeValue))
+    readonly property real actValLimited: Math.max(0, Math.min(100, accuState.accumulatorChargeValue))
     readonly property real chargingVal: Math.max(chargingMinDisplayedVal, actValLimited) * chargeAnimationPortion
-    readonly property real displayedVal: AccuState.accuCharging ? chargingVal : actValLimited
-    readonly property bool accuLow: AccuState.accuLowWarning || AccuState.accuLowAlert
+    readonly property real displayedVal: accuState.accuCharging ? chargingVal : actValLimited
+    readonly property bool accuLow: accuState.accuLowWarning || accuState.accuLowAlert
     opacity: !accuLow || lowAccuBlinker.show ? 1 : 0
+    AccumulatorState { id: accuState }
     Text {
         id: battery
         font.family: FA.old
         font.pointSize: pointSize * 0.9
         color: {
-            if(!AccuState.accuCharging) {
+            if(!accuState.accuCharging) {
                 const redLimitVal = 10
                 const orangeLimitVal = 20
-                if(AccuState.accumulatorChargeValue <= redLimitVal)
+                if(accuState.accumulatorChargeValue <= redLimitVal)
                     return Material.color(Material.Red)
-                else if(AccuState.accumulatorChargeValue <= orangeLimitVal)
+                else if(accuState.accumulatorChargeValue <= orangeLimitVal)
                     return Material.color(Material.Orange)
             }
             return ZTC.primaryTextColor
@@ -47,7 +47,7 @@ ToolButton {
         }
     }
     NumberAnimation on chargeAnimationPortion {
-        running: AccuState.accuCharging
+        running: accuState.accuCharging
         loops: Animation.Infinite
         from: 0
         to: 1
@@ -55,7 +55,7 @@ ToolButton {
     }
     Timer {
         id: lowAccuBlinker
-        interval: AccuState.accuLowAlert ? 150 : 300
+        interval: accuState.accuLowAlert ? 150 : 300
         repeat: true
         running: accuLow
         property bool show: true

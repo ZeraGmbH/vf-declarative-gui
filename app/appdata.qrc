@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/Main.qml</file>
-        <file>qml/controls/BatteryToolButton.qml</file>
         <file>qml/controls/GridItem.qml</file>
         <file>qml/controls/GridRect.qml</file>
         <file>qml/controls/PagePathView.qml</file>
@@ -12,6 +11,8 @@
         <file>qml/controls/SplashView.qml</file>
         <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/WaitTransaction.qml</file>
+        <file>qml/controls/accu/AccumulatorState.qml</file>
+        <file>qml/controls/accu/AccuToolButton.qml</file>
         <file>qml/controls/actual_values/ActualValuesRow.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowEmobDc.qml</file>
         <file>qml/controls/actual_values/ActualValuesRowDcPerPhase.qml</file>
@@ -96,7 +97,6 @@
         <file>qml/pages/SourceModuleTabPage.qml</file>
         <file>qml/pages/TransformerModulePage.qml</file>
         <file>qml/pages/VectorModulePage.qml</file>
-        <file>qml/singletons/AccumulatorState.qml</file>
         <file>qml/singletons/AdjustmentState.qml</file>
         <file>qml/singletons/ColorSettings.qml</file>
         <file>qml/singletons/FunctionTools.qml</file>

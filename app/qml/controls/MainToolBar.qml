@@ -8,6 +8,7 @@ import VeinEntity 1.0
 import FontAwesomeQml 1.0
 import ZeraComponents 1.0
 import ZeraThemeConfig 1.0
+import "accu"
 import "ranges"
 import "logger"
 
@@ -230,7 +231,7 @@ ToolBar {
                 ignoreFirst: false
             }
         }
-        BatteryToolButton {
+        AccuToolButton {
             implicitHeight: parent.height
             implicitWidth: parent.width / 22
         }
