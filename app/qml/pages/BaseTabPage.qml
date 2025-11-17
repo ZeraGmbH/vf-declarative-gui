@@ -35,14 +35,6 @@ Item {
         }
     }
 
-    // pass focus to swipeView
-    onFocusChanged: {
-        if(focus) {
-            swipeView.forceActiveFocus()
-        }
-    }
-    onInitializedChanged: forceActiveFocus()
-
     TabBar {
         id: tabBar
         width: root.width
