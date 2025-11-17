@@ -10,7 +10,7 @@ Item {
     property int port
     property bool show
 
-    InfoInterface { id: networkListModel }
+    /*InfoInterface { id: networkListModel }
     readonly property bool isNetworkConnected: networkListModel.entryCount > 0
     readonly property real pointSize: height > 0 ? height * 0.3 : 1
     readonly property real horizonalTextMargin: height * 0.3
@@ -53,5 +53,5 @@ Item {
             text: Z.tr("Not connected")
             font.pointSize: pointSize
         }
-    }
+    }*/
 }
