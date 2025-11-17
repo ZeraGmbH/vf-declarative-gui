@@ -273,7 +273,7 @@ SettingsView {
                 spacing: 2
                 delegate: Button {
                     id: rButton
-                    width: colorRow.width * 0.08
+                    width: colorRow.width * 0.0875
                     height: rowHeight
                     font.pointSize: pointSize * 0.65
                     text: {
