@@ -43,19 +43,11 @@ Item {
     }
     onInitializedChanged: forceActiveFocus()
 
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors.fill: parent
-        anchors.topMargin: tabBar.height
-        currentIndex: tabBar.currentIndex
-        spacing: 20
-    }
-
     TabBar {
         id: tabBar
-        width: parent.width
+        width: root.width
         contentHeight: tabHeight
+        anchors { top: root.top; left: root.left; right: root.right }
         currentIndex: swipeView.currentIndex
         onCurrentIndexChanged: {
             if(initialized) {
@@ -63,6 +55,14 @@ Item {
                 swipeView.forceActiveFocus()
             }
         }
+    }
+
+    SwipeView {
+        id: swipeView
+        visible: initialized
+        anchors { top: tabBar.bottom; bottom: root.bottom; left: root.left; right: root.right }
+        currentIndex: tabBar.currentIndex
+        spacing: 20
     }
 
     property bool initialized: false
