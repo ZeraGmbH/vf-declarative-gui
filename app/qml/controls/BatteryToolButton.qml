@@ -7,6 +7,9 @@ import FontAwesomeQml 1.0
 import ZeraThemeConfig 1.0
 
 ToolButton {
+    enabled: false
+    highlighted: false;
+    visible: AccuState.accuAvail
     readonly property real chargingMinDisplayedVal: 15
 
     property real chargeAnimationPortion: 0

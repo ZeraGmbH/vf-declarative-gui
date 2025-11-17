@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import GlobalConfig 1.0
-import AccumulatorState 1.0
 import AdjustmentState 1.0
 import VeinEntity 1.0
 import FontAwesomeQml 1.0
@@ -234,9 +233,6 @@ ToolBar {
         BatteryToolButton {
             implicitHeight: parent.height
             implicitWidth: parent.width / 22
-            highlighted: false;
-            enabled: false
-            visible: AccuState.accuAvail
         }
         ToolButton {
             id: infoButton
