@@ -12,7 +12,7 @@ import "../../pages"
 BaseTabPage {
     id: root
     anchors.fill: parent
-    anchors.margins: 8
+    anchors { leftMargin: 8; rightMargin: 8 }
     // Overrides
     function getLastTabSelected() {
         return GC.lastInfoTabSelected
@@ -89,7 +89,8 @@ BaseTabPage {
         tabBar.addItem(tabLicense.createObject(tabBar))
         swipeView.addItem(pageLicense.createObject(swipeView))
 
-        swipeView.anchors.topMargin = Qt.binding(() => tabBar.height + 8)
+        swipeView.anchors.topMargin = 8
+        swipeView.anchors.bottomMargin = 8
 
         finishInit()
     }

@@ -10,7 +10,7 @@ import "../../pages"
 BaseTabPage {
     id: root
     anchors.fill: parent
-    anchors.margins: 8
+    anchors { leftMargin: 8; rightMargin: 8 }
     // Overrides
     function getLastTabSelected() {
         return GC.lastSettingsTabSelected
