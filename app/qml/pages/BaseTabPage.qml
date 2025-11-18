@@ -37,9 +37,8 @@ Item {
 
     TabBar {
         id: tabBar
-        width: root.width
-        contentHeight: tabHeight
         anchors { top: root.top; left: root.left; right: root.right }
+        contentHeight: tabHeight
         currentIndex: swipeView.currentIndex
         onCurrentIndexChanged: {
             if(initialized) {
