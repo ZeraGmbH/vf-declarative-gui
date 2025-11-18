@@ -196,35 +196,19 @@ Window {
             Loader {
                 source: "qrc:/qml/controls/ranges/RangeMModePage.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
-                onActiveChanged: {
-                    if(!active && pageLoader.item)
-                        pageLoader.item.forceActiveFocus()
-                }
             }
             Loader {
                 id: loggerSettingsLoader
                 source: "qrc:/qml/controls/logger/LoggerSettingsStack.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
-                onActiveChanged: {
-                    if(!active && pageLoader.item)
-                        pageLoader.item.forceActiveFocus()
-                }
             }
             Loader {
                 source: "qrc:/qml/controls/settings/Settings.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
-                onActiveChanged: {
-                    if(!active && pageLoader.item)
-                        pageLoader.item.forceActiveFocus()
-                }
             }
             Loader {
                 source: "qrc:/qml/controls/appinfo/StatusView.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
-                onActiveChanged: {
-                    if(!active && pageLoader.item)
-                        pageLoader.item.forceActiveFocus()
-                }
             }
             Loader {
                 sourceComponent: SplashView { }
