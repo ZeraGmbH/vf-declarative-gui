@@ -6,7 +6,6 @@ import ZeraTranslation  1.0
 
 Item {
     id: root
-    focus: true
 
     readonly property real tabPointSize: height * 0.0225
     readonly property real tabHeight: height * 0.08
@@ -23,16 +22,10 @@ Item {
     }
     function finishInit() {
         var lastTabSelected = getLastTabSelected()
-        if(lastTabSelected >= swipeView.count) {
+        if(lastTabSelected >= swipeView.count)
             lastTabSelected = 0
-        }
-        if(lastTabSelected) {
-            swipeView.setCurrentIndex(lastTabSelected)
-            initTimer.start()
-        }
-        else {
-            initialized = true
-        }
+        swipeView.setCurrentIndex(lastTabSelected)
+        initTimer.start()
     }
 
     TabBar {
@@ -41,10 +34,8 @@ Item {
         contentHeight: tabHeight
         currentIndex: swipeView.currentIndex
         onCurrentIndexChanged: {
-            if(initialized) {
+            if(initialized)
                 setLastTabSelected(currentIndex)
-                swipeView.forceActiveFocus()
-            }
         }
     }
 
@@ -62,7 +53,7 @@ Item {
         interval: 250
         onTriggered: {
             initialized = true
+            tabBar.currentItem.forceActiveFocus() // for arrow key navigation
         }
     }
-
 }
