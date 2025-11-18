@@ -8,7 +8,7 @@ Item {
     id: root
 
     readonly property real tabPointSize: height * 0.0225
-    readonly property real tabHeight: height * 0.08
+    readonly property real tabHeight: tabBar.count > 1 ? height * 0.08 : 0
 
     property alias swipeView: swipeView
     property alias tabBar: tabBar
