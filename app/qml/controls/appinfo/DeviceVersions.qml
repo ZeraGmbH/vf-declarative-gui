@@ -65,7 +65,8 @@ Item {
         return versions
     }
     property var emobLabelsToTranslate: []
-    readonly property var hotplugChannels: ["IL1", "IL2", "IL3", "IAUX"]
+    readonly property var hotplugChannels: statusEntity["INF_HotplugChannels"].split(",")
+
     function veinChannelJsonToJsonObject() {
         let versions = []
         let ctlVersion = JSON.parse(statusEntity["INF_CTRLVersion"])
