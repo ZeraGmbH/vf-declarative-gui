@@ -275,7 +275,7 @@ SettingsView {
                     id: rButton
                     width: colorRow.width * 0.0875
                     height: rowHeight
-                    font.pointSize: pointSize * 0.65
+                    font.pointSize: pointSize * 0.6
                     text: {
                         let workingIndex = root.channelCount-index
                         let colorLead = "<font color='" + SlwMachSettingsHelper.getCurrentColor(workingIndex) + "'>"
