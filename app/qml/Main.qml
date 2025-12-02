@@ -275,12 +275,9 @@ Window {
                 clear()
                 var hasEntity = VeinEntity.hasEntity
                 var sessState = SessionState
-                var dftAvail = hasEntity("DFTModule1")
                 var isReferenceSession = sessState.refSession
                 var isDcSession = sessState.dcSession
                 var isEmobSession = sessState.emobSession
-
-                controlsBar.rotaryFieldDependenciesReady = dftAvail && !isReferenceSession && !isDcSession
 
                 var iconPath = "qrc:/data/staticdata/resources/"
                 var actValueIcon = iconPath + "act_values.png"

@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.14
 import GlobalConfig 1.0
 import AdjustmentState 1.0
 import VeinEntity 1.0
+import SessionState 1.0
 import FontAwesomeQml 1.0
 import ZeraComponents 1.0
 import ZeraThemeConfig 1.0
@@ -17,8 +18,6 @@ ToolBar {
 
     Material.accent: ZTC.accentColorMoreContrast
     Material.foreground: ZTC.defaultForeground // required since dark/light theme
-
-    property alias rotaryFieldDependenciesReady: rotaryFieldIndicatorLoader.active;
 
     readonly property bool entityInitializationDone: GC.entityInitializationDone
     onEntityInitializationDoneChanged: {
@@ -124,7 +123,12 @@ ToolBar {
                 sourceComponent: rotaryFieldCmp
                 height: parent.height
                 width: parent.width
-                active: false;
+                active: {
+                    return root.entityInitializationDone &&
+                            VeinEntity.hasEntity("DFTModule1") &&
+                            !SessionState.refSession &&
+                            !SessionState.dcSession
+                }
             }
         }
         Item {
