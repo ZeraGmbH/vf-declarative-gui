@@ -19,7 +19,7 @@ Item {
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
-        implicitWidth: implicitContentWidth * 1.2
+        implicitWidth: implicitContentWidth * 1.5
         text: Z.tr("Save logfile to USB")
         readonly property bool writingLogsToUsb: QmlFileIO.writingLogsToUsb
         enabled: (QmlFileIO.mountedPaths.length > 0) && !writingLogsToUsb
