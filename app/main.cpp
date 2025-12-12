@@ -34,7 +34,6 @@
 #include "axisautoscaler.h"
 #include "singlevaluescaler.h"
 #include "vs_clientstorageeventsystem.h"
-#include "vf_recorder.h"
 #include "recordercaching.h"
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
@@ -68,13 +67,6 @@ QmlFileIO *getQmlFileIOInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return QmlFileIO::getInstance();
 }
 
-Vf_Recorder *getVfRecorderInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return Vf_Recorder::getInstance();
-}
-
 RecorderCaching *getRecorderCache(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
@@ -90,7 +82,6 @@ static void registerQmlInt()
     QmlAppStarterForApi::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
     qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", getQmlFileIOInstance);
-    qmlRegisterSingletonType<Vf_Recorder>("Vf_Recorder", 1, 0, "Vf_Recorder", getVfRecorderInstance);
     qmlRegisterSingletonType<RecorderCaching>("RecorderDataCache", 1, 0, "RecorderDataCache", getRecorderCache);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
@@ -224,8 +215,6 @@ int main(int argc, char *argv[])
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(VeinTcp::TcpNetworkFactory::create(), &app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
     VeinStorage::ClientStorageEventSystem *storage = new VeinStorage::ClientStorageEventSystem(&app);
-    Vf_Recorder::setStorageSystem(storage);
-    Vf_Recorder *recorder = Vf_Recorder::getInstance();
 
     VeinApiQml::VeinQml::setStaticInstance(qmlApi);
     QList<VeinEvent::EventSystem*> subSystems;
@@ -289,7 +278,6 @@ int main(int argc, char *argv[])
 
     QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
         engine.quit();
-        Vf_Recorder::deleteInstance();
         evHandler->clearSubsystems();
         evHandler->deleteLater();
         //the qmlengine will delete the qmlApi
