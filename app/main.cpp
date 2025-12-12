@@ -35,6 +35,7 @@
 #include "singlevaluescaler.h"
 #include "vs_clientstorageeventsystem.h"
 #include "vf_recorder.h"
+#include "recordercaching.h"
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboardlayout.h>
@@ -74,6 +75,13 @@ Vf_Recorder *getVfRecorderInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return Vf_Recorder::getInstance();
 }
 
+RecorderCaching *getRecorderCache(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return RecorderCaching::getInstance();
+}
+
 static void registerQmlInt()
 {
     qInfo("Register internal QML dependencies...");
@@ -83,6 +91,7 @@ static void registerQmlInt()
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
     qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", getQmlFileIOInstance);
     qmlRegisterSingletonType<Vf_Recorder>("Vf_Recorder", 1, 0, "Vf_Recorder", getVfRecorderInstance);
+    qmlRegisterSingletonType<RecorderCaching>("RecorderDataCache", 1, 0, "RecorderDataCache", getRecorderCache);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
     qmlRegisterType<AuthorizationRequestHandler>("AuthorizationRequestHandler", 1, 0, "AuthorizationRequestHandler");
