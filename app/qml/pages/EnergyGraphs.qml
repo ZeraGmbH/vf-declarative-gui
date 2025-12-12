@@ -12,6 +12,8 @@ import Vf_Recorder 1.0
 import AxisAutoScaler 1.0
 import SingleValueScaler 1.0
 import ZeraThemeConfig 1.0
+import VeinEntity 1.0
+import RecorderDataCache 1.0
 
 Item {
     id: root
@@ -19,34 +21,62 @@ Item {
     property var graphWidth
     property int parStartStop
 
-    readonly property int storageNumber: 0
+    readonly property var recorderEntity: VeinEntity.getEntity("RecorderModule1")
+
     readonly property var voltageComponentsAC: ["ACT_RMSPN1", "ACT_RMSPN2", "ACT_RMSPN3"]
     readonly property var currentComponentsAC: ["ACT_RMSPN4", "ACT_RMSPN5", "ACT_RMSPN6"]
     readonly property var voltageComponentsDC: ["ACT_DC7"]
     readonly property var currentComponentsDC: ["ACT_DC8"]
     readonly property var powerComponentsACDC: ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
 
-    readonly property bool dcSession: SessionState.emobSession && SessionState.dcSession
+    property var cachedData : RecorderDataCache.recordedValues
+    onCachedDataChanged: {
+        if(chartViewPower.ready && chartView.ready)
+            loadPoints(cachedData)
+    }
 
-    readonly property var jsonEnergyDC: {"foo":[{"EntityId":1060, "Component":voltageComponentsDC.concat(currentComponentsDC)},
-                                                {"EntityId":1073, "Component":powerComponentsACDC[0]}]}
-    readonly property var jsonEnergyAC: {"foo":[{"EntityId":1040, "Component":voltageComponentsAC.concat(currentComponentsAC)},
-                                                {"EntityId":1070, "Component":powerComponentsACDC}]}
-    readonly property var vfRecorderInputJson: dcSession ? jsonEnergyDC : jsonEnergyAC
+    property var rpcIdRecordValues
+    Connections {
+        target: recorderEntity
+        function onSigRPCFinished(identifier, resultData) {
+            if(identifier === rpcIdRecordValues) {
+                rpcIdRecordValues = undefined
+                if(resultData["RemoteProcedureData::resultCode"] === 0 ) { // ok
+                    var json = resultData["RemoteProcedureData::Return"]
+                    var newRecording = Object.assign(cachedData, json)
+                    RecorderDataCache.setRecordedValues(newRecording)
+                }
+            }
+        }
+    }
+
+    readonly property int numberOfPoints: SessionState.emobSession ? recorderEntity.ACT_Points : 0
+    onNumberOfPointsChanged: {
+        if(numberOfPoints === 0) {
+            RecorderDataCache.clearCashe()
+        }
+        var oldPts = Object.keys(cachedData).length
+        if(oldPts < numberOfPoints) {
+            rpcIdRecordValues = recorderEntity.invokeRPC("RPC_ReadRecordedValues(int p_endingPoint,int p_startingPoint)", {
+                                              "p_endingPoint" : numberOfPoints,
+                                              "p_startingPoint": oldPts })
+        }
+    }
+    readonly property string sessionComponent: SessionState.currentSession
+    onSessionComponentChanged: {
+        if(SessionState.emobSession)
+            if (numberOfPoints === 0)
+                RecorderDataCache.clearCashe()
+    }
 
     property bool logging : SessionState.emobSession && (parStartStop === 1) ? true : false
     onLoggingChanged: {
         if(logging) {
             resetCharts()
-            Vf_Recorder.startLogging(storageNumber, vfRecorderInputJson)
+            recorderEntity.PAR_StartStopRecording = true
         }
         else
-            Vf_Recorder.stopLogging(storageNumber)
-    }
-    readonly property string currentSession: SessionState.currentSession
-    onCurrentSessionChanged: {
-        if(logging)
-            Vf_Recorder.stopLogging(storageNumber)
+            recorderEntity.PAR_StartStopRecording = false
     }
 
     property real timeDiffSecs : 0.0
@@ -55,27 +85,35 @@ Item {
     property real chartWidth: root.graphWidth * 0.8356
     property int maxVisibleXPoints: (xAxisTimeSpanSecs * 2) //per second 2 points
     property real singlePointWidth: chartWidth/maxVisibleXPoints
+    property string lastTimestamp: ""
 
-    property var jsonData : Vf_Recorder.latestStoredValues0
-    onJsonDataChanged: {
-        var timestamp = Object.keys(jsonData)[0]
-        var timeMs = jsonHelper.convertTimestampToMs(timestamp)
-        timeDiffSecs = (timeMs - Vf_Recorder.firstTimestamp0)/1000
-        var components = jsonHelper.getComponents(jsonData[timestamp])
+    function loadPoints(jsonData) {
+        var keys = Object.keys(jsonData).sort()
+        for (var i = 0; i < keys.length; i++) {
+            var timestamp = keys[i]
+            if (timestamp <= lastTimestamp)
+                continue
 
-        for(var v = 0 ; v <components.length; v++) {
-            let serie = chartViewPower.series(components[v])
-            if(serie !== null) {
-                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
-                if(loggingTimer.hasTriggered)
-                    removePoint(chartViewPower, components[v])
+            // Process only new timestamps
+            var timeMs = jsonHelper.convertTimestampToMs(timestamp)
+            timeDiffSecs = (timeMs - RecorderDataCache.firstTimestamp) / 1000
+            var components = jsonHelper.getComponents(jsonData[timestamp])
+
+            for (var v = 0; v < components.length; v++) {
+                let serie = chartViewPower.series(components[v])
+                if(serie !== null) {
+                    serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
+                   if(loggingTimer.hasTriggered)
+                       removePoint(chartViewPower, components[v])
+                }
+               serie = chartView.series(components[v])
+               if(serie !== null) {
+                   serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
+                   if(loggingTimer.hasTriggered)
+                       removePoint(chartView, components[v])
+                }
             }
-            serie = chartView.series(components[v])
-            if(serie !== null) {
-                serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
-                if(loggingTimer.hasTriggered)
-                    removePoint(chartView, components[v])
-            }
+            lastTimestamp = timestamp
         }
         calculateContentWidth()
     }
@@ -274,6 +312,11 @@ Item {
                     pinchedXMax = root.timeDiffSecs
                 }
             }
+            property bool ready: false
+            Component.onCompleted: {
+                ready = true
+                loadPoints(cachedData)
+            }
 
             ValueAxis {
                 id: axisYPower
@@ -414,6 +457,11 @@ Item {
                     pinchedXMin = 0
                     pinchedXMax = root.timeDiffSecs
                 }
+            }
+            property bool ready: false
+            Component.onCompleted: {
+                ready = true
+                loadPoints(cachedData)
             }
 
             ValueAxis {
