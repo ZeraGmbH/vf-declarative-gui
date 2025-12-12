@@ -21,11 +21,9 @@ target_link_libraries(vf-declarative-gui-lib-headless
     Qt5::Core
     VeinMeta::VfFiles
     simplecmdio-client
-    vf-recorder
     recorder-caching
     )
 
 set(SET_USB_STICK_PATH "/media/" CACHE STRING "Automount path")
 add_definitions(-DUSB_STICK_PATH="${SET_USB_STICK_PATH}")
-add_subdirectory(vf-recorder)
 add_subdirectory(recorder-caching)

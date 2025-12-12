@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>oneTimestampOneEntityOneComponentChangesTwice.json</file>
-        <file>oneTimestampOneEntityOneComponentChange.json</file>
-        <file>oneTimestampTwoEntitiesOneComponentChange.json</file>
-    </qresource>
-</RCC>
