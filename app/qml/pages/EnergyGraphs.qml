@@ -8,7 +8,6 @@ import SessionState 1.0
 import VfRecorderJsonHelper 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
-import Vf_Recorder 1.0
 import AxisAutoScaler 1.0
 import SingleValueScaler 1.0
 import ZeraThemeConfig 1.0
