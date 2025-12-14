@@ -180,6 +180,7 @@ BaseTabPage {
                         text: jsonParamInfo.Name
                         font.capitalization: Font.AllUppercase
                         font.pointSize: tabPointSize
+                        elide: Label.ElideNone
                         height: tabHeight
                         color: activeSlotItem.jsonState.errors.length === 0 ?
                                    ZTC.primaryTextColor : Material.color(Material.Red)

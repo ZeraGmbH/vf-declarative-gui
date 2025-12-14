@@ -16,6 +16,7 @@ TabButton {
         font.pointSize: tabPointSize
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+        elide: Label.ElideNone
         Material.foreground: {
             if (tabButton.checked)
                 return ZTC.accentColor
