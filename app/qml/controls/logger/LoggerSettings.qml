@@ -278,7 +278,7 @@ SettingsView {
             Item {
                 Layout.fillWidth: true
             }
-            Button {
+            ZButton {
                 id: newFileCancel
                 text: Z.tr("Cancel")
                 font.pointSize: pointSize
@@ -286,7 +286,7 @@ SettingsView {
                     newDbPopup.close()
                 }
             }
-            Button {
+            ZButton {
                 text: Z.tr("OK")
                 font.pointSize: pointSize
                 Layout.preferredWidth: newFileCancel.width
@@ -328,7 +328,7 @@ SettingsView {
             RowLayout { // OK/Cancel (more or less)
                 Layout.fillWidth: true
                 Item { Layout.fillWidth: true }
-                Button {
+                ZButton {
                     id: removeCancel
                     text: Z.tr("Cancel")
                     font.pointSize: pointSize
@@ -336,7 +336,7 @@ SettingsView {
                         removeDbPopup.close()
                     }
                 }
-                Button {
+                ZButton {
                     text: "<font color='red'>" + Z.tr("Delete") + "</font>"
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
@@ -452,7 +452,7 @@ SettingsView {
                                 Layout.fillHeight: true
                                 verticalAlignment: Label.AlignVCenter
                             }
-                            Button { // Eject / make current
+                            ZButton { // Eject / make current
                                 text: dbListDelegate.isCurrentDb ? FAQ.fa_eject : ""
                                 font.pointSize: pointSize * 1.25
                                 enabled: loggerEntity.LoggingEnabled === false
@@ -463,7 +463,7 @@ SettingsView {
                                     loggerEntity.DatabaseFile = nextDb
                                 }
                             }
-                            Button { // delete
+                            ZButton { // delete
                                 text: FAQ.fa_trash
                                 Layout.preferredWidth: rowHeight * 2
                                 Layout.fillHeight: true
@@ -488,7 +488,7 @@ SettingsView {
             RowLayout { // add new button (only)
                 height: root.rowHeight;
                 width: root.rowWidth;
-                Button {
+                ZButton {
                     text: "+"
                     enabled: loggerEntity.LoggingEnabled === false
                     font.pointSize: pointSize * 1.25
@@ -511,7 +511,7 @@ SettingsView {
                     Layout.fillHeight: true
                     verticalAlignment: Label.AlignVCenter
                 }
-                Button {
+                ZButton {
                     text: FAQ.fa_cogs
                     font.pointSize: root.pointSize
                     Layout.fillHeight: true

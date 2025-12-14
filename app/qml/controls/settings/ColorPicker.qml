@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import QtGraphicalEffects 1.0
 import ZeraTranslation 1.0
 import ZeraThemeConfig 1.0
+import ZeraComponents 1.0
 
 Popup {
   id: root
@@ -141,7 +142,7 @@ Popup {
         value: oldColor.a
       }
     }
-    Button {
+    ZButton {
       id: acceptButton
       text: Z.tr("Accept")
       anchors.left: parent.left
@@ -153,7 +154,7 @@ Popup {
         close();
       }
     }
-    Button {
+    ZButton {
       id: closeButton
       text: Z.tr("Close")
       anchors.right: parent.right

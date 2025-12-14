@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.14
 import FontAwesomeQml 1.0
 import ZeraTranslation 1.0
 import ZeraThemeConfig 1.0
+import ZeraComponents 1.0
 
 Loader {
     id: root
@@ -134,7 +135,7 @@ Loader {
             width: popup.width * 0.9
             active: false
         }
-        Button {
+        ZButton {
             anchors.horizontalCenter: parent.horizontalCenter
             y: parent.height * 4 / 5
             width: popup.width * 0.25

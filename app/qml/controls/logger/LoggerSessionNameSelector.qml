@@ -71,7 +71,7 @@ Item {
             RowLayout {
                 Layout.fillWidth: true
                 Item { Layout.fillWidth: true }
-                Button {
+                ZButton {
                     id: removeCancel
                     text: Z.tr("Cancel")
                     font.pointSize: pointSize
@@ -79,7 +79,7 @@ Item {
                         removeSessionPopup.close()
                     }
                 }
-                Button {
+                ZButton {
                     text: "<font color='red'>" + Z.tr("Delete") + "</font>"
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
@@ -157,7 +157,7 @@ Item {
                             text: modelData
                             Layout.fillWidth: true
                         }
-                        Button {
+                        ZButton {
                             Layout.preferredWidth: rowHeight * 2
                             Layout.fillHeight: true
                             font.pointSize: pointSize * 1.25
@@ -186,7 +186,7 @@ Item {
         }
     }
 
-    Button {
+    ZButton {
         id: buttonAdd
         // when coming from export it does not make sense to add a
         // new (=empty) session and export it
@@ -197,7 +197,7 @@ Item {
         anchors { left: parent.left; leftMargin: GC.standardTextHorizMargin; bottom: parent.bottom }
         onClicked: menuStackLayout.showSessionNew()
     }
-    Button {
+    ZButton {
         id: buttonBack
         visible: !goBackExport
         text: Z.tr("Back")

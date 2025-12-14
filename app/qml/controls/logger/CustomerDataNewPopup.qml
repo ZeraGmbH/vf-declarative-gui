@@ -91,7 +91,7 @@ Popup {
         Item {
             Layout.fillWidth: true
         }
-        Button {
+        ZButton {
             id: newFileCancel
             text: Z.tr("Cancel")
             font.pointSize: pointSize
@@ -99,7 +99,7 @@ Popup {
                 close()
             }
         }
-        Button {
+        ZButton {
             text: Z.tr("OK")
             font.pointSize: pointSize
             Layout.preferredWidth: newFileCancel.width

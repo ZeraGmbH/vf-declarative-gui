@@ -174,7 +174,7 @@ Item {
                 Item {
                     Layout.fillWidth: true
                 }
-                Button {
+                ZButton {
                     id: importCancel
                     text: Z.tr("Cancel")
                     font.pointSize: pointSize
@@ -182,7 +182,7 @@ Item {
                         importCustomerDataPopup.close()
                     }
                 }
-                Button {
+                ZButton {
                     text: Z.tr("OK")
                     font.pointSize: pointSize
                     Layout.preferredWidth: importCancel.width
@@ -220,7 +220,7 @@ Item {
             RowLayout {
                 Layout.fillWidth: true
                 Item { Layout.fillWidth: true }
-                Button {
+                ZButton {
                     id: removeCancel
                     text: Z.tr("Cancel")
                     font.pointSize: pointSize
@@ -228,7 +228,7 @@ Item {
                         removeFilePopup.close()
                     }
                 }
-                Button {
+                ZButton {
                     text: "<font color='red'>" + Z.tr("Delete") + "</font>"
                     font.pointSize: pointSize
                     Layout.preferredWidth: removeCancel.width
@@ -286,7 +286,7 @@ Item {
                         Layout.fillWidth: true
                         font.pointSize: pointSize
                     }
-                    Button {
+                    ZButton {
                         Layout.preferredWidth: rowHeight * 2
                         Layout.fillHeight: true
                         font.pointSize: pointSize * 1.25
@@ -315,7 +315,7 @@ Item {
                             }
                         }
                     }
-                    Button {
+                    ZButton {
                         Layout.preferredWidth: rowHeight * 2
                         Layout.fillHeight: true
                         font.pointSize: pointSize * 1.25
@@ -340,7 +340,7 @@ Item {
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.bottom: parent.bottom
         readonly property real buttonWidth: width * 0.18
-        Button {
+        ZButton {
             Layout.preferredWidth: buttonRow.buttonWidth / 2
             font.pointSize: pointSize * 1.25
             text: "+"
@@ -358,7 +358,7 @@ Item {
                 font.pointSize: pointSize
             }
         }
-        Button {
+        ZButton {
             Layout.preferredWidth: buttonRow.buttonWidth
             Layout.fillHeight: true
             text: Z.tr("Import")
@@ -368,7 +368,7 @@ Item {
                 importCustomerDataPopup.open()
             }
         }
-        Button {
+        ZButton {
             Layout.preferredWidth: buttonRow.buttonWidth
             Layout.fillHeight: true
             text: Z.tr("Export")

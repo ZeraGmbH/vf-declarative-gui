@@ -260,7 +260,7 @@ Item {
                 focus = false
             }
         }
-        Button {
+        ZButton {
             id: buttonSave
             anchors.right: buttonDelete.left
             text: FAQ.fa_save
@@ -272,7 +272,7 @@ Item {
             leftInset: topInset
             font.pointSize: pointSize
         }
-        Button {
+        ZButton {
             id: buttonDelete
             anchors.right: quickLoadSelectRect.right
             anchors.rightMargin: unitColumn.anchors.rightMargin
@@ -654,7 +654,7 @@ Item {
             text: showActual.isActive ? Z.tr("Actual") : Z.tr("Target")
             font.pointSize: pointSize * 0.8
         }
-        Button {
+        ZButton {
             id: showActual
             property bool isActive: false
             anchors.bottom: parent.bottom
@@ -679,7 +679,7 @@ Item {
             }
             onClicked: isActive = !isActive
         }
-        Button {
+        ZButton {
             id: phasorViewSettingsButton
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -932,7 +932,7 @@ Item {
         anchors.bottom: bottomRow.top
         height: lineHeight + (horizScrollbarOn ? scrollBarWidth : 0)
         readonly property int rightFreeSpace: 2
-        Button {
+        ZButton {
             width: buttonWidth
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -943,7 +943,7 @@ Item {
             text: "0°"
             onClicked: autoAngle(true, 0.0)
         }
-        Button {
+        ZButton {
             width: buttonWidth
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -954,7 +954,7 @@ Item {
             text: "180°"
             onClicked: autoAngle(true, 180.0)
         }
-        Button {
+        ZButton {
             width: buttonWidth
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -967,7 +967,7 @@ Item {
             //autoRepeatInterval: 150
             onReleased: autoAngle(false, -15) // onClicked is slow on repetitions
         }
-        Button {
+        ZButton {
             width: buttonWidth
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -1018,7 +1018,7 @@ Item {
             anchors.left: parent.left
             anchors.right: frequencyRow.left
             height: parent.height
-            Button {
+            ZButton {
                 text: Z.tr("On") + (paramsChangedAtPowerOn ? "*" : "")
                 width: buttonWidth
                 anchors.top: parent.top
@@ -1056,7 +1056,7 @@ Item {
                     symmetrize()
                 }
             }
-            Button {
+            ZButton {
                 text: Z.tr("Off")
                 width: buttonWidth
                 anchors.top: parent.top

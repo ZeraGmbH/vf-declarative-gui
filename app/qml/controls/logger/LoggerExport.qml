@@ -326,7 +326,7 @@ Item {
                     exportType = model[currentIndex].value // tried property binding but that did not work
                 }
             }
-            Button { // the export 'action' button
+            ZButton { // the export 'action' button
                 id: buttonExport
                 height: rowHeight
                 width: labelWidth
@@ -492,7 +492,7 @@ Item {
                             font.pointSize: tableTextPointSize
                             color: ZTC.primaryTextColor
                         }
-                        Button {
+                        ZButton {
                             id: deleteButton
                             anchors { top: parent.top; bottom: parent.bottom;
                                       right: contentSetsRect.right; rightMargin: parent.width * 0.01}
@@ -551,7 +551,7 @@ Item {
                     readonly property real buttonWidth: Math.max(removeCancel.implicitWidth, removeAccept.implicitWidth)
                     Layout.fillWidth: true
                     Item { Layout.fillWidth: true }
-                    Button {
+                    ZButton {
                         id: removeCancel
                         Layout.preferredWidth: rowButtons.buttonWidth
                         text: Z.tr("Cancel")
@@ -560,7 +560,7 @@ Item {
                             deleteTransactionPopup.close()
                         }
                     }
-                    Button {
+                    ZButton {
                         id: removeAccept
                         Layout.preferredWidth: rowButtons.buttonWidth
                         text: "<font color='red'>" + Z.tr("Delete") + "</font>"

@@ -29,7 +29,7 @@ ListView {
 
     readonly property real pointSize: height * 0.02
     readonly property int thdnToHorizontalCenterOffset: 60 // chart's legend has fixed distance
-    Button {
+    ZButton {
         id: settingsButton
         z: 1
         anchors.left: parent.left

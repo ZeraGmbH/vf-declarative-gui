@@ -36,7 +36,7 @@ Item {
         z: 1
         color: Material.backgroundColor
         visible: settingsPopup.settingsRowCount > 0
-        Button {
+        ZButton {
             id: settingsButton
             anchors.fill: parent
             anchors.topMargin: -4

@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import ZeraTranslation  1.0
 import AuthorizationRequestHandler 1.0
+import ZeraComponents 1.0
 import VeinEntity 1.0
 
 Popup {
@@ -40,7 +41,7 @@ Popup {
             wrapMode: Text.Wrap
         }
     }
-    Button {
+    ZButton {
         text: Z.tr("Cancel")
         font.pointSize: pointSize
         anchors {top: apiInfoPopupContent.bottom; right: apiInfoPopupContent.right }
@@ -48,7 +49,7 @@ Popup {
         onClicked: close()
     }
 
-    Button {
+    ZButton {
         text: Z.tr("Delete this Trust")
         font.pointSize: pointSize
         anchors {top: apiInfoPopupContent.bottom; left: apiInfoPopupContent.left }

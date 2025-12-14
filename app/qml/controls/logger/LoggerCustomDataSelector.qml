@@ -5,6 +5,7 @@ import QtQuick.Controls.Material.impl 2.12
 import QtQuick.Layouts 1.12
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
+import ZeraComponents 1.0
 
 Item {
     id: root
@@ -76,7 +77,7 @@ Item {
                 orientation: Qt.Vertical
                 policy: buttonList.vScrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
-            delegate: Button {
+            delegate: ZButton {
                 id: selectionButton
                 // User cannot disable content for current context:
                 readonly property bool unchangable: modelData === GC.getDefaultDbContentSet(GC.currentGuiContext)
@@ -142,7 +143,7 @@ Item {
             }
         }
     }
-    Button {
+    ZButton {
         text: Z.tr("Back")
         anchors.bottom: parent.bottom
         anchors.right: parent.right

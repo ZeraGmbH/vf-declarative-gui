@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AuthorizationRequestHandler 1.0
+import ZeraComponents 1.0
 
 Popup {
     id: authorizationPopup
@@ -77,7 +78,7 @@ Popup {
         }
     }
 
-    Button {
+    ZButton {
         text: Z.tr("Deny")
         font.pointSize: pointSize
         highlighted: true
@@ -87,7 +88,7 @@ Popup {
         }
         anchors {top: requestDialog.bottom; right: requestDialog.right }
     }
-    Button {
+    ZButton {
         text: Z.tr("Allow")
         font.pointSize: pointSize
         onClicked: {

@@ -28,7 +28,7 @@ Item {
     readonly property bool relativeView: GC.showFftTableAsRelative > 0;
     readonly property string relativeUnit: relativeView ? " %" : "";
 
-    Button {
+    ZButton {
         id: settingsButton
         z: 1
         anchors.left: parent.left

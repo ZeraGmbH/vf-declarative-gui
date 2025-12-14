@@ -90,7 +90,7 @@ Item {
                     regExp: sessionNameField.regExCurr
                 }
             }
-            Button {
+            ZButton {
                 text: "..."
                 font.pointSize: pointSize * 0.77
                 Layout.preferredWidth: rowHeight
@@ -107,7 +107,7 @@ Item {
                 text: Z.tr("Select customer data:")
                 font.pointSize: pointSize
             }
-            Button {
+            ZButton {
                 text: "+"
                 font.pointSize: pointSize * 0.77
                 Layout.preferredWidth: rowHeight
@@ -115,7 +115,7 @@ Item {
                     customerDataNewPopup.open()
                 }
             }
-            Button {
+            ZButton {
                 text: FAQ.fa_cogs
                 font.pointSize: pointSize //* 0.8
                 Layout.preferredWidth: rowHeight
@@ -176,7 +176,7 @@ Item {
                 id: spacerItem
                 Layout.fillWidth: true
             }
-            Button {
+            ZButton {
                 id: cancelButton
                 text: Z.tr("Cancel")
                 font.pointSize: root.pointSize
@@ -184,7 +184,7 @@ Item {
                     menuStackLayout.goBack()
                 }
             }
-            Button {
+            ZButton {
                 id: okButton
                 text: Z.tr("OK")
                 enabled: sessionNameField.text !== "" && sessionNameField.hasValidInput()

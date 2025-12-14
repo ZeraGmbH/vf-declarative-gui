@@ -106,7 +106,7 @@ Popup {
                 }
             }
 
-            Button {
+            ZButton {
                 text: "$CUST_ID"
                 visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
@@ -115,7 +115,7 @@ Popup {
                     macroButtonsRow.addToSessionName(text)
                 }
             }
-            Button {
+            ZButton {
                 text: "$CUST_NUM"
                 visible: VeinEntity.hasEntity("CustomerData")
                 focusPolicy: Qt.NoFocus
@@ -128,7 +128,7 @@ Popup {
                 visible: VeinEntity.hasEntity("CustomerData")
                 Layout.minimumWidth: 1
             }
-            Button {
+            ZButton {
                 text: "$YEAR"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
@@ -136,7 +136,7 @@ Popup {
                     macroButtonsRow.addToSessionName(text)
                 }
             }
-            Button {
+            ZButton {
                 text: "$MONTH"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
@@ -144,7 +144,7 @@ Popup {
                     macroButtonsRow.addToSessionName(text)
                 }
             }
-            Button {
+            ZButton {
                 text: "$DAY"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
@@ -156,7 +156,7 @@ Popup {
                 // spacer
                 Layout.minimumWidth: 1
             }
-            Button {
+            ZButton {
                 text: "$TIME"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
@@ -164,7 +164,7 @@ Popup {
                     macroButtonsRow.addToSessionName(text)
                 }
             }
-            Button {
+            ZButton {
                 text: "$SECONDS"
                 focusPolicy: Qt.NoFocus
                 font.pointSize: root.pointSize
@@ -179,7 +179,7 @@ Popup {
                 id: spacerItem
                 Layout.fillWidth: true
             }
-            Button {
+            ZButton {
                 id: cancelButton
                 text: Z.tr("Cancel")
                 font.pointSize: root.pointSize
@@ -187,7 +187,7 @@ Popup {
                     root.close()
                 }
             }
-            Button {
+            ZButton {
                 id: okButton
                 text: Z.tr("OK")
                 font.pointSize: root.pointSize

@@ -2,6 +2,7 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.14
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import ScreenCapture 1.0
 import QmlFileIO 1.0
 
@@ -79,7 +80,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
             }
-            Button {
+            ZButton {
                 text: "OK"
                 font.pointSize: pointSize
                 Layout.alignment: Qt.AlignHCenter

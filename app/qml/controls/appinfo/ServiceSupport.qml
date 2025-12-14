@@ -4,6 +4,7 @@ import ZeraTranslation  1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
 import UpdateWrapper 1.0
+import ZeraComponents 1.0
 import '../../controls'
 
 Item {
@@ -14,7 +15,7 @@ Item {
     WaitTransaction { id: waitPopup }
     DeviceVersions { id: devVersions }
 
-    Button {
+    ZButton {
         id: buttonStoreLog
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize
@@ -49,7 +50,7 @@ Item {
         }
     }
     UpdateWrapper {id: updateWrapper}
-    Button {
+    ZButton {
         id: buttonStartUpdate
         anchors {top: buttonStoreLog.bottom; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize

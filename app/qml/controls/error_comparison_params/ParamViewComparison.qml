@@ -144,7 +144,7 @@ Item {
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: parent.width/240
                 width: parent.width/12
-                sourceComponent: Button {
+                sourceComponent: ZButton {
                     text: FAQ.fa_cogs
                     font.pointSize: pointSize
                     Material.foreground: {
@@ -174,7 +174,7 @@ Item {
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: 10
                 width: parent.width/12
-                sourceComponent: Button {
+                sourceComponent: ZButton {
                     text: FAQ.fa_hand_point_right
                     font.pointSize: pointSize
                     enabled: (VeinEntity.getEntity("SEC1Module1").ACT_Energy !== 0)
@@ -192,7 +192,7 @@ Item {
                 anchors.verticalCenter: meterConstLabel.verticalCenter
                 anchors.rightMargin: 10
                 width: parent.width/12
-                sourceComponent: Button {
+                sourceComponent: ZButton {
                     text: FAQ.fa_hand_point_right
                     font.pointSize: pointSize
                     enabled: (VeinEntity.getEntity("SEC1Module2").ACT_Energy !== 0)

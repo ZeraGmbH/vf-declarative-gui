@@ -217,7 +217,7 @@ Item {
             // spacer
             Layout.fillWidth: true
         }
-        Button {
+        ZButton {
             id: cancelButton
             text: Z.tr("Cancel")
             font.pointSize: pointSize * largeScale
@@ -227,7 +227,7 @@ Item {
                 cancel()
             }
         }
-        Button {
+        ZButton {
             id: okButton
             text: Z.tr("OK")
             font.pointSize: pointSize * largeScale

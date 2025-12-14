@@ -40,7 +40,7 @@ Rectangle {
         // hide item below
         z: 1
         color: Material.backgroundColor
-        Button {
+        ZButton {
             id: settingsButton
             anchors.fill: parent
             anchors.topMargin: -4

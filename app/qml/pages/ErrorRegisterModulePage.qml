@@ -10,6 +10,7 @@ import FontAwesomeQml 1.0
 import AppStarterForWebGLSingleton 1.0
 import SessionState 1.0
 import ZeraFa 1.0
+import ZeraComponents 1.0
 import "../controls/error_comparison_common"
 import "../controls/error_comparison_params"
 
@@ -96,7 +97,7 @@ Item {
         Item {
             height: root.height*0.1
             width: root.width
-            Button {
+            ZButton {
                 id: startButton
                 text: Z.tr("Start")
                 font.pointSize: pointSize
@@ -156,7 +157,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.Wrap
                     }
-                    Button {
+                    ZButton {
                         text: Z.tr("Close")
                         font.pointSize: pointSize
                         Layout.alignment: Qt.AlignHCenter
@@ -166,7 +167,7 @@ Item {
                 }
             }
 
-            Button {
+            ZButton {
                 id: stopButton
                 text: Z.tr("Stop")
                 font.pointSize: pointSize
@@ -193,7 +194,7 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                sourceComponent: Button {
+                sourceComponent: ZButton {
                     id: graphicsWindow
                     text: FAQ.fa_chevron_up
                     font.pointSize: pointSize

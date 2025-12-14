@@ -19,7 +19,7 @@ import "../controls/settings"
 Item {
     id: root
 
-    Button {
+    ZButton {
         id: settingsButton
         z: 1
         anchors.left: parent.left

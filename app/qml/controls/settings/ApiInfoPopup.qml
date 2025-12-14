@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import ZeraTranslation  1.0
 import AppStarterForApi 1.0
+import ZeraComponents 1.0
 
 Popup {
     id: apiInfoPopup
@@ -39,7 +40,7 @@ Popup {
             text: cert
         }
 
-        Button {
+        ZButton {
             text: Z.tr("Cancel")
             font.pointSize: displayWindow.pointSize
             Layout.alignment: Qt.AlignRight;

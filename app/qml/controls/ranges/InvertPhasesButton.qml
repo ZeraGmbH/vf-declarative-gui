@@ -8,7 +8,7 @@ import ColorSettings 1.0
 import MeasChannelInfo 1.0
 import ZeraThemeConfig 1.0
 
-Button {
+ZButton {
     id: invertPhasesButton
     property bool visibility: true
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
@@ -72,13 +72,12 @@ Button {
                 }
             }
         }
-        Button {
+        ZButton {
             id: invertCloseButton
             text: Z.tr("Close")
             font.pointSize: root.pointSize
             onClicked: popup.close()
             anchors {top: grid.bottom; right: grid.right;}
-
         }
     }
 }

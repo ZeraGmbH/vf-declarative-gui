@@ -352,16 +352,16 @@ Popup {
             }
         }
 
-Button{
-    id: defaultBut
-    text: FA.icon(FA.fa_undo)
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
-    onPressed: {
-        setDefault()
+    ZButton {
+        id: defaultBut
+        text: FA.icon(FA.fa_undo)
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        onPressed: {
+            setDefault()
+        }
     }
-}
-    Button{
+    ZButton {
         id: closeBut
         text: "close"
         anchors.bottom: parent.bottom

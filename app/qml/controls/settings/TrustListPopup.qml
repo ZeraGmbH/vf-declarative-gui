@@ -6,6 +6,7 @@ import VeinEntity 1.0
 import GlobalConfig 1.0
 import FontAwesomeQml 1.0
 import AuthorizationRequestHandler 1.0
+import ZeraComponents 1.0
 
 Popup {
     id: trustListPopup
@@ -53,7 +54,7 @@ Popup {
                     Component {
                         RowLayout {
                             visible: apiTrustEntries.count > 0
-                            Button {
+                            ZButton {
                                 text: FAQ.fa_trash
                                 font.pointSize: pointSize * 1.4
                                 background: Rectangle {
@@ -79,7 +80,7 @@ Popup {
             }
         }
 
-        Button {
+        ZButton {
             text: Z.tr("Cancel")
             font.pointSize: pointSize
             Layout.alignment: Qt.AlignRight

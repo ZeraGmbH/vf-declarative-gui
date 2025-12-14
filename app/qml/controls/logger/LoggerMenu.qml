@@ -7,6 +7,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import FontAwesomeQml 1.0
 import '..'
 
@@ -282,7 +283,7 @@ Item {
                         return isEnabled
                     }*/
                 }
-                Button {
+                ZButton {
                     id: dynButton
                     anchors.right: parent.right
                     anchors.top: parent.top

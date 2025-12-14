@@ -3,8 +3,9 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import ZeraTranslation 1.0
 import VeinEntity 1.0
+import ZeraComponents 1.0
 
-Button {
+ZButton {
     id: overloadButton
     text: Z.tr("Overload")
     property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")

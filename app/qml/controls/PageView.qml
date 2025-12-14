@@ -39,7 +39,7 @@ Item {
         }
     }
 
-    Button {
+    ZButton {
         font.pointSize: 18
         text: FAQ.fa_list_alt
         anchors.right: gridViewButton.left
@@ -48,7 +48,7 @@ Item {
         enabled: root.gridViewEnabled === true
         onClicked: root.gridViewEnabled = false;
     }
-    Button {
+    ZButton {
         id: gridViewButton
         font.pointSize: 18
         text: FAQ.fa_circle_notch
@@ -85,7 +85,7 @@ Item {
         active: root.visible === true && root.model !== undefined;
     }
 
-    Button {
+    ZButton {
         height: root.height * 0.125
         width: root.width * 0.25
         font.pointSize: root.height * 0.04

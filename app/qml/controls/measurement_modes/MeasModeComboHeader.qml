@@ -85,7 +85,7 @@ Rectangle {
             font.pointSize: pointSize
         }
     }
-    Button {
+    ZButton {
         id: editNfButton
         text: FAQ.fa_cogs
         Material.theme: Material.Light
@@ -125,7 +125,7 @@ Rectangle {
                 id: buttonRow
                 spacing: 40
                 Layout.alignment: Qt.AlignHCenter
-                Button {
+                ZButton {
                     text: "60 kHz";
                     font.pointSize: root.pointSize * 1.8
                     font.capitalization: Font.MixedCase
@@ -135,7 +135,7 @@ Rectangle {
                         setNominalFrequencyPopup.close()
                     }
                 }
-                Button {
+                ZButton {
                     text: "200 kHz";
                     font.pointSize: root.pointSize * 1.8
                     font.capitalization: Font.MixedCase
@@ -145,7 +145,7 @@ Rectangle {
                         setNominalFrequencyPopup.close()
                     }
                 }
-                Button {
+                ZButton {
                     text: Z.tr("Close")
                     font.pointSize: root.pointSize * 1.8
                     highlighted: false

@@ -169,7 +169,7 @@ SettingsView {
                 verticalAlignment: Label.AlignVCenter
                 horizontalAlignment: Label.AlignLeft
             }
-            Button {
+            ZButton {
                 id: openTimeSetPopupButton
                 text: FAQ.fa_cogs
                 font.pointSize: pointSize * 1.2
@@ -247,7 +247,7 @@ SettingsView {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
-            Button {
+            ZButton {
                 id: themeSelectButton
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
@@ -271,7 +271,7 @@ SettingsView {
                 orientation: ListView.Horizontal
                 layoutDirection: "RightToLeft"
                 spacing: 2
-                delegate: Button {
+                delegate: ZButton {
                     id: rButton
                     width: colorRow.width * 0.085
                     height: rowHeight
@@ -292,7 +292,7 @@ SettingsView {
                     }
                 }
             }
-            Button {
+            ZButton {
                 Layout.alignment: Qt.AlignVCenter
                 Layout.fillHeight: true
                 Layout.preferredWidth: root.rowHeight * 0.7
@@ -368,7 +368,7 @@ SettingsView {
                     Layout.topMargin: parent.height * 0.1
                     Layout.bottomMargin: Layout.topMargin
                 }
-                Button {
+                ZButton {
                     id: apiTrustThumb
                     text: FAQ.fa_info_circle
                     Layout.fillHeight: true
@@ -379,7 +379,7 @@ SettingsView {
                         apiInfoPopup.item.open()
                     }
                 }
-                Button {
+                ZButton {
                     id: apiTrustList
                     text: FAQ.fa_cogs
                     Layout.fillHeight: true

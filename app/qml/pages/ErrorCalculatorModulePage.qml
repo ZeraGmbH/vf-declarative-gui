@@ -122,7 +122,7 @@ Rectangle {
         Item {
             height: root.height*0.1
             width: root.width
-            Button {
+            ZButton {
                 id: buttonStart
                 text: Z.tr("Start")
                 font.pointSize: pointSize
@@ -150,7 +150,7 @@ Rectangle {
                 anchors.right: buttonStop.left
                 anchors.leftMargin: root.width * 0.155
                 height: parent.height
-                Button {
+                ZButton {
                     id: continuousMeasWindow
                     height: parent.height
                     width: root.width * 0.1
@@ -181,7 +181,7 @@ Rectangle {
                     }
                 }
             }
-            Button {
+            ZButton {
                 id: buttonStop
                 text: Z.tr("Stop")
                 font.pointSize: pointSize

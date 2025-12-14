@@ -3,6 +3,7 @@ import QtQuick.Controls 2.14
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
 import QmlFileIO 1.0
+import ZeraComponents 1.0
 
 Item {
     id: splashItem
@@ -26,7 +27,7 @@ Item {
         width: height
         anchors.bottomMargin: height
     }
-    Button {
+    ZButton {
         visible: !safeDelay.running && !splashItem.firmwareUpdateRunning
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom

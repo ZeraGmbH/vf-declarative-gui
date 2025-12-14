@@ -10,6 +10,7 @@ import ZeraTranslation  1.0
 import FontAwesomeQml 1.0
 import SlowMachineSettingsHelper 1.0
 import ZeraThemeConfig 1.0
+import ZeraComponents 1.0
 
 Loader {
     id: root
@@ -156,7 +157,7 @@ Loader {
                 }
             }
         }
-        Button {
+        ZButton {
             text: FAQ.fa_undo
             font.pointSize: popup.labelPointSize
             anchors.right: parent.right
