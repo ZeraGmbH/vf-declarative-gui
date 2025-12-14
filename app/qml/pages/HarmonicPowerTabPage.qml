@@ -1,7 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import GlobalConfig 1.0
-import QtQuick.Controls 2.4
-import ZeraTranslation  1.0
+import ZeraTranslation 1.0
+import ZeraComponents 1.0
 import "../controls/harmonic_power_module"
 
 BaseTabPage {
@@ -10,7 +11,7 @@ BaseTabPage {
     // TabButtons
     Component {
         id: tabChart
-        TabButton {
+        ZTabButton {
             text: Z.tr("Harmonic power table")
             font.pointSize: tabPointSize
             height: tabHeight
@@ -18,7 +19,7 @@ BaseTabPage {
     }
     Component {
         id: tabEnergy
-        TabButton {
+        ZTabButton {
             text: Z.tr("Harmonic power chart")
             font.pointSize: tabPointSize
             height: tabHeight

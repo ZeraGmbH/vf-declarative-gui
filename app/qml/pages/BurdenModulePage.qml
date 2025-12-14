@@ -24,7 +24,7 @@ BaseTabPage {
     // TabButtons
     Component {
         id: tabVoltage
-        TabButton {
+        ZTabButton {
             text: Z.tr("Voltage Burden")
             font.pointSize: tabPointSize
             height: tabHeight
@@ -32,7 +32,7 @@ BaseTabPage {
     }
     Component {
         id: tabCurrent
-        TabButton {
+        ZTabButton {
             text: Z.tr("Current Burden")
             font.pointSize: tabPointSize
             height: tabHeight

@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 
 BaseTabPage {
     id: root
@@ -12,7 +13,7 @@ BaseTabPage {
     // TabButtons
     Component {
         id: tabTable
-        TabButton {
+        ZTabButton {
             text:Z.tr("Actual values DC")
             font.pointSize: tabPointSize
             height: tabHeight

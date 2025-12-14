@@ -4,6 +4,7 @@ import GlobalConfig 1.0
 import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import anmsettings 1.0
 import "../../pages"
 
@@ -22,7 +23,7 @@ BaseTabPage {
     // Tabs
     Component {
         id: appTab
-        TabButton {
+        ZTabButton {
             text: Z.tr("Application")
             font.pointSize: root.tabPointSize
             height: root.tabHeight
@@ -30,7 +31,7 @@ BaseTabPage {
     }
     Component{
         id: devTab
-        TabButton {
+        ZTabButton {
             text: Z.tr("Device")
             font.pointSize: root.tabPointSize
             height: root.tabHeight
@@ -38,7 +39,7 @@ BaseTabPage {
     }
     Component{
         id: netTab
-        TabButton {
+        ZTabButton {
             text: Z.tr("Network")
             font.pointSize: root.tabPointSize
             height: root.tabHeight
@@ -46,7 +47,7 @@ BaseTabPage {
     }
     Component{
         id: sensorTab
-        TabButton {
+        ZTabButton {
             text: Z.tr("BLE sensor")
             font.pointSize: root.tabPointSize
             height: root.tabHeight

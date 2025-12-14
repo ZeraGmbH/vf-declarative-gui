@@ -7,6 +7,7 @@ import GlobalConfig 1.0
 import AdjustmentState 1.0
 import FontAwesomeQml 1.0
 import ZeraThemeConfig 1.0
+import ZeraComponents 1.0
 import "../../pages"
 
 BaseTabPage {
@@ -24,7 +25,7 @@ BaseTabPage {
     // TabButtons
     Component {
         id: tabStatus
-        TabButton {
+        ZTabButton {
             id: statusTabButton
             font.pointSize: tabPointSize
             height: tabHeight
@@ -49,7 +50,7 @@ BaseTabPage {
     }
     Component {
         id: tabServiceSupport
-        TabButton {
+        ZTabButton {
             font.pointSize: tabPointSize
             height: tabHeight
             text: FAQ.fa_wrench + " " + Z.tr("Service Support")
@@ -57,7 +58,7 @@ BaseTabPage {
     }
     Component {
         id: tabLicense
-        TabButton {
+        ZTabButton {
             font.pointSize: tabPointSize
             height: tabHeight
             text: "§"+Z.tr("License information")

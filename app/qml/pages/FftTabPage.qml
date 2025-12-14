@@ -3,6 +3,7 @@ import GlobalConfig 1.0
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.14
 import ZeraTranslation  1.0
+import ZeraComponents 1.0
 import VeinEntity 1.0
 import AppStarterForWebGLSingleton 1.0
 import "../controls/fft_module"
@@ -15,7 +16,7 @@ BaseTabPage {
     // TabButtons
     Component {
         id: tabChart
-        TabButton {
+        ZTabButton {
             text: Z.tr("Harmonic table")
             font.pointSize: tabPointSize
             height: tabHeight
@@ -23,7 +24,7 @@ BaseTabPage {
     }
     Component {
         id: tabEnergy
-        TabButton {
+        ZTabButton {
             text: Z.tr("Harmonic chart")
             font.pointSize: tabPointSize
             height: tabHeight
@@ -31,7 +32,7 @@ BaseTabPage {
     }
     Component {
         id: tabOsc
-        TabButton {
+        ZTabButton {
             text: Z.tr("Oscilloscope plot")
             font.pointSize: tabPointSize
             height: tabHeight

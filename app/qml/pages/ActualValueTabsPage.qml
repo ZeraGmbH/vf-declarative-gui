@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
+import ZeraComponents 1.0
 
 BaseTabPage {
     id: root
@@ -12,7 +13,7 @@ BaseTabPage {
     // TabButtons
     Component {
         id: tabTable
-        TabButton {
+        ZTabButton {
             text:Z.tr("Actual values")
             font.pointSize: tabPointSize
             height: tabHeight
@@ -20,7 +21,7 @@ BaseTabPage {
     }
     Component {
         id: tabVector
-        TabButton {
+        ZTabButton {
             text: Z.tr("Vector diagram")
             font.pointSize: tabPointSize
             height: tabHeight
@@ -28,7 +29,7 @@ BaseTabPage {
     }
     Component {
         id: tabPower
-        TabButton {
+        ZTabButton {
             text: Z.tr("Power values")
             font.pointSize: tabPointSize
             height: tabHeight
@@ -36,7 +37,7 @@ BaseTabPage {
     }
     Component {
         id: tabRms
-        TabButton {
+        ZTabButton {
             text: Z.tr("RMS values")
             font.pointSize: tabPointSize
             height: tabHeight
