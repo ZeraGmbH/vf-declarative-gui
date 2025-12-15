@@ -14,6 +14,7 @@ ListView {
         readonly property real headerHeight: height * 0.2
         readonly property real headerComboMargin: headerHeight * 0.3
         readonly property real comboHeight: height * 0.6
+        readonly property int power1ModuleIdx: PwrModVeinGetter.powerModulesHandledInGUI.indexOf(modelData)
         Label {
             id: mmodeLabel
             height: mmodeEntry.headerHeight
@@ -22,8 +23,8 @@ ListView {
             verticalAlignment: Label.AlignVCenter
             font.pointSize: pointSize
             text: {
-                let availTypes = PwrModVeinGetter.getPowerModuleEntity(index).INF_ModeTypes
-                let currentType = PwrModVeinGetter.getPowerModuleEntity(index).ACT_PowerDisplayName
+                let availTypes = PwrModVeinGetter.getPowerModuleEntity(mmodeEntry.power1ModuleIdx).INF_ModeTypes
+                let currentType = PwrModVeinGetter.getPowerModuleEntity(mmodeEntry.power1ModuleIdx).ACT_PowerDisplayName
                 let colorPrefix = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>"
                 let colorPostfix = "</font>"
                 let labelText = availTypes.join("")
@@ -48,7 +49,7 @@ ListView {
             anchors.top: mmodeLabel.bottom
             anchors.topMargin: mmodeEntry.headerComboMargin
             height: mmodeEntry.comboHeight
-            power1ModuleIdx: index
+            power1ModuleIdx: mmodeEntry.power1ModuleIdx
             pointSize: root.pointSize
         }
     }

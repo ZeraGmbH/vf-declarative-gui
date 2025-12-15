@@ -18,7 +18,7 @@ Item {
     anchors.fill: parent
     anchors.margins: 8
 
-    readonly property bool showMeasModes: PwrModVeinGetter.canSessionChangeMMode
+    readonly property bool showMeasModes: !SessionState.refSession
     readonly property bool showRatioLines: !SessionState.refSession
     readonly property bool enableRangeAutomaticAndGrouping: !SessionState.refSession
     readonly property int rowCount: 10

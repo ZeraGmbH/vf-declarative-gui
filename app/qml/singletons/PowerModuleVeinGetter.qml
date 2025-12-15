@@ -43,18 +43,6 @@ Item {
         return avail
     }
 
-    readonly property bool canSessionChangeMMode: {
-        let canChange = false
-        for(let i=0; i<powerModuleIntrospectionAvailable.length; i++) {
-            let mmodes = powerModuleIntrospectionAvailable[i].ComponentInfo.PAR_MeasuringMode.Validation.Data
-            if(mmodes.length > 1) {
-                canChange = true
-                break
-            }
-        }
-        return canChange
-    }
-
     function getPowerModuleEntity(powerModuleNo) {
         let retVal
         let entityName = powerModulesHandledInGUI[powerModuleNo]
