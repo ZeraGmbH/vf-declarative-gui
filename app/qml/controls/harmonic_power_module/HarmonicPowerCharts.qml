@@ -74,7 +74,6 @@ Item {
             ScrollBar.vertical: vBar
             snapMode: ListView.SnapToItem
             boundsBehavior: Flickable.OvershootBounds
-            clip: true
             PinchArea {
                 id: pinchArea
                 anchors.fill: parent
