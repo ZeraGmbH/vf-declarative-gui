@@ -46,12 +46,19 @@ ToolButton {
             }
         }
     }
-    NumberAnimation on chargeAnimationPortion {
+    Timer {
+        id: chargeAnimationTimer
+        repeat: true
+        interval: 1000
         running: accuState.accuCharging
-        loops: Animation.Infinite
-        from: 0
-        to: 1
-        duration: 2500
+        property int iconState: 0
+        onTriggered: {
+            iconState++
+            const maxState = 4
+            if(iconState >= maxState)
+                iconState = 0
+            chargeAnimationPortion = iconState / (maxState-1)
+        }
     }
     Timer {
         id: lowAccuBlinker
