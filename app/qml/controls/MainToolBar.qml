@@ -18,6 +18,7 @@ ToolBar {
 
     Material.accent: ZTC.accentColorMoreContrast
     Material.foreground: ZTC.defaultForeground // required since dark/light theme
+    readonly property real standardButtonWidth: root.width / 16
 
     readonly property bool entityInitializationDone: GC.entityInitializationDone
     onEntityInitializationDoneChanged: {
@@ -73,7 +74,7 @@ ToolBar {
 
         ToolButton {
             id: pageSelectorButton
-            implicitHeight: parent.height
+            Layout.fillHeight: true;
             font.pointSize: pointSize
             text: FAQ.fa_columns
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
@@ -85,8 +86,8 @@ ToolBar {
         }
         ToolButton {
             id: rangeButton
-            implicitHeight: parent.height
-            implicitWidth: rangeIndicator.width
+            Layout.fillHeight: true;
+            Layout.preferredWidth: rangeIndicator.width
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutRangeIndex
             enabled: root.entityInitializationDone === true
             onClicked: {
@@ -112,8 +113,8 @@ ToolBar {
         }
         ToolButton {
             id: rotaryFieldIndicator
-            implicitHeight: parent.height
-            implicitWidth: height*1.5
+            Layout.fillHeight: true;
+            Layout.preferredWidth: height*1.5
             highlighted: false;
             enabled: false
             visible: rotaryFieldIndicatorLoader.active
@@ -136,7 +137,7 @@ ToolBar {
         }
         ToolButton {
             id: pauseButton
-            implicitHeight: parent.height
+            Layout.fillHeight: true;
             font.pointSize: pointSize * 0.77
             text: root.measurementPaused ? FAQ.fa_play : FAQ.fa_pause
             enabled: root.entityInitializationDone === true
@@ -148,8 +149,8 @@ ToolBar {
         }
         ToolButton {
             id: logStartButton
-            implicitHeight: parent.height
-            implicitWidth: root.width/16
+            Layout.fillHeight: true;
+            Layout.preferredWidth: standardButtonWidth
             font.pointSize: pointSize
             text: FAQ.fa_download
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
@@ -214,8 +215,8 @@ ToolBar {
         }
         ToolButton {
             id: settingsButton
-            implicitHeight: parent.height
-            implicitWidth: root.width/16
+            Layout.fillHeight: true;
+            Layout.preferredWidth: standardButtonWidth
             font.pointSize: pointSize
             text: FAQ.fa_cogs
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
@@ -236,13 +237,13 @@ ToolBar {
             }
         }
         AccuToolButton {
-            implicitHeight: parent.height
-            implicitWidth: parent.width / 22
+            Layout.fillHeight: true;
+            Layout.preferredWidth: standardButtonWidth * 0.725
         }
         ToolButton {
             id: infoButton
-            implicitHeight: parent.height
-            implicitWidth: root.width/16
+            Layout.fillHeight: true;
+            Layout.preferredWidth: standardButtonWidth
             font.pointSize: pointSize
             text: FAQ.fa_info_circle
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
