@@ -6,6 +6,7 @@ import FontAwesomeQml 1.0
 import ZeraThemeConfig 1.0
 
 ToolButton {
+    id: accuToolButton
     enabled: false
     highlighted: false;
     visible: accuState.accuAvail
@@ -35,15 +36,12 @@ ToolButton {
         }
         verticalAlignment: Text.AlignVCenter
         text: FAQ.fa_battery_empty
-        Item {
-            anchors.fill: parent
+        Rectangle {
+            anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
             anchors { topMargin: parent.height * 0.35; bottomMargin: parent.height * 0.315 }
-            anchors { leftMargin: parent.width * 0.1; rightMargin: parent.width * 0.175 }
-            Rectangle {
-                color: battery.color
-                anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
-                width: parent.width * displayedVal / 100
-            }
+            anchors { leftMargin: parent.width * 0.1 }
+            color: battery.color
+            width: parent.width * 0.735 * displayedVal / 100
         }
     }
     Timer {
