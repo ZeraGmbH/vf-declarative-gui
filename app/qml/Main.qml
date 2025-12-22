@@ -219,9 +219,8 @@ Window {
 
         MainToolBar {
             id: controlsBar
-            height: parent.height/16
-            anchors.bottom: parent.bottom
-            width: displayWindow.width
+            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+            height: parent.height / 16
 
             layoutStackObj: layoutStack
             loggerSettingsStackObj: loggerSettingsLoader.item
