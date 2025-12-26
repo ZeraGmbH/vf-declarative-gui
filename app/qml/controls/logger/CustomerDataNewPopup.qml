@@ -1,7 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.0
+import QtQuick 2.14
+import QtQuick.Layouts 1.14
+import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
@@ -56,7 +56,7 @@ Popup {
         // No ZLineEdit due to different RETURN/ESC/redBackground handling
         TextField {
             id: filenameField
-            validator: RegExpValidator { regExp: /\b[_a-z0-9][_\-a-z0-9]*\b/ }
+            validator: RegularExpressionValidator { regularExpression: /\b[_a-z0-9][_\-a-z0-9]*\b/ }
             font.pointSize: pointSize
             height: rowHeight
             bottomPadding: GC.standardTextBottomMargin

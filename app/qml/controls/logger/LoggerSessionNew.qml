@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
+import QtQuick 2.14
+import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.14
+import QtQuick.Layouts 1.14
 import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
@@ -86,8 +86,8 @@ Item {
                 property var regExCurr: {
                         return /\b[_\- a-zA-Z0-9]*\b/
                 }
-                validator: RegExpValidator {
-                    regExp: sessionNameField.regExCurr
+                validator: RegularExpressionValidator {
+                    regularExpression: sessionNameField.regExCurr
                 }
             }
             ZButton {
