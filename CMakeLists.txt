@@ -12,8 +12,10 @@ include(FeatureSummary)
 set(QT_MAJOR_VER "5" CACHE STRING "Qt major version")
 set(QTX "Qt${QT_MAJOR_VER}")
 
-find_package(${QTX} COMPONENTS Core DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
-if("${QT_MAJOR_VER}" STREQUAL "5")
+if("${QT_MAJOR_VER}" STREQUAL "6")
+    find_package(Qt6 COMPONENTS Core Core5Compat DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
+else()
+    find_package(Qt5 COMPONENTS Core DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
     find_package(Qt5QuickCompiler CONFIG REQUIRED)
 endif()
 

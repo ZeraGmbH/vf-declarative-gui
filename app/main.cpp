@@ -77,6 +77,16 @@ RecorderCaching *getRecorderCache(QQmlEngine *engine, QJSEngine *scriptEngine)
 static void registerQmlInt()
 {
     qInfo("Register internal QML dependencies...");
+
+    // Add a dummy component so QML can import both Qt6 / Qt5 GraphicalEffects variants.
+    // This has to go once we get rid of Qt5. Stolen from
+    // https://stackoverflow.com/questions/69602129/use-qt5compat-graphicaleffects-in-qt6-and-qtgraphicaleffects-in-qt5-in-the-same
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    qmlRegisterModule("QtGraphicalEffects", 1, 14);
+#else
+    qmlRegisterModule("Qt5Compat.GraphicalEffects", 1, 0);
+#endif
+
     QmlAppStarterForWebGL::registerQMLSingleton();
     QmlAppStarterForWebserver::registerQMLSingleton();
     QmlAppStarterForApi::registerQMLSingleton();
