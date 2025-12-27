@@ -13,7 +13,7 @@ add_library(recorder-caching STATIC
 
 target_link_libraries(recorder-caching
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
 )
 
 target_include_directories(recorder-caching

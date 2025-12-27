@@ -27,11 +27,11 @@ target_include_directories(vf-declarative-gui-lib
 
 target_link_libraries(vf-declarative-gui-lib
     PUBLIC
-    Qt5::Core
-    Qt5::Quick
-    Qt5::QuickControls2
-    Qt5::DBus
-    Qt5::Xml
+    ${QTX}::Core
+    ${QTX}::Quick
+    ${QTX}::QuickControls2
+    ${QTX}::DBus
+    ${QTX}::Xml
     vf-declarative-gui-lib-headless
     Zera::VfEvent
     Zera::VfComponent

@@ -1,5 +1,6 @@
 #include "actualvaluemodelbase.h"
 #include "vfcomponenteventdispatcher.h"
+#include <QJsonValue>
 #include <QJsonDocument>
 
 ActualValueModelBase::ActualValueModelBase(bool withAuxColumsInAutoScale) :

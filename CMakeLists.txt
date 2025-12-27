@@ -9,10 +9,16 @@ set(CMAKE_AUTORCC ON)
 
 include(FeatureSummary)
 
-find_package(Qt5 "5.12.0" COMPONENTS Core DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
-find_package(Qt5QuickCompiler CONFIG REQUIRED)
+set(QT_MAJOR_VER "5" CACHE STRING "Qt major version")
+set(QTX "Qt${QT_MAJOR_VER}")
+
+find_package(${QTX} COMPONENTS Core DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
+if("${QT_MAJOR_VER}" STREQUAL "5")
+    find_package(Qt5QuickCompiler CONFIG REQUIRED)
+endif()
+
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(QWT REQUIRED Qt5Qwt6)
+pkg_check_modules(QWT REQUIRED ${QTX}Qwt6)
 
 find_package(FontAweSomeQml REQUIRED)
 find_package(VeinFramework REQUIRED)

@@ -1,7 +1,12 @@
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    qt5_add_resources(RESOURCES appdata.qrc)
+
+if("${QT_MAJOR_VER}" STREQUAL "6")
+    qt6_add_resources(RESOURCES appdata.qrc)
 else()
-    qtquick_compiler_add_resources(RESOURCES appdata.qrc)
+    if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+        qt5_add_resources(RESOURCES appdata.qrc)
+    else()
+        qtquick_compiler_add_resources(RESOURCES appdata.qrc)
+    endif()
 endif()
 
 add_executable(vf-declarative-gui

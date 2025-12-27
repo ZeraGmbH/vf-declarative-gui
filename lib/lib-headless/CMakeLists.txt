@@ -18,7 +18,7 @@ target_include_directories(vf-declarative-gui-lib-headless
 
 target_link_libraries(vf-declarative-gui-lib-headless
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
     VeinMeta::VfFiles
     simplecmdio-client
     recorder-caching
