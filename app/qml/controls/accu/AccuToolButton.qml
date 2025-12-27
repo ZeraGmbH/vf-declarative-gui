@@ -20,7 +20,8 @@ ToolButton {
     opacity: !accuLow || lowAccuBlinker.show ? 1 : 0
     AccumulatorState { id: accuState }
     Text {
-        id: battery
+        anchors.fill: parent
+        id: accuIcon
         font.family: FA.old
         font.pointSize: pointSize * 0.9
         color: {
@@ -38,10 +39,10 @@ ToolButton {
         text: FAQ.fa_battery_empty
         Rectangle {
             anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
-            anchors { topMargin: parent.height * 0.35; bottomMargin: parent.height * 0.315 }
-            anchors { leftMargin: parent.width * 0.1 }
-            color: battery.color
-            width: parent.width * 0.735 * displayedVal / 100
+            anchors { topMargin: accuIcon.height * 0.35; bottomMargin: accuIcon.height * 0.35 }
+            anchors { leftMargin: accuIcon.width * 0.08; rightMargin: accuIcon.width * 0.08 }
+            color: accuIcon.color
+            width: accuIcon.width * 0.585 * displayedVal / 100
         }
     }
     Timer {
