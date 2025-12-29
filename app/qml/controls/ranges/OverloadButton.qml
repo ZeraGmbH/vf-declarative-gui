@@ -13,9 +13,5 @@ ZButton {
     onClicked: {
         rangeModule.PAR_Overload = 0
     }
-    background: Rectangle {
-        radius: 2
-        height: parent.height
-        color: rangeModule.PAR_Overload ? "darkorange" : Material.switchDisabledHandleColor
-    }
+    Material.background: rangeModule.PAR_Overload ? "darkorange" : Material.buttonDisabledColor
 }
