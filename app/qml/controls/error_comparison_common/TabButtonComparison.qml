@@ -13,9 +13,13 @@ TabButton {
 
     EntityErrorMeasHelper { id: errMeasHelper }
 
+    TabButton {
+        id: qt5Qt6MaterialPropertyGetter
+        visible: false
+    }
     contentItem: Label {
         text: baseLabel + errMeasHelper.comparisonProgress(entity, running && !checked)
-        font.capitalization: Font.AllUppercase
+        font.capitalization: qt5Qt6MaterialPropertyGetter.font.capitalization
         font.pointSize: tabPointSize
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
