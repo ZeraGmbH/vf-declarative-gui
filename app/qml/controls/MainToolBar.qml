@@ -74,10 +74,11 @@ ToolBar {
 
         ToolButton {
             id: pageSelectorButton
-            Layout.fillHeight: true;
+            Layout.fillHeight: true
             font.pointSize: pointSize
             text: FAQ.fa_columns
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
+            Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
             enabled: root.entityInitializationDone === true
             onClicked: {
                 goHomeToPages()
@@ -137,11 +138,12 @@ ToolBar {
         }
         ToolButton {
             id: pauseButton
-            Layout.fillHeight: true;
+            Layout.fillHeight: true
             font.pointSize: pointSize * 0.77
             text: root.measurementPaused ? FAQ.fa_play : FAQ.fa_pause
             enabled: root.entityInitializationDone === true
             highlighted: root.measurementPaused
+            Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
             onClicked: {
                 //pause button
                 VeinEntity.getEntity("_System").ModulesPaused = !root.measurementPaused;
@@ -154,6 +156,7 @@ ToolBar {
             font.pointSize: pointSize
             text: FAQ.fa_download
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
+            Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
             enabled: root.entityInitializationDone === true
             visible: root.entityInitializationDone === true && VeinEntity.hasEntity("_LoggingSystem")
             AnimationActivity {
@@ -220,6 +223,7 @@ ToolBar {
             font.pointSize: pointSize
             text: FAQ.fa_cogs
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
+            Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
             onClicked: {
                 // already in Settings?
                 if(root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex) {
