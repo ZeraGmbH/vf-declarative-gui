@@ -8,10 +8,10 @@ import PowerModuleVeinGetter 1.0
 import ZeraThemeConfig 1.0
 
 Loader {
-    width: parent.width
     sourceComponent:  Rectangle {
         color: Material.backgroundColor
         border.color: ZTC.dividerColor
+        width: root.width
         height: root.rowHeight
         enabled: logicalParent.canStartMeasurement
         Label {

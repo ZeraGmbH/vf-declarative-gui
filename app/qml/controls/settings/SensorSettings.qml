@@ -85,7 +85,6 @@ SettingsView {
         }
 
         Loader {
-            width: parent.width
             active: !notEmobSession && bluetoothOn
             sourceComponent: RowLayout {
                 height: root.rowHeight
@@ -114,7 +113,6 @@ SettingsView {
         }
 
         Loader {
-            width: parent.width
             active: notEmobSession
             sourceComponent: RowLayout {
                 height: root.rowHeight
@@ -135,7 +133,6 @@ SettingsView {
         }
 
         Loader {
-            width: parent.width
             active: notEmobSession
             sourceComponent: RowLayout {
                 height: root.rowHeight
@@ -156,7 +153,6 @@ SettingsView {
         }
 
         Loader {
-            width: parent.width
             active: notEmobSession
             sourceComponent: RowLayout {
                 height: root.rowHeight
@@ -177,7 +173,6 @@ SettingsView {
         }
 
         Loader {
-            width: parent.width
             active: notEmobSession
             sourceComponent: RowLayout {
                 height: root.rowHeight
