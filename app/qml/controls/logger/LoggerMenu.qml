@@ -310,11 +310,11 @@ Item {
                     }
                 }
             }
-            onObjectAdded: {
+            onObjectAdded: (index, object) => {
                 menu.insertItem(index + 2, object)
                 radioMenuGroup.addButton(object.menuRadio)
             }
-            onObjectRemoved: {
+            onObjectRemoved: (index, object) => {
                 menu.removeItem(object)
                 // we cannot use radios attached property ButtonGroup.group
                 // in dynamic menus: QML does not remove radio on remove so
