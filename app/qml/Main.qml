@@ -377,7 +377,7 @@ Window {
                 item.handlePrintPressed()
             }
         }
-        Keys.onPressed: {
+        Keys.onPressed: (event)=> {
             if(event.key === Qt.Key_Print)
                 screenShooter.handlePrintPressed()
         }
