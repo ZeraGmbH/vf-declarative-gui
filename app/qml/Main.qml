@@ -226,36 +226,38 @@ Window {
             loggerSettingsStackObj: loggerSettingsLoader.item
         }
 
-        EntityErrorMeasHelper {
-            id: errMeasHelper
-        }
-
         // Note: The only way to pass complex stuff ListModel below is to pass
-        // ids of items.
+        // ids of items. So for running active we pass in either neverRunHelper
+        // or isRunning
+        Item {
+            id: neverRunHelper
+            function isRunning() { return false }
+        }
+        EntityErrorMeasHelper {
+            id: errMeasRunHelper
+            function isRunning() { return oneOrMoreRunning }
+        }
         ListModel {
             id: dynamicPageModel
             property int countActiveSources: 0
             function updateSourceView() {
                 if((ASWGL.isServer && !ASWGL.sourceEnabled))
                     return
-                var sourceViewQml = "qrc:/qml/pages/SourceModuleTabPage.qml"
+                var sourceViewQml = "SourceModuleTabPage.qml"
                 // search source view currently added
                 var sourceViewPosition = -1
                 if(count > 0) {
                     for(var viewNum=count-1; viewNum>=0; --viewNum) {
                         var view = get(viewNum)
-                        if(view.elementValue === sourceViewQml) {
+                        if(view.elementValue.endsWith(sourceViewQml)) {
                             sourceViewPosition = viewNum
                             break;
                         }
                     }
                 }
                 // add view?
-                if(countActiveSources > 0 && sourceViewPosition === -1) {
-                    var iconPath = "qrc:/data/staticdata/resources/"
-                    append({name: "Source control", icon: iconPath + "source.png", iconLight: iconPath + "source_light.png",
-                               elementValue: sourceViewQml})
-                }
+                if(countActiveSources > 0 && sourceViewPosition === -1)
+                    appendItem("Source control", "source.png", sourceViewQml)
                 // remove view?
                 else if(countActiveSources === 0 && sourceViewPosition >= 0) {
                     remove(sourceViewPosition)
@@ -270,29 +272,30 @@ Window {
             }
             onCountActiveSourcesChanged: updateSourceView()
 
-            function initModel() {
-                clear()
-                var hasEntity = VeinEntity.hasEntity
-                var sessState = SessionState
-                var isReferenceSession = sessState.refSession
-                var isDcSession = sessState.dcSession
-                var isEmobSession = sessState.emobSession
-
+            function appendItem(title, iconBase, qmlFileBase, isRunningItem = neverRunHelper) {
                 var iconPath = "qrc:/data/staticdata/resources/"
-                var actValueIcon = iconPath + "act_values.png"
-                var actValueIconLight = iconPath + "act_values_light.png"
-                if(isEmobSession) {
+                var iconDark = iconPath + iconBase
+                var iconLight = iconDark.replace('.png', '_light.png')
+                var qmlFile = 'qrc:/qml/pages/' + qmlFileBase
+                append( { name: title,
+                          icon: iconDark, iconLight: iconLight,
+                          elementValue: qmlFile,
+                          isRunningItem: isRunningItem });
+            }
+
+            function initModel() {
+                var hasEntity = VeinEntity.hasEntity
+                clear()
+
+                if(SessionState.emobSession) {
                     let emobTitle = "Actual values & Meter tests"
-                    if(sessState.currentSession.includes('-ac'))
-                        append({name: emobTitle, icon: actValueIcon, iconLight: actValueIconLight,
-                                   elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageAC.qml"})
-                    else if(isDcSession)
-                        append({name: emobTitle, icon: actValueIcon, iconLight: actValueIconLight,
-                                   elementValue: "qrc:/qml/pages/EMOBActualValueTabsPageDC.qml"})
+                    if(SessionState.currentSession.includes('-ac'))
+                        appendItem(emobTitle, "act_values.png", "EMOBActualValueTabsPageAC.qml")
+                    else if(SessionState.dcSession)
+                        appendItem(emobTitle, "act_values.png", "EMOBActualValueTabsPageDC.qml")
                 }
-                else if(isDcSession)
-                    append({name: "Actual values DC", icon: actValueIcon, iconLight: actValueIconLight,
-                               elementValue: "qrc:/qml/pages/DCActualValueTabsPage.qml"})
+                else if(SessionState.dcSession)
+                    appendItem("Actual values DC", "act_values.png", "DCActualValueTabsPage.qml")
                 else if(hasEntity("RMSModule1") &&
                         hasEntity("LambdaModule1") &&
                         hasEntity("THDNModule1") &&
@@ -301,46 +304,37 @@ Window {
                         hasEntity("POWER1Module2") &&
                         hasEntity("POWER1Module3") &&
                         hasEntity("RangeModule1"))
-                    append({name: "Actual values", icon: actValueIcon, iconLight: actValueIconLight,
-                               elementValue: "qrc:/qml/pages/ActualValueTabsPage.qml"})
+                    appendItem("Actual values", "act_values.png", "ActualValueTabsPage.qml")
 
-                if(!isDcSession && (hasEntity("FFTModule1") || hasEntity("OSCIModule1")))
-                    append({name: "Harmonics & Curves", icon: iconPath + "osci.png", iconLight: iconPath + "osci_light.png",
-                               elementValue: "qrc:/qml/pages/FftTabPage.qml"})
+                if(!SessionState.dcSession && (hasEntity("FFTModule1") || hasEntity("OSCIModule1")))
+                    appendItem("Harmonics & Curves", "osci.png", "FftTabPage.qml")
 
                 if(hasEntity("Power3Module1"))
-                    append({name: "Harmonic power values", icon: iconPath + "hpower.png", iconLight: iconPath + "hpower_light.png",
-                               elementValue: "qrc:/qml/pages/HarmonicPowerTabPage.qml"})
+                    appendItem("Harmonic power values", "hpower.png", "HarmonicPowerTabPage.qml")
 
-                if(!isReferenceSession) {
-                    if(!isEmobSession) {
+                if(!SessionState.refSession) {
+                    if(!SessionState.emobSession) {
                         if(hasEntity("SEC1Module1") ||
                            hasEntity("SEC1Module2") ||
                            hasEntity("SEM1Module1") ||
                            hasEntity("SPM1Module1"))
-                            append({name: "Comparison measurements", icon: iconPath + "error_calc.png", iconLight: iconPath + "error_calc_light.png",
-                                       elementValue: "qrc:/qml/pages/ComparisonTabsView.qml", activeItem: errMeasHelper});
+                            appendItem("Comparison measurements", "error_calc.png", "ComparisonTabsView.qml", errMeasRunHelper)
                     }
                 }
                 else if(hasEntity("SEC1Module1"))
-                    append({name: "Quartz reference measurement", icon: iconPath + "error_calc.png", iconLight: iconPath + "error_calc_light.png",
-                               elementValue: "qrc:/qml/pages/QuartzModulePage.qml", activeItem: errMeasHelper});
+                    appendItem("Quartz reference measurement", "error_calc.png", "QuartzModulePage.qml", errMeasRunHelper)
 
                 if(hasEntity("Burden1Module1") || hasEntity("Burden1Module2"))
-                    append({name: "Burden values", icon: iconPath + "burden.png", iconLight: iconPath + "burden_light.png",
-                               elementValue: "qrc:/qml/pages/BurdenModulePage.qml"})
+                    appendItem("Burden values", "burden.png", "BurdenModulePage.qml")
 
                 if(hasEntity("Transformer1Module1"))
-                    append({name: "Transformer values", icon: iconPath + "transformer.png", iconLight: iconPath + "transformer_light.png",
-                               elementValue: "qrc:/qml/pages/TransformerModulePage.qml"})
+                    appendItem("Transformer values", "transformer.png", "TransformerModulePage.qml")
 
                 if(hasEntity("POWER2Module1"))
-                    append({name: "CED power values", icon: iconPath + "ced_power_values.png", iconLight: iconPath + "ced_power_values_light.png",
-                               elementValue: "qrc:/qml/pages/CEDModulePage.qml"})
+                    appendItem("CED power values", "ced_power_values.png", "CEDModulePage.qml")
 
                 if(hasEntity("REFERENCEModule1") && hasEntity("DFTModule1"))
-                    append({name: "DC reference values", icon: iconPath+ "ref_values.png", iconLight: iconPath+ "ref_values_light.png",
-                               elementValue: "qrc:/qml/pages/RefModulePage.qml"})
+                    appendItem("DC reference values", "ref_values.png", "RefModulePage.qml")
             }
         }
 

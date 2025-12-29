@@ -43,7 +43,7 @@ Item {
                 opacity: 1
                 AnimationActivity {
                     targetItem: nameText
-                    running: typeof activeItem !== 'undefined' ? activeItem.oneOrMoreRunning : false
+                    running: isRunningItem.isRunning()
                 }
                 Rectangle {
                     anchors.fill: parent
