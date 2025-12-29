@@ -498,9 +498,7 @@ Item {
                                       right: contentSetsRect.right; rightMargin: parent.width * 0.01}
                             font.pointSize: pointSize * 1.2
                             text: FAQ.fa_trash
-                            background: Rectangle {
-                                color: Material.backgroundColor
-                            }
+                            background: Rectangle { opacity: 0 }
                             onClicked: {
                                 deleteTransactionPopup.transactionToDelete = model.transactionName
                                 deleteTransactionPopup.open()

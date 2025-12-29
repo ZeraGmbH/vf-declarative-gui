@@ -162,9 +162,7 @@ Item {
                             Layout.fillHeight: true
                             font.pointSize: pointSize * 1.25
                             text: FAQ.fa_trash
-                            background: Rectangle {
-                                color: Material.buttonColor
-                            }
+                            background: Rectangle { opacity: 0 }
                             onClicked: {
                                 removeSessionPopup.sessionToDelete = modelData
                                 removeSessionPopup.open()

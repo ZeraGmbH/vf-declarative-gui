@@ -291,9 +291,7 @@ Item {
                         Layout.fillHeight: true
                         font.pointSize: pointSize * 1.25
                         text: FAQ.fa_edit
-                        background: Rectangle {
-                            color: Material.buttonColor
-                        }
+                        background: Rectangle { opacity: 0 }
                         // Wait for customer data selected to be applied
                         property string custDataSelected: customerData.FileSelected
                         onCustDataSelectedChanged: {
@@ -320,9 +318,7 @@ Item {
                         Layout.fillHeight: true
                         font.pointSize: pointSize * 1.25
                         text: FAQ.fa_trash
-                        background: Rectangle {
-                            color: Material.buttonColor
-                        }
+                        background: Rectangle { opacity: 0 }
                         onClicked: {
                             removeFilePopup.fileName = modelData
                             removeFilePopup.open()

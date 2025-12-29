@@ -57,12 +57,9 @@ Popup {
                             ZButton {
                                 text: FAQ.fa_trash
                                 font.pointSize: pointSize * 1.4
-                                background: Rectangle {
-                                    color: "transparent"
-                                }
+                                background: Rectangle { opacity: 0 }
                                 onClicked: trustDeletePopup.confirm(modelData)
                             }
-
                             Label {
                                 font.pointSize: pointSize
                                 text: modelData.name
