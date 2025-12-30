@@ -203,6 +203,11 @@ int main(int argc, char *argv[])
     registerQmlExt(engine);
     registerQmlInt();
     engine.rootContext()->setContextProperty("DESKTOP_SESSION", qgetenv("DESKTOP_SESSION"));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    engine.rootContext()->setContextProperty("QT_MAJOR_VERSION", "6");
+#else
+    engine.rootContext()->setContextProperty("QT_MAJOR_VERSION", "5");
+#endif
 
     QTimer networkWatchdog;
     networkWatchdog.setInterval(3000);

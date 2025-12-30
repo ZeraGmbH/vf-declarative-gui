@@ -390,8 +390,8 @@ Window {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: -parent.height * 0.035
-        anchors.rightMargin: -parent.width * 0.035
+        anchors.bottomMargin: QT_MAJOR_VERSION === "5" ? -parent.height * 0.035 : 0
+        anchors.rightMargin: QT_MAJOR_VERSION === "5" ? -parent.width * 0.035 : 0
         anchors.leftMargin: anchors.rightMargin
         property bool textEntered: Qt.inputMethod.visible
         onHeightChanged: GC.vkeyboardHeight = height
