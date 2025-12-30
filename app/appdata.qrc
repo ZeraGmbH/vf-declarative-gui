@@ -9,7 +9,6 @@
         <file>qml/controls/PhasorDiagramEx.qml</file>
         <file>qml/controls/ScreenShooter.qml</file>
         <file>qml/controls/SplashView.qml</file>
-        <file>qml/controls/SwipeArea.qml</file>
         <file>qml/controls/WaitTransaction.qml</file>
         <file>qml/controls/accu/AccumulatorState.qml</file>
         <file>qml/controls/accu/AccuToolButton.qml</file>
