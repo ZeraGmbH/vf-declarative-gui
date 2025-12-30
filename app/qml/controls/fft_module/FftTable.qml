@@ -464,7 +464,7 @@ Rectangle {
         enabled: false
         drag.axis: Drag.XAxis
         property real oldXPos: 0
-        onPositionChanged: {
+        onPositionChanged: (mouse) => {
             // can we swipe contents left?
             if(mouse.x > oldXPos && fftFlickable.atXEnd)
                 enabled = false
