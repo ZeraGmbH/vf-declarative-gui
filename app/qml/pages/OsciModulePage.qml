@@ -98,7 +98,7 @@ Item {
             id: pinchArea
             anchors.fill: parent
             property real pinchScale: GC.osciPinchScale
-            onPinchUpdated: {
+            onPinchUpdated: (pinch) => {
                 // pinch.minimumScale / pinch.maximumScale do not work
                 // here so do the calculations necessary here
                 let scaleFactor = pinch.scale * pinch.previousScale

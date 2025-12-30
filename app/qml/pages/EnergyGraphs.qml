@@ -281,7 +281,7 @@ Item {
             }
             anchors.fill: parent
             pinch.dragAxis: Pinch.YAxis
-            onPinchUpdated: {
+            onPinchUpdated: (pinch) => {
                 let pinchScale = pinch.scale * pinch.previousScale
                 if (pinchScale > 1.0) {
                     chartView.height = verticalFlickable.chartsHeight
@@ -396,7 +396,7 @@ Item {
                     anchors.fill: parent
                     pinch.dragAxis: Pinch.XAxis
                     enabled: !logging
-                    onPinchUpdated: {
+                    onPinchUpdated: (pinch) => {
                         if(pinch.scale > 1)
                             chartViewPowerFlickable.contentWidth = root.contentWidth
                         else {
@@ -569,7 +569,7 @@ Item {
                     anchors.fill: parent
                     pinch.dragAxis: Pinch.XAxis
                     enabled: !logging
-                    onPinchUpdated: {
+                    onPinchUpdated: (pinch) => {
                         if(pinch.scale > 1)
                             chartViewFlickable.contentWidth = root.contentWidth
                         else {
