@@ -328,7 +328,7 @@ Item {
                 property int perDivision: (max - min) / (tickCount - 1)
                 property real scale: 1
                 property string unitPrefix: ""
-                onMaxChanged: {
+                onMaxChanged: (max) => {
                     singleValueScaler.scaleSingleValForQML(max)
                     scale = singleValueScaler.getScaleFactor()
                     unitPrefix = singleValueScaler.getUnitPrefix()
@@ -412,7 +412,7 @@ Item {
                 axisY: axisYPower
                 color: SessionState.dcSession ? CS.colorUAux1 : CS.colorUL1
                 visible: GC.showCurvePhaseOne || SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 name: powerComponentsACDC[1]
@@ -420,7 +420,7 @@ Item {
                 axisY: axisYPower
                 color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 name: powerComponentsACDC[2]
@@ -428,7 +428,7 @@ Item {
                 axisY: axisYPower
                 color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 name: powerComponentsACDC[3]
@@ -436,7 +436,7 @@ Item {
                 axisY: axisYPower
                 color: ZTC.primaryTextColor
                 visible: GC.showCurveSum && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
             }
         }
         ChartView {
@@ -474,7 +474,7 @@ Item {
                 property int perDivision: (max - min) / (tickCount - 1)
                 property real scale: 1
                 property string unitPrefix: ""
-                onMaxChanged: {
+                onMaxChanged: (max) => {
                     singleValueScaler.scaleSingleValForQML(max)
                     scale = singleValueScaler.getScaleFactor()
                     unitPrefix = singleValueScaler.getUnitPrefix()
@@ -521,7 +521,7 @@ Item {
                 property int perDivision: (max - min) / (tickCount - 1)
                 property real scale: 1
                 property string unitPrefix: ""
-                onMaxChanged: {
+                onMaxChanged: (max) => {
                     singleValueScaler.scaleSingleValForQML(max)
                     scale = singleValueScaler.getScaleFactor()
                     unitPrefix = singleValueScaler.getUnitPrefix()
@@ -586,7 +586,7 @@ Item {
                 axisY: axisYLeft
                 color: CS.colorUL1
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 name: voltageComponentsAC[1]
@@ -594,7 +594,7 @@ Item {
                 axisY: axisYLeft
                 color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 name: voltageComponentsAC[2]
@@ -602,7 +602,7 @@ Item {
                 axisY: axisYLeft
                 color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 name: currentComponentsAC[0]
@@ -610,7 +610,7 @@ Item {
                 axisYRight: axisYRight
                 color: CS.colorIL1
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
             LineSeries {
                 name: currentComponentsAC[1]
@@ -618,7 +618,7 @@ Item {
                 axisYRight: axisYRight
                 color: CS.colorIL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
             LineSeries {
                 name: currentComponentsAC[2]
@@ -626,7 +626,7 @@ Item {
                 axisYRight: axisYRight
                 color: CS.colorIL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
             LineSeries {
                 name: voltageComponentsDC[0]
@@ -634,7 +634,7 @@ Item {
                 axisY: axisYLeft
                 color: CS.colorUAux1
                 visible: SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 name: currentComponentsDC[0]
@@ -642,7 +642,7 @@ Item {
                 axisYRight: axisYRight
                 color: CS.colorIAux1
                 visible: SessionState.dcSession
-                onPointAdded: scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
         }
     }
