@@ -63,7 +63,7 @@ Item {
         id: pageGridViewCmp
         PageGridView {
             model: root.model
-            onElementSelected: {
+            onElementSelected: (elementValue) => {
                 if(elementValue !== "")
                     root.elementSelected(elementValue.value);
             }
@@ -73,7 +73,7 @@ Item {
         id: pagePathViewCmp
         PagePathView {
             model: root.model
-            onElementSelected: {
+            onElementSelected: (elementValue) => {
                 if(elementValue !== "")
                     root.elementSelected(elementValue.value);
             }
