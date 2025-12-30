@@ -290,9 +290,9 @@ Window {
                 if(SessionState.emobSession) {
                     let emobTitle = "Actual values & Meter tests"
                     if(SessionState.currentSession.includes('-ac'))
-                        appendItem(emobTitle, "act_values.png", "EMOBActualValueTabsPageAC.qml")
+                        appendItem(emobTitle, "act_values.png", "EMOBActualValueTabsPageAC.qml", errMeasRunHelper)
                     else if(SessionState.dcSession)
-                        appendItem(emobTitle, "act_values.png", "EMOBActualValueTabsPageDC.qml")
+                        appendItem(emobTitle, "act_values.png", "EMOBActualValueTabsPageDC.qml", errMeasRunHelper)
                 }
                 else if(SessionState.dcSession)
                     appendItem("Actual values DC", "act_values.png", "DCActualValueTabsPage.qml")
