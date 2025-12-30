@@ -7,10 +7,13 @@ import ZeraComponents 1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
+import "../helpers"
 import "../controls/error_comparison_common"
 
 BaseTabPage {
     id: root
+
+    EntityErrorMeasHelper { id: errMeasHelper }
 
     // TabButtons
     Component {

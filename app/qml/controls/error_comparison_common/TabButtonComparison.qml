@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import ZeraThemeConfig 1.0
+import "../../helpers"
 import ".."
 
 TabButton {
@@ -9,6 +10,8 @@ TabButton {
     property var entity
     property string baseLabel
     property bool running
+
+    EntityErrorMeasHelper { id: errMeasHelper }
 
     contentItem: Label {
         text: baseLabel + errMeasHelper.comparisonProgress(entity, running && !checked)

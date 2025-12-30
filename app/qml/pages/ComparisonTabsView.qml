@@ -13,9 +13,7 @@ import "../helpers"
 BaseTabPage {
     id: root
 
-    EntityErrorMeasHelper {
-        id: errMeasHelper
-    }
+    EntityErrorMeasHelper { id: errMeasHelper }
 
     // TabButtons
     Component {
