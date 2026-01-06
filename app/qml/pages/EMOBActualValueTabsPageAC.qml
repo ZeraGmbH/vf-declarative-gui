@@ -19,7 +19,7 @@ BaseTabPage {
     Component {
         id: tabTable
         ZTabButton {
-            text:Z.tr("Actual values")
+            text:Z.tr("Actual values AC")
             font.pointSize: tabPointSize
             height: tabHeight
         }
