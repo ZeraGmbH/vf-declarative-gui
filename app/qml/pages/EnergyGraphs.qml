@@ -83,6 +83,8 @@ Item {
 
     function loadPoints(jsonData) {
         var keys = Object.keys(jsonData).sort()
+
+        var components
         for (var i = 0; i < keys.length; i++) {
             var timestamp = keys[i]
             if (timestamp <= lastTimestamp)
@@ -91,20 +93,23 @@ Item {
             // Process only new timestamps
             var timeMs = jsonHelper.convertTimestampToMs(timestamp)
             timeDiffSecs = (timeMs - RecorderDataCache.firstTimestamp) / 1000
-            var components = jsonHelper.getComponents(jsonData[timestamp])
+            var timeStampData = jsonData[timestamp]
+
+            if (components === undefined)
+                components = jsonHelper.getComponents(timeStampData)
 
             for (var v = 0; v < components.length; v++) {
-                let serie = chartViewPower.series(components[v])
+                var serie = chartViewPower.series(components[v])
                 if(serie !== null) {
-                    serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
-                   if(loggingTimer.hasTriggered)
-                       removePoint(chartViewPower, components[v])
+                    serie.append(timeDiffSecs, jsonHelper.getValue(timeStampData, components[v]))
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartViewPower, components[v])
                 }
-               serie = chartView.series(components[v])
-               if(serie !== null) {
-                   serie.append(timeDiffSecs, jsonHelper.getValue(jsonData[timestamp], components[v]))
-                   if(loggingTimer.hasTriggered)
-                       removePoint(chartView, components[v])
+                serie = chartView.series(components[v])
+                if(serie !== null) {
+                    serie.append(timeDiffSecs, jsonHelper.getValue(timeStampData, components[v]))
+                    if(loggingTimer.hasTriggered)
+                        removePoint(chartView, components[v])
                 }
             }
             lastTimestamp = timestamp
