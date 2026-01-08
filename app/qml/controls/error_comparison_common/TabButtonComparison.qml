@@ -34,6 +34,6 @@ TabButton {
     }
     AnimationActivity {
         targetItem: tabButton
-        running: tabButton.running
+        running: tabButton.running && !tabButton.checked
     }
 }
