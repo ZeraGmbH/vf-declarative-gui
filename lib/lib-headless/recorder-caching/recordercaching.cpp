@@ -29,7 +29,8 @@ QJsonObject RecorderCaching::getRecordedValues()
 qint64 RecorderCaching::getFirstTimestamp()
 {
     QString dateTime = m_recordedObject.keys().isEmpty() ? QString() : m_recordedObject.keys().at(0);
-    return QDateTime::fromString(dateTime, "dd-MM-yyyy hh:mm:ss.zzz").toMSecsSinceEpoch();
+    qint64 firstms = dateTime.toLongLong();
+    return firstms;
 }
 
 void RecorderCaching::clearCashe()

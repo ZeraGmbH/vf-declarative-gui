@@ -92,7 +92,7 @@ Item {
 
             // Process only new timestamps
             var timeMs = jsonHelper.convertTimestampToMs(timestamp)
-            timeDiffSecs = (timeMs - RecorderDataCache.firstTimestamp) / 1000
+            timeDiffSecs = (timestamp - RecorderDataCache.firstTimestamp) / 1000
             var timeStampData = jsonData[timestamp]
 
             if (components === undefined)
