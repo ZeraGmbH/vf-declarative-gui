@@ -28,12 +28,6 @@ Item {
     readonly property var currentComponentsDC: ["ACT_DC8"]
     readonly property var powerComponentsACDC: ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
 
-    property var cachedData : RecorderDataCache.recordedValues
-    onCachedDataChanged: {
-        if(chartViewPower.ready && chartView.ready)
-            loadPoints(cachedData)
-    }
-
     property var rpcIdRecordValues
     Connections {
         target: recorderEntity
@@ -42,8 +36,9 @@ Item {
                 rpcIdRecordValues = undefined
                 if(resultData["RemoteProcedureData::resultCode"] === 0 ) { // ok
                     var json = resultData["RemoteProcedureData::Return"]
-                    var newRecording = Object.assign(cachedData, json)
-                    RecorderDataCache.setRecordedValues(newRecording)
+                    RecorderDataCache.setRecordedValues(json)
+                    if(chartViewPower.ready && chartView.ready)
+                        loadPoints(RecorderDataCache.recordedValues)
                 }
             }
         }
@@ -54,7 +49,7 @@ Item {
         if(numberOfPoints === 0) {
             RecorderDataCache.clearCashe()
         }
-        var oldPts = Object.keys(cachedData).length
+        var oldPts = Object.keys(RecorderDataCache.recordedValues).length
         if(oldPts < numberOfPoints) {
             rpcIdRecordValues = recorderEntity.invokeRPC("RPC_ReadRecordedValues(int p_endingPoint,int p_startingPoint)", {
                                               "p_endingPoint" : numberOfPoints,
@@ -314,7 +309,7 @@ Item {
             property bool ready: false
             Component.onCompleted: {
                 ready = true
-                loadPoints(cachedData)
+                loadPoints(RecorderDataCache.recordedValues)
             }
 
             ValueAxis {
@@ -460,7 +455,7 @@ Item {
             property bool ready: false
             Component.onCompleted: {
                 ready = true
-                loadPoints(cachedData)
+                loadPoints(RecorderDataCache.recordedValues)
             }
 
             ValueAxis {
