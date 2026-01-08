@@ -43,7 +43,7 @@ Item {
                 if(resultData["RemoteProcedureData::resultCode"] === 0 ) { // ok
                     var json = resultData["RemoteProcedureData::Return"]
                     var newRecording = Object.assign(cachedData, json)
-                    RecorderDataCache.appendRecordedValues(newRecording)
+                    RecorderDataCache.setRecordedValues(newRecording)
                 }
             }
         }
