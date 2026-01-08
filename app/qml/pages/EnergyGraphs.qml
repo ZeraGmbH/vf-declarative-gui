@@ -373,7 +373,7 @@ Item {
                 height: root.height
                 flickableDirection: Flickable.HorizontalFlick
                 clip: true
-                contentWidth: root.chartWidth
+                contentWidth: root.contentWidth
                 interactive: !logging
                 onInteractiveChanged: {
                     if(!interactive)
