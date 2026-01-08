@@ -100,17 +100,11 @@ Item {
 
             for (var v = 0; v < components.length; v++) {
                 var serie = chartViewPower.series(components[v])
-                if(serie !== null) {
+                if(serie !== null)
                     serie.append(timeDiffSecs, jsonHelper.getValue(timeStampData, components[v]))
-                    if(loggingTimer.hasTriggered)
-                        removePoint(chartViewPower, components[v])
-                }
                 serie = chartView.series(components[v])
-                if(serie !== null) {
+                if(serie !== null)
                     serie.append(timeDiffSecs, jsonHelper.getValue(timeStampData, components[v]))
-                    if(loggingTimer.hasTriggered)
-                        removePoint(chartView, components[v])
-                }
             }
             lastTimestamp = timestamp
         }
@@ -134,10 +128,8 @@ Item {
 
     function calculateContentWidth() {
         let actualPoints = Math.round(timeDiffSecs* 2)+1
-        if (actualPoints > maxVisibleXPoints) {
-            if(!loggingTimer.hasTriggered)
-                root.contentWidth = actualPoints * singlePointWidth
-        }
+        if (actualPoints > maxVisibleXPoints)
+            root.contentWidth = actualPoints * singlePointWidth
         else
             root.contentWidth = chartWidth
     }
@@ -150,12 +142,6 @@ Item {
             axisY.min = axisYScalar.getRoundedMinValueWithMargin()
         if(axisY.max < axisYScalar.getRoundedMaxValueWithMargin())
             axisY.max = axisYScalar.getRoundedMaxValueWithMargin()
-    }
-
-    function removePoint(chartView, componentName) {
-        let point  = chartView.series(componentName).at(1)
-        loggingTimer.timerMin = point.x
-        chartView.series(componentName).remove(0)
     }
 
     VfRecorderJsonHelper {
@@ -353,9 +339,9 @@ Item {
                 property int currentMax: max
                 min: {
                     if(chartViewPower.loggingActive)
-                        return Math.max(0, loggingTimer.timerMin);
+                        return 0;
                     else
-                        return Math.max(chartViewPower.pinchedXMin, loggingTimer.timerMin)
+                        return Math.max(chartViewPower.pinchedXMin, 0)
                 }
                 max: {
                     if (chartViewPower.loggingActive)
@@ -387,7 +373,7 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        chartViewPower.pinchedXMin = loggingTimer.timerMin + Math.ceil((root.timeDiffSecs - loggingTimer.timerMin) * position)
+                        chartViewPower.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
                         chartViewPower.pinchedXMax = chartViewPower.pinchedXMin + xAxisTimeSpanSecs
                     }
                 }
@@ -498,9 +484,9 @@ Item {
                 labelFormat: "%d"
                 min: {
                     if(chartView.loggingActive)
-                        return Math.max(0, loggingTimer.timerMin)
+                        return 0
                     else
-                        return Math.max(chartView.pinchedXMin, loggingTimer.timerMin)
+                        return Math.max(chartView.pinchedXMin, 0)
                 }
 
                 max : {
@@ -560,7 +546,7 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        chartView.pinchedXMin = loggingTimer.timerMin + Math.ceil((root.timeDiffSecs - loggingTimer.timerMin) * position)
+                        chartView.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
                         chartView.pinchedXMax = chartView.pinchedXMin + xAxisTimeSpanSecs
                     }
                 }
@@ -645,21 +631,5 @@ Item {
                 onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
             }
         }
-    }
-
-    Timer {
-        id: loggingTimer
-        interval: 300000 //5mins
-        property double timerMin : 0
-        property bool hasTriggered: false
-        running: root.logging
-        onRunningChanged: {
-            if(running) {
-                hasTriggered = false
-                timerMin = 0
-            }
-        }
-        onTriggered:
-            hasTriggered = true
     }
 }
