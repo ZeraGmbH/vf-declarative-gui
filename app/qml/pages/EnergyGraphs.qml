@@ -80,8 +80,10 @@ Item {
     property int maxVisibleXPoints: (xAxisTimeSpanSecs * 2) //per second 2 points
     property real singlePointWidth: chartWidth/maxVisibleXPoints
     property string lastTimestamp: ""
+    property int totalTime: 0
 
     function loadPoints(jsonData) {
+        var startTime = new Date();
         var keys = Object.keys(jsonData).sort()
 
         var components
@@ -109,6 +111,11 @@ Item {
             lastTimestamp = timestamp
         }
         calculateContentWidth()
+
+        var endTime = new Date();
+        var timeDiff = endTime - startTime; //in ms
+        totalTime += timeDiff
+        console.warn("Time ms: ", timeDiff, totalTime)
     }
 
     function resetCharts() {
