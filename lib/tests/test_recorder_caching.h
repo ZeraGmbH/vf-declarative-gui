@@ -16,12 +16,22 @@ private slots:
     void isClientUp();
 
     void initialIsEmpty();
+    void oneValueRecorded();
+    void twoValuesRecorded();
+
+    void cacheRemainsOnStop();
+    void cacheClearedOnRestart();
+    void cacheClearedOnVeinSessionChange();
 
 private:
     void setupServer();
     bool setupClient();
     bool subscribeClient();
     void createModule(int entityId, QMap<QString, QVariant> components);
+    void startStopRecording(bool start);
+    void fireActualValues();
+    void triggerDftModuleSigMeasuring();
+    qint64 localizedMsSinceEpoch(const QDateTime &dt);
 
     std::unique_ptr<ModuleManagerTestRunner> m_testRunner;
     std::unique_ptr<VeinNet::NetworkSystem> m_netSystem;

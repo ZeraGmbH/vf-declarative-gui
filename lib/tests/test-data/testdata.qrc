@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>mt310s2-emob-session-ac.json</file>
+        <file>mt310s2-emob-session-dc.json</file>
         <file>media/sda1/foo</file>
         <file>media/sda2/050000001-licenses.zup</file>
         <file>media/sda2/com5003-mt310s2.zup</file>

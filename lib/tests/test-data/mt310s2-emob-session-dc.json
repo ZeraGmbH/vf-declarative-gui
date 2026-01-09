@@ -1,0 +1,9 @@
+{
+    "modules" : [
+        {
+          "name" : "recordermodule",
+          "configFile" : "recordermodule.xml",
+          "id": 1800
+        }
+    ]
+}
