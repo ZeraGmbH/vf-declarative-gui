@@ -67,11 +67,13 @@ QmlFileIO *getQmlFileIOInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return QmlFileIO::getInstance();
 }
 
+static RecorderCaching *recorderInstance = nullptr;
+
 RecorderCaching *getRecorderCache(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return RecorderCaching::getInstance();
+    return recorderInstance;
 }
 
 static void registerQmlInt()
@@ -230,6 +232,8 @@ int main(int argc, char *argv[])
     VeinNet::TcpSystem *tcpSystem = new VeinNet::TcpSystem(VeinTcp::TcpNetworkFactory::create(), &app);
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
     VeinStorage::ClientStorageEventSystem *storage = new VeinStorage::ClientStorageEventSystem(&app);
+    VfCmdEventHandlerSystemPtr cmdEventHandlerSystem = VfCmdEventHandlerSystem::create();
+    recorderInstance = new RecorderCaching(storage, cmdEventHandlerSystem);
 
     VeinApiQml::VeinQml::setStaticInstance(qmlApi);
     QList<VeinEvent::EventSystem*> subSystems;
@@ -258,6 +262,7 @@ int main(int argc, char *argv[])
     subSystems.append(tcpSystem);
     subSystems.append(qmlApi);
     subSystems.append(storage);
+    subSystems.append(cmdEventHandlerSystem.get());
 
     evHandler->setSubsystems(subSystems);
 

@@ -14,6 +14,8 @@ add_library(recorder-caching STATIC
 target_link_libraries(recorder-caching
     PUBLIC
     ${QTX}::Core
+    Zera::VfStorage
+    Zera::VfConvenientCode
 )
 
 target_include_directories(recorder-caching

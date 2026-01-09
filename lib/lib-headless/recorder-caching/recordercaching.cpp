@@ -1,17 +1,10 @@
 #include "recordercaching.h"
 #include <QDateTime>
 
-RecorderCaching *RecorderCaching::instance = nullptr;
-
-RecorderCaching::RecorderCaching(QObject *parent)
-    : QObject{parent}
-{}
-
-RecorderCaching *RecorderCaching::getInstance()
+RecorderCaching::RecorderCaching(VeinStorage::AbstractEventSystem *clientStorage, VfCmdEventHandlerSystemPtr cmdEventHandlerSystem) :
+    m_clientStorage(clientStorage),
+    m_cmdEventHandlerSystem(cmdEventHandlerSystem)
 {
-    if(!instance)
-        instance = new RecorderCaching();
-    return instance;
 }
 
 void RecorderCaching::setRecordedValues(QJsonObject newRecordedValues)

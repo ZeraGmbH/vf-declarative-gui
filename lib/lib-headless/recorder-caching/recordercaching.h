@@ -1,6 +1,8 @@
 #ifndef RECORDERCACHING_H
 #define RECORDERCACHING_H
 
+#include <vs_abstracteventsystem.h>
+#include <vf_cmd_event_handler_system.h>
 #include <QJsonObject>
 #include <QObject>
 
@@ -8,8 +10,7 @@ class RecorderCaching : public QObject
 {
     Q_OBJECT
 public:
-    explicit RecorderCaching(QObject *parent = nullptr);
-    static RecorderCaching *getInstance();
+    explicit RecorderCaching(VeinStorage::AbstractEventSystem* clientStorage, VfCmdEventHandlerSystemPtr cmdEventHandlerSystem);
 
     Q_PROPERTY(QJsonObject recordedValues READ getRecordedValues NOTIFY newValuesRecorded)
     Q_PROPERTY(qint64 firstTimestamp READ getFirstTimestamp)
@@ -24,7 +25,8 @@ signals:
     void newValuesRecorded();
 
 private:
-    static RecorderCaching *instance;
+    VeinStorage::AbstractEventSystem* m_clientStorage;
+    VfCmdEventHandlerSystemPtr m_cmdEventHandlerSystem;
     QJsonObject m_recordedObject;
 
 };
