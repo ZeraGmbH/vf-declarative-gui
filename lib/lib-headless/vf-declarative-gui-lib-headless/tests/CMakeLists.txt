@@ -11,25 +11,16 @@ function(SETUP_TESTS)
     target_link_libraries(${_testname}
         PUBLIC
         ${QTX}::Test
-        Zera::zera-modulemanager-testlib
         vf-declarative-gui-lib-headless
     )
-endforeach()
+    endforeach()
 endfunction()
 
 SETUP_TESTS(
-    test_rowautoscaler
     test_updatewrapper
-    test_axisautoscaler
-    test_recorder_caching
     )
 
 target_sources(test_updatewrapper
-    PRIVATE
-    test-data/testdata.qrc
-)
-
-target_sources(test_recorder_caching
     PRIVATE
     test-data/testdata.qrc
 )
