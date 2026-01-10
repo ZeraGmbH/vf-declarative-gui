@@ -17,6 +17,7 @@ function(SETUP_TESTS)
 endfunction()
 
 SETUP_TESTS(
+    test_rowautoscaler
     test_updatewrapper
     )
 
