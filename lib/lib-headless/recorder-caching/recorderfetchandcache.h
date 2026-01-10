@@ -11,8 +11,6 @@ class RecorderFetchAndCache : public QObject
 {
     Q_OBJECT
 public:
-    explicit RecorderFetchAndCache(VeinStorage::AbstractEventSystem* clientStorage, VfCmdEventHandlerSystemPtr cmdEventHandlerSystem);
-
     typedef QMap<QString /*componentname*/, float /*value*/> SingleEntityData;
     typedef QMap<int /*entityId*/, SingleEntityData> EntitiesData;
     struct TimestampData {
@@ -20,8 +18,8 @@ public:
         EntitiesData entitiesData;
     };
 
+    explicit RecorderFetchAndCache(VeinStorage::AbstractEventSystem* clientStorage, VfCmdEventHandlerSystemPtr cmdEventHandlerSystem);
     const QList<TimestampData> &getData() const;
-
 signals:
     void sigNewValuesAdded(int startIdx, int postEndIdx);
     void sigClearedValues();
