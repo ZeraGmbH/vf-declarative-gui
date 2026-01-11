@@ -62,19 +62,10 @@ ListView {
             anchors { top : parent.top; left: label.right; leftMargin: parent.width * 0.025; right: parent.right }
             height: headerHeight
             horizontal: true
-            readonly property real preScale: {
-                let ret = 1.0
-                // maybe I am missing something but scale from range module is 1/scale here...
-                if(channelsRow.systemChannelNo <= 3)
-                    ret = 1 / rangeModule["INF_PreScalingInfoGroup0"]
-                else if(channelsRow.systemChannelNo <= 6)
-                    ret = 1 / rangeModule["INF_PreScalingInfoGroup1"]
-                return ret
-            }
             // TODO:
             // * DC displays too small values: peak / sqrt2
             // * Don't hardcode overshoot
-            nominal: Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"]) * preScale
+            nominal: Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"])
             actual: Number(rangeModule["ACT_Channel"+(channelsRow.systemChannelNo)+"Rms"])
             overshootFactor: 1.25
 
