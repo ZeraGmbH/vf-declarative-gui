@@ -64,10 +64,9 @@ ListView {
             horizontal: true
             // TODO:
             // * DC displays too small values: peak / sqrt2
-            // * Don't hardcode overshoot
             nominal: Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"])
             actual: Number(rangeModule["ACT_Channel"+(channelsRow.systemChannelNo)+"Rms"])
-            overshootFactor: 1.25
+            overshootFactor: Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActOVLREJ"]) / nominal
 
             MouseArea {
                 anchors.fill: parent
