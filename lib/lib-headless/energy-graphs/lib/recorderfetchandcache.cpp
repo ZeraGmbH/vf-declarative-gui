@@ -81,9 +81,10 @@ void RecorderFetchAndCache::appendRecordedValuesFromRpc(const QJsonObject &value
 {
     if (values.size() > 0) {
         int start = m_cache.size();
+        int lastTimestamp = 0;
         for (auto iterTimestamp=values.constBegin(); iterTimestamp!=values.constEnd(); ++iterTimestamp) {
             const QString timeStampStr = iterTimestamp.key();
-            const QDateTime timeStamp = getDateTime(timeStampStr);
+            lastTimestamp = timeStampStr.toInt();
             const QJsonObject entitiesDataJson = iterTimestamp.value().toObject();
 
             EntitiesData entitiesData;
@@ -103,9 +104,10 @@ void RecorderFetchAndCache::appendRecordedValuesFromRpc(const QJsonObject &value
                 }
                 entitiesData[entityId] = entityData;
             }
-            m_cache.append({timeStamp, entitiesData});
+            m_cache.append({lastTimestamp, entitiesData});
         }
         emit sigNewValuesAdded(start, m_cache.size());
+        emit sigTimeLastValue(lastTimestamp);
     }
 }
 
@@ -125,14 +127,4 @@ void RecorderFetchAndCache::init()
             this, &RecorderFetchAndCache::onRecorderEntryCountChange, Qt::UniqueConnection);
     connect(m_entryStartStopComponent.get(), &VeinStorage::AbstractComponent::sigValueChange,
             this, &RecorderFetchAndCache::onStartStopChange, Qt::UniqueConnection);
-}
-
-QString RecorderFetchAndCache::getDateTimeConvertStr()
-{
-    return "dd-MM-yyyy hh:mm:ss.zzz";
-}
-
-QDateTime RecorderFetchAndCache::getDateTime(const QString &timeStamp)
-{
-    return QDateTime::fromString(timeStamp, getDateTimeConvertStr());
 }

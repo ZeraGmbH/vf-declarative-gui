@@ -31,7 +31,7 @@ void LineSeriesFiller::onNewValuesAdded(int startIdx, int postEndIdx)
     for(int i = startIdx; i<postEndIdx; i++) {
         RecorderFetchAndCache::TimestampData &cacheEntry = cache[i];
         float value = cacheEntry.entitiesData[m_entityId][m_componentName];
-        m_lineSeries->append(float(i)/2, value);
+        m_lineSeries->append(float(cacheEntry.msSinceStart)/1000, value);
     }
 }
 

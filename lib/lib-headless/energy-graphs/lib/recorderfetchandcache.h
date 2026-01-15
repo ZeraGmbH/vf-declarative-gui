@@ -14,7 +14,7 @@ public:
     typedef QMap<QString /*componentname*/, float /*value*/> SingleEntityData;
     typedef QMap<int /*entityId*/, SingleEntityData> EntitiesData;
     struct TimestampData {
-        QDateTime timeStamp;
+        int msSinceStart;
         EntitiesData entitiesData;
     };
 
@@ -25,6 +25,7 @@ public:
 signals:
     void sigNewValuesAdded(int startIdx, int postEndIdx);
     void sigClearedValues();
+    void sigTimeLastValue(int msSinceStart);
 
 private slots:
     void onRecorderEntryCountChange(QVariant value);
@@ -34,8 +35,6 @@ private:
     void appendRecordedValuesFromRpc(const QJsonObject &values);
     void clearCache();
     void init();
-    static QString getDateTimeConvertStr();
-    static QDateTime getDateTime(const QString &timeStamp);
 
     VeinStorage::AbstractEventSystem* m_clientStorage;
     VfCmdEventHandlerSystemPtr m_cmdEventHandlerSystem;

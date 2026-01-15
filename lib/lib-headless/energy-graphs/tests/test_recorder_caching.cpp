@@ -86,8 +86,8 @@ void test_recorder_caching::twoValuesRecorded()
 
     QList<RecorderFetchAndCache::TimestampData> values = RecorderFetchAndCache::getInstance()->getData();
     QCOMPARE(values.size(), 2);
-    QCOMPARE(localizedMsSinceEpoch(values[0].timeStamp), 0);
-    QCOMPARE(localizedMsSinceEpoch(values[1].timeStamp), delayBetween);
+    QCOMPARE(values[0].msSinceStart, 0);
+    QCOMPARE(values[1].msSinceStart, delayBetween);
     QCOMPARE(cacheAddSpy.count(), 2);
     QCOMPARE(cacheAddSpy[0][0], 0);
     QCOMPARE(cacheAddSpy[0][1], 1);
@@ -256,11 +256,3 @@ void test_recorder_caching::triggerDftModuleSigMeasuring()
     m_testRunner->setVfComponent(sigMeasuringEntityId, "SIG_Measuring", QVariant(1));
 }
 
-qint64 test_recorder_caching::localizedMsSinceEpoch(const QDateTime &dt)
-{
-    // This needs to go!!!
-    // see https://forum.qt.io/topic/111190/qdatetime-tomsecssinceepoch-always-treats-my-time-as-local-can-t-get-totimespec-to-work/3
-    QDateTime adjusted = dt;
-    adjusted.setTimeSpec(Qt::UTC);
-    return adjusted.toMSecsSinceEpoch();
-}

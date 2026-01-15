@@ -12,7 +12,7 @@ import AxisAutoScaler 1.0
 import SingleValueScaler 1.0
 import ZeraThemeConfig 1.0
 import VeinEntity 1.0
-import RecorderDataCache 1.0
+import RecorderFetchAndCache 1.0
 import LineSeriesFiller 1.0
 
 Item {
@@ -28,42 +28,6 @@ Item {
     readonly property var voltageComponentsDC: ["ACT_DC7"]
     readonly property var currentComponentsDC: ["ACT_DC8"]
     readonly property var powerComponentsACDC: ["ACT_PQS1", "ACT_PQS2", "ACT_PQS3", "ACT_PQS4"]
-
-    property var rpcIdRecordValues
-    Connections {
-        target: recorderEntity
-        function onSigRPCFinished(identifier, resultData) {
-            if(identifier === rpcIdRecordValues) {
-                rpcIdRecordValues = undefined
-                if(resultData["RemoteProcedureData::resultCode"] === 0 ) { // ok
-                    var json = resultData["RemoteProcedureData::Return"]
-                    RecorderDataCache.setRecordedValues(json)
-                    if(chartViewPower.ready && chartView.ready)
-                        loadPoints(RecorderDataCache.recordedValues)
-                }
-            }
-        }
-    }
-
-    readonly property int numberOfPoints: SessionState.emobSession ? recorderEntity.ACT_Points : 0
-    onNumberOfPointsChanged: {
-        if(numberOfPoints === 0) {
-            RecorderDataCache.clearCashe()
-        }
-        var oldPts = Object.keys(RecorderDataCache.recordedValues).length
-        if(oldPts < numberOfPoints) {
-            rpcIdRecordValues = recorderEntity.invokeRPC("RPC_ReadRecordedValues(int p_endingPoint,int p_startingPoint)", {
-                                              "p_endingPoint" : numberOfPoints,
-                                              "p_startingPoint": oldPts })
-        }
-    }
-    readonly property string sessionComponent: SessionState.currentSession
-    onSessionComponentChanged: {
-        if(SessionState.emobSession)
-            if (numberOfPoints === 0)
-                RecorderDataCache.clearCashe()
-    }
-
     property bool logging : SessionState.emobSession && (parStartStop === 1) ? true : false
     onLoggingChanged: {
         if(logging) {
@@ -80,36 +44,14 @@ Item {
     property real chartWidth: root.graphWidth * 0.8356
     property int maxVisibleXPoints: (xAxisTimeSpanSecs * 2) //per second 2 points
     property real singlePointWidth: chartWidth/maxVisibleXPoints
-    property string lastTimestamp: ""
+    property int lastTimestamp
 
-    function loadPoints(jsonData) {
-        var keys = Object.keys(jsonData).sort()
-
-        var components
-        for (var i = 0; i < keys.length; i++) {
-            var timestamp = keys[i]
-            if (timestamp <= lastTimestamp)
-                continue
-
-            // Process only new timestamps
-            var timeMs = jsonHelper.convertTimestampToMs(timestamp)
-            timeDiffSecs = (timeMs - RecorderDataCache.firstTimestamp) / 1000
-            var timeStampData = jsonData[timestamp]
-
-            if (components === undefined)
-                components = jsonHelper.getComponents(timeStampData)
-
-            // for (var v = 0; v < components.length; v++) {
-            //     var serie = chartViewPower.series(components[v])
-            //     if(serie !== null)
-            //         serie.append(timeDiffSecs, jsonHelper.getValue(timeStampData, components[v]))
-            //     serie = chartView.series(components[v])
-            //     if(serie !== null)
-            //         serie.append(timeDiffSecs, jsonHelper.getValue(timeStampData, components[v]))
-            // }
-            lastTimestamp = timestamp
+    Connections {
+        target: RecorderFetchAndCache
+        function onSigTimeLastValue(msSinceStart) {
+            timeDiffSecs = msSinceStart / 1000
+            calculateContentWidth()
         }
-        calculateContentWidth()
     }
 
     function resetCharts() {
@@ -301,7 +243,7 @@ Item {
             property bool ready: false
             Component.onCompleted: {
                 ready = true
-                loadPoints(RecorderDataCache.recordedValues)
+                //loadPoints(RecorderDataCache.recordedValues)
             }
 
             ValueAxis {
@@ -471,7 +413,7 @@ Item {
             property bool ready: false
             Component.onCompleted: {
                 ready = true
-                loadPoints(RecorderDataCache.recordedValues)
+                //loadPoints(RecorderDataCache.recordedValues)
             }
 
             ValueAxis {
