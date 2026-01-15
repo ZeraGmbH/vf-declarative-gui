@@ -83,7 +83,7 @@ void RecorderFetchAndCache::appendRecordedValuesFromRpc(const QJsonObject &value
         int start = m_cache.size();
         for (auto iterTimestamp=values.constBegin(); iterTimestamp!=values.constEnd(); ++iterTimestamp) {
             const QString timeStampStr = iterTimestamp.key();
-            const QDateTime timeStamp = getDateTime(timeStampStr);
+            // const QDateTime timeStamp = getDateTime(timeStampStr);
             const QJsonObject entitiesDataJson = iterTimestamp.value().toObject();
 
             EntitiesData entitiesData;
@@ -103,7 +103,7 @@ void RecorderFetchAndCache::appendRecordedValuesFromRpc(const QJsonObject &value
                 }
                 entitiesData[entityId] = entityData;
             }
-            m_cache.append({timeStamp, entitiesData});
+            m_cache.append({timeStampStr.toFloat(), entitiesData});
         }
         emit sigNewValuesAdded(start, m_cache.size());
     }

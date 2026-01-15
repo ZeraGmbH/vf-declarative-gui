@@ -14,7 +14,7 @@ public:
     typedef QMap<QString /*componentname*/, float /*value*/> SingleEntityData;
     typedef QMap<int /*entityId*/, SingleEntityData> EntitiesData;
     struct TimestampData {
-        QDateTime timeStamp;
+        float timeStamp;
         EntitiesData entitiesData;
     };
 
