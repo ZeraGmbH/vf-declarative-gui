@@ -16,6 +16,7 @@ target_link_libraries(energy-graphs
     ${QTX}::Core
     Zera::VfStorage
     Zera::VfConvenientCode
+    ${QTX}::Charts
 )
 
 target_include_directories(energy-graphs
