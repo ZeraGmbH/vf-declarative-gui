@@ -114,6 +114,7 @@ void test_recorder_caching::cacheRemainsOnStop()
 void test_recorder_caching::cacheClearedOnRestart()
 {
     RecorderFetchAndCache cache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
+
     QSignalSpy cacheAddSpy(&cache, &RecorderFetchAndCache::sigNewValuesAdded);
     QSignalSpy cacheClearSpy(&cache, &RecorderFetchAndCache::sigClearedValues);
 
