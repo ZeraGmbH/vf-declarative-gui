@@ -30,6 +30,8 @@ void test_recorder_caching::init()
     setupServer();
     QVERIFY(setupClient());
     subscribeClient();
+    if(!RecorderFetchAndCache::getInstance())
+        RecorderFetchAndCache *cache = new RecorderFetchAndCache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
 }
 
 void test_recorder_caching::cleanup()
@@ -39,6 +41,7 @@ void test_recorder_caching::cleanup()
     delete m_clientStorage;
     TimeMachineObject::feedEventLoop();
     m_testRunner = nullptr;
+    RecorderFetchAndCache::deleteInstance();
 }
 
 void test_recorder_caching::isServerUp()
@@ -54,27 +57,24 @@ void test_recorder_caching::isClientUp()
 
 void test_recorder_caching::initialIsEmpty()
 {
-    RecorderFetchAndCache cache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
-    QVERIFY(cache.getData().isEmpty());
+    QVERIFY(RecorderFetchAndCache::getInstance()->getData().isEmpty());
 }
 
 void test_recorder_caching::oneValueRecorded()
 {
-    RecorderFetchAndCache cache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
     startStopRecording(true);
     fireActualValues();
     triggerDftModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
 
     QCOMPARE(m_clientStorage->getDb()->getStoredValue(recorderEntityId, "ACT_Points"), 1);
-    QCOMPARE(cache.getData().size(), 1);
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 1);
 }
 
 void test_recorder_caching::twoValuesRecorded()
 {
-    RecorderFetchAndCache cache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
-    QSignalSpy cacheAddSpy(&cache, &RecorderFetchAndCache::sigNewValuesAdded);
-    QSignalSpy cacheClearSpy(&cache, &RecorderFetchAndCache::sigClearedValues);
+    QSignalSpy cacheAddSpy(RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigNewValuesAdded);
+    QSignalSpy cacheClearSpy(RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigClearedValues);
 
     startStopRecording(true);
     constexpr int delayBetween = 1000;
@@ -84,7 +84,7 @@ void test_recorder_caching::twoValuesRecorded()
         TimeMachineForTest::getInstance()->processTimers(delayBetween);
     }
 
-    QList<RecorderFetchAndCache::TimestampData> values = cache.getData();
+    QList<RecorderFetchAndCache::TimestampData> values = RecorderFetchAndCache::getInstance()->getData();
     QCOMPARE(values.size(), 2);
     QCOMPARE(localizedMsSinceEpoch(values[0].timeStamp), 0);
     QCOMPARE(localizedMsSinceEpoch(values[1].timeStamp), delayBetween);
@@ -96,39 +96,63 @@ void test_recorder_caching::twoValuesRecorded()
     QCOMPARE(cacheClearSpy.count(), 0);
 }
 
-void test_recorder_caching::cacheRemainsOnStop()
+void test_recorder_caching::OneValueRecordedOnSessionChange()
 {
-    RecorderFetchAndCache cache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
+    m_testRunner->start(":/mt310s2-emob-session-dc.json");
+    QVERIFY(subscribeClient());
+
     startStopRecording(true);
     fireActualValues();
     triggerDftModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
-    QCOMPARE(cache.getData().size(), 1);
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 1);
+
+    // No recorder module in this session
+    // We don't need to subscribe to other modules, they are created once for all
+    m_testRunner->start(":/mt310s2-meas-session.json");
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 0);
+
+    m_testRunner->start(":/mt310s2-emob-session-ac.json");
+    QVERIFY(subscribeClient());
+
+    startStopRecording(true);
+    fireActualValues();
+    triggerDftModuleSigMeasuring();
+    TimeMachineObject::feedEventLoop();
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 1);
+}
+
+void test_recorder_caching::cacheRemainsOnStop()
+{
+    startStopRecording(true);
+    fireActualValues();
+    triggerDftModuleSigMeasuring();
+    TimeMachineObject::feedEventLoop();
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 1);
 
     startStopRecording(false);
     TimeMachineObject::feedEventLoop();
 
-    QCOMPARE(cache.getData().size(), 1);
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 1);
 }
 
 void test_recorder_caching::cacheClearedOnRestart()
 {
-    RecorderFetchAndCache cache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
-    QSignalSpy cacheAddSpy(&cache, &RecorderFetchAndCache::sigNewValuesAdded);
-    QSignalSpy cacheClearSpy(&cache, &RecorderFetchAndCache::sigClearedValues);
+    QSignalSpy cacheAddSpy(RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigNewValuesAdded);
+    QSignalSpy cacheClearSpy(RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigClearedValues);
 
     startStopRecording(true);
     fireActualValues();
     triggerDftModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
-    QCOMPARE(cache.getData().size(), 1);
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 1);
 
     startStopRecording(false);
     TimeMachineObject::feedEventLoop();
     startStopRecording(true);
     TimeMachineObject::feedEventLoop();
 
-    QCOMPARE(cache.getData().size(), 0);
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 0);
     QCOMPARE(cacheAddSpy.count(), 1);
     QCOMPARE(cacheAddSpy[0][0], 0);
     QCOMPARE(cacheAddSpy[0][1], 1);
@@ -137,18 +161,17 @@ void test_recorder_caching::cacheClearedOnRestart()
 
 void test_recorder_caching::cacheClearedOnVeinSessionChange()
 {
-    RecorderFetchAndCache cache(m_clientStorage, m_clientStack->getCmdEventHandlerSystem());
-    QSignalSpy cacheAddSpy(&cache, &RecorderFetchAndCache::sigNewValuesAdded);
-    QSignalSpy cacheClearSpy(&cache, &RecorderFetchAndCache::sigClearedValues);
+    QSignalSpy cacheAddSpy(RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigNewValuesAdded);
+    QSignalSpy cacheClearSpy(RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigClearedValues);
 
     startStopRecording(true);
     fireActualValues();
     triggerDftModuleSigMeasuring();
     TimeMachineObject::feedEventLoop();
-    QCOMPARE(cache.getData().size(), 1);
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 1);
 
     m_testRunner->start(":/mt310s2-emob-session-dc.json");
-    QCOMPARE(cache.getData().size(), 0);
+    QCOMPARE(RecorderFetchAndCache::getInstance()->getData().size(), 0);
 }
 
 void test_recorder_caching::setupServer()

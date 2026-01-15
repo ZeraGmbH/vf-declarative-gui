@@ -3,6 +3,7 @@
 #include <task_client_rpc_invoker.h>
 #include <QJsonObject>
 
+static RecorderFetchAndCache* m_instance = nullptr;
 constexpr int systemEntityId = 0;
 constexpr int recorderEntityId = 1800;
 
@@ -10,23 +11,33 @@ RecorderFetchAndCache::RecorderFetchAndCache(VeinStorage::AbstractEventSystem *c
                                              VfCmdEventHandlerSystemPtr cmdEventHandlerSystem) :
     m_clientStorage(clientStorage),
     m_cmdEventHandlerSystem(cmdEventHandlerSystem),
-    m_entryCountComponent(m_clientStorage->getDb()->getFutureComponent(recorderEntityId, "ACT_Points")),
-    m_entryStartStopComponent(m_clientStorage->getDb()->getFutureComponent(recorderEntityId, "PAR_StartStopRecording")),
     m_entryVeinSessionNameComponent(m_clientStorage->getDb()->getFutureComponent(systemEntityId, "Session")),
     m_taskQueue(TaskContainerQueue::create()),
     m_rpcSuccessful(std::make_shared<bool>()),
     m_result(std::make_shared<QVariant>()),
     m_errorMsg(std::make_shared<QString>())
 {
-    connect(m_entryCountComponent.get(), &VeinStorage::AbstractComponent::sigValueChange,
-            this, &RecorderFetchAndCache::onRecorderEntryCountChange);
-    connect(m_entryStartStopComponent.get(), &VeinStorage::AbstractComponent::sigValueChange, [&](QVariant value) {
-        if(value == true)
-            clearCache();
-    });
-    connect(m_entryVeinSessionNameComponent.get(), &VeinStorage::AbstractComponent::sigValueChange, [&]() {
+    Q_ASSERT(m_instance == nullptr);
+    m_instance = this;
+
+    init();
+    connect(m_entryVeinSessionNameComponent.get(), &VeinStorage::AbstractComponent::sigValueChange, [&](QVariant sessionName) {
+        if(!sessionName.toString().isEmpty()) {
+            init();
+        }
         clearCache();
     });
+}
+
+RecorderFetchAndCache *RecorderFetchAndCache::getInstance()
+{
+    return m_instance;
+}
+
+void RecorderFetchAndCache::deleteInstance()
+{
+    delete m_instance;
+    m_instance = nullptr;
 }
 
 void RecorderFetchAndCache::onRecorderEntryCountChange(QVariant value)
@@ -47,6 +58,12 @@ void RecorderFetchAndCache::onRecorderEntryCountChange(QVariant value)
     connect(task.get(), &TaskTemplate::sigFinish,
             this, &RecorderFetchAndCache::onRpcFinish);
     m_taskQueue->addSub(std::move(task));
+}
+
+void RecorderFetchAndCache::onStartStopChange(QVariant value)
+{
+    if(value == true)
+        clearCache();
 }
 
 void RecorderFetchAndCache::onRpcFinish(bool ok)
@@ -98,6 +115,16 @@ void RecorderFetchAndCache::clearCache()
         m_cache.clear();
         emit sigClearedValues();
     }
+}
+
+void RecorderFetchAndCache::init()
+{
+    m_entryCountComponent = m_clientStorage->getDb()->getFutureComponent(recorderEntityId, "ACT_Points");
+    m_entryStartStopComponent = m_clientStorage->getDb()->getFutureComponent(recorderEntityId, "PAR_StartStopRecording");
+    connect(m_entryCountComponent.get(), &VeinStorage::AbstractComponent::sigValueChange,
+            this, &RecorderFetchAndCache::onRecorderEntryCountChange, Qt::UniqueConnection);
+    connect(m_entryStartStopComponent.get(), &VeinStorage::AbstractComponent::sigValueChange,
+            this, &RecorderFetchAndCache::onStartStopChange, Qt::UniqueConnection);
 }
 
 QString RecorderFetchAndCache::getDateTimeConvertStr()

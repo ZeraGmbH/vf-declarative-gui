@@ -18,6 +18,7 @@ private slots:
     void initialIsEmpty();
     void oneValueRecorded();
     void twoValuesRecorded();
+    void OneValueRecordedOnSessionChange();
 
     void cacheRemainsOnStop();
     void cacheClearedOnRestart();
