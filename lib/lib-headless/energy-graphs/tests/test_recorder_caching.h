@@ -18,6 +18,7 @@ private slots:
     void initialIsEmpty();
     void oneValueRecorded();
     void twoValuesRecorded();
+    void OneValueRecordedOnSessionChange();
 
     void cacheRemainsOnStop();
     void cacheClearedOnRestart();
@@ -31,7 +32,6 @@ private:
     void startStopRecording(bool start);
     void fireActualValues();
     void triggerDftModuleSigMeasuring();
-    qint64 localizedMsSinceEpoch(const QDateTime &dt);
 
     std::unique_ptr<ModuleManagerTestRunner> m_testRunner;
     std::unique_ptr<VeinNet::NetworkSystem> m_netSystem;

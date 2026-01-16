@@ -14,11 +14,13 @@ public:
     typedef QMap<QString /*componentname*/, float /*value*/> SingleEntityData;
     typedef QMap<int /*entityId*/, SingleEntityData> EntitiesData;
     struct TimestampData {
-        QDateTime timeStamp;
+        float timeStamp;
         EntitiesData entitiesData;
     };
 
     explicit RecorderFetchAndCache(VeinStorage::AbstractEventSystem* clientStorage, VfCmdEventHandlerSystemPtr cmdEventHandlerSystem);
+    static RecorderFetchAndCache* getInstance();
+    static void deleteInstance();
     const QList<TimestampData> &getData() const;
 signals:
     void sigNewValuesAdded(int startIdx, int postEndIdx);
@@ -26,10 +28,12 @@ signals:
 
 private slots:
     void onRecorderEntryCountChange(QVariant value);
+    void onStartStopChange(QVariant value);
     void onRpcFinish(bool ok);
 private:
     void appendRecordedValuesFromRpc(const QJsonObject &values);
     void clearCache();
+    void init();
     static QString getDateTimeConvertStr();
     static QDateTime getDateTime(const QString &timeStamp);
 
