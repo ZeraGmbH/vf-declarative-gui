@@ -79,7 +79,6 @@ Item {
                     graphHeight: parent.height
                     graphWidth: parent.width
                     parStartStop: root.errCalEntity.PAR_StartStop
-                    visible: !ASWGL.isServer
                 }
             }
 
@@ -116,7 +115,7 @@ Item {
                     if(errCalEntity.PAR_StartStop !== 1) {
                         errCalEntity.PAR_StartStop=1;
                     }
-                    if(SessionState.emobSession && !ASWGL.isServer)
+                    if(SessionState.emobSession)
                         multiSwipe.currentIndex = 1
                 }
             }
@@ -187,7 +186,6 @@ Item {
                 }
             }
             Loader {
-                active: !ASWGL.isServer
                 height: active ? root.rowHeight : 0
                 width: root.width * 0.35
                 anchors.top: parent.top
