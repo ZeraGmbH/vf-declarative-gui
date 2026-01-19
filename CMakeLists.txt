@@ -13,7 +13,7 @@ set(QT_MAJOR_VER "5" CACHE STRING "Qt major version")
 set(QTX "Qt${QT_MAJOR_VER}")
 
 if("${QT_MAJOR_VER}" STREQUAL "6")
-    find_package(Qt6 COMPONENTS Core Core5Compat StateMachine DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
+    find_package(Qt6 COMPONENTS Core Charts Core5Compat StateMachine DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
 else()
     find_package(Qt5 COMPONENTS Core Charts DBus Xml Quick QuickControls2 Qml Test CONFIG REQUIRED COMPONENTS)
     find_package(Qt5QuickCompiler CONFIG REQUIRED)
