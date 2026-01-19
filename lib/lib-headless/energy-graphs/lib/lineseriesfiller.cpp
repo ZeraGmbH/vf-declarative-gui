@@ -10,9 +10,14 @@ LineSeriesFiller::LineSeriesFiller(QObject *parent)
             this, &LineSeriesFiller::onClearedValues);
 }
 
-void LineSeriesFiller::setLineSeries(QObject *lineSeries)
+void LineSeriesFiller::setLineSeries(QtLineSeries *lineSeries)
 {
-    m_lineSeries = qobject_cast<QtCharts::QLineSeries*>(lineSeries);
+    m_lineSeries = lineSeries;
+}
+
+QtLineSeries *LineSeriesFiller::getLineSeries() const
+{
+    return m_lineSeries;
 }
 
 void LineSeriesFiller::setEntityId(int entityId)
@@ -20,9 +25,19 @@ void LineSeriesFiller::setEntityId(int entityId)
     m_entityId = entityId;
 }
 
+int LineSeriesFiller::getEntityId() const
+{
+    return m_entityId;
+}
+
 void LineSeriesFiller::setComponentName(QString componentName)
 {
     m_componentName = componentName;
+}
+
+QString LineSeriesFiller::getComponentName() const
+{
+    return m_componentName;
 }
 
 void LineSeriesFiller::onNewValuesAdded(int startIdx, int postEndIdx)
