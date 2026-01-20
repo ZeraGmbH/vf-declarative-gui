@@ -10,8 +10,9 @@ public:
     explicit AxisAutoScaler(QObject *parent = nullptr);
     Q_INVOKABLE void reset(double minValue, double maxValue);
     Q_INVOKABLE void scaleToNewActualValue(double actualValue);
-    Q_INVOKABLE int getRoundedMinValueWithMargin();
+    Q_INVOKABLE int getPowerRoundedMinValueWithMargin();
     Q_INVOKABLE int getRoundedMaxValueWithMargin();
+    Q_INVOKABLE int getUIRoundedMinValueWithMargin();
 
 private:
     void calculateMargin();

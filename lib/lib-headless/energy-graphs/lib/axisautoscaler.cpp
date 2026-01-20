@@ -29,14 +29,22 @@ int AxisAutoScaler::roundUpward(double value)
     return ceil(value/ 10) * 10;
 }
 
-int AxisAutoScaler::getRoundedMinValueWithMargin()
+int AxisAutoScaler::getPowerRoundedMinValueWithMargin()
 {
-    return roundDownward(m_minValue)- roundUpward(m_margin);
+    return roundDownward(m_minValue)- (m_margin);
 }
 
 int AxisAutoScaler::getRoundedMaxValueWithMargin()
 {
-    return roundUpward(m_maxValue) + roundUpward(m_margin);
+    return roundUpward(m_maxValue) + (m_margin);
+}
+
+int AxisAutoScaler::getUIRoundedMinValueWithMargin()
+{
+    int min = roundDownward(m_minValue)- (m_margin);
+    if(min < 0)
+        return 0;
+    return min;
 }
 
 void AxisAutoScaler::calculateMargin()

@@ -81,8 +81,12 @@ Item {
         if(root.timeDiffSecs === 0)
             axisYScalar.reset(value, 0.0)
         axisYScalar.scaleToNewActualValue(value)
-        if(axisY.min === 0 || axisY.min > axisYScalar.getRoundedMinValueWithMargin()) //0 is the default min value
-            axisY.min = axisYScalar.getRoundedMinValueWithMargin()
+        if(axisY !== axisYPower)
+            axisY.min = axisYScalar.getUIRoundedMinValueWithMargin();
+        else {
+            if(axisY.min === 0 || axisY.min > axisYScalar.getPowerRoundedMinValueWithMargin()) //0 is the default min value
+                axisY.min = axisYScalar.getPowerRoundedMinValueWithMargin()
+        }
         if(axisY.max < axisYScalar.getRoundedMaxValueWithMargin())
             axisY.max = axisYScalar.getRoundedMaxValueWithMargin()
     }
