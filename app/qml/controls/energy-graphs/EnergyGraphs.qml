@@ -9,7 +9,6 @@ import VfRecorderJsonHelper 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
 import AxisAutoScaler 1.0
-import SingleValueScaler 1.0
 import ZeraThemeConfig 1.0
 import VeinEntity 1.0
 import RecorderFetchAndCache 1.0
@@ -56,17 +55,14 @@ Item {
 
     function resetCharts() {
         // clear all series
-        for(var i= 0; i < chartView.count; i++)
-            chartView.series(i).clear()
+        for(var i= 0; i < chartViewUI.count; i++)
+            chartViewUI.series(i).clear()
         for(var j= 0; j < chartViewPower.count; j++)
             chartViewPower.series(j).clear()
         // reset Y-axis min/max, X-axis is managed differently with property binding
-        axisYPower.min = 0
-        axisYPower.max = 10
-        axisYLeft.min = 0
-        axisYLeft.max = 10
-        axisYRight.min = 0
-        axisYRight.max = 10
+        axisYPowerItem.reset()
+        axisYLeftItem.reset()
+        axisYRightItem.reset()
     }
 
     function calculateContentWidth() {
@@ -81,7 +77,7 @@ Item {
         if(root.timeDiffSecs === 0)
             axisYScalar.reset(value, 0.0)
         axisYScalar.scaleToNewActualValue(value)
-        if(axisY !== axisYPower)
+        if(axisY !== axisYPowerItem.valueAxis)
             axisY.min = axisYScalar.getUIRoundedMinValueWithMargin();
         else {
             if(axisY.min === 0 || axisY.min > axisYScalar.getPowerRoundedMinValueWithMargin()) //0 is the default min value
@@ -102,9 +98,6 @@ Item {
     }
     AxisAutoScaler {
         id: axisYRightScaler
-    }
-    SingleValueScaler {
-        id: singleValueScaler
     }
 
     Loader {
@@ -186,14 +179,14 @@ Item {
         id: verticalFlickable
         anchors.top: phasesLoader.active ? phasesLoader.bottom : root.top
         boundsBehavior: Flickable.StopAtBounds
-        contentHeight: chartView.height + chartViewPower.height
+        contentHeight: chartViewUI.height + chartViewPower.height
         width: root.width
         height: phasesLoader.active ? root.height - phasesLoader.height : root.height
         property int chartsHeight: phasesLoader.active ? root.graphHeight /2 - phasesLoader.height : root.graphHeight /2
         flickableDirection: Flickable.VerticalFlick
         clip: true
         onMovementEnded: {
-            let pageHeight = chartView.height
+            let pageHeight = chartViewUI.height
             let currentPage = Math.round(contentY / pageHeight);
             contentY = currentPage * pageHeight
         }
@@ -202,7 +195,7 @@ Item {
             id: verticalScroll
             width: verticalFlickable.width * 0.013
             anchors.right: parent.right
-            policy : verticalFlickable.height >= chartView.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
+            policy : verticalFlickable.height >= chartViewUI.height + chartViewPower.height ?  ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
             snapMode: ScrollBar.SnapOnRelease
             stepSize: 1
         }
@@ -217,11 +210,11 @@ Item {
             onPinchUpdated: (pinch) => {
                 let pinchScale = pinch.scale * pinch.previousScale
                 if (pinchScale > 1.0) {
-                    chartView.height = verticalFlickable.chartsHeight
+                    chartViewUI.height = verticalFlickable.chartsHeight
                     chartViewPower.height = verticalFlickable.chartsHeight
                 }
                 else if (pinchScale < 1.0) {
-                    chartView.height = verticalFlickable.chartsHeight/2
+                    chartViewUI.height = verticalFlickable.chartsHeight/2
                     chartViewPower.height = verticalFlickable.chartsHeight/2
                 }
             }
@@ -248,33 +241,12 @@ Item {
             Component.onCompleted: {
                 ready = true
             }
-
-            ValueAxis {
-                id: axisYPower
-                titleText: "P[" + axisYPower.unitPrefix + "W]"
-                titleFont.pixelSize: chartViewPower.height * 0.06
-                labelsFont.pixelSize: chartViewPower.height * 0.04
-                min: 0
-                max: 10
-                labelsVisible: false
-                property int perDivision: (max - min) / (tickCount - 1)
-                property real scale: 1
-                property string unitPrefix: ""
-                onMaxChanged: (max) => {
-                    singleValueScaler.scaleSingleValForQML(max)
-                    scale = singleValueScaler.getScaleFactor()
-                    unitPrefix = singleValueScaler.getUnitPrefix()
-                }
-            }
-            Repeater {
-                model: axisYPower.tickCount
-                delegate: Text {
-                    text: ((axisYPower.max - (index * axisYPower.perDivision)) * axisYPower.scale).toFixed(2)
-                    color: ZTC.primaryTextColor
-                    font.pixelSize: chartViewPower.height * 0.04
-                    x: (chartViewPower.plotArea.x * 0.9) - width
-                    y: (chartViewPower.plotArea.y * 0.4) + (index * (chartViewPower.plotArea.height / (axisYPower.tickCount - 1)))
-                }
+            EnergyGraphsYAxis {
+                id: axisYPowerItem
+                graphWidth: root.graphWidth
+                chartView: chartViewPower
+                title: "P"
+                unitBase: "W"
             }
             ValueAxis {
                 id: axisXPower
@@ -342,7 +314,7 @@ Item {
                 id: powerLineSeriesL1
                 name: powerComponentsACDC[0]
                 axisX: axisXPower
-                axisY: axisYPower
+                axisY: axisYPowerItem.valueAxis
                 color: SessionState.dcSession ? CS.colorUAux1 : CS.colorUL1
                 visible: GC.showCurvePhaseOne || SessionState.dcSession
                 LineSeriesFiller {
@@ -350,13 +322,13 @@ Item {
                     entityId: 1070
                     componentName: powerComponentsACDC[0]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 id: powerLineSeriesL2
                 name: powerComponentsACDC[1]
                 axisX: axisXPower
-                axisY: axisYPower
+                axisY: axisYPowerItem.valueAxis
                 color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 LineSeriesFiller {
@@ -364,13 +336,13 @@ Item {
                     entityId: 1070
                     componentName: powerComponentsACDC[1]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 id: powerLineSeriesL3
                 name: powerComponentsACDC[2]
                 axisX: axisXPower
-                axisY: axisYPower
+                axisY: axisYPowerItem.valueAxis
                 color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 LineSeriesFiller {
@@ -378,13 +350,13 @@ Item {
                     entityId: 1070
                     componentName: powerComponentsACDC[2]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 id: powerLineSeriesSum
                 name: powerComponentsACDC[3]
                 axisX: axisXPower
-                axisY: axisYPower
+                axisY: axisYPowerItem.valueAxis
                 color: ZTC.primaryTextColor
                 visible: GC.showCurveSum && !SessionState.dcSession
                 LineSeriesFiller {
@@ -392,11 +364,11 @@ Item {
                     entityId: 1070
                     componentName: powerComponentsACDC[3]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPower, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
         }
         ChartView {
-            id: chartView
+            id: chartViewUI
             height: phasesLoader.active ? root.graphHeight / 2 - phasesLoader.height : root.graphHeight / 2
             width: root.graphWidth
             anchors.top: chartViewPower.bottom
@@ -418,79 +390,42 @@ Item {
                 ready = true
             }
 
-            ValueAxis {
-                id: axisYLeft
-                titleText: "U[" + axisYLeft.unitPrefix + "V]"
-                titleFont.pixelSize: chartView.height * 0.06
-                labelsFont.pixelSize: chartView.height * 0.04
-                min: 0
-                max : 10
-                labelsVisible: false
-                property int perDivision: (max - min) / (tickCount - 1)
-                property real scale: 1
-                property string unitPrefix: ""
-                onMaxChanged: (max) => {
-                    singleValueScaler.scaleSingleValForQML(max)
-                    scale = singleValueScaler.getScaleFactor()
-                    unitPrefix = singleValueScaler.getUnitPrefix()
-                }
+            EnergyGraphsYAxis {
+                id: axisYLeftItem
+                graphWidth: root.graphWidth
+                chartView: chartViewUI
+                title: "U"
+                unitBase: "V"
             }
-            Repeater {
-                model: axisYLeft.tickCount
-                delegate: Text {
-                    text: ((axisYLeft.max - (index * axisYLeft.perDivision)) * axisYLeft.scale).toFixed(2)
-                    color: ZTC.primaryTextColor
-                    font.pixelSize: chartView.height * 0.04
-                    x: (chartView.plotArea.x * 0.9) - width
-                    y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYLeft.tickCount - 1)))
-                }
-            }
+
             ValueAxis {
                 id: axisX
                 titleText: "T[s]"
-                titleFont.pointSize: chartView.height * 0.04
-                labelsFont.pixelSize: chartView.height * 0.04
+                titleFont.pointSize: chartViewUI.height * 0.04
+                labelsFont.pixelSize: chartViewUI.height * 0.04
                 labelFormat: "%d"
                 min: {
-                    if(chartView.loggingActive)
+                    if(chartViewUI.loggingActive)
                         return 0
                     else
-                        return Math.max(chartView.pinchedXMin, 0)
+                        return Math.max(chartViewUI.pinchedXMin, 0)
                 }
 
                 max : {
-                    if (chartView.loggingActive)
+                    if (chartViewUI.loggingActive)
                         return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs;
                     else
-                        return chartView.pinchedXMax;
+                        return chartViewUI.pinchedXMax;
                 }
             }
-            ValueAxis {
-                id: axisYRight
-                titleText: "I[" + axisYRight.unitPrefix + "A]"
-                titleFont.pixelSize: chartView.height * 0.06
-                labelsFont.pixelSize: chartView.height * 0.04
-                min: 0
-                max : 10
-                labelsVisible: false
-                property int perDivision: (max - min) / (tickCount - 1)
-                property real scale: 1
-                property string unitPrefix: ""
-                onMaxChanged: (max) => {
-                    singleValueScaler.scaleSingleValForQML(max)
-                    scale = singleValueScaler.getScaleFactor()
-                    unitPrefix = singleValueScaler.getUnitPrefix()
-                }
-            }
-            Repeater {
-                model: axisYRight.tickCount
-                delegate: Text {
-                    text: ((axisYRight.max - (index * axisYRight.perDivision)) * axisYRight.scale).toFixed(2)
-                    color: ZTC.primaryTextColor
-                    font.pixelSize: chartView.height * 0.04
-                    x: root.graphWidth - chartView.plotArea.x + 5
-                    y: (chartView.plotArea.y * 0.4) + (index * (chartView.plotArea.height / (axisYRight.tickCount - 1)))
-                }
+
+            EnergyGraphsYAxis {
+                id: axisYRightItem
+                graphWidth: root.graphWidth
+                onTheRight: true
+                chartView: chartViewUI
+                title: "I"
+                unitBase: "A"
             }
 
             Flickable {
@@ -515,8 +450,8 @@ Item {
                     interactive: !logging
                     position: 1.0 - size
                     onPositionChanged: {
-                        chartView.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
-                        chartView.pinchedXMax = chartView.pinchedXMin + xAxisTimeSpanSecs
+                        chartViewUI.pinchedXMin = Math.ceil(root.timeDiffSecs * position)
+                        chartViewUI.pinchedXMax = chartViewUI.pinchedXMin + xAxisTimeSpanSecs
                     }
                 }
                 PinchArea {
@@ -529,7 +464,7 @@ Item {
                             chartViewFlickable.contentWidth = root.contentWidth
                         else {
                             chartViewFlickable.contentWidth = root.chartWidth
-                            chartView.pinchedXMax = root.timeDiffSecs
+                            chartViewUI.pinchedXMax = root.timeDiffSecs
                         }
                     }
                 }
@@ -539,7 +474,7 @@ Item {
                 id: lineSeriesUL1
                 name: voltageComponentsAC[0]
                 axisX: axisX
-                axisY: axisYLeft
+                axisY: axisYLeftItem.valueAxis
                 color: CS.colorUL1
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 LineSeriesFiller {
@@ -547,13 +482,13 @@ Item {
                     entityId: 1040
                     componentName: voltageComponentsAC[0]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 id: lineSeriesUL2
                 name: voltageComponentsAC[1]
                 axisX: axisX
-                axisY: axisYLeft
+                axisY: axisYLeftItem.valueAxis
                 color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 LineSeriesFiller {
@@ -561,13 +496,13 @@ Item {
                     entityId: 1040
                     componentName: voltageComponentsAC[1]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 id: lineSeriesUL3
                 name: voltageComponentsAC[2]
                 axisX: axisX
-                axisY: axisYLeft
+                axisY: axisYLeftItem.valueAxis
                 color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 LineSeriesFiller {
@@ -575,13 +510,13 @@ Item {
                     entityId: 1040
                     componentName: voltageComponentsAC[2]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 id: lineSeriesIL1
                 name: currentComponentsAC[0]
                 axisX: axisX
-                axisYRight: axisYRight
+                axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIL1
                 LineSeriesFiller {
                     lineSeries: lineSeriesIL1
@@ -589,13 +524,13 @@ Item {
                     componentName: currentComponentsAC[0]
                 }
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
             }
             LineSeries {
                 id: lineSeriesIL2
                 name: currentComponentsAC[1]
                 axisX: axisX
-                axisYRight: axisYRight
+                axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIL2
                 LineSeriesFiller {
                     lineSeries: lineSeriesIL2
@@ -603,13 +538,13 @@ Item {
                     componentName: currentComponentsAC[1]
                 }
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
             }
             LineSeries {
                 id: lineSeriesIL3
                 name: currentComponentsAC[2]
                 axisX: axisX
-                axisYRight: axisYRight
+                axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIL3
                 LineSeriesFiller {
                     lineSeries: lineSeriesIL3
@@ -617,23 +552,23 @@ Item {
                     componentName: currentComponentsAC[2]
                 }
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
             }
             LineSeries {
                 name: voltageComponentsDC[0]
                 axisX: axisX
-                axisY: axisYLeft
+                axisY: axisYLeftItem.valueAxis
                 color: CS.colorUAux1
                 visible: SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYLeft, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
             }
             LineSeries {
                 name: currentComponentsDC[0]
                 axisX: axisX
-                axisYRight: axisYRight
+                axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIAux1
                 visible: SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRight, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
             }
         }
     }

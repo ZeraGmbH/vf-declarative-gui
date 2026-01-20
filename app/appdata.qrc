@@ -108,6 +108,7 @@
         <file>qml/controls/PageView.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
         <file>qml/controls/energy-graphs/EnergyGraphs.qml</file>
+        <file>qml/controls/energy-graphs/EnergyGraphsYAxis.qml</file>
         <file>qml/controls/ranges/OverloadButton.qml</file>
         <file>qml/controls/ranges/RangeMModePage.qml</file>
         <file>qml/controls/ranges/RangeLine.qml</file>
