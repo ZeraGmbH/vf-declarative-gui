@@ -83,7 +83,6 @@
         <file>qml/pages/DCActualValueTabsPage.qml</file>
         <file>qml/pages/ErrorCalculatorModulePage.qml</file>
         <file>qml/pages/ErrorRegisterModulePage.qml</file>
-        <file>qml/pages/EnergyGraphs.qml</file>
         <file>qml/pages/ComparisonTabsView.qml</file>
         <file>qml/pages/FftTabPage.qml</file>
         <file>qml/pages/HarmonicPowerTabPage.qml</file>
@@ -108,6 +107,7 @@
         <file>qml/controls/PageGridView.qml</file>
         <file>qml/controls/PageView.qml</file>
         <file>qml/pages/DCActualValuesPage.qml</file>
+        <file>qml/controls/energy-graphs/EnergyGraphs.qml</file>
         <file>qml/controls/ranges/OverloadButton.qml</file>
         <file>qml/controls/ranges/RangeMModePage.qml</file>
         <file>qml/controls/ranges/RangeLine.qml</file>
