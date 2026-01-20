@@ -2,11 +2,9 @@
 #define LINESERIESFILLER_H
 
 #include <QObject>
-#include <QLineSeries>
+#include <QtCharts/QLineSeries>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#define QtLineSeries QtCharts::QLineSeries
-#else
-#define QtLineSeries QLineSeries
+using namespace QtCharts;
 #endif
 
 class LineSeriesFiller : public QObject
@@ -15,12 +13,12 @@ class LineSeriesFiller : public QObject
 public:
     explicit LineSeriesFiller(QObject *parent = nullptr);
 
-    Q_PROPERTY(QtLineSeries* lineSeries WRITE setLineSeries READ getLineSeries FINAL)
+    Q_PROPERTY(QLineSeries* lineSeries WRITE setLineSeries READ getLineSeries FINAL)
     Q_PROPERTY(int entityId WRITE setEntityId READ getEntityId FINAL)
     Q_PROPERTY(QString componentName WRITE setComponentName READ getComponentName FINAL)
 
-    void setLineSeries(QtLineSeries* lineSeries);
-    QtLineSeries* getLineSeries() const;
+    void setLineSeries(QLineSeries* lineSeries);
+    QLineSeries* getLineSeries() const;
 
     void setEntityId(int entityId);
     int getEntityId() const;
@@ -33,7 +31,7 @@ private slots:
     void onClearedValues();
 
 private:
-    QtLineSeries *m_lineSeries;
+    QLineSeries *m_lineSeries;
     int m_entityId;
     QString m_componentName;
 };

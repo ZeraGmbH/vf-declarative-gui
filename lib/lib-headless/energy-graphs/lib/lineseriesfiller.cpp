@@ -10,12 +10,12 @@ LineSeriesFiller::LineSeriesFiller(QObject *parent)
             this, &LineSeriesFiller::onClearedValues);
 }
 
-void LineSeriesFiller::setLineSeries(QtLineSeries *lineSeries)
+void LineSeriesFiller::setLineSeries(QLineSeries *lineSeries)
 {
     m_lineSeries = lineSeries;
 }
 
-QtLineSeries *LineSeriesFiller::getLineSeries() const
+QLineSeries *LineSeriesFiller::getLineSeries() const
 {
     return m_lineSeries;
 }
