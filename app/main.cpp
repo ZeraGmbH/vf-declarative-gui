@@ -36,7 +36,6 @@
 #include "axisautoscaler.h"
 #include "singlevaluescaler.h"
 #include "vs_clientstorageeventsystem.h"
-#include "recordercaching.h"
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
 #include <zvkeyboardlayout.h>
@@ -69,15 +68,6 @@ QmlFileIO *getQmlFileIOInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     return QmlFileIO::getInstance();
 }
 
-static RecorderCaching *recorderInstance = nullptr;
-
-RecorderCaching *getRecorderCache(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return recorderInstance;
-}
-
 RecorderFetchAndCache *getRecorderFetchAndCache(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
@@ -103,7 +93,6 @@ static void registerQmlInt()
     QmlAppStarterForApi::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
     qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", getQmlFileIOInstance);
-    qmlRegisterSingletonType<RecorderCaching>("RecorderDataCache", 1, 0, "RecorderDataCache", getRecorderCache);
     qmlRegisterSingletonType<RecorderFetchAndCache>("RecorderFetchAndCache", 1, 0, "RecorderFetchAndCache", getRecorderFetchAndCache);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
@@ -244,7 +233,6 @@ int main(int argc, char *argv[])
     VeinApiQml::VeinQml *qmlApi = new VeinApiQml::VeinQml(&app);
     VeinStorage::ClientStorageEventSystem *storage = new VeinStorage::ClientStorageEventSystem(&app);
     VfCmdEventHandlerSystemPtr cmdEventHandlerSystem = VfCmdEventHandlerSystem::create();
-    recorderInstance = new RecorderCaching(storage, cmdEventHandlerSystem);
     RecorderFetchAndCache* recorderFetch = new RecorderFetchAndCache(storage, cmdEventHandlerSystem);
 
     VeinApiQml::VeinQml::setStaticInstance(qmlApi);

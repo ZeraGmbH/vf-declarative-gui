@@ -247,7 +247,6 @@ Item {
             property bool ready: false
             Component.onCompleted: {
                 ready = true
-                //loadPoints(RecorderDataCache.recordedValues)
             }
 
             ValueAxis {
@@ -417,7 +416,6 @@ Item {
             property bool ready: false
             Component.onCompleted: {
                 ready = true
-                //loadPoints(RecorderDataCache.recordedValues)
             }
 
             ValueAxis {
