@@ -28,7 +28,7 @@ Item {
         min: 0
         max: 10
         labelsVisible: false
-        property int perDivision: (max - min) / (tickCount - 1)
+        property real perDivision: (max - min) / (tickCount - 1)
         property real scale: 1
         property string unitPrefix: ""
         onMaxChanged: (max) => {
