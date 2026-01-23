@@ -31,8 +31,11 @@ void test_axisautoscaler::scaleMin()
 void test_axisautoscaler::resetScaling()
 {
     AxisAutoScaler axisScaler;
-    axisScaler.reset(25.5, 105.0);
-    QCOMPARE(axisScaler.getPowerRoundedMinValueWithMargin(), 9);
-    QCOMPARE(axisScaler.getUIRoundedMinValueWithMargin(), 9);
-    QCOMPARE(axisScaler.getRoundedMaxValueWithMargin(), 121);
+    axisScaler.scaleToNewActualValue(-15.5);
+    QCOMPARE(axisScaler.getPowerRoundedMinValueWithMargin(), -22);
+    QCOMPARE(axisScaler.getUIRoundedMinValueWithMargin(), 0);
+    QCOMPARE(axisScaler.getRoundedMaxValueWithMargin(), 2);
+    axisScaler.reset();
+    QCOMPARE(axisScaler.getPowerRoundedMinValueWithMargin(), 0);
+    QCOMPARE(axisScaler.getUIRoundedMinValueWithMargin(), 0);
 }
