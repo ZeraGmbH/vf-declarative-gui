@@ -40,9 +40,9 @@ private:
     VfCmdEventHandlerSystemPtr m_cmdEventHandlerSystem;
 
     QList<TimestampData> m_cache;
-    VeinStorage::StorageComponentPtr m_entryCountComponent;
-    VeinStorage::StorageComponentPtr m_entryStartStopComponent;
-    VeinStorage::StorageComponentPtr m_entryVeinSessionNameComponent;
+    VeinStorage::AbstractComponentPtr m_entryCountComponent;
+    VeinStorage::AbstractComponentPtr m_entryStartStopComponent;
+    VeinStorage::AbstractComponentPtr m_entryVeinSessionNameComponent;
     TaskContainerInterfacePtr m_taskQueue;
     std::shared_ptr<bool> m_rpcSuccessful;
     std::shared_ptr<QVariant> m_result;
