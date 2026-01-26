@@ -20,6 +20,7 @@ endfunction()
 SETUP_TESTS(
     test_axisautoscaler
     test_recorder_caching
+    test_scaling
     )
 
 target_sources(test_recorder_caching
