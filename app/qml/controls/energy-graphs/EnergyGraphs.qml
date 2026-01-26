@@ -9,6 +9,7 @@ import VfRecorderJsonHelper 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
 import AxisAutoScaler 1.0
+import AxisScaler 1.0
 import ZeraThemeConfig 1.0
 import VeinEntity 1.0
 import RecorderFetchAndCache 1.0
@@ -75,33 +76,22 @@ Item {
 
     function scaleYAxis(axisY, axisYScalar, value) {
         if(root.timeDiffSecs === 0)
-            axisYScalar.reset(value, 0.0)
-        axisYScalar.scaleToNewActualValue(value)
-        if(axisY !== axisYPowerItem.valueAxis) {
-            let minValue = axisYScalar.getUIRoundedMinValueWithMargin()
-            if(!SessionState.dcSession && minValue < 0)
-                axisY.min = 0;
-            else
-                axisY.min = minValue;
-        }
-        else {
-            if(axisY.min === 0 || axisY.min > axisYScalar.getPowerRoundedMinValueWithMargin()) //0 is the default min value
-                axisY.min = axisYScalar.getPowerRoundedMinValueWithMargin()
-        }
-        if(axisY.max < axisYScalar.getRoundedMaxValueWithMargin())
-            axisY.max = axisYScalar.getRoundedMaxValueWithMargin()
+            axisYScalar.reset()
+        axisYScalar.scaleAxis(value)
+        axisY.min = axisYScalar.getMinValue()
+        axisY.max = axisYScalar.getMaxValue()
     }
 
     VfRecorderJsonHelper {
         id: jsonHelper
     }
-    AxisAutoScaler {
+    AxisScaler {
         id: axisYPowerScaler
     }
-    AxisAutoScaler {
+    AxisScaler {
         id: axisYLeftScaler
     }
-    AxisAutoScaler {
+    AxisScaler {
         id: axisYRightScaler
     }
 
