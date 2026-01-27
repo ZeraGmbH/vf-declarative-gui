@@ -12,7 +12,6 @@ void test_axisautoscaler::scaleMax()
     QCOMPARE(axisScaler.getRoundedMaxValueWithMargin(), 0);//initial value
     axisScaler.scaleToNewActualValue(27.5);
     QCOMPARE(axisScaler.getPowerRoundedMinValueWithMargin(), -3);
-    QCOMPARE(axisScaler.getUIRoundedMinValueWithMargin(), 0);
     QCOMPARE(axisScaler.getRoundedMaxValueWithMargin(), 33);
 }
 
@@ -24,7 +23,6 @@ void test_axisautoscaler::scaleMin()
     QCOMPARE(axisScaler.getRoundedMaxValueWithMargin(), 0);//initial value
     axisScaler.scaleToNewActualValue(-15.5);
     QCOMPARE(axisScaler.getPowerRoundedMinValueWithMargin(), -22);
-    QCOMPARE(axisScaler.getUIRoundedMinValueWithMargin(), 0);
     QCOMPARE(axisScaler.getRoundedMaxValueWithMargin(), 2);
 }
 

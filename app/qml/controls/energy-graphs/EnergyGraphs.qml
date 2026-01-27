@@ -77,8 +77,11 @@ Item {
         if(root.timeDiffSecs === 0)
             axisYScalar.reset(value, 0.0)
         axisYScalar.scaleToNewActualValue(value)
-        if(axisY !== axisYPowerItem.valueAxis)
+        if(axisY !== axisYPowerItem.valueAxis) {
             axisY.min = axisYScalar.getUIRoundedMinValueWithMargin();
+            if(!SessionState.dcSession && axisY.min < 0)
+                axisY.min = 0;
+        }
         else {
             if(axisY.min === 0 || axisY.min > axisYScalar.getPowerRoundedMinValueWithMargin()) //0 is the default min value
                 axisY.min = axisYScalar.getPowerRoundedMinValueWithMargin()

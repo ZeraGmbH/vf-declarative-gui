@@ -41,10 +41,7 @@ int AxisAutoScaler::getRoundedMaxValueWithMargin()
 
 int AxisAutoScaler::getUIRoundedMinValueWithMargin()
 {
-    int min = roundDownward(m_minValue)- (m_margin);
-    if(min < 0)
-        return 0;
-    return min;
+    return roundDownward(m_minValue)- (m_margin);
 }
 
 void AxisAutoScaler::calculateMargin()
