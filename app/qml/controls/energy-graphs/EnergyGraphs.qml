@@ -322,7 +322,7 @@ Item {
                 visible: GC.showCurvePhaseOne || SessionState.dcSession
                 LineSeriesFiller {
                     lineSeries: powerLineSeriesL1
-                    entityId: 1070
+                    entityId: SessionState.dcSession ? 1073 : 1070
                     componentName: powerComponentsACDC[0]
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
@@ -485,7 +485,10 @@ Item {
                     entityId: 1040
                     componentName: voltageComponentsAC[0]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                              }
             }
             LineSeries {
                 id: lineSeriesUL2
@@ -499,7 +502,10 @@ Item {
                     entityId: 1040
                     componentName: voltageComponentsAC[1]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                              }
             }
             LineSeries {
                 id: lineSeriesUL3
@@ -513,7 +519,10 @@ Item {
                     entityId: 1040
                     componentName: voltageComponentsAC[2]
                 }
-                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                              }
             }
             LineSeries {
                 id: lineSeriesIL1
@@ -527,7 +536,10 @@ Item {
                     componentName: currentComponentsAC[0]
                 }
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                              }
             }
             LineSeries {
                 id: lineSeriesIL2
@@ -541,7 +553,10 @@ Item {
                     componentName: currentComponentsAC[1]
                 }
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                              }
             }
             LineSeries {
                 id: lineSeriesIL3
@@ -555,23 +570,44 @@ Item {
                     componentName: currentComponentsAC[2]
                 }
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                              }
             }
             LineSeries {
+                id: lineSeriesUauxDC
                 name: voltageComponentsDC[0]
                 axisX: axisX
                 axisY: axisYLeftItem.valueAxis
                 color: CS.colorUAux1
+                LineSeriesFiller {
+                    lineSeries: lineSeriesUauxDC
+                    entityId: 1060
+                    componentName: voltageComponentsDC[0]
+                }
                 visible: SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                              }
             }
             LineSeries {
+                id: lineSeriesIauxDC
                 name: currentComponentsDC[0]
                 axisX: axisX
                 axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIAux1
+                LineSeriesFiller {
+                    lineSeries: lineSeriesIauxDC
+                    entityId: 1060
+                    componentName: currentComponentsDC[0]
+                }
                 visible: SessionState.dcSession
-                onPointAdded: (index) => scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                onPointAdded: (index) => {
+                                  if(visible)
+                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                              }
             }
         }
     }
