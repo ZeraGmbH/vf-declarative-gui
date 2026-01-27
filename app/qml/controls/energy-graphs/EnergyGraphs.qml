@@ -75,7 +75,7 @@ Item {
 
     function scaleYAxis(axisY, axisYScalar, value) {
         if(root.timeDiffSecs === 0)
-            axisYScalar.reset()
+            axisYScalar.reset(value, 0.0)
         axisYScalar.scaleToNewActualValue(value)
         if(axisY !== axisYPowerItem.valueAxis)
             axisY.min = axisYScalar.getUIRoundedMinValueWithMargin();

@@ -5,19 +5,17 @@ AxisAutoScaler::AxisAutoScaler(QObject *parent)
     :QObject{parent}
 {}
 
-void AxisAutoScaler::reset()
+void AxisAutoScaler::reset(double minValue, double maxValue)
 {
-    m_minValue = 0;
-    m_maxValue = 0;
+    m_minValue = minValue;
+    m_maxValue = maxValue;
     calculateMargin();
 }
 
 void AxisAutoScaler::scaleToNewActualValue(double actualValue)
 {
-    if(actualValue < m_minValue)
-        m_minValue = actualValue;
-    if(actualValue > m_maxValue)
-        m_maxValue = actualValue;
+    m_minValue = actualValue < m_minValue ? actualValue : m_minValue;
+    m_maxValue = actualValue > m_maxValue ? actualValue : m_maxValue;
     calculateMargin();
 }
 
