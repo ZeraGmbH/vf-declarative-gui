@@ -2,7 +2,7 @@
     "modules" : [
         {
           "name" : "recordermodule",
-          "configFile" : "recordermodule.xml",
+          "configFile" : "recordermodule-emob-ac.xml",
           "id": 1800
         }
     ]
