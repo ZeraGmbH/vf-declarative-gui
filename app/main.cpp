@@ -15,6 +15,7 @@
 #include <veinqmlwrapper.h>
 #include <fontawesome-qml.h>
 #include "lineseriesfiller.h"
+#include "axissetter.h"
 #include "recorderfetchandcache.h"
 #include "vfcomponenteventdispatcher.h"
 #include "tableeventconsumer.h"
@@ -104,6 +105,7 @@ static void registerQmlInt()
     qmlRegisterType<SingleValueScaler>("SingleValueScaler", 1, 0, "SingleValueScaler");
     qmlRegisterType<UpdateWrapper>("UpdateWrapper", 1, 0, "UpdateWrapper");
     qmlRegisterType<LineSeriesFiller>("LineSeriesFiller", 1, 0, "LineSeriesFiller");
+    qmlRegisterType<AxisSetter>("AxisSetter", 1, 0, "AxisSetter");
     qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/SessionState.qml"), "SessionState", 1, 0, "SessionState");
