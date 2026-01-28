@@ -21,7 +21,6 @@ target_link_libraries(vf-declarative-gui-lib-headless
     ${QTX}::Core
     VeinMeta::VfFiles
     simplecmdio-client
-    energy-graphs
     )
 
 set(SET_USB_STICK_PATH "/media/" CACHE STRING "Automount path")
