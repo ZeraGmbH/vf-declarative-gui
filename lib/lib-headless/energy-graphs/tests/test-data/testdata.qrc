@@ -3,5 +3,8 @@
         <file>mt310s2-emob-session-ac.json</file>
         <file>mt310s2-emob-session-dc.json</file>
         <file>mt310s2-meas-session.json</file>
+        <file>chartSvgs/emptyChart.svg</file>
+        <file>chartSvgs/chartFilled.svg</file>
+        <file>chartSvgs/scaleAxes.svg</file>
     </qresource>
 </RCC>
