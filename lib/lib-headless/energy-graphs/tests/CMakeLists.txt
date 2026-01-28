@@ -12,7 +12,8 @@ function(SETUP_TESTS)
         PUBLIC
         ${QTX}::Test
         Zera::zera-modulemanager-testlib
-        vf-declarative-gui-lib-headless
+        Zera::xml-compare-testlib
+        energygraphs-testlib
     )
     endforeach()
 endfunction()
@@ -21,7 +22,13 @@ SETUP_TESTS(
     test_axisautoscaler
     test_recorder_caching
     test_scaling
-    )
+    test_draw_charts
+)
+
+target_sources(test_draw_charts
+  PRIVATE
+  test-data/testdata.qrc
+)
 
 target_sources(test_recorder_caching
     PRIVATE
