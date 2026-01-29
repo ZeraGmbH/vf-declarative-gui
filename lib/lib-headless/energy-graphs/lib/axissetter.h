@@ -34,6 +34,8 @@ public:
     Q_INVOKABLE double getScale();
     QString getPrefix();
 
+    void scaleAxis(double max);
+
 signals :
     void minChanged(double min);
     void maxChanged(double max);
@@ -41,7 +43,6 @@ signals :
     void scaleChanged(double scale);
 
 private slots:
-    void onMaxChanged(double max);
 
 private:
     QValueAxis *m_axis;
