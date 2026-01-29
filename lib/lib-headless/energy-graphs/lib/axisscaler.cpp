@@ -11,7 +11,7 @@ void AxisScaler::reset()
     m_maxValue = 0;
 }
 
-void AxisScaler::scaleAxis(double value)
+void AxisScaler::scaleValue(double value)
 {
     if(value >= 0)
         scalePositiveValue(value);
