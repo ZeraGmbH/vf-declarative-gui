@@ -12,7 +12,7 @@ void AxisSetter::setAxis(QValueAxis *axis)
     if(m_axis) {
         m_axis->setMin(m_min);
         m_axis->setMax(m_max);
-        onMaxChanged(m_max);
+        scaleAxis(m_max);
     }
 }
 
@@ -53,7 +53,7 @@ void AxisSetter::setMax(double max)
         m_max = max;
         if (m_axis) {
             m_axis->setMax(max);
-            onMaxChanged(max);
+            scaleAxis(max);
             emit maxChanged(max);
         }
     }
@@ -74,15 +74,15 @@ QString AxisSetter::getPrefix()
     return m_unitPrefix;
 }
 
-void AxisSetter::onMaxChanged(double max)
+void AxisSetter::scaleAxis(double max)
 {
     //scale only Y-axes
     if(!m_isXaxis) {
         SingleValueScaler singleValueScaler;
         singleValueScaler.scaleSingleValForQML(max);
         m_scale = singleValueScaler.getScaleFactor();
-        emit prefixChanged(m_unitPrefix);
-        m_unitPrefix = singleValueScaler.getUnitPrefix();
         emit scaleChanged(m_scale);
+        m_unitPrefix = singleValueScaler.getUnitPrefix();
+        emit prefixChanged(m_unitPrefix);
     }
 }
