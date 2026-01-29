@@ -22,6 +22,7 @@ target_include_directories(vf-declarative-gui
 target_link_libraries(vf-declarative-gui
     PRIVATE
     vf-declarative-gui-lib
+    energy-graphs
     Zera::zera-json-settings
     )
 
