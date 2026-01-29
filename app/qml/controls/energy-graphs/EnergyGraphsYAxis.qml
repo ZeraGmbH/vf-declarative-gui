@@ -2,7 +2,6 @@ import QtQuick 2.14
 import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import QtCharts 2.14
-import SingleValueScaler 1.0
 import ZeraThemeConfig 1.0
 import AxisSetter 1.0
 
@@ -21,7 +20,6 @@ Item {
         axisYsetter.max = 10
     }
 
-    SingleValueScaler { id: singleValueScaler }
     ValueAxis {
         id: axisY
         titleText: title + "[" + axisYsetter.unitPrefix + unitBase + "]"

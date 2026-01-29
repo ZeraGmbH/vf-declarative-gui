@@ -36,7 +36,6 @@
 #include "vfrecorderjsonhelper.h"
 #include "axisautoscaler.h"
 #include "axisscaler.h"
-#include "singlevaluescaler.h"
 #include "vs_clientstorageeventsystem.h"
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
@@ -102,7 +101,6 @@ static void registerQmlInt()
     qmlRegisterType<VfRecorderJsonHelper>("VfRecorderJsonHelper", 1, 0, "VfRecorderJsonHelper");
     qmlRegisterType<AxisAutoScaler>("AxisAutoScaler", 1, 0, "AxisAutoScaler");
     qmlRegisterType<AxisScaler>("AxisScaler", 1, 0, "AxisScaler");
-    qmlRegisterType<SingleValueScaler>("SingleValueScaler", 1, 0, "SingleValueScaler");
     qmlRegisterType<UpdateWrapper>("UpdateWrapper", 1, 0, "UpdateWrapper");
     qmlRegisterType<LineSeriesFiller>("LineSeriesFiller", 1, 0, "LineSeriesFiller");
     qmlRegisterType<AxisSetter>("AxisSetter", 1, 0, "AxisSetter");
