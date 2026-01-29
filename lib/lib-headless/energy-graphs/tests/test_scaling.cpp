@@ -7,19 +7,19 @@ QTEST_MAIN(test_scaling)
 void test_scaling::scalePositiveValues()
 {
     AxisScaler scaler;
-    scaler.scaleAxis(0.807);
+    scaler.scaleValue(0.807);
     QCOMPARE(scaler.getMinValue(), 0);
     QCOMPARE(scaler.getMaxValue(), 1);
 
-    scaler.scaleAxis(3.51);
+    scaler.scaleValue(3.51);
     QCOMPARE(scaler.getMinValue(), 0);
     QCOMPARE(scaler.getMaxValue(), 10);
 
-    scaler.scaleAxis(12.56);
+    scaler.scaleValue(12.56);
     QCOMPARE(scaler.getMinValue(), 0);
     QCOMPARE(scaler.getMaxValue(), 20);
 
-    scaler.scaleAxis(586);
+    scaler.scaleValue(586);
     QCOMPARE(scaler.getMinValue(), 0);
     QCOMPARE(scaler.getMaxValue(), 600);
 }
@@ -27,19 +27,19 @@ void test_scaling::scalePositiveValues()
 void test_scaling::scaleNegativeValues()
 {
     AxisScaler scaler;
-    scaler.scaleAxis(-0.2);
+    scaler.scaleValue(-0.2);
     QCOMPARE(scaler.getMinValue(), -1);
     QCOMPARE(scaler.getMaxValue(), 0);
 
-    scaler.scaleAxis(-5.24);
+    scaler.scaleValue(-5.24);
     QCOMPARE(scaler.getMinValue(), -10);
     QCOMPARE(scaler.getMaxValue(), 0);
 
-    scaler.scaleAxis(-11.55);
+    scaler.scaleValue(-11.55);
     QCOMPARE(scaler.getMinValue(), -20);
     QCOMPARE(scaler.getMaxValue(), 0);
 
-    scaler.scaleAxis(-452);
+    scaler.scaleValue(-452);
     QCOMPARE(scaler.getMinValue(), -500);
     QCOMPARE(scaler.getMaxValue(), 0);
 }
@@ -47,27 +47,27 @@ void test_scaling::scaleNegativeValues()
 void test_scaling::scalePositiveNegativeValues()
 {
     AxisScaler scaler;
-    scaler.scaleAxis(0.1);
+    scaler.scaleValue(0.1);
     QCOMPARE(scaler.getMinValue(), 0);
     QCOMPARE(scaler.getMaxValue(), 1);
 
-    scaler.scaleAxis(-5);
+    scaler.scaleValue(-5);
     QCOMPARE(scaler.getMinValue(), -10);
     QCOMPARE(scaler.getMaxValue(), 1);
 
-    scaler.scaleAxis(12);
+    scaler.scaleValue(12);
     QCOMPARE(scaler.getMinValue(), -10);
     QCOMPARE(scaler.getMaxValue(), 20);
 
-    scaler.scaleAxis(158);
+    scaler.scaleValue(158);
     QCOMPARE(scaler.getMinValue(), -10);
     QCOMPARE(scaler.getMaxValue(), 200);
 
-    scaler.scaleAxis(3);
+    scaler.scaleValue(3);
     QCOMPARE(scaler.getMinValue(), -10);
     QCOMPARE(scaler.getMaxValue(), 200);
 
-    scaler.scaleAxis(-4);
+    scaler.scaleValue(-4);
     QCOMPARE(scaler.getMinValue(), -10);
     QCOMPARE(scaler.getMaxValue(), 200);
 

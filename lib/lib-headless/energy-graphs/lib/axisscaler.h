@@ -10,7 +10,7 @@ public:
     explicit AxisScaler(QObject *parent = nullptr);
 
     Q_INVOKABLE void reset();
-    Q_INVOKABLE void scaleAxis(double value);
+    Q_INVOKABLE void scaleValue(double value);
     Q_INVOKABLE int getMinValue();
     Q_INVOKABLE int getMaxValue();
 
