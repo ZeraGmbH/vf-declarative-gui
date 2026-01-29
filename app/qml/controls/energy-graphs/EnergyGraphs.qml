@@ -78,7 +78,7 @@ Item {
     function scaleYAxis(axisY, axisYScalar, value) {
         if(root.timeDiffSecs === 0)
             axisYScalar.reset()
-        axisYScalar.scaleAxis(value)
+        axisYScalar.scaleValue(value)
         axisY.min = axisYScalar.getMinValue()
         axisY.max = axisYScalar.getMaxValue()
     }
