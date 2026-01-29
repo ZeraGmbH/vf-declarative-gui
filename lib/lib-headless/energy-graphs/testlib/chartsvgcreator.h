@@ -21,6 +21,7 @@ public:
     void saveSvg(QString svgPath);
 
 private slots:
+    QFont getLabelFont();
     void scaleLineSeriesAndAxis(QtCharts::QLineSeries *lineSeries, AxisSetter *axisY, AxisScaler *scaler, int index);
 
 private:
