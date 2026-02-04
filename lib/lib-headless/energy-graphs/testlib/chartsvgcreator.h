@@ -33,6 +33,7 @@ private:
 
     QLineSeries *m_leftSeries = nullptr;
     QLineSeries *m_rightSeries = nullptr;
+
     QValueAxis *m_axisX;
     AxisScaler m_rightScaler;
     AxisScaler m_leftScaler;
