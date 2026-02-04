@@ -33,7 +33,6 @@ ChartSvgCreator::ChartSvgCreator(QWidget *parent)
     });
 
     m_chart = new QChart;
-    m_chart->setTitle(QStringLiteral("Dual Y axis chart"));
     m_chart->addSeries(m_leftSeries);
     m_chart->addSeries(m_rightSeries);
 
@@ -48,7 +47,7 @@ ChartSvgCreator::ChartSvgCreator(QWidget *parent)
     m_rightSeries->attachAxis(axisX->getAxis());
     m_rightSeries->attachAxis(axisYRight->getAxis());
 
-    // (Optional) color axes to match series for clarity
+    //color axes to match series for clarity
     QPen penLeft(Qt::blue);
     m_leftSeries->setPen(penLeft);
     axisYLeft->getAxis()->setLinePenColor(penLeft.color());
@@ -100,12 +99,36 @@ void ChartSvgCreator::saveSvg(QString svgPath)
     generator.setTitle(QStringLiteral("Chart SVG"));
     generator.setDescription(QStringLiteral("QChart rendered to SVG"));
 
+    // m_chartView->chart()->setMargins(QMargins(0, 0, 0, 0));
+    // m_chartView->chart()->layout()->invalidate();
+    // m_chartView->chart()->layout()->activate();
+    // m_chartView->setBackgroundBrush(Qt::NoBrush);
+
+    // m_chartView->setContentsMargins(0, 0, 0, 0);
+    // m_chartView->chart()->setMargins(QMargins(0, 0, 0, 0));
+    // m_chartView->chart()->setTransform(QTransform(), false);
+
+
+    // m_chartView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    // m_chartView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // m_chartView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // m_chartView->setFrameShape(QFrame::NoFrame);
+    // m_chartView->setSceneRect(0, 0, svgSize.width(), svgSize.height());
+    // m_chartView->chart()->setTitle(""); // Even a space " " can cause an offset
+    // m_chartView->chart()->legend()->hide();
+
+    // m_chartView->chart()->setMargins(QMargins(0, 0, 0, 0));
+    // if (m_chartView->chart()->layout()) {
+    //     m_chartView->chart()->layout()->setContentsMargins(0, 0, 0, 0);
+    // }
+
     QPainter painter(&generator);
     painter.setRenderHint(QPainter::Antialiasing);
 
     m_chartView->resize(svgSize);
 
-    m_chartView->render(&painter);
+    QRectF rect(1, 0, svgSize.width(), svgSize.height());
+    m_chartView->render(&painter, rect, rect.toRect());
 }
 
 void ChartSvgCreator::scaleLineSeriesAndAxis(QLineSeries *lineSeries, AxisSetter *axisY, AxisScaler *scaler, int index)
@@ -135,6 +158,8 @@ AxisSetter *ChartSvgCreator::createAxis(QString titleText)
     axis->setAxis(new QValueAxis());
     axis->getAxis()->setTitleText(titleText);
     axis->getAxis()->setLabelFormat("%.1f");
+    axis->getAxis()->setLabelsAngle(0);
+    axis->getAxis()->setTitleVisible(true);
     return axis;
 }
 
