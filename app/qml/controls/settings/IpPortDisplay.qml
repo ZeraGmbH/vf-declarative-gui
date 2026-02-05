@@ -9,6 +9,7 @@ Item {
     id: root
     property int port
     property bool show
+    property string prefix
 
     InfoInterface { id: networkListModel }
     readonly property bool isNetworkConnected: networkListModel.entryCount > 0
@@ -40,7 +41,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: pointSize
                 textFormat: Text.PlainText
-                text: ipv4 + ":" + port
+                text: prefix + ipv4 + ":" + port
             }
         }
         Text {

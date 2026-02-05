@@ -363,6 +363,7 @@ SettingsView {
                     id: rectApiIpPort
                     show: ASAPI.running
                     port: ASAPI.port
+                    prefix: "https://"
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     Layout.topMargin: parent.height * 0.1
