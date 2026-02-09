@@ -16,6 +16,7 @@ public:
     Q_PROPERTY(QLineSeries* lineSeries WRITE setLineSeries READ getLineSeries FINAL)
     Q_PROPERTY(int entityId WRITE setEntityId READ getEntityId FINAL)
     Q_PROPERTY(QString componentName WRITE setComponentName READ getComponentName FINAL)
+    Q_INVOKABLE void appendMissingPoints();
 
     void setLineSeries(QLineSeries* lineSeries);
     QLineSeries* getLineSeries() const;
@@ -25,6 +26,9 @@ public:
 
     void setComponentName(QString componentName);
     QString getComponentName() const;
+
+signals:
+    void sigTimeLastValue(int msSinceStart);
 
 private slots:
     void onNewValuesAdded(int startIdx, int postEndIdx);
