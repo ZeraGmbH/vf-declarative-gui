@@ -15,6 +15,7 @@
 #include <veinqmlwrapper.h>
 #include <fontawesome-qml.h>
 #include "lineseriesfiller.h"
+#include "axissetter.h"
 #include "recorderfetchandcache.h"
 #include "vfcomponenteventdispatcher.h"
 #include "tableeventconsumer.h"
@@ -33,8 +34,7 @@
 #include "screencapture.h"
 #include "authorizationrequesthandler.h"
 #include "vfrecorderjsonhelper.h"
-#include "axisautoscaler.h"
-#include "singlevaluescaler.h"
+#include "axisscaler.h"
 #include "vs_clientstorageeventsystem.h"
 #include <qwtcharts.h>
 #include <declarativejsonitem.h>
@@ -98,10 +98,10 @@ static void registerQmlInt()
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
     qmlRegisterType<AuthorizationRequestHandler>("AuthorizationRequestHandler", 1, 0, "AuthorizationRequestHandler");
     qmlRegisterType<VfRecorderJsonHelper>("VfRecorderJsonHelper", 1, 0, "VfRecorderJsonHelper");
-    qmlRegisterType<AxisAutoScaler>("AxisAutoScaler", 1, 0, "AxisAutoScaler");
-    qmlRegisterType<SingleValueScaler>("SingleValueScaler", 1, 0, "SingleValueScaler");
+    qmlRegisterType<AxisScaler>("AxisScaler", 1, 0, "AxisScaler");
     qmlRegisterType<UpdateWrapper>("UpdateWrapper", 1, 0, "UpdateWrapper");
     qmlRegisterType<LineSeriesFiller>("LineSeriesFiller", 1, 0, "LineSeriesFiller");
+    qmlRegisterType<AxisSetter>("AxisSetter", 1, 0, "AxisSetter");
     qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/SessionState.qml"), "SessionState", 1, 0, "SessionState");
