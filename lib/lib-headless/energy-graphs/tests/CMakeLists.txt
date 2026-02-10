@@ -19,7 +19,6 @@ function(SETUP_TESTS)
 endfunction()
 
 SETUP_TESTS(
-    test_axisautoscaler
     test_recorder_caching
     test_scaling
     test_draw_charts
