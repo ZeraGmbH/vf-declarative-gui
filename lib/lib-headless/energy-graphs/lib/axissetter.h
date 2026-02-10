@@ -47,8 +47,8 @@ private slots:
 private:
     QValueAxis *m_axis;
     bool m_isXaxis;
-    double m_min;
-    double m_max;
+    double m_min=0;
+    double m_max=10;
     double m_scale = 1.0;
     QString m_unitPrefix = "";
 };
