@@ -22,6 +22,7 @@ public:
     static RecorderFetchAndCache* getInstance();
     static void deleteInstance();
     const QList<TimestampData> &getData() const;
+    Q_INVOKABLE int getDataSize() const;
 signals:
     void sigNewValuesAdded(int startIdx, int postEndIdx);
     void sigClearedValues();

@@ -16,7 +16,7 @@ public:
     Q_PROPERTY(QLineSeries* lineSeries WRITE setLineSeries READ getLineSeries FINAL)
     Q_PROPERTY(int entityId WRITE setEntityId READ getEntityId FINAL)
     Q_PROPERTY(QString componentName WRITE setComponentName READ getComponentName FINAL)
-    Q_INVOKABLE void appendMissingPoints();
+    Q_INVOKABLE void appendPointsInBatches();
 
     void setLineSeries(QLineSeries* lineSeries);
     QLineSeries* getLineSeries() const;

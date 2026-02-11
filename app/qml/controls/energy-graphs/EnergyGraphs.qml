@@ -323,10 +323,14 @@ Item {
                 color: SessionState.dcSession ? CS.colorUAux1 : CS.colorUL1
                 visible: GC.showCurvePhaseOne || SessionState.dcSession
                 LineSeriesFiller {
+                    id: powerLineSerieFillerL1
                     lineSeries: powerLineSeriesL1
                     entityId: SessionState.dcSession ? 1073 : 1070
                     componentName: powerComponentsACDC[0]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -338,10 +342,14 @@ Item {
                 color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 LineSeriesFiller {
+                    id: powerLineSerieFillerL2
                     lineSeries: powerLineSeriesL2
                     entityId: 1070
                     componentName: powerComponentsACDC[1]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -353,10 +361,14 @@ Item {
                 color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 LineSeriesFiller {
+                    id: powerLineSerieFillerL3
                     lineSeries: powerLineSeriesL3
                     entityId: 1070
                     componentName: powerComponentsACDC[2]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -368,10 +380,14 @@ Item {
                 color: ZTC.primaryTextColor
                 visible: GC.showCurveSum && !SessionState.dcSession
                 LineSeriesFiller {
+                    id: powerLineSerieFillerSum
                     lineSeries: powerLineSeriesSum
                     entityId: 1070
                     componentName: powerComponentsACDC[3]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -487,10 +503,14 @@ Item {
                 color: CS.colorUL1
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 LineSeriesFiller {
+                    id: lineSerieFillerUL1
                     lineSeries: lineSeriesUL1
                     entityId: 1040
                     componentName: voltageComponentsAC[0]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 onPointAdded: (index) => {
                                   if(visible)
@@ -505,10 +525,14 @@ Item {
                 color: CS.colorUL2
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 LineSeriesFiller {
+                    id: lineSerieFillerUL2
                     lineSeries: lineSeriesUL2
                     entityId: 1040
                     componentName: voltageComponentsAC[1]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 onPointAdded: (index) => {
                                   if(visible)
@@ -523,10 +547,14 @@ Item {
                 color: CS.colorUL3
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 LineSeriesFiller {
+                    id: lineSerieFillerUL3
                     lineSeries: lineSeriesUL3
                     entityId: 1040
                     componentName: voltageComponentsAC[2]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 onPointAdded: (index) => {
                                   if(visible)
@@ -540,10 +568,14 @@ Item {
                 axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIL1
                 LineSeriesFiller {
+                    id: lineSerieFillerIL1
                     lineSeries: lineSeriesIL1
                     entityId: 1040
                     componentName: currentComponentsAC[0]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 onPointAdded: (index) => {
@@ -558,10 +590,14 @@ Item {
                 axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIL2
                 LineSeriesFiller {
+                    id: lineSerieFillerIL2
                     lineSeries: lineSeriesIL2
                     entityId: 1040
                     componentName: currentComponentsAC[1]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: (index) => {
@@ -576,10 +612,14 @@ Item {
                 axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIL3
                 LineSeriesFiller {
+                    id: lineSerieFillerIL3
                     lineSeries: lineSeriesIL3
                     entityId: 1040
                     componentName: currentComponentsAC[2]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: (index) => {
@@ -594,10 +634,14 @@ Item {
                 axisY: axisYLeftItem.valueAxis
                 color: CS.colorUAux1
                 LineSeriesFiller {
+                    id: lineSerieFillerUauxDC
                     lineSeries: lineSeriesUauxDC
                     entityId: 1060
                     componentName: voltageComponentsDC[0]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 visible: SessionState.dcSession
                 onPointAdded: (index) => {
@@ -612,16 +656,43 @@ Item {
                 axisYRight: axisYRightItem.valueAxis
                 color: CS.colorIAux1
                 LineSeriesFiller {
+                    id: lineSerieFillerIauxDC
                     lineSeries: lineSeriesIauxDC
                     entityId: 1060
                     componentName: currentComponentsDC[0]
-                    Component.onCompleted: appendMissingPoints()
+                    Component.onCompleted: {
+                        if(lineSeries.count < RecorderFetchAndCache.getDataSize() && !paintingAnimationtimer.running)
+                            paintingAnimationtimer.start()
+                    }
                 }
                 visible: SessionState.dcSession
                 onPointAdded: (index) => {
                                   if(visible)
                                     scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
                               }
+            }
+        }
+        Timer {
+            id: paintingAnimationtimer
+            running: false
+            repeat: true
+            interval: 1000
+            onTriggered: {
+                powerLineSerieFillerL1.appendPointsInBatches()
+                powerLineSerieFillerL2.appendPointsInBatches()
+                powerLineSerieFillerL3.appendPointsInBatches()
+                powerLineSerieFillerSum.appendPointsInBatches()
+                lineSerieFillerUL1.appendPointsInBatches()
+                lineSerieFillerUL2.appendPointsInBatches()
+                lineSerieFillerUL3.appendPointsInBatches()
+                lineSerieFillerIL1.appendPointsInBatches()
+                lineSerieFillerIL2.appendPointsInBatches()
+                lineSerieFillerIL3.appendPointsInBatches()
+                lineSerieFillerUauxDC.appendPointsInBatches()
+                lineSerieFillerIauxDC.appendPointsInBatches()
+
+                if(powerLineSeriesL1.count === RecorderFetchAndCache.getDataSize())
+                    paintingAnimationtimer.stop()
             }
         }
     }

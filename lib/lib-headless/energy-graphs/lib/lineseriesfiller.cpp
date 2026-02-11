@@ -57,16 +57,21 @@ void LineSeriesFiller::onClearedValues()
     m_lineSeries->clear();
 }
 
-void LineSeriesFiller::appendMissingPoints()
+void LineSeriesFiller::appendPointsInBatches()
 {
     QList<RecorderFetchAndCache::TimestampData> cache = RecorderFetchAndCache::getInstance()->getData();
-    if(cache.size() != m_lineSeries->points().size()) {
+    int currentCount = m_lineSeries->count();
+    const int batchSize = currentCount + 50;
+
+    if(cache.size() != m_lineSeries->count()) {
         int msSinceStart = 0;
-        for(int i = 0; i<cache.size(); i++) {
-            RecorderFetchAndCache::TimestampData &cacheEntry = cache[i];
-            float value = cacheEntry.entitiesData[m_entityId][m_componentName];
-            m_lineSeries->append(float(cacheEntry.msSinceStart)/1000, value);
-            msSinceStart = cacheEntry.msSinceStart;
+        for(int i=currentCount; i<batchSize; i++) {
+            if(i < cache.size()) {
+                RecorderFetchAndCache::TimestampData &cacheEntry = cache[i];
+                float value = cacheEntry.entitiesData[m_entityId][m_componentName];
+                m_lineSeries->append(float(cacheEntry.msSinceStart)/1000, value);
+                msSinceStart = cacheEntry.msSinceStart;
+            }
         }
         emit sigTimeLastValue(msSinceStart);
     }

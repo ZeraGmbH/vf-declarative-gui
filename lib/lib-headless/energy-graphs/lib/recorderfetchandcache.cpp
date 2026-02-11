@@ -40,6 +40,11 @@ void RecorderFetchAndCache::deleteInstance()
     m_instance = nullptr;
 }
 
+int RecorderFetchAndCache::getDataSize() const
+{
+    return m_cache.size();
+}
+
 void RecorderFetchAndCache::onRecorderEntryCountChange(QVariant value)
 {
     bool ok;
