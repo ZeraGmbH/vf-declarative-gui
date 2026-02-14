@@ -211,7 +211,7 @@ Window {
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             }
             Loader {
-                sourceComponent: SplashView { }
+                source: "qrc:/qml/controls/SplashView.qml"
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSplashIndex
             }
             ///@note do not change the order of the Loaders unless you also change the layoutStackEnum index numbers
