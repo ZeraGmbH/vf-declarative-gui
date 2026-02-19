@@ -8,6 +8,8 @@ LineSeriesFiller::LineSeriesFiller(QObject *parent)
             this, &LineSeriesFiller::onNewValuesAdded);
     connect(RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigClearedValues,
             this, &LineSeriesFiller::onClearedValues);
+    connect(this, &LineSeriesFiller::sigTimeLastValue,
+            RecorderFetchAndCache::getInstance(), &RecorderFetchAndCache::sigTimeLastValue);
 }
 
 void LineSeriesFiller::setLineSeries(QLineSeries *lineSeries)
@@ -54,3 +56,19 @@ void LineSeriesFiller::onClearedValues()
 {
     m_lineSeries->clear();
 }
+
+void LineSeriesFiller::appendPoints()
+{
+    QList<RecorderFetchAndCache::TimestampData> reducedCache = RecorderFetchAndCache::getInstance()->getReducedData();
+    if(!reducedCache.isEmpty()) {
+        int msSinceStart = 0;
+        for(int i = 0; i<reducedCache.size(); i++) {
+            RecorderFetchAndCache::TimestampData &cacheEntry = reducedCache[i];
+            float value = cacheEntry.entitiesData[m_entityId][m_componentName];
+            m_lineSeries->append(float(cacheEntry.msSinceStart)/1000, value);
+            msSinceStart = cacheEntry.msSinceStart;
+        }
+        emit sigTimeLastValue(msSinceStart);
+    }
+}
+

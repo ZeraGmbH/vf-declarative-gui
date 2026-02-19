@@ -22,6 +22,7 @@ public:
     static RecorderFetchAndCache* getInstance();
     static void deleteInstance();
     const QList<TimestampData> &getData() const;
+    const QList<TimestampData> &getReducedData() const;
 signals:
     void sigNewValuesAdded(int startIdx, int postEndIdx);
     void sigClearedValues();
@@ -31,8 +32,10 @@ private slots:
     void onRecorderEntryCountChange(QVariant value);
     void onStartStopChange(QVariant value);
     void onRpcFinish(bool ok);
+    void onInterpolatedRpcFinish(bool ok);
 private:
     void appendRecordedValuesFromRpc(const QJsonObject &values);
+    void appendInterpolatedData(const QJsonObject &values);
     void clearCache();
     void init();
 
@@ -40,6 +43,8 @@ private:
     VfCmdEventHandlerSystemPtr m_cmdEventHandlerSystem;
 
     QList<TimestampData> m_cache;
+    QList<TimestampData> m_reducedCache;
+
     VeinStorage::AbstractComponentPtr m_entryCountComponent;
     VeinStorage::AbstractComponentPtr m_entryStartStopComponent;
     VeinStorage::AbstractComponentPtr m_entryVeinSessionNameComponent;
@@ -47,6 +52,9 @@ private:
     std::shared_ptr<bool> m_rpcSuccessful;
     std::shared_ptr<QVariant> m_result;
     std::shared_ptr<QString> m_errorMsg;
+    std::shared_ptr<bool> m_interpolatedRpcSuccessful;
+    std::shared_ptr<QVariant> m_interpolatedRpcResult;
+    std::shared_ptr<QString> m_interpolatedRpcErrorMsg;
 };
 
 #endif // RECORDERFETCHANDCACHE_H

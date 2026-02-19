@@ -15,7 +15,10 @@ RecorderFetchAndCache::RecorderFetchAndCache(VeinStorage::AbstractEventSystem *c
     m_taskQueue(TaskContainerQueue::create()),
     m_rpcSuccessful(std::make_shared<bool>()),
     m_result(std::make_shared<QVariant>()),
-    m_errorMsg(std::make_shared<QString>())
+    m_errorMsg(std::make_shared<QString>()),
+    m_interpolatedRpcSuccessful(std::make_shared<bool>()),
+    m_interpolatedRpcResult(std::make_shared<QVariant>()),
+    m_interpolatedRpcErrorMsg(std::make_shared<QString>())
 {
     Q_ASSERT(m_instance == nullptr);
     m_instance = this;
@@ -57,7 +60,16 @@ void RecorderFetchAndCache::onRecorderEntryCountChange(QVariant value)
                                                         m_cmdEventHandlerSystem, 2000);
     connect(task.get(), &TaskTemplate::sigFinish,
             this, &RecorderFetchAndCache::onRpcFinish);
+
+    TaskTemplatePtr taskInterpolatedRpc = TaskClientRPCInvoker::create(recorderEntityId,
+                                                              "RPC_GetRecordedDataSampler", QVariantMap(),
+                                                               m_interpolatedRpcSuccessful, m_interpolatedRpcResult, m_interpolatedRpcErrorMsg,
+                                                               m_cmdEventHandlerSystem, 2000);
+    connect(task.get(), &TaskTemplate::sigFinish,
+            this, &RecorderFetchAndCache::onInterpolatedRpcFinish);
+
     m_taskQueue->addSub(std::move(task));
+    m_taskQueue->addSub(std::move(taskInterpolatedRpc));
 }
 
 void RecorderFetchAndCache::onStartStopChange(QVariant value)
@@ -70,6 +82,12 @@ void RecorderFetchAndCache::onRpcFinish(bool ok)
 {
     if(ok && *m_rpcSuccessful == true)
         appendRecordedValuesFromRpc(m_result->toJsonObject());
+}
+
+void RecorderFetchAndCache::onInterpolatedRpcFinish(bool ok)
+{
+    if(ok && *m_interpolatedRpcSuccessful == true)
+        appendInterpolatedData(m_interpolatedRpcResult->toJsonObject());
 }
 
 const QList<RecorderFetchAndCache::TimestampData> &RecorderFetchAndCache::getData() const
@@ -111,8 +129,47 @@ void RecorderFetchAndCache::appendRecordedValuesFromRpc(const QJsonObject &value
     }
 }
 
+const QList<RecorderFetchAndCache::TimestampData> &RecorderFetchAndCache::getReducedData() const
+{
+    return m_reducedCache;
+}
+
+void RecorderFetchAndCache::appendInterpolatedData(const QJsonObject &values)
+{
+    if (values.size() > 0) {
+        m_reducedCache.clear();
+        int lastTimestamp = 0;
+        for (auto iterTimestamp=values.constBegin(); iterTimestamp!=values.constEnd(); ++iterTimestamp) {
+            const QString timeStampStr = iterTimestamp.key();
+            lastTimestamp = timeStampStr.toInt();
+            const QJsonObject entitiesDataJson = iterTimestamp.value().toObject();
+
+            EntitiesData entitiesData;
+            for (auto iterEntities = entitiesDataJson.constBegin(); iterEntities!=entitiesDataJson.constEnd(); ++iterEntities) {
+                const QString entityIdStr = iterEntities.key();
+                bool convOk = false;
+                int entityId = entityIdStr.toInt(&convOk);
+                if (!convOk) {
+                    qWarning("Entity ID %s is not a number!", qPrintable(entityIdStr));
+                    continue;
+                }
+                const QJsonObject entityDataJson = iterEntities.value().toObject();
+                SingleEntityData entityData;
+                for (auto iterComponents = entityDataJson.constBegin(); iterComponents!=entityDataJson.constEnd(); ++iterComponents) {
+                    const QString componentName = iterComponents.key();
+                    entityData[componentName] = iterComponents.value().toDouble();
+                }
+                entitiesData[entityId] = entityData;
+            }
+            m_reducedCache.append({lastTimestamp, entitiesData});
+        }
+    }
+}
+
 void RecorderFetchAndCache::clearCache()
 {
+    if(!m_reducedCache.isEmpty())
+        m_reducedCache.clear();
     if(!m_cache.isEmpty()) {
         m_cache.clear();
         emit sigClearedValues();
