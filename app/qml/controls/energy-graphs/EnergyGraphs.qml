@@ -326,6 +326,7 @@ Item {
                     lineSeries: powerLineSeriesL1
                     entityId: SessionState.dcSession ? 1073 : 1070
                     componentName: powerComponentsACDC[0]
+                    Component.onCompleted: appendPoints()
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -340,6 +341,7 @@ Item {
                     lineSeries: powerLineSeriesL2
                     entityId: 1070
                     componentName: powerComponentsACDC[1]
+                    Component.onCompleted: appendPoints()
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -354,6 +356,7 @@ Item {
                     lineSeries: powerLineSeriesL3
                     entityId: 1070
                     componentName: powerComponentsACDC[2]
+                    Component.onCompleted: appendPoints()
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -368,6 +371,7 @@ Item {
                     lineSeries: powerLineSeriesSum
                     entityId: 1070
                     componentName: powerComponentsACDC[3]
+                    Component.onCompleted: appendPoints()
                 }
                 onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
             }
@@ -486,6 +490,7 @@ Item {
                     lineSeries: lineSeriesUL1
                     entityId: 1040
                     componentName: voltageComponentsAC[0]
+                    Component.onCompleted: appendPoints()
                 }
                 onPointAdded: (index) => {
                                   if(visible)
@@ -503,6 +508,7 @@ Item {
                     lineSeries: lineSeriesUL2
                     entityId: 1040
                     componentName: voltageComponentsAC[1]
+                    Component.onCompleted: appendPoints()
                 }
                 onPointAdded: (index) => {
                                   if(visible)
@@ -520,6 +526,7 @@ Item {
                     lineSeries: lineSeriesUL3
                     entityId: 1040
                     componentName: voltageComponentsAC[2]
+                    Component.onCompleted: appendPoints()
                 }
                 onPointAdded: (index) => {
                                   if(visible)
@@ -536,6 +543,7 @@ Item {
                     lineSeries: lineSeriesIL1
                     entityId: 1040
                     componentName: currentComponentsAC[0]
+                    Component.onCompleted: appendPoints()
                 }
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 onPointAdded: (index) => {
@@ -553,6 +561,7 @@ Item {
                     lineSeries: lineSeriesIL2
                     entityId: 1040
                     componentName: currentComponentsAC[1]
+                    Component.onCompleted: appendPoints()
                 }
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: (index) => {
@@ -570,6 +579,7 @@ Item {
                     lineSeries: lineSeriesIL3
                     entityId: 1040
                     componentName: currentComponentsAC[2]
+                    Component.onCompleted: appendPoints()
                 }
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: (index) => {
@@ -587,6 +597,7 @@ Item {
                     lineSeries: lineSeriesUauxDC
                     entityId: 1060
                     componentName: voltageComponentsDC[0]
+                    Component.onCompleted: appendPoints()
                 }
                 visible: SessionState.dcSession
                 onPointAdded: (index) => {
@@ -604,6 +615,7 @@ Item {
                     lineSeries: lineSeriesIauxDC
                     entityId: 1060
                     componentName: currentComponentsDC[0]
+                    Component.onCompleted: appendPoints()
                 }
                 visible: SessionState.dcSession
                 onPointAdded: (index) => {
