@@ -136,33 +136,36 @@ const QList<RecorderFetchAndCache::TimestampData> &RecorderFetchAndCache::getRed
 
 void RecorderFetchAndCache::appendInterpolatedData(const QJsonObject &values)
 {
-    if (values.size() > 0) {
-        m_reducedCache.clear();
-        int lastTimestamp = 0;
-        for (auto iterTimestamp=values.constBegin(); iterTimestamp!=values.constEnd(); ++iterTimestamp) {
-            const QString timeStampStr = iterTimestamp.key();
-            lastTimestamp = timeStampStr.toInt();
-            const QJsonObject entitiesDataJson = iterTimestamp.value().toObject();
+    if(values.isEmpty())
+        return;
+    if (values.size() <= m_reducedCache.size())
+        return;
 
-            EntitiesData entitiesData;
-            for (auto iterEntities = entitiesDataJson.constBegin(); iterEntities!=entitiesDataJson.constEnd(); ++iterEntities) {
-                const QString entityIdStr = iterEntities.key();
-                bool convOk = false;
-                int entityId = entityIdStr.toInt(&convOk);
-                if (!convOk) {
-                    qWarning("Entity ID %s is not a number!", qPrintable(entityIdStr));
-                    continue;
-                }
-                const QJsonObject entityDataJson = iterEntities.value().toObject();
-                SingleEntityData entityData;
-                for (auto iterComponents = entityDataJson.constBegin(); iterComponents!=entityDataJson.constEnd(); ++iterComponents) {
-                    const QString componentName = iterComponents.key();
-                    entityData[componentName] = iterComponents.value().toDouble();
-                }
-                entitiesData[entityId] = entityData;
+    auto iterTimestamp = values.constBegin();
+    std::advance(iterTimestamp, m_reducedCache.size());
+
+    for (; iterTimestamp != values.constEnd(); ++iterTimestamp) {
+        int timestamp = iterTimestamp.key().toInt();
+
+        const QJsonObject entitiesDataJson = iterTimestamp.value().toObject();
+        EntitiesData entitiesData;
+
+        for (auto iterEntities = entitiesDataJson.constBegin(); iterEntities != entitiesDataJson.constEnd(); ++iterEntities) {
+            bool convOk = false;
+            int entityId = iterEntities.key().toInt(&convOk);
+            if (!convOk) {
+                qWarning("Entity ID %s is not a number!", qPrintable(iterEntities.key()));
+                continue;
             }
-            m_reducedCache.append({lastTimestamp, entitiesData});
+            const QJsonObject entityDataJson = iterEntities.value().toObject();
+            SingleEntityData entityData;
+            for (auto iterComponents = entityDataJson.constBegin(); iterComponents != entityDataJson.constEnd(); ++iterComponents) {
+                const QString componentName = iterComponents.key();
+                entityData[componentName] = iterComponents.value().toDouble();
+            }
+            entitiesData.insert(entityId, std::move(entityData));
         }
+        m_reducedCache.append({timestamp, std::move(entitiesData)});
     }
 }
 
