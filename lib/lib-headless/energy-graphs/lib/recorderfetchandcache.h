@@ -30,6 +30,7 @@ signals:
 
 private slots:
     void onRecorderEntryCountChange(QVariant value);
+    void onRecorderEntryCountReducedChange(QVariant value);
     void onStartStopChange(QVariant value);
     void onRpcFinish(bool ok);
     void onInterpolatedRpcFinish(bool ok);
