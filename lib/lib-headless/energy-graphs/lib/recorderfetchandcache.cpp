@@ -61,14 +61,26 @@ void RecorderFetchAndCache::onRecorderEntryCountChange(QVariant value)
     connect(task.get(), &TaskTemplate::sigFinish,
             this, &RecorderFetchAndCache::onRpcFinish);
 
-    TaskTemplatePtr taskInterpolatedRpc = TaskClientRPCInvoker::create(recorderEntityId,
-                                                              "RPC_GetRecordedDataSampler", QVariantMap(),
-                                                               m_interpolatedRpcSuccessful, m_interpolatedRpcResult, m_interpolatedRpcErrorMsg,
-                                                               m_cmdEventHandlerSystem, 2000);
-    connect(task.get(), &TaskTemplate::sigFinish,
-            this, &RecorderFetchAndCache::onInterpolatedRpcFinish);
-
     m_taskQueue->addSub(std::move(task));
+}
+
+void RecorderFetchAndCache::onRecorderEntryCountReducedChange(QVariant value)
+{
+    bool ok;
+    int newCount = value.toInt(&ok);
+    if (!ok) {
+        qWarning("RecorderFetchAndCache::onRecorderEntryCountChange: cannot convert value");
+        return;
+    }
+    QVariantMap parameters;
+    parameters.insert("p_startingPoint", int(m_reducedCache.size()));
+    parameters.insert("p_endingPoint", newCount);
+    TaskTemplatePtr taskInterpolatedRpc = TaskClientRPCInvoker::create(recorderEntityId,
+                                                                       "RPC_GetRecordedValuesReduced2", parameters,
+                                                                       m_interpolatedRpcSuccessful, m_interpolatedRpcResult, m_interpolatedRpcErrorMsg,
+                                                                       m_cmdEventHandlerSystem, 2000);
+    connect(taskInterpolatedRpc.get(), &TaskTemplate::sigFinish,
+            this, &RecorderFetchAndCache::onInterpolatedRpcFinish);
     m_taskQueue->addSub(std::move(taskInterpolatedRpc));
 }
 
@@ -181,6 +193,11 @@ void RecorderFetchAndCache::clearCache()
 
 void RecorderFetchAndCache::init()
 {
+    VeinStorage::AbstractComponentPtr entryCountComponentReduced;
+    entryCountComponentReduced = m_clientStorage->getDb()->getFutureComponent(recorderEntityId, "ACT_Points2");
+    connect(entryCountComponentReduced.get(), &VeinStorage::AbstractComponent::sigValueChange,
+            this, &RecorderFetchAndCache::onRecorderEntryCountReducedChange, Qt::UniqueConnection);
+
     m_entryCountComponent = m_clientStorage->getDb()->getFutureComponent(recorderEntityId, "ACT_Points");
     m_entryStartStopComponent = m_clientStorage->getDb()->getFutureComponent(recorderEntityId, "PAR_StartStopRecording");
     connect(m_entryCountComponent.get(), &VeinStorage::AbstractComponent::sigValueChange,
