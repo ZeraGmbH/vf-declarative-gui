@@ -17,6 +17,7 @@ target_link_libraries(energy-graphs
     Zera::VfStorage
     Zera::VfConvenientCode
     ${QTX}::Charts
+    vf-declarative-gui-lib-headless
 )
 
 target_include_directories(energy-graphs

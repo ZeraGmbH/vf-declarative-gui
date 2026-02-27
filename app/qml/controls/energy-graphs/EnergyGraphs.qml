@@ -8,11 +8,12 @@ import SessionState 1.0
 import VfRecorderJsonHelper 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
-import AxisAutoScaler 1.0
+import AxisScaler 1.0
 import ZeraThemeConfig 1.0
 import VeinEntity 1.0
 import RecorderFetchAndCache 1.0
 import LineSeriesFiller 1.0
+import AxisSetter 1.0
 
 Item {
     id: root
@@ -75,33 +76,22 @@ Item {
 
     function scaleYAxis(axisY, axisYScalar, value) {
         if(root.timeDiffSecs === 0)
-            axisYScalar.reset(value, 0.0)
-        axisYScalar.scaleToNewActualValue(value)
-        if(axisY !== axisYPowerItem.valueAxis) {
-            let minValue = axisYScalar.getUIRoundedMinValueWithMargin()
-            if(!SessionState.dcSession && minValue < 0)
-                axisY.min = 0;
-            else
-                axisY.min = minValue;
-        }
-        else {
-            if(axisY.min === 0 || axisY.min > axisYScalar.getPowerRoundedMinValueWithMargin()) //0 is the default min value
-                axisY.min = axisYScalar.getPowerRoundedMinValueWithMargin()
-        }
-        if(axisY.max < axisYScalar.getRoundedMaxValueWithMargin())
-            axisY.max = axisYScalar.getRoundedMaxValueWithMargin()
+            axisYScalar.reset()
+        axisYScalar.scaleValue(value)
+        axisY.min = axisYScalar.getMinValue()
+        axisY.max = axisYScalar.getMaxValue()
     }
 
     VfRecorderJsonHelper {
         id: jsonHelper
     }
-    AxisAutoScaler {
+    AxisScaler {
         id: axisYPowerScaler
     }
-    AxisAutoScaler {
+    AxisScaler {
         id: axisYLeftScaler
     }
-    AxisAutoScaler {
+    AxisScaler {
         id: axisYRightScaler
     }
 
@@ -259,7 +249,11 @@ Item {
                 titleFont.pointSize: chartViewPower.height * 0.04
                 labelsFont.pixelSize: chartViewPower.height * 0.04
                 labelFormat: "%d"
-                property int currentMax: max
+            }
+
+            AxisSetter {
+                axis: axisXPower
+                isXaxis: true
                 min: {
                     if(chartViewPower.loggingActive)
                         return 0;
@@ -328,7 +322,7 @@ Item {
                     componentName: powerComponentsACDC[0]
                     Component.onCompleted: appendPoints()
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.axisSetter, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 id: powerLineSeriesL2
@@ -343,7 +337,7 @@ Item {
                     componentName: powerComponentsACDC[1]
                     Component.onCompleted: appendPoints()
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.axisSetter, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 id: powerLineSeriesL3
@@ -358,7 +352,7 @@ Item {
                     componentName: powerComponentsACDC[2]
                     Component.onCompleted: appendPoints()
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.axisSetter, axisYPowerScaler, at(index).y)
             }
             LineSeries {
                 id: powerLineSeriesSum
@@ -373,7 +367,7 @@ Item {
                     componentName: powerComponentsACDC[3]
                     Component.onCompleted: appendPoints()
                 }
-                onPointAdded: (index) => scaleYAxis(axisYPowerItem.valueAxis, axisYPowerScaler, at(index).y)
+                onPointAdded: (index) => scaleYAxis(axisYPowerItem.axisSetter, axisYPowerScaler, at(index).y)
             }
         }
         ChartView {
@@ -413,14 +407,18 @@ Item {
                 titleFont.pointSize: chartViewUI.height * 0.04
                 labelsFont.pixelSize: chartViewUI.height * 0.04
                 labelFormat: "%d"
+            }
+
+            AxisSetter {
+                axis: axisX
+                isXaxis: true
                 min: {
                     if(chartViewUI.loggingActive)
                         return 0
                     else
                         return Math.max(chartViewUI.pinchedXMin, 0)
                 }
-
-                max : {
+                max: {
                     if (chartViewUI.loggingActive)
                         return ((Math.floor(timeDiffSecs/xAxisTimeSpanSecs)) + 1) * xAxisTimeSpanSecs;
                     else
@@ -494,7 +492,7 @@ Item {
                 }
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                                    scaleYAxis(axisYLeftItem.axisSetter, axisYLeftScaler, at(index).y)
                               }
             }
             LineSeries {
@@ -512,7 +510,7 @@ Item {
                 }
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                                    scaleYAxis(axisYLeftItem.axisSetter, axisYLeftScaler, at(index).y)
                               }
             }
             LineSeries {
@@ -530,7 +528,7 @@ Item {
                 }
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                                    scaleYAxis(axisYLeftItem.axisSetter, axisYLeftScaler, at(index).y)
                               }
             }
             LineSeries {
@@ -548,7 +546,7 @@ Item {
                 visible: GC.showCurvePhaseOne && !SessionState.dcSession
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                                    scaleYAxis(axisYRightItem.axisSetter, axisYRightScaler, at(index).y)
                               }
             }
             LineSeries {
@@ -566,7 +564,7 @@ Item {
                 visible: GC.showCurvePhaseTwo && !SessionState.dcSession
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                                    scaleYAxis(axisYRightItem.axisSetter, axisYRightScaler, at(index).y)
                               }
             }
             LineSeries {
@@ -584,7 +582,7 @@ Item {
                 visible: GC.showCurvePhaseThree && !SessionState.dcSession
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                                    scaleYAxis(axisYRightItem.axisSetter, axisYRightScaler, at(index).y)
                               }
             }
             LineSeries {
@@ -602,7 +600,7 @@ Item {
                 visible: SessionState.dcSession
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYLeftItem.valueAxis, axisYLeftScaler, at(index).y)
+                                    scaleYAxis(axisYLeftItem.axisSetter, axisYLeftScaler, at(index).y)
                               }
             }
             LineSeries {
@@ -620,7 +618,7 @@ Item {
                 visible: SessionState.dcSession
                 onPointAdded: (index) => {
                                   if(visible)
-                                    scaleYAxis(axisYRightItem.valueAxis, axisYRightScaler, at(index).y)
+                                    scaleYAxis(axisYRightItem.axisSetter, axisYRightScaler, at(index).y)
                               }
             }
         }

@@ -2,8 +2,8 @@ import QtQuick 2.14
 import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import QtCharts 2.14
-import SingleValueScaler 1.0
 import ZeraThemeConfig 1.0
+import AxisSetter 1.0
 
 Item {
     id: root
@@ -13,36 +13,37 @@ Item {
     property string unitBase
     property bool onTheRight: false
     property alias valueAxis: axisY
+    property alias axisSetter: axisYsetter
 
     function reset() {
-        axisY.min = 0
-        axisY.max = 10
+        axisYsetter.min = 0
+        axisYsetter.max = 10
     }
 
-    SingleValueScaler { id: singleValueScaler }
     ValueAxis {
         id: axisY
-        titleText: title + "[" + axisY.unitPrefix + unitBase + "]"
+        titleText: title + "[" + axisYsetter.unitPrefix + unitBase + "]"
         titleFont.pixelSize: chartView.height * 0.06
         labelsFont.pixelSize: chartView.height * 0.04
-        min: 0
-        max: 10
         labelsVisible: false
         property real perDivision: (max - min) / (tickCount - 1)
-        property real scale: 1
-        property string unitPrefix: ""
-        onMaxChanged: (max) => {
-            singleValueScaler.scaleSingleValForQML(max)
-            scale = singleValueScaler.getScaleFactor()
-            unitPrefix = singleValueScaler.getUnitPrefix()
-        }
     }
+
+    AxisSetter {
+        id: axisYsetter
+        axis: axisY
+        isXaxis: false
+        min: 0
+        max: 10
+    }
+
     // For the sake of scaling / unit prefix (m/k/M..) we have to draw labels
     // on our own
     Repeater {
         model: axisY.tickCount
         delegate: Text {
-            text: ((axisY.max - (index * axisY.perDivision)) * axisY.scale).toFixed(2)
+            text: ((axisY.max - (index * axisY.perDivision)) * axisYsetter.scale).toFixed(2)
+
             color: ZTC.primaryTextColor
             font.pixelSize: chartView.height * 0.04
             x: onTheRight ?
