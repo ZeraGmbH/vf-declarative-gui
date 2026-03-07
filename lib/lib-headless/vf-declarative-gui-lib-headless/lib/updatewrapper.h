@@ -21,9 +21,9 @@ public:
     Q_PROPERTY(bool updateOk READ getUpdateOk NOTIFY sigUpdateOkChanged);
     Q_PROPERTY(UpdateStatus status READ getStatus NOTIFY sigStatusChanged);
     Q_INVOKABLE void startInstallation();
-    QString searchForPackages(QString mountPath);
-    QStringList orderPackageList(QStringList zupList);
-    QStringList removeNonMatchingLicenses(QStringList zupList);
+    QString searchForPackages(const QString &mountPath);
+    QStringList orderPackageList(const QStringList &zupList);
+    QStringList removeNonMatchingLicenses(const QStringList &zupList);
     bool getUpdateOk() const;
     void setUpdateOk(bool ok);
     UpdateStatus getStatus() const;

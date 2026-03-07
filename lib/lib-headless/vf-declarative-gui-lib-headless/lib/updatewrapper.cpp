@@ -53,7 +53,7 @@ void UpdateWrapper::startInstallation()
     TaskTemplatePtr installPackagesViaClient = TaskLambdaRunner::create([this]() {
         QProcess updateClient;
         QString updateClientExecutable("zera-update-client");
-        for (auto &item : m_zupsToBeInstalled) {
+        for (const QString &item : qAsConst(m_zupsToBeInstalled)) {
             QStringList clientArgs;
             clientArgs << "--auto-start" << "--auto-close" << item;
             qInfo() << "starting: " << updateClientExecutable << " " << clientArgs;
@@ -71,7 +71,7 @@ void UpdateWrapper::startInstallation()
     m_tasks->start();
 }
 
-QString UpdateWrapper::searchForPackages(QString mountPath)
+QString UpdateWrapper::searchForPackages(const QString &mountPath)
 {
     QString pathToZups;
     QFileInfoList mountedPaths = QDir(mountPath).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -83,11 +83,11 @@ QString UpdateWrapper::searchForPackages(QString mountPath)
     return pathToZups;
 }
 
-QStringList UpdateWrapper::orderPackageList(QStringList zupList)
+QStringList UpdateWrapper::orderPackageList(const QStringList &zupList)
 {
     QStringList orderedZups;
 
-    for (auto &item : zupList)
+    for (const QString &item : zupList)
         // ignore wm packages
         if (item.startsWith("wm"))
             continue;
@@ -106,7 +106,7 @@ QStringList UpdateWrapper::orderPackageList(QStringList zupList)
     return orderedZups;
 }
 
-QStringList UpdateWrapper::removeNonMatchingLicenses(QStringList zupList)
+QStringList UpdateWrapper::removeNonMatchingLicenses(const QStringList &zupList)
 {
     QString serialNumber;
     QStringList returnList = zupList;
@@ -115,13 +115,13 @@ QStringList UpdateWrapper::removeNonMatchingLicenses(QStringList zupList)
         QTextStream in(&serialFile);
         serialNumber = in.readAll().trimmed();
         serialFile.close();
-    }else{
+    }
+    else {
         qWarning("Could not read serial number!");
         return QStringList();
     }
 
-    for (auto &item : zupList)
-    {
+    for (const QString &item : zupList) {
         if (item.contains("licenses") && !item.contains(serialNumber))
             returnList.removeAll(item);
     }
@@ -172,7 +172,7 @@ void UpdateWrapper::onTaskFinished(bool ok, int taskId)
     Q_UNUSED(taskId)
     if(ok)
         setStatus(UpdateStatus::Success);
-    else if(!ok && m_status == UpdateStatus::InProgress)
+    else if(m_status == UpdateStatus::InProgress)
         setStatus(UpdateStatus::Failure);
     setUpdateOk(ok);
 }

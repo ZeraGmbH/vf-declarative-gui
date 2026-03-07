@@ -41,7 +41,7 @@ QString SingleValueScaler::getUnitPrefix()
     return m_unitPrefix;
 }
 
-void SingleValueScaler::setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult)
+void SingleValueScaler::setScale(double limit, const QString &limitPrefix, TSingleScaleResult &singleResult)
 {
     singleResult.scaleFactor = 1/limit;
     m_hysteresisValue = limit * HYSTERESIS;
@@ -50,7 +50,7 @@ void SingleValueScaler::setScale(double limit, QString limitPrefix, TSingleScale
     m_unitPrefix = limitPrefix;
 }
 
-bool SingleValueScaler::scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &singleResult)
+bool SingleValueScaler::scaleSingleValForPrefix(double absVal, double limit, const QString &limitPrefix, TSingleScaleResult &singleResult)
 {
     if(absVal >= limit-m_hysteresisValue) {
         setScale(limit, limitPrefix, singleResult);

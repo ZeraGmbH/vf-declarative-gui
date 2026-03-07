@@ -32,7 +32,7 @@ int LineSeriesFiller::getEntityId() const
     return m_entityId;
 }
 
-void LineSeriesFiller::setComponentName(QString componentName)
+void LineSeriesFiller::setComponentName(const QString &componentName)
 {
     m_componentName = componentName;
 }
@@ -46,7 +46,7 @@ void LineSeriesFiller::onNewValuesAdded(int startIdx, int postEndIdx)
 {
     QList<RecorderFetchAndCache::TimestampData> cache = RecorderFetchAndCache::getInstance()->getData();
     for(int i = startIdx; i<postEndIdx; i++) {
-        RecorderFetchAndCache::TimestampData &cacheEntry = cache[i];
+        const RecorderFetchAndCache::TimestampData &cacheEntry = cache[i];
         float value = cacheEntry.entitiesData[m_entityId][m_componentName];
         m_lineSeries->append(float(cacheEntry.msSinceStart)/1000, value);
     }
@@ -63,7 +63,7 @@ void LineSeriesFiller::appendPoints()
     if(!reducedCache.isEmpty()) {
         int msSinceStart = 0;
         for(int i = 0; i<reducedCache.size(); i++) {
-            RecorderFetchAndCache::TimestampData &cacheEntry = reducedCache[i];
+            const RecorderFetchAndCache::TimestampData &cacheEntry = reducedCache[i];
             float value = cacheEntry.entitiesData[m_entityId][m_componentName];
             m_lineSeries->append(float(cacheEntry.msSinceStart)/1000, value);
             msSinceStart = cacheEntry.msSinceStart;

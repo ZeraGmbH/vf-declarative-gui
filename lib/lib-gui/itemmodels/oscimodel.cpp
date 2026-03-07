@@ -1,7 +1,7 @@
 #include "oscimodel.h"
 #include "vfcomponenteventdispatcher.h"
 
-OsciModel::OsciModel(QStringList componentNames) :
+OsciModel::OsciModel(const QStringList &componentNames) :
     TableEventItemModelBase(componentNames.size()+1,128),
     m_componentNames(componentNames)
 {
@@ -32,7 +32,7 @@ QHash<int, QByteArray> OsciModel::roleNames() const
     return QHash<int, QByteArray>();
 }
 
-void OsciModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void OsciModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates)
 {
     if(cData->entityId() == static_cast<int>(Modules::OsciModule)) {
         const QList<double> tmpData = qvariant_cast<QList<double> >(cData->newValue());

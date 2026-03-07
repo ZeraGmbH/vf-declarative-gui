@@ -24,7 +24,7 @@ public:
     void setEntityId(int entityId);
     int getEntityId() const;
 
-    void setComponentName(QString componentName);
+    void setComponentName(const QString &componentName);
     QString getComponentName() const;
 
 signals:

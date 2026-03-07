@@ -13,7 +13,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 protected:
     ActualValueModelBase(bool withAuxColumsInAutoScale);
-    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates) override;
+    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates) override;
 
 private:
     void insertMeasMode(int yCoordinate, QString measMode);

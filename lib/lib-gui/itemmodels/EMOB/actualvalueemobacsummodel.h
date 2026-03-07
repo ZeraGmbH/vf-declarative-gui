@@ -15,7 +15,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates) override;
+    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates) override;
     enum RoleIndexes
     {
         NAME=Qt::UserRole+1,

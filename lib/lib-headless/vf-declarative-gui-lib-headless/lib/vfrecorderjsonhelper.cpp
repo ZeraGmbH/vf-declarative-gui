@@ -6,7 +6,7 @@ VfRecorderJsonHelper::VfRecorderJsonHelper(QObject *parent)
 {
 }
 
-qint64 VfRecorderJsonHelper::convertTimestampToMs(QString dateTime)
+qint64 VfRecorderJsonHelper::convertTimestampToMs(const QString &dateTime)
 {
     return QDateTime::fromString(dateTime, "dd-MM-yyyy hh:mm:ss.zzz").toMSecsSinceEpoch();
 }
@@ -24,7 +24,7 @@ QStringList VfRecorderJsonHelper::getComponents(QJsonObject json)
     return componentList;
 }
 
-double VfRecorderJsonHelper::getValue(QJsonObject json, QString component)
+double VfRecorderJsonHelper::getValue(QJsonObject json, const QString &component)
 {
     double value = 0.0;
     if(!json.isEmpty()) {
@@ -41,7 +41,7 @@ double VfRecorderJsonHelper::getValue(QJsonObject json, QString component)
     return value;
 }
 
-QVariant VfRecorderJsonHelper::findLastElementOfCompo(QList<QVariant> actVal, QString compoName)
+QVariant VfRecorderJsonHelper::findLastElementOfCompo(const QList<QVariant> &actVal, const QString &compoName)
 {
     if(!actVal.isEmpty()) {
         for(int i = 0; i < actVal.size(); i++) {

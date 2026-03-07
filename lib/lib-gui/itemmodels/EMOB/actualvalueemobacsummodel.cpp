@@ -52,7 +52,7 @@ QHash<int, QByteArray> ActualValueEmobAcSumModel::roleNames() const
     return roles;
 }
 
-void ActualValueEmobAcSumModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void ActualValueEmobAcSumModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates)
 {
     SingleValueScaler::TSingleScaleResult singleResult;
     int columnRole = 0;

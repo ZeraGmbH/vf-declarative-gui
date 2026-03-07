@@ -48,7 +48,7 @@ QHash<int, QByteArray> TempHumidityPressureModel::roleNames() const
     return roles;
 }
 
-void TempHumidityPressureModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void TempHumidityPressureModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates)
 {
     int columnRole = 0;
     double newValue = cData->newValue().toDouble();

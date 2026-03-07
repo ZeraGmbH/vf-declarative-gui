@@ -103,7 +103,7 @@ QHash<int, QByteArray> ActualValueEmobAcModel::roleNames() const
     return roles;
 }
 
-void ActualValueEmobAcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void ActualValueEmobAcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates)
 {
     if(cData->componentName() == QLatin1String("PAR_MeasuringMode")) {
         QString newValue = cData->newValue().toString();

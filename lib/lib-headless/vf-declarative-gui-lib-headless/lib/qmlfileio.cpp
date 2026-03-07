@@ -143,7 +143,7 @@ const QStringList &QmlFileIO::mountedPaths() const
     return m_mountedPaths;
 }
 
-void QmlFileIO::onMountPathsChanged(QStringList mountPaths)
+void QmlFileIO::onMountPathsChanged(const QStringList &mountPaths)
 {
     m_mountedPaths = mountPaths;
     emit sigMountedPathsChanged();

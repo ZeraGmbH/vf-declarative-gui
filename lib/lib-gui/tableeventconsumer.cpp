@@ -267,7 +267,7 @@ double TableEventConsumer::avoidDivisionByZero(double val)
     return val;
 }
 
-void TableEventConsumer::sessionNameReceived(QString sessionName)
+void TableEventConsumer::sessionNameReceived(const QString &sessionName)
 {
     if(sessionName != m_currentSessionName) {
         m_currentSessionName = sessionName;
@@ -317,8 +317,8 @@ void TableEventConsumer::onSessionChange()
     }
 }
 
-TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model)
+TableEventConsumer::TQmlLabelModelPair::TQmlLabelModelPair(QString qmlName, TableEventItemModelBase *model) :
+    m_qmlName(qmlName),
+    m_model(model)
 {
-    m_qmlName = qmlName;
-    m_model = model;
 }

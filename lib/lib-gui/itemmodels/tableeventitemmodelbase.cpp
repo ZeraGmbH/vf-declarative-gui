@@ -30,7 +30,7 @@ void TableEventItemModelBase::handleComponentChange(const VeinComponent::Compone
     }
 }
 
-void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void TableEventItemModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates)
 {
     m_autoScaleRows.handleComponentChangeCoord(cData, valueCoordiates);
 }

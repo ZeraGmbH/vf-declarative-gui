@@ -48,7 +48,7 @@ QHash<int, QByteArray> ActualValueEmobDcModel::roleNames() const
     return roles;
 }
 
-void ActualValueEmobDcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void ActualValueEmobDcModel::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates)
 {
     SingleValueScaler::TSingleScaleResult singleResult;
     int columnRole = 0;

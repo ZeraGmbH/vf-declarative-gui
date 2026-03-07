@@ -19,7 +19,7 @@ public:
     static QList<TableEventItemModelBase*> getAllBaseModels();
     QHash<int, QHash<QString, QPoint>*> getValueMapping();
 protected:
-    virtual void handleComponentChangeCoord(const VeinComponent::ComponentData *, const QPoint);
+    virtual void handleComponentChangeCoord(const VeinComponent::ComponentData *, const QPoint& valueCoordiates);
 
     QHash<int, QHash<QString, QPoint>*> m_valueMapping;
     ZeraTranslation *m_translation = nullptr;

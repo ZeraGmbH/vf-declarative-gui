@@ -14,9 +14,9 @@ class TableRowAutoScaler
 {
 public:
     TableRowAutoScaler(QStandardItemModel* itemModel);
-    void setUnitInfo(int row, QString baseUnit, int roleIndexUnit);
-    void mapValueColumns(int row, QList<int> roleIdxSingleValues, int roleIndexSum = 0);
-    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates);
+    void setUnitInfo(int row, const QString &baseUnit, int roleIndexUnit);
+    void mapValueColumns(int row, const QList<int> &roleIdxSingleValues, int roleIndexSum = 0);
+    void handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates);
 private:
     void scaleRow(int row);
     QStandardItemModel *m_itemModel;

@@ -1,16 +1,6 @@
 #include "rowautoscaler.h"
 #include <math.h>
 
-RowAutoScaler::RowAutoScaler()
-{
-    m_singleValueScaler = new SingleValueScaler();
-}
-
-RowAutoScaler::~RowAutoScaler()
-{
-    delete m_singleValueScaler;
-}
-
 void RowAutoScaler::setUnscaledValue(int columnRole, QVariant newValue)
 {
     m_unscaledColumnValues[columnRole] = newValue;
@@ -18,10 +8,10 @@ void RowAutoScaler::setUnscaledValue(int columnRole, QVariant newValue)
 
 SingleValueScaler::TSingleScaleResult RowAutoScaler::scaleSingleVal(double value)
 {
-    return m_singleValueScaler->scaleSingleVal(value);
+    return m_singleValueScaler.scaleSingleVal(value);
 }
 
-RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(QString baseUnit, QList<int> roleIdxSingleValues)
+RowAutoScaler::TRowScaleResult RowAutoScaler::scaleRow(const QString &baseUnit, const QList<int> &roleIdxSingleValues)
 {
     double maxAbsVal = 0.0;
     for(auto valColumnRole : roleIdxSingleValues) {

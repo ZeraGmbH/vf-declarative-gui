@@ -20,8 +20,8 @@ public:
     };
     TSingleScaleResult scaleSingleVal(double val);
 private:
-    void setScale(double limit, QString limitPrefix, TSingleScaleResult &singleResult);
-    bool scaleSingleValForPrefix(double absVal, double limit, QString limitPrefix, TSingleScaleResult &singleResult);
+    void setScale(double limit, const QString &limitPrefix, TSingleScaleResult &singleResult);
+    bool scaleSingleValForPrefix(double absVal, double limit, const QString &limitPrefix, TSingleScaleResult &singleResult);
     double m_hysteresisValue = 0.0;
     double m_scaleFactor = 1.0;
     QString m_unitPrefix;

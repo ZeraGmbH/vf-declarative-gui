@@ -37,7 +37,7 @@ signals:
     void sigLastWriteLogsOkChanged();
 
 private slots:
-    void onMountPathsChanged(QStringList mountPaths);
+    void onMountPathsChanged(const QStringList &mountPaths);
     void onSimpleCmdFinish(bool ok);
 
 private:

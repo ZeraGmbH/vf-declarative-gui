@@ -228,7 +228,7 @@ void ActualValueModelBase::insertPowerUnit(int yCoordinate, QString measUnit)
     updateMModeTranslations();
 }
 
-void ActualValueModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint valueCoordiates)
+void ActualValueModelBase::handleComponentChangeCoord(const VeinComponent::ComponentData *cData, const QPoint &valueCoordiates)
 {
     if(cData->componentName() == QLatin1String("PAR_MeasuringMode")) {
         QString newValue = cData->newValue().toString();
