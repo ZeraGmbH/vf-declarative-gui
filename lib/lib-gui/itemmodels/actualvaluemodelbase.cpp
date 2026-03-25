@@ -181,7 +181,7 @@ void ActualValueModelBase::setupMapping()
     rangeMap->insert("ACT_Frequency", QPoint(RoleIndexes::SUM, 13));
 
     m_valueMapping.insert(static_cast<int>(Modules::RmsModule), rmsMap);
-    m_valueMapping.insert(static_cast<int>(Modules::ThdnModule2), thdnMap);
+    m_valueMapping.insert(static_cast<int>(Modules::ThdnModule), thdnMap);
     m_valueMapping.insert(static_cast<int>(Modules::DftModule), dftMap);
     m_valueMapping.insert(static_cast<int>(Modules::LambdaModule), lambdaMap);
     m_valueMapping.insert(static_cast<int>(Modules::Power1Module1), p1m1Map);
