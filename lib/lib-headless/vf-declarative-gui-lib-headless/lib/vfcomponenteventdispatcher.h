@@ -39,7 +39,8 @@ enum class Modules : int {
     Power1Module4 = 1073, // P+Q+S for SCPI clients / or DC EMOB
     //Power2Module1 = 1090, // CED session
     Power3Module = 1100,
-    ThdnModule = 1110,
+    ThdnModule1 = 1110,
+    ThdnModule2 = 1111,
     OsciModule = 1120,
     Sec1Module = 1130,
     LambdaModule = 1140,
