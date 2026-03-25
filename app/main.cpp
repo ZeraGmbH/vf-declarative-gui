@@ -215,7 +215,6 @@ int main(int argc, char *argv[])
     networkWatchdog.setInterval(3000);
     networkWatchdog.setSingleShot(true);
 
-
 #ifdef QT_DEBUG
     engine.rootContext()->setContextProperty("BUILD_TYPE", "debug");
 #else
