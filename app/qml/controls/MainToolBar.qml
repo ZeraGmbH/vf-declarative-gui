@@ -163,39 +163,41 @@ ToolBar {
                 targetItem: logStartButton
                 running: loggingActive
             }
+            Connections {
+                target: menuLoader.item
+                function onLoggerSettingsMenu() {
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                    loggerSettingsStackObj.showSettings()
+                }
+                function onLoggerSessionsMenu() {
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                    loggerSettingsStackObj.showSessionNameSelector(false)
+                }
+                function onLoggerCustomDataMenu() {
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                    loggerSettingsStackObj.showCustomDataSelector()
+                }
+                function onLoggerExportMenu() {
+                    root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
+                    loggerSettingsStackObj.showExportView()
+                }
+            }
+            Connections {
+                target: loggerSettingsStackObj
+                function onPleaseCloseMe(butOpenMenu) {
+                    goHomeToPages()
+                    if(butOpenMenu)
+                        logStartButton.openMenu()
+                }
+            }
+            function openMenu() {
+                menuLoader.active = true
+                menuLoader.item.open()
+            }
             Loader {
                 id: menuLoader
                 active: false
-                function openMenu() {
-                    menuLoader.active = true
-                    menuLoader.item.open()
-                }
-                sourceComponent: LoggerMenu {
-                    onLoggerSettingsMenu: {
-                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        loggerSettingsStackObj.showSettings()
-                    }
-                    onLoggerSessionsMenu: {
-                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        loggerSettingsStackObj.showSessionNameSelector(false)
-                    }
-                    onLoggerCustomDataMenu: {
-                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        loggerSettingsStackObj.showCustomDataSelector()
-                    }
-                    onLoggerExportMenu: {
-                        root.layoutStackObj.currentIndex = GC.layoutStackEnum.layoutLoggerIndex;
-                        loggerSettingsStackObj.showExportView()
-                    }
-                    Connections {
-                        target: loggerSettingsStackObj
-                        function onPleaseCloseMe(butOpenMenu) {
-                            goHomeToPages()
-                            if(butOpenMenu)
-                                menuLoader.openMenu()
-                        }
-                    }
-                }
+                source: "qrc:/qml/controls/logger/LoggerMenu.qml"
             }
             onClicked: {
                 // we are already in logger settings
@@ -205,14 +207,14 @@ ToolBar {
                     // let's assume user wants to get out of settings then and do not re.open
                     // logger settings
                     if(VeinEntity.getEntity("_LoggingSystem").DatabaseReady)
-                        menuLoader.openMenu()
+                        logStartButton.openMenu()
                 }
                 else {
                     // are we somewhere but pages?
                     if(root.layoutStackObj.currentIndex !== GC.layoutStackEnum.layoutPageIndex) {
                         goHomeToPages()
                     }
-                    menuLoader.openMenu()
+                    logStartButton.openMenu()
                 }
             }
         }
