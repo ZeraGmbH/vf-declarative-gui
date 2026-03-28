@@ -20,9 +20,6 @@ import "controls/api"
 Window {
     id: displayWindow
 
-    // for development: current resolution
-    property int screenResolution: GC.screenResolution
-
     visible: true
     visibility: {
         console.info("Desktop Session:", DESKTOP_SESSION)
@@ -31,9 +28,20 @@ Window {
         return Window.Windowed
     }
 
+    // for development: current resolution
+    property int screenResolution: GC.screenResolution
     // Notes on resolutions:
     // * for production we use desktop sizes: We have one monitor & bars
     // * for debug we use screen sizes for multi monitor environments
+    Shortcut {
+        enabled: BUILD_TYPE === "debug"
+        sequence: "F3"
+        autoRepeat: false
+        onActivated: {
+            screenResolution = (screenResolution+1) % 4
+            GC.setScreenResolution(screenResolution)
+        }
+    }
     width: {
         let width = Screen.desktopAvailableWidth
         if(BUILD_TYPE === "debug") {
@@ -150,16 +158,6 @@ Window {
                     return VeinEntity.getEntity("_System").Session
                 });
             }
-        }
-    }
-
-    Shortcut {
-        enabled: BUILD_TYPE === "debug"
-        sequence: "F3"
-        autoRepeat: false
-        onActivated: {
-            screenResolution = (screenResolution+1) % 4
-            GC.setScreenResolution(screenResolution)
         }
     }
 
