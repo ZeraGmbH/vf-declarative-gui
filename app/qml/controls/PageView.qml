@@ -153,9 +153,8 @@ Item {
 
             Connections {
                 target: VeinEntity
-                function onSigEntityAvailable(t_entityName) {
-                    if(t_entityName === "_System")
-                        sessionSelector.systemEntity = VeinEntity.getEntity("_System");
+                function onSigSystemEntityAvailable() {
+                    sessionSelector.systemEntity = VeinEntity.getEntity("_System");
                 }
             }
         }

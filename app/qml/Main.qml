@@ -100,12 +100,10 @@ Window {
             }
         }
 
-        function onSigEntityAvailable(t_entityName) {
-            if (t_entityName === "_System") {
-                SessionState.currentSession = Qt.binding(function() {
-                    return VeinEntity.getEntity("_System").Session
-                });
-            }
+        function onSigSystemEntityAvailable() {
+            SessionState.currentSession = Qt.binding(function() {
+                return VeinEntity.getEntity("_System").Session
+            });
         }
     }
 
