@@ -9,8 +9,12 @@ Item {
     readonly property real tabPointSize: height * 0.0225
     readonly property real tabHeight: tabBar.count > 1 ? height * 0.08 : 0
 
-    property alias swipeView: swipeView
-    property alias tabBar: tabBar
+    property QtObject swipeView: swipeViewBaseItem
+    property QtObject tabBar: tabBarBaseItem
+
+    BaseTabBar { id: tabBarBaseItem }
+    BaseTabView { id: swipeViewBaseItem }
+
     // We default to what most views (measurement pages) do. Other type
     // of views can override getLastTabSelected and setLastTabSelected
     function getLastTabSelected() {
@@ -25,26 +29,6 @@ Item {
             lastTabSelected = 0
         swipeView.setCurrentIndex(lastTabSelected)
         initTimer.start()
-    }
-
-    TabBar {
-        id: tabBar
-        anchors { top: root.top; left: root.left; right: root.right }
-        contentHeight: tabHeight
-        currentIndex: swipeView.currentIndex
-        visible: tabHeight>0
-        onCurrentIndexChanged: {
-            if(initialized)
-                setLastTabSelected(currentIndex)
-        }
-    }
-
-    SwipeView {
-        id: swipeView
-        visible: initialized
-        anchors { top: tabBar.bottom; bottom: root.bottom; left: root.left; right: root.right }
-        currentIndex: tabBar.currentIndex
-        spacing: 20
     }
 
     property bool initialized: false
