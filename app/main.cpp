@@ -287,14 +287,6 @@ int main(int argc, char *argv[])
         qmlApi->entitySubscribeById(0);
     });
 
-    // ATOW application seems to quit silently. To find out when spawn a ping
-    QTimer periodicLogTimer;
-    periodicLogTimer.setSingleShot(false);
-    QObject::connect(&periodicLogTimer, &QTimer::timeout, [] {
-        qDebug("Application ping");
-    });
-    periodicLogTimer.start(10000);
-
     QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
         engine.quit();
         evHandler->clearSubsystems();
