@@ -14,50 +14,14 @@ Item {
     id: root
     property real pointSize
     property real rowHeight
+    height: hasPeriodIntegration ? 2*rowHeight : rowHeight
 
-    property var periodList
-    property var timeList
-
-    property var periodIntrospection
-    property var timeIntrospection
-
-    property bool hasPeriodEntries: false
-    height: hasPeriodEntries ? 2*rowHeight : rowHeight
-
-    Component.onCompleted: {
-        let tmpMap = ({})
-        let tmpTimeList = []
-        let tmpPeriodList = []
-
-        const allEntities = VeinEntity.getEntity("_System").Entities
-        for (let i=0; i<allEntities.length; ++i) {
-            const tmpEntity = VeinEntity.getEntityById(allEntities[i])
-            if (tmpEntity) {
-                const entityName = tmpEntity.EntityName
-                if (tmpEntity.hasComponent("INF_ModuleInterface")) {
-                    const infModuleInterface = JSON.parse(tmpEntity.INF_ModuleInterface)
-                    tmpMap[entityName] = infModuleInterface
-
-                    if (tmpEntity.hasComponent("PAR_Interval")) {
-                        const unit = infModuleInterface.ComponentInfo.PAR_Interval.Unit
-                        if (unit === "s")
-                            tmpTimeList.push(tmpEntity)
-                        else if (unit === "period") {
-                            hasPeriodEntries = true
-                            tmpPeriodList.push(tmpEntity)
-                        }
-                        else
-                            console.warn("SettingsInterval.onCompleted(): ERROR IN METADATA")
-                    }
-                }
-            }
-        }
-
-        periodIntrospection = tmpMap[(tmpPeriodList.length ? tmpPeriodList[0].EntityName : "")]
-        timeIntrospection = tmpMap[(tmpTimeList.length ? tmpTimeList[0].EntityName : "")]
-        timeList = tmpTimeList
-        periodList = tmpPeriodList
-    }
+    readonly property QtObject integrationGlobalEntity: VeinEntity.getEntity("DspSuperModule1")
+    readonly property bool hasTimeIntegration: integrationGlobalEntity.hasComponent('PAR_IntervalGlobalTime')
+    readonly property bool hasPeriodIntegration: integrationGlobalEntity.hasComponent('PAR_IntervalGlobalPeriod')
+    readonly property var componentInfo: ModuleIntrospection.dspSuperIntrospection.ComponentInfo
+    readonly property var validatorTime: hasTimeIntegration ? componentInfo.PAR_IntervalGlobalTime.Validation : ""
+    readonly property var validatorPeriod: hasPeriodIntegration ? componentInfo.PAR_IntervalGlobalPeriod.Validation : ""
 
     Loader {
         id: loaderTime
@@ -65,7 +29,7 @@ Item {
         width: parent.width
         height: parent.rowHeight
         sourceComponent: timeComponent
-        active: timeList.length > 0;
+        active: hasTimeIntegration
         asynchronous: true
     }
 
@@ -75,7 +39,7 @@ Item {
         width: parent.width
         height: parent.rowHeight
         sourceComponent: periodComponent
-        active: periodList.length > 0;
+        active: hasPeriodIntegration
         asynchronous: true
     }
 
@@ -89,33 +53,19 @@ Item {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
-            Item {
-                Layout.fillWidth: true
-            }
+            Item { Layout.fillWidth: true }
             VFSpinBox {
                 spinBox.width: root.width / 4
                 pointSize: root.pointSize
                 Layout.fillHeight: true
-                entity: timeList[0]
-                controlPropertyName: "PAR_Interval"
-                stepSize: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2] * Math.pow(10, validatorTime.decimals)
-                validator: ZDoubleValidator{
-                    id: validatorTime
-                    bottom: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
-                    top: timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
-                    decimals: FT.ceilLog10Of1DividedByX(timeIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
-                }
-                // we have to override doApplyInput because integration time displays
-                // first entity's value but hast to change all in our list
-                function doApplyInput(newText) {
-                    var newVal = parseFloat(newText)
-                    for(var i=0; i<timeList.length; ++i) {
-                        if(timeList[i].PAR_Interval !== newVal) {
-                            timeList[i].PAR_Interval = newVal;
-                        }
-                    }
-                    // wait to be applied
-                    return false
+                entity: integrationGlobalEntity
+                controlPropertyName: "PAR_IntervalGlobalTime"
+                stepSize: validatorTime.Data[2] * Math.pow(10, dblValidatorTime.decimals)
+                validator: ZDoubleValidator {
+                    id: dblValidatorTime
+                    bottom: validatorTime.Data[0]
+                    top: validatorTime.Data[1]
+                    decimals: FT.ceilLog10Of1DividedByX(validatorTime.Data[2])
                 }
             }
         }
@@ -130,33 +80,18 @@ Item {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
-            Item {
-                Layout.fillWidth: true
-            }
+            Item { Layout.fillWidth: true }
             VFSpinBox {
                 spinBox.width: root.width / 4
                 Layout.fillHeight: true
                 pointSize: root.pointSize
-                entity: periodList[0]
-                controlPropertyName: "PAR_Interval"
+                entity: integrationGlobalEntity
+                controlPropertyName: "PAR_IntervalGlobalPeriod"
                 stepSize: 5
                 validator: ZDoubleValidator{
-                    id: validatorPeriod
-                    bottom: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[0];
-                    top: periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[1];
-                    decimals: FT.ceilLog10Of1DividedByX(periodIntrospection.ComponentInfo.PAR_Interval.Validation.Data[2]);
-                }
-                // we have to override doApplyInput because integration period displays
-                // first entity's value but hast to change all in our list
-                function doApplyInput(newText) {
-                    var newVal = parseFloat(newText)
-                    for(var i=0; i<periodList.length; ++i) {
-                        if(periodList[i].PAR_Interval !== newVal) {
-                            periodList[i].PAR_Interval = newVal;
-                        }
-                    }
-                    // wait to be applied
-                    return false
+                    bottom: validatorPeriod.Data[0]
+                    top: validatorPeriod.Data[1]
+                    decimals: FT.ceilLog10Of1DividedByX(validatorPeriod.Data[2])
                 }
             }
         }
