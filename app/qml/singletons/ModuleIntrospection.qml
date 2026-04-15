@@ -29,6 +29,7 @@ Item {
     property var burdenUIntrospection: VeinEntity.hasEntity("Burden1Module2") ? JSON.parse(VeinEntity.getEntity("Burden1Module2").INF_ModuleInterface) : 0
     property var transformer1Introspection: VeinEntity.hasEntity("Transformer1Module1") ? JSON.parse(VeinEntity.getEntity("Transformer1Module1").INF_ModuleInterface) : 0
     property var bleIntrospection: VeinEntity.hasEntity("BleModule1") ? JSON.parse(VeinEntity.getEntity("BleModule1").INF_ModuleInterface) : 0
+    property var dspSuperIntrospection: VeinEntity.hasEntity("DspSuperModule1") ? JSON.parse(VeinEntity.getEntity("DspSuperModule1").INF_ModuleInterface) : 0
 
     function reloadIntrospection() {
         var ve = VeinEntity
@@ -54,5 +55,6 @@ Item {
         burdenUIntrospection = Qt.binding(function() { return ve.hasEntity("Burden1Module2") ? JSON.parse(ve.getEntity("Burden1Module2").INF_ModuleInterface) : 0; })
         transformer1Introspection = Qt.binding(function() { return ve.hasEntity("Transformer1Module1") ? JSON.parse(ve.getEntity("Transformer1Module1").INF_ModuleInterface) : 0; })
         bleIntrospection = Qt.binding(function() { return ve.hasEntity("BleModule1") ? JSON.parse(ve.getEntity("BleModule1").INF_ModuleInterface) : 0; })
+        dspSuperIntrospection = Qt.binding(function() { return ve.hasEntity("DspSuperModule1") ? JSON.parse(ve.getEntity("DspSuperModule1").INF_ModuleInterface) : 0; })
     }
 }
