@@ -24,7 +24,7 @@ void TableEventItemModelBase::handleComponentChange(const VeinComponent::Compone
     if(mapping) {
         auto iter = mapping->constFind(cData->componentName());
         if(iter != mapping->constEnd()) {
-            const QPoint valueCoordiates = iter.value();
+            const QPoint &valueCoordiates = iter.value();
             handleComponentChangeCoord(cData, valueCoordiates);
         }
     }
@@ -40,7 +40,7 @@ QList<TableEventItemModelBase *> TableEventItemModelBase::getAllBaseModels()
     return m_setAllBaseModels.values();
 }
 
-QHash<int, QHash<QString, QPoint> *> TableEventItemModelBase::getValueMapping()
+const QHash<int, QHash<QString, QPoint> *> &TableEventItemModelBase::getValueMapping()
 {
     return m_valueMapping;
 }

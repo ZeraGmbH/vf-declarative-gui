@@ -17,7 +17,7 @@ public:
     void handleComponentChange(const VeinComponent::ComponentData *cData);
 
     static QList<TableEventItemModelBase*> getAllBaseModels();
-    QHash<int, QHash<QString, QPoint>*> getValueMapping();
+    const QHash<int, QHash<QString, QPoint>*> &getValueMapping();
 protected:
     virtual void handleComponentChangeCoord(const VeinComponent::ComponentData *, const QPoint& valueCoordiates);
 

@@ -23,7 +23,7 @@ void TableRowAutoScaler::handleComponentChangeCoord(const VeinComponent::Compone
 {
     int row = valueCoordiates.y();
     int columnRole = valueCoordiates.x();
-    QVariant newValue = cData->newValue();
+    const QVariant &newValue = cData->newValue();
     if(m_rowsToAutoScale.contains(row)) {
         const TLineScaleEntry &scaleEntry = m_rowsToAutoScale[row];
         if(scaleEntry.roleIdxSingleValues.contains(columnRole) || scaleEntry.roleIndexSum == columnRole) {
@@ -47,7 +47,7 @@ void TableRowAutoScaler::scaleRow(int row)
     m_itemModel->setData(mIndex, res.scaledUnit, unitColumn);
 
     for(auto iter = res.scaledColumnValues.constBegin(); iter != res.scaledColumnValues.constEnd(); ++iter) {
-        QVariant val = iter.value();
+        const QVariant &val = iter.value();
         int columnRole = iter.key();
         m_itemModel->setData(mIndex, val, columnRole);
     }
