@@ -6,6 +6,5 @@ import ZeraThemeConfig 1.0
   * @b substitute for QQC2 Frame that has stupid content padding
   */
 Rectangle {
-    color: Material.backgroundColor
     border.color: ZTC.dividerColor
 }

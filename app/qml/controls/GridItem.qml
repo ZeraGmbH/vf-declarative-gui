@@ -1,14 +1,16 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
+import ZeraThemeConfig 1.0
 
 /**
   * @b used to display text in table like structures such as the ActualValuesPage
   */
-GridRect {
+Rectangle {
     property alias text: itemLabel.text
     property alias textColor: itemLabel.color
     property alias textHorizontalAlignment: itemLabel.horizontalAlignment
     property alias font: itemLabel.font
+    border.color: ZTC.dividerColor
     Label {
         id: itemLabel
         anchors.fill: parent
