@@ -9,12 +9,14 @@ import ZeraComponents 1.0
 Loader {
     id: root
     active: false
-    property bool opened: active ? item.opened : false
+    property bool waitActive: false
     function startWait(strDisplay) {
+        waitActive = true
         active = true
         item.startWait(strDisplay)
     }
     function stopWait(warningTxtArr, errorTxtArr, funcExecutedOnFinish) {
+        waitActive = false
         item.stopWait(warningTxtArr, errorTxtArr, funcExecutedOnFinish)
     }
     sourceComponent: Popup {
