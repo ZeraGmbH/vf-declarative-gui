@@ -63,38 +63,37 @@ Window {
 
     Connections {
         target: VeinEntity
-        function onSigStateChanged(t_state) {
-            if(t_state === VeinEntity.VQ_LOADED) {
-                dynamicPageModel.initModel();
-                pageView.model = dynamicPageModel;
+        function onSigEntitiesLoaded() {
+            dynamicPageModel.clear()
+            ModuleIntrospection.reloadIntrospection();
 
-                ModuleIntrospection.reloadIntrospection();
+            dynamicPageModel.initModel();
+            pageView.model = dynamicPageModel;
 
-                // rescue dyn sources binding over session change
-                dynamicPageModel.countActiveSources = Qt.binding(function() {
-                    if(VeinEntity.hasEntity("SourceModule1"))
-                        return VeinEntity.getEntity("SourceModule1").ACT_CountSources
-                    else
-                        return 0
-                })
-                dynamicPageModel.updateSourceView()
+            // rescue dyn sources binding over session change
+            dynamicPageModel.countActiveSources = Qt.binding(function() {
+                if(VeinEntity.hasEntity("SourceModule1"))
+                    return VeinEntity.getEntity("SourceModule1").ACT_CountSources
+                else
+                    return 0
+            })
+            dynamicPageModel.updateSourceView()
 
-                pageLoader.active = true;
-                var lastPageSelected = GC.lastPageViewIndexSelected
-                if(lastPageSelected >= pageView.model.count)
-                    lastPageSelected = 0
-                if(pageView.model.count)
-                    pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
-                loadingScreenLoader.item.close();
-                sessionChangeTimeout.stop();
-                layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
-                GC.entityInitializationDone = true
-                controlsBar.pageViewVisible = false
-                console.info("Loaded session:", SessionState.currentSession);
-                if(VeinEntity.hasEntity("_LoggingSystem")) {
-                    loggerEntity = VeinEntity.getEntity("_LoggingSystem")
-                    setDatabase()
-                }
+            pageLoader.active = true;
+            var lastPageSelected = GC.lastPageViewIndexSelected
+            if(lastPageSelected >= pageView.model.count)
+                lastPageSelected = 0
+            if(pageView.model.count)
+                pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
+            loadingScreenLoader.item.close();
+            sessionChangeTimeout.stop();
+            layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
+            GC.entityInitializationDone = true
+            controlsBar.pageViewVisible = false
+            console.info("Loaded session:", SessionState.currentSession);
+            if(VeinEntity.hasEntity("_LoggingSystem")) {
+                loggerEntity = VeinEntity.getEntity("_LoggingSystem")
+                setDatabase()
             }
         }
 
@@ -227,9 +226,7 @@ Window {
             }
 
             function initModel() {
-                var hasEntity = VeinEntity.hasEntity
-                clear()
-
+                const hasEntity = VeinEntity.hasEntity
                 if(SessionState.emobSession) {
                     let emobTitle = "Actual values & Meter tests"
                     if(SessionState.currentSession.includes('-ac'))
