@@ -12,7 +12,7 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import "../settings"
 
 SettingsView {
@@ -371,7 +371,7 @@ SettingsView {
                 }
                 Label { // exclamation mark if no database selected
                     font.pointSize: root.pointSize
-                    text: FAQ.fa_exclamation_triangle
+                    text: FAQH.strToGlyph("fa_exclamation_triangle")
                     color: Material.color(Material.Yellow)
                     visible: loggerEntity.DatabaseReady === false
                     Layout.fillHeight: true
@@ -431,7 +431,7 @@ SettingsView {
                         RowLayout {
                             anchors { fill: parent; leftMargin: 4; rightMargin: 4 }
                             Label { // active indicator
-                                text: FAQ.fa_check
+                                text: FAQH.strToGlyph("fa_check")
                                 font.pointSize: root.pointSize
                                 horizontalAlignment: Text.AlignLeft
                                 opacity: dbListDelegate.isCurrentDb ? 1.0 : 0.0
@@ -453,7 +453,7 @@ SettingsView {
                                 verticalAlignment: Label.AlignVCenter
                             }
                             ZButton { // Eject / make current
-                                text: dbListDelegate.isCurrentDb ? FAQ.fa_eject : ""
+                                text: dbListDelegate.isCurrentDb ? FAQH.strToGlyph("fa_eject") : ""
                                 font.pointSize: pointSize * 1.25
                                 enabled: loggerEntity.LoggingEnabled === false
                                 Layout.fillHeight: true
@@ -464,7 +464,7 @@ SettingsView {
                                 }
                             }
                             ZButton { // delete
-                                text: FAQ.fa_trash
+                                text: FAQH.strToGlyph("fa_trash")
                                 Layout.preferredWidth: rowHeight * 2
                                 Layout.fillHeight: true
                                 font.pointSize: pointSize * 1.25
@@ -512,7 +512,7 @@ SettingsView {
                     verticalAlignment: Label.AlignVCenter
                 }
                 ZButton {
-                    text: FAQ.fa_cogs
+                    text: FAQH.strToGlyph("fa_cogs")
                     font.pointSize: root.pointSize
                     Layout.fillHeight: true
                     Layout.preferredWidth: rowHeight*1.5

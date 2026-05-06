@@ -7,7 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 
 Item {
     id: root
@@ -147,7 +147,7 @@ Item {
                             id: activeIndicator
                             font.pointSize: root.pointSize
                             horizontalAlignment: Text.AlignLeft
-                            text: FAQ.fa_check
+                            text: FAQH.strToGlyph("fa_check")
                             opacity: (modelData === currentSessionName) ? 1.0 : 0.0
                             Layout.preferredWidth: root.pointSize * 1.5
                         }
@@ -161,7 +161,7 @@ Item {
                             Layout.preferredWidth: rowHeight * 2
                             Layout.fillHeight: true
                             font.pointSize: pointSize * 1.25
-                            text: FAQ.fa_trash
+                            text: FAQH.strToGlyph("fa_trash")
                             background: Rectangle { opacity: 0 }
                             onClicked: {
                                 removeSessionPopup.sessionToDelete = modelData

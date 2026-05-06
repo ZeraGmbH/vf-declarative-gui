@@ -11,7 +11,7 @@ import ModuleIntrospection 1.0
 import PowerModuleVeinGetter 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import SessionState 1.0
 import QmlHelpers 1.0
 import ZeraLocale 1.0
@@ -145,7 +145,7 @@ Item {
                 anchors.rightMargin: parent.width/240
                 width: parent.width/12
                 sourceComponent: ZButton {
-                    text: FAQ.fa_cogs
+                    text: FAQH.strToGlyph("fa_cogs")
                     font.pointSize: pointSize
                     Material.foreground: {
                         if(logicalParent.errCalEntity["PAR_DutTypeMeasurePoint"] === "CsIsUs")
@@ -175,7 +175,7 @@ Item {
                 anchors.rightMargin: 10
                 width: parent.width/12
                 sourceComponent: ZButton {
-                    text: FAQ.fa_hand_point_right
+                    text: FAQH.strToGlyph("fa_hand_point_right")
                     font.pointSize: pointSize
                     enabled: (VeinEntity.getEntity("SEC1Module1").ACT_Energy !== 0)
                     onPressed: {
@@ -193,7 +193,7 @@ Item {
                 anchors.rightMargin: 10
                 width: parent.width/12
                 sourceComponent: ZButton {
-                    text: FAQ.fa_hand_point_right
+                    text: FAQH.strToGlyph("fa_hand_point_right")
                     font.pointSize: pointSize
                     enabled: (VeinEntity.getEntity("SEC1Module2").ACT_Energy !== 0)
                     onPressed: {

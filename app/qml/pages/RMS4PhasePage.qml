@@ -10,7 +10,7 @@ import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraTranslation  1.0
 import ZeraThemeConfig 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import "../controls"
 import "../controls/settings"
 
@@ -41,7 +41,7 @@ Item {
             anchors.fill: parent
             anchors.topMargin: -4
             anchors.bottomMargin: -4
-            text: FAQ.fa_cogs
+            text: FAQH.strToGlyph("fa_cogs")
             font.pointSize: row1stHeight*0.45
             onClicked: settingsPopup.open()
         }

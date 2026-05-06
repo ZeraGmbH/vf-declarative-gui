@@ -17,7 +17,7 @@ import ZeraComponents 1.0
 import ZeraLocale 1.0
 import ZeraThemeConfig 1.0
 import SlowMachineSettingsHelper 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ZeraFa 1.0
 
 SettingsView {
@@ -171,7 +171,7 @@ SettingsView {
             }
             ZButton {
                 id: openTimeSetPopupButton
-                text: FAQ.fa_cogs
+                text: FAQH.strToGlyph("fa_cogs")
                 font.pointSize: pointSize * 1.2
                 Layout.leftMargin: rowHeight * 0.1
                 Layout.fillHeight: true
@@ -255,7 +255,7 @@ SettingsView {
                 property int currMaterialTheme: ZTC.materialTheme
                 readonly property bool isDarkTheme: currMaterialTheme === Material.Dark
                 font.pointSize: isDarkTheme ? pointSize * 1.25 : pointSize * 2
-                text: isDarkTheme ? FAQ.fa_moon : "☀"
+                text: isDarkTheme ? FAQH.strToGlyph("fa_moon") : "☀"
                 onClicked: {
                     let newTheme = isDarkTheme ? Material.Light : Material.Dark
                     currMaterialTheme = newTheme
@@ -371,7 +371,7 @@ SettingsView {
                 }
                 ZButton {
                     id: apiTrustThumb
-                    text: FAQ.fa_info_circle
+                    text: FAQH.strToGlyph("fa_info_circle")
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95
@@ -382,7 +382,7 @@ SettingsView {
                 }
                 ZButton {
                     id: apiTrustList
-                    text: FAQ.fa_cogs
+                    text: FAQH.strToGlyph("fa_cogs")
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95

@@ -6,7 +6,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
 
@@ -34,7 +34,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 8
         Text {
-            text: FAQ.fa_dot_circle + "<b>:</b>"
+            text: FAQH.strToGlyph("fa_dot_circle") + "<b>:</b>"
             font.pointSize: pointSize
         }
         Text {
@@ -87,7 +87,7 @@ Rectangle {
     }
     ZButton {
         id: editNfButton
-        text: FAQ.fa_cogs
+        text: FAQH.strToGlyph("fa_cogs")
         Material.theme: Material.Light
         font.pointSize: pointSize * 1.5
         anchors.rightMargin: grid.width > 200 ? 5 : -5

@@ -2,7 +2,7 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import ZeraFa 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ZeraThemeConfig 1.0
 
 ToolButton {
@@ -36,7 +36,7 @@ ToolButton {
             return ZTC.primaryTextColor
         }
         verticalAlignment: Text.AlignVCenter
-        text: FAQ.fa_battery_empty
+        text: FAQH.strToGlyph("fa_battery_empty")
         Rectangle {
             anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
             anchors { topMargin: accuIcon.height * 0.35; bottomMargin: accuIcon.height * 0.35 }

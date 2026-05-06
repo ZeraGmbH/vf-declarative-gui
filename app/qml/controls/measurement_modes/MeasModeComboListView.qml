@@ -2,7 +2,7 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import PowerModuleVeinGetter 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 
 ListView {
     model: PwrModVeinGetter.powerModuleEntitiesAvailable
@@ -39,7 +39,7 @@ ListView {
             height: headerHeight
             font.pointSize: pointSize
             verticalAlignment: Label.AlignVCenter
-            text: visible ? FAQ.fa_dot_circle + " " + measModeCombo.entity.PAR_FOUT0 : ""
+            text: visible ? FAQH.strToGlyph("fa_dot_circle") + " " + measModeCombo.entity.PAR_FOUT0 : ""
             visible: measModeCombo.entity.PAR_FOUT0 !== undefined && measModeCombo.entity.PAR_FOUT0 !== ""
         }
         MeasModeCombo {

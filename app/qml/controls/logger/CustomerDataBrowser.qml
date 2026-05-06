@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ".."
 import "../../helpers"
 
@@ -290,7 +290,7 @@ Item {
                         Layout.preferredWidth: rowHeight * 2
                         Layout.fillHeight: true
                         font.pointSize: pointSize * 1.25
-                        text: FAQ.fa_edit
+                        text: FAQH.strToGlyph("fa_edit")
                         background: Rectangle { opacity: 0 }
                         // Wait for customer data selected to be applied
                         property string custDataSelected: customerData.FileSelected
@@ -317,7 +317,7 @@ Item {
                         Layout.preferredWidth: rowHeight * 2
                         Layout.fillHeight: true
                         font.pointSize: pointSize * 1.25
-                        text: FAQ.fa_trash
+                        text: FAQH.strToGlyph("fa_trash")
                         background: Rectangle { opacity: 0 }
                         onClicked: {
                             removeFilePopup.fileName = modelData

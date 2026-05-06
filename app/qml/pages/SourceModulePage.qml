@@ -9,6 +9,7 @@ import ColorSettings 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import DeclarativeJson 1.0
+import FontAwesomeHash 1.0
 import FontAwesomeQml 1.0
 import ZeraComponents 1.0
 import ZeraThemeConfig 1.0
@@ -235,7 +236,7 @@ Item {
         Label {
             id: quickLoadSelectLabel
             font.styleName: "Regular"
-            text: FAQ.fa_heart + " :"
+            text: FAQH.strToGlyph("fa_heart") + " :"
             font.pointSize: pointSize
             anchors.left: parent.left
             textFormat: Text.PlainText
@@ -263,7 +264,7 @@ Item {
         ZButton {
             id: buttonSave
             anchors.right: buttonDelete.left
-            text: FAQ.fa_save
+            text: FAQH.strToGlyph("fa_save")
             height: lineHeight
             width: unitColumn.width
             topInset: 1
@@ -277,7 +278,7 @@ Item {
             anchors.right: quickLoadSelectRect.right
             anchors.rightMargin: unitColumn.anchors.rightMargin
             font.styleName: "Regular"
-            text: FAQ.fa_trash
+            text: FAQH.strToGlyph("fa_trash")
             height: lineHeight
             width: unitColumn.width
             topInset: 1
@@ -669,7 +670,7 @@ Item {
             font.family: FAQ.fontFamily
             font.styleName: "Solid"
             text: {
-                let ret = FAQ.fa_search
+                let ret = FAQH.strToGlyph("fa_search")
                 if(isActive) {
                     let colorPrefix = "<font color='" + Qt.lighter(Material.color(Material.Amber)) + "'>"
                     let colorPostfix = "</font>"
@@ -690,7 +691,7 @@ Item {
             rightInset: topInset
             leftInset: topInset
             font.pointSize: pointSize
-            text: FAQ.fa_cogs
+            text: FAQH.strToGlyph("fa_cogs")
             onClicked: phasorViewPopup.open()
         }
         Popup {

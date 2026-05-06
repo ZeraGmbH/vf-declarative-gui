@@ -6,7 +6,7 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import AppStarterForWebGLSingleton 1.0
 import SessionState 1.0
 import ZeraFa 1.0
@@ -195,16 +195,16 @@ Item {
 
                 sourceComponent: ZButton {
                     id: graphicsWindow
-                    text: FAQ.fa_chevron_up
+                    text: FAQH.strToGlyph("fa_chevron_up")
                     font.pointSize: pointSize
                     visible: SessionState.emobSession
                     highlighted: multiSwipe.currentIndex !== 0
                     onClicked: {
                         multiSwipe.currentIndex = !multiSwipe.currentIndex
-                        if(graphicsWindow.text === FAQ.fa_chevron_up)
-                            graphicsWindow.text = FAQ.fa_chevron_down
+                        if(graphicsWindow.text === FAQH.strToGlyph("fa_chevron_up"))
+                            graphicsWindow.text = FAQH.strToGlyph("fa_chevron_down")
                         else
-                            graphicsWindow.text = FAQ.fa_chevron_up
+                            graphicsWindow.text = FAQH.strToGlyph("fa_chevron_up")
                     }
                 }
             }

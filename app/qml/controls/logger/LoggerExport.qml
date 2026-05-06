@@ -10,7 +10,7 @@ import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import ZeraLocale 1.0
 import ZeraThemeConfig 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ".."
 import "../../helpers"
 
@@ -497,7 +497,7 @@ Item {
                             anchors { top: parent.top; bottom: parent.bottom;
                                       right: contentSetsRect.right; rightMargin: parent.width * 0.01}
                             font.pointSize: pointSize * 1.2
-                            text: FAQ.fa_trash
+                            text: FAQH.strToGlyph("fa_trash")
                             background: Rectangle { opacity: 0 }
                             onClicked: {
                                 deleteTransactionPopup.transactionToDelete = model.transactionName

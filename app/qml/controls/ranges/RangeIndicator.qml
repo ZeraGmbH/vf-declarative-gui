@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.0
 import GlobalConfig 1.0
 import MeasChannelInfo 1.0
 import FunctionTools 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
 
@@ -68,10 +68,10 @@ Loader {
                     property bool preScale: rangeModule.PAR_PreScalingEnabledGroup0 || rangeModule.PAR_PreScalingEnabledGroup1
                     text: {
                         if(overload)
-                            return FAQ.fa_exclamation_triangle
+                            return FAQH.strToGlyph("fa_exclamation_triangle")
                         if(preScale)
-                            return FAQ.fa_anchor
-                        return FAQ.fa_exclamation_triangle
+                            return FAQH.strToGlyph("fa_anchor")
+                        return FAQH.strToGlyph("fa_exclamation_triangle")
                     }
                     opacity: (overload || preScale) ? 1.0 : 0.2
                     color:  {

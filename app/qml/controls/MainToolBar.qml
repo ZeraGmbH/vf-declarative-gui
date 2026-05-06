@@ -6,7 +6,7 @@ import GlobalConfig 1.0
 import AdjustmentState 1.0
 import VeinEntity 1.0
 import SessionState 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ZeraComponents 1.0
 import ZeraThemeConfig 1.0
 import "accu"
@@ -76,7 +76,7 @@ ToolBar {
             id: pageSelectorButton
             Layout.fillHeight: true
             font.pointSize: pointSize
-            text: FAQ.fa_columns
+            text: FAQH.strToGlyph("fa_columns")
             highlighted: root.layoutStackObj.currentIndex===GC.layoutStackEnum.layoutPageIndex
             Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
             enabled: root.entityInitializationDone === true
@@ -140,7 +140,7 @@ ToolBar {
             id: pauseButton
             Layout.fillHeight: true
             font.pointSize: pointSize * 0.77
-            text: root.measurementPaused ? FAQ.fa_play : FAQ.fa_pause
+            text: root.measurementPaused ? FAQH.strToGlyph("fa_play") : FAQH.strToGlyph("fa_pause")
             enabled: root.entityInitializationDone === true
             highlighted: root.measurementPaused
             Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
@@ -154,7 +154,7 @@ ToolBar {
             Layout.fillHeight: true;
             Layout.preferredWidth: standardButtonWidth
             font.pointSize: pointSize
-            text: FAQ.fa_download
+            text: FAQH.strToGlyph("fa_download")
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutLoggerIndex;
             Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
             enabled: root.entityInitializationDone === true
@@ -223,7 +223,7 @@ ToolBar {
             Layout.fillHeight: true;
             Layout.preferredWidth: standardButtonWidth
             font.pointSize: pointSize
-            text: FAQ.fa_cogs
+            text: FAQH.strToGlyph("fa_cogs")
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutSettingsIndex;
             Material.foreground: ZTC.primaryTextColor // Qt6 selects wrong color in light theme
             onClicked: {
@@ -251,7 +251,7 @@ ToolBar {
             Layout.fillHeight: true;
             Layout.preferredWidth: standardButtonWidth
             font.pointSize: pointSize
-            text: FAQ.fa_info_circle
+            text: FAQH.strToGlyph("fa_info_circle")
             highlighted: root.layoutStackObj.currentIndex === GC.layoutStackEnum.layoutStatusIndex
             readonly property bool schnubbelInserted: GC.entityInitializationDone ? VeinEntity.getEntity("StatusModule1").INF_Schnubbel === 1 : false
             Material.foreground: { // Note: highligted overrifdes Material.foreground

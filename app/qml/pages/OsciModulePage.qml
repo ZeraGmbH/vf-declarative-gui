@@ -13,7 +13,7 @@ import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
 import ZeraThemeConfig 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import "../controls/settings"
 
 Item {
@@ -28,7 +28,7 @@ Item {
         anchors.bottomMargin: -4
         width: 45 // chart's legend has fixed distance
         height: width * 0.4 + root.height * 0.05
-        text: FAQ.fa_cogs
+        text: FAQH.strToGlyph("fa_cogs")
         font.pointSize: height * 0.325
         visible: settingsPopup.settingsRowCount > 0
         onClicked: settingsPopup.open()

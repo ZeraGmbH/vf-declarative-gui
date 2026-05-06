@@ -7,7 +7,7 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 
 Item {
     id: root
@@ -116,7 +116,7 @@ Item {
                 }
             }
             ZButton {
-                text: FAQ.fa_cogs
+                text: FAQH.strToGlyph("fa_cogs")
                 font.pointSize: pointSize //* 0.8
                 Layout.preferredWidth: rowHeight
                 onClicked: {
@@ -157,7 +157,7 @@ Item {
                         height: rowHeight
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: pointSize
-                        text: FAQ.fa_check
+                        text: FAQH.strToGlyph("fa_check")
                         opacity: (modelData === customerData.FileSelected)? 1.0 : 0.0
                     }
                     Label {

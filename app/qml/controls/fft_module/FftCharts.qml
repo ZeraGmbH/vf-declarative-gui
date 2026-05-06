@@ -10,7 +10,7 @@ import ModuleIntrospection 1.0
 import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import "../settings"
 
 ListView {
@@ -38,7 +38,7 @@ ListView {
         anchors.bottomMargin: -4
         width: thdnToHorizontalCenterOffset - 15
         height: 18 + root.height * 0.05
-        text: FAQ.fa_cogs
+        text: FAQH.strToGlyph("fa_cogs")
         font.pointSize: height * 0.325
         visible: settingsPopup.settingsRowCount > 0
         onClicked: settingsPopup.open()

@@ -11,7 +11,7 @@ import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import SlowMachineSettingsHelper 1.0
 import ZeraThemeConfig 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ".."
 import "../settings"
 
@@ -45,7 +45,7 @@ Rectangle {
             anchors.fill: parent
             anchors.topMargin: -4
             anchors.bottomMargin: -4
-            text: FAQ.fa_cogs
+            text: FAQH.strToGlyph("fa_cogs")
             font.pointSize: root.rowHeight*0.45
             onClicked: settingsPopup.open()
         }

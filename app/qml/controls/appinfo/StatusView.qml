@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import AdjustmentState 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ZeraThemeConfig 1.0
 import ZeraComponents 1.0
 import "../../pages"
@@ -29,7 +29,7 @@ BaseTabPage {
             id: statusTabButton
             font.pointSize: tabPointSize
             height: tabHeight
-            text: FAQ.fa_info_circle + " " +Z.tr("Device info")
+            text: FAQH.strToGlyph("fa_info_circle") + " " + Z.tr("Device info")
             Material.foreground: AdjState.adjusted ? ZTC.primaryTextColor : Material.Red
             Timer {
                 interval: 300
@@ -53,7 +53,7 @@ BaseTabPage {
         ZTabButton {
             font.pointSize: tabPointSize
             height: tabHeight
-            text: FAQ.fa_wrench + " " + Z.tr("Service Support")
+            text: FAQH.strToGlyph("fa_wrench") + " " + Z.tr("Service Support")
         }
     }
     Component {

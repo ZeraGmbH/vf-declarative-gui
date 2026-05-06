@@ -5,7 +5,7 @@ import GlobalConfig 1.0
 import VeinEntity 1.0
 import ZeraTranslation 1.0
 import ZeraComponents 1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 
 Item {
     id: root
@@ -41,7 +41,7 @@ Item {
 
     ZButton {
         font.pointSize: 18
-        text: FAQ.fa_list_alt
+        text: FAQH.strToGlyph("fa_list_alt")
         anchors.right: gridViewButton.left
         anchors.rightMargin: 8
         flat: true
@@ -51,7 +51,7 @@ Item {
     ZButton {
         id: gridViewButton
         font.pointSize: 18
-        text: FAQ.fa_circle_notch
+        text: FAQH.strToGlyph("fa_circle_notch")
         anchors.right: parent.right
         anchors.rightMargin: 32
         flat: true

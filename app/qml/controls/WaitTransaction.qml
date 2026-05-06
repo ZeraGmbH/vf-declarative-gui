@@ -1,7 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import ZeraTranslation 1.0
 import ZeraThemeConfig 1.0
 import ZeraComponents 1.0
@@ -106,7 +106,7 @@ Loader {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             font.pointSize: popup.pointSize * 5
-            text: FAQ.fa_check
+            text: FAQH.strToGlyph("fa_check")
             color: ZTC.isDarkTheme ? ZTC.accentColor : Material.color(Material.Green)
             visible: finishTimer.running && popup.warningTxtArr.length === 0 && popup.errorTxtArr.length === 0
         }

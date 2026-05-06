@@ -7,7 +7,7 @@ import GlobalConfig 1.0
 import ColorSettings 1.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
-import FontAwesomeQml 1.0
+import FontAwesomeHash 1.0
 import SlowMachineSettingsHelper 1.0
 import ZeraThemeConfig 1.0
 import ZeraComponents 1.0
@@ -158,7 +158,7 @@ Loader {
             }
         }
         ZButton {
-            text: FAQ.fa_undo
+            text: FAQH.strToGlyph("fa_undo")
             font.pointSize: popup.labelPointSize
             anchors.right: parent.right
             width: popup.width * 0.125
