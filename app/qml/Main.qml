@@ -79,7 +79,6 @@ Window {
             })
             dynamicPageModel.updateSourceView()
 
-            pageView.model = dynamicPageModel
             var lastPageSelected = GC.lastPageViewIndexSelected
             if(lastPageSelected >= dynamicPageModel.count)
                 lastPageSelected = 0
@@ -278,23 +277,35 @@ Window {
             }
         }
 
-        PageView {
-            id: pageView
+        Loader {
+            id: pageViewLoader
             anchors.fill: parent
-            ///@note do not break binding by setting visible directly
-            visible: controlsBar.pageViewVisible;
-            onCloseView: controlsBar.pageViewVisible = false;
-            onPageSelected: pageLoader.source = pageSource
+            source: "qrc:/qml/controls/PageView.qml"
+            asynchronous: true
+            onLoaded: {
+                pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
+                pageViewLoader.item.visible = Qt.binding(function() { return controlsBar.pageViewVisible })
+                pageViewLoader.item.sessionComponent = Qt.binding(function() { return SessionState.currentSession })
+            }
+        }
+        Connections {
+            target: pageViewLoader.item
             function prepareSessionChange() {
                 layoutStack.currentIndex=0;
                 pageLoader.active = false;
                 GC.entityInitializationDone = false;
             }
-            sessionComponent: SessionState.currentSession
-            onSessionComponentChanged: {
-                prepareSessionChange();
-                loadingScreenLoader.item.open();
-                sessionChangeTimeout.start();
+
+            function onSessionComponentChanged() {
+                prepareSessionChange()
+                loadingScreenLoader.item.open()
+                sessionChangeTimeout.start()
+            }
+            function onCloseView() {
+                controlsBar.pageViewVisible = false
+            }
+            function onPageSelected(pageSource) {
+                pageLoader.source = pageSource
             }
         }
 
