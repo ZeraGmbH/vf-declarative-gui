@@ -10,10 +10,6 @@ import FontAwesomeHash 1.0
 Item {
     id: root
     property var model;
-    onModelChanged: {
-        if(model && model.count > 0)
-            pageLoaderSource = model.get(0).elementValue;
-    }
     property alias sessionComponent: sessionSelector.intermediate
     property string pageLoaderSource;
 
