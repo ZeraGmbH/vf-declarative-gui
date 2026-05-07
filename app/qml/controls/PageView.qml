@@ -15,8 +15,8 @@ Item {
     property bool gridViewEnabled: GC.pagesGridViewDisplay;
     onGridViewEnabledChanged: GC.setPagesGridViewDisplay(gridViewEnabled);
 
-    signal closeView();
-    signal pageSelected(pageSource: string)
+    signal sigCloseView();
+    signal sigPageSelected(pageSource: string)
 
     Rectangle {
         color: Material.backgroundColor
@@ -52,8 +52,8 @@ Item {
     }
 
     function elementSelected(elementValue) {
-        pageSelected(elementValue)
-        closeView();
+        sigPageSelected(elementValue)
+        sigCloseView();
     }
     Component {
         id: pageGridViewCmp
@@ -89,7 +89,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: root.width * 0.01
         anchors.bottom: parent.bottom
-        onClicked: root.closeView()
+        onClicked: sigCloseView()
     }
 
     Rectangle {
@@ -119,8 +119,10 @@ Item {
 
             onSelectedTextChanged: {
                 var tmpIndex = model.indexOf(selectedText)
-                if(systemEntity && systemEntity.SessionsAvailable)
+                if(systemEntity && systemEntity.SessionsAvailable) {
                     systemEntity.Session = arrJSONFileNames[tmpIndex]
+                    sigCloseView()
+                }
             }
 
             model: {

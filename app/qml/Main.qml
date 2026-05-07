@@ -89,7 +89,6 @@ Window {
             sessionChangeTimeout.stop();
             layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
             GC.entityInitializationDone = true
-            controlsBar.pageViewVisible = false
             console.info("Loaded session:", SessionState.currentSession);
             if(VeinEntity.hasEntity("_LoggingSystem")) {
                 loggerEntity = VeinEntity.getEntity("_LoggingSystem")
@@ -282,11 +281,16 @@ Window {
             anchors.fill: parent
             source: "qrc:/qml/controls/PageView.qml"
             asynchronous: true
+            property bool pageViewVisible: false
             onLoaded: {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
-                pageViewLoader.item.visible = Qt.binding(function() { return controlsBar.pageViewVisible })
+                pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageViewVisible })
                 pageViewLoader.item.sessionComponent = Qt.binding(function() { return SessionState.currentSession })
             }
+        }
+        Connections {
+            target: controlsBar
+            function onSigOpenPageView() { pageViewLoader.pageViewVisible = true }
         }
         Connections {
             target: pageViewLoader.item
@@ -301,10 +305,10 @@ Window {
                 loadingScreenLoader.item.open()
                 sessionChangeTimeout.start()
             }
-            function onCloseView() {
-                controlsBar.pageViewVisible = false
+            function onSigCloseView() {
+                pageViewLoader.pageViewVisible = false
             }
-            function onPageSelected(pageSource) {
+            function onSigPageSelected(pageSource) {
                 pageLoader.source = pageSource
             }
         }
@@ -316,7 +320,6 @@ Window {
             onTriggered: {
                 loadingScreenLoader.item.close();
                 layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
-                controlsBar.pageViewVisible = false
             }
         }
         Loader {

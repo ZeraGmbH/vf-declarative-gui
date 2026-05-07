@@ -16,6 +16,8 @@ import "logger"
 ToolBar {
     id: root
 
+    signal sigOpenPageView()
+
     Material.accent: ZTC.accentColorMoreContrast
     Material.foreground: ZTC.defaultForeground // required since dark/light theme
     readonly property real standardButtonWidth: root.width / 16
@@ -47,7 +49,6 @@ ToolBar {
     onTtyCountChanged: {
         settingsButtonRipple.startFlash()
     }
-    property bool pageViewVisible: false     // PageView.visible is bound to pageViewVisible
     property QtObject layoutStackObj         // bound to main.qml / layoutStack
     property QtObject loggerSettingsStackObj // bound to LoggerSettingsStack
 
@@ -82,7 +83,7 @@ ToolBar {
             enabled: root.entityInitializationDone === true
             onClicked: {
                 goHomeToPages()
-                root.pageViewVisible = true;
+                sigOpenPageView()
             }
         }
         ToolButton {
