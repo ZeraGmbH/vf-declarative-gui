@@ -295,18 +295,18 @@ Window {
                 loadingScreenLoader.item.open();
                 sessionChangeTimeout.start();
             }
-            Timer {
-                id: sessionChangeTimeout
-                interval: 10000
-                repeat: false
-                onTriggered: {
-                    loadingScreenLoader.item.close();
-                    layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
-                    controlsBar.pageViewVisible = false
-                }
-            }
         }
 
+        Timer {
+            id: sessionChangeTimeout
+            interval: 10000
+            repeat: false
+            onTriggered: {
+                loadingScreenLoader.item.close();
+                layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
+                controlsBar.pageViewVisible = false
+            }
+        }
         Loader {
             id: screenShooter
             source: "qrc:/qml/controls/ScreenShooter.qml"
