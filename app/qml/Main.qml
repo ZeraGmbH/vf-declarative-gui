@@ -84,7 +84,7 @@ Window {
             if(lastPageSelected >= dynamicPageModel.count)
                 lastPageSelected = 0
             if(dynamicPageModel.count)
-                pageView.pageLoaderSource = dynamicPageModel.get(lastPageSelected).elementValue;
+                pageLoader.source = dynamicPageModel.get(lastPageSelected).elementValue;
 
             loadingScreenLoader.item.close();
             sessionChangeTimeout.stop();
@@ -131,7 +131,6 @@ Window {
             //DefaultProperty: [
             Loader {
                 id: pageLoader
-                source: pageView.pageLoaderSource
                 asynchronous: true
                 onLoaded: console.info("Pages loaded")
             }
@@ -206,9 +205,9 @@ Window {
                     remove(sourceViewPosition)
                     if(GC.lastPageViewIndexSelected === sourceViewPosition) {
                         if(pageView.model.count)
-                            pageView.pageLoaderSource = pageView.model.get(0).elementValue
+                            pageLoader.source = pageView.model.get(0).elementValue
                         else
-                            pageView.pageLoaderSource = ""
+                            pageLoader.source = ""
                         GC.setLastPageViewIndexSelected(0)
                     }
                 }
@@ -285,6 +284,7 @@ Window {
             ///@note do not break binding by setting visible directly
             visible: controlsBar.pageViewVisible;
             onCloseView: controlsBar.pageViewVisible = false;
+            onPageSelected: pageLoader.source = pageSource
             function prepareSessionChange() {
                 layoutStack.currentIndex=0;
                 pageLoader.active = false;

@@ -11,14 +11,14 @@ Item {
     id: root
     property var model;
     property alias sessionComponent: sessionSelector.intermediate
-    property string pageLoaderSource;
 
     property bool gridViewEnabled: GC.pagesGridViewDisplay;
     onGridViewEnabledChanged: GC.setPagesGridViewDisplay(gridViewEnabled);
 
     signal closeView();
+    signal pageSelected(pageSource: string)
     function elementSelected(elementValue) {
-        pageLoaderSource = elementValue
+        pageSelected(elementValue)
         closeView();
     }
 
