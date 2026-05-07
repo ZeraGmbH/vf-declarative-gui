@@ -44,7 +44,6 @@ static void registerQmlExt(QQmlApplicationEngine &engine)
 {
     qInfo("Register external QML dependencies...");
     ZeraTranslationPlugin::registerQml();
-    FontAwesomeQml::registerFonts(true, true, false);
     FontAwesomeQml::registerFAQml(&engine);
     AdvancedNetworkmanager::registerQml(engine);
     ZeraComponents::registerQml(engine);

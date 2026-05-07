@@ -8,7 +8,7 @@ import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import ZeraFa 1.0
+import FontAwesomeHash 1.0
 
 import "../controls/error_comparison_common"
 import "../controls/error_comparison_params"
@@ -141,7 +141,7 @@ Rectangle {
                     }
                     if(errCalEntity.PAR_Continuous === 1 || errCalEntity.PAR_MeasCount > 1 ) {
                         multiSwipe.currentIndex = 1
-                        continuousMeasWindow.text = FA.fa_chevron_down
+                        continuousMeasWindow.text = FAQH.strToGlyph("fa_chevron_down")
                     }
                 }
             }
@@ -154,17 +154,17 @@ Rectangle {
                     id: continuousMeasWindow
                     height: parent.height
                     width: root.width * 0.1
-                    text: FA.fa_chevron_up
+                    text: FAQH.strToGlyph("fa_chevron_up")
                     font.pointSize: pointSize
                     highlighted: multiSwipe.currentIndex !== 0
                     Material.foreground: multipleErrorView.jsonResults.countPass === multipleErrorView.jsonResults.values.length ?
                                                 Material.White : Material.Red
                     onClicked: {
                         multiSwipe.currentIndex = !multiSwipe.currentIndex
-                        if(continuousMeasWindow.text === FA.fa_chevron_up)
-                            continuousMeasWindow.text = FA.fa_chevron_down
+                        if(continuousMeasWindow.text === FAQH.strToGlyph("fa_chevron_up"))
+                            continuousMeasWindow.text = FAQH.strToGlyph("fa_chevron_down")
                         else
-                            continuousMeasWindow.text = FA.fa_chevron_up
+                            continuousMeasWindow.text = FAQH.strToGlyph("fa_chevron_up")
                     }
                 }
                 ZCheckBox {

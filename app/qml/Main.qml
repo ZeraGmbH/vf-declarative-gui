@@ -25,6 +25,8 @@ Window {
             return Window.FullScreen
         return Window.Windowed
     }
+    FontLoader { source: "qrc:/3rdParty/Font-Awesome_Old/fontawesome-webfont.ttf" }
+    FontLoader { source: "qrc:/Font-Awesome/webfonts/fa-solid-900.ttf" }
 
     DevelWinSizeChanger { id: resolutionChanger }
     width: resolutionChanger.winWidth

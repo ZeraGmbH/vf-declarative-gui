@@ -1,7 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
-import ZeraFa 1.0
 import FontAwesomeHash 1.0
 import ZeraThemeConfig 1.0
 
@@ -22,7 +21,6 @@ ToolButton {
     Text {
         anchors.fill: parent
         id: accuIcon
-        font.family: FA.old
         font.pointSize: pointSize * 0.9
         color: {
             if(!accuState.accuCharging) {

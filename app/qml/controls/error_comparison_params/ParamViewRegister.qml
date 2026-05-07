@@ -11,7 +11,6 @@ import PowerModuleVeinGetter 1.0
 import ModuleIntrospection 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import ZeraFa 1.0
 import ZeraThemeConfig 1.0
 import "../settings"
 import "../error_comparison_common"

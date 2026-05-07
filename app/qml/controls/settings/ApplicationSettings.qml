@@ -18,7 +18,6 @@ import ZeraLocale 1.0
 import ZeraThemeConfig 1.0
 import SlowMachineSettingsHelper 1.0
 import FontAwesomeHash 1.0
-import ZeraFa 1.0
 
 SettingsView {
     id: root

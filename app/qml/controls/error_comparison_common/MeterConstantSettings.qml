@@ -5,11 +5,10 @@ import QtQml.Models 2.11
 import GlobalConfig 1.0
 import VeinEntity 1.0
 import FunctionTools 1.0
-import ZeraFa 1.0
 import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-
+import FontAwesomeHash 1.0
 
 Popup {
     id: root
@@ -353,7 +352,7 @@ Popup {
 
     ZButton {
         id: defaultBut
-        text: FA.icon(FA.fa_undo)
+        text: FAQH.strToGlyph("fa_undo")
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         onPressed: {
