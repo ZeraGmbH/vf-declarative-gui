@@ -17,10 +17,6 @@ Item {
 
     signal closeView();
     signal pageSelected(pageSource: string)
-    function elementSelected(elementValue) {
-        pageSelected(elementValue)
-        closeView();
-    }
 
     Rectangle {
         color: Material.backgroundColor
@@ -55,6 +51,10 @@ Item {
         onClicked: root.gridViewEnabled = true;
     }
 
+    function elementSelected(elementValue) {
+        pageSelected(elementValue)
+        closeView();
+    }
     Component {
         id: pageGridViewCmp
         PageGridView {
