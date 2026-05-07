@@ -204,8 +204,8 @@ Window {
                 else if(countActiveSources === 0 && sourceViewPosition >= 0) {
                     remove(sourceViewPosition)
                     if(GC.lastPageViewIndexSelected === sourceViewPosition) {
-                        if(pageView.model.count)
-                            pageLoader.source = pageView.model.get(0).elementValue
+                        if(dynamicPageModel.count)
+                            pageLoader.source = dynamicPageModel.get(0).elementValue
                         else
                             pageLoader.source = ""
                         GC.setLastPageViewIndexSelected(0)
