@@ -9,7 +9,6 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import ZeraThemeConfig 1.0
-import FontAwesomeQml 1.0
 
 Rectangle {
     id: root

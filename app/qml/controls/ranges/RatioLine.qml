@@ -5,7 +5,6 @@ import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import VeinEntity 1.0
 import ZeraTranslation 1.0
-import FontAwesomeQml 1.0
 
 Item {
     property int prescalingGroup
