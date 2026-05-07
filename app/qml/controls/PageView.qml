@@ -103,7 +103,8 @@ Item {
         ZComboBox {
             id: sessionSelector
 
-            property QtObject systemEntity;
+            readonly property QtObject systemEntity: GC.entityInitializationDone ? VeinEntity.getEntity("_System") : null
+            readonly property var sessionsAvailable: GC.entityInitializationDone ? systemEntity.SessionsAvailable : ""
             property string intermediate
             property var arrDisplayStrings: [Z.tr("Default"), Z.tr("Changing energy direction"), Z.tr("Reference"), Z.tr("DC: 4*Voltage / 1*Current"), "EMOB AC", "EMOB DC", Z.tr("3 Systems / 2 Wires")]
             property var arrJSONDetectStrings: ["meas-session.json", "ced-session.json", "ref-session.json", "dc-session.json", "emob-session-ac.json", "emob-session-dc.json", "perphase-session.json"]
@@ -127,9 +128,9 @@ Item {
 
             model: {
                 var retVal = []
-                if(systemEntity && systemEntity.SessionsAvailable) {
+                if (sessionsAvailable !== "") {
                     var jsonFileNames = []
-                    for (var sessionFile of systemEntity.SessionsAvailable) {
+                    for (var sessionFile of sessionsAvailable) {
                         jsonFileNames.push(sessionFile)
                         var replaced = false
                         for(var arrIdx=0; arrIdx<arrDisplayStrings.length; ++arrIdx) {
@@ -147,13 +148,6 @@ Item {
                 else
                     retVal = ["Unsupported"] //fallback
                 return retVal
-            }
-
-            Connections {
-                target: VeinEntity
-                function onSigSystemEntityAvailable() {
-                    sessionSelector.systemEntity = VeinEntity.getEntity("_System");
-                }
             }
         }
     }
