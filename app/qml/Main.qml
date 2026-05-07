@@ -66,11 +66,10 @@ Window {
     Connections {
         target: VeinEntity
         function onSigEntitiesLoaded() {
+            pageLoader.active = true // async -> as early as possible
             dynamicPageModel.clear()
             ModuleIntrospection.reloadIntrospection();
-
             dynamicPageModel.initModel();
-            pageView.model = dynamicPageModel;
 
             // rescue dyn sources binding over session change
             dynamicPageModel.countActiveSources = Qt.binding(function() {
@@ -79,8 +78,8 @@ Window {
                 return 0
             })
             dynamicPageModel.updateSourceView()
+            pageView.model = dynamicPageModel
 
-            pageLoader.active = true;
             var lastPageSelected = GC.lastPageViewIndexSelected
             if(lastPageSelected >= pageView.model.count)
                 lastPageSelected = 0
