@@ -78,13 +78,14 @@ Window {
                 return 0
             })
             dynamicPageModel.updateSourceView()
-            pageView.model = dynamicPageModel
 
+            pageView.model = dynamicPageModel
             var lastPageSelected = GC.lastPageViewIndexSelected
-            if(lastPageSelected >= pageView.model.count)
+            if(lastPageSelected >= dynamicPageModel.count)
                 lastPageSelected = 0
-            if(pageView.model.count)
-                pageView.pageLoaderSource = pageView.model.get(lastPageSelected).elementValue;
+            if(dynamicPageModel.count)
+                pageView.pageLoaderSource = dynamicPageModel.get(lastPageSelected).elementValue;
+
             loadingScreenLoader.item.close();
             sessionChangeTimeout.stop();
             layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
