@@ -74,8 +74,7 @@ Window {
                 dynamicPageModel.countActiveSources = Qt.binding(function() {
                     if(VeinEntity.hasEntity("SourceModule1"))
                         return VeinEntity.getEntity("SourceModule1").ACT_CountSources
-                    else
-                        return 0
+                    return 0
                 })
                 dynamicPageModel.updateSourceView()
 
