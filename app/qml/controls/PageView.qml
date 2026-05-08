@@ -13,7 +13,7 @@ Item {
     property var model
     signal sigPageSelected(pageSource: string)
     signal sigSessionChange()
-    signal sigCloseView();
+    signal sigCloseViewRequest();
 
     Rectangle {
         color: Material.backgroundColor
@@ -78,7 +78,7 @@ Item {
                 systemEntity.Session = session
                 // ZComboBox must close before view
                 Qt.callLater(sigSessionChange)
-                Qt.callLater(sigCloseView)
+                Qt.callLater(sigCloseViewRequest)
             }
         }
     }
@@ -113,7 +113,7 @@ Item {
         active: root.visible === true && root.model !== undefined;
         function elementSelected(elementValue) {
             sigPageSelected(elementValue)
-            sigCloseView();
+            sigCloseViewRequest();
         }
         Component {
             id: pageGridViewCmp
@@ -146,6 +146,6 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: root.width * 0.01
         anchors.bottom: parent.bottom
-        onClicked: sigCloseView()
+        onClicked: sigCloseViewRequest()
     }
 }

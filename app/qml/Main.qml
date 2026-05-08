@@ -309,7 +309,7 @@ Window {
                     loadingScreenLoader.item.open()
                     sessionChangeTimeout.start()
                 }
-                function onSigCloseView() {
+                function onSigCloseViewRequest() {
                     pageViewLoader.pageViewVisible = false
                 }
                 function onSigPageSelected(pageSource) {
