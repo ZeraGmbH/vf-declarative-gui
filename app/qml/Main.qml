@@ -129,7 +129,10 @@ Window {
             Loader {
                 id: pageLoader
                 asynchronous: true
-                onLoaded: console.info("Pages loaded")
+                onLoaded: {
+                    console.info("Pages loaded")
+                    pageViewLoader.active = true
+                }
             }
             Loader {
                 source: "qrc:/qml/controls/ranges/RangeMModePage.qml"
@@ -280,6 +283,7 @@ Window {
             anchors.fill: parent
             source: "qrc:/qml/controls/PageView.qml"
             asynchronous: true
+            active: pageViewVisible // ensure fast request - bining will be broken
             property bool pageViewVisible: false
             onLoaded: {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
