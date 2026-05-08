@@ -237,14 +237,14 @@ int main(int argc, char *argv[])
     QList<VeinEvent::EventSystem*> subSystems;
 
     loadQmlEngine(engine);
-    QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, [&](VeinApiQml::VeinQml::ConnectionState t_state){
+    QObject::connect(qmlApi, &VeinApiQml::VeinQml::sigStateChanged, &app, [&](VeinApiQml::VeinQml::ConnectionState t_state){
         if(t_state == VeinApiQml::VeinQml::ConnectionState::VQ_ERROR)
         {
-            engine.quit();
+            emit engine.quit();
         }
     });
 
-    QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigSendEvent, [&](QEvent *t_event){
+    QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigSendEvent, &app, [&](QEvent *t_event){
         if(t_event->type()==VeinNet::NetworkStatusEvent::getQEventType())
         {
             //network not ready, try again in 3 seconds
@@ -276,12 +276,12 @@ int main(int argc, char *argv[])
     qInfo("Connecting to modman...");
     tcpSystem->connectToServer(netHost, netPort);
 
-    QObject::connect(&networkWatchdog, &QTimer::timeout, [&]() {
+    QObject::connect(&networkWatchdog, &QTimer::timeout, &app, [&]() {
         qInfo("Repeat connecting to modman...");
         tcpSystem->connectToServer(netHost, netPort);
     });
 
-    QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, [&]() {
+    QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, &app, [&]() {
         qInfo("Subscribe system entity...");
         qmlApi->entitySubscribeById(0);
     });
@@ -294,13 +294,13 @@ int main(int argc, char *argv[])
     });
     periodicLogTimer.start(10000);
 
-    QObject::connect(&app, &QApplication::aboutToQuit, [&]() {
-        engine.quit();
+    QObject::connect(&app, &QApplication::aboutToQuit, &app, [&]() {
+        emit engine.quit();
         evHandler->clearSubsystems();
         evHandler->deleteLater();
         //the qmlengine will delete the qmlApi
         subSystems.removeAll(qmlApi);
-        for(VeinEvent::EventSystem *toDelete : subSystems) {
+        for(VeinEvent::EventSystem *toDelete : qAsConst(subSystems)) {
             toDelete->deleteLater();
         }
         subSystems.clear();
