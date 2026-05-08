@@ -65,6 +65,11 @@ Window {
 
     Connections {
         target: VeinEntity
+        function onSigSystemEntityAvailable() {
+            SessionState.currentSession = Qt.binding(function() {
+                return VeinEntity.getEntity("_System").Session
+            });
+        }
         function onSigEntitiesLoaded() {
             pageLoader.active = true // async -> as early as possible
             dynamicPageModel.clear()
@@ -94,12 +99,6 @@ Window {
                 loggerEntity = VeinEntity.getEntity("_LoggingSystem")
                 setDatabase()
             }
-        }
-
-        function onSigSystemEntityAvailable() {
-            SessionState.currentSession = Qt.binding(function() {
-                return VeinEntity.getEntity("_System").Session
-            });
         }
     }
 
@@ -285,31 +284,33 @@ Window {
             onLoaded: {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
                 pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageViewVisible })
-                pageViewLoader.item.sessionComponent = Qt.binding(function() { return SessionState.currentSession })
             }
-        }
-        Connections {
-            target: controlsBar
-            function onSigOpenPageView() { pageViewLoader.pageViewVisible = true }
-        }
-        Connections {
-            target: pageViewLoader.item
-            function prepareSessionChange() {
-                layoutStack.currentIndex=0;
-                pageLoader.active = false;
-                GC.entityInitializationDone = false;
+            function openView() {
+                pageViewVisible = true
             }
+            Connections {
+                target: controlsBar
+                function onSigOpenPageView() { pageViewLoader.openView() }
+            }
+            Connections {
+                target: pageViewLoader.item
+                function prepareSessionChange() {
+                    layoutStack.currentIndex=0;
+                    pageLoader.active = false;
+                    GC.entityInitializationDone = false;
+                }
 
-            function onSessionComponentChanged() {
-                prepareSessionChange()
-                loadingScreenLoader.item.open()
-                sessionChangeTimeout.start()
-            }
-            function onSigCloseView() {
-                pageViewLoader.pageViewVisible = false
-            }
-            function onSigPageSelected(pageSource) {
-                pageLoader.source = pageSource
+                function onSigSessionChange() {
+                    prepareSessionChange()
+                    loadingScreenLoader.item.open()
+                    sessionChangeTimeout.start()
+                }
+                function onSigCloseView() {
+                    pageViewLoader.pageViewVisible = false
+                }
+                function onSigPageSelected(pageSource) {
+                    pageLoader.source = pageSource
+                }
             }
         }
 
@@ -318,6 +319,7 @@ Window {
             interval: 10000
             repeat: false
             onTriggered: {
+                pageViewLoader.pageViewVisible = false
                 loadingScreenLoader.item.close();
                 layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
             }
