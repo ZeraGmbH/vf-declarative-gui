@@ -12,7 +12,6 @@ Item {
     id: root
     property var model
     signal sigPageSelected(pageSource: string)
-    signal sigSessionChange()
     signal sigCloseViewRequest();
 
     Rectangle {
@@ -77,7 +76,6 @@ Item {
                 var session = arrJSONFileNames[tmpIndex]
                 systemEntity.Session = session
                 // ZComboBox must close before view
-                Qt.callLater(sigSessionChange)
                 Qt.callLater(sigCloseViewRequest)
             }
         }
