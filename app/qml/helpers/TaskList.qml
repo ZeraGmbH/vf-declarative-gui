@@ -84,7 +84,7 @@ Item {
     Item {
         id: _private
         property var rpcId
-        property var running: false
+        property bool running: false
         property int currentTaskNo: 0
         property var currentConnection
     }
