@@ -76,6 +76,7 @@ Window {
             });
         }
         function onSigStateChanged(t_state) {
+            pagePreloader.resetPageLoaders()
             if (t_state === VeinEntity.VQ_IDLE) {
                 prepareSessionChange()
                 loadingScreenLoader.item.open()
@@ -113,6 +114,7 @@ Window {
             }
         }
     }
+    MainPagePreloader { id: pagePreloader }
 
     Flickable {
         // main view displaying pages and other stuff - (flickable for virtual keyboard)
@@ -143,12 +145,17 @@ Window {
                 asynchronous: true
                 onLoaded: {
                     console.info("Pages loaded")
-                    pageViewLoader.active = true
+                    pagePreloader.startPreloadPages()
                 }
             }
             Loader {
+                id: rangeMModePageLoader
                 source: "qrc:/qml/controls/ranges/RangeMModePage.qml"
-                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
+                active: false
+                asynchronous: true
+                onLoaded: {
+                    console.info("RangeMModePage loaded")
+                }
             }
             Loader {
                 id: loggerSettingsLoader
@@ -295,11 +302,12 @@ Window {
             anchors.fill: parent
             source: "qrc:/qml/controls/PageView.qml"
             asynchronous: true
-            active: pageViewVisible // ensure fast request - bining will be broken
+            active: false
             property bool pageViewVisible: false
             onLoaded: {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
                 pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageViewVisible })
+                console.info("PageView loaded")
             }
             function openView() {
                 pageViewVisible = true
