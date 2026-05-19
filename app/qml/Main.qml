@@ -113,34 +113,6 @@ Window {
             }
         }
     }
-    TaskList {
-        id: tasksLoaderActivate
-        taskArray: [
-            {
-                'type': 'block',
-                'callFunction': () => {
-                    console.info("Loading PageView...")
-                    pageViewLoader.active = true
-                    return false
-                }
-            },
-            {
-                'type': 'block',
-                'callFunction': () => {
-                    console.info("Loading RangeMModePage...")
-                    rangeMModePageLoader.active = true
-                    return false
-                }
-            },
-            {
-                'type': 'block',
-                'callFunction': () => {
-                    console.info("Async page loaders ready")
-                    return true
-                }
-            }
-        ]
-    }
 
     Flickable {
         // main view displaying pages and other stuff - (flickable for virtual keyboard)
@@ -171,18 +143,12 @@ Window {
                 asynchronous: true
                 onLoaded: {
                     console.info("Pages loaded")
-                    tasksLoaderActivate.startRun()
+                    pageViewLoader.active = true
                 }
             }
             Loader {
-                id: rangeMModePageLoader
                 source: "qrc:/qml/controls/ranges/RangeMModePage.qml"
-                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex // ensure fast request - binding will be broken
-                asynchronous: true
-                onLoaded: {
-                    console.info("RangeMModePage loaded")
-                    tasksLoaderActivate.startNextTask()
-                }
+                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
             }
             Loader {
                 id: loggerSettingsLoader
@@ -329,13 +295,11 @@ Window {
             anchors.fill: parent
             source: "qrc:/qml/controls/PageView.qml"
             asynchronous: true
-            active: pageViewVisible // ensure fast request - binding will be broken
+            active: pageViewVisible // ensure fast request - bining will be broken
             property bool pageViewVisible: false
             onLoaded: {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
                 pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageViewVisible })
-                console.info("PageView loaded")
-                tasksLoaderActivate.startNextTask()
             }
             function openView() {
                 pageViewVisible = true
