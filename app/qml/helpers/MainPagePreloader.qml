@@ -21,10 +21,14 @@ Item {
     // private
     Timer {
         id: delayTimer
-        interval: 2000
+        interval: 1000
         repeat: false
         running: false
         onTriggered: { tasksLoaderActivate.startRun() }
+    }
+    Connections { // This one takes longest => load it first
+        target: settingsLoader
+        function onLoaded() { tasksLoaderActivate.startNextTask() }
     }
     Connections {
         target: pageViewLoader
@@ -34,14 +38,14 @@ Item {
         target: rangeMModePageLoader
         function onLoaded() { tasksLoaderActivate.startNextTask() }
     }
-    Connections {
-        target: settingsLoader
-        function onLoaded() { tasksLoaderActivate.startNextTask() }
-    }
     TaskList {
         id: tasksLoaderActivate
         property bool loaderStarted: false
         taskArray: [
+            {
+                'type': 'block',
+                'callFunction': () => setActive(settingsLoader)
+            },
             {
                 'type': 'block',
                 'callFunction': () => setActive(pageViewLoader)
@@ -49,10 +53,6 @@ Item {
             {
                 'type': 'block',
                 'callFunction': () => setActive(rangeMModePageLoader)
-            },
-            {
-                'type': 'block',
-                'callFunction': () => setActive(settingsLoader)
             },
             {
                 'type': 'block',
