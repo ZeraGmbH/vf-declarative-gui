@@ -10,6 +10,7 @@ import FontAwesomeHash 1.0
 
 Item {
     id: root
+    visible: false // init
     property var model
     signal sigPageSelected(pageSource: string)
     signal sigCloseViewRequest();

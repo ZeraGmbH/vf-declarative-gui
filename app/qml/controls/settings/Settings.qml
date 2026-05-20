@@ -10,6 +10,7 @@ import "../../pages"
 
 BaseTabPage {
     id: root
+    visible: false // init
     anchors.fill: parent
     anchors { leftMargin: 8; rightMargin: 8 }
     // Overrides

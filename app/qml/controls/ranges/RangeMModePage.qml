@@ -14,6 +14,7 @@ import "../../controls/measurement_modes"
 
 Item {
     id: root
+    visible: false // init
     anchors.fill: parent
     anchors.margins: 8
 
