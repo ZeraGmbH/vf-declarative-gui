@@ -167,21 +167,21 @@ SettingsView {
         Loader {
             sourceComponent: swPllAutomatic
             active: showPll
-
+            asynchronous: true
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
         Loader {
             sourceComponent: cbPllChannel
             active: showPll
-
+            asynchronous: true
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
         Loader {
             sourceComponent: cbDftChannel
             active: VeinEntity.hasEntity("DFTModule1")
-
+            asynchronous: true
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
@@ -193,7 +193,7 @@ SettingsView {
         Loader {
             sourceComponent: swScpiQueue
             active: VeinEntity.hasEntity("SCPIModule1") && VeinEntity.getEntity("_System").DevMode
-
+            asynchronous: true
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
@@ -206,7 +206,7 @@ SettingsView {
         Loader {
             sourceComponent: vfignoreRmsValues
             active: VeinEntity.hasEntity("RangeModule1")
-
+            asynchronous: true
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
