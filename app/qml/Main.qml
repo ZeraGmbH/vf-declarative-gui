@@ -151,9 +151,11 @@ Window {
             Loader {
                 id: rangeMModePageLoader
                 source: "qrc:/qml/controls/ranges/RangeMModePage.qml"
+                property bool pageVisible: layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex
                 active: false
                 asynchronous: true
                 onLoaded: {
+                    rangeMModePageLoader.item.visible = Qt.binding(function() { return rangeMModePageLoader.pageVisible })
                     console.info("RangeMModePage loaded")
                 }
             }
@@ -303,14 +305,14 @@ Window {
             source: "qrc:/qml/controls/PageView.qml"
             asynchronous: true
             active: false
-            property bool pageViewVisible: false
+            property bool pageVisible: false
             onLoaded: {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
-                pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageViewVisible })
+                pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageVisible })
                 console.info("PageView loaded")
             }
             function openView() {
-                pageViewVisible = true
+                pageVisible = true
             }
             Connections {
                 target: controlsBar
@@ -319,7 +321,7 @@ Window {
             Connections {
                 target: pageViewLoader.item
                 function onSigCloseViewRequest() {
-                    pageViewLoader.pageViewVisible = false
+                    pageViewLoader.pageVisible = false
                 }
                 function onSigPageSelected(pageSource) {
                     pageLoader.source = pageSource
@@ -332,7 +334,7 @@ Window {
             interval: 10000
             repeat: false
             onTriggered: {
-                pageViewLoader.pageViewVisible = false
+                pageViewLoader.pageVisible = false
                 loadingScreenLoader.item.close();
                 layoutStack.currentIndex = GC.layoutStackEnum.layoutSplashIndex
             }

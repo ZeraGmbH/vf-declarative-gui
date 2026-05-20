@@ -9,10 +9,8 @@ Item {
         tasksLoaderActivate.loaderStarted = false
         tasksLoaderActivate.stop()
         // ensure user show request will be handle before preload finished
-        pageViewLoader.active =
-                Qt.binding(function() { return pageViewLoader.pageViewVisible })
-        rangeMModePageLoader.active =
-                Qt.binding(function() { return layoutStack.currentIndex === GC.layoutStackEnum.layoutRangeIndex })
+        pageViewLoader.active = Qt.binding(function() { return pageViewLoader.pageVisible })
+        rangeMModePageLoader.active = Qt.binding(function() { return rangeMModePageLoader.pageVisible })
     }
     function startPreloadPages() {
         tasksLoaderActivate.loaderStarted = false
