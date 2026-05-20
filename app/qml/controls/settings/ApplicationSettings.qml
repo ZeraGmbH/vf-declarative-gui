@@ -26,19 +26,34 @@ SettingsView {
     rowHeight: Math.max(height / 7.1, 10)
     readonly property real pointSize: rowHeight * 0.275
 
-    ApiInfoPopup { id: apiInfoPopup }
-    TrustListPopup { id: trustListPopup }
-    ColorPicker {
+    Loader {
+        id: apiInfoPopup
+        asynchronous: true
+        active: false
+        anchors.fill: parent
+        source: "qrc:/qml/controls/settings/ApiInfoPopup.qml"
+    }
+    Loader {
+        id: trustListPopup
+        asynchronous: true
+        active: false
+        anchors.fill: parent
+        source: "qrc:/qml/controls/settings/TrustListPopup.qml"
+    }
+    Loader {
         id: colorPicker
-        // set at rButton.onClicked
-        property int systemIndex
+        active: false
+        sourceComponent: ColorPicker {
+            // set at rButton.onClicked
+            property int systemIndex
 
-        dim: true
-        x: parent.width/2 - width/2
-        width: root.width*0.7
-        height: root.height*0.7
-        onColorAccepted: {
-            CS.setSystemColorByIndex(systemIndex-1, t_color, ZTC.isDarkTheme)
+            dim: true
+            x: parent.width/2 - width/2
+            width: root.width*0.7
+            height: root.height*0.7
+            onColorAccepted: {
+                CS.setSystemColorByIndex(systemIndex-1, t_color, ZTC.isDarkTheme)
+            }
         }
     }
 
@@ -268,11 +283,12 @@ SettingsView {
                         return colorLead + Z.tr(ModuleIntrospection.rangeIntrospection.ComponentInfo["PAR_Channel"+parseInt(workingIndex)+"Range"].ChannelName) + colorTrail
                     }
                     onClicked: {
-                        colorPicker.systemIndex = root.channelCount-index
+                        colorPicker.active = true
+                        colorPicker.item.systemIndex = root.channelCount-index
                         /// @bug setting the the same value twice doesn't reset the sliders
-                        colorPicker.oldColor = "transparent"
-                        colorPicker.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.systemIndex)
-                        colorPicker.open()
+                        colorPicker.item.oldColor = "transparent"
+                        colorPicker.item.oldColor = SlwMachSettingsHelper.getCurrentColor(colorPicker.item.systemIndex)
+                        colorPicker.item.open()
                     }
                 }
             }
@@ -359,7 +375,11 @@ SettingsView {
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95
-                    onClicked: apiInfoPopup.open()
+                    onClicked: {
+                        apiInfoPopup.asynchronous = false
+                        apiInfoPopup.active = true
+                        apiInfoPopup.item.open()
+                    }
                 }
                 ZButton {
                     id: apiTrustList
@@ -367,7 +387,11 @@ SettingsView {
                     Layout.fillHeight: true
                     font.pointSize: pointSize * 1.2
                     Layout.preferredWidth: rowHeight * 0.95
-                    onClicked: trustListPopup.open()
+                    onClicked: {
+                        trustListPopup.asynchronous = false
+                        trustListPopup.active = true
+                        trustListPopup.item.open()
+                    }
                 }
                 ZCheckBox {
                     id: apiOnOff
