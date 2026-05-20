@@ -6,10 +6,9 @@ import QtQml.Models 2.14
 
 Rectangle {
     id: root
-
     property ObjectModel model;
     property int horizMargin: 0
-    readonly property real safeHeight: height
+    readonly property real safeHeight: height > 0.0 ? height : 10
     property real rowHeight: safeHeight/10
     property int rowWidth: sView.width - (sView.contentHeight > safeHeight ? scroller.width : 0) // don't overlap with the ScrollIndicator
     color: Material.backgroundColor
