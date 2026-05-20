@@ -167,29 +167,23 @@ SettingsView {
         Loader {
             sourceComponent: swPllAutomatic
             active: showPll
-            asynchronous: true
 
             height: active ? root.rowHeight : 0
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: root.rowWidth
         }
         Loader {
             sourceComponent: cbPllChannel
             active: showPll
-            asynchronous: true
 
             height: active ? root.rowHeight : 0
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: root.rowWidth
         }
         Loader {
             sourceComponent: cbDftChannel
             active: VeinEntity.hasEntity("DFTModule1")
-            asynchronous: true
 
             height: active ? root.rowHeight : 0
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: root.rowWidth
         }
         SettingsInterval {
             rowHeight: root.rowHeight
@@ -199,26 +193,22 @@ SettingsView {
         Loader {
             sourceComponent: swScpiQueue
             active: VeinEntity.hasEntity("SCPIModule1") && VeinEntity.getEntity("_System").DevMode
-            asynchronous: true
 
             height: active ? root.rowHeight : 0
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: root.rowWidth
         }
         SerialSettings {
             height: root.rowHeight * Math.min(ttyCount, 4)
             rowHeight: root.rowHeight
-            width: root.rowWidth;
+            width: root.rowWidth
             pointSize: root.pointSize
         }
         Loader {
             sourceComponent: vfignoreRmsValues
             active: VeinEntity.hasEntity("RangeModule1")
-            asynchronous: true
 
             height: active ? root.rowHeight : 0
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: root.rowWidth
         }
     }
 }
