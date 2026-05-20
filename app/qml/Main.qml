@@ -165,8 +165,15 @@ Window {
                 active: layoutStack.currentIndex === GC.layoutStackEnum.layoutLoggerIndex
             }
             Loader {
+                id: settingsLoader
                 source: "qrc:/qml/controls/settings/Settings.qml"
-                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
+                active: false
+                asynchronous: true
+                property bool pageVisible: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
+                onLoaded: {
+                    settingsLoader.item.visible = Qt.binding(function() { return settingsLoader.pageVisible })
+                    console.info("SettingsPage loaded")
+                }
             }
             Loader {
                 source: "qrc:/qml/controls/appinfo/StatusView.qml"

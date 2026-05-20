@@ -8,9 +8,10 @@ Item {
         console.info("Reset on demand page loaders")
         tasksLoaderActivate.loaderStarted = false
         tasksLoaderActivate.stop()
-        // ensure user show request will be handle before preload finished
+        // ensure user show request is handled before preload finished
         pageViewLoader.active = Qt.binding(function() { return pageViewLoader.pageVisible })
         rangeMModePageLoader.active = Qt.binding(function() { return rangeMModePageLoader.pageVisible })
+        settingsLoader.active = Qt.binding(function() { return settingsLoader.pageVisible })
     }
     function startPreloadPages() {
         tasksLoaderActivate.loaderStarted = false
@@ -33,6 +34,10 @@ Item {
         target: rangeMModePageLoader
         function onLoaded() { tasksLoaderActivate.startNextTask() }
     }
+    Connections {
+        target: settingsLoader
+        function onLoaded() { tasksLoaderActivate.startNextTask() }
+    }
     TaskList {
         id: tasksLoaderActivate
         property bool loaderStarted: false
@@ -44,6 +49,10 @@ Item {
             {
                 'type': 'block',
                 'callFunction': () => setActive(rangeMModePageLoader)
+            },
+            {
+                'type': 'block',
+                'callFunction': () => setActive(settingsLoader)
             },
             {
                 'type': 'block',
