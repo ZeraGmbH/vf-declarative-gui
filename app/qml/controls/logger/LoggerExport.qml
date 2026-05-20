@@ -21,9 +21,9 @@ Item {
     property var menuStackLayout
 
     // layout calculations
-    readonly property real rowHeight: parent.height > 0 ? parent.height / 8 : 10
+    readonly property real rowHeight: parent.height / 8
     readonly property real fontScale: 0.3
-    readonly property real pointSize: rowHeight*fontScale
+    readonly property real pointSize: Math.max(rowHeight*fontScale, 10)
     readonly property real pointSizeHeader: pointSize * 1.1
     readonly property real tableTextPointSize: pointSize * 0.65
 

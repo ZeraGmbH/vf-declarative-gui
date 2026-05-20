@@ -139,7 +139,7 @@ Item {
         id: closeButton
         height: root.height * 0.125
         width: root.width * 0.25
-        font.pointSize: root.height * 0.04
+        font.pointSize: Math.max(root.height * 0.04, 10)
         text: Z.tr("Close")
         anchors.right: parent.right
         anchors.rightMargin: root.width * 0.01

@@ -13,7 +13,7 @@ Item {
 
     InfoInterface { id: networkListModel }
     readonly property bool isNetworkConnected: networkListModel.entryCount > 0
-    readonly property real pointSize: height > 0 ? height * 0.3 : 1
+    readonly property real pointSize: Math.max(height * 0.3, 10)
     readonly property real horizonalTextMargin: height * 0.3
 
     Rectangle {

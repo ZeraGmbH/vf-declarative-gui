@@ -97,7 +97,7 @@ Item {
 
     // convenient properties for layout vertical
     readonly property int linesStandardUI: 3 // RMS / Angle / OnOff
-    readonly property real lineHeight: height > 0 ? (height / (linesStandardUI*2 + 3)) : 10 // +2 header+bottom line
+    readonly property real lineHeight: height / (linesStandardUI*2 + 3)
     readonly property real lineHeightHeaderLine: lineHeight - (horizScrollbarOn ? scrollBarWidth : 0)
     readonly property int linesU: jsonParamInfo.UPhaseMax ? (jsonParamInfo.supportsHarmonicsU ? 4: 3) : 0
     readonly property int linesI: jsonParamInfo.IPhaseMax ? (jsonParamInfo.supportsHarmonicsI ? 4: 3) : 0
@@ -123,7 +123,7 @@ Item {
 
     // convenient properties fonts
     readonly property real headerPointSize: pointSize * 1.5
-    readonly property real pointSize: (height > 0) ? (height / 30) : 10.0
+    readonly property real pointSize: Math.max(height / 30, 10)
 
     // convenient properties scrollbars
     readonly property int scrollBarWidth: width > 100 ? width / 100 : 8

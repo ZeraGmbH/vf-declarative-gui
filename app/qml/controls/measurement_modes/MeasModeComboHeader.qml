@@ -24,7 +24,7 @@ Rectangle {
     height: visible ? (rowHeight * rowCount * 0.9 + (rowCount+2) * rowHeight * 0.1) : 0
     width: parent.width
     color: "white"
-    property real pointSize: height > 0 ? rowHeight * 0.35 : 5
+    property real pointSize: rowHeight * 0.35
     radius: 4
     GridLayout {
         id: grid

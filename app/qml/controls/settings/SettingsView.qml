@@ -8,9 +8,8 @@ Rectangle {
     id: root
     property ObjectModel model;
     property int horizMargin: 0
-    readonly property real safeHeight: height > 0.0 ? height : 10
-    property real rowHeight: safeHeight/10
-    property int rowWidth: sView.width - (sView.contentHeight > safeHeight ? scroller.width : 0) // don't overlap with the ScrollIndicator
+    property real rowHeight: Math.max(height/10, 10)
+    property real rowWidth: sView.width - (sView.contentHeight > height ? scroller.width : 0) // don't overlap with the ScrollIndicator
     color: Material.backgroundColor
     ListView {
         id: sView

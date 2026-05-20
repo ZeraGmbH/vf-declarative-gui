@@ -15,10 +15,10 @@ Item {
     property var menuStackLayout
 
     anchors.fill: parent
-    readonly property real rowHeight: parent.height / 12
+    readonly property real rowHeight: Math.max(parent.height / 12, 10)
     readonly property real fontScale: 0.35
     readonly property real largeScale: 1.25
-    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSize: rowHeight*fontScale
 
     Component.onCompleted: {
         initModel()

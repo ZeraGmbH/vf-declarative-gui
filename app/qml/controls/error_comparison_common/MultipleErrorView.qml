@@ -22,7 +22,7 @@ Rectangle {
     property string resultUnit: '%'
 
     // internals
-    readonly property real rowHeight: height > 0 ? height / (resultRows + 3/* 2 lines + bar */) : 10
+    readonly property real rowHeight: Math.max(height / (resultRows + 3/* 2 lines + bar */), 10)
     readonly property real fontScale: 0.45
     readonly property real pointSize: rowHeight * fontScale
     readonly property real margins: 8

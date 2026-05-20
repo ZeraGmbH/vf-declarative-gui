@@ -24,7 +24,7 @@ Item {
     property string actualValue
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
-    readonly property real pointSize: height > 0 ? height * 0.03 : 10
+    readonly property real pointSize: Math.max(height * 0.03, 10)
     readonly property bool rangeAutoActive: VeinEntity.getEntity("RangeModule1").PAR_RangeAutomatic
 
     QtObject {

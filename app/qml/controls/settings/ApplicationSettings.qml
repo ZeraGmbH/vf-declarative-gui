@@ -23,7 +23,7 @@ SettingsView {
     id: root
 
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
-    rowHeight: safeHeight / 7.1
+    rowHeight: Math.max(height / 7.1, 10)
     readonly property real pointSize: rowHeight * 0.275
 
     ApiInfoPopup { id: apiInfoPopup }
@@ -36,7 +36,7 @@ SettingsView {
         dim: true
         x: parent.width/2 - width/2
         width: root.width*0.7
-        height: root.safeHeight*0.7
+        height: root.height*0.7
         onColorAccepted: {
             CS.setSystemColorByIndex(systemIndex-1, t_color, ZTC.isDarkTheme)
         }
@@ -46,7 +46,7 @@ SettingsView {
         id: defaultColoursPopup
         x: root.width * 5 / 10
         y: 0
-        height: root.safeHeight - y
+        height: root.height - y
         width: root.width - x
     }
 

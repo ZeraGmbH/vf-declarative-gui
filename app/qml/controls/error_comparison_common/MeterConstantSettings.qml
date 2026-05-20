@@ -14,7 +14,7 @@ Popup {
     id: root
     parent: Overlay.overlay
     property QtObject secEntity: VeinEntity.getEntity("SEC1Module1")
-    readonly property real pointSize: height > 0.0 ? height/30 : 10
+    readonly property real pointSize: Math.max(height/30, 1)
     property int newConst: secEntity["PAR_DutConstant"]
     readonly property int comboBoxWidth : root.width * 0.12
 

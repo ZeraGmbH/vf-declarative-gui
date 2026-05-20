@@ -52,7 +52,7 @@ Loader {
         closePolicy: Popup.NoAutoClose
 
         // layout calculations
-        readonly property real rowHeight: parent.height > 0 ? parent.height/8 : 10
+        readonly property real rowHeight: Math.max(parent.height/8, 10)
         readonly property real pointSize: rowHeight * 0.3
 
         property var warningTxtArr: []

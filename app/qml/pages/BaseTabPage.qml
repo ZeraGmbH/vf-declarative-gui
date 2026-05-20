@@ -6,7 +6,7 @@ import ZeraTranslation  1.0
 Item {
     id: root
 
-    readonly property real tabPointSize: height * 0.0225
+    readonly property real tabPointSize: Math.max(height * 0.0225, 10)
     readonly property real tabHeight: tabBar.count > 1 ? height * 0.08 : 0
 
     property alias swipeView: swipeView

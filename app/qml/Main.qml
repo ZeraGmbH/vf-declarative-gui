@@ -38,7 +38,7 @@ Window {
     Material.accent: ZTC.accentColor
     Material.background: ZTC.backgroundColor
     color: ZTC.backgroundColor
-    readonly property real pointSize: height > 0 ? height * 0.035 : 10
+    readonly property real pointSize: Math.max(height * 0.035, 10)
     property bool setSessionNameForPersitence: false
     property QtObject loggerEntity
     property string databaseFile: ""

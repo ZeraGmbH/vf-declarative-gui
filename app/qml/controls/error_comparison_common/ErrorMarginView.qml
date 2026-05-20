@@ -78,7 +78,7 @@ Rectangle {
 
             max: maxValue!==0 ? maxValue+minMaxOffset : (minMaxOffset!==0 ? minMaxOffset : 0.5)
             min: minValue!==0 ? minValue-minMaxOffset : (minMaxOffset!==0 ? -minMaxOffset : -0.5)
-            labelsFont.pointSize: height * 0.03
+            labelsFont.pointSize: Math.max(height * 0.03, 10)
             tickCount: 7
 
             minorGridLineColor: ZTC.dividerColor

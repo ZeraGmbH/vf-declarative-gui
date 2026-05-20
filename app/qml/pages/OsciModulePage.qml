@@ -29,7 +29,7 @@ Item {
         width: 45 // chart's legend has fixed distance
         height: width * 0.4 + root.height * 0.05
         text: FAQH.strToGlyph("fa_cogs")
-        font.pointSize: height * 0.325
+        font.pointSize: Math.max(height * 0.325, 10)
         visible: settingsPopup.settingsRowCount > 0
         onClicked: settingsPopup.open()
     }

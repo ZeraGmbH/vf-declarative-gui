@@ -24,7 +24,7 @@ SettingsView {
     rowHeight: parent.height/10
 
     readonly property real fontScale: 0.3
-    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSize: rowHeight*fontScale
     readonly property real pointSizeHeader: pointSize * 1.25
 
     readonly property bool fileNameAlreadyExists: filenameField.text.length>0 &&

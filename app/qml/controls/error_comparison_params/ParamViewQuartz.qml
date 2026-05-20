@@ -25,7 +25,7 @@ Item {
     property var validatorLowerLimit
 
     readonly property int rowsDisplayed: 5
-    readonly property real rowHeight: height > 0 ? height/rowsDisplayed : 10
+    readonly property real rowHeight: Math.max(height/rowsDisplayed, 10)
     readonly property real pointSize: rowHeight/2.5
 
     readonly property real col1Width: 10/20

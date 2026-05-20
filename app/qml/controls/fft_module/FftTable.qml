@@ -22,7 +22,7 @@ Rectangle {
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount : Math.min(ModuleIntrospection.fftIntrospection.ModuleInfo.FFTCount, 6)
     readonly property int fftOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder;
     readonly property int rowsDisplayedTotal: 14
-    readonly property real rowHeight: height / rowsDisplayedTotal
+    readonly property real rowHeight: Math.max(height / rowsDisplayedTotal, 10)
     readonly property real columnWidth: width/7
     readonly property bool showAngles: GC.showFftTableAngles
     readonly property bool hasHorizScroll: showAngles ? channelCount > 3 : channelCount > 6

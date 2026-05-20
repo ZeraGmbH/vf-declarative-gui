@@ -26,7 +26,7 @@ Rectangle {
     property int status: errCalEntity.ACT_Status
     readonly property alias statusHolder: stateEnum
     readonly property bool canStartMeasurement: errCalEntity.PAR_StartStop !== 1
-    readonly property real pointSize: root.height > 0 ? root.height * 0.03 : 10
+    readonly property real pointSize: Math.max(root.height * 0.03, 10)
     color: Material.backgroundColor
 
     QtObject {

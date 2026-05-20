@@ -19,9 +19,8 @@ Item {
 
     readonly property int channelCount: GC.showAuxPhases ? ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount : Math.min(ModuleIntrospection.rmsIntrospection.ModuleInfo.RMSPNCount, 6)
     readonly property bool displayAuxColumn: channelCount > 6
-    readonly property real safeHeight: height > 0 ? height : 10
-    readonly property real row1stHeight: safeHeight * 0.125
-    readonly property real rowHeight: (safeHeight-row1stHeight) / 4
+    readonly property real row1stHeight: Math.max(height * 0.125, 10)
+    readonly property real rowHeight: Math.max((height-row1stHeight) / 4, 10)
     readonly property real columnWidth1st: pixelSize * 2.35
     readonly property real columnWidthLast: pixelSize * 1.8
     readonly property real columnWidth: (width-(columnWidth1st+columnWidthLast))/(channelCount/2)

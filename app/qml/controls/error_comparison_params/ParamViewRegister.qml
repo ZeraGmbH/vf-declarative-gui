@@ -51,7 +51,7 @@ Item {
     // to get/set measurement-modes
     readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
 
-    readonly property real rowHeight: height > 0 ? height/rowsDisplayed : 10
+    readonly property real rowHeight: Math.max(height/rowsDisplayed, 10)
     readonly property real pointSize: rowHeight/2.5
 
     readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject

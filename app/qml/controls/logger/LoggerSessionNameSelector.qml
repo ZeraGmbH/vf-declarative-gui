@@ -16,9 +16,9 @@ Item {
     // how are we closing: true: go back to export view / false: show logger menu
     property bool goBackExport: false
 
-    property real rowHeight: height/8
+    property real rowHeight: Math.max(height/8, 10)
     readonly property real fontScale: 0.30
-    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSize: rowHeight*fontScale
     readonly property real pointSizeHeader: pointSize * 1.25
 
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")

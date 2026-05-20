@@ -15,9 +15,9 @@ Popup {
     modal: !Qt.inputMethod.visible
     closePolicy: Popup.NoAutoClose
 
-    readonly property real rowHeight: parent.height/4
+    readonly property real rowHeight: Math.max(parent.height/4, 10)
     readonly property real fontScale: 0.1
-    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSize: rowHeight*fontScale
 
     signal sessionNameSelected(string newSessionName)
 

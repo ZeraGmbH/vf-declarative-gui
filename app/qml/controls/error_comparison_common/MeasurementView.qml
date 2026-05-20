@@ -33,7 +33,7 @@ Item {
                 Label {
                     width: parent.width
                     textFormat: Text.PlainText
-                    font.pointSize: root.height * 0.3
+                    font.pointSize: Math.max(root.height * 0.3, 10)
                     fontSizeMode: Text.HorizontalFit
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
@@ -94,7 +94,7 @@ Item {
                 height: parent.height * 0.5 *(1+animationValue)
                 width: root.width * 0.1
                 property real animationValue
-                property real pointSizeBase: height > 0 ? height * 0.5 : 5
+                property real pointSizeBase: Math.max(height * 0.5, 10)
                 Label {
                     id: z1
                     text: "Z"
@@ -162,7 +162,7 @@ Item {
                     width: parent.width
                     textFormat: Text.PlainText
                     horizontalAlignment: Text.AlignRight
-                    font.pointSize: root.height * 0.3
+                    font.pointSize: Math.max(root.height * 0.3, 10)
                     fontSizeMode: Text.HorizontalFit
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
@@ -188,7 +188,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: root.height * 0.125
+                font.pointSize: Math.max(root.height * 0.125, 10)
                 text: root.progressText
             }
         }

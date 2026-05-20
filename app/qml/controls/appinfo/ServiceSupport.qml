@@ -9,7 +9,7 @@ import '../../controls'
 
 Item {
     id: root
-    readonly property real rowHeight: height > 0 ? height * 0.0725 : 10
+    readonly property real rowHeight: Math.max(height * 0.0725, 10)
     readonly property real pointSize: rowHeight * 0.5
 
     WaitTransaction { id: waitPopup }

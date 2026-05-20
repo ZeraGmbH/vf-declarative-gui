@@ -23,9 +23,9 @@ Item {
     readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
     readonly property string stickImportExportPath: mountedDrivesCombo.currentPath + '/' + GC.deviceName + '/customerdata'
 
-    property real rowHeight: height/8
+    property real rowHeight: Math.max(height/8, 10)
     readonly property real fontScale: 0.30
-    readonly property real pointSize: rowHeight*fontScale > 0.0 ? rowHeight*fontScale : 10
+    readonly property real pointSize: rowHeight*fontScale
     readonly property real pointSizeHeader: pointSize * 1.25
 
     // make current output path commonly accessible / set by combo target drive

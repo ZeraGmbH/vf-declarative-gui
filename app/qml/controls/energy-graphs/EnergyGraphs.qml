@@ -256,8 +256,8 @@ Item {
             ValueAxis {
                 id: axisXPower
                 titleText: "T[s]"
-                titleFont.pointSize: chartViewPower.height * 0.04
-                labelsFont.pixelSize: chartViewPower.height * 0.04
+                titleFont.pointSize: Math.max(chartViewPower.height * 0.04, 10)
+                labelsFont.pixelSize: Math.max(chartViewPower.height * 0.04, 10)
                 labelFormat: "%d"
                 property int currentMax: max
                 min: {

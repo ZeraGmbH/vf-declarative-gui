@@ -53,7 +53,7 @@ Item {
         makeCustomContentDefault()
     }
 
-    readonly property real pointSize: height > 0 ? (height / 30) : 10
+    readonly property real pointSize: Math.max(height/30, 10)
 
     ColumnLayout {
         anchors.fill: parent
@@ -62,7 +62,7 @@ Item {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
             text: Z.tr("Select custom data contents")
-            font.pointSize: root.height > 0 ? (root.height / 25) : 10
+            font.pointSize: Math.max(root.height/25, 10)
         }
         ListView {
             id: buttonList
@@ -87,7 +87,7 @@ Item {
                 width: buttonList.width * 3/5
                 x: (buttonList.width - width) / 2
                 font.pointSize: pointSize
-                height: root.height > 0 ? (root.height / 6.5) : 10
+                height: root.height / 6.5
                 checkable: true
                 checked: {
                     return GC.getLoggerCustomContentSets().includes(modelData)

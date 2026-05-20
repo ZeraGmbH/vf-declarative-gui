@@ -15,9 +15,8 @@ SettingsView {
     id: root
 
     readonly property QtObject bleSensorEnt: VeinEntity.getEntity("BleModule1");
-    readonly property real safeHeight: height > 0.0 ? height : 10
     readonly property bool notEmobSession: VeinEntity.getEntity("_System").Session !== "mt310s2-emob-session-ac.json" && VeinEntity.getEntity("_System").Session !== "mt310s2-emob-session-dc.json"
-    rowHeight: safeHeight/8.5
+    rowHeight: Math.max(height/8.5, 10)
     readonly property real pointSize: rowHeight * 0.34
     readonly property int decimalPlaces: 1
     readonly property bool bluetoothOn: bleSensorEnt.PAR_BluetoothOn !== 0

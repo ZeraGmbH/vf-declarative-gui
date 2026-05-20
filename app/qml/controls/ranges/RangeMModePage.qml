@@ -21,8 +21,8 @@ Item {
     readonly property bool showRatioLines: !SessionState.refSession
     readonly property bool enableRangeAutomaticAndGrouping: !SessionState.refSession
     readonly property int rowCount: 10
-    readonly property real rowHeight: height / rowCount
-    readonly property real pointSize: rowHeight > 0 ? rowHeight * 0.325 : 10
+    readonly property real rowHeight: Math.max(height/rowCount, 10)
+    readonly property real pointSize: rowHeight * 0.325
     readonly property real upperAreaHeight: rowHeight*2
     readonly property real leftWidth: root.width * (showMeasModes ? 0.775 : 1)
     readonly property real frameMargin: rowHeight * 0.3

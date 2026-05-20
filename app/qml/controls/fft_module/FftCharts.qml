@@ -27,7 +27,7 @@ ListView {
     boundsBehavior: Flickable.OvershootBounds
     contentHeight: pinchArea.pinchScale * height/3 * Math.ceil(fftCount/2)
 
-    readonly property real pointSize: height * 0.02
+    readonly property real pointSize: Math.max(height * 0.02, 10)
     readonly property int thdnToHorizontalCenterOffset: 60 // chart's legend has fixed distance
     ZButton {
         id: settingsButton
@@ -39,7 +39,7 @@ ListView {
         width: thdnToHorizontalCenterOffset - 15
         height: 18 + root.height * 0.05
         text: FAQH.strToGlyph("fa_cogs")
-        font.pointSize: height * 0.325
+        font.pointSize: Math.max(height * 0.325, 10)
         visible: settingsPopup.settingsRowCount > 0
         onClicked: settingsPopup.open()
     }

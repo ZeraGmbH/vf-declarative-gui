@@ -15,7 +15,7 @@ Item {
                 return Z.tr("Firmware update is running.\nDo not switch off the device!")
             return safeDelay.running ? Z.tr("Please wait...") : Z.tr("Something went wrong")
         }
-        font.pointSize: parent.height * 0.08
+        font.pointSize: Math.max(parent.height * 0.08, 10)
         horizontalAlignment: Label.AlignHCenter
         verticalAlignment: Label.AlignVCenter
     }
@@ -33,7 +33,7 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width * 0.5
         height: parent.height * 0.125
-        font.pointSize: parent.height * 0.04
+        font.pointSize: Math.max(parent.height * 0.04, 10)
         text: Z.tr("Save/Send logs")
         onClicked: {
             GC.setLastInfoTabSelected(1)

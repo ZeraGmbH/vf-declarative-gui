@@ -21,7 +21,7 @@ Item {
     readonly property QtObject glueLogic: ZGL;
     readonly property int channelCount: ModuleIntrospection.p3m1Introspection.ModuleInfo.HPWCount;
     readonly property int hpwOrder: ModuleIntrospection.fftIntrospection.ModuleInfo.FFTOrder; //the power3module harmonic order depends on the fftmodule
-    property real rowHeight: height/12
+    property real rowHeight: Math.max(height/12, 10)
     property real firstColumnWidth: width * 0.08
     property real columnWidth: (width - vBar.width - firstColumnWidth)/9
 
