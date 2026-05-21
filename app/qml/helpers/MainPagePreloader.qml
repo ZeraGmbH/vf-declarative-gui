@@ -4,21 +4,31 @@ import GlobalConfig 1.0
 
 Item {
     // public
-    function resetPageLoaders() {
-        console.info("Reset on demand page loaders")
-        tasksLoaderActivate.loaderStarted = false
-        tasksLoaderActivate.stop()
-        // ensure user show request is handled before preload finished
-        pageViewLoader.active = Qt.binding(function() { return pageViewLoader.pageVisible })
-        rangeMModePageLoader.active = Qt.binding(function() { return rangeMModePageLoader.pageVisible })
-        settingsLoader.active = Qt.binding(function() { return settingsLoader.pageVisible })
+    function initPageLoaders() {
+        bindPageLoaderForEarlyShow(pageViewLoader)
+        bindPageLoaderForEarlyShow(rangeMModePageLoader)
+        bindPageLoaderForEarlyShow(settingsLoader)
     }
     function startPreloadPages() {
         tasksLoaderActivate.loaderStarted = false
         delayTimer.start()
     }
+    function resetPageLoaders() {
+        tasksLoaderActivate.loaderStarted = false
+        tasksLoaderActivate.stop()
+        deactivatePageLoader(pageViewLoader)
+        deactivatePageLoader(rangeMModePageLoader)
+        deactivatePageLoader(settingsLoader)
+    }
 
     // private
+    function bindPageLoaderForEarlyShow(pageLoader) {
+        // ensure user show request is handled before preload finished - binding will be broken
+        pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
+    }
+    function deactivatePageLoader(pageLoader) {
+        pageLoader.active = false
+    }
     Timer {
         id: delayTimer
         interval: 1000
@@ -26,33 +36,20 @@ Item {
         running: false
         onTriggered: { tasksLoaderActivate.startRun() }
     }
-    Connections { // This one takes longest => load it first
-        target: settingsLoader
-        function onLoaded() { tasksLoaderActivate.startNextTask() }
-    }
-    Connections {
-        target: pageViewLoader
-        function onLoaded() { tasksLoaderActivate.startNextTask() }
-    }
-    Connections {
-        target: rangeMModePageLoader
-        function onLoaded() { tasksLoaderActivate.startNextTask() }
-    }
     TaskList {
         id: tasksLoaderActivate
-        property bool loaderStarted: false
         taskArray: [
-            {
+            {   // settingsLoader takes longest => load it first
                 'type': 'block',
-                'callFunction': () => setActive(settingsLoader)
+                'callFunction': () => activatePageLoader(settingsLoader)
             },
             {
                 'type': 'block',
-                'callFunction': () => setActive(pageViewLoader)
+                'callFunction': () => activatePageLoader(pageViewLoader)
             },
             {
                 'type': 'block',
-                'callFunction': () => setActive(rangeMModePageLoader)
+                'callFunction': () => activatePageLoader(rangeMModePageLoader)
             },
             {
                 'type': 'block',
@@ -63,12 +60,25 @@ Item {
                 }
             }
         ]
-        function setActive(loader) {
+        property bool loaderStarted: false
+        function activatePageLoader(loader) {
             if (loader.active)
                 return true
             loader.active = true
             loaderStarted = true
             return false
         }
+    }
+    Connections {
+        target: settingsLoader
+        function onLoaded() { tasksLoaderActivate.startNextTask() }
+    }
+    Connections {
+        target: pageViewLoader
+        function onLoaded() { tasksLoaderActivate.startNextTask() }
+    }
+    Connections {
+        target: rangeMModePageLoader
+        function onLoaded() { tasksLoaderActivate.startNextTask() }
     }
 }

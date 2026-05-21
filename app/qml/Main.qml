@@ -63,10 +63,44 @@ Window {
         }
     }
 
-    function prepareSessionChange() {
-        layoutStack.currentIndex = 0
+    function handeSessionLeave() {
+        pagePreloader.resetPageLoaders()
+        layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
         pageLoader.active = false
         GC.entityInitializationDone = false
+        loadingScreenLoader.item.open()
+        sessionChangeTimeout.start()
+    }
+    function handleSessionEnter() {
+        pagePreloader.initPageLoaders()
+        pageLoader.active = true // async -> as early as possible
+        dynamicPageModel.clear()
+        ModuleIntrospection.reloadIntrospection();
+        dynamicPageModel.initModel();
+
+        // rescue dyn sources binding over session change
+        dynamicPageModel.countActiveSources = Qt.binding(function() {
+            if(VeinEntity.hasEntity("SourceModule1"))
+                return VeinEntity.getEntity("SourceModule1").ACT_CountSources
+            return 0
+        })
+        dynamicPageModel.updateSourceView()
+
+        var lastPageSelected = GC.lastPageViewIndexSelected
+        if(lastPageSelected >= dynamicPageModel.count)
+            lastPageSelected = 0
+        if(dynamicPageModel.count)
+            pageLoader.source = dynamicPageModel.get(lastPageSelected).elementValue;
+
+        loadingScreenLoader.item.close();
+        sessionChangeTimeout.stop();
+        layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
+        GC.entityInitializationDone = true
+        console.info("Loaded session:", SessionState.currentSession);
+        if(VeinEntity.hasEntity("_LoggingSystem")) {
+            loggerEntity = VeinEntity.getEntity("_LoggingSystem")
+            setDatabase()
+        }
     }
     Connections {
         target: VeinEntity
@@ -76,42 +110,10 @@ Window {
             });
         }
         function onSigStateChanged(t_state) {
-            pagePreloader.resetPageLoaders()
-            if (t_state === VeinEntity.VQ_IDLE) {
-                prepareSessionChange()
-                loadingScreenLoader.item.open()
-                sessionChangeTimeout.start()
-            }
-            else if(t_state === VeinEntity.VQ_LOADED) {
-                pageLoader.active = true // async -> as early as possible
-                dynamicPageModel.clear()
-                ModuleIntrospection.reloadIntrospection();
-                dynamicPageModel.initModel();
-
-                // rescue dyn sources binding over session change
-                dynamicPageModel.countActiveSources = Qt.binding(function() {
-                    if(VeinEntity.hasEntity("SourceModule1"))
-                        return VeinEntity.getEntity("SourceModule1").ACT_CountSources
-                    return 0
-                })
-                dynamicPageModel.updateSourceView()
-
-                var lastPageSelected = GC.lastPageViewIndexSelected
-                if(lastPageSelected >= dynamicPageModel.count)
-                    lastPageSelected = 0
-                if(dynamicPageModel.count)
-                    pageLoader.source = dynamicPageModel.get(lastPageSelected).elementValue;
-
-                loadingScreenLoader.item.close();
-                sessionChangeTimeout.stop();
-                layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
-                GC.entityInitializationDone = true
-                console.info("Loaded session:", SessionState.currentSession);
-                if(VeinEntity.hasEntity("_LoggingSystem")) {
-                    loggerEntity = VeinEntity.getEntity("_LoggingSystem")
-                    setDatabase()
-                }
-            }
+            if (t_state === VeinEntity.VQ_IDLE)
+                handeSessionLeave()
+            else if (t_state === VeinEntity.VQ_LOADED)
+                handleSessionEnter()
         }
     }
     MainPagePreloader { id: pagePreloader }
