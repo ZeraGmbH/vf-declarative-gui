@@ -11,7 +11,7 @@ Item {
     }
     function startPreloadPages() {
         tasksLoaderActivate.loaderStarted = false
-        delayTimer.start()
+        tasksLoaderActivate.startRun()
     }
     function resetPageLoaders() {
         tasksLoaderActivate.loaderStarted = false
@@ -28,13 +28,6 @@ Item {
     }
     function deactivatePageLoader(pageLoader) {
         pageLoader.active = false
-    }
-    Timer {
-        id: delayTimer
-        interval: 1000
-        repeat: false
-        running: false
-        onTriggered: { tasksLoaderActivate.startRun() }
     }
     TaskList {
         id: tasksLoaderActivate
