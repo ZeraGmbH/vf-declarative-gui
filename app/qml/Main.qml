@@ -64,11 +64,11 @@ Window {
     }
 
     function handeSessionLeave() {
+        loadingScreenLoader.item.open()
         pagePreloader.resetPageLoaders()
         layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
         pageLoader.active = false
         GC.entityInitializationDone = false
-        loadingScreenLoader.item.open()
         sessionChangeTimeout.start()
     }
     function handleSessionEnter() {
