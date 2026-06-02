@@ -104,7 +104,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumberParam(dftModule.ACT_DFTPN1[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberParam(dftModule.ACT_DC1, 9, 6);
                     textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -112,7 +112,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumberParam(dftModule.ACT_DFTPN2[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberParam(dftModule.ACT_DC2, 9, 6);
                     textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -120,7 +120,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumberParam(dftModule.ACT_DFTPN3[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberParam(dftModule.ACT_DC3, 9, 6);
                     textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -128,7 +128,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumberParam(dftModule.ACT_DFTPN4[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberParam(dftModule.ACT_DC4, 9, 6);
                     textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -136,7 +136,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumberParam(dftModule.ACT_DFTPN5[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberParam(dftModule.ACT_DC5, 9, 6);
                     textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
@@ -144,7 +144,7 @@ Item {
                     width: wideRowWidth
                     height: root.rowHeight
                     clip: true
-                    text: FT.formatNumberParam(dftModule.ACT_DFTPN6[0], 9, 6); //these values are RE,IM vectors of a measured DC quantity, so only the RE part is relevant
+                    text: FT.formatNumberParam(dftModule.ACT_DC6, 9, 6);
                     textColor: CS.groupColorReference
                     font.pixelSize: height*0.3
                 }
