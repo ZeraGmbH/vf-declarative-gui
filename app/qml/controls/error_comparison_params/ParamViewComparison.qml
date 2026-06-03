@@ -475,7 +475,7 @@ Item {
                     decimals: Math.min(FT.ceilLog10Of1DividedByX(validatorUpperLimit.Data[2]), GC.decimalPlaces);
                 }
                 function doApplyInput(newText) {
-                    let value = parseInt(newText, 10)
+                    let value = parseFloat(newText, 10)
                     entity[controlPropertyName] = value
                     if(value > 0)
                         lowLimit.entity[lowLimit.controlPropertyName] = -value
