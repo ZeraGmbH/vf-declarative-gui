@@ -34,13 +34,17 @@ Item {
             existingList.currentIndex = existingSessions.indexOf(currentSessionName)
         }
     }
-
-    Popup {
+    ZDeleteConfirmPopup {
         id: removeSessionPopup
-        anchors.centerIn: parent
-        modal: true
+        messageStr: Z.tr("Delete session <b>'%1'</b>?").arg(removeSessionPopup.sessionToDelete)
         property string sessionToDelete
         property var rpcIDRemoveSession
+        onSigDeleteConfirmed: {
+            if(!removeSessionPopup.rpcIDRemoveSession) {
+                removeSessionPopup.rpcIDRemoveSession = loggerEntity.invokeRPC("RPC_deleteSession(QString p_session)", {
+                                                                    "p_session": removeSessionPopup.sessionToDelete })
+            }
+        }
         Connections {
             target: loggerEntity
             function onSigRPCFinished(identifier, resultData) {
@@ -54,46 +58,7 @@ Item {
                 }
             }
         }
-        ColumnLayout {
-            Label { // header
-                text: Z.tr("Confirmation")
-                font.pointSize: pointSizeHeader
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-            }
-            Item { Layout.preferredHeight: rowHeight/3 }
-            Label {
-                text: Z.tr("Delete session <b>'%1'</b>?").arg(removeSessionPopup.sessionToDelete)
-                Layout.fillWidth: true
-                font.pointSize: pointSize
-            }
-            Item { Layout.preferredHeight: rowHeight/3 }
-            RowLayout {
-                Layout.fillWidth: true
-                Item { Layout.fillWidth: true }
-                ZButton {
-                    id: removeCancel
-                    text: Z.tr("Cancel")
-                    font.pointSize: pointSize
-                    onClicked: {
-                        removeSessionPopup.close()
-                    }
-                }
-                ZButton {
-                    text: "<font color='red'>" + Z.tr("Delete") + "</font>"
-                    font.pointSize: pointSize
-                    Layout.preferredWidth: removeCancel.width
-                    onClicked: {
-                        if(!removeSessionPopup.rpcIDRemoveSession) {
-                            removeSessionPopup.rpcIDRemoveSession = loggerEntity.invokeRPC("RPC_deleteSession(QString p_session)", {
-                                                                                "p_session": removeSessionPopup.sessionToDelete })
-                        }
-                    }
-                }
-            }
-        }
     }
-
 
     Label { // Header
         id: captionLabel
