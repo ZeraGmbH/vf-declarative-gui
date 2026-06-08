@@ -508,12 +508,11 @@ Item {
                 }
             }
         }
-        Popup {
+        ZDeleteConfirmPopup {
             id: deleteTransactionPopup
-            anchors.centerIn: parent
-            modal: true
             property string transactionToDelete
             property var rpcIdDeleteTransaction
+            messageStr: Z.tr("Delete transaction ?")
             Connections {
                 target: loggerEntity
                 function onSigRPCFinished(identifier, resultData) {
@@ -529,47 +528,10 @@ Item {
                     }
                 }
             }
-            ColumnLayout {
-                Label { // header
-                    text: Z.tr("Confirmation")
-                    font.pointSize: pointSizeHeader
-                    horizontalAlignment: Text.AlignHCenter
-                    Layout.fillWidth: true
-                }
-                Item { Layout.preferredHeight: rowHeight/3 }
-                Label {
-                    text: Z.tr("Delete transaction ?")
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pointSize: pointSize
-                }
-                Item { Layout.preferredHeight: rowHeight/3 }
-                RowLayout {
-                    id: rowButtons
-                    readonly property real buttonWidth: Math.max(removeCancel.implicitWidth, removeAccept.implicitWidth)
-                    Layout.fillWidth: true
-                    Item { Layout.fillWidth: true }
-                    ZButton {
-                        id: removeCancel
-                        Layout.preferredWidth: rowButtons.buttonWidth
-                        text: Z.tr("Cancel")
-                        font.pointSize: pointSize
-                        onClicked: {
-                            deleteTransactionPopup.close()
-                        }
-                    }
-                    ZButton {
-                        id: removeAccept
-                        Layout.preferredWidth: rowButtons.buttonWidth
-                        text: "<font color='red'>" + Z.tr("Delete") + "</font>"
-                        font.pointSize: pointSize
-                        onClicked: {
-                            if(!deleteTransactionPopup.rpcIdDeleteTransaction) {
-                                deleteTransactionPopup.rpcIdDeleteTransaction = loggerEntity.invokeRPC("RPC_deleteTransaction(QString p_transaction)", {
-                                                        "p_transaction": deleteTransactionPopup.transactionToDelete })
-                            }
-                        }
-                    }
+            onSigDeleteConfirmed: {
+                if(!deleteTransactionPopup.rpcIdDeleteTransaction) {
+                    deleteTransactionPopup.rpcIdDeleteTransaction = loggerEntity.invokeRPC("RPC_deleteTransaction(QString p_transaction)", {
+                                            "p_transaction": deleteTransactionPopup.transactionToDelete })
                 }
             }
         }
