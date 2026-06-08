@@ -299,52 +299,18 @@ SettingsView {
     }
 
     // Delete DB confirmation popup
-    Popup {
+    ZDeleteConfirmPopup {
         id: removeDbPopup
-        anchors.centerIn: parent
-        modal: true
         property string removeDbName;
-
-        ColumnLayout {
-            Label { // header
-                text: Z.tr("Confirmation")
-                font.pointSize: pointSizeHeader
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
+        messageStr: {
+            var dbFileName = removeDbPopup.removeDbName.replace(dbLocationSelector.currentPath, "")
+            if(dbFileName.startsWith('/')) {
+                dbFileName = dbFileName.substring(1)
             }
-            Item { Layout.preferredHeight: rowHeight/3 }
-            Label { // "do you really want to delete" text
-                text: {
-                    var dbFileName = removeDbPopup.removeDbName.replace(dbLocationSelector.currentPath, "")
-                    if(dbFileName.startsWith('/')) {
-                        dbFileName = dbFileName.substring(1)
-                    }
-                    return Z.tr("Delete database <b>'%1'</b>?").arg(dbFileName)
-                }
-                Layout.fillWidth: true
-                font.pointSize: pointSize
-            }
-            Item { Layout.preferredHeight: rowHeight/3 }
-            RowLayout { // OK/Cancel (more or less)
-                Layout.fillWidth: true
-                Item { Layout.fillWidth: true }
-                ZButton {
-                    id: removeCancel
-                    text: Z.tr("Cancel")
-                    font.pointSize: pointSize
-                    onClicked: {
-                        removeDbPopup.close()
-                    }
-                }
-                ZButton {
-                    text: "<font color='red'>" + Z.tr("Delete") + "</font>"
-                    font.pointSize: pointSize
-                    Layout.preferredWidth: removeCancel.width
-                    onClicked: {
-                        startDbDeleteRpc(removeDbPopup.removeDbName)
-                    }
-                }
-            }
+            return Z.tr("Delete database <b>'%1'</b>?").arg(dbFileName)
+        }
+        onSigDeleteConfirmed: {
+            startDbDeleteRpc(removeDbPopup.removeDbName)
         }
     }
 
