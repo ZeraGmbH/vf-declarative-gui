@@ -197,47 +197,13 @@ Item {
         }
     }
 
-    Popup {
+    ZDeleteConfirmPopup {
         id: removeFilePopup
-        anchors.centerIn: parent
-        modal: true
         property string fileName;
-
-        ColumnLayout {
-            Label { // header
-                text: Z.tr("Confirmation")
-                font.pointSize: pointSizeHeader
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-            }
-            Item { Layout.preferredHeight: rowHeight/3 }
-            Label {
-                text: Z.tr("Delete <b>'%1'</b>?").arg(removeFilePopup.fileName)
-                Layout.fillWidth: true
-                font.pointSize: pointSize
-            }
-            Item { Layout.preferredHeight: rowHeight/3 }
-            RowLayout {
-                Layout.fillWidth: true
-                Item { Layout.fillWidth: true }
-                ZButton {
-                    id: removeCancel
-                    text: Z.tr("Cancel")
-                    font.pointSize: pointSize
-                    onClicked: {
-                        removeFilePopup.close()
-                    }
-                }
-                ZButton {
-                    text: "<font color='red'>" + Z.tr("Delete") + "</font>"
-                    font.pointSize: pointSize
-                    Layout.preferredWidth: removeCancel.width
-                    onClicked: {
-                        customerData.invokeRPC("customerDataRemove(QString fileName)", { "fileName": removeFilePopup.fileName });
-                        removeFilePopup.close();
-                    }
-                }
-            }
+        messageStr: Z.tr("Delete <b>'%1'</b>?").arg(removeFilePopup.fileName)
+        onSigDeleteConfirmed: {
+            customerData.invokeRPC("customerDataRemove(QString fileName)", { "fileName": removeFilePopup.fileName });
+            removeFilePopup.close();
         }
     }
 
