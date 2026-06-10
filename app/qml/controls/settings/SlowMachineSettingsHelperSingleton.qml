@@ -10,7 +10,7 @@ Timer {
        on in GUI, we keep the settings changes, start a timer and apply the
        changes later. Doing so the GUI reponse is immediate.
       */
-    interval: 300
+    interval: 250
     repeat: false
     function startAuxPhaseChange(showAux) {
         nextShowAux = showAux
