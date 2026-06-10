@@ -140,9 +140,7 @@ SettingsView {
                     }
                 }
                 onSelectedTextChanged: {
-                    if(ZLocale.localeName !== selectedText) {
-                        GC.setLocale(selectedText, true)
-                    }
+                    SlwMachSettingsHelper.startLocaleChange(selectedText)
                 }
             }
         }

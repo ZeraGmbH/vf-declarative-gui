@@ -47,6 +47,11 @@ Timer {
         allColorChangePending = true
         restart()
     }
+    function startLocaleChange(locale) {
+        nextLocale = locale
+        localeChangePending = true
+        restart()
+    }
     function getCurrentColor(index) {
         if(!allColorChangePending)
             return CS.currentColorTable[index-1]
@@ -60,6 +65,7 @@ Timer {
     property bool fftShowAnglesPending: false
     property bool digitsTotalPending: false
     property bool decimalPlacesPending: false
+    property bool localeChangePending: false
 
     property bool nextShowAux: false
     property int  nextColorScheme: 0
@@ -68,6 +74,7 @@ Timer {
     property bool nextFftShowAngles: false
     property int  nextDigitsTotal: 0
     property int  nextDecimalPlaces: 0
+    property string nextLocale: ""
 
     function applyPendingChanges() {
         if(auxPhaseSetPending) {
@@ -98,6 +105,10 @@ Timer {
         if(decimalPlacesPending) {
             GC.setDecimalPlaces(nextDecimalPlaces)
             decimalPlacesPending = false
+        }
+        if (localeChangePending) {
+            GC.setLocale(nextLocale, true)
+            localeChangePending = false
         }
     }
     onTriggered: {
