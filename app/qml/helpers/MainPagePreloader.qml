@@ -15,6 +15,7 @@ Item {
     function stopPreloadPages() {
         if (tasksLoaderActivate.loaderStarted) {
             console.info("Deativate preloaded pages.")
+            preloadStartDelay.stop()
             tasksLoaderActivate.stop()
             deactivatePageLoader(pageViewLoader)
             deactivatePageLoader(rangeMModePageLoader)
