@@ -59,15 +59,16 @@ Item {
             {
                 'type': 'block',
                 'callFunction': () => {
-                    console.info("Preload PageView...")
-                    activatePageLoader(pageViewLoader)
-                }
-            },
-            {
-                'type': 'block',
-                'callFunction': () => {
                     console.info("Preload RangeMModePage...")
                     activatePageLoader(rangeMModePageLoader)
+                }
+            },
+            {   // pageViewLoader last: Consider fast user session change => possibe crasher - see preloadStartDelay
+                // => delay session change by letting users wait for pageViewLoader up
+                'type': 'block',
+                'callFunction': () => {
+                    console.info("Preload PageView...")
+                    activatePageLoader(pageViewLoader)
                 }
             },
             {
