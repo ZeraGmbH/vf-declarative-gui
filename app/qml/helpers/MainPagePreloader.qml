@@ -34,15 +34,24 @@ Item {
         taskArray: [
             {   // settingsLoader takes longest => load it first
                 'type': 'block',
-                'callFunction': () => activatePageLoader(settingsLoader)
+                'callFunction': () => {
+                    console.info("Preload SettingsPage...")
+                    activatePageLoader(settingsLoader)
+                }
             },
             {
                 'type': 'block',
-                'callFunction': () => activatePageLoader(pageViewLoader)
+                'callFunction': () => {
+                    console.info("Preload PageView...")
+                    activatePageLoader(pageViewLoader)
+                }
             },
             {
                 'type': 'block',
-                'callFunction': () => activatePageLoader(rangeMModePageLoader)
+                'callFunction': () => {
+                    console.info("Preload RangeMModePage...")
+                    activatePageLoader(rangeMModePageLoader)
+                }
             },
             {
                 'type': 'block',
