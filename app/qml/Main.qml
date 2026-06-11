@@ -65,7 +65,7 @@ Window {
 
     function handeSessionLeave() {
         loadingScreenLoader.item.open()
-        pagePreloader.resetPageLoaders()
+        pagePreloader.stopPreloadPages()
         layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
         pageLoader.active = false
         GC.entityInitializationDone = false

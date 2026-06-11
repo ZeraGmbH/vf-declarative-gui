@@ -13,7 +13,8 @@ Item {
         tasksLoaderActivate.loaderStarted = false
         tasksLoaderActivate.startRun()
     }
-    function resetPageLoaders() {
+    function stopPreloadPages() {
+        console.info("Preload pages stopped.")
         tasksLoaderActivate.loaderStarted = false
         tasksLoaderActivate.stop()
         deactivatePageLoader(pageViewLoader)
