@@ -30,7 +30,7 @@ Item {
         // * session change calls stopPreloadPages() which deactivates all preloaded loaders
         // * ATOW we have qtdeclarative 5.14 which can cause crahsers unloading an unfished async loader
         // => To work around crasher, async loader activation is delayed to be started after session change is caused
-        interval: 2000
+        interval: 3000
         repeat: false
         onTriggered: {
             tasksLoaderActivate.loaderStarted = false
