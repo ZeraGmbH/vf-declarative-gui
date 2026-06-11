@@ -10,19 +10,34 @@ Item {
         bindPageLoaderForEarlyShow(settingsLoader)
     }
     function startPreloadPages() {
-        tasksLoaderActivate.loaderStarted = false
-        tasksLoaderActivate.startRun()
+        preloadStartDelay.start()
     }
     function stopPreloadPages() {
-        console.info("Deativate preloaded pages.")
-        tasksLoaderActivate.loaderStarted = false
-        tasksLoaderActivate.stop()
-        deactivatePageLoader(pageViewLoader)
-        deactivatePageLoader(rangeMModePageLoader)
-        deactivatePageLoader(settingsLoader)
+        if (tasksLoaderActivate.loaderStarted) {
+            console.info("Deativate preloaded pages.")
+            tasksLoaderActivate.stop()
+            deactivatePageLoader(pageViewLoader)
+            deactivatePageLoader(rangeMModePageLoader)
+            deactivatePageLoader(settingsLoader)
+            tasksLoaderActivate.loaderStarted = false
+        }
     }
 
     // private
+    Timer {
+        id: preloadStartDelay
+        // Background
+        // * autobuilder-dut-testsuite hammers session change as fast as possible by SCPI
+        // * session change calls stopPreloadPages() which deactivates all preloaded loaders
+        // * ATOW we have qtdeclarative 5.14 which can cause crahsers unloading an unfished async loader
+        // => To work around crasher, async loader activation is delayed to be started after session change is caused
+        interval: 2000
+        repeat: false
+        onTriggered: {
+            tasksLoaderActivate.loaderStarted = false
+            tasksLoaderActivate.startRun()
+        }
+    }
     function bindPageLoaderForEarlyShow(pageLoader) {
         // ensure user show request is handled before preload finished - binding will be broken
         pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
@@ -68,7 +83,7 @@ Item {
             if (loader.active)
                 return true
             loader.active = true
-            loaderStarted = true
+            tasksLoaderActivate.loaderStarted = true
             return false
         }
     }
