@@ -14,12 +14,14 @@ Item {
         tasksLoaderActivate.startRun()
     }
     function stopPreloadPages() {
-        console.info("Preload pages stopped.")
-        tasksLoaderActivate.loaderStarted = false
-        tasksLoaderActivate.stop()
-        deactivatePageLoader(pageViewLoader)
-        deactivatePageLoader(rangeMModePageLoader)
-        deactivatePageLoader(settingsLoader)
+        if (tasksLoaderActivate.running) {
+            console.info("Preload pages stopped.")
+            tasksLoaderActivate.loaderStarted = false
+            tasksLoaderActivate.stop()
+            deactivatePageLoader(pageViewLoader)
+            deactivatePageLoader(rangeMModePageLoader)
+            deactivatePageLoader(settingsLoader)
+        }
     }
 
     // private
