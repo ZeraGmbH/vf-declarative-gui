@@ -64,6 +64,7 @@ Window {
     }
 
     function handeSessionLeave() {
+        console.info("Handle session leave")
         loadingScreenLoader.item.open()
         pagePreloader.stopPreloadPages()
         layoutStack.currentIndex = GC.layoutStackEnum.layoutPageIndex
