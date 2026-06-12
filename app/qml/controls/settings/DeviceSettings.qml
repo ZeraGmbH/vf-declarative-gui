@@ -1,8 +1,8 @@
-import QtQuick 2.5
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
+import QtQuick 2.14
+import QtQuick.Controls 2.14
+import QtQuick.Layouts 1.14
 import QtQml.Models 2.14
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.14
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import VeinEntity 1.0
@@ -10,7 +10,6 @@ import ZeraTranslation  1.0
 import ZeraVeinComponents 1.0
 import ZeraComponents 1.0
 import FunctionTools 1.0
-
 
 SettingsView {
     id: root
@@ -162,26 +161,25 @@ SettingsView {
         }
     }
 
-    readonly property bool showPll: VeinEntity.hasEntity("SampleModule1") && !VeinEntity.getEntity("SampleModule1").ACT_PllFixed
+    readonly property bool showPll: GC.entityInitializationDone &&
+                                    VeinEntity.hasEntity("SampleModule1") &&
+                                    !VeinEntity.getEntity("SampleModule1").ACT_PllFixed
     model: ObjectModel {
         Loader {
             sourceComponent: swPllAutomatic
             active: showPll
-            asynchronous: true
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
         Loader {
             sourceComponent: cbPllChannel
             active: showPll
-            asynchronous: true
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
         Loader {
             sourceComponent: cbDftChannel
-            active: VeinEntity.hasEntity("DFTModule1")
-            asynchronous: true
+            active: GC.entityInitializationDone && VeinEntity.hasEntity("DFTModule1")
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
@@ -192,8 +190,7 @@ SettingsView {
         }
         Loader {
             sourceComponent: swScpiQueue
-            active: VeinEntity.hasEntity("SCPIModule1") && VeinEntity.getEntity("_System").DevMode
-            asynchronous: true
+            active: GC.entityInitializationDone && VeinEntity.hasEntity("SCPIModule1") && VeinEntity.getEntity("_System").DevMode
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
@@ -205,8 +202,7 @@ SettingsView {
         }
         Loader {
             sourceComponent: vfignoreRmsValues
-            active: VeinEntity.hasEntity("RangeModule1")
-            asynchronous: true
+            active: GC.entityInitializationDone && VeinEntity.hasEntity("RangeModule1")
             height: active ? root.rowHeight : 0
             width: root.rowWidth
         }
