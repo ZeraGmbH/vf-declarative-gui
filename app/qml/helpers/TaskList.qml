@@ -17,7 +17,7 @@ Item {
         callFunction:
           * no parameter
           * return value:
-            * block: functions are expected to return true (ok) / false (error)
+            * block: functions are expected to return true (ok/continue to next task) / false (error/keep current taskArray)
             * rpc functions must return RPC ID
         notifyCallback:
           * if not set use wise default
