@@ -51,15 +51,15 @@ Item {
     }
     Connections {
         target: settingsLoader
-        function onLoaded() { handleLoaded() }
+        function onLoaded() { handleLoaded(settingsLoader) }
     }
     Connections {
         target: pageViewLoader
-        function onLoaded() { handleLoaded() }
+        function onLoaded() { handleLoaded(pageViewLoader) }
     }
     Connections {
         target: rangeMModePageLoader
-        function onLoaded() { handleLoaded() }
+        function onLoaded() { handleLoaded(rangeMModePageLoader) }
     }
 
     // Why is the code in here so complicated:
@@ -87,8 +87,10 @@ Item {
     function tryActivatePageLoader(loader, loaderLoggedName) {
         if (stopRequested)
             Qt.callLater(doStopPreloadPages)
-        doActivatePageLoader(loader, loaderLoggedName)
+        else
+            doActivatePageLoader(loader, loaderLoggedName)
     }
+    property var pendingLoader
     function doActivatePageLoader(loader, loaderLoggedName) {
         if (loader.status === Loader.Ready) {
             console.info(loaderLoggedName + " is already loaded - continue with next.")
@@ -98,11 +100,15 @@ Item {
             console.info("Preload " + loaderLoggedName + "...")
             loaderLoading = true
             loader.active = true
+            pendingLoader = loader
         }
     }
-    function handleLoaded() {
-        loaderLoading = false
-        tasksLoaderActivate.startNextTask()
+    function handleLoaded(loader) {
+        if (loader === pendingLoader) {
+            pendingLoader = null
+            loaderLoading = false
+            tasksLoaderActivate.startNextTask()
+        }
     }
     function doStopPreloadPages() {
         console.info("Deactivate preloaded pages.")
