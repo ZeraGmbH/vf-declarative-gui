@@ -5,98 +5,105 @@ import GlobalConfig 1.0
 Item {
     // public
     function initPageLoaders() {
-        bindPageLoaderForEarlyShow(pageViewLoader)
-        bindPageLoaderForEarlyShow(rangeMModePageLoader)
-        bindPageLoaderForEarlyShow(settingsLoader)
+        bindPageLoaderForShowBeforeActivate(pageViewLoader)
+        bindPageLoaderForShowBeforeActivate(rangeMModePageLoader)
+        bindPageLoaderForShowBeforeActivate(settingsLoader)
     }
     function startPreloadPages() {
-        preloadStartDelay.start()
+        tasksLoaderActivate.startRun()
     }
     function stopPreloadPages() {
-        console.info("Deativate preloaded pages.")
-        preloadStartDelay.stop()
-        tasksLoaderActivate.stop()
-        deactivatePageLoader(pageViewLoader)
-        deactivatePageLoader(rangeMModePageLoader)
-        deactivatePageLoader(settingsLoader)
-        tasksLoaderActivate.loaderStarted = false
+        if (loaderLoading) {
+            console.info("Postpone deactivate preloaded pages...")
+            stopRequested = true
+        }
+        else
+            doStopPreloadPages()
     }
 
     // private
-    Timer {
-        id: preloadStartDelay
-        // Background
-        // * autobuilder-dut-testsuite hammers session change as fast as possible by SCPI
-        // * session change calls stopPreloadPages() which deactivates all preloaded loaders
-        // * ATOW we have qtdeclarative 5.14 which can cause crahsers unloading an unfished async loader
-        // => To work around crasher, async loader activation is delayed to be started after session change is caused
-        interval: 3000
-        repeat: false
-        onTriggered: {
-            tasksLoaderActivate.loaderStarted = false
-            tasksLoaderActivate.startRun()
-        }
-    }
-    function bindPageLoaderForEarlyShow(pageLoader) {
-        // ensure user show request is handled before preload finished - binding will be broken
-        pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
-    }
-    function deactivatePageLoader(pageLoader) {
-        pageLoader.active = false
-    }
     TaskList {
         id: tasksLoaderActivate
         taskArray: [
             {   // settingsLoader takes longest => load it first
                 'type': 'block',
-                'callFunction': () => {
-                    console.info("Preload SettingsPage...")
-                    activatePageLoader(settingsLoader)
-                }
+                'callFunction': () => tryActivatePageLoader(settingsLoader, "Preload SettingsPage...")
+            },
+            {
+                'type': 'block',
+                'callFunction': () => tryActivatePageLoader(rangeMModePageLoader, "Preload RangeMModePage...")
+            },
+            {
+                'type': 'block',
+                'callFunction': () => tryActivatePageLoader(pageViewLoader, "Preload PageView...")
             },
             {
                 'type': 'block',
                 'callFunction': () => {
-                    console.info("Preload RangeMModePage...")
-                    activatePageLoader(rangeMModePageLoader)
-                }
-            },
-            {   // pageViewLoader last: Consider fast user session change => possibe crasher - see preloadStartDelay
-                // => delay session change by letting users wait for pageViewLoader up
-                'type': 'block',
-                'callFunction': () => {
-                    console.info("Preload PageView...")
-                    activatePageLoader(pageViewLoader)
-                }
-            },
-            {
-                'type': 'block',
-                'callFunction': () => {
-                    if (tasksLoaderActivate.loaderStarted)
-                        console.info("All on demand pages preloaded")
+                    console.info("All on demand pages preloaded")
                     return true
                 }
             }
         ]
-        property bool loaderStarted: false
-        function activatePageLoader(loader) {
-            if (loader.active)
-                return true
-            loader.active = true
-            tasksLoaderActivate.loaderStarted = true
-            return false
-        }
     }
     Connections {
         target: settingsLoader
-        function onLoaded() { tasksLoaderActivate.startNextTask() }
+        function onLoaded() { handleLoaded() }
     }
     Connections {
         target: pageViewLoader
-        function onLoaded() { tasksLoaderActivate.startNextTask() }
+        function onLoaded() { handleLoaded() }
     }
     Connections {
         target: rangeMModePageLoader
-        function onLoaded() { tasksLoaderActivate.startNextTask() }
+        function onLoaded() { handleLoaded() }
     }
+
+    // Why is the following so complicated:
+    // * ATOW we have qtdeclarative 5.14 which can cause crashers unloading an unfished async loader
+    // * autobuilder-dut-testsuite hammers session change as fast as possible by SCPI
+    // => Avoid decativating an unfished activation by
+    //    waiting for loader to finish activate before deactivate
+    //
+    // Consequence: The original idea of deactivating loaders during session change was to avoid gazillions
+    // of warnings complaing about missing entities/components as:
+    // | No entity found with name: "RangeModule1"
+    // or
+    // | qrc:/qml/controls/ranges/RatioLine.qml:41: TypeError: Cannot read property '0' of undefined
+    // By delaying loader deactivate they are back so we might consider fixing them...
+
+    property bool loaderLoading: false
+    property bool stopRequested: false
+    function bindPageLoaderForShowBeforeActivate(pageLoader) {
+        // ensure user show request is handled before preload finished - binding will be broken
+        pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
+    }
+    function tryActivatePageLoader(loader, msgText) {
+        if (!stopRequested)
+            return doActivatePageLoader(loader, msgText)
+
+        Qt.callLater(doStopPreloadPages)
+        return false
+    }
+    function doActivatePageLoader(loader, msgText) {
+        console.info(msgText)
+        if (loader.active)
+            return true
+        loaderLoading = true
+        loader.active = true
+        return false
+    }
+    function handleLoaded() {
+        loaderLoading = false
+        tasksLoaderActivate.startNextTask()
+    }
+    function doStopPreloadPages() {
+        console.info("Deactivate preloaded pages.")
+        stopRequested = false
+        tasksLoaderActivate.stop()
+        pageViewLoader.active = false
+        rangeMModePageLoader.active = false
+        settingsLoader.active = false
+    }
+
 }
