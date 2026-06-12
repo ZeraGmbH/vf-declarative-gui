@@ -4,19 +4,21 @@ import QtQuick.Controls.Material 2.14
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 import VeinEntity 1.0
+import GlobalConfig 1.0
 import ZeraTranslation 1.0
 
 Item {
     property int prescalingGroup
     readonly property bool hasSqrtFactor: prescalingGroup === 0
     readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
-    readonly property string groupComponentName: "PAR_PreScalingGroup" + prescalingGroup
-    readonly property var groupValues: rangeModule[groupComponentName].split("*")[0].split("/")
+    readonly property string groupComponentName: GC.entityInitializationDone ? "PAR_PreScalingGroup" + prescalingGroup : ""
+    readonly property var groupValues: GC.entityInitializationDone ? rangeModule[groupComponentName].split("*")[0].split("/") : []
     readonly property real ratioEditWidth: width * 0.15
     readonly property real sqrtComboWidth: width * 0.15
     readonly property color enableTextColor: enableRatio.checked ? Qt.lighter(Material.color(Material.Amber)) : Material.foreground
     function setRatioValueComponents(nominator, denominator, sqrtText) {
-        rangeModule[groupComponentName] = nominator + "/" + denominator + (hasSqrtFactor ? sqrtText : "")
+        if (GC.entityInitializationDone)
+            rangeModule[groupComponentName] = nominator + "/" + denominator + (hasSqrtFactor ? sqrtText : "")
     }
 
     VFSwitch{
@@ -38,7 +40,7 @@ Item {
         height: rowHeight
         pointSize: root.pointSize
 
-        text: groupValues[0]
+        text: GC.entityInitializationDone ? groupValues[0] : ""
         textField.color: enableTextColor
         validator: IntValidator{bottom: 1; top: 999999 }
         function doApplyInput(newText) {
@@ -59,7 +61,7 @@ Item {
         anchors.left: labelSeparator.right
         pointSize: root.pointSize
 
-        text: groupValues[1]
+        text: GC.entityInitializationDone ? groupValues[1] : ""
         textField.color: enableTextColor
         validator: IntValidator{bottom: 1; top: 999999 }
         function doApplyInput(newText) {
@@ -91,6 +93,8 @@ Item {
             return veinValueModel[model.indexOf(selectedText)]
         }
         currentIndex: {
+            if (!GC.entityInitializationDone)
+                return 0
             if(rangeModule[groupComponentName].includes("(1/sqrt(3))"))
                 return 2
             else if(rangeModule[groupComponentName].includes("(sqrt(3))"))
