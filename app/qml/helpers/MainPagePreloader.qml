@@ -59,18 +59,15 @@ Item {
         function onLoaded() { handleLoaded() }
     }
 
-    // Why is the following so complicated:
-    // * ATOW we have qtdeclarative 5.14 which can cause crashers unloading an unfished async loader
-    // * autobuilder-dut-testsuite hammers session change as fast as possible by SCPI
-    // => Avoid decativating an unfished activation by
-    //    waiting for loader to finish activate before deactivate
+    // Why is the code in here so complicated:
+    // We have:
+    // * Deactivating loaders during session change accelerates session change significantly => we want that
+    // * ATOW qtdeclarative (5.14) can cause crashers unloading unfished async loaders. Attempts to backport
+    //   patches failed whole system with later versions is a huge task...
+    // * autobuilder-dut-testsuite hammers session change at high rate by SCPI => sporadic crashers
     //
-    // Consequence: The original idea of deactivating loaders during session change was to avoid gazillions
-    // of warnings complaing about missing entities/components as:
-    // | No entity found with name: "RangeModule1"
-    // or
-    // | qrc:/qml/controls/ranges/RatioLine.qml:41: TypeError: Cannot read property '0' of undefined
-    // By delaying loader deactivate they are back so we might consider fixing them...
+    // => The workaround is to avoid decativation of loaders which have not finished loading by waiting on
+    //    activation/loading to finish before starting deactivation
 
     property bool loaderLoading: false
     property bool stopRequested: false
