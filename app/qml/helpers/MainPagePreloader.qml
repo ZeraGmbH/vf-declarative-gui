@@ -65,8 +65,8 @@ Item {
     // Why is the code in here so complicated:
     // We have:
     // * Deactivating loaders during session change accelerates session change significantly => we want that
-    // * ATOW qtdeclarative (5.14) can cause crashers unloading unfished async loaders. Attempts to backport
-    //   patches failed whole system with later versions is a huge task...
+    // * ATTOW qtdeclarative (5.14) can cause crashers unloading unfished async loaders. Attempts to backport
+    //   patches failed / whole system update with later versions is a huge task...
     // * autobuilder-dut-testsuite hammers session change at high rate by SCPI => sporadic crashers
     //
     // => The workaround is to avoid decativation of loaders which have not finished loading by waiting on
