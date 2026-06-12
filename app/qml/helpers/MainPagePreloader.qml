@@ -93,7 +93,7 @@ Item {
     }
     function doActivatePageLoader(loader, msgText) {
         console.info(msgText)
-        if (loader.active && loader.status === Loader.Ready)
+        if (loader.status === Loader.Ready)
             return true
         loaderLoading = true
         loader.active = true
