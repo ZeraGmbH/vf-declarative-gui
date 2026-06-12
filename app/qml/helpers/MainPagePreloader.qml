@@ -4,12 +4,8 @@ import GlobalConfig 1.0
 
 Item {
     // public
-    function initPageLoaders() {
-        bindPageLoaderForShowBeforeActivate(pageViewLoader)
-        bindPageLoaderForShowBeforeActivate(rangeMModePageLoader)
-        bindPageLoaderForShowBeforeActivate(settingsLoader)
-    }
     function startPreloadPages() {
+        stopRequested = false
         tasksLoaderActivate.startRun()
     }
     function stopPreloadPages() {
@@ -25,6 +21,13 @@ Item {
     TaskList {
         id: tasksLoaderActivate
         taskArray: [
+            {
+                'type': 'block',
+                'callFunction': () => {
+                    initPageLoaders()
+                    return true
+                }
+            },
             {   // settingsLoader takes longest => load it first
                 'type': 'block',
                 'callFunction': () => tryActivatePageLoader(settingsLoader, "Preload SettingsPage...")
@@ -71,20 +74,26 @@ Item {
 
     property bool loaderLoading: false
     property bool stopRequested: false
+    function initPageLoaders() {
+        console.info("Establish temporary fallback for opening pages before loaded.")
+        bindPageLoaderForShowBeforeActivate(pageViewLoader)
+        bindPageLoaderForShowBeforeActivate(rangeMModePageLoader)
+        bindPageLoaderForShowBeforeActivate(settingsLoader)
+    }
     function bindPageLoaderForShowBeforeActivate(pageLoader) {
         // ensure user show request is handled before preload finished - binding will be broken
         pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
     }
     function tryActivatePageLoader(loader, msgText) {
-        if (!stopRequested)
-            return doActivatePageLoader(loader, msgText)
-
-        Qt.callLater(doStopPreloadPages)
-        return false
+        if (stopRequested) {
+            Qt.callLater(doStopPreloadPages)
+            return false
+        }
+        return doActivatePageLoader(loader, msgText)
     }
     function doActivatePageLoader(loader, msgText) {
         console.info(msgText)
-        if (loader.active)
+        if (loader.active && loader.status === Loader.Ready)
             return true
         loaderLoading = true
         loader.active = true

@@ -73,7 +73,6 @@ Window {
         sessionChangeTimeout.start()
     }
     function handleSessionEnter() {
-        pagePreloader.initPageLoaders()
         pageLoader.active = true // async -> as early as possible
         dynamicPageModel.clear()
         ModuleIntrospection.reloadIntrospection();
