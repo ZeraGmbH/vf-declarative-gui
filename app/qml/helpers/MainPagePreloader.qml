@@ -29,16 +29,16 @@ Item {
                 }
             },
             {   // settingsLoader takes longest => load it first
-                'type': 'block',
-                'callFunction': () => { return tryActivatePageLoader(settingsLoader, "SettingsPage") }
+                'type': 'unblock',
+                'callFunction': () => tryActivatePageLoader(settingsLoader, "SettingsPage")
             },
             {
-                'type': 'block',
-                'callFunction': () => { return tryActivatePageLoader(rangeMModePageLoader, "RangeMModePage") }
+                'type': 'unblock',
+                'callFunction': () => tryActivatePageLoader(rangeMModePageLoader, "RangeMModePage")
             },
             {
-                'type': 'block',
-                'callFunction': () => { return tryActivatePageLoader(pageViewLoader, "PageView") }
+                'type': 'unblock',
+                'callFunction': () => tryActivatePageLoader(pageViewLoader, "PageView")
             },
             {
                 'type': 'block',
@@ -85,21 +85,20 @@ Item {
         pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
     }
     function tryActivatePageLoader(loader, loaderLoggedName) {
-        if (stopRequested) {
+        if (stopRequested)
             Qt.callLater(doStopPreloadPages)
-            return false
-        }
-        return doActivatePageLoader(loader, loaderLoggedName)
+        doActivatePageLoader(loader, loaderLoggedName)
     }
     function doActivatePageLoader(loader, loaderLoggedName) {
         if (loader.status === Loader.Ready) {
             console.info(loaderLoggedName + " is already loaded - continue with next.")
-            return true
+            tasksLoaderActivate.startNextTask()
         }
-        console.info("Preload " + loaderLoggedName + "...")
-        loaderLoading = true
-        loader.active = true
-        return false
+        else {
+            console.info("Preload " + loaderLoggedName + "...")
+            loaderLoading = true
+            loader.active = true
+        }
     }
     function handleLoaded() {
         loaderLoading = false
