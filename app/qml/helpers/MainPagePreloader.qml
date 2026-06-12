@@ -30,15 +30,15 @@ Item {
             },
             {   // settingsLoader takes longest => load it first
                 'type': 'block',
-                'callFunction': () => tryActivatePageLoader(settingsLoader, "Preload SettingsPage...")
+                'callFunction': () => { return tryActivatePageLoader(settingsLoader, "Preload SettingsPage...") }
             },
             {
                 'type': 'block',
-                'callFunction': () => tryActivatePageLoader(rangeMModePageLoader, "Preload RangeMModePage...")
+                'callFunction': () => { return tryActivatePageLoader(rangeMModePageLoader, "Preload RangeMModePage...") }
             },
             {
                 'type': 'block',
-                'callFunction': () => tryActivatePageLoader(pageViewLoader, "Preload PageView...")
+                'callFunction': () => { return tryActivatePageLoader(pageViewLoader, "Preload PageView...") }
             },
             {
                 'type': 'block',
