@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.14
 import ZeraTranslation 1.0
 import VeinEntity 1.0
 import ZeraComponents 1.0
+import GlobalConfig 1.0
 import ColorSettings 1.0
 import MeasChannelInfo 1.0
 import ZeraThemeConfig 1.0
@@ -22,13 +23,15 @@ ZButton {
     }
     readonly property string text_color: {
         let color = ZTC.primaryTextColor
-        for(var i = 1; i <= MeasChannelInfo.channelCountTotal; i++){
-            if (rangeModule["PAR_InvertPhase%1".arg(i)] === 1) {
-                if(visibility===true)
-                    color = "darkorange"
-                else
-                    color = ZTC.primaryTextColor
-                break
+        if (GC.entityInitializationDone) {
+            for (var i = 1; i <= MeasChannelInfo.channelCountTotal; i++){
+                if (rangeModule["PAR_InvertPhase%1".arg(i)] === 1) {
+                    if(visibility===true)
+                        color = "darkorange"
+                    else
+                        color = ZTC.primaryTextColor
+                    break
+                }
             }
         }
         return color
@@ -63,12 +66,17 @@ ZButton {
             Repeater {
                 model: MeasChannelInfo.channelCountTotal
                 delegate: ZCheckBox {
-                    checked: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])]
-                    text: "<font color=\"" + CS.getColorByIndexWithReference(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>"
+                    checked: GC.entityInitializationDone ? rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])] : false
+                    text: GC.entityInitializationDone ?
+                              "<font color=\"" + CS.getColorByIndexWithReference(phaseNamesInOrder[index][1]) + "\">" + phaseNamesInOrder[index][0] + "</font>" :
+                              ""
                     height: invertPhasesButton.height
                     width: root.width * 0.15
                     controlHeight: height * 0.3
-                    onCheckedChanged: rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])] = checked
+                    onCheckedChanged: {
+                        if(GC.entityInitializationDone)
+                            rangeModule["PAR_InvertPhase%1".arg(phaseNamesInOrder[index][1])] = checked
+                    }
                 }
             }
         }
