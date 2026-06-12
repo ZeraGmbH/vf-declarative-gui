@@ -30,20 +30,20 @@ Item {
             },
             {   // settingsLoader takes longest => load it first
                 'type': 'block',
-                'callFunction': () => { return tryActivatePageLoader(settingsLoader, "Preload SettingsPage...") }
+                'callFunction': () => { return tryActivatePageLoader(settingsLoader, "SettingsPage") }
             },
             {
                 'type': 'block',
-                'callFunction': () => { return tryActivatePageLoader(rangeMModePageLoader, "Preload RangeMModePage...") }
+                'callFunction': () => { return tryActivatePageLoader(rangeMModePageLoader, "RangeMModePage") }
             },
             {
                 'type': 'block',
-                'callFunction': () => { return tryActivatePageLoader(pageViewLoader, "Preload PageView...") }
+                'callFunction': () => { return tryActivatePageLoader(pageViewLoader, "PageView") }
             },
             {
                 'type': 'block',
                 'callFunction': () => {
-                    console.info("All on demand pages preloaded")
+                    console.info("All on demand pages preloaded.")
                     return true
                 }
             }
@@ -75,7 +75,7 @@ Item {
     property bool loaderLoading: false
     property bool stopRequested: false
     function initPageLoaders() {
-        console.info("Establish temporary fallback for opening pages before loaded.")
+        console.info("Establish temporary fallback to open pages before loaded.")
         bindPageLoaderForShowBeforeActivate(pageViewLoader)
         bindPageLoaderForShowBeforeActivate(rangeMModePageLoader)
         bindPageLoaderForShowBeforeActivate(settingsLoader)
@@ -84,17 +84,19 @@ Item {
         // ensure user show request is handled before preload finished - binding will be broken
         pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
     }
-    function tryActivatePageLoader(loader, msgText) {
+    function tryActivatePageLoader(loader, loaderLoggedName) {
         if (stopRequested) {
             Qt.callLater(doStopPreloadPages)
             return false
         }
-        return doActivatePageLoader(loader, msgText)
+        return doActivatePageLoader(loader, loaderLoggedName)
     }
-    function doActivatePageLoader(loader, msgText) {
-        console.info(msgText)
-        if (loader.status === Loader.Ready)
+    function doActivatePageLoader(loader, loaderLoggedName) {
+        if (loader.status === Loader.Ready) {
+            console.info(loaderLoggedName + " is already loaded - continue with next.")
             return true
+        }
+        console.info("Preload " + loaderLoggedName + "...")
         loaderLoading = true
         loader.active = true
         return false
@@ -111,5 +113,4 @@ Item {
         rangeMModePageLoader.active = false
         settingsLoader.active = false
     }
-
 }
