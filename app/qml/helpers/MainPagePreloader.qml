@@ -10,7 +10,7 @@ Item {
     }
     function stopPreloadPages() {
         if (loaderLoading) {
-            console.info("Postpone deactivate preloaded pages...")
+            console.info("Postpone deactivation of preloaded pages...")
             stopRequested = true
         }
         else
