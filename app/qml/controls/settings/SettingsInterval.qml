@@ -17,8 +17,8 @@ Item {
     height: hasPeriodIntegration ? 2*rowHeight : rowHeight
 
     readonly property QtObject integrationGlobalEntity: VeinEntity.getEntity("DspSuperModule1")
-    readonly property bool hasTimeIntegration: integrationGlobalEntity.hasComponent('PAR_IntervalGlobalTime')
-    readonly property bool hasPeriodIntegration: integrationGlobalEntity.hasComponent('PAR_IntervalGlobalPeriod')
+    readonly property bool hasTimeIntegration: GC.entityInitializationDone ? integrationGlobalEntity.hasComponent('PAR_IntervalGlobalTime') : false
+    readonly property bool hasPeriodIntegration: GC.entityInitializationDone ? integrationGlobalEntity.hasComponent('PAR_IntervalGlobalPeriod') : false
     readonly property var componentInfo: ModuleIntrospection.dspSuperIntrospection.ComponentInfo
     readonly property var validatorTime: hasTimeIntegration ? componentInfo.PAR_IntervalGlobalTime.Validation : ""
     readonly property var validatorPeriod: hasPeriodIntegration ? componentInfo.PAR_IntervalGlobalPeriod.Validation : ""
