@@ -7,7 +7,7 @@ import FunctionTools 1.0
 import ModuleIntrospection 1.0
 import GlobalConfig 1.0
 import VeinEntity 1.0
-import ZeraTranslation  1.0
+import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
 
@@ -19,12 +19,14 @@ SettingsView {
     rowHeight: Math.max(height/8.5, 10)
     readonly property real pointSize: rowHeight * 0.34
     readonly property int decimalPlaces: 1
-    readonly property bool bluetoothOn: bleSensorEnt.PAR_BluetoothOn !== 0
+    readonly property bool bluetoothOn: GC.entityInitializationDone ? bleSensorEnt.PAR_BluetoothOn !== 0 : false
 
     function valuesFound() {
-        let onValueAvail = !isNaN(VeinEntity.getEntity("BleModule1").ACT_TemperatureC) ||
-                           !isNaN(VeinEntity.getEntity("BleModule1").ACT_Humidity) ||
-                           !isNaN(VeinEntity.getEntity("BleModule1").ACT_AirPressure)
+        if (!GC.entityInitializationDone)
+            return false
+        let onValueAvail = !isNaN(bleSensorEnt.ACT_TemperatureC) ||
+                           !isNaN(bleSensorEnt.ACT_Humidity) ||
+                           !isNaN(bleSensorEnt.ACT_AirPressure)
         var retVal = false;
         if(onValueAvail)
             retVal = true;
@@ -125,7 +127,7 @@ SettingsView {
                 }
                 Label {
                     font.pointSize: root.pointSize
-                    text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureC), GC.digitsTotal, decimalPlaces)
+                    text: GC.entityInitializationDone ? FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureC), GC.digitsTotal, decimalPlaces) : ""
                 }
             }
         }
@@ -145,7 +147,7 @@ SettingsView {
                 }
                 Label {
                     font.pointSize: root.pointSize
-                    text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureF), GC.digitsTotal, decimalPlaces)
+                    text: GC.entityInitializationDone ? FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_TemperatureF), GC.digitsTotal, decimalPlaces) : ""
                 }
             }
         }
@@ -165,7 +167,7 @@ SettingsView {
                 }
                 Label {
                     font.pointSize: root.pointSize
-                    text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_Humidity), GC.digitsTotal, decimalPlaces)
+                    text: GC.entityInitializationDone ? FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_Humidity), GC.digitsTotal, decimalPlaces) : ""
                 }
             }
         }
@@ -185,7 +187,7 @@ SettingsView {
                 }
                 Label {
                     font.pointSize: root.pointSize
-                    text: FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_AirPressure), GC.digitsTotal, decimalPlaces)
+                    text: GC.entityInitializationDone ? FT.formatNumberParam(parseFloat(bleSensorEnt.ACT_AirPressure), GC.digitsTotal, decimalPlaces) : ""
                 }
             }
         }
