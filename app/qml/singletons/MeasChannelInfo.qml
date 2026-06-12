@@ -9,17 +9,19 @@ Item {
     readonly property int channelCountTotal: GC.entityInitializationDone ? ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount : 0
     readonly property var channelNames: {
         var names = []
-        for(var systemChannelNo=1; systemChannelNo<=channelCountTotal; systemChannelNo++) { // systemChannelNo is 1-based !!!
-            var channelRangeComponent = "PAR_Channel"+parseInt(systemChannelNo)+"Range"
-            var name = ModuleIntrospection.rangeIntrospection.ComponentInfo[channelRangeComponent].ChannelName
-            names.push(name)
+        if (GC.entityInitializationDone) {
+            for(var systemChannelNo=1; systemChannelNo<=channelCountTotal; systemChannelNo++) { // systemChannelNo is 1-based !!!
+                var channelRangeComponent = "PAR_Channel"+parseInt(systemChannelNo)+"Range"
+                var name = ModuleIntrospection.rangeIntrospection.ComponentInfo[channelRangeComponent].ChannelName
+                names.push(name)
+            }
         }
         return names
     }
 
     // Assumptions - range module should get more supportive...
-    readonly property var voltageChannelIds: channelCountTotal >= 7 ? [1,2,3,7] : [1,2,3]
-    readonly property var currentChannelIds: channelCountTotal >= 8 ? [4,5,6,8] : [4,5,6]
+    readonly property var voltageChannelIds: GC.entityInitializationDone ? (channelCountTotal >= 7 ? [1,2,3,7] : [1,2,3]) : []
+    readonly property var currentChannelIds: GC.entityInitializationDone ? (channelCountTotal >= 8 ? [4,5,6,8] : [4,5,6]) : []
     // Hard codings - RangeLine is not prepared for other than first group member
     readonly property int voltageGroupLeaderIdx: voltageChannelIds.length > 0 ? voltageChannelIds[0] : 0
     readonly property int voltageGroupTrailerIdx: voltageChannelIds.length > 0 ? 3 : 0
