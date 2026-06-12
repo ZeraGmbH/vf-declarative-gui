@@ -126,7 +126,7 @@ SettingsView {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
-            ZVisualComboBox {
+            ZPixmapComboBox {
                 id: localeCB
                 model: ZTR.localesModel
                 imageModel: ZTR.flagsModel
