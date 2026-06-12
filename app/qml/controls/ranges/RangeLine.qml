@@ -37,7 +37,7 @@ ListView {
         width: (ranges.width - (channelCount-1)*spacing) / channelCount
         height: ranges.height
         readonly property int systemChannelNo: channels[index] // 1-based!!
-        readonly property string channelName: MeasChannelInfo.channelNames[systemChannelNo-1]
+        readonly property string channelName: GC.entityInitializationDone ? MeasChannelInfo.channelNames[systemChannelNo-1] : ""
         readonly property string rangeComponentName: "PAR_Channel"+parseInt(systemChannelNo)+"Range"
         readonly property bool isGroupLeader: systemChannelNo === MeasChannelInfo.voltageGroupLeaderIdx || systemChannelNo === MeasChannelInfo.currentGroupLeaderIdx
         readonly property bool isLeaderOrNotInGroup: isGroupLeader || !MeasChannelInfo.isGroupMember(channelsRow.systemChannelNo)
@@ -64,8 +64,8 @@ ListView {
             horizontal: true
             // TODO:
             // * DC displays too small values: peak / sqrt2
-            nominal: Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"])
-            actual: Number(rangeModule["ACT_Channel"+(channelsRow.systemChannelNo)+"Rms"])
+            nominal: GC.entityInitializationDone ? Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActREJ"]) : 1.0
+            actual: GC.entityInitializationDone ? Number(rangeModule["ACT_Channel"+(channelsRow.systemChannelNo)+"Rms"]) : 1.0
             overshootFactor: Number(rangeModule["INF_Channel"+(channelsRow.systemChannelNo)+"ActOVLREJ"]) / nominal
 
             MouseArea {
