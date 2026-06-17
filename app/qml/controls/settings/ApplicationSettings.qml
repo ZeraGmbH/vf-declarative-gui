@@ -126,6 +126,9 @@ SettingsView {
                 Layout.fillHeight: true
                 verticalAlignment: Label.AlignVCenter
             }
+            // Note: Pixmaps eat > 20MB of RAM once loaded
+            // To work around we used ZSvgComboBox which had acceptable performance but
+            // QSvgRenderer supports minimal SVG and paints at least en_GB wrong
             ZPixmapComboBox {
                 id: localeCB
                 model: ZTR.localesModel
