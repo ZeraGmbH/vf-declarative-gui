@@ -105,26 +105,6 @@ SettingsView {
     }
 
     Component {
-        id: swScpiQueue
-        RowLayout {
-            anchors.fill: parent
-            Label {
-                textFormat: Text.PlainText
-                text: Z.tr("SCPI sequential mode:")
-                font.pointSize: pointSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                verticalAlignment: Label.AlignVCenter
-            }
-            VFSwitch {
-                Layout.fillHeight: true
-                entity: VeinEntity.getEntity("SCPIModule1")
-                controlPropertyName: "PAR_OptionalScpiQueue"
-            }
-        }
-    }
-
-    Component {
         id: vfignoreRmsValues
         RowLayout {
             anchors.fill: parent
@@ -187,12 +167,6 @@ SettingsView {
             rowHeight: root.rowHeight
             width: root.rowWidth;
             pointSize: root.pointSize
-        }
-        Loader {
-            sourceComponent: swScpiQueue
-            active: GC.entityInitializationDone && VeinEntity.hasEntity("SCPIModule1") && VeinEntity.getEntity("_System").DevMode
-            height: active ? root.rowHeight : 0
-            width: root.rowWidth
         }
         SerialSettings {
             height: root.rowHeight * Math.min(ttyCount, 4)
