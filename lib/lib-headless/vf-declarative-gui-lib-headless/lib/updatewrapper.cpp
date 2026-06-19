@@ -5,6 +5,10 @@
 #include <QDebug>
 #include <QProcess>
 #include <QStorageInfo>
+#include <QUrl>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 void UpdateWrapper::startInstallation()
 {
@@ -46,6 +50,111 @@ void UpdateWrapper::startInstallation()
             item = m_pathToZups + "/" + item;
 
         m_zupsToBeInstalled = sanitizedList;
+        return true;
+    });
+    m_tasks->addSub(std::move(accquirePackageList));
+
+    TaskTemplatePtr installPackagesViaClient = TaskLambdaRunner::create([this]() {
+        QProcess updateClient;
+        QString updateClientExecutable("zera-update-client");
+        for (const QString &item : qAsConst(m_zupsToBeInstalled)) {
+            QStringList clientArgs;
+            clientArgs << "--auto-start" << "--auto-close" << item;
+            qInfo() << "starting: " << updateClientExecutable << " " << clientArgs;
+            updateClient.start(updateClientExecutable, clientArgs);
+            updateClient.waitForFinished(-1);
+            if(errorInLastLog() ||
+                (updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0))
+                return false;
+        }
+        return true;
+    });
+    m_tasks->addSub(std::move(installPackagesViaClient));
+
+    connect(m_tasks.get(), &TaskContainerSequence::sigFinish, this, &UpdateWrapper::onTaskFinished);
+    m_tasks->start();
+}
+
+void UpdateWrapper::updateDevice()
+{
+    qInfo() << "Start Installation of update";
+    setStatus(UpdateStatus::InProgress);
+    m_zupFilesNum = 2;
+
+    downloadZupFile("zera-updater.zup");
+    downloadZupFile("com5003-mt310s2.zup");
+    m_pathToZups = "/tmp";
+}
+
+void UpdateWrapper::prepareReleaseUpdate()
+{
+    QUrl url("https://api.github.com/repos/ZeraGmbH/zenux-data/releases/latest");
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::UserAgentHeader, "MyQtApp");
+    QNetworkReply *reply = m_manager.get(request);
+
+    connect(reply, &QNetworkReply::finished, [reply, this](){
+        QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+        QJsonObject obj = doc.object();
+        setReleaseVersion(obj["tag_name"].toString());
+        setReleaseText(obj["body"].toString());
+        reply->deleteLater();
+    });
+}
+
+void UpdateWrapper::downloadZupFile(const QString &fileName)
+{
+    QString downloadString  = "https://github.com/ZeraGmbH/zenux-data/releases/latest/download/";
+    QUrl url(downloadString + fileName);
+    QNetworkRequest request(url);
+    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+    QNetworkReply *reply = m_manager.get(request);
+
+    connect(reply, &QNetworkReply::finished, [reply, fileName, this]() {
+        if (reply->error() != QNetworkReply::NoError) {
+            qWarning("Download failed: %s", qPrintable(reply->errorString()));
+            reply->deleteLater();
+            setStatus(UpdateStatus::Failure);
+        }
+        else {
+            QFile file("/tmp/" + fileName);
+            if (file.open(QIODevice::WriteOnly)) {
+                file.write(reply->readAll());
+                file.close();
+            }
+            reply->deleteLater();
+            m_zupFilesNum --;
+        }
+        if(m_zupFilesNum == 0)
+            continueUpdate();
+    });
+}
+
+void UpdateWrapper::continueUpdate()
+{
+    m_tasks = TaskContainerSequence::create();
+
+    TaskTemplatePtr checkAvailableSpace = TaskLambdaRunner::create([this]() {
+        QStorageInfo storageInfo = QStorageInfo::root();
+        int megaBytesAvailable = storageInfo.bytesAvailable()/1000/1000;
+        if (megaBytesAvailable < 400) {
+            qWarning() << "Not enough space available: " << megaBytesAvailable << " MB";
+            setStatus(UpdateStatus::NotEnoughSpace);
+            return false;
+        }
+        return true;
+    });
+    m_tasks->addSub(std::move(checkAvailableSpace));
+
+    TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
+        QStringList unOrderedZupList = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
+        QStringList orderedZupList = orderPackageList(unOrderedZupList);
+        if(orderedZupList.empty())
+            return false;
+        for (auto &item : orderedZupList)
+            item = m_pathToZups + "/" + item;
+
+        m_zupsToBeInstalled = orderedZupList;
         return true;
     });
     m_tasks->addSub(std::move(accquirePackageList));
@@ -137,6 +246,30 @@ void UpdateWrapper::setUpdateOk(bool ok)
 {
     m_updateOk = ok;
     emit sigUpdateOkChanged();
+}
+
+QString UpdateWrapper::getReleaseVersion()
+{
+    // from Git tag
+    // tests
+    return m_releaseVersion;
+}
+
+void UpdateWrapper::setReleaseVersion(QString releaseVersion)
+{
+    m_releaseVersion = releaseVersion;
+    emit sigReleaseVersionChanged();
+}
+
+QString UpdateWrapper::getReleaseText()
+{
+    return m_releaseText;
+}
+
+void UpdateWrapper::setReleaseText(QString releaseText)
+{
+    m_releaseText = releaseText;
+    emit sigReleaseTextChanged();
 }
 
 UpdateWrapper::UpdateStatus UpdateWrapper::getStatus() const
