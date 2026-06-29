@@ -28,47 +28,13 @@ void UpdateWrapper::startInstallation()
     });
     m_tasks->addSub(std::move(findCorrectMountLocation));
 
-    TaskTemplatePtr checkAvailableSpace = TaskLambdaRunner::create([this]() {
-        QStorageInfo storageInfo = QStorageInfo::root();
-        int megaBytesAvailable = storageInfo.bytesAvailable()/1000/1000;
-        if (megaBytesAvailable < 400) {
-            qWarning() << "Not enough space available: " << megaBytesAvailable << " MB";
-            setStatus(UpdateStatus::NotEnoughSpace);
-            return false;
-        }
-        return true;
-    });
+    TaskTemplatePtr checkAvailableSpace = checkStorage();
     m_tasks->addSub(std::move(checkAvailableSpace));
 
-    TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
-        QStringList unOrderedZupList = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
-        QStringList orderedZupList = orderPackageList(unOrderedZupList);
-        QStringList sanitizedList = removeNonMatchingLicenses(orderedZupList);
-        if(sanitizedList.empty())
-            return false;
-        for (auto &item : sanitizedList)
-            item = m_pathToZups + "/" + item;
-
-        m_zupsToBeInstalled = sanitizedList;
-        return true;
-    });
+    TaskTemplatePtr accquirePackageList = getPackageList();
     m_tasks->addSub(std::move(accquirePackageList));
 
-    TaskTemplatePtr installPackagesViaClient = TaskLambdaRunner::create([this]() {
-        QProcess updateClient;
-        QString updateClientExecutable("zera-update-client");
-        for (const QString &item : qAsConst(m_zupsToBeInstalled)) {
-            QStringList clientArgs;
-            clientArgs << "--auto-start" << "--auto-close" << item;
-            qInfo() << "starting: " << updateClientExecutable << " " << clientArgs;
-            updateClient.start(updateClientExecutable, clientArgs);
-            updateClient.waitForFinished(-1);
-            if(errorInLastLog() ||
-                (updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0))
-                return false;
-        }
-        return true;
-    });
+    TaskTemplatePtr installPackagesViaClient = installPackages();
     m_tasks->addSub(std::move(installPackagesViaClient));
 
     connect(m_tasks.get(), &TaskContainerSequence::sigFinish, this, &UpdateWrapper::onTaskFinished);
@@ -93,7 +59,7 @@ void UpdateWrapper::prepareReleaseUpdate()
     request.setHeader(QNetworkRequest::UserAgentHeader, "MyQtApp");
     QNetworkReply *reply = m_manager.get(request);
 
-    connect(reply, &QNetworkReply::finished, [reply, this](){
+    connect(reply, &QNetworkReply::finished, this, [reply, this](){
         QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
         QJsonObject obj = doc.object();
         setReleaseVersion(obj["tag_name"].toString());
@@ -107,10 +73,10 @@ void UpdateWrapper::downloadZupFile(const QString &fileName)
     QString downloadString  = "https://github.com/ZeraGmbH/zenux-data/releases/latest/download/";
     QUrl url(downloadString + fileName);
     QNetworkRequest request(url);
-    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, true);
     QNetworkReply *reply = m_manager.get(request);
 
-    connect(reply, &QNetworkReply::finished, [reply, fileName, this]() {
+    connect(reply, &QNetworkReply::finished, this, [reply, fileName, this]() {
         if (reply->error() != QNetworkReply::NoError) {
             qWarning("Download failed: %s", qPrintable(reply->errorString()));
             reply->deleteLater();
@@ -134,46 +100,13 @@ void UpdateWrapper::continueUpdate()
 {
     m_tasks = TaskContainerSequence::create();
 
-    TaskTemplatePtr checkAvailableSpace = TaskLambdaRunner::create([this]() {
-        QStorageInfo storageInfo = QStorageInfo::root();
-        int megaBytesAvailable = storageInfo.bytesAvailable()/1000/1000;
-        if (megaBytesAvailable < 400) {
-            qWarning() << "Not enough space available: " << megaBytesAvailable << " MB";
-            setStatus(UpdateStatus::NotEnoughSpace);
-            return false;
-        }
-        return true;
-    });
+    TaskTemplatePtr checkAvailableSpace = checkStorage();
     m_tasks->addSub(std::move(checkAvailableSpace));
 
-    TaskTemplatePtr accquirePackageList = TaskLambdaRunner::create([this]() {
-        QStringList unOrderedZupList = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
-        QStringList orderedZupList = orderPackageList(unOrderedZupList);
-        if(orderedZupList.empty())
-            return false;
-        for (auto &item : orderedZupList)
-            item = m_pathToZups + "/" + item;
-
-        m_zupsToBeInstalled = orderedZupList;
-        return true;
-    });
+    TaskTemplatePtr accquirePackageList = getPackageList();
     m_tasks->addSub(std::move(accquirePackageList));
 
-    TaskTemplatePtr installPackagesViaClient = TaskLambdaRunner::create([this]() {
-        QProcess updateClient;
-        QString updateClientExecutable("zera-update-client");
-        for (const QString &item : qAsConst(m_zupsToBeInstalled)) {
-            QStringList clientArgs;
-            clientArgs << "--auto-start" << "--auto-close" << item;
-            qInfo() << "starting: " << updateClientExecutable << " " << clientArgs;
-            updateClient.start(updateClientExecutable, clientArgs);
-            updateClient.waitForFinished(-1);
-            if(errorInLastLog() ||
-                (updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0))
-                return false;
-        }
-        return true;
-    });
+    TaskTemplatePtr installPackagesViaClient = installPackages();
     m_tasks->addSub(std::move(installPackagesViaClient));
 
     TaskTemplatePtr deleteZupFiles = TaskLambdaRunner::create([this]() {
@@ -266,7 +199,7 @@ QString UpdateWrapper::getReleaseVersion()
     return m_releaseVersion;
 }
 
-void UpdateWrapper::setReleaseVersion(QString releaseVersion)
+void UpdateWrapper::setReleaseVersion(const QString &releaseVersion)
 {
     m_releaseVersion = releaseVersion;
     emit sigReleaseVersionChanged();
@@ -277,7 +210,7 @@ QString UpdateWrapper::getReleaseText()
     return m_releaseText;
 }
 
-void UpdateWrapper::setReleaseText(QString releaseText)
+void UpdateWrapper::setReleaseText(const QString &releaseText)
 {
     m_releaseText = releaseText;
     emit sigReleaseTextChanged();
@@ -310,6 +243,54 @@ bool UpdateWrapper::errorInLastLog()
     return false;
 }
 
+TaskTemplatePtr UpdateWrapper::checkStorage()
+{
+    return TaskLambdaRunner::create([this]() {
+        QStorageInfo storageInfo = QStorageInfo::root();
+        int megaBytesAvailable = storageInfo.bytesAvailable()/1000/1000;
+        if (megaBytesAvailable < 400) {
+            qWarning() << "Not enough space available: " << megaBytesAvailable << " MB";
+            setStatus(UpdateStatus::NotEnoughSpace);
+            return false;
+        }
+        return true;
+    });
+}
+
+TaskTemplatePtr UpdateWrapper::getPackageList()
+{
+    return TaskLambdaRunner::create([this]() {
+        QStringList unOrderedZupList = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
+        QStringList orderedZupList = orderPackageList(unOrderedZupList);
+        QStringList sanitizedList = removeNonMatchingLicenses(orderedZupList);
+        if(sanitizedList.empty())
+            return false;
+        for (auto &item : sanitizedList)
+            item = m_pathToZups + "/" + item;
+
+        m_zupsToBeInstalled = sanitizedList;
+        return true;
+    });
+}
+
+TaskTemplatePtr UpdateWrapper::installPackages()
+{
+    return TaskLambdaRunner::create([this]() {
+        QProcess updateClient;
+        QString updateClientExecutable("zera-update-client");
+        for (const QString &item : qAsConst(m_zupsToBeInstalled)) {
+            QStringList clientArgs;
+            clientArgs << "--auto-start" << "--auto-close" << item;
+            qInfo() << "starting: " << updateClientExecutable << " " << clientArgs;
+            updateClient.start(updateClientExecutable, clientArgs);
+            updateClient.waitForFinished(-1);
+            if(errorInLastLog() ||
+                (updateClient.exitStatus() == QProcess::NormalExit && updateClient.exitCode() != 0))
+                return false;
+        }
+        return true;
+    });
+}
 
 void UpdateWrapper::onTaskFinished(bool ok, int taskId)
 {
