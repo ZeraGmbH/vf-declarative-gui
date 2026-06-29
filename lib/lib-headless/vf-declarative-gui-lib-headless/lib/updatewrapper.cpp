@@ -83,7 +83,7 @@ void UpdateWrapper::updateDevice()
 
     downloadZupFile("zera-updater.zup");
     downloadZupFile("com5003-mt310s2.zup");
-    m_pathToZups = "/tmp";
+    m_pathToZups = "/home/operator";
 }
 
 void UpdateWrapper::prepareReleaseUpdate()
@@ -117,7 +117,7 @@ void UpdateWrapper::downloadZupFile(const QString &fileName)
             setStatus(UpdateStatus::Failure);
         }
         else {
-            QFile file("/tmp/" + fileName);
+            QFile file(m_pathToZups + "/" + fileName);
             if (file.open(QIODevice::WriteOnly)) {
                 file.write(reply->readAll());
                 file.close();
@@ -175,6 +175,19 @@ void UpdateWrapper::continueUpdate()
         return true;
     });
     m_tasks->addSub(std::move(installPackagesViaClient));
+
+    TaskTemplatePtr deleteZupFiles = TaskLambdaRunner::create([this]() {
+        QStringList zupFiles = QDir(m_pathToZups).entryList(QStringList("*.zup"), QDir::Files);
+        if(zupFiles.empty())
+            return false;
+        for (const auto &item : qAsConst(zupFiles))
+            if(!QFile::remove(item)) {
+                qWarning("File '%s' could not be removed", qPrintable(item));
+                return false;
+            }
+        return true;
+    });
+    m_tasks->addSub(std::move(deleteZupFiles));
 
     connect(m_tasks.get(), &TaskContainerSequence::sigFinish, this, &UpdateWrapper::onTaskFinished);
     m_tasks->start();
@@ -250,8 +263,6 @@ void UpdateWrapper::setUpdateOk(bool ok)
 
 QString UpdateWrapper::getReleaseVersion()
 {
-    // from Git tag
-    // tests
     return m_releaseVersion;
 }
 
