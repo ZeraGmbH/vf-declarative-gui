@@ -39,11 +39,14 @@ public:
     void setStatus(UpdateStatus status);
 
     QString getReleaseVersion();
-    void setReleaseVersion(QString releaseVersion);
+    void setReleaseVersion(const QString &releaseVersion);
     QString getReleaseText();
-    void setReleaseText(QString releaseText);
+    void setReleaseText(const QString &releaseText);
 private:
     bool errorInLastLog();
+    TaskTemplatePtr checkStorage();
+    TaskTemplatePtr getPackageList();
+    TaskTemplatePtr installPackages();
     void downloadZupFile(const QString &fileName);
     void continueUpdate();
 
