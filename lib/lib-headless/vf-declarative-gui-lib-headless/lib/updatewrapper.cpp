@@ -171,14 +171,12 @@ QStringList UpdateWrapper::removeNonMatchingLicenses(const QStringList &zupList)
         serialNumber = in.readAll().trimmed();
         serialFile.close();
     }
-    else {
-        qWarning("Could not read serial number!");
-        return QStringList();
-    }
 
     for (const QString &item : zupList) {
-        if (item.contains("licenses") && !item.contains(serialNumber))
-            returnList.removeAll(item);
+        if (item.contains("licenses") )
+            // dev images don't care of licenses
+            if (serialNumber.isEmpty() || !item.contains(serialNumber))
+                returnList.removeAll(item);
     }
     return returnList;
 }
