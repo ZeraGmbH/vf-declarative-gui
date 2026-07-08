@@ -1,6 +1,6 @@
-import QtQuick 2.5
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.0
+import QtQuick 2.14
+import QtQuick.Layouts 1.14
+import QtQuick.Controls 2.14
 import ZeraTranslation  1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
@@ -125,11 +125,22 @@ Item {
     Popup {
         id: confirmationPopup
         anchors.centerIn: parent
-        width: parent.width * 0.8
-        height: parent.height * 0.8
+        width: parent.width
+        height: parent.height
         visible: false
+
         ColumnLayout {
             anchors.fill: parent
+            Label {
+                Layout.fillWidth: true
+                Layout.bottomMargin: confirmationPopup.height * 0.015
+                text: Z.tr("Update ") + root.currentReleaseVersion + " -> " + updateWrapper.releaseVersion
+                font.pointSize: pointSize * 1.1
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
             Flickable {
                 id: licenseFlickable
                 Layout.fillWidth: true
@@ -148,19 +159,19 @@ Item {
                     width: licenseFlickable.width
                     wrapMode: Text.WordWrap
                     font.pointSize: pointSize
-                    //when we add HTML tags to qml text, it switches from plain text to HTML rendering.
-                    text: "<b>" +Z.tr("Update device ") + root.currentReleaseVersion + "->" + updateWrapper.releaseVersion + "</b><br><br>" +
-                          updateWrapper.releaseText.replace(/\n/g, "<br>")
-                    horizontalAlignment: Text.AlignHCenter
+                    text: updateWrapper.releaseText
+                    horizontalAlignment: Text.AlignLeft
+                    textFormat: Label.MarkdownText
                     Layout.fillWidth: true
                 }
             }
             RowLayout {
                 id: okCancelButtonRow
                 Layout.fillWidth: true
-                Layout.alignment: Qt.AlignHCenter
-                anchors.bottom: confirmationPopup.bottom
+                Layout.bottomMargin: -5 // ??
                 readonly property real buttonWidth: Math.max(cancelButton.implicitWidth, okButton.implicitWidth) * 1.1
+
+                Item { Layout.fillWidth: true }
                 ZButton {
                     id: cancelButton
                     text: Z.tr("Cancel")
@@ -175,6 +186,7 @@ Item {
                     Layout.preferredWidth: okCancelButtonRow.buttonWidth
                     onClicked: updateWrapper.updateDevice()
                 }
+                Item { Layout.fillWidth: true }
             }
         }
     }
