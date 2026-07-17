@@ -68,6 +68,24 @@ void UpdateWrapper::prepareReleaseUpdate()
     });
 }
 
+void UpdateWrapper::checkIfReleaseIsLatest(const QString &release)
+{
+    QUrl url("https://api.github.com/repos/ZeraGmbH/zenux-data/releases/latest");
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::UserAgentHeader, "MyQtApp");
+
+    QNetworkReply *reply = m_manager.get(request);
+    connect(reply, &QNetworkReply::finished, this, [reply, &release, this](){
+        bool newReleaseFound = false;
+        QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+        QJsonObject obj = doc.object();
+        QString latestRelease = obj["tag_name"].toString();
+        newReleaseFound = (latestRelease != release);
+        emit sigReleaseCheckFinished(newReleaseFound);
+        reply->deleteLater();
+    });
+}
+
 void UpdateWrapper::downloadZupFile(const QString &fileName)
 {
     QString downloadString  = "https://github.com/ZeraGmbH/zenux-data/releases/latest/download/";

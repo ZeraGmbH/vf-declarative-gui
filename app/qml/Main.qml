@@ -8,8 +8,10 @@ import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import SessionState 1.0
 import ZeraTranslation 1.0
+import ZeraComponents 1.0
 import GlobalConfig 1.0
 import ZeraThemeConfig 1.0
+import UpdateWrapper 1.0
 
 import "controls"
 import "helpers"
@@ -27,6 +29,7 @@ Window {
     }
     FontLoader { source: "qrc:/3rdParty/Font-Awesome_Old/fontawesome-webfont.ttf" }
     FontLoader { source: "qrc:/Font-Awesome/webfonts/fa-solid-900.ttf" }
+    UpdateWrapper {id: updateWrapper}
 
     DevelWinSizeChanger { id: resolutionChanger }
     width: resolutionChanger.winWidth
@@ -102,6 +105,24 @@ Window {
             setDatabase()
         }
     }
+
+    property bool settingsTabLoaded: false
+    onSettingsTabLoadedChanged: {
+        if(settingsTabLoaded)
+            loadUpdateProcess.active = true
+    }
+
+    Loader {
+        id: loadUpdateProcess
+        active: false
+        source: "qrc:/qml/controls/UpdateProcess.qml"
+        onLoaded: {
+            loadUpdateProcess.item.windowHeight = parent.height
+            loadUpdateProcess.item.windowWidth = parent.width
+            loadUpdateProcess.item.checkLatestRelease()
+        }
+    }
+
     Connections {
         target: VeinEntity
         function onSigSystemEntityAvailable() {
@@ -174,7 +195,6 @@ Window {
                 property bool pageVisible: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
                 onLoaded: {
                     settingsLoader.item.visible = Qt.binding(function() { return settingsLoader.pageVisible })
-                    console.info("SettingsPage loaded")
                 }
             }
             Loader {
@@ -319,6 +339,7 @@ Window {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
                 pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageVisible })
                 console.info("PageView loaded")
+                settingsTabLoaded = true
             }
             function openView() {
                 pageVisible = true

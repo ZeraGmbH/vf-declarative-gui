@@ -22,6 +22,7 @@
         <file>qml/controls/actual_values/TempHumidityPressureRow.qml</file>
         <file>qml/controls/AnimationActivity.qml</file>
         <file>qml/controls/AnimationSlowBits.qml</file>
+        <file>qml/controls/UpdateProcess.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
         <file>qml/controls/appinfo/DeviceVersions.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
