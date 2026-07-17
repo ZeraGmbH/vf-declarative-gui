@@ -27,6 +27,7 @@ public:
     Q_INVOKABLE void startInstallation();
     Q_INVOKABLE void updateDevice();
     Q_INVOKABLE void prepareReleaseUpdate();
+    Q_INVOKABLE void checkIfReleaseIsLatest(const QString &release);
 
     QString searchForPackages(const QString &mountPath);
     QStringList orderPackageList(const QStringList &zupList);
@@ -66,6 +67,7 @@ signals:
     void sigStatusChanged();
     void sigReleaseVersionChanged();
     void sigReleaseTextChanged();
+    void sigReleaseCheckFinished(bool newReleaseFound);
 
 private slots:
     void onTaskFinished(bool ok, int taskId);
