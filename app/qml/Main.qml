@@ -107,14 +107,10 @@ Window {
     }
 
     property bool settingsTabLoaded: false
-    onSettingsTabLoadedChanged: {
-        if(settingsTabLoaded)
-            loadUpdateProcess.active = true
-    }
 
     Loader {
         id: loadUpdateProcess
-        active: false
+        active: settingsTabLoaded && GC.notifyOnRelease
         source: "qrc:/qml/controls/UpdateProcess.qml"
         onLoaded: {
             loadUpdateProcess.item.windowHeight = parent.height
