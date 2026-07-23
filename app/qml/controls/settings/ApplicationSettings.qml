@@ -409,5 +409,29 @@ SettingsView {
                 }
             }
         }
+
+        Item {
+            height: root.rowHeight
+            width: root.rowWidth
+            visible: true
+            RowLayout {
+                anchors.fill: parent
+                Label {
+                    text: Z.tr("Notify on new releases: ")
+                    textFormat: Text.PlainText
+                    font.pointSize: pointSize
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    verticalAlignment: Label.AlignVCenter
+                }
+                ZCheckBox {
+                    checked: GC.notifyOnRelease
+                    Layout.fillHeight: true
+                    font.pointSize: pointSize * 1.2
+                    onCheckedChanged: GC.setNotifyOnRelease(checked)
+                }
+            }
+        }
+
     }
 }
