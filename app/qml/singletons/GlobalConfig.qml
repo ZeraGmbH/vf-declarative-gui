@@ -235,6 +235,14 @@ Item {
     }
 
     /////////////////////////////////////////////////////////////////////////////
+    // new releases notification
+    property bool notifyOnRelease: parseInt(Settings.getOption("notify_on_new_release", "0"))
+    function setNotifyOnRelease(on) {
+        notifyOnRelease = on
+        Settings.setOption("notify_on_new_release", on ? 1 : 0);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
     // Common standard margins
 
     readonly property real standardMarginWithMin: 1

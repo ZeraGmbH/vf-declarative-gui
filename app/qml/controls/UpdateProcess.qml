@@ -6,6 +6,7 @@ import UpdateWrapper 1.0
 import ZeraComponents 1.0
 import VeinEntity 1.0
 import anmsettings 1.0
+import GlobalConfig 1.0
 
 Item {
     id: root
@@ -16,13 +17,31 @@ Item {
     readonly property bool isNetworkConnected: networkListModel.entryCount > 0
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
+    readonly property int installStatus: updateWrapper.status
+    onInstallStatusChanged: {
+        if(installStatus === UpdateWrapper.InProgress)
+            waitPopup.startWait(Z.tr("Starting update..."))
+        else {
+            if(installStatus === UpdateWrapper.PackageNotFound)
+                waitPopup.stopWait([], [Z.tr("Could not update. Please check if necessary files are available.")])
+            if(installStatus === UpdateWrapper.NotEnoughSpace)
+                waitPopup.stopWait([], [Z.tr("Could not update. Not enough space (>400MB) available.")])
+            if(installStatus === UpdateWrapper.Failure)
+                waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
+            if(installStatus === UpdateWrapper.Success)
+                waitPopup.stopWait([],[],null)
+            confirmationPopup.close()
+        }
+    }
 
     InfoInterface { id: networkListModel }
+    WaitTransaction { id: waitPopup }
     UpdateWrapper {id: updateWrapper}
 
     function checkLatestRelease() {
         if(isNetworkConnected)
-            updateWrapper.checkIfReleaseIsLatest(currentReleaseVersion)
+            if(currentReleaseVersion != null)
+                updateWrapper.checkIfReleaseIsLatest(currentReleaseVersion)
     }
 
     Connections {
@@ -36,7 +55,7 @@ Item {
     Timer {
         id: checkNewReleaseTimer
         interval: 86400000  // 24 hours
-        running: true
+        running: GC.notifyOnRelease
         repeat: true
         onTriggered: checkLatestRelease()
     }
@@ -72,7 +91,7 @@ Item {
                     font.pointSize: pointSize
                     onClicked: {
                         newReleasePopup.close()
-                        checkNewReleaseTimer.stop()
+                        GC.setNotifyOnRelease(false)
                     }
                 }
                 ZButton {
