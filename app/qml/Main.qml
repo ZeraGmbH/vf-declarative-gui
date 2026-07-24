@@ -11,7 +11,6 @@ import ZeraTranslation 1.0
 import ZeraComponents 1.0
 import GlobalConfig 1.0
 import ZeraThemeConfig 1.0
-import UpdateWrapper 1.0
 
 import "controls"
 import "helpers"
@@ -29,7 +28,6 @@ Window {
     }
     FontLoader { source: "qrc:/3rdParty/Font-Awesome_Old/fontawesome-webfont.ttf" }
     FontLoader { source: "qrc:/Font-Awesome/webfonts/fa-solid-900.ttf" }
-    UpdateWrapper {id: updateWrapper}
 
     DevelWinSizeChanger { id: resolutionChanger }
     width: resolutionChanger.winWidth
