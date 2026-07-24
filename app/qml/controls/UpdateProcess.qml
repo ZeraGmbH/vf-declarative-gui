@@ -17,6 +17,7 @@ Item {
     readonly property bool isNetworkConnected: networkListModel.entryCount > 0
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
+    property QtObject updateWrapper
     readonly property int installStatus: updateWrapper.status
     onInstallStatusChanged: {
         if(installStatus === UpdateWrapper.InProgress)
@@ -30,13 +31,20 @@ Item {
                 waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
             if(installStatus === UpdateWrapper.Success)
                 waitPopup.stopWait([],[],null)
-            confirmationPopup.close()
+            releaseInfo.releaseInfoWindowOnOff(false)
         }
     }
+    UpdateWrapper {id: updateWrapper}
 
     InfoInterface { id: networkListModel }
     WaitTransaction { id: waitPopup }
-    UpdateWrapper {id: updateWrapper}
+    ReleaseInfo {
+        id: releaseInfo
+        updateWrapper: updateWrapper
+        currentReleaseVersion: root.currentReleaseVersion
+        windowHeight: root.windowHeight
+        windowWidth: root.windowWidth
+    }
 
     function checkLatestRelease() {
         if(isNetworkConnected)
@@ -83,7 +91,7 @@ Item {
                     onClicked: {
                         newReleasePopup.close()
                         updateWrapper.prepareReleaseUpdate()
-                        confirmationPopup.open()
+                        releaseInfo.releaseInfoWindowOnOff(true)
                     }
                 }
                 ZButton {
@@ -102,74 +110,6 @@ Item {
                         checkNewReleaseTimer.restart()
                     }
                 }
-            }
-        }
-    }
-
-    Popup {
-        id: confirmationPopup
-        width: windowWidth
-        height: windowHeight
-        visible: false
-
-        ColumnLayout {
-            anchors.fill: parent
-            Label {
-                Layout.fillWidth: true
-                Layout.bottomMargin: confirmationPopup.height * 0.015
-                text: Z.tr("Update ") + root.currentReleaseVersion + " -> " + updateWrapper.releaseVersion
-                font.pointSize: pointSize * 1.1
-                font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Flickable {
-                id: licenseFlickable
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                contentHeight: updateText.implicitHeight
-                contentWidth: parent.width
-                boundsBehavior: Flickable.StopAtBounds
-                clip: true
-                ScrollBar.vertical: ScrollBar {
-                    width: 8
-                    policy:
-                        licenseFlickable.contentHeight > licenseFlickable.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
-                }
-                Label {
-                    id: updateText
-                    width: licenseFlickable.width
-                    wrapMode: Text.WordWrap
-                    font.pointSize: pointSize
-                    text: updateWrapper.releaseText
-                    horizontalAlignment: Text.AlignLeft
-                    textFormat: Label.MarkdownText   // warning
-                    Layout.fillWidth: true
-                }
-            }
-            RowLayout {
-                id: okCancelButtonRow
-                Layout.fillWidth: true
-                Layout.bottomMargin: -5 // ??
-                readonly property real buttonWidth: Math.max(cancelButton.implicitWidth, okButton.implicitWidth) * 1.1
-
-                Item { Layout.fillWidth: true }
-                ZButton {
-                    id: cancelButton
-                    text: Z.tr("Cancel")
-                    font.pointSize: pointSize
-                    Layout.preferredWidth: okCancelButtonRow.buttonWidth
-                    onClicked: confirmationPopup.close()
-                }
-                ZButton {
-                    id: okButton
-                    text: Z.tr("OK")
-                    font.pointSize: pointSize
-                    Layout.preferredWidth: okCancelButtonRow.buttonWidth
-                    onClicked: updateWrapper.updateDevice()
-                }
-                Item { Layout.fillWidth: true }
             }
         }
     }
