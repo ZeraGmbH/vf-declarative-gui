@@ -18,10 +18,12 @@ import ZeraLocale 1.0
 import ZeraThemeConfig 1.0
 import SlowMachineSettingsHelper 1.0
 import FontAwesomeHash 1.0
+import anmsettings 1.0
 
 SettingsView {
     id: root
 
+    readonly property bool isNetworkConnected: networkListModel.entryCount > 0
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: Math.max(height / 7.1, 10)
     readonly property real pointSize: rowHeight * 0.275
@@ -56,6 +58,8 @@ SettingsView {
             }
         }
     }
+
+    InfoInterface { id: networkListModel }
 
     DefaultColorPopup {
         id: defaultColoursPopup
@@ -416,6 +420,7 @@ SettingsView {
             visible: true
             RowLayout {
                 anchors.fill: parent
+                enabled: isNetworkConnected
                 Label {
                     text: Z.tr("Notify on new releases: ")
                     textFormat: Text.PlainText
