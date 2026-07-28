@@ -45,11 +45,11 @@ void UpdateWrapper::updateDevice()
 {
     qInfo() << "Start Installation of update";
     setStatus(UpdateStatus::InProgress);
+    m_pathToZups = "/home/operator";
     m_zupFilesNum = 2;
 
     downloadZupFile("zera-updater.zup");
     downloadZupFile("com5003-mt310s2.zup");
-    m_pathToZups = "/home/operator";
 }
 
 void UpdateWrapper::prepareReleaseUpdate()
@@ -227,7 +227,11 @@ void UpdateWrapper::setStatus(UpdateStatus status)
 
 bool UpdateWrapper::errorInLastLog()
 {
-    QStringList updateLogFiles = QDir("/home/operator").entryList(QStringList("*.html"), QDir::Files, QDir::Name);
+    QStringList updateLogFiles = QDir("/home/operator").entryList(QStringList("*.log"), QDir::Files, QDir::Name);
+    if(updateLogFiles.isEmpty()) {
+        qWarning("No Log file found");
+        return true;
+    }
     QFile logFileOfLast("/home/operator/" + updateLogFiles.last());
     if (logFileOfLast.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&logFileOfLast);
