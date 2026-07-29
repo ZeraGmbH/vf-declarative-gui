@@ -189,6 +189,7 @@ Window {
                 property bool pageVisible: layoutStack.currentIndex === GC.layoutStackEnum.layoutSettingsIndex
                 onLoaded: {
                     settingsLoader.item.visible = Qt.binding(function() { return settingsLoader.pageVisible })
+                    console.info("SettingsPage loaded")
                 }
             }
             Loader {
