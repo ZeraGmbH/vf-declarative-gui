@@ -73,6 +73,8 @@ Item {
         width: contentWidth * 1.2
         height: contentHeight * 1.2
         visible: false
+        modal: true
+        closePolicy: Popup.NoAutoClose
         ColumnLayout {
             anchors.fill: parent
             Label {
@@ -94,7 +96,7 @@ Item {
                     }
                 }
                 ZButton {
-                    text: Z.tr("Close")
+                    text: Z.tr("Close") + " && " + Z.tr("Disable")
                     font.pointSize: pointSize
                     onClicked: {
                         newReleasePopup.close()

@@ -77,7 +77,7 @@ Item {
                 }
                 ZButton {
                     id: okButton
-                    text: Z.tr("OK")
+                    text: Z.tr("Install")
                     font.pointSize: pointSize
                     Layout.preferredWidth: okCancelButtonRow.buttonWidth
                     onClicked: updateWrapper.updateDevice()
