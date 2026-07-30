@@ -156,4 +156,32 @@ Item {
         }
     }
 
+    Item {
+        anchors {top: buttonUpdateWithoutUSBStick.bottom;
+                 left: buttonUpdateWithoutUSBStick.left;
+                 right: buttonUpdateWithoutUSBStick.right; }
+        height: root.rowHeight * 1.5
+        width: rowWidth * 1.5
+        visible: true
+        RowLayout {
+            anchors.fill: parent
+            Label {
+                font.pointSize: root.pointSize
+                text: Z.tr("Notify on new releases: ")
+                textFormat: Text.PlainText
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                verticalAlignment: Label.AlignVCenter
+            }
+            ZCheckBox {
+                Layout.fillHeight: true
+                rightPadding: 0
+                padding: 0
+                spacing: 0
+                checked: GC.notifyOnRelease
+                onCheckedChanged: GC.setNotifyOnRelease(checked)
+            }
+        }
+    }
+
 }

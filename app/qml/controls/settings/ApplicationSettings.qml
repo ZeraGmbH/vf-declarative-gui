@@ -23,7 +23,6 @@ import anmsettings 1.0
 SettingsView {
     id: root
 
-    readonly property bool isNetworkConnected: networkListModel.entryCount > 0
     readonly property int channelCount: ModuleIntrospection.rangeIntrospection.ModuleInfo.ChannelCount
     rowHeight: Math.max(height / 7.1, 10)
     readonly property real pointSize: rowHeight * 0.275
@@ -58,8 +57,6 @@ SettingsView {
             }
         }
     }
-
-    InfoInterface { id: networkListModel }
 
     DefaultColorPopup {
         id: defaultColoursPopup
@@ -413,30 +410,5 @@ SettingsView {
                 }
             }
         }
-
-        Item {
-            height: root.rowHeight
-            width: root.rowWidth
-            visible: true
-            RowLayout {
-                anchors.fill: parent
-                enabled: isNetworkConnected
-                Label {
-                    text: Z.tr("Notify on new releases: ")
-                    textFormat: Text.PlainText
-                    font.pointSize: pointSize
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    verticalAlignment: Label.AlignVCenter
-                }
-                ZCheckBox {
-                    checked: GC.notifyOnRelease
-                    Layout.fillHeight: true
-                    font.pointSize: pointSize * 1.2
-                    onCheckedChanged: GC.setNotifyOnRelease(checked)
-                }
-            }
-        }
-
     }
 }
