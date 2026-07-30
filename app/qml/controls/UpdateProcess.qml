@@ -15,6 +15,11 @@ Item {
     readonly property real rowHeight: Math.max(windowHeight * 0.06, 10)
     readonly property real pointSize: rowHeight * 0.5
     readonly property bool isNetworkConnected: networkListModel.entryCount > 0
+    onIsNetworkConnectedChanged: {
+        console.warn("networkConnected")
+        if(isNetworkConnected && GC.notifyOnRelease)
+            checkLatestRelease()
+    }
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
     readonly property int installStatus: updateWrapper.status
@@ -61,7 +66,7 @@ Item {
     Timer {
         id: checkNewReleaseTimer
         interval: 86400000  // 24 hours
-        running: GC.notifyOnRelease
+        running: GC.notifyOnRelease && isNetworkConnected
         repeat: true
         onTriggered: checkLatestRelease()
     }
