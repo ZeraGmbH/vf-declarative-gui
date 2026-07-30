@@ -13,6 +13,8 @@ import '../../controls'
 Item {
     id: root
     readonly property real rowHeight: Math.max(height * 0.0725, 10)
+    readonly property real rowWidth: Math.max(buttonStoreLog.implicitContentWidth, buttonStartUpdateWithUSBStick.implicitContentWidth,
+                                              buttonUpdateWithoutUSBStick.implicitContentWidth)
     readonly property real pointSize: rowHeight * 0.5
     readonly property bool isNetworkConnected: networkListModel.entryCount > 0
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
@@ -27,7 +29,7 @@ Item {
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
-        width: implicitContentWidth * 2
+        width: rowWidth * 1.5
         text: Z.tr("Save logfile to USB")
         readonly property bool writingLogsToUsb: QmlFileIO.writingLogsToUsb
         enabled: (QmlFileIO.mountedPaths.length > 0) && !writingLogsToUsb
@@ -71,7 +73,7 @@ Item {
         anchors {top: buttonStoreLog.bottom; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
-        width: buttonStoreLog.width
+        width: rowWidth * 1.5
         text: Z.tr("Start Update using USB stick")
         readonly property int installStatus: updateWrapper.status
         onClicked: {
@@ -108,7 +110,7 @@ Item {
         anchors {top: buttonStartUpdateWithUSBStick.bottom; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
-        width: buttonStoreLog.width
+        width: rowWidth * 1.5
         text: Z.tr("Start Update")
         enabled: isNetworkConnected
         highlighted: true
