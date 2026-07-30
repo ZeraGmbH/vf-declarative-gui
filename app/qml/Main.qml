@@ -8,7 +8,6 @@ import AppStarterForWebGLSingleton 1.0
 import VeinEntity 1.0
 import SessionState 1.0
 import ZeraTranslation 1.0
-import ZeraComponents 1.0
 import GlobalConfig 1.0
 import ZeraThemeConfig 1.0
 
