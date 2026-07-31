@@ -14,9 +14,8 @@ Item {
     property int windowWidth
     readonly property real rowHeight: Math.max(windowHeight * 0.06, 10)
     readonly property real pointSize: rowHeight * 0.5
-    readonly property bool isNetworkConnected: networkListModel.entryCount > 0
+    readonly property bool isNetworkConnected: networkListModel.networkConnected
     onIsNetworkConnectedChanged: {
-        console.warn("networkConnected")
         if(isNetworkConnected && GC.notifyOnRelease)
             checkLatestRelease()
     }

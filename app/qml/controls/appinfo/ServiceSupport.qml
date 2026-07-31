@@ -16,7 +16,7 @@ Item {
     readonly property real rowWidth: Math.max(buttonStoreLog.implicitContentWidth, buttonStartUpdateWithUSBStick.implicitContentWidth,
                                               buttonUpdateWithoutUSBStick.implicitContentWidth)
     readonly property real pointSize: rowHeight * 0.5
-    readonly property bool isNetworkConnected: networkListModel.entryCount > 0
+    readonly property bool isNetworkConnected: networkListModel.networkConnected
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
 
