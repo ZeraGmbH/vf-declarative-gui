@@ -7,6 +7,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 include(FeatureSummary)
+include(GNUInstallDirs)
+include(GenerateExportHeader)
 
 set(QT_MAJOR_VER "5" CACHE STRING "Qt major version")
 set(QTX "Qt${QT_MAJOR_VER}")
@@ -20,6 +22,7 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(QWT REQUIRED ${QTX}Qwt6)
+find_package(GTest REQUIRED)
 
 find_package(ZeraClasses REQUIRED)
 find_package(FontAweSomeQml REQUIRED)

@@ -27,6 +27,7 @@ target_include_directories(vf-declarative-gui-lib
 
 target_link_libraries(vf-declarative-gui-lib
     PUBLIC
+    zera-json-qml
     ${QTX}::Core
     ${QTX}::Quick
     ${QTX}::QuickControls2
@@ -48,7 +49,6 @@ target_link_libraries(vf-declarative-gui-lib
     Zera::qmlhelpers
     Zera::zeraveincomponents
     Zera::qwtcharts
-    Zera::zera-json-qml
     Zera::ZVKeyboardLayout
     "-Wl,--as-needed"
     #Other Libs

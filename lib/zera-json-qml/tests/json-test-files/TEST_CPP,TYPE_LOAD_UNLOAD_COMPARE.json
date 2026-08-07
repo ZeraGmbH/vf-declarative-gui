@@ -1,0 +1,10 @@
+{
+    "anObject": {
+        "aBool": true,
+        "aNumber": 123.456,
+        "aString": "foo"
+    },
+    "aBool": true,
+    "aNumber": 123.456,
+    "aString": "foo"
+}
