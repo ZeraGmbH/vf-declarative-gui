@@ -4,7 +4,6 @@ import QtQuick.Controls 2.14
 import ZeraTranslation  1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
-import UpdateWrapper 1.0
 import UpstreamReleaseGetter 1.0
 import ZeraComponents 1.0
 import VeinEntity 1.0
@@ -59,7 +58,7 @@ Item {
             }
         }
     }
-    UpdateWrapper { id: updateCppWrapper }
+    UpdateWrapperQml { id: updateWrapperQml }
     UpstreamReleaseGetter { id: releaseGetter }
     Connections {
         target: releaseGetter
@@ -79,7 +78,8 @@ Item {
         Connections {
             target: releaseInfo
             function onSigUpdateRequest() {
-                updateCppWrapper.startUpdateNet()
+                releaseInfo.close()
+                updateWrapperQml.startUpdateNet()
             }
         }
     }
@@ -91,26 +91,12 @@ Item {
         height: root.rowHeight * 1.625
         width: rowWidth * 1.5
         text: Z.tr("Start update by USB stick")
-        readonly property int installStatus: updateCppWrapper.status
         onClicked: {
-            updateCppWrapper.startUpdateUsb()
+            releaseInfo.close()
+            updateWrapperQml.startUpdateUsb()
         }
         enabled: (QmlFileIO.mountedPaths.length > 0)
         highlighted: true
-        onInstallStatusChanged: {
-            if(installStatus === UpdateWrapper.InProgress)
-                waitPopup.startWait(Z.tr("Starting update..."))
-            else {
-                if(installStatus === UpdateWrapper.PackageNotFound)
-                    waitPopup.stopWait([], [Z.tr("Could not update. Please check if necessary files are available.")])
-                if(installStatus === UpdateWrapper.NotEnoughSpace)
-                    waitPopup.stopWait([], [Z.tr("Could not update. Not enough space (>400MB) available.")])
-                if(installStatus === UpdateWrapper.Failure)
-                    waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
-                if(installStatus === UpdateWrapper.Success)
-                    waitPopup.stopWait([],[],null)
-            }
-        }
     }
     ZButton {
         id: buttonUpdateWithoutUSBStick
@@ -121,24 +107,7 @@ Item {
         text: Z.tr("Start update by network")
         enabled: isNetworkConnected
         highlighted: true
-        readonly property int installStatus: updateCppWrapper.status
         onClicked: releaseGetter.startGetLatestReleaseDetails()
-
-        onInstallStatusChanged: {
-            if(installStatus === UpdateWrapper.InProgress)
-                waitPopup.startWait(Z.tr("Starting update..."))
-            else {
-                if(installStatus === UpdateWrapper.PackageNotFound)
-                    waitPopup.stopWait([], [Z.tr("Could not update. Please check if necessary files are available.")])
-                if(installStatus === UpdateWrapper.NotEnoughSpace)
-                    waitPopup.stopWait([], [Z.tr("Could not update. Not enough space (>400MB) available.")])
-                if(installStatus === UpdateWrapper.Failure)
-                    waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
-                if(installStatus === UpdateWrapper.Success)
-                    waitPopup.stopWait([],[],null)
-                releaseInfo.close()
-            }
-        }
     }
     Popup {
         id: sameVersionPopup
@@ -190,5 +159,4 @@ Item {
             }
         }
     }
-
 }

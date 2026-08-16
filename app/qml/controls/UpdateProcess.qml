@@ -2,7 +2,6 @@ import QtQuick 2.14
 import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import ZeraTranslation  1.0
-import UpdateWrapper 1.0
 import UpstreamReleaseGetter 1.0
 import ZeraComponents 1.0
 import VeinEntity 1.0
@@ -33,25 +32,7 @@ Item {
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
 
-    readonly property int installStatus: updateCppWrapper.status
-    onInstallStatusChanged: {
-        if(installStatus === UpdateWrapper.InProgress)
-            waitPopup.startWait(Z.tr("Starting update..."))
-        else {
-            if(installStatus === UpdateWrapper.PackageNotFound)
-                waitPopup.stopWait([], [Z.tr("Could not update. Please check if necessary files are available.")])
-            if(installStatus === UpdateWrapper.NotEnoughSpace)
-                waitPopup.stopWait([], [Z.tr("Could not update. Not enough space (>400MB) available.")])
-            if(installStatus === UpdateWrapper.Failure)
-                waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
-            if(installStatus === UpdateWrapper.Success)
-                waitPopup.stopWait([],[],null)
-            releaseInfo.close()
-        }
-    }
-
-    WaitTransaction { id: waitPopup }
-    UpdateWrapper { id: updateCppWrapper }
+    UpdateWrapperQml { id: updateWrapperQml }
     UpstreamReleaseGetter { id: releaseGetter }
     Connections {
         target: releaseGetter
@@ -68,7 +49,8 @@ Item {
         Connections {
             target: releaseInfo
             function onSigUpdateRequest() {
-                updateCppWrapper.startUpdateNet()
+                releaseInfo.close()
+                updateWrapperQml.startUpdateNet()
             }
         }
     }
