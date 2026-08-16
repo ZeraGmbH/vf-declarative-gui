@@ -27,6 +27,7 @@
 #include <jsonsettingsfile.h>
 #include "qmlfileio.h"
 #include "updatewrapper.h"
+#include "upstreamreleasegetter.h"
 #include "qmlappstarterforwebgl.h"
 #include "qmlappstarterforwebserver.h"
 #include "qmlappstarterforapi.h"
@@ -100,6 +101,7 @@ static void registerQmlInt()
     qmlRegisterType<AxisAutoScaler>("AxisAutoScaler", 1, 0, "AxisAutoScaler");
     qmlRegisterType<SingleValueScaler>("SingleValueScaler", 1, 0, "SingleValueScaler");
     qmlRegisterType<UpdateWrapper>("UpdateWrapper", 1, 0, "UpdateWrapper");
+    qmlRegisterType<UpstreamReleaseGetter>("UpstreamReleaseGetter", 1, 0, "UpstreamReleaseGetter");
     qmlRegisterType<LineSeriesFiller>("LineSeriesFiller", 1, 0, "LineSeriesFiller");
     qmlRegisterSingletonType<GlueLogicPropertyMap>("TableEventDistributor", 1, 0, "ZGL", GlueLogicPropertyMap::getStaticInstance);
     qmlRegisterSingletonType(QUrl("qrc:/qml/singletons/ModuleIntrospection.qml"), "ModuleIntrospection", 1, 0, "ModuleIntrospection");

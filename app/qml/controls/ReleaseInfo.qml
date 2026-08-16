@@ -7,6 +7,8 @@ import ZeraTranslation  1.0
 Item {
     id: root
     property QtObject updateWrapper
+    property string releaseVersion
+    property string releaseText
     property string currentReleaseVersion
 
     function releaseInfoWindowOnOff(onOff) {
@@ -30,7 +32,7 @@ Item {
             Label {
                 Layout.fillWidth: true
                 Layout.bottomMargin: confirmationPopup.height * 0.015
-                text: Z.tr("Update ") + root.currentReleaseVersion + " -> " + updateWrapper.releaseVersion
+                text: Z.tr("Update ") + root.currentReleaseVersion + " -> " + releaseVersion
                 font.pointSize: confirmationPopup.pointSize * 1.1
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
@@ -55,7 +57,7 @@ Item {
                     width: licenseFlickable.width
                     wrapMode: Text.WordWrap
                     font.pointSize: confirmationPopup.pointSize
-                    text: updateWrapper.releaseText
+                    text: releaseText
                     horizontalAlignment: Text.AlignLeft
                     textFormat: Label.MarkdownText   // warning
                     Layout.fillWidth: true

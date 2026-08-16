@@ -21,12 +21,9 @@ public:
 
     Q_PROPERTY(bool updateOk READ getUpdateOk NOTIFY sigUpdateOkChanged);
     Q_PROPERTY(UpdateStatus status READ getStatus NOTIFY sigStatusChanged);
-    Q_PROPERTY(QString releaseVersion READ getReleaseVersion NOTIFY sigReleaseVersionChanged);
-    Q_PROPERTY(QString releaseText READ getReleaseText NOTIFY sigReleaseTextChanged);
 
     Q_INVOKABLE void startInstallation();
     Q_INVOKABLE void updateDevice();
-    Q_INVOKABLE void startGetLatestReleaseDetails();
 
     QString searchForPackages(const QString &mountPath);
     QStringList orderPackageList(const QStringList &zupList);
@@ -38,15 +35,9 @@ public:
     UpdateStatus getStatus() const;
     void setStatus(UpdateStatus status);
 
-    QString getReleaseVersion();
-    void setReleaseVersion(const QString &releaseVersion);
-    QString getReleaseText();
-    void setReleaseText(const QString &releaseText);
 signals:
     void sigUpdateOkChanged();
     void sigStatusChanged();
-    void sigReleaseVersionChanged();
-    void sigReleaseTextChanged();
 
 private slots:
     void onTaskFinished(bool ok, int taskId);
@@ -58,8 +49,6 @@ private:
     void downloadZupFile(const QString &fileName);
     void continueUpdate();
 
-    QString m_releaseVersion;
-    QString m_releaseText;
     int m_zupFilesNum = 0;
     QString m_pathToZups;
     QStringList m_zupsToBeInstalled;

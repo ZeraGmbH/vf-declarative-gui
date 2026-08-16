@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import ZeraTranslation  1.0
 import UpdateWrapper 1.0
+import UpstreamReleaseGetter 1.0
 import ZeraComponents 1.0
 import VeinEntity 1.0
 import anmsettings 1.0
@@ -36,21 +37,24 @@ Item {
     InfoInterface { id: networkListModel }
     WaitTransaction { id: waitPopup }
     UpdateWrapper {id: updateWrapper}
+    UpstreamReleaseGetter {id: releaseGetter}
     ReleaseInfo {
         id: releaseInfo
         updateWrapper: updateWrapper
+        releaseVersion: releaseGetter.releaseVersion
+        releaseText: releaseGetter.releaseText
         currentReleaseVersion: root.currentReleaseVersion
     }
 
     function checkLatestRelease() {
         if(isNetworkConnected)
-            updateWrapper.startGetLatestReleaseDetails()
+            releaseGetter.startGetLatestReleaseDetails()
     }
 
     Connections {
-        target: updateWrapper
+        target: releaseGetter
         function onSigReleaseVersionChanged() {
-            if (currentReleaseVersion != null && currentReleaseVersion != updateWrapper.releaseVersion)
+            if (currentReleaseVersion != null && currentReleaseVersion !== releaseGetter.releaseVersion)
                 newReleasePopup.visible = true
         }
     }
@@ -89,7 +93,6 @@ Item {
                     font.pointSize: pointSize
                     onClicked: {
                         newReleasePopup.close()
-                        updateWrapper.startGetLatestReleaseDetails()
                         releaseInfo.releaseInfoWindowOnOff(true)
                     }
                 }

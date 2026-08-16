@@ -52,22 +52,6 @@ void UpdateWrapper::updateDevice()
     downloadZupFile("com5003-mt310s2.zup");
 }
 
-void UpdateWrapper::startGetLatestReleaseDetails()
-{
-    QUrl url("https://api.github.com/repos/ZeraGmbH/zenux-data/releases/latest");
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::UserAgentHeader, "MyQtApp");
-    QNetworkReply *reply = m_manager.get(request);
-
-    connect(reply, &QNetworkReply::finished, this, [reply, this](){
-        QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
-        QJsonObject obj = doc.object();
-        setReleaseVersion(obj["tag_name"].toString());
-        setReleaseText(obj["body"].toString());
-        reply->deleteLater();
-    });
-}
-
 void UpdateWrapper::downloadZupFile(const QString &fileName)
 {
     QString downloadString  = "https://github.com/ZeraGmbH/zenux-data/releases/latest/download/";
@@ -190,28 +174,6 @@ void UpdateWrapper::setUpdateOk(bool ok)
 {
     m_updateOk = ok;
     emit sigUpdateOkChanged();
-}
-
-QString UpdateWrapper::getReleaseVersion()
-{
-    return m_releaseVersion;
-}
-
-void UpdateWrapper::setReleaseVersion(const QString &releaseVersion)
-{
-    m_releaseVersion = releaseVersion;
-    emit sigReleaseVersionChanged();
-}
-
-QString UpdateWrapper::getReleaseText()
-{
-    return m_releaseText;
-}
-
-void UpdateWrapper::setReleaseText(const QString &releaseText)
-{
-    m_releaseText = releaseText;
-    emit sigReleaseTextChanged();
 }
 
 UpdateWrapper::UpdateStatus UpdateWrapper::getStatus() const

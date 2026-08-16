@@ -5,6 +5,7 @@ import ZeraTranslation  1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
 import UpdateWrapper 1.0
+import UpstreamReleaseGetter 1.0
 import ZeraComponents 1.0
 import VeinEntity 1.0
 import anmsettings 1.0
@@ -59,10 +60,13 @@ Item {
         }
     }
     UpdateWrapper {id: updateWrapper}
+    UpstreamReleaseGetter {id: releaseGetter}
 
     ReleaseInfo {
         id: releaseInfo
         updateWrapper: updateWrapper
+        releaseVersion: releaseGetter.releaseVersion
+        releaseText: releaseGetter.releaseText
         currentReleaseVersion: root.currentReleaseVersion
     }
 
@@ -95,9 +99,9 @@ Item {
         }
     }
     Connections {
-        target: updateWrapper
+        target: releaseGetter
         function onSigReleaseVersionChanged() {
-            if(currentReleaseVersion == updateWrapper.releaseVersion)
+            if(currentReleaseVersion === releaseGetter.releaseVersion)
                 sameVersionPopup.visible = true
             else
                 releaseInfo.releaseInfoWindowOnOff(true)
@@ -113,7 +117,7 @@ Item {
         enabled: isNetworkConnected
         highlighted: true
         readonly property int installStatus: updateWrapper.status
-        onClicked: updateWrapper.startGetLatestReleaseDetails()
+        onClicked: releaseGetter.startGetLatestReleaseDetails()
 
         onInstallStatusChanged: {
             if(installStatus === UpdateWrapper.InProgress)
