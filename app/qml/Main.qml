@@ -106,13 +106,13 @@ Window {
     property bool settingsTabLoaded: false
 
     Loader {
-        id: loadUpdateProcess
+        id: netUpdateLoader
         active: settingsTabLoaded && GC.notifyOnRelease
         source: "qrc:/qml/controls/UpdateProcess.qml"
         onLoaded: {
-            loadUpdateProcess.item.windowHeight = parent.height
-            loadUpdateProcess.item.windowWidth = parent.width
-            loadUpdateProcess.item.checkLatestRelease()
+            netUpdateLoader.item.windowHeight = parent.height
+            netUpdateLoader.item.windowWidth = parent.width
+            netUpdateLoader.item.checkLatestRelease()
         }
     }
 
