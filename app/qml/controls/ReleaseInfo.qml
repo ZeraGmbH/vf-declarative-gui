@@ -2,11 +2,11 @@ import QtQuick 2.14
 import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import ZeraComponents 1.0
-import ZeraTranslation  1.0
+import ZeraTranslation 1.0
 
 Item {
     id: root
-    property QtObject updateWrapper
+    signal sigUpdateRequest()
     property string releaseVersion
     property string releaseText
     property string currentReleaseVersion
@@ -82,7 +82,7 @@ Item {
                     text: Z.tr("Install")
                     font.pointSize: confirmationPopup.pointSize
                     Layout.preferredWidth: okCancelButtonRow.buttonWidth
-                    onClicked: updateWrapper.updateDevice()
+                    onClicked: sigUpdateRequest()
                 }
                 Item { Layout.fillWidth: true }
             }

@@ -40,12 +40,16 @@ Item {
     UpstreamReleaseGetter {id: releaseGetter}
     ReleaseInfo {
         id: releaseInfo
-        updateWrapper: updateWrapper
         releaseVersion: releaseGetter.releaseVersion
         releaseText: releaseGetter.releaseText
         currentReleaseVersion: root.currentReleaseVersion
+        Connections {
+            target: releaseInfo
+            function onSigUpdateRequest() {
+                updateWrapper.updateDevice()
+            }
+        }
     }
-
     function checkLatestRelease() {
         if(isNetworkConnected)
             releaseGetter.startGetLatestReleaseDetails()

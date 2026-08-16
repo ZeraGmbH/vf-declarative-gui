@@ -64,10 +64,15 @@ Item {
 
     ReleaseInfo {
         id: releaseInfo
-        updateWrapper: updateWrapper
         releaseVersion: releaseGetter.releaseVersion
         releaseText: releaseGetter.releaseText
         currentReleaseVersion: root.currentReleaseVersion
+        Connections {
+            target: releaseInfo
+            function onSigUpdateRequest() {
+                updateWrapper.updateDevice()
+            }
+        }
     }
 
     ZButton {
