@@ -59,7 +59,7 @@ Item {
         target: releaseGetter
         function onSigReleaseVersionChanged() {
             if (currentReleaseVersion != null && currentReleaseVersion !== releaseGetter.releaseVersion)
-                newReleasePopup.visible = true
+                releaseInfo.open()
         }
     }
 
@@ -69,54 +69,5 @@ Item {
         running: GC.notifyOnRelease && isNetworkConnected
         repeat: true
         onTriggered: checkLatestRelease()
-    }
-
-    Popup {
-        id: newReleasePopup
-        parent: Overlay.overlay
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        width: contentWidth * 1.2
-        height: contentHeight * 1.2
-        visible: false
-        modal: true
-        closePolicy: Popup.NoAutoClose
-        ColumnLayout {
-            anchors.fill: parent
-            Label {
-                font.pointSize: pointSize
-                text: Z.tr("New Release version has been published !")
-                font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-            }
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                ZButton {
-                    text: Z.tr("More")
-                    font.pointSize: pointSize
-                    onClicked: {
-                        newReleasePopup.close()
-                        releaseInfo.open()
-                    }
-                }
-                ZButton {
-                    text: Z.tr("Close") + " && " + Z.tr("Disable")
-                    font.pointSize: pointSize
-                    onClicked: {
-                        newReleasePopup.close()
-                        GC.setNotifyOnRelease(false)
-                    }
-                }
-                ZButton {
-                    text: Z.tr("Remind me later")
-                    font.pointSize: pointSize
-                    onClicked: {
-                        newReleasePopup.close()
-                        checkNewReleaseTimer.restart()
-                    }
-                }
-            }
-        }
     }
 }
