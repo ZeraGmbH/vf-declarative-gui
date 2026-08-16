@@ -43,24 +43,24 @@ Item {
                 id: licenseFlickable
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                readonly property bool scrollVisible: contentHeight > height
+                readonly property int scrollWidth: 8
                 contentHeight: updateText.implicitHeight
                 contentWidth: parent.width
                 boundsBehavior: Flickable.StopAtBounds
                 clip: true
                 ScrollBar.vertical: ScrollBar {
-                    width: 8
-                    policy:
-                        licenseFlickable.contentHeight > licenseFlickable.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                    width: licenseFlickable.scrollWidth
+                    policy: licenseFlickable.scrollVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
                 }
                 Label {
                     id: updateText
-                    width: licenseFlickable.width
+                    width: licenseFlickable.width - licenseFlickable.scrollWidth
                     wrapMode: Text.WordWrap
                     font.pointSize: confirmationPopup.pointSize
                     text: releaseText
                     horizontalAlignment: Text.AlignLeft
-                    textFormat: Label.MarkdownText   // warning
-                    Layout.fillWidth: true
+                    textFormat: Label.MarkdownText
                 }
             }
             RowLayout {
