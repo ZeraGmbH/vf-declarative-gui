@@ -44,14 +44,13 @@ Item {
 
     function checkLatestRelease() {
         if(isNetworkConnected)
-            if(currentReleaseVersion != null)
-                updateWrapper.checkIfReleaseIsLatest(currentReleaseVersion)
+            updateWrapper.startGetLatestReleaseDetails()
     }
 
     Connections {
         target: updateWrapper
-        function onSigReleaseCheckFinished(newReleaseFound) {
-            if(newReleaseFound)
+        function onSigReleaseVersionChanged() {
+            if (currentReleaseVersion != null && currentReleaseVersion != updateWrapper.releaseVersion)
                 newReleasePopup.visible = true
         }
     }
@@ -90,7 +89,7 @@ Item {
                     font.pointSize: pointSize
                     onClicked: {
                         newReleasePopup.close()
-                        updateWrapper.prepareReleaseUpdate()
+                        updateWrapper.startGetLatestReleaseDetails()
                         releaseInfo.releaseInfoWindowOnOff(true)
                     }
                 }

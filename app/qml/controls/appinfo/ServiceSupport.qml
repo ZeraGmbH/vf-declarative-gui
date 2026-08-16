@@ -113,7 +113,7 @@ Item {
         enabled: isNetworkConnected
         highlighted: true
         readonly property int installStatus: updateWrapper.status
-        onClicked: updateWrapper.prepareReleaseUpdate()
+        onClicked: updateWrapper.startGetLatestReleaseDetails()
 
         onInstallStatusChanged: {
             if(installStatus === UpdateWrapper.InProgress)
