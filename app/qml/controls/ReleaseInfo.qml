@@ -8,9 +8,6 @@ Item {
     id: root
     property QtObject updateWrapper
     property string currentReleaseVersion
-    property int windowHeight
-    property int windowWidth
-
 
     function releaseInfoWindowOnOff(onOff) {
         if(onOff)
@@ -21,9 +18,12 @@ Item {
 
     Popup {
         id: confirmationPopup
-        width: windowWidth
-        height: windowHeight
+        parent: Overlay.overlay
+        width: parent.width
+        height: parent.height
         visible: false
+        readonly property real rowHeight: Math.max(height * 0.06, 10)
+        readonly property real pointSize: rowHeight * 0.5
 
         ColumnLayout {
             anchors.fill: parent
@@ -31,7 +31,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.bottomMargin: confirmationPopup.height * 0.015
                 text: Z.tr("Update ") + root.currentReleaseVersion + " -> " + updateWrapper.releaseVersion
-                font.pointSize: pointSize * 1.1
+                font.pointSize: confirmationPopup.pointSize * 1.1
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -54,7 +54,7 @@ Item {
                     id: updateText
                     width: licenseFlickable.width
                     wrapMode: Text.WordWrap
-                    font.pointSize: pointSize
+                    font.pointSize: confirmationPopup.pointSize
                     text: updateWrapper.releaseText
                     horizontalAlignment: Text.AlignLeft
                     textFormat: Label.MarkdownText   // warning
@@ -71,14 +71,14 @@ Item {
                 ZButton {
                     id: cancelButton
                     text: Z.tr("Cancel")
-                    font.pointSize: pointSize
+                    font.pointSize: confirmationPopup.pointSize
                     Layout.preferredWidth: okCancelButtonRow.buttonWidth
                     onClicked: confirmationPopup.close()
                 }
                 ZButton {
                     id: okButton
                     text: Z.tr("Install")
-                    font.pointSize: pointSize
+                    font.pointSize: confirmationPopup.pointSize
                     Layout.preferredWidth: okCancelButtonRow.buttonWidth
                     onClicked: updateWrapper.updateDevice()
                 }

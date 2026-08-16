@@ -64,8 +64,6 @@ Item {
         id: releaseInfo
         updateWrapper: updateWrapper
         currentReleaseVersion: root.currentReleaseVersion
-        windowHeight: parent.height
-        windowWidth: parent.width
     }
 
     ZButton {

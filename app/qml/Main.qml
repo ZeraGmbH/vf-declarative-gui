@@ -110,8 +110,6 @@ Window {
         active: settingsTabLoaded && GC.notifyOnRelease
         source: "qrc:/qml/controls/UpdateProcess.qml"
         onLoaded: {
-            netUpdateLoader.item.windowHeight = parent.height
-            netUpdateLoader.item.windowWidth = parent.width
             netUpdateLoader.item.checkLatestRelease()
         }
     }

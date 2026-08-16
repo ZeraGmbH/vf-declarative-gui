@@ -10,10 +10,6 @@ import GlobalConfig 1.0
 
 Item {
     id: root
-    property int windowHeight
-    property int windowWidth
-    readonly property real rowHeight: Math.max(windowHeight * 0.06, 10)
-    readonly property real pointSize: rowHeight * 0.5
     readonly property bool isNetworkConnected: networkListModel.networkConnected
     onIsNetworkConnectedChanged: {
         if(isNetworkConnected && GC.notifyOnRelease)
@@ -44,8 +40,6 @@ Item {
         id: releaseInfo
         updateWrapper: updateWrapper
         currentReleaseVersion: root.currentReleaseVersion
-        windowHeight: root.windowHeight - root.windowHeight/16
-        windowWidth: root.windowWidth
     }
 
     function checkLatestRelease() {
@@ -72,8 +66,9 @@ Item {
 
     Popup {
         id: newReleasePopup
-        x: (windowWidth - width) / 2
-        y: (windowHeight - height) / 2
+        parent: Overlay.overlay
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
         width: contentWidth * 1.2
         height: contentHeight * 1.2
         visible: false
