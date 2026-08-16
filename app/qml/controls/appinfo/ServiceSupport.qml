@@ -59,8 +59,17 @@ Item {
             }
         }
     }
-    UpdateWrapper {id: updateWrapper}
-    UpstreamReleaseGetter {id: releaseGetter}
+    UpdateWrapper { id: updateWrapper }
+    UpstreamReleaseGetter { id: releaseGetter }
+    Connections {
+        target: releaseGetter
+        function onSigReleaseVersionChanged() {
+            if(currentReleaseVersion === releaseGetter.releaseVersion)
+                sameVersionPopup.visible = true
+            else
+                releaseInfo.open()
+        }
+    }
 
     ReleaseInfo {
         id: releaseInfo
@@ -101,15 +110,6 @@ Item {
                 if(installStatus === UpdateWrapper.Success)
                     waitPopup.stopWait([],[],null)
             }
-        }
-    }
-    Connections {
-        target: releaseGetter
-        function onSigReleaseVersionChanged() {
-            if(currentReleaseVersion === releaseGetter.releaseVersion)
-                sameVersionPopup.visible = true
-            else
-                releaseInfo.open()
         }
     }
     ZButton {

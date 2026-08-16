@@ -11,13 +11,28 @@ import GlobalConfig 1.0
 
 Item {
     id: root
+    function checkLatestRelease() {
+        if(isNetworkConnected)
+            releaseGetter.startGetLatestReleaseDetails()
+    }
+
+    Timer {
+        interval: 86400000  // 24 hours
+        running: GC.notifyOnRelease && isNetworkConnected
+        repeat: true
+        onTriggered: checkLatestRelease()
+    }
+
+    InfoInterface { id: networkListModel }
     readonly property bool isNetworkConnected: networkListModel.networkConnected
     onIsNetworkConnectedChanged: {
         if(isNetworkConnected && GC.notifyOnRelease)
             checkLatestRelease()
     }
+
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
+
     readonly property int installStatus: updateWrapper.status
     onInstallStatusChanged: {
         if(installStatus === UpdateWrapper.InProgress)
@@ -34,10 +49,17 @@ Item {
             releaseInfo.close()
         }
     }
-    InfoInterface { id: networkListModel }
+
     WaitTransaction { id: waitPopup }
-    UpdateWrapper {id: updateWrapper}
-    UpstreamReleaseGetter {id: releaseGetter}
+    UpdateWrapper { id: updateWrapper }
+    UpstreamReleaseGetter { id: releaseGetter }
+    Connections {
+        target: releaseGetter
+        function onSigReleaseVersionChanged() {
+            if (currentReleaseVersion != null && currentReleaseVersion !== releaseGetter.releaseVersion)
+                releaseInfo.open()
+        }
+    }
     ReleaseInfo {
         id: releaseInfo
         releaseVersion: releaseGetter.releaseVersion
@@ -49,25 +71,5 @@ Item {
                 updateWrapper.updateDevice()
             }
         }
-    }
-    function checkLatestRelease() {
-        if(isNetworkConnected)
-            releaseGetter.startGetLatestReleaseDetails()
-    }
-
-    Connections {
-        target: releaseGetter
-        function onSigReleaseVersionChanged() {
-            if (currentReleaseVersion != null && currentReleaseVersion !== releaseGetter.releaseVersion)
-                releaseInfo.open()
-        }
-    }
-
-    Timer {
-        id: checkNewReleaseTimer
-        interval: 86400000  // 24 hours
-        running: GC.notifyOnRelease && isNetworkConnected
-        repeat: true
-        onTriggered: checkLatestRelease()
     }
 }
