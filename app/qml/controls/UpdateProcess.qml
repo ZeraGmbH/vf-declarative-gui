@@ -33,7 +33,7 @@ Item {
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
 
-    readonly property int installStatus: updateWrapper.status
+    readonly property int installStatus: updateCppWrapper.status
     onInstallStatusChanged: {
         if(installStatus === UpdateWrapper.InProgress)
             waitPopup.startWait(Z.tr("Starting update..."))
@@ -51,7 +51,7 @@ Item {
     }
 
     WaitTransaction { id: waitPopup }
-    UpdateWrapper { id: updateWrapper }
+    UpdateWrapper { id: updateCppWrapper }
     UpstreamReleaseGetter { id: releaseGetter }
     Connections {
         target: releaseGetter
@@ -68,7 +68,7 @@ Item {
         Connections {
             target: releaseInfo
             function onSigUpdateRequest() {
-                updateWrapper.updateDevice()
+                updateCppWrapper.updateDevice()
             }
         }
     }

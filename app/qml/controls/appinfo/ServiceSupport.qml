@@ -59,7 +59,7 @@ Item {
             }
         }
     }
-    UpdateWrapper { id: updateWrapper }
+    UpdateWrapper { id: updateCppWrapper }
     UpstreamReleaseGetter { id: releaseGetter }
     Connections {
         target: releaseGetter
@@ -79,7 +79,7 @@ Item {
         Connections {
             target: releaseInfo
             function onSigUpdateRequest() {
-                updateWrapper.updateDevice()
+                updateCppWrapper.updateDevice()
             }
         }
     }
@@ -91,9 +91,9 @@ Item {
         height: root.rowHeight * 1.625
         width: rowWidth * 1.5
         text: Z.tr("Start update by USB stick")
-        readonly property int installStatus: updateWrapper.status
+        readonly property int installStatus: updateCppWrapper.status
         onClicked: {
-            updateWrapper.startInstallation()
+            updateCppWrapper.startInstallation()
         }
         enabled: (QmlFileIO.mountedPaths.length > 0)
         highlighted: true
@@ -121,7 +121,7 @@ Item {
         text: Z.tr("Start update by network")
         enabled: isNetworkConnected
         highlighted: true
-        readonly property int installStatus: updateWrapper.status
+        readonly property int installStatus: updateCppWrapper.status
         onClicked: releaseGetter.startGetLatestReleaseDetails()
 
         onInstallStatusChanged: {
