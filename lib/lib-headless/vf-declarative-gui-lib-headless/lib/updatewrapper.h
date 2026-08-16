@@ -42,6 +42,14 @@ public:
     void setReleaseVersion(const QString &releaseVersion);
     QString getReleaseText();
     void setReleaseText(const QString &releaseText);
+signals:
+    void sigUpdateOkChanged();
+    void sigStatusChanged();
+    void sigReleaseVersionChanged();
+    void sigReleaseTextChanged();
+
+private slots:
+    void onTaskFinished(bool ok, int taskId);
 private:
     bool errorInLastLog();
     TaskTemplatePtr checkStorage();
@@ -60,15 +68,6 @@ private:
     UpdateStatus m_status = UpdateStatus::Invalid;
     QString m_serialNumberFilePath = "/opt/zera/conf/serialnumber";
     QNetworkAccessManager m_manager;
-
-signals:
-    void sigUpdateOkChanged();
-    void sigStatusChanged();
-    void sigReleaseVersionChanged();
-    void sigReleaseTextChanged();
-
-private slots:
-    void onTaskFinished(bool ok, int taskId);
 };
 
 #endif // UPDATEWRAPPER_H
