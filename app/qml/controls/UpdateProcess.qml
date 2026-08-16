@@ -68,7 +68,7 @@ Item {
         Connections {
             target: releaseInfo
             function onSigUpdateRequest() {
-                updateCppWrapper.updateDevice()
+                updateCppWrapper.startUpdateNet()
             }
         }
     }

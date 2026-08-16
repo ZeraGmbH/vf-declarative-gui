@@ -79,7 +79,7 @@ Item {
         Connections {
             target: releaseInfo
             function onSigUpdateRequest() {
-                updateCppWrapper.updateDevice()
+                updateCppWrapper.startUpdateNet()
             }
         }
     }
@@ -93,7 +93,7 @@ Item {
         text: Z.tr("Start update by USB stick")
         readonly property int installStatus: updateCppWrapper.status
         onClicked: {
-            updateCppWrapper.startInstallation()
+            updateCppWrapper.startUpdateUsb()
         }
         enabled: (QmlFileIO.mountedPaths.length > 0)
         highlighted: true

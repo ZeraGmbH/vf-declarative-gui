@@ -10,9 +10,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-void UpdateWrapper::startInstallation()
+void UpdateWrapper::startUpdateUsb()
 {
-    qInfo() << "Start Installation of update";
+    qInfo("Start USB update");
     setStatus(UpdateStatus::InProgress);
     m_tasks = TaskContainerSequence::create();
     TaskTemplatePtr findCorrectMountLocation = TaskLambdaRunner::create([this]() {
@@ -41,9 +41,9 @@ void UpdateWrapper::startInstallation()
     m_tasks->start();
 }
 
-void UpdateWrapper::updateDevice()
+void UpdateWrapper::startUpdateNet()
 {
-    qInfo() << "Start Installation of update";
+    qInfo("Start network update");
     setStatus(UpdateStatus::InProgress);
     m_pathToZups = "/home/operator";
     m_zupFilesNum = 2;

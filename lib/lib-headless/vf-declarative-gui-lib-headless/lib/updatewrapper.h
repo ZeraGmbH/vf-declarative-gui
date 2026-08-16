@@ -22,8 +22,8 @@ public:
     Q_PROPERTY(bool updateOk READ getUpdateOk NOTIFY sigUpdateOkChanged);
     Q_PROPERTY(UpdateStatus status READ getStatus NOTIFY sigStatusChanged);
 
-    Q_INVOKABLE void startInstallation();
-    Q_INVOKABLE void updateDevice();
+    Q_INVOKABLE void startUpdateUsb();
+    Q_INVOKABLE void startUpdateNet();
 
     QString searchForPackages(const QString &mountPath);
     QStringList orderPackageList(const QStringList &zupList);
