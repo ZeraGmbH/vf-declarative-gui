@@ -76,7 +76,7 @@ Item {
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
         width: rowWidth * 1.5
-        text: Z.tr("Start Update using USB stick")
+        text: Z.tr("Start update by USB stick")
         readonly property int installStatus: updateWrapper.status
         onClicked: {
             updateWrapper.startInstallation()
@@ -113,7 +113,7 @@ Item {
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
         width: rowWidth * 1.5
-        text: Z.tr("Start Update")
+        text: Z.tr("Start update by network")
         enabled: isNetworkConnected
         highlighted: true
         readonly property int installStatus: updateWrapper.status
