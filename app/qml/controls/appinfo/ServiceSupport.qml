@@ -109,7 +109,7 @@ Item {
             if(currentReleaseVersion === releaseGetter.releaseVersion)
                 sameVersionPopup.visible = true
             else
-                releaseInfo.releaseInfoWindowOnOff(true)
+                releaseInfo.open()
         }
     }
     ZButton {
@@ -136,7 +136,7 @@ Item {
                     waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
                 if(installStatus === UpdateWrapper.Success)
                     waitPopup.stopWait([],[],null)
-                releaseInfo.releaseInfoWindowOnOff(false)
+                releaseInfo.close()
             }
         }
     }

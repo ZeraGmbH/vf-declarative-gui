@@ -31,7 +31,7 @@ Item {
                 waitPopup.stopWait([],[Z.tr("Update failed. Please save logs and send them to service@zera.de.")],null)
             if(installStatus === UpdateWrapper.Success)
                 waitPopup.stopWait([],[],null)
-            releaseInfo.releaseInfoWindowOnOff(false)
+            releaseInfo.close()
         }
     }
     InfoInterface { id: networkListModel }
@@ -97,7 +97,7 @@ Item {
                     font.pointSize: pointSize
                     onClicked: {
                         newReleasePopup.close()
-                        releaseInfo.releaseInfoWindowOnOff(true)
+                        releaseInfo.open()
                     }
                 }
                 ZButton {
