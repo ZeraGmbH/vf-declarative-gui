@@ -99,7 +99,7 @@ Item {
             anchors.fill: parent
             Label {
                 font.pointSize: root.pointSize
-                text: Z.tr("Notify on new releases: ")
+                text: Z.tr("Notify on new releases:")
                 textFormat: Text.PlainText
                 Layout.fillHeight: true
                 Layout.fillWidth: true
@@ -123,7 +123,7 @@ Item {
             versionGetOddResultPopup.open()
         }
         function onSigUpstreamCheckFailed() {
-            versionGetOddResultPopup.text = Z.tr("An error occurred getting release info.\nPlease check your network connection or try again later")
+            versionGetOddResultPopup.text = Z.tr("An error occurred retrieving release info.\nPlease check your network connection or try again later.")
             versionGetOddResultPopup.open()
         }
     }
