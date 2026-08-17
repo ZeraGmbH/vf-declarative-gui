@@ -40,7 +40,7 @@ Popup {
             Layout.fillHeight: true
             readonly property bool scrollVisible: contentHeight > height
             readonly property int scrollWidth: 8
-            contentHeight: updateText.implicitHeight
+            contentHeight: updateText.height
             contentWidth: parent.width
             boundsBehavior: Flickable.StopAtBounds
             clip: true
@@ -52,6 +52,7 @@ Popup {
                 id: updateText
                 width: licenseFlickable.width - licenseFlickable.scrollWidth
                 wrapMode: Text.WordWrap
+                Layout.fillHeight: true
                 font.pointSize: confirmationPopup.pointSize
                 text: releaseText
                 horizontalAlignment: Text.AlignLeft
