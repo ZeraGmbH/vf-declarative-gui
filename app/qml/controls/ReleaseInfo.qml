@@ -1,6 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
+import VeinEntity 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
 
@@ -8,15 +9,15 @@ Popup {
     signal sigUpdateRequest()
     property string releaseVersion
     property string releaseText
-    property string currentReleaseVersion
 
     id: confirmationPopup
     parent: Overlay.overlay
     width: parent.width
     height: parent.height
-    visible: false
     readonly property real rowHeight: Math.max(height * 0.06, 10)
     readonly property real pointSize: rowHeight * 0.5
+    readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
+    readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
 
     ColumnLayout {
         anchors.fill: parent

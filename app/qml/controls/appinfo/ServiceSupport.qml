@@ -74,7 +74,6 @@ Item {
         id: releaseInfo
         releaseVersion: releaseGetter.releaseVersion
         releaseText: releaseGetter.releaseText
-        currentReleaseVersion: root.currentReleaseVersion
         Connections {
             target: releaseInfo
             function onSigUpdateRequest() {
