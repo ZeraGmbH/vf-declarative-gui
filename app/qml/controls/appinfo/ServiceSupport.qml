@@ -12,7 +12,8 @@ import '../../controls'
 Item {
     id: root
     readonly property real rowHeight: Math.max(height * 0.0725, 10)
-    readonly property real rowWidth: Math.max(buttonStoreLog.implicitContentWidth, buttonStartUpdateWithUSBStick.implicitContentWidth,
+    readonly property real rowWidth: Math.max(buttonStoreLog.implicitContentWidth,
+                                              buttonStartUpdateWithUSBStick.implicitContentWidth,
                                               buttonUpdateWithoutUSBStick.implicitContentWidth)
     readonly property real pointSize: rowHeight * 0.5
     readonly property bool isNetworkConnected: networkListModel.networkConnected
