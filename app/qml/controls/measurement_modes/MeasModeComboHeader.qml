@@ -93,7 +93,7 @@ Rectangle {
         anchors.rightMargin: grid.width > 200 ? 5 : -5
         anchors.right: grid.right
         anchors.verticalCenter: grid.verticalCenter
-        implicitWidth: grid.width < 200 ? 35 : 50
+        implicitWidth: grid.width * 0.25
         implicitHeight: parent.height / 2
         enabled: true
         visible: !showFoutOnly
