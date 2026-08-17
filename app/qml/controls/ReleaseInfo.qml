@@ -17,7 +17,7 @@ Popup {
     width: parent.width
     height: parent.height
     readonly property real rowHeight: Math.max(height * 0.06, 10)
-    readonly property real pointSize: rowHeight * 0.5
+    readonly property real pointSize: rowHeight * 0.4
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
 
