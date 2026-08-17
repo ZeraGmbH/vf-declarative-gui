@@ -22,6 +22,7 @@ Item {
     WaitTransaction { id: waitPopup }
     DeviceVersions { id: devVersions }
     InfoInterface { id: networkListModel }
+    UpdateProcess { id: updateProcess }
 
     ZButton {
         id: buttonStoreLog
@@ -57,7 +58,6 @@ Item {
             }
         }
     }
-    UpdateProcess { id: updateProcess }
 
     ZButton {
         id: buttonStartUpdateWithUSBStick
@@ -72,6 +72,7 @@ Item {
         enabled: (QmlFileIO.mountedPaths.length > 0)
         highlighted: true
     }
+
     ZButton {
         id: buttonUpdateWithoutUSBStick
         anchors {top: buttonStartUpdateWithUSBStick.bottom; horizontalCenter: parent.horizontalCenter }
@@ -83,34 +84,6 @@ Item {
         highlighted: true
         onClicked: {
             updateProcess.tryStartUpdateNet()
-        }
-    }
-
-    Popup {
-        id: sameVersionPopup
-        parent: Overlay.overlay
-        anchors.centerIn: parent
-        readonly property real pointSize: parent.width * 0.02
-        Connections {
-            target: updateProcess
-            function onSigUpstreamHasSameVersionAsInstalled() {
-                sameVersionPopup.open()
-            }
-        }
-        ColumnLayout {
-            anchors.fill: parent
-            Label {
-                font.pointSize: sameVersionPopup.pointSize
-                text: Z.tr("Device has the latest release version")
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-            }
-            ZButton {
-                text: Z.tr("Close")
-                font.pointSize: sameVersionPopup.pointSize
-                Layout.alignment: Qt.AlignHCenter
-                onClicked: sameVersionPopup.close()
-            }
         }
     }
 
@@ -139,6 +112,34 @@ Item {
                 spacing: 0
                 checked: GC.notifyOnRelease
                 onCheckedChanged: GC.setNotifyOnRelease(checked)
+            }
+        }
+    }
+
+    Popup {
+        id: sameVersionPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        readonly property real pointSize: parent.width * 0.02
+        Connections {
+            target: updateProcess
+            function onSigUpstreamHasSameVersionAsInstalled() {
+                sameVersionPopup.open()
+            }
+        }
+        ColumnLayout {
+            anchors.fill: parent
+            Label {
+                font.pointSize: sameVersionPopup.pointSize
+                text: Z.tr("Device has the latest release version")
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+            }
+            ZButton {
+                text: Z.tr("Close")
+                font.pointSize: sameVersionPopup.pointSize
+                Layout.alignment: Qt.AlignHCenter
+                onClicked: sameVersionPopup.close()
             }
         }
     }
