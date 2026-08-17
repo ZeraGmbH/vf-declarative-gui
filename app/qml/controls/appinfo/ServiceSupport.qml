@@ -95,21 +95,22 @@ Item {
         height: root.rowHeight * 1.5
         width: rowWidth * 1.5
         visible: true
-        RowLayout {
+        Item {
             anchors.fill: parent
             Label {
                 font.pointSize: root.pointSize
                 text: Z.tr("Notify on new releases:")
                 textFormat: Text.PlainText
-                Layout.fillHeight: true
-                Layout.fillWidth: true
+                height: parent.height
+                anchors.left: parent.left
                 verticalAlignment: Label.AlignVCenter
             }
             ZCheckBox {
-                Layout.fillHeight: true
-                rightPadding: 0
-                padding: 0
+                height: parent.height * 1.25
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
                 spacing: 0
+                padding: 0
                 checked: GC.notifyOnRelease
                 onCheckedChanged: GC.setNotifyOnRelease(checked)
             }
