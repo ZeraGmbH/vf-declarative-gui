@@ -16,6 +16,7 @@ Item {
         checkNetLatestRelease(true)
     }
     signal sigUpstreamHasSameVersionAsInstalled()
+    signal sigUpstreamCheckFailed()
 
     id: root
     Timer {
@@ -28,6 +29,7 @@ Item {
         if(isNetworkConnected) {
             userRequestedUpdate = calledByUser
             releaseGetter.startGetLatestReleaseDetails()
+            // continues at onSigReleaseVersionChanged()
         }
     }
 
@@ -54,7 +56,11 @@ Item {
     Connections {
         target: releaseGetter
         function onSigReleaseVersionChanged() {
-            if (currentReleaseVersion === releaseGetter.releaseVersion) {
+            if (releaseGetter.releaseVersion === "") {
+                if (userRequestedUpdate)
+                    sigUpstreamCheckFailed()
+            }
+            else if (currentReleaseVersion === releaseGetter.releaseVersion) {
                 if (userRequestedUpdate)
                     sigUpstreamHasSameVersionAsInstalled()
             }

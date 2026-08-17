@@ -116,30 +116,36 @@ Item {
         }
     }
 
+    Connections {
+        target: updateProcess
+        function onSigUpstreamHasSameVersionAsInstalled() {
+            versionGetOddResultPopup.text = Z.tr("Device has the latest release version")
+            versionGetOddResultPopup.open()
+        }
+        function onSigUpstreamCheckFailed() {
+            versionGetOddResultPopup.text = Z.tr("An error occurred getting release info.\nPlease check your network connection or try again later")
+            versionGetOddResultPopup.open()
+        }
+    }
     Popup {
-        id: sameVersionPopup
+        id: versionGetOddResultPopup
         parent: Overlay.overlay
         anchors.centerIn: parent
         readonly property real pointSize: parent.width * 0.02
-        Connections {
-            target: updateProcess
-            function onSigUpstreamHasSameVersionAsInstalled() {
-                sameVersionPopup.open()
-            }
-        }
+        property alias text: textLabel.text
         ColumnLayout {
             anchors.fill: parent
             Label {
-                font.pointSize: sameVersionPopup.pointSize
-                text: Z.tr("Device has the latest release version")
+                id: textLabel
+                font.pointSize: versionGetOddResultPopup.pointSize
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
             }
             ZButton {
                 text: Z.tr("Close")
-                font.pointSize: sameVersionPopup.pointSize
+                font.pointSize: versionGetOddResultPopup.pointSize
                 Layout.alignment: Qt.AlignHCenter
-                onClicked: sameVersionPopup.close()
+                onClicked: versionGetOddResultPopup.close()
             }
         }
     }
