@@ -26,6 +26,7 @@ Item {
 
     ZButton {
         id: buttonStoreLog
+        anchors.topMargin: rowHeight * 3.5
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
@@ -61,6 +62,7 @@ Item {
 
     ZButton {
         id: buttonStartUpdateWithUSBStick
+        anchors.topMargin: rowHeight / 2
         anchors {top: buttonStoreLog.bottom; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize
         height: root.rowHeight * 1.625
@@ -92,13 +94,13 @@ Item {
         anchors {top: buttonUpdateWithoutUSBStick.bottom;
                  left: buttonUpdateWithoutUSBStick.left;
                  right: buttonUpdateWithoutUSBStick.right; }
-        height: root.rowHeight * 1.5
+        height: root.rowHeight * 1.25
         width: rowWidth * 1.5
         visible: true
         Item {
             anchors.fill: parent
             Label {
-                font.pointSize: root.pointSize
+                font.pointSize: root.pointSize * 1.125
                 text: Z.tr("Notify on new releases:")
                 textFormat: Text.PlainText
                 height: parent.height
@@ -106,7 +108,7 @@ Item {
                 verticalAlignment: Label.AlignVCenter
             }
             ZCheckBox {
-                height: parent.height * 1.25
+                height: parent.height * 1.625
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 0

@@ -90,9 +90,6 @@ BaseTabPage {
         tabBar.addItem(tabLicense.createObject(tabBar))
         swipeView.addItem(pageLicense.createObject(swipeView))
 
-        swipeView.anchors.topMargin = 8
-        swipeView.anchors.bottomMargin = 8
-
         finishInit()
     }
 }
