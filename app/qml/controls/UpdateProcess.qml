@@ -20,7 +20,7 @@ Item {
 
     id: root
     Timer {
-        interval: 3600 * 1000 // 1 hour
+        interval: 3 * 3600 * 1000 // 3 hours
         running: GC.notifyOnRelease && isNetworkConnected
         repeat: true
         onTriggered: checkNetLatestRelease(false)
