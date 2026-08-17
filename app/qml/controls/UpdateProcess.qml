@@ -13,37 +13,41 @@ Item {
         updateWrapperQml.startUpdateUsb()
     }
     function tryStartUpdateNet() {
-        checkLatestRelease(false)
+        checkNetLatestRelease(true)
     }
     signal sigUpstreamHasSameVersionAsInstalled()
 
     id: root
     Timer {
-        interval: 86400000  // 24 hours
+        interval: 3600 * 1000 // 1 hour
         running: GC.notifyOnRelease && isNetworkConnected
         repeat: true
-        onTriggered: checkLatestRelease(true)
+        onTriggered: checkNetLatestRelease(false)
     }
-    function checkLatestRelease(calledFromAutoCheck) {
+    function checkNetLatestRelease(calledByUser) {
         if(isNetworkConnected) {
-            fireOnSame = !calledFromAutoCheck
+            userRequestedUpdate = calledByUser
             releaseGetter.startGetLatestReleaseDetails()
         }
     }
 
     InfoInterface { id: networkListModel }
     readonly property bool isNetworkConnected: networkListModel.networkConnected
-    onIsNetworkConnectedChanged: { tryUpdate() }
+    onIsNetworkConnectedChanged: { tryNetUpdateCheck() }
     readonly property bool isAutoUpdateCheckActive: GC.notifyOnRelease
-    onIsAutoUpdateCheckActiveChanged: { tryUpdate() }
-    function tryUpdate() {
-        if(isNetworkConnected && isAutoUpdateCheckActive)
-            checkLatestRelease(true)
+    onIsAutoUpdateCheckActiveChanged: {
+        if (isAutoUpdateCheckActive)
+            GC.resetVersionCanceledByUser()
+        tryNetUpdateCheck()
+    }
+    function tryNetUpdateCheck() {
+        if (isNetworkConnected && isAutoUpdateCheckActive)
+            checkNetLatestRelease(false)
     }
 
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
-    property bool fireOnSame: false
+    property bool userRequestedUpdate: false
 
     UpdateWrapperQml { id: updateWrapperQml }
     UpstreamReleaseGetter { id: releaseGetter }
@@ -51,11 +55,13 @@ Item {
         target: releaseGetter
         function onSigReleaseVersionChanged() {
             if (currentReleaseVersion === releaseGetter.releaseVersion) {
-                if (fireOnSame)
+                if (userRequestedUpdate)
                     sigUpstreamHasSameVersionAsInstalled()
             }
-            else
-                releaseInfo.open()
+            else {
+                if (userRequestedUpdate || GC.releaseVersionCanceledByUser !== releaseGetter.releaseVersion)
+                    releaseInfo.open()
+            }
         }
     }
     ReleaseInfo {

@@ -4,9 +4,11 @@ import QtQuick.Controls 2.14
 import VeinEntity 1.0
 import ZeraComponents 1.0
 import ZeraTranslation 1.0
+import GlobalConfig 1.0
 
 Popup {
     signal sigUpdateRequest()
+    signal sigUpdateCanceled()
     property string releaseVersion
     property string releaseText
 
@@ -67,7 +69,10 @@ Popup {
                 text: Z.tr("Cancel")
                 font.pointSize: confirmationPopup.pointSize
                 Layout.preferredWidth: okCancelButtonRow.buttonWidth
-                onClicked: confirmationPopup.close()
+                onClicked: {
+                    GC.releaseVersionCanceledByUser = releaseVersion
+                    confirmationPopup.close()
+                }
             }
             ZButton {
                 id: okButton

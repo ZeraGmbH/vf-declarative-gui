@@ -241,6 +241,8 @@ Item {
         notifyOnRelease = on
         Settings.setOption("notify_on_new_release", on ? 1 : 0);
     }
+    property string releaseVersionCanceledByUser: "no-version"
+    function resetVersionCanceledByUser() { releaseVersionCanceledByUser = "no-version" }
 
     /////////////////////////////////////////////////////////////////////////////
     // Common standard margins
