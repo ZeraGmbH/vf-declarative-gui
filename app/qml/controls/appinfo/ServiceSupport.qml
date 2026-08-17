@@ -135,19 +135,18 @@ Item {
         id: versionGetOddResultPopup
         parent: Overlay.overlay
         anchors.centerIn: parent
-        readonly property real pointSize: parent.width * 0.02
         property alias text: textLabel.text
         ColumnLayout {
             anchors.fill: parent
             Label {
                 id: textLabel
-                font.pointSize: versionGetOddResultPopup.pointSize
+                font.pointSize: root.pointSize
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
             }
             ZButton {
                 text: Z.tr("Close")
-                font.pointSize: versionGetOddResultPopup.pointSize
+                font.pointSize: root.pointSize
                 Layout.alignment: Qt.AlignHCenter
                 onClicked: versionGetOddResultPopup.close()
             }
