@@ -9,35 +9,52 @@ import anmsettings 1.0
 import GlobalConfig 1.0
 
 Item {
-    id: root
-    function checkLatestRelease() {
-        if(isNetworkConnected)
-            releaseGetter.startGetLatestReleaseDetails()
+    function startUpdateUsb() {
+        updateWrapperQml.startUpdateUsb()
     }
+    function tryStartUpdateNet() {
+        checkLatestRelease(false)
+    }
+    signal sigUpstreamHasSameVersionAsInstalled()
 
+    id: root
     Timer {
         interval: 86400000  // 24 hours
         running: GC.notifyOnRelease && isNetworkConnected
         repeat: true
-        onTriggered: checkLatestRelease()
+        onTriggered: checkLatestRelease(true)
+    }
+    function checkLatestRelease(calledFromAutoCheck) {
+        if(isNetworkConnected) {
+            fireOnSame = !calledFromAutoCheck
+            releaseGetter.startGetLatestReleaseDetails()
+        }
     }
 
     InfoInterface { id: networkListModel }
     readonly property bool isNetworkConnected: networkListModel.networkConnected
-    onIsNetworkConnectedChanged: {
-        if(isNetworkConnected && GC.notifyOnRelease)
-            checkLatestRelease()
+    onIsNetworkConnectedChanged: { tryUpdate() }
+    readonly property bool isAutoUpdateCheckActive: GC.notifyOnRelease
+    onIsAutoUpdateCheckActiveChanged: { tryUpdate() }
+    function tryUpdate() {
+        if(isNetworkConnected && isAutoUpdateCheckActive)
+            checkLatestRelease(true)
     }
 
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property string currentReleaseVersion : statusEntity["INF_ReleaseNr"]
+    property bool fireOnSame: false
 
     UpdateWrapperQml { id: updateWrapperQml }
     UpstreamReleaseGetter { id: releaseGetter }
     Connections {
         target: releaseGetter
         function onSigReleaseVersionChanged() {
-            if (currentReleaseVersion != null && currentReleaseVersion !== releaseGetter.releaseVersion)
+            if (currentReleaseVersion === releaseGetter.releaseVersion) {
+                if (fireOnSame)
+                    sigUpstreamHasSameVersionAsInstalled()
+            }
+            else
                 releaseInfo.open()
         }
     }

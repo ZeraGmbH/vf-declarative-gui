@@ -4,7 +4,6 @@ import QtQuick.Controls 2.14
 import ZeraTranslation  1.0
 import QmlFileIO 1.0
 import GlobalConfig 1.0
-import UpstreamReleaseGetter 1.0
 import ZeraComponents 1.0
 import VeinEntity 1.0
 import anmsettings 1.0
@@ -58,30 +57,7 @@ Item {
             }
         }
     }
-    UpdateWrapperQml { id: updateWrapperQml }
-    UpstreamReleaseGetter { id: releaseGetter }
-    Connections {
-        target: releaseGetter
-        function onSigReleaseVersionChanged() {
-            if(currentReleaseVersion === releaseGetter.releaseVersion)
-                sameVersionPopup.visible = true
-            else
-                releaseInfo.open()
-        }
-    }
-
-    ReleaseInfo {
-        id: releaseInfo
-        releaseVersion: releaseGetter.releaseVersion
-        releaseText: releaseGetter.releaseText
-        Connections {
-            target: releaseInfo
-            function onSigUpdateRequest() {
-                releaseInfo.close()
-                updateWrapperQml.startUpdateNet()
-            }
-        }
-    }
+    UpdateProcess { id: updateProcess }
 
     ZButton {
         id: buttonStartUpdateWithUSBStick
@@ -91,8 +67,7 @@ Item {
         width: rowWidth * 1.5
         text: Z.tr("Start update by USB stick")
         onClicked: {
-            releaseInfo.close()
-            updateWrapperQml.startUpdateUsb()
+            updateProcess.startUpdateUsb()
         }
         enabled: (QmlFileIO.mountedPaths.length > 0)
         highlighted: true
@@ -106,25 +81,33 @@ Item {
         text: Z.tr("Start update by network")
         enabled: isNetworkConnected
         highlighted: true
-        onClicked: releaseGetter.startGetLatestReleaseDetails()
+        onClicked: {
+            updateProcess.tryStartUpdateNet()
+        }
     }
+
     Popup {
         id: sameVersionPopup
+        parent: Overlay.overlay
         anchors.centerIn: parent
-        width: contentWidth * 1.2
-        height: contentHeight * 1.2
-        visible: false
+        readonly property real pointSize: parent.width * 0.02
+        Connections {
+            target: updateProcess
+            function onSigUpstreamHasSameVersionAsInstalled() {
+                sameVersionPopup.open()
+            }
+        }
         ColumnLayout {
             anchors.fill: parent
             Label {
-                font.pointSize: pointSize
+                font.pointSize: sameVersionPopup.pointSize
                 text: Z.tr("Device has the latest release version")
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
             }
             ZButton {
                 text: Z.tr("Close")
-                font.pointSize: pointSize
+                font.pointSize: sameVersionPopup.pointSize
                 Layout.alignment: Qt.AlignHCenter
                 onClicked: sameVersionPopup.close()
             }
@@ -132,6 +115,7 @@ Item {
     }
 
     Item {
+        id: checkBoxAutoNotify
         anchors {top: buttonUpdateWithoutUSBStick.bottom;
                  left: buttonUpdateWithoutUSBStick.left;
                  right: buttonUpdateWithoutUSBStick.right; }

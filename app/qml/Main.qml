@@ -103,17 +103,6 @@ Window {
         }
     }
 
-    property bool settingsTabLoaded: false
-
-    Loader {
-        id: netUpdateLoader
-        active: settingsTabLoaded && GC.notifyOnRelease
-        source: "qrc:/qml/controls/UpdateProcess.qml"
-        onLoaded: {
-            netUpdateLoader.item.checkLatestRelease()
-        }
-    }
-
     Connections {
         target: VeinEntity
         function onSigSystemEntityAvailable() {
@@ -190,8 +179,15 @@ Window {
                 }
             }
             Loader {
+                id: infoLoader
                 source: "qrc:/qml/controls/appinfo/StatusView.qml"
-                active: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
+                active: false
+                asynchronous: true
+                property bool pageVisible: layoutStack.currentIndex === GC.layoutStackEnum.layoutStatusIndex
+                onLoaded: {
+                    infoLoader.item.visible = Qt.binding(function() { return infoLoader.pageVisible })
+                    console.info("InfoPage loaded")
+                }
             }
             Loader {
                 sourceComponent: SplashView { }
@@ -331,7 +327,6 @@ Window {
                 pageViewLoader.item.model = Qt.binding(function() { return dynamicPageModel })
                 pageViewLoader.item.visible = Qt.binding(function() { return pageViewLoader.pageVisible })
                 console.info("PageView loaded")
-                settingsTabLoaded = true
             }
             function openView() {
                 pageVisible = true

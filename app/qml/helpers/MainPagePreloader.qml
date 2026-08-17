@@ -41,6 +41,10 @@ Item {
                 'callFunction': () => tryActivatePageLoader(pageViewLoader, "PageView")
             },
             {
+                'type': 'unblock',
+                'callFunction': () => tryActivatePageLoader(infoLoader, "InfoPage")
+            },
+            {
                 'type': 'block',
                 'callFunction': () => {
                     console.info("All on demand pages preloaded.")
@@ -61,6 +65,10 @@ Item {
         target: rangeMModePageLoader
         function onLoaded() { handleLoaded(rangeMModePageLoader) }
     }
+    Connections {
+        target: infoLoader
+        function onLoaded() { handleLoaded(infoLoader) }
+    }
 
     // Why is the code in here so complicated:
     // We have:
@@ -79,6 +87,7 @@ Item {
         bindPageLoaderForShowBeforeActivate(pageViewLoader)
         bindPageLoaderForShowBeforeActivate(rangeMModePageLoader)
         bindPageLoaderForShowBeforeActivate(settingsLoader)
+        bindPageLoaderForShowBeforeActivate(infoLoader)
     }
     function bindPageLoaderForShowBeforeActivate(pageLoader) {
         // ensure user show request is handled before preload finished - binding will be broken
@@ -117,5 +126,6 @@ Item {
         pageViewLoader.active = false
         rangeMModePageLoader.active = false
         settingsLoader.active = false
+        infoLoader.active = false
     }
 }
