@@ -47,7 +47,15 @@ Item {
         ]
     }
     Component.onCompleted: {
-        initPageLoaders()
+        console.info("Establish temporary fallback to open pages before loaded.")
+        bindPageLoaderForShowBeforeActivate(pageViewLoader)
+        bindPageLoaderForShowBeforeActivate(rangeMModePageLoader)
+        bindPageLoaderForShowBeforeActivate(settingsLoader)
+        bindPageLoaderForShowBeforeActivate(infoLoader)
+    }
+    function bindPageLoaderForShowBeforeActivate(pageLoader) {
+        // ensure user show request is handled before preload finished - binding will be broken
+        pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
     }
     Connections {
         target: settingsLoader
@@ -78,17 +86,6 @@ Item {
 
     property bool loaderLoading: false
     property bool stopRequested: false
-    function initPageLoaders() {
-        console.info("Establish temporary fallback to open pages before loaded.")
-        bindPageLoaderForShowBeforeActivate(pageViewLoader)
-        bindPageLoaderForShowBeforeActivate(rangeMModePageLoader)
-        bindPageLoaderForShowBeforeActivate(settingsLoader)
-        bindPageLoaderForShowBeforeActivate(infoLoader)
-    }
-    function bindPageLoaderForShowBeforeActivate(pageLoader) {
-        // ensure user show request is handled before preload finished - binding will be broken
-        pageLoader.active = Qt.binding(function() { return pageLoader.pageVisible })
-    }
     function tryActivatePageLoader(loader, loaderLoggedName) {
         if (stopRequested)
             Qt.callLater(doStopPreloadPages)
