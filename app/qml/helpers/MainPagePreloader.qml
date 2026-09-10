@@ -21,13 +21,6 @@ Item {
     TaskList {
         id: tasksLoaderActivate
         taskArray: [
-            {
-                'type': 'block',
-                'callFunction': () => {
-                    initPageLoaders()
-                    return true
-                }
-            },
             {   // settingsLoader takes longest => load it first
                 'type': 'unblock',
                 'callFunction': () => tryActivatePageLoader(settingsLoader, "SettingsPage")
@@ -52,6 +45,9 @@ Item {
                 }
             }
         ]
+    }
+    Component.onCompleted: {
+        initPageLoaders()
     }
     Connections {
         target: settingsLoader
