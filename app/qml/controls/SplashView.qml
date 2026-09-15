@@ -4,6 +4,7 @@ import ZeraTranslation 1.0
 import GlobalConfig 1.0
 import QmlFileIO 1.0
 import ZeraComponents 1.0
+import "./appinfo"
 
 Item {
     id: splashItem
@@ -27,18 +28,12 @@ Item {
         width: height
         anchors.bottomMargin: height
     }
-    ZButton {
+    ButtonStoreLog {
         visible: !safeDelay.running && !splashItem.firmwareUpdateRunning
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        width: parent.width * 0.5
         height: parent.height * 0.125
         font.pointSize: Math.max(parent.height * 0.04, 10)
-        text: Z.tr("Save/Send logs")
-        onClicked: {
-            GC.setLastInfoTabSelected(1)
-            layoutStack.currentIndex = GC.layoutStackEnum.layoutStatusIndex
-        }
     }
     property bool firmwareUpdateRunning: QmlFileIO.fileExists("/tmp/firmware-update-pending")
     Timer {
