@@ -26,12 +26,16 @@ Item {
         width: height
         anchors.bottomMargin: height
     }
-    ButtonStoreLog {
-        visible: !safeDelay.running && !splashItem.firmwareUpdateRunning
+    Loader {
+        id: loaderButtonStoreLog
+        active: !safeDelay.running && !splashItem.firmwareUpdateRunning
+        source: "qrc:/qml/controls/appinfo/ButtonStoreLog.qml"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         height: parent.height * 0.125
-        font.pointSize: Math.max(parent.height * 0.04, 10)
+        onLoaded: {
+            loaderButtonStoreLog.item.font.pointSize = Math.max(splashItem.height * 0.04, 10)
+        }
     }
     property bool firmwareUpdateRunning: QmlFileIO.fileExists("/tmp/firmware-update-pending")
     Timer {
