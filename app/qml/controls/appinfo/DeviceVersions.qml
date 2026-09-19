@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import VeinEntity 1.0
-import AdjustmentState 1.0
 import ZeraTranslation  1.0
+import "../../helpers"
 
 Item {
     readonly property var allVersionsForDisplay: translateJson(allVersions)
@@ -15,12 +15,13 @@ Item {
         versions.push(["FPGA firmware version", statusEntity["INF_FPGAVersion"]])
         pushArray(versions, controllerVersions)
         pushArray(versions, veinChannelJsonToJsonObject())
-        versions.push(["Adjustment status", AdjState.adjustmentStatusBare])
+        versions.push(["Adjustment status", adjState.adjustmentStatusBare])
         pushArray(versions, cpuVersions)
         return versions
     }
 
     // private
+    AdjustmentState { id: adjState }
     readonly property QtObject statusEntity: VeinEntity.getEntity("StatusModule1");
     readonly property var controllerVersions: veinJsonToJsonObject("INF_CTRLVersion") // Relais/System/EMOB µController
     readonly property var pcbVersions: veinJsonToJsonObject("INF_PCBVersion")         // Relais/System/EMOB PCB
@@ -98,7 +99,7 @@ Item {
             if(labelBare !== "Adjustment status")
                 value = item[1]
             else
-                value = AdjState.adjustmentStatusDisplay
+                value = adjState.adjustmentStatusDisplay
             let translated = translateEmob(labelBare)
             if (translated === labelBare)
                 translated = Z.tr(labelBare)

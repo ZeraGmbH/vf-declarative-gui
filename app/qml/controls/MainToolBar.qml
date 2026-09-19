@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
 import GlobalConfig 1.0
-import AdjustmentState 1.0
 import VeinEntity 1.0
 import SessionState 1.0
 import FontAwesomeHash 1.0
@@ -12,6 +11,7 @@ import ZeraThemeConfig 1.0
 import "accu"
 import "ranges"
 import "logger"
+import "../helpers"
 
 ToolBar {
     id: root
@@ -67,6 +67,7 @@ ToolBar {
         id: rotaryFieldCmp
         RotaryFieldIndicator {}
     }
+    AdjustmentState { id: adjState }
     RowLayout {
         anchors.fill: parent
         anchors.leftMargin: 4
@@ -258,7 +259,7 @@ ToolBar {
             Material.foreground: { // Note: highligted overrifdes Material.foreground
                 var _opacity = 1
                 var _color = ZTC.primaryTextColor
-                if (!AdjState.adjusted) {
+                if (!adjState.adjusted) {
                     if (schnubbelInserted)
                         _color = blinker.show ? Material.Blue : Material.Red
                     else {

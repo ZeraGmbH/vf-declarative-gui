@@ -4,10 +4,10 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 import ZeraTranslation  1.0
 import GlobalConfig 1.0
-import AdjustmentState 1.0
 import FontAwesomeHash 1.0
 import ZeraThemeConfig 1.0
 import ZeraComponents 1.0
+import "../../helpers"
 import "../../pages"
 
 BaseTabPage {
@@ -22,6 +22,7 @@ BaseTabPage {
         GC.setLastInfoTabSelected(tabNo)
     }
 
+    AdjustmentState { id: adjState }
     // TabButtons
     Component {
         id: tabStatus
@@ -30,11 +31,11 @@ BaseTabPage {
             font.pointSize: tabPointSize
             height: tabHeight
             text: FAQH.strToGlyph("fa_info_circle") + " " + Z.tr("Device info")
-            Material.foreground: AdjState.adjusted ? ZTC.primaryTextColor : Material.Red
+            Material.foreground: adjState.adjusted ? ZTC.primaryTextColor : Material.Red
             Timer {
                 interval: 300
                 repeat: true
-                running: !AdjState.adjusted && !statusTabButton.checked
+                running: !adjState.adjusted && !statusTabButton.checked
                 onRunningChanged: {
                     if(!running) {
                         statusTabButton.opacity = 1
