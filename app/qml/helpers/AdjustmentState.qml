@@ -19,7 +19,7 @@ Item {
         return trErrors.join(" / ")
     }
     // INF_Adjusted is a bitmask - see adjustmentStatusBare / 0 is OK
-    readonly property int adjustmentValue: parseInt(VeinEntity.getEntity("StatusModule1")!==null ? VeinEntity.getEntity("StatusModule1").INF_Adjusted: 1)
+    readonly property int adjustmentValue: parseInt(VeinEntity.state == VeinEntity.VQ_LOADED ? VeinEntity.getEntity("StatusModule1").INF_Adjusted : "1")
     function bareErrors() {
         let errors = []
         // see mt310s2d/com5003d / adjustment.h for flags definition
