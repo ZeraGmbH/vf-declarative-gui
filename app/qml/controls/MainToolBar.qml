@@ -7,6 +7,7 @@ import VeinEntity 1.0
 import SessionState 1.0
 import FontAwesomeHash 1.0
 import ZeraComponents 1.0
+import ZeraVeinComponents 1.0
 import ZeraThemeConfig 1.0
 import "accu"
 import "ranges"
