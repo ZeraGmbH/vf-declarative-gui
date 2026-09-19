@@ -1,7 +1,6 @@
 pragma Singleton
 import QtQuick 2.0
 import VeinEntity 1.0
-import GlobalConfig 1.0
 import ZeraTranslation 1.0
 
 Item {
@@ -21,7 +20,7 @@ Item {
         return trErrors.join(" / ")
     }
     // INF_Adjusted is a bitmask - see adjustmentStatusBare / 0 is OK
-    readonly property int adjustmentValue: parseInt(GC.entityInitializationDone ? VeinEntity.getEntity("StatusModule1").INF_Adjusted : "1")
+    readonly property int adjustmentValue: parseInt(VeinEntity.getEntity("StatusModule1")!==null ? VeinEntity.getEntity("StatusModule1").INF_Adjusted: 1)
     function bareErrors() {
         let errors = []
         // see mt310s2d/com5003d / adjustment.h for flags definition
