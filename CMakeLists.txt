@@ -32,7 +32,6 @@ find_package(ZeraTranslation REQUIRED)
 find_Package(zera-json-helpers REQUIRED)
 find_Package(VfQmlLibs REQUIRED)
 find_package(VfFiles REQUIRED)
-find_package(simplecmdiobase REQUIRED)
 
 ##enable useful warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wparentheses -Wformat -Wformat-security -Wdeprecated -Wcast-align -Woverloaded-virtual")
