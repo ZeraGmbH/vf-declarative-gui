@@ -61,13 +61,6 @@ JsonSettingsFile *getJsonSettingsFileInstance(QQmlEngine *engine, QJSEngine *scr
     return JsonSettingsFile::getInstance();
 }
 
-QmlFileIO *getQmlFileIOInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return QmlFileIO::getInstance();
-}
-
 RecorderFetchAndCache *getRecorderFetchAndCache(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
@@ -91,8 +84,8 @@ static void registerQmlInt()
     QmlAppStarterForWebGL::registerQMLSingleton();
     QmlAppStarterForWebserver::registerQMLSingleton();
     QmlAppStarterForApi::registerQMLSingleton();
+    QmlFileIO::registerQMLSingleton();
     qmlRegisterSingletonType<JsonSettingsFile>("ZeraSettings", 1, 0, "Settings", getJsonSettingsFileInstance);
-    qmlRegisterSingletonType<QmlFileIO>("QmlFileIO", 1, 0, "QmlFileIO", getQmlFileIOInstance);
     qmlRegisterSingletonType<RecorderFetchAndCache>("RecorderFetchAndCache", 1, 0, "RecorderFetchAndCache", getRecorderFetchAndCache);
     qmlRegisterType<DeclarativeJsonItem>("DeclarativeJson", 1, 0, "DeclarativeJsonItem");
     qmlRegisterType<ScreenCapture>("ScreenCapture", 1, 0, "ScreenCapture");
