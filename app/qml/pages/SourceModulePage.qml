@@ -69,9 +69,7 @@ Item {
             }
         }
     }
-    WaitTransaction {
-        id: waitPopup
-    }
+    WaitTransaction { id: waitPopup }
 
     Component.onCompleted: {
         symmetrize()

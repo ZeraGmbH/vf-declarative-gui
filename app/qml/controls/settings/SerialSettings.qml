@@ -28,9 +28,7 @@ Item {
 
     visible: height > 0 && (sourceEntity || scpiEntity)
 
-    WaitTransaction {
-        id: waitPopup
-    }
+    WaitTransaction { id: waitPopup }
     property var warningsCollected: []
     property var errorsCollected: []
 

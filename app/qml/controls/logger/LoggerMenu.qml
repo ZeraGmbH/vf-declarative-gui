@@ -180,9 +180,7 @@ Item {
         }
     }
 
-    WaitTransaction {
-        id: waitPopup
-    }
+    WaitTransaction { id: waitPopup }
 
     // menu with logger operations
     Menu {

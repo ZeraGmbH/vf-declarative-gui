@@ -70,9 +70,7 @@ Item {
         return databaseName !== "" && mountedPaths.includes(selectedMountPath) // db & drive still there
     }
 
-    WaitTransaction {
-        id: waitPopup
-    }
+    WaitTransaction { id: waitPopup }
 
     property var objMainXmlFlagsReturned
     property var objResultXmlFlagsReturned

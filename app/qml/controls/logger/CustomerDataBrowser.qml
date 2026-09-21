@@ -56,9 +56,7 @@ Item {
             }
         ]
     }
-    WaitTransaction {
-        id: waitPopup
-    }
+    WaitTransaction { id: waitPopup }
     TaskList {
         id: tasksExport
         taskArray: [
