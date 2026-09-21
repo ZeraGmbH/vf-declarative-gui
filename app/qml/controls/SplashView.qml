@@ -1,6 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import ZeraTranslation 1.0
+import GlobalConfig 1.0
 import QmlFileIO 1.0
 import "./appinfo"
 
@@ -34,6 +35,7 @@ Item {
         anchors.bottom: parent.bottom
         height: parent.height * 0.125
         onLoaded: {
+            loaderButtonStoreLog.item.serverIp = GC.serverIp
             loaderButtonStoreLog.item.font.pointSize = Math.max(splashItem.height * 0.04, 10)
         }
     }

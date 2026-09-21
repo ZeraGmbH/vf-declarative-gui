@@ -3,12 +3,12 @@ import QtQuick.Layouts 1.14
 import QtQuick.Controls 2.14
 import ZeraTranslation  1.0
 import QmlFileIO 1.0
-import GlobalConfig 1.0
 import ZeraComponents 1.0
 import ZeraVeinComponents 1.0
-import '../../controls'
 
 ZButton {
+    property string serverIp
+
     text: Z.tr("Save logfile to USB")
     readonly property bool writingLogsToUsb: QmlFileIO.writingLogsToUsb
     enabled: (QmlFileIO.mountedPaths.length > 0) && !writingLogsToUsb
@@ -26,7 +26,7 @@ ZButton {
     WaitTransaction { id: waitPopup }
 
     onClicked: {
-        QmlFileIO.startWriteJournalctlOnUsb(allVersionsForStore, GC.serverIp)
+        QmlFileIO.startWriteJournalctlOnUsb(allVersionsForStore, serverIp)
     }
     onWritingLogsToUsbChanged: {
         if(writingLogsToUsb)
