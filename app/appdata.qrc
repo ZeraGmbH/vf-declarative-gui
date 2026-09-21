@@ -27,7 +27,6 @@
         <file>qml/controls/ReleaseInfo.qml</file>
         <file>qml/controls/appinfo/ButtonStoreLog.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
-        <file>qml/controls/appinfo/DeviceVersions.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
         <file>qml/controls/appinfo/ServiceSupport.qml</file>
         <file>qml/controls/appinfo/StatusView.qml</file>
