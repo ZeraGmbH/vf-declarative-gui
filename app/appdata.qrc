@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>qml/Main.qml</file>
+        <file>qml/controls/ButtonStoreLogWrapper.qml</file>
         <file>qml/controls/GridItem.qml</file>
         <file>qml/controls/GridRect.qml</file>
         <file>qml/controls/PagePathView.qml</file>
@@ -23,7 +24,6 @@
         <file>qml/controls/UpdateProcess.qml</file>
         <file>qml/controls/UpdateWrapperQml.qml</file>
         <file>qml/controls/ReleaseInfo.qml</file>
-        <file>qml/controls/appinfo/ButtonStoreLog.qml</file>
         <file>qml/controls/appinfo/DeviceInformation.qml</file>
         <file>qml/controls/appinfo/LicenseInformation.qml</file>
         <file>qml/controls/appinfo/ServiceSupport.qml</file>

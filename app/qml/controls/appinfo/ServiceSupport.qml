@@ -23,9 +23,8 @@ Item {
     InfoInterface { id: networkListModel }
     UpdateProcess { id: updateProcess }
 
-    ButtonStoreLog {
+    ButtonStoreLogWrapper {
         id: buttonStoreLog
-        serverIp: GC.serverIp
         anchors.topMargin: rowHeight * 3.5
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
         font.pointSize: root.pointSize

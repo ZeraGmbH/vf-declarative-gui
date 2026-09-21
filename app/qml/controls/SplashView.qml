@@ -30,12 +30,11 @@ Item {
     Loader {
         id: loaderButtonStoreLog
         active: !safeDelay.running && !splashItem.firmwareUpdateRunning
-        source: "qrc:/qml/controls/appinfo/ButtonStoreLog.qml"
+        source: "qrc:/qml/controls/ButtonStoreLogWrapper.qml"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         height: parent.height * 0.125
         onLoaded: {
-            loaderButtonStoreLog.item.serverIp = GC.serverIp
             loaderButtonStoreLog.item.font.pointSize = Math.max(splashItem.height * 0.04, 10)
         }
     }
