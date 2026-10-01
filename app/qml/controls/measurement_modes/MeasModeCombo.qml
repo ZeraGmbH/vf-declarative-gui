@@ -13,20 +13,21 @@ VFComboBox {
     }
     property int power1ModuleIdx // setter
     entity: PwrModVeinGetter.getPowerModuleEntity(power1ModuleIdx)
+    property var entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
     controlPropertyName: "PAR_MeasuringMode"
-    model: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx).ComponentInfo[controlPropertyName].Validation.Data
+    model: entityIntrospection.ComponentInfo[controlPropertyName].Validation.Data
     arrayMode: true
     fadeOutOnClose: true
     contentMaxRows: 6
     // comboHeaderQRefFrequency needs horizontal pixels
-    displayColumns: model.includes("QREF") && entity.PAR_MeasuringMode === "QREF" ? Math.max(2, defaultDisplayColumns) : defaultDisplayColumns
+    displayColumns: entity.PAR_MeasuringMode === "QREF" ? Math.max(2, defaultDisplayColumns) : defaultDisplayColumns
     headerComponent: Column {
         height: comboHeader.height + comboHeaderPhase.height + comboHeaderQRefFrequency.height
         MeasModeComboHeader {
             id: comboHeader
             rowHeight: root.height * 0.55
             entity: root.entity
-            entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
+            entityIntrospection: root.entityIntrospection
         }
         MeasModeComboHeaderPhase {
             id: comboHeaderPhase
@@ -38,7 +39,7 @@ VFComboBox {
             rowHeight: root.height
             pointSize: root.pointSize
             entity: root.entity
-            entityIntrospection: PwrModVeinGetter.getEntityJsonInfo(power1ModuleIdx)
+            entityIntrospection: root.entityIntrospection
         }
     }
 }

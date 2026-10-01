@@ -4,30 +4,47 @@ import QtQuick.Controls.Material 2.14
 import ZeraComponents 1.0
 import ZeraThemeConfig 1.0
 
-Loader {
+Item {
     id: root
     // setters
     property QtObject entity
     property real visibleHeight
 
+    visible: privProps.canChangePhases
     height: privProps.canChangePhases ? visibleHeight : 0
     width: parent.width
-    active: privProps.canChangePhases
-    sourceComponent: viewComponent
 
-    Component {
-        id: viewComponent
-        Rectangle {
+    Rectangle {
+        anchors.fill: parent
+        radius: 4
+        color: ZTC.buttonColor
+        border.color: Material.dropShadowColor
+        Repeater {
+            id: phasesChecks
             anchors.fill: parent
-            radius: 4
-            color: ZTC.buttonColor
-            border.color: Material.dropShadowColor
-            ListView {
-                anchors.fill: parent
-                delegate: privProps.maxMeasSysCount > 1 ? singlePhaseDelegateCheck : singlePhaseDelegateRadio
-                model: privProps.phaseMask
-                orientation: ListView.Horizontal
+            model: privProps.phaseMask
+            ZCheckBox {
+                visible: privProps.maxMeasSysCount > 1
+                x: (root.width/3 * index)
+                height: root.height
+                width: root.width / privProps.measSysCount
+                checked: modelData === "1"
+                onCheckedChanged: phaseChange(index, checked)
             }
+        }
+        Repeater {
+            id: phasesRadios
+            anchors.fill: parent
+            ZRadioButton {
+                visible: privProps.maxMeasSysCount == 1
+                x: (root.width/3 * index)
+                height: root.height
+                width: root.width / privProps.measSysCount
+                readonly property int phaseNo: index
+                checked: modelData === "1"
+                ButtonGroup.group: radioGroup
+            }
+            model: privProps.phaseMask
         }
     }
     QtObject {
@@ -41,23 +58,8 @@ Loader {
     // Checkbox for X-modes
     function phaseChange(phaseNo, phaseSet) {
         let mask = privProps.phaseMask
-        if(phaseSet)
-            mask[phaseNo] = "1"
-        else
-            mask[phaseNo] = "0"
+        mask[phaseNo] = phaseSet ? "1" : "0"
         entity.PAR_MeasModePhaseSelect = mask.join("")
-    }
-    Component {
-        id: singlePhaseDelegateCheck
-        Item {
-            height: root.height
-            width: root.width / privProps.measSysCount
-            ZCheckBox {
-                anchors.fill: parent
-                checked: modelData === "1"
-                onCheckedChanged: phaseChange(index, checked)
-            }
-        }
     }
     // Radio for 2-wire modes
     ButtonGroup {
@@ -71,19 +73,6 @@ Loader {
                     phaseMaskStr += "0"
             }
             entity.PAR_MeasModePhaseSelect = phaseMaskStr
-        }
-    }
-    Component {
-        id: singlePhaseDelegateRadio
-        Item {
-            height: root.height
-            width: root.width / privProps.measSysCount
-            ZRadioButton {
-                anchors.fill: parent
-                readonly property int phaseNo: index
-                checked: modelData === "1"
-                ButtonGroup.group: radioGroup
-            }
         }
     }
 }
