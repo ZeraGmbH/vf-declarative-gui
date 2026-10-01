@@ -16,7 +16,8 @@ Item {
     property string resultUnit: '%'
     property alias progress: actProgressBar.value
     property alias progressTo: actProgressBar.to
-    property string progressText: parseInt(progress / progressTo * 100)+"%"
+    property string estimatedEndText: ""
+    property string progressText: parseInt(progress / progressTo * 100)+"%" + (estimatedEndText === "" ? "" : " (" + estimatedEndText + ")")
     property string actualValue;
 
     Column {

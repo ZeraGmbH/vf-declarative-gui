@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import VeinEntity 1.0
 import ZeraTranslation  1.0
+import ZeraTranslationBackend 1.0
 import GlobalConfig 1.0
 import ModuleIntrospection 1.0
 import FontAwesomeHash 1.0
@@ -48,6 +49,15 @@ Item {
             measurementResult: errCalEntity.ACT_Result
             progress: errCalEntity.PAR_Targeted ? errCalEntity.ACT_Time : 0
             progressTo: errCalEntity.PAR_Targeted ? errCalEntity.PAR_MeasTime : 1.0
+            estimatedEndText: {
+                if (!errCalEntity.hasComponent("ACT_EstimEndTime"))
+                    return ""
+                if (errCalEntity.PAR_MeasTime < 60)
+                    return ""
+                if ((errCalEntity.ACT_Status & stateEnum.aborted) != 0)
+                    return ""
+                return Z.tr("End:") + " " + ZTR.trDateTimeShort(errCalEntity.ACT_EstimEndTime, "dd-MM-yyyy HH:mm:ss")
+            }
             actualValue: root.actualValue
             logicalParent: root
             height: root.height*0.2
