@@ -6,6 +6,7 @@ import FontAwesomeHash 1.0
 
 ListView {
     model: PwrModVeinGetter.powerModuleEntitiesAvailable
+    interactive: false
     delegate: Item {
         id: mmodeEntry
         anchors.left: parent.left
