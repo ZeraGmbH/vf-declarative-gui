@@ -54,6 +54,8 @@ Item {
                     return ""
                 if (errCalEntity.PAR_MeasTime < 60)
                     return ""
+                if ((errCalEntity.ACT_Status & stateEnum.started) == 0)
+                    return ""
                 if ((errCalEntity.ACT_Status & stateEnum.aborted) != 0)
                     return ""
                 return Z.tr("End:") + " " + ZTR.trDateTimeShort(errCalEntity.ACT_EstimEndTime, "dd-MM-yyyy HH:mm:ss")
