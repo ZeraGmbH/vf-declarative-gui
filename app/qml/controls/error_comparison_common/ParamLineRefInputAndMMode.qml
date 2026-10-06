@@ -7,9 +7,10 @@ import ZeraTranslation 1.0
 import GlobalConfig 1.0
 import PowerModuleVeinGetter 1.0
 import ZeraThemeConfig 1.0
+import "../measurement_modes"
 
 Loader {
-    sourceComponent:  Rectangle {
+    sourceComponent: Rectangle {
         color: Material.backgroundColor
         border.color: ZTC.dividerColor
         width: root.width
@@ -24,7 +25,7 @@ Loader {
             text: Z.tr("Reference input:")
             font.pointSize: root.pointSize
         }
-        VFComboBox { // more than one reference input only
+        VFComboBox {
             id: cbRefInput
             // override
             function translateText(text) {
@@ -52,22 +53,16 @@ Loader {
             font.pointSize: root.pointSize
         }
 
-        VFComboBox {
-            arrayMode: true
-            controlPropertyName: "PAR_MeasuringMode"
-            // override
-            function translateText(text){
-                return Z.tr(text)
-            }
+        MeasModeCombo {
             model: measModeModel
             entity: VeinEntity.getEntityById(logicalParent.errCalEntity["ACT_PowerModuleEntityId"])
+            entityIntrospection: JSON.parse(entity.INF_ModuleInterface)
 
-            contentMaxRows: 6
             anchors.right: parent.right
             width: parent.width*col3Width
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            pointSize: root.pointSize
+            pointSize: root.pointSize * 0.95
         }
     }
 }
