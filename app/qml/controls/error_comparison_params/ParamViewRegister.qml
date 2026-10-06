@@ -36,15 +36,8 @@ Item {
         return baseRows
     }
 
-    // hack to determine if we are in ced-session and have to use POWER2Module1
-    // to get/set measurement-modes
-    readonly property bool usePower2: validatorRefInput.Data.includes("+P") && validatorRefInput.Data.includes("-P")
-
     readonly property real rowHeight: Math.max(height/rowsDisplayed, 10)
     readonly property real pointSize: rowHeight/2.5
-
-    readonly property QtObject p2m1: usePower2 ? VeinEntity.getEntity("POWER2Module1") : QtObject
-
     readonly property real col1Width: 10/20
     readonly property real col2Width: 6/20
     readonly property real col3Width: 4/20
