@@ -62,6 +62,7 @@ Loader {
             model: measModeModel
             entity: VeinEntity.getEntityById(logicalParent.errCalEntity["ACT_PowerModuleEntityId"])
 
+            contentMaxRows: 6
             anchors.right: parent.right
             width: parent.width*col3Width
             anchors.top: parent.top
