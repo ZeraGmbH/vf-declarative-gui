@@ -1,6 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
+import VeinEntity 1.0
 import ZeraVeinComponents 1.0
 import ZeraTranslation 1.0
 import GlobalConfig 1.0
@@ -59,12 +60,7 @@ Loader {
                 return Z.tr(text)
             }
             model: measModeModel
-            entity: {
-                if(usePower2)
-                    return root.p2m1
-                let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(cbRefInput.currentText)
-                return PwrModVeinGetter.getPowerModuleEntity(moduleNo)
-            }
+            entity: VeinEntity.getEntityById(logicalParent.errCalEntity["ACT_PowerModuleEntityId"])
 
             anchors.right: parent.right
             width: parent.width*col3Width

@@ -26,19 +26,8 @@ Item {
     property var validatorTxUnit
     property var validatorUpperLimit
     property var validatorLowerLimit
-    readonly property var measModeModel: {
-        if(usePower2) {
-            const introspection = ModuleIntrospection.p2m1Introspection
-            if (introspection)
-                return ModuleIntrospection.p2m1Introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data
-            return 0
-        }
-        let moduleNo = PwrModVeinGetter.getPowerModuleNoFromDisplayedName(logicalParent.errCalEntity["PAR_RefInput"])
-        const introspection = PwrModVeinGetter.getEntityJsonInfo(moduleNo)
-        if (introspection)
-            return introspection.ComponentInfo.PAR_MeasuringMode.Validation.Data
-        return 0
-    }
+    readonly property QtObject powerModuleEntity: VeinEntity.getEntityById(logicalParent.errCalEntity["ACT_PowerModuleEntityId"])
+    readonly property var measModeModel: JSON.parse(powerModuleEntity.INF_ModuleInterface).ComponentInfo.PAR_MeasuringMode.Validation.Data
     readonly property bool canChangeRefInputOrMMode: validatorRefInput.Data.length > 1 || measModeModel.length > 1
     readonly property int rowsDisplayed: {
         let baseRows = 6
