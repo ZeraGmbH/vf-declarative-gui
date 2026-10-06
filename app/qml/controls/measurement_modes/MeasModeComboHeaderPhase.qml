@@ -49,11 +49,11 @@ Item {
     }
     QtObject {
         id: privProps
-        readonly property bool canChangePhases: entity.ACT_CanChangePhaseMask
+        readonly property bool canChangePhases: entity.hasComponent("ACT_CanChangePhaseMask") ? entity.ACT_CanChangePhaseMask : false
         readonly property string phaseMaskStr: String(entity.PAR_MeasModePhaseSelect)
         readonly property var phaseMask: privProps.phaseMaskStr.split('')
         readonly property int measSysCount: phaseMaskStr.length
-        readonly property int maxMeasSysCount: entity.ACT_MaxMeasSysCount // common 3 / 2wire 1
+        readonly property int maxMeasSysCount: entity.hasComponent("ACT_MaxMeasSysCount") ? entity.ACT_MaxMeasSysCount : 3 // common 3 / 2wire 1
     }
     // Checkbox for X-modes
     function phaseChange(phaseNo, phaseSet) {
