@@ -31,7 +31,6 @@ Item {
     signal loggerExportMenu()
     // internal
     property bool snapshotTrigger: false;
-    property bool startLoggingAfterSessionSelect: false
     readonly property QtObject loggerEntity: VeinEntity.getEntity("_LoggingSystem")
     readonly property QtObject systemEntity: VeinEntity.getEntity("_System")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
@@ -238,7 +237,6 @@ Item {
                 return FAQH.strToGlyph("fa_folder_open") + " " + menuText
             }
             onTriggered: {
-                startLoggingAfterSessionSelect = false
                 loggerSessionsMenu(loggerEntity)
             }
             enabled: loggerEntity.LoggingEnabled !== true &&
@@ -333,10 +331,8 @@ Item {
                     waitPopup.startWait("")
                     startLogging()
                 }
-                else {
-                    startLoggingAfterSessionSelect = true
+                else
                     loggerSessionsMenu(loggerEntity)
-                }
             }
         }
         MenuItem { // Start/Stop
@@ -351,13 +347,10 @@ Item {
             onTriggered: {
                 if(loggerEntity.LoggingEnabled !== true) { // Start
                     snapshotTrigger = false;
-                    if(sessionNameLogger !== "") {
+                    if(sessionNameLogger !== "")
                         startLogging()
-                    }
-                    else {
-                        startLoggingAfterSessionSelect = true
+                    else
                         loggerSessionsMenu(loggerEntity)
-                    }
                 }
                 else { // Stop
                     loggerEntity.LoggingEnabled = false
