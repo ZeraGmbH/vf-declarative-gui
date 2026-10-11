@@ -26,8 +26,6 @@ Loader {
             readonly property QtObject rangeModule: VeinEntity.getEntity("RangeModule1")
             property int contentWidth: root.width/(root.channelCount/2)*0.9
 
-            signal sigOverloadHintClicked();
-
             RangeIndicatorLine {
                 id: voltageList
                 model: MeasChannelInfo.voltageChannelIds
