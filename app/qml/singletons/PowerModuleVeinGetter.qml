@@ -31,17 +31,6 @@ Item {
         ModuleIntrospection.p1m3Introspection,
         ModuleIntrospection.p1m4Introspection
     ]
-    readonly property var powerModuleIntrospectionAvailable: {
-        let avail = []
-        if(GC.entityInitializationDone) {
-            for(let i=0; i<powerModuleIntrospectionInGUI.length; i++) {
-                let moduleName = powerModulesHandledInGUI[i]
-                if(VeinEntity.hasEntity(moduleName))
-                    avail.push(powerModuleIntrospectionInGUI[i])
-            }
-        }
-        return avail
-    }
 
     function getPowerModuleEntity(powerModuleNo) {
         let retVal
