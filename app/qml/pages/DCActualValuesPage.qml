@@ -5,7 +5,6 @@ import GlobalConfig 1.0
 import FunctionTools 1.0
 import TableEventDistributor 1.0
 import ZeraTranslation  1.0
-import "../controls"
 import "../controls/actual_values"
 
 Item {

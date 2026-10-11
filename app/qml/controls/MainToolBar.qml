@@ -12,7 +12,6 @@ import ZeraThemeConfig 1.0
 import "accu"
 import "ranges"
 import "logger"
-import "../helpers"
 
 ToolBar {
     id: root

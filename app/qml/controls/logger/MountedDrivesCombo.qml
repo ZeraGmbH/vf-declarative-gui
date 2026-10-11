@@ -6,7 +6,6 @@ import VeinEntity 1.0
 import ZeraLocale 1.0
 import ZeraTranslation 1.0
 import ZeraComponents 1.0
-import ".."
 
 ComboBox {
     id: root

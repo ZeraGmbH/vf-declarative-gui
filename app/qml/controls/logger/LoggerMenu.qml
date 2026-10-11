@@ -9,7 +9,6 @@ import VeinEntity 1.0
 import ZeraTranslation  1.0
 import ZeraComponents 1.0
 import FontAwesomeHash 1.0
-import '..'
 
 Item {
     id: root

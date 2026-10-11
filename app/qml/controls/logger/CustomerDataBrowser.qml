@@ -7,7 +7,6 @@ import ZeraTranslation  1.0
 import GlobalConfig 1.0
 import ZeraComponents 1.0
 import FontAwesomeHash 1.0
-import ".."
 import "../../helpers"
 
 Item {

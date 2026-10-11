@@ -11,7 +11,6 @@ import ZeraVeinComponents 1.0
 import ZeraLocale 1.0
 import ZeraThemeConfig 1.0
 import FontAwesomeHash 1.0
-import ".."
 import "../../helpers"
 
 Item {
