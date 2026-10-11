@@ -26,7 +26,6 @@ public:
 signals:
     void runningChanged();
     void initDone();
-    void certificateCreationDone();
 
 private:
     void startProcedure();
