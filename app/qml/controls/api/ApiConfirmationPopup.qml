@@ -12,7 +12,6 @@ Popup {
     id: authorizationPopup
 
     property var pendingRequest: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").ACT_PendingRequest : ""
-    property bool finishedDialog: GC.entityInitializationDone ? VeinEntity.getEntity("ApiModule").PAR_GuiDialogFinished : false
     property bool initialized: false
 
     anchors.centerIn: parent
