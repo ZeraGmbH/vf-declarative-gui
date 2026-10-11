@@ -63,7 +63,7 @@ Window {
         }
     }
 
-    function handeSessionLeave() {
+    function handleSessionLeave() {
         console.info("Handle session leave")
         loadingScreenLoader.item.open()
         pagePreloader.stopPreloadPages()
@@ -112,7 +112,7 @@ Window {
         }
         function onSigStateChanged(t_state) {
             if (t_state === VeinEntity.VQ_IDLE)
-                handeSessionLeave()
+                handleSessionLeave()
             else if (t_state === VeinEntity.VQ_LOADED)
                 handleSessionEnter()
         }
