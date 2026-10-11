@@ -14,8 +14,6 @@ ComboBox {
     readonly property alias currentPath: privateKeeper.currentPath
     readonly property var mountedPaths: filesEntity ? filesEntity.AutoMountedPaths : []
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files") // can be overriden?
-    // Depending on usage bind to Layout.minimumWidst or width
-    property real contentMaxWidth: 0
 
     function addFixedPath(pathDir, pathDirDisplay, prepend) {
         // here all paths are handled without trailing '/'
@@ -194,7 +192,6 @@ ComboBox {
             var text = nextModel[idx].text
             maxWidth = Math.max(maxWidth, fontMetrics.advanceWidth(text))
         }
-        contentMaxWidth = maxWidth + 1.2*implicitHeight /* approx for button down */
 
         // (re-)select current
         var pathToSelect = unsetRequestedPath !== "" ? unsetRequestedPath : currentPath
