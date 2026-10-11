@@ -8,7 +8,6 @@ import GlobalConfig 1.0
 
 Popup {
     signal sigUpdateRequest()
-    signal sigUpdateCanceled()
     property string releaseVersion
     property string releaseText
 
