@@ -259,7 +259,6 @@ Item {
                 titleFont.pointSize: Math.max(chartViewPower.height * 0.04, 10)
                 labelsFont.pixelSize: Math.max(chartViewPower.height * 0.04, 10)
                 labelFormat: "%d"
-                property int currentMax: max
                 min: {
                     if(chartViewPower.loggingActive)
                         return 0;
