@@ -59,12 +59,6 @@ Item {
         return fullPath
     }
 
-    // 'enumerate' our export types
-    readonly property var exportTypeEnum: {
-        "EXPORT_TYPE_MTVIS": 0,
-        "EXPORT_TYPE_SQLITE": 1,
-    }
-
     // common helpers for MTVis / db export
     function dbAndDriveStillThere() {
         return databaseName !== "" && mountedPaths.includes(selectedMountPath) // db & drive still there
