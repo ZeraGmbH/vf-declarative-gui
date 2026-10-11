@@ -8,7 +8,6 @@ Item {
     readonly property bool accuLowWarning: accuAvail && (privProps.accumulatorStatus & privProps.bitmaskLowWarning)
     readonly property bool accuLowAlert: accuAvail && (privProps.accumulatorStatus & privProps.bitmaskLowAlert)
     readonly property int accumulatorChargeValue: accuAvail ? VeinEntity.getEntity("StatusModule1").INF_AccumulatorSoc : 0
-    readonly property bool accuDown: accuAvail && accumulatorChargeValue <= 10
 
     QtObject {
         id: privProps
