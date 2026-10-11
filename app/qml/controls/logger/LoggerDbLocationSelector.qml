@@ -28,7 +28,6 @@ RowLayout {
         }
     }
 
-    readonly property QtObject fileEntity: VeinEntity.getEntity("_Files")
     readonly property string externalPathExtend: '/' + GC.deviceName + '/database'
 
     function selectLocationCombo(byUser) {
