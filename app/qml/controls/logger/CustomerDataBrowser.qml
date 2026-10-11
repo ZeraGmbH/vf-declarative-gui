@@ -16,7 +16,6 @@ Item {
     property var menuStackLayout
 
     // 'private' properties
-    property var searchableProperties: [];
     property QtObject customerData: VeinEntity.getEntity("CustomerData")
     readonly property QtObject filesEntity: VeinEntity.getEntity("_Files")
     property var availableCustomerDataFiles: filesEntity === undefined ? [] : filesEntity.AvailableCustomerData
