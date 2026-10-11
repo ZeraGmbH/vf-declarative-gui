@@ -60,11 +60,4 @@ Item {
             pass = entity.ACT_Rating !== 0
         return pass
     }
-    function registerPass(entity, running) {
-        let pass = false
-        let abortFlag = (1<<3)
-        let aborted = entity.ACT_Status & root.aborted
-        pass = entity.ACT_Rating !== 0 || running || aborted
-        return pass
-    }
 }
