@@ -166,7 +166,7 @@ Loader {
 
             anchors.verticalCenter: sliderRowWhite.verticalCenter
             onClicked: {
-                CS.restoreDefaultBrighnesses()
+                CS.restoreDefaultBrightnesses()
                 sliderCurrent.value = CS.currentBrightness
                 sliderWhite.value = CS.whiteBrightness
                 sliderBlack.value = CS.blackBrightness

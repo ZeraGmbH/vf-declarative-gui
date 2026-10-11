@@ -66,7 +66,7 @@ Item {
         Settings.setOption(settingsKey, brightness)
         brightnessChangeCount++
     }
-    function restoreDefaultBrighnesses() {
+    function restoreDefaultBrightnesses() {
         setCurrentBrightness(getDefaultCurrentBrightness(ZTC.isDarkTheme), ZTC.isDarkTheme)
         setWhiteBrightness(getDefaultWhiteBrightness(ZTC.isDarkTheme), ZTC.isDarkTheme)
         setBlackBrightness(getDefaultBlackBrightness(ZTC.isDarkTheme), ZTC.isDarkTheme)
