@@ -142,12 +142,8 @@ BaseTabPage {
             }
 
             // local parameter -> vein
-            property bool ignoreStatusChange: false
             function sendParamsToServer() { // SourceModulePage' send vein method
-                // Avoid double full painting in SourceModulePage by our property changes
-                ignoreStatusChange = true
                 VeinEntity.getEntity("SourceModule1")[String("PAR_SourceState%1").arg(slotNo)] = jsonDeclParams.toJson()
-                ignoreStatusChange = false
             }
             // vein -> local parameter
             onJsonParamsChanged: {
