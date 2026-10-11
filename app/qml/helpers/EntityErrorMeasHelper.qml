@@ -46,12 +46,6 @@ Item {
             ret = ` ${progress}%`
         return ret
     }
-    function registerProgress(entity, show) {
-        if (!show)
-            return ""
-        let progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
-        return ` ${progress}%`
-    }
     function comparisonPass(entity) {
         let pass = false
         let evalDone = false
