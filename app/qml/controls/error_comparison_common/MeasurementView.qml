@@ -14,6 +14,7 @@ Item {
     property QtObject logicalParent;
     property real measurementResult;
     property string resultUnit: '%'
+    property bool showProgress: true
     property alias progress: actProgressBar.value
     property alias progressTo: actProgressBar.to
     property string estimatedEndText: ""
@@ -178,6 +179,7 @@ Item {
         }
         ProgressBar {
             id: actProgressBar
+            visible: showProgress
             from: 0
             width: parent.width
             height: parent.height/20
