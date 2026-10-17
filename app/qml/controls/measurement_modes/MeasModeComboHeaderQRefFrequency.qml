@@ -19,15 +19,17 @@ Rectangle {
     property real pointSize
 
     visible: entity.PAR_MeasuringMode === "QREF" && "PAR_FOUT_QREF_FREQ" in entityIntrospection.ComponentInfo
-    height: visible ? rowHeight : 0
+    height: visible ? rowHeight + overFreqIndicatorHeight : 0
     width: parent.width
     readonly property var validatorFrequency: visible ? entityIntrospection.ComponentInfo.PAR_FOUT_QREF_FREQ.Validation : { Data: [ 0,0,0 ] }
+    readonly property real overFreqIndicatorHeight: parseFloat(frequencyLine.text) > 200 ? rowHeight*0.7 : 0
 
     color: ZTC.buttonColor
     border.color: Material.dropShadowColor
 
     RowLayout {
-        anchors.fill: parent
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        height: rowHeight
         anchors.leftMargin: GC.standardTextHorizMargin
         anchors.rightMargin: GC.standardTextHorizMargin
         Label {
@@ -38,10 +40,11 @@ Rectangle {
             text: Z.tr("Frequency:")
         }
         VFLineEdit {
+            id: frequencyLine
             Layout.fillHeight: true
             Layout.fillWidth: true
-            textField.topPadding: root.height * 0.225 // underline visibility
-            textField.bottomPadding: root.height * 0.225
+            textField.topPadding: rowHeight * 0.225 // underline visibility
+            textField.bottomPadding: rowHeight * 0.225
             entity: root.entity
             controlPropertyName: root.visible ? "PAR_FOUT_QREF_FREQ" : ""
             pointSize: root.pointSize
@@ -57,5 +60,15 @@ Rectangle {
             verticalAlignment: Label.AlignVCenter
             text: "kHz"
         }
+    }
+    Label {
+        anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+        height: overFreqIndicatorHeight
+        visible: height > 0
+        text: Z.tr("> 200 kHz for internal tests only!")
+        color: "red"
+        font.pointSize: pointSize
+        verticalAlignment: Label.AlignVCenter
+        horizontalAlignment: Label.AlignHCenter
     }
 }
