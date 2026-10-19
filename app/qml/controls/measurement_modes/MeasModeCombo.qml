@@ -20,7 +20,9 @@ VFComboBox {
     fadeOutOnClose: true
     contentMaxRows: 6
     // comboHeaderQRefFrequency needs horizontal pixels
-    displayColumns: entity.PAR_MeasuringMode === "QREF" ? Math.max(2, defaultDisplayColumns) : defaultDisplayColumns
+    readonly property bool qrefSelected: entity.PAR_MeasuringMode === "QREF"
+    displayColumns: qrefSelected ? Math.max(2, defaultDisplayColumns) : defaultDisplayColumns
+    popupWidthFactor: qrefSelected ? 1.1 : 1.0  // e.g: QREF out of limit warning requires pixels
     headerComponent: Column {
         height: comboHeader.height + comboHeaderPhase.height + comboHeaderQRefFrequency.height
         MeasModeComboHeader {
