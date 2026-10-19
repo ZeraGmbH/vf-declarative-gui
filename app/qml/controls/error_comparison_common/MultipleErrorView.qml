@@ -218,7 +218,7 @@ Rectangle {
                 needsScroll |= isScrolledToEnd && linesAdded > 0
             }
             delegate: Item {
-                width: parent.width
+                width: resultList.width
                 height: rowHeight
                 Repeater {
                     model: arrColumns
