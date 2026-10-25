@@ -22,9 +22,10 @@ VFComboBox {
     // comboHeaderQRefFrequency needs horizontal pixels
     readonly property bool qrefSelected: entity.PAR_MeasuringMode === "QREF"
     displayColumns: qrefSelected ? Math.max(2, defaultDisplayColumns) : defaultDisplayColumns
-    popupWidthFactor: qrefSelected ? 1.1 : 1.0  // e.g: QREF out of limit warning requires pixels
+    popupMinHorizontalSize: headerItem.minWidth
     headerComponent: Column {
         height: comboHeader.height + comboHeaderPhase.height + comboHeaderQRefFrequency.height
+        readonly property real minWidth: Math.max(comboHeader.minWidthRequired, comboHeaderQRefFrequency.minWidthRequired)
         MeasModeComboHeader {
             id: comboHeader
             rowHeight: root.height * 0.55

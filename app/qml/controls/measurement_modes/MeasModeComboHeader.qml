@@ -23,6 +23,18 @@ Rectangle {
     readonly property int rowCount: showFoutOnly ? 1 : 3
     height: visible ? (rowHeight * rowCount * 0.9 + (rowCount+2) * rowHeight * 0.1) : 0
     width: parent.width
+    readonly property real minWidthRequired: {
+        if (!root.visible)
+            return 0
+        let marginFactor = 1.1
+        let minWidth = marginFactor * (foutLabel.implicitWidth + foutValue.implicitWidth)
+        if (!showFoutOnly) {
+            let minWidthNomFreq = marginFactor * (nomFreqLabel.implicitWidth + nomFreqValue.implicitWidth)
+            let minWidthConstant = marginFactor * (constantLabel.implicitWidth + constantValue.implicitWidth)
+            minWidth = Math.max(minWidth, minWidthNomFreq, minWidthConstant)
+        }
+        return minWidth
+    }
     color: "white"
     property real pointSize: rowHeight * 0.35
     radius: 4
@@ -33,21 +45,25 @@ Rectangle {
         rowSpacing: 3
         anchors.fill: parent
         anchors.margins: 8
-        Text {
+        Text { // 1st Line
+            id: foutLabel
             text: FAQH.strToGlyph("fa_dot_circle") + "<b>:</b>"
             font.pointSize: pointSize
         }
         Text {
+            id: foutValue
             text: root.visible ?  entity.PAR_FOUT0 : ""
             font.pointSize: pointSize
         }
-        Text {
+        Text { // 2nd Line
+            id: nomFreqLabel
             text: Z.tr("NF:")
             visible: !showFoutOnly
             font.bold: true
             font.pointSize: pointSize
         }
         Text {
+            id: nomFreqValue
             text: {
                 //let nomFreq = Number(entityIntrospection.ModuleInfo.NominalFrequency)
                 let nomFreq = entity.PAR_FOUT_NOMINAL_FREQ !== undefined ? entity.PAR_FOUT_NOMINAL_FREQ : 0
@@ -57,13 +73,15 @@ Rectangle {
             visible: !showFoutOnly
             font.pointSize: pointSize
         }
-        Text {
+        Text {  // 3rd Line
+            id: constantLabel
             text: "C:"
             visible: !showFoutOnly
             font.bold: true
             font.pointSize: pointSize
         }
         Text {
+            id: constantValue
             text: {
                 let meterConstant = entity.PAR_FOUTConstant0 !== undefined ? Number(entity.PAR_FOUTConstant0) : 0
                 // at the time of writing module does not update unit on mode
