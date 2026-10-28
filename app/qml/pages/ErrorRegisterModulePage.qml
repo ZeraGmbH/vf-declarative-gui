@@ -48,8 +48,8 @@ Item {
         MeasurementView {
             measurementResult: errCalEntity.ACT_Result
             showProgress: errCalEntity.PAR_Targeted === 1
-            progress: errCalEntity.PAR_Targeted ? errCalEntity.ACT_Time : 0
-            progressTo: errCalEntity.PAR_Targeted ? errCalEntity.PAR_MeasTime : 1.0
+            progress: showProgress ? errCalEntity.ACT_Time : 0
+            progressTo: showProgress ? errCalEntity.PAR_MeasTime : 1.0
             estimatedEndText: {
                 if (!errCalEntity.hasComponent("ACT_EstimEndTime") || errCalEntity.ACT_EstimEndTime === "")
                     return ""
