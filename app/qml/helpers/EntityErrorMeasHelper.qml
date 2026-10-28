@@ -25,12 +25,14 @@ Item {
     function comparisonProgress(entity, show) {
         if (!show)
             return ""
+        if(entity.hasComponent('PAR_Targeted') && entity.PAR_Targeted !== 1) // Start/Stop hs no progress
+            return ""
 
         let ret = ""
         let progress = 0
         if(entity.hasComponent('ACT_Progress'))
             progress = parseInt(entity.ACT_Progress)
-        else if(entity.hasComponent('PAR_Targeted') && entity.PAR_Targeted === 1)
+        else if(entity.hasComponent('PAR_Targeted'))
             progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
 
         let measCount = entity.PAR_MeasCount
