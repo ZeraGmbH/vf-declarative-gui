@@ -30,10 +30,12 @@ Item {
 
         let ret = ""
         let progress = 0
-        if(entity.hasComponent('ACT_Progress'))
+        if (entity.hasComponent('ACT_Progress'))
             progress = parseInt(entity.ACT_Progress)
-        else if(entity.hasComponent('PAR_Targeted'))
+        else if (entity.hasComponent('PAR_Targeted'))
             progress = parseInt(entity.ACT_Time / entity.PAR_MeasTime * 100)
+        if (progress > 100)
+            progress = 100
 
         let measCount = entity.PAR_MeasCount
         let continuous = entity.PAR_Continuous === 1
