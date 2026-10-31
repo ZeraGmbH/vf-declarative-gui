@@ -1,6 +1,5 @@
 pragma Singleton
 import QtQuick 2.0
-import QtQuick.VirtualKeyboard.Settings 2.2
 import QtQuick.Controls.Material 2.14
 import ModuleIntrospection 1.0
 import ZeraSettings 1.0
@@ -266,7 +265,6 @@ Item {
     // This is the central place to distitibute locale change
     function setLocale(newLocaleStr, writeSettings) {
         Z.changeLanguage(newLocaleStr);
-        VirtualKeyboardSettings.locale = newLocaleStr
         ZLocale.localeName = newLocaleStr
         if(writeSettings) {
             Settings.setOption("locale", newLocaleStr);

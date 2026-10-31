@@ -1,6 +1,8 @@
 import QtQuick 2.14
 import QtQuick.VirtualKeyboard 2.14
+import QtQuick.VirtualKeyboard.Settings 2.14
 import GlobalConfig 1.0
+import ZeraLocale 1.0
 
 InputPanel {
     id: inputPanel
@@ -28,6 +30,7 @@ InputPanel {
         var rectInput = Qt.inputMethod.anchorRectangle
         if(inputPanel.textEntered) {
             if(GC.showVirtualKeyboard) {
+                VirtualKeyboardSettings.locale = ZLocale.localeName
                 if(rectInput.bottom > inputPanel.y) {
                     // shift flickable (normal elements)
                     flickableAnimation.to = rectInput.bottom - inputPanel.y + 10
