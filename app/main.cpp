@@ -192,12 +192,14 @@ int main(int argc, char *argv[])
     loadSettings(globalSettingsFile, webGlServer);
     ZeraTranslation::setInitialLanguage(globalSettingsFile->getOption("locale", "en_GB"));
 
-    app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
+    const QByteArray desktopSession = qgetenv("DESKTOP_SESSION");
+    if (desktopSession != "Zera GUI session")
+        app.setWindowIcon(QIcon(":/data/staticdata/resources/appicon.png"));
 
     QQmlApplicationEngine engine;
     registerQmlExt(engine);
     registerQmlInt();
-    engine.rootContext()->setContextProperty("DESKTOP_SESSION", qgetenv("DESKTOP_SESSION"));
+    engine.rootContext()->setContextProperty("DESKTOP_SESSION", desktopSession);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     engine.rootContext()->setContextProperty("QT_MAJOR_VERSION", "6");
 #else
