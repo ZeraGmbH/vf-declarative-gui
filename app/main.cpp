@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 {
     qInfo("Application starts...");
 
-    //qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
+    qputenv("QSG_RENDER_LOOP", QByteArray("threaded")); //threaded opengl rendering
     //qputenv("QMLSCENE_DEVICE", QByteArray("softwarecontext")); //software renderer
 
     // We need to pin virtual keyboard on - otherwise Qml complains for unknown
