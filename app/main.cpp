@@ -260,23 +260,14 @@ int main(int argc, char *argv[])
 
     evHandler->setSubsystems(subSystems);
 
-    QString netHost = "127.0.0.1";
-    quint16 netPort = 12000;
-#ifdef Q_OS_ANDROID
-    ///@todo for android: code is needed to fetch a list of possible hosts via QtZeroConf service discovery
-#endif //Q_OS_ANDROID
-
-    netHost = globalSettingsFile->getOption("modulemanagerIp", "127.0.0.1");
-    netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort", "12000").toUInt());
-
+    QString netHost = globalSettingsFile->getOption("modulemanagerIp", "127.0.0.1");
+    quint16 netPort = static_cast<quint16>(globalSettingsFile->getOption("modulemanagerPort", "12000").toUInt());
     qInfo("Connecting to modman...");
     tcpSystem->connectToServer(netHost, netPort);
-
     QObject::connect(&networkWatchdog, &QTimer::timeout, &app, [&]() {
         qInfo("Repeat connecting to modman...");
         tcpSystem->connectToServer(netHost, netPort);
     });
-
     QObject::connect(tcpSystem, &VeinNet::TcpSystem::sigConnnectionEstablished, &app, [&]() {
         qInfo("Subscribe system entity...");
         qmlApi->entitySubscribeById(0);
