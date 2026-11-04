@@ -18,6 +18,17 @@ Item {
         }
         return names
     }
+    readonly property var enableRangeChange: {
+        var channelsEnabled = []
+        if (GC.entityInitializationDone) {
+            for(var systemChannelNo=1; systemChannelNo<=channelCountTotal; systemChannelNo++) { // systemChannelNo is 1-based !!!
+                var channelEnabledComponent = "INF_Channel"+parseInt(systemChannelNo)+"UserCanChange"
+                var enabled = VeinEntity.getEntity("RangeModule1")[channelEnabledComponent]
+                channelsEnabled.push(enabled)
+            }
+        }
+        return channelsEnabled
+    }
 
     // Assumptions - range module should get more supportive...
     readonly property var voltageChannelIds: GC.entityInitializationDone ? (channelCountTotal >= 7 ? [1,2,3,7] : [1,2,3]) : []
@@ -42,8 +53,6 @@ Item {
             return true
         return false
     }
-
-    readonly property bool rangeAutoActive: GC.entityInitializationDone ? VeinEntity.getEntity("RangeModule1").PAR_RangeAutomatic : false
 
     onRangeGroupingActiveChanged: {
         groupinChangeAnimation.stop()

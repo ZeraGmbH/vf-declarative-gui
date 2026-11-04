@@ -80,7 +80,7 @@ ListView {
             anchors { left: parent.left; top: label.bottom; topMargin: headerComboMargin }
             width: channelsRow.isGroupLeader ? channelsRow.leaderCurrWidth : parent.width
             pointSize: root.pointSize
-            enabled: !MeasChannelInfo.rangeAutoActive
+            enabled: MeasChannelInfo.enableRangeChange[channelsRow.systemChannelNo-1] // 1-based...
             popupKeepHorizontalSize: MeasChannelInfo.rangeGroupingActive && channelsRow.isGroupLeader
             contentMaxRows: rangeComboRows
             visible: {
