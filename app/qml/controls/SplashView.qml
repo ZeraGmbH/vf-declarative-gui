@@ -50,6 +50,6 @@ Item {
         id: safeDelay
         interval: 10000
         repeat: false
-        running: !splashItem.firmwareUpdateRunning
+        running: !GC.entityInitializationDone && !splashItem.firmwareUpdateRunning
     }
 }
