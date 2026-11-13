@@ -51,5 +51,6 @@ Item {
         interval: 10000
         repeat: false
         running: !GC.entityInitializationDone && !splashItem.firmwareUpdateRunning
+        onTriggered: console.error("Something went wrong!")
     }
 }
